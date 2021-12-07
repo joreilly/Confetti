@@ -3,7 +3,7 @@ import shared
 
 struct ContentView: View {
     @State var repository = KikiConfRepository()
-    @State var sessionList: [GetSessionsQuery.Session] = []
+    @State var sessionList: [Session] = []
 
     var body: some View {
         NavigationView {

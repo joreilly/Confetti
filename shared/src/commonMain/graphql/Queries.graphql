@@ -5,3 +5,11 @@ query GetSessions {
         description
     }
 }
+
+query GetSpeakers {
+    speakers {
+        id
+        name
+        company
+    }
+}

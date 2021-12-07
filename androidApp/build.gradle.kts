@@ -55,5 +55,5 @@ dependencies {
     implementation(Compose.uiTooling)
     implementation(Compose.foundationLayout)
     implementation(Compose.material)
-    //implementation(Compose.navigation)
+    implementation(Compose.navigation)
 }

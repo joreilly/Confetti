@@ -13,3 +13,10 @@ query GetSpeakers {
         company
     }
 }
+
+query GetRooms {
+    rooms {
+        id
+        name
+    }
+}

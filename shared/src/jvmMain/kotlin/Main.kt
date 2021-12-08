@@ -16,4 +16,11 @@ suspend fun main() {
         println(speaker.name)
     }
 
+    println("")
+    println("Rooms")
+    val rooms = repo.getRooms()
+    rooms.forEach { room ->
+        println(room.name)
+    }
+
 }

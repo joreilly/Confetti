@@ -1,6 +1,7 @@
 package dev.johnoreilly.kikiconf
 
 import com.apollographql.apollo3.ApolloClient
+import dev.johnoreilly.kikiconf.model.Room
 import dev.johnoreilly.kikiconf.model.Session
 import dev.johnoreilly.kikiconf.model.Speaker
 import dev.johnoreilly.kikiconf.model.mapToModel
@@ -19,4 +20,10 @@ class KikiConfRepository {
         val response = apolloClient.query(GetSpeakersQuery()).execute()
         return response.dataOrThrow.speakers.map { it.mapToModel() }
     }
+
+    suspend fun getRooms(): List<Room> {
+        val response = apolloClient.query(GetRoomsQuery()).execute()
+        return response.dataOrThrow.rooms.map { it.mapToModel() }
+    }
+
 }

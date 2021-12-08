@@ -20,5 +20,5 @@ jobs:
       run: ./gradlew test
 
     - name: Build iOS shared code
-      run: ./gradlew :shared:compileKotlinIOS
+      run: ./gradlew :shared:compileKotlinIosX64
 

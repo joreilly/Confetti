@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.johnoreilly.kikiconf.KikiConfRepository
 import dev.johnoreilly.kikiconf.model.Session
 import dev.johnoreilly.kikiconf.model.Speaker
+import dev.johnoreilly.kikiconf.ui.theme.KikiConfTheme
 
 
 class MainActivity : ComponentActivity() {
@@ -28,7 +29,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MainLayout()
+            KikiConfTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    MainLayout()
+                }
+            }
         }
     }
 }

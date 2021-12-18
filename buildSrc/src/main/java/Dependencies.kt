@@ -1,7 +1,7 @@
 
 object Versions {
     const val kotlinVersion = "1.6.0"
-    const val apollo = "3.0.0-beta03"
+    const val apollo = "3.0.0"
 
     const val kotlinCoroutines = "1.6.0-RC"
 
@@ -31,6 +31,7 @@ object Compose {
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.compose}"
     const val material = "androidx.compose.material:material:${Versions.compose}"
     const val navigation = "androidx.navigation:navigation-compose:${Versions.nav_compose}"
+    const val coilCompose = "io.coil-kt:coil-compose:1.3.1"
 }
 
 

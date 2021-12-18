@@ -50,10 +50,13 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("com.google.android.material:material:1.4.0")
 
-    implementation(Compose.ui)
-    implementation(Compose.uiGraphics)
-    implementation(Compose.uiTooling)
-    implementation(Compose.foundationLayout)
-    implementation(Compose.material)
-    implementation(Compose.navigation)
+    with (Compose) {
+        implementation(ui)
+        implementation(uiGraphics)
+        implementation(uiTooling)
+        implementation(foundationLayout)
+        implementation(material)
+        implementation(navigation)
+        implementation(coilCompose)
+    }
 }

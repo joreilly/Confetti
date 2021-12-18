@@ -13,17 +13,17 @@ class KikiConfRepository {
 
     suspend fun getSessions(): List<Session> {
         val response = apolloClient.query(GetSessionsQuery()).execute()
-        return response.dataOrThrow.sessions.map { it.mapToModel() }
+        return response.dataAssertNoErrors.sessions.map { it.mapToModel() }
     }
 
     suspend fun getSpeakers(): List<Speaker> {
         val response = apolloClient.query(GetSpeakersQuery()).execute()
-        return response.dataOrThrow.speakers.map { it.mapToModel() }
+        return response.dataAssertNoErrors.speakers.map { it.mapToModel() }
     }
 
     suspend fun getRooms(): List<Room> {
         val response = apolloClient.query(GetRoomsQuery()).execute()
-        return response.dataOrThrow.rooms.map { it.mapToModel() }
+        return response.dataAssertNoErrors.rooms.map { it.mapToModel() }
     }
 
 }

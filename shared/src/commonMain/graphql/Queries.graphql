@@ -3,6 +3,10 @@ query GetSessions {
         id
         title
         description
+      	tags
+      	complexity
+      	language
+      	speakers
     }
 }
 
@@ -10,7 +14,16 @@ query GetSpeakers {
     speakers {
         id
         name
+      	photoUrl
         company
+      	country
+      	featured
+      	shortBio
+      	socials {
+          	name
+          	link
+          	icon
+        }
     }
 }
 

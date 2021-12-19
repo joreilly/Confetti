@@ -31,8 +31,10 @@ struct SessionListView: View {
     var body: some View {
         NavigationView {
             List(viewModel.sessions, id: \.id) { session in
-                VStack(alignment: .leading) {
-                    Text(session.title).font(.headline)
+                NavigationLink(destination: SessionDetailsView(session: session)) {
+                    VStack(alignment: .leading) {
+                        Text(session.title).font(.headline)
+                    }
                 }
             }
             .navigationTitle("Sessions")
@@ -42,6 +44,21 @@ struct SessionListView: View {
             .onDisappear {
                 viewModel.stopObservingSessions()
             }
+        }
+    }
+}
+
+struct SessionDetailsView: View {
+    var session: Session
+
+    var body: some View {
+        VStack {
+            Text(session.title)
+            Divider()
+            
+            Text(session.desc)
+            
+            Spacer()
         }
     }
 }

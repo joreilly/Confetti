@@ -71,7 +71,7 @@ fun SessionDetailView(viewModel: KikiConfViewModel, sessionId: String, popBack: 
 
                 Spacer(modifier = Modifier.size(12.dp))
 
-                Text(text = session.description, style = TextStyle(fontSize = 16.sp))
+                Text(text = session.desc, style = TextStyle(fontSize = 16.sp))
 
                 Spacer(modifier = Modifier.size(12.dp))
 

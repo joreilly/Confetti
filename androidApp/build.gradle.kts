@@ -20,7 +20,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
     }
 
     buildTypes {
@@ -51,6 +51,7 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
 
     with (Compose) {
+        implementation(compiler)
         implementation(ui)
         implementation(uiGraphics)
         implementation(uiTooling)
@@ -58,5 +59,11 @@ dependencies {
         implementation(material)
         implementation(navigation)
         implementation(coilCompose)
+    }
+
+    with (Koin) {
+        implementation(core)
+        implementation(android)
+        implementation(compose)
     }
 }

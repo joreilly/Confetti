@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="dev.johnoreilly.kikiconf.android.KikiConfApplication"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:label="@string/app_name"

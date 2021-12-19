@@ -25,6 +25,10 @@ kotlin {
                     isForce = true
                 }
 
+                // koin
+                api(Koin.core)
+                api(Koin.test)
+
                 api(Deps.apolloRuntime)
             }
         }

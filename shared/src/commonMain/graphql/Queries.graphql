@@ -3,10 +3,23 @@ query GetSessions {
         id
         title
         description
-      	tags
-      	complexity
-      	language
+      	speakers {
+          name
+        }
+        tags
     }
+}
+
+query GetSession($id: String!){
+	session(id: $id) {
+		id
+		title
+        description
+      	speakers {
+          name
+        }
+        tags
+	}
 }
 
 query GetSpeakers {

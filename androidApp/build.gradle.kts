@@ -28,20 +28,16 @@ android {
             isMinifyEnabled = false
         }
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }
 
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi"
+kotlin {
+    sourceSets.all {
+        languageSettings {
+            optIn("androidx.compose.material.ExperimentalMaterialApi")
+            optIn("kotlin.RequiresOptIn")
+        }
+    }
 }
 
 dependencies {

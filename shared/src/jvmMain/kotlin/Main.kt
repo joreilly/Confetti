@@ -1,26 +1,25 @@
 import dev.johnoreilly.kikiconf.KikiConfRepository
 
-suspend fun main() {
+fun main() {
     val repo = KikiConfRepository()
 
     println("Sessions")
-    val sessions = repo.getSessions()
+    val sessions = repo.sessions.value
     sessions.forEach { session ->
         println(session.title)
     }
 
     println("")
     println("Speakers")
-    val speakers = repo.getSpeakers()
+    val speakers = repo.speakers.value
     speakers.forEach { speaker ->
         println(speaker.name)
     }
 
     println("")
     println("Rooms")
-    val rooms = repo.getRooms()
+    val rooms = repo.rooms.value
     rooms.forEach { room ->
         println(room.name)
     }
-
 }

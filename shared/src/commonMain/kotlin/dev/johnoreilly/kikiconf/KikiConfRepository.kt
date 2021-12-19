@@ -26,4 +26,8 @@ class KikiConfRepository {
         return response.dataAssertNoErrors.rooms.map { it.mapToModel() }
     }
 
+    fun getSession(sessionId: String): Session? {
+        return null
+    }
+
 }

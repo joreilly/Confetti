@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("com.apollographql.apollo3")
+    id("com.rickclephas.kmp.nativecoroutines")
 }
 
 kotlin {
@@ -26,10 +27,15 @@ kotlin {
                 }
 
                 // koin
-                api(Koin.core)
-                api(Koin.test)
+                with(Koin) {
+                    api(core)
+                }
 
-                api(Deps.apolloRuntime)
+                // apollo
+                with(Apollo) {
+                    api(apolloRuntime)
+                    api(apolloNormalizedCache)
+                }
             }
         }
         val commonTest by getting {

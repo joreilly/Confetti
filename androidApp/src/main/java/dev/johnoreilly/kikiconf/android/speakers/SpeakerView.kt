@@ -11,8 +11,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,13 +26,10 @@ import dev.johnoreilly.kikiconf.model.Speaker
 
 @Composable
 fun SpeakerListView(viewModel: KikiConfViewModel) {
-
-    val speakerList by produceState(initialValue = emptyList<Speaker>(), viewModel) {
-        value = viewModel.getSpeakers()
-    }
+    val speakers by viewModel.speakers.collectAsState()
 
     LazyColumn {
-        items(speakerList) { speaker ->
+        items(speakers) { speaker ->
             SpeakerView(speaker)
         }
     }

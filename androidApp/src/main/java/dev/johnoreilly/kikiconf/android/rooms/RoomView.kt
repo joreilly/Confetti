@@ -8,8 +8,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -20,13 +20,10 @@ import dev.johnoreilly.kikiconf.model.Room
 
 @Composable
 fun RoomListView(viewModel: KikiConfViewModel) {
-
-    val roomList by produceState(initialValue = emptyList<Room>(), viewModel) {
-        value = viewModel.getRooms()
-    }
+    val rooms by viewModel.rooms.collectAsState()
 
     LazyColumn {
-        items(roomList) { room ->
+        items(rooms) { room ->
             RoomView(room)
         }
     }

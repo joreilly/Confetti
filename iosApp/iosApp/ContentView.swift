@@ -30,14 +30,17 @@ struct SessionListView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.sessionList, id: \.id) { session in
+            List(viewModel.sessions, id: \.id) { session in
                 VStack(alignment: .leading) {
                     Text(session.title).font(.headline)
                 }
             }
             .navigationTitle("Sessions")
             .onAppear {
-                viewModel.fetchSessions()
+                viewModel.startObservingSessions()
+            }
+            .onDisappear {
+                viewModel.stopObservingSessions()
             }
         }
     }
@@ -49,14 +52,17 @@ struct SpeakerListView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.speakerList, id: \.id) { speaker in
+            List(viewModel.speakers, id: \.id) { speaker in
                 VStack(alignment: .leading) {
                     SpeakerView(speaker: speaker)
                 }
             }
             .navigationTitle("Speakers")
             .onAppear {
-                viewModel.fetchSpeakers()
+                viewModel.startObservingSpeakers()
+            }
+            .onDisappear {
+                viewModel.stopObservingSpeakers()
             }
         }
     }
@@ -92,15 +98,19 @@ struct RoomListView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.roomList, id: \.id) { room in
+            List(viewModel.rooms, id: \.id) { room in
                 VStack(alignment: .leading) {
                     Text(room.name).font(.headline)
                 }
             }
             .navigationTitle("Rooms")
             .onAppear {
-                viewModel.fetchRooms()
+                viewModel.startObservingRooms()
             }
+            .onDisappear {
+                viewModel.stopObservingRooms()
+            }
+
         }
     }
 }

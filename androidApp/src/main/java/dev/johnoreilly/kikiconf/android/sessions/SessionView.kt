@@ -18,13 +18,10 @@ import dev.johnoreilly.kikiconf.model.Session
 
 @Composable
 fun SessionListView(viewModel: KikiConfViewModel, sessionSelected: (session: Session) -> Unit) {
-
-    val sessionList by produceState(initialValue = emptyList<Session>(), viewModel) {
-        value = viewModel.getSessions()
-    }
+    val sessions by viewModel.sessions.collectAsState()
 
     LazyColumn {
-        items(sessionList) { session ->
+        items(sessions) { session ->
             SessionView(session, sessionSelected)
         }
     }
@@ -50,9 +47,7 @@ fun SessionView(session: Session, sessionSelected: (session: Session) -> Unit) {
 @Composable
 fun SessionDetailView(viewModel: KikiConfViewModel, sessionId: String, popBack: () -> Unit) {
 
-    val session by produceState<Session?>(initialValue = null, sessionId) {
-        value = viewModel.getSession(sessionId)
-    }
+    // TODO
 
     Scaffold(
         topBar = {

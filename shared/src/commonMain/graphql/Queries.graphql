@@ -6,7 +6,6 @@ query GetSessions {
       	tags
       	complexity
       	language
-      	speakers
     }
 }
 

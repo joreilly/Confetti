@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,11 +48,13 @@ fun SessionView(session: Session, sessionSelected: (session: Session) -> Unit) {
 @Composable
 fun SessionDetailView(viewModel: KikiConfViewModel, sessionId: String, popBack: () -> Unit) {
 
-    // TODO
+    val session by produceState<Session?>(initialValue = null, sessionId) {
+        value = viewModel.getSession(sessionId)
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(sessionId) },
+            TopAppBar(title = { Text( session?.title ?: "") },
                 navigationIcon = {
                     IconButton(onClick = { popBack() }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -61,6 +64,22 @@ fun SessionDetailView(viewModel: KikiConfViewModel, sessionId: String, popBack: 
         }
     ) {
 
+        session?.let { session ->
+            Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
 
+                Text(text = session.title, style = TextStyle(color = Color.DarkGray,fontSize = 22.sp))
+
+                Spacer(modifier = Modifier.size(12.dp))
+
+                Text(text = session.description, style = TextStyle(fontSize = 16.sp))
+
+                Spacer(modifier = Modifier.size(12.dp))
+
+                session.tags.forEach {
+                    Text(it)
+                }
+
+            }
+        }
     }
 }

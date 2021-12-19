@@ -42,6 +42,30 @@
             "args": []
           },
           {
+            "name": "session",
+            "isDeprecated": false,
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Session"
+              }
+            },
+            "args": [
+              {
+                "name": "id",
+                "isDeprecated": false,
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "sessions",
             "isDeprecated": false,
             "type": {
@@ -225,8 +249,8 @@
                 "ofType": {
                   "kind": "NON_NULL",
                   "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String"
+                    "kind": "OBJECT",
+                    "name": "Speaker"
                   }
                 }
               }

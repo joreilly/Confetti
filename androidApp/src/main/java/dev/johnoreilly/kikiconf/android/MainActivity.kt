@@ -68,7 +68,7 @@ fun MainLayout() {
         NavHost(navController, startDestination = Screen.SessionList.title) {
             composable(Screen.SessionList.title) {
                 SessionListView(viewModel) { session ->
-                    navController.navigate(Screen.SessionDetails.title + "/${it.id}")
+                    navController.navigate(Screen.SessionDetails.title + "/${session.id}")
                 }
             }
             composable(route = Screen.SessionDetails.title + "/{id}") {

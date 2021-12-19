@@ -63,7 +63,8 @@ class KikiConfRepository {
         }
     }
 
-    fun getSession(sessionId: String): Session? {
-        return null
+    suspend fun getSession(sessionId: String): Session? {
+        val response = apolloClient.query(GetSessionQuery(sessionId)).execute()
+        return response.data?.session?.mapToModel()
     }
 }

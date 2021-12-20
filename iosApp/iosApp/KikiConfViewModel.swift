@@ -6,9 +6,9 @@ import KMPNativeCoroutinesAsync
 @MainActor
 class KikiConfViewModel: ObservableObject {
     let repository = KikiConfRepository()
-    @Published public var sessions: [Session] = []
-    @Published public var speakers: [Speaker] = []
-    @Published public var rooms: [Room] = []
+    @Published public var sessions: [SessionDetails] = []
+    @Published public var speakers: [SpeakerDetails] = []
+    @Published public var rooms: [RoomDetails] = []
     
     private var sessionsTask: Task<(), Never>? = nil
     private var speakeresTask: Task<(), Never>? = nil

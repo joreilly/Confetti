@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,15 +19,21 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import dev.johnoreilly.kikiconf.android.KikiConfViewModel
-import dev.johnoreilly.kikiconf.model.Speaker
+import dev.johnoreilly.kikiconf.fragment.SpeakerDetails
+
 
 @Composable
-fun SpeakerListView(viewModel: KikiConfViewModel) {
-    val speakers by viewModel.speakers.collectAsState()
+fun SpeakerListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> Unit) {
+    val speakers by viewModel.speakers.collectAsState(emptyList())
 
-    LazyColumn {
-        items(speakers) { speaker ->
-            SpeakerView(speaker)
+    Scaffold(
+        topBar = { TopAppBar (title = { Text("Speakers") } ) },
+        bottomBar = bottomBar
+    ) {
+        LazyColumn {
+            items(speakers) { speaker ->
+                SpeakerView(speaker)
+            }
         }
     }
 }
@@ -38,7 +41,7 @@ fun SpeakerListView(viewModel: KikiConfViewModel) {
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun SpeakerView(speaker: Speaker) {
+fun SpeakerView(speaker: SpeakerDetails) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .clickable(onClick = {  })

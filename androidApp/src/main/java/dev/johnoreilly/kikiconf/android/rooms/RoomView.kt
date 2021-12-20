@@ -16,22 +16,27 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.kikiconf.android.KikiConfViewModel
-import dev.johnoreilly.kikiconf.model.Room
+import dev.johnoreilly.kikiconf.fragment.RoomDetails
 
 @Composable
-fun RoomListView(viewModel: KikiConfViewModel) {
-    val rooms by viewModel.rooms.collectAsState()
+fun RoomListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> Unit) {
+    val rooms by viewModel.rooms.collectAsState(emptyList())
 
-    LazyColumn {
-        items(rooms) { room ->
-            RoomView(room)
+    Scaffold(
+        topBar = { TopAppBar (title = { Text("Rooms") } ) },
+        bottomBar = bottomBar
+    ) {
+        LazyColumn {
+            items(rooms) { room ->
+                RoomView(room)
+            }
         }
     }
 }
 
 
 @Composable
-fun RoomView(room: Room) {
+fun RoomView(room: RoomDetails) {
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -39,7 +44,7 @@ fun RoomView(room: Room) {
         .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = room.name, style = TextStyle(fontSize = 20.sp))
+        Text(text = "${room.name} (${room.capacity})", style = TextStyle(fontSize = 16.sp))
     }
 
     Divider()

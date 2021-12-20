@@ -1,47 +1,57 @@
 query GetSessions {
     sessions {
-        id
-        title
-        description
-      	speakers {
-          name
-        }
-        tags
+        ...SessionDetails
     }
 }
 
 query GetSession($id: String!){
 	session(id: $id) {
-		id
-		title
-        description
-      	speakers {
-          name
-        }
-        tags
+	    ...SessionDetails
 	}
 }
 
+fragment SessionDetails on Session {
+    id
+    title
+    description
+    speakers {
+      name
+      bio
+    }
+    tags
+}
+
+
 query GetSpeakers {
     speakers {
-        id
-        name
-      	photoUrl
-        company
-      	country
-      	featured
-      	shortBio
-      	socials {
-          	name
-          	link
-          	icon
-        }
+        ...SpeakerDetails
     }
 }
 
+fragment SpeakerDetails on Speaker {
+    id
+    name
+    photoUrl
+    company
+    country
+    featured
+    shortBio
+    socials {
+        name
+        link
+        icon
+    }
+}
+
+
 query GetRooms {
     rooms {
-        id
-        name
+        ...RoomDetails
     }
+}
+
+fragment RoomDetails on Room {
+    id
+    name
+    capacity
 }

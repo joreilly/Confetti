@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,25 +13,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.kikiconf.android.KikiConfViewModel
-import dev.johnoreilly.kikiconf.model.Session
+import dev.johnoreilly.kikiconf.fragment.SessionDetails
 
 @Composable
-fun SessionListView(viewModel: KikiConfViewModel, sessionSelected: (session: Session) -> Unit) {
+fun SessionListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> Unit, sessionSelected: (session: SessionDetails) -> Unit) {
     val sessions by viewModel.sessions.collectAsState(emptyList())
 
-    LazyColumn {
-        items(sessions) { session ->
-            SessionView(session, sessionSelected)
+    Scaffold(
+        topBar = { TopAppBar (title = { Text("Sessions") } ) },
+        bottomBar = bottomBar
+    ) {
+        LazyColumn {
+            items(sessions) { session ->
+                SessionView(session, sessionSelected)
+            }
         }
     }
 }
 
 
 @Composable
-fun SessionView(session: Session, sessionSelected: (session: Session) -> Unit) {
+fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -38,7 +45,7 @@ fun SessionView(session: Session, sessionSelected: (session: Session) -> Unit) {
         .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = session.title, style = TextStyle(fontSize = 20.sp))
+        Text(text = session.title, style = TextStyle(fontSize = 16.sp))
     }
 
     Divider()
@@ -48,7 +55,7 @@ fun SessionView(session: Session, sessionSelected: (session: Session) -> Unit) {
 @Composable
 fun SessionDetailView(viewModel: KikiConfViewModel, sessionId: String, popBack: () -> Unit) {
 
-    val session by produceState<Session?>(initialValue = null, sessionId) {
+    val session by produceState<SessionDetails?>(initialValue = null, sessionId) {
         value = viewModel.getSession(sessionId)
     }
 
@@ -63,23 +70,47 @@ fun SessionDetailView(viewModel: KikiConfViewModel, sessionId: String, popBack: 
             )
         }
     ) {
-
         session?.let { session ->
             Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
 
-                Text(text = session.title, style = TextStyle(color = Color.DarkGray,fontSize = 22.sp))
+                Text(text = session.title, style = TextStyle(color = Color.Blue,fontSize = 22.sp))
 
-                Spacer(modifier = Modifier.size(12.dp))
+                Spacer(modifier = Modifier.size(16.dp))
+                Text(text = session.description, style = TextStyle(fontSize = 16.sp))
 
-                Text(text = session.desc, style = TextStyle(fontSize = 16.sp))
-
-                Spacer(modifier = Modifier.size(12.dp))
-
-                session.tags.forEach {
-                    Text(it)
+                Spacer(modifier = Modifier.size(16.dp))
+                Row {
+                    session.tags.forEach { tag ->
+                        //Text(tag)
+                        Chip(tag)
+                    }
                 }
 
+                Spacer(modifier = Modifier.size(16.dp))
+                session.speakers.forEach { speaker ->
+                    Text(speaker.name, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text(speaker.bio)
+                }
             }
         }
+    }
+}
+
+
+@Composable
+fun Chip(name: String = "Chip") {
+    Surface(
+        modifier = Modifier.padding(end = 10.dp),
+        elevation = 8.dp,
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colors.primary
+    ) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.body2,
+                color = Color.White,
+                modifier = Modifier.padding(10.dp)
+            )
     }
 }

@@ -2,7 +2,7 @@ package dev.johnoreilly.kikiconf.android
 
 import androidx.lifecycle.ViewModel
 import dev.johnoreilly.kikiconf.KikiConfRepository
-import dev.johnoreilly.kikiconf.model.Session
+import dev.johnoreilly.kikiconf.fragment.SessionDetails
 
 
 class KikiConfViewModel(private val repository: KikiConfRepository): ViewModel() {
@@ -11,7 +11,7 @@ class KikiConfViewModel(private val repository: KikiConfRepository): ViewModel()
     val speakers = repository.speakers
     val rooms = repository.rooms
 
-    suspend fun getSession(sessionId: String): Session? {
+    suspend fun getSession(sessionId: String): SessionDetails? {
         return repository.getSession(sessionId)
     }
 }

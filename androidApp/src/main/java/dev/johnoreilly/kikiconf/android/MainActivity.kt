@@ -60,29 +60,25 @@ fun MainLayout() {
     val navController = rememberNavController()
 
 
-    Scaffold(
-        topBar = { TopAppBar (title = { Text("KikiConf") } ) },
-        bottomBar = { KikiConfBottomNavigation(navController) }
-    ) {
+    val bottomBar: @Composable () -> Unit = { KikiConfBottomNavigation(navController) }
 
-        NavHost(navController, startDestination = Screen.SessionList.title) {
-            composable(Screen.SessionList.title) {
-                SessionListView(viewModel) { session ->
-                    navController.navigate(Screen.SessionDetails.title + "/${session.id}")
-                }
+    NavHost(navController, startDestination = Screen.SessionList.title) {
+        composable(Screen.SessionList.title) {
+            SessionListView(viewModel, bottomBar) { session ->
+                navController.navigate(Screen.SessionDetails.title + "/${session.id}")
             }
-            composable(route = Screen.SessionDetails.title + "/{id}") {
-                SessionDetailView(viewModel,
-                    it.arguments?.get("id") as String,
-                    popBack = { navController.popBackStack() }
-                )
-            }
-            composable(Screen.SpeakerList.title) {
-                SpeakerListView(viewModel)
-            }
-            composable(Screen.RoomList.title) {
-                RoomListView(viewModel)
-            }
+        }
+        composable(route = Screen.SessionDetails.title + "/{id}") {
+            SessionDetailView(viewModel,
+                it.arguments?.get("id") as String,
+                popBack = { navController.popBackStack() }
+            )
+        }
+        composable(Screen.SpeakerList.title) {
+            SpeakerListView(viewModel, bottomBar)
+        }
+        composable(Screen.RoomList.title) {
+            RoomListView(viewModel, bottomBar)
         }
     }
 }

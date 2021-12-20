@@ -5,7 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -67,6 +69,7 @@ fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetai
 
 @Composable
 fun SessionDetailView(viewModel: KikiConfViewModel, sessionId: String, popBack: () -> Unit) {
+    val scrollState = rememberScrollState()
 
     val session by produceState<SessionDetails?>(initialValue = null, sessionId) {
         value = viewModel.getSession(sessionId)
@@ -84,7 +87,10 @@ fun SessionDetailView(viewModel: KikiConfViewModel, sessionId: String, popBack: 
         }
     ) {
         session?.let { session ->
-            Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+            Column(modifier = Modifier.fillMaxWidth()
+                .padding(16.dp)
+                .verticalScroll(state = scrollState)
+            ) {
 
                 Text(text = session.title, style = TextStyle(color = Color.Blue,fontSize = 22.sp))
 

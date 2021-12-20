@@ -1,5 +1,6 @@
 package dev.johnoreilly.kikiconf.android.sessions
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,6 +41,7 @@ fun SessionListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> U
 
 @Composable
 fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {
+    val context = LocalContext.current
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -45,6 +49,15 @@ fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetai
         .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val flagResource = if (session.language == "French") "flag_fr" else "flag_uk"
+        val flagResourceId = context.resources.getIdentifier(flagResource, "drawable", context.getPackageName())
+        if (flagResourceId != 0) {
+            Image(painterResource(flagResourceId), modifier = Modifier.size(32.dp), contentDescription = "French")
+        }
+
+        Spacer(modifier = Modifier.size(16.dp))
+
+
         Text(text = session.title, style = TextStyle(fontSize = 16.sp))
     }
 

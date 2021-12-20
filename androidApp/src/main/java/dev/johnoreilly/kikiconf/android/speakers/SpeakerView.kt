@@ -26,7 +26,7 @@ import dev.johnoreilly.kikiconf.model.Speaker
 
 @Composable
 fun SpeakerListView(viewModel: KikiConfViewModel) {
-    val speakers by viewModel.speakers.collectAsState()
+    val speakers by viewModel.speakers.collectAsState(emptyList())
 
     LazyColumn {
         items(speakers) { speaker ->

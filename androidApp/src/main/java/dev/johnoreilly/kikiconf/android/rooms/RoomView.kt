@@ -20,7 +20,7 @@ import dev.johnoreilly.kikiconf.model.Room
 
 @Composable
 fun RoomListView(viewModel: KikiConfViewModel) {
-    val rooms by viewModel.rooms.collectAsState()
+    val rooms by viewModel.rooms.collectAsState(emptyList())
 
     LazyColumn {
         items(rooms) { room ->

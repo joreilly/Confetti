@@ -19,7 +19,7 @@ import dev.johnoreilly.kikiconf.model.Session
 
 @Composable
 fun SessionListView(viewModel: KikiConfViewModel, sessionSelected: (session: Session) -> Unit) {
-    val sessions by viewModel.sessions.collectAsState()
+    val sessions by viewModel.sessions.collectAsState(emptyList())
 
     LazyColumn {
         items(sessions) { session ->

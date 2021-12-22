@@ -30,9 +30,15 @@ fun SpeakerListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> U
         topBar = { TopAppBar (title = { Text("Speakers") } ) },
         bottomBar = bottomBar
     ) {
-        LazyColumn {
-            items(speakers) { speaker ->
-                SpeakerView(speaker)
+        if (speakers.isNotEmpty()) {
+            LazyColumn {
+                items(speakers) { speaker ->
+                    SpeakerView(speaker)
+                }
+            }
+        } else {
+            Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                CircularProgressIndicator()
             }
         }
     }

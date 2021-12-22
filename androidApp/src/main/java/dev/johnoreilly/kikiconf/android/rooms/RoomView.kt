@@ -1,9 +1,7 @@
 package dev.johnoreilly.kikiconf.android.rooms
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -26,9 +24,15 @@ fun RoomListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> Unit
         topBar = { TopAppBar (title = { Text("Rooms") } ) },
         bottomBar = bottomBar
     ) {
-        LazyColumn {
-            items(rooms) { room ->
-                RoomView(room)
+        if (rooms.isNotEmpty()) {
+            LazyColumn {
+                items(rooms) { room ->
+                    RoomView(room)
+                }
+            }
+        } else {
+            Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                CircularProgressIndicator()
             }
         }
     }

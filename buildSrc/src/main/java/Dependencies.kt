@@ -4,6 +4,7 @@ object Versions {
     const val apollo = "3.0.0"
 
     const val kotlinCoroutines = "1.6.0-RC"
+    const val kmpNativeCoroutines = "0.11.1-new-mm"
 
     const val compose = "1.1.0-rc01"
     const val composeCompiler = "1.1.0-rc02"

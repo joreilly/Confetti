@@ -32,9 +32,15 @@ fun SessionListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> U
         topBar = { TopAppBar (title = { Text("Sessions") } ) },
         bottomBar = bottomBar
     ) {
-        LazyColumn {
-            items(sessions) { session ->
-                SessionView(session, sessionSelected)
+        if (sessions.isNotEmpty()) {
+            LazyColumn {
+                items(sessions) { session ->
+                    SessionView(session, sessionSelected)
+                }
+            }
+        } else {
+            Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                CircularProgressIndicator()
             }
         }
     }

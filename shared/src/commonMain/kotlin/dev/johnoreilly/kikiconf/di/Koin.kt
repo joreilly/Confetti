@@ -5,13 +5,16 @@ import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import dev.johnoreilly.kikiconf.KikiConfRepository
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
+
+expect fun platformModule(): Module
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
         appDeclaration()
-        modules(commonModule())
+        modules(commonModule(), platformModule())
     }
 
 // called by iOS client

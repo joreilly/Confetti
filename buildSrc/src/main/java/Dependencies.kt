@@ -11,11 +11,17 @@ object Versions {
     const val navCompose = "2.4.0-rc01"
     const val accompanist = "0.21.0-beta"
 
-
+    const val multiplatformSettings = "0.8.1"
     const val koin = "3.1.4"
     const val junit = "4.13"
 }
 
+
+object Deps {
+    //const val multiplatformSettings = "com.russhwolf:multiplatform-settings-no-arg:${Versions.multiplatformSettings}"
+    const val multiplatformSettings = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
+    const val multiplatformSettingsCoroutines = "com.russhwolf:multiplatform-settings-coroutines:${Versions.multiplatformSettings}"
+}
 
 object AndroidSdk {
     const val min = 21
@@ -36,6 +42,8 @@ object Compose {
     const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.compose}"
     const val material = "androidx.compose.material:material:${Versions.compose}"
+    const val materialIconsCore = "androidx.compose.material:material-icons-core:${Versions.compose}"
+    const val materialIconsExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
     const val navigation = "androidx.navigation:navigation-compose:${Versions.navCompose}"
     const val coilCompose = "io.coil-kt:coil-compose:1.3.1"
 }

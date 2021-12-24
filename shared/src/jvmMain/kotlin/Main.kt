@@ -1,25 +1,18 @@
 import dev.johnoreilly.kikiconf.KikiConfRepository
+import dev.johnoreilly.kikiconf.di.initKoin
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.runBlocking
 
-fun main() {
-    val repo = KikiConfRepository()
+fun main()  {
+    val koin = initKoin().koin
+    val repo = koin.get<KikiConfRepository>()
 
-    println("Sessions")
-    val sessions = repo.sessions.value
-    sessions.forEach { session ->
-        println(session.title)
-    }
-
-    println("")
-    println("Speakers")
-    val speakers = repo.speakers.value
-    speakers.forEach { speaker ->
-        println(speaker.name)
-    }
-
-    println("")
-    println("Rooms")
-    val rooms = repo.rooms.value
-    rooms.forEach { room ->
-        println(room.name)
+    runBlocking {
+        println("Sessions")
+        repo.sessions.collect { sessions ->
+            sessions.forEach { session ->
+                println(session.title)
+            }
+        }
     }
 }

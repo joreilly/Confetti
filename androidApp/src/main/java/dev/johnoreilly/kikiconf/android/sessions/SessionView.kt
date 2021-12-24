@@ -11,25 +11,39 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.johnoreilly.kikiconf.android.KikiConfViewModel
 import dev.johnoreilly.kikiconf.fragment.SessionDetails
+
 
 @Composable
 fun SessionListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> Unit, sessionSelected: (session: SessionDetails) -> Unit) {
     val sessions by viewModel.sessions.collectAsState(emptyList())
 
+    val enabledLanguages by viewModel.enabledLanguages.collectAsState(emptySet())
+
+
     Scaffold(
-        topBar = { TopAppBar (title = { Text("Sessions") } ) },
+        topBar = { TopAppBar (
+            title = { Text("Sessions") },
+            actions = { Filter(enabledLanguages, onLanguageChecked = { languageCode, checked ->
+                viewModel.onLanguageChecked(languageCode, checked)
+            })
+            }
+
+        )},
         bottomBar = bottomBar
     ) {
         if (sessions.isNotEmpty()) {
@@ -46,6 +60,50 @@ fun SessionListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> U
     }
 }
 
+@Composable
+private fun Filter(enabledLanguages: Set<String>, onLanguageChecked: (String, Boolean) -> Unit,) {
+    val context = LocalContext.current
+    var expanded by remember { mutableStateOf(false) }
+
+
+    IconButton(onClick = { expanded = true }) {
+        Icon(
+            imageVector = Icons.Filled.FilterList,
+            contentDescription = "Filter"
+        )
+    }
+
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false }
+    ) {
+        val languages = listOf("French", "English")
+
+        languages.forEach { language ->
+            DropdownMenuItem(onClick = {
+                expanded = false
+            }) {
+                val flagResourceId = context.resources.getIdentifier(
+                    "flag_${language.toLowerCase()}",
+                    "drawable",
+                    context.packageName
+                )
+                Image(
+                    painterResource(flagResourceId),
+                    modifier = Modifier.size(20.dp),
+                    contentDescription = language
+                )
+
+                Spacer(modifier = Modifier.size(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = language)
+                }
+                Checkbox(checked = enabledLanguages.contains(language),
+                    onCheckedChange = { onLanguageChecked(language, it) })
+            }
+        }
+    }
+}
 
 @Composable
 fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {
@@ -57,15 +115,13 @@ fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetai
         .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val flagResource = if (session.language == "French") "flag_fr" else "flag_uk"
-        val flagResourceId = context.resources.getIdentifier(flagResource, "drawable", context.getPackageName())
-        if (flagResourceId != 0) {
-            Image(painterResource(flagResourceId), modifier = Modifier.size(32.dp), contentDescription = "French")
+        if (!session.language.isNullOrEmpty()) {
+            println("JFOR, session = $session")
+            val flagResourceId = context.resources.getIdentifier("flag_${session.language?.toLowerCase()}", "drawable", context.getPackageName())
+            Image(painterResource(flagResourceId), modifier = Modifier.size(32.dp), contentDescription = session.language)
         }
 
         Spacer(modifier = Modifier.size(16.dp))
-
-
         Text(text = session.title, style = TextStyle(fontSize = 16.sp))
     }
 

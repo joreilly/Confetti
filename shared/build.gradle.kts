@@ -26,6 +26,9 @@ kotlin {
                     isForce = true
                 }
 
+                api(Deps.multiplatformSettings)
+                api(Deps.multiplatformSettingsCoroutines)
+
                 // koin
                 with(Koin) {
                     api(core)

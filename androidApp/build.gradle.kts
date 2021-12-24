@@ -53,6 +53,8 @@ dependencies {
         implementation(uiTooling)
         implementation(foundationLayout)
         implementation(material)
+        implementation(materialIconsCore)
+        implementation(materialIconsExtended)
         implementation(navigation)
         implementation(coilCompose)
     }

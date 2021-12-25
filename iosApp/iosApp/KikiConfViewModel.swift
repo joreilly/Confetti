@@ -54,7 +54,7 @@ class KikiConfViewModel: ObservableObject {
     
     func toggleLanguageChecked(language: String) {        
         let checked = enabledLanguages.contains(language) ? false : true
-        repository.onLanguageChecked(language: language, checked: checked)
+        repository.updateEnableLanguageSetting(language: language, checked: checked)
     }
 
     

@@ -3,6 +3,7 @@ package dev.johnoreilly.kikiconf.di
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.normalizedCache
+import dev.johnoreilly.kikiconf.AppSettings
 import dev.johnoreilly.kikiconf.KikiConfRepository
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -23,6 +24,7 @@ fun initKoin() = initKoin() {}
 fun commonModule() = module {
     single { KikiConfRepository() }
     single { createApolloClient() }
+    single { AppSettings(get()) }
 }
 
 fun createApolloClient(): ApolloClient {

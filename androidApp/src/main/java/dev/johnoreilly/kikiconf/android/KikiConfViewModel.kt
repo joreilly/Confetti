@@ -18,6 +18,6 @@ class KikiConfViewModel(private val repository: KikiConfRepository): ViewModel()
     }
 
     fun onLanguageChecked(language: String, checked: Boolean) {
-        repository.onLanguageChecked(language, checked)
+        repository.updateEnableLanguageSetting(language, checked)
     }
 }

@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "FlagKit",
+        "repositoryURL": "https://github.com/madebybowtie/FlagKit.git",
+        "state": {
+          "branch": null,
+          "revision": "f12111d91902d23fd1d9cc7ad9198030b049795d",
+          "version": "2.4.0"
+        }
+      },
+      {
         "package": "KMPNativeCoroutines",
         "repositoryURL": "https://github.com/rickclephas/KMP-NativeCoroutines.git",
         "state": {

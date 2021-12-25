@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -43,6 +44,8 @@ class KikiConfRepository: KoinComponent {
 
     val sessions = apolloClient.query(GetSessionsQuery()).watch().map {
         it.dataAssertNoErrors.sessions.map { it.sessionDetails }
+    }.combine(enabledLanguages) { sessions, enabledLanguages ->
+        sessions.filter { enabledLanguages.contains(it.language) }
     }
 
     val speakers = apolloClient.query(GetSpeakersQuery()).watch().map {

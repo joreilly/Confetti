@@ -9,10 +9,7 @@ import kotlinx.coroutines.flow.*
 class KikiConfViewModel(private val repository: KikiConfRepository): ViewModel() {
     val enabledLanguages: Flow<Set<String>> = repository.enabledLanguages
 
-    val sessions = repository.sessions.combine(enabledLanguages) { sessions, enabledLanguages ->
-        sessions.filter { enabledLanguages.contains(it.language) }
-    }
-
+    val sessions = repository.sessions
     val speakers = repository.speakers
     val rooms = repository.rooms
 

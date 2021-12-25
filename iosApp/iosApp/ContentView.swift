@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 import shared
-
+import FlagKit
 
 struct ContentView: View {
     @StateObject var viewModel = KikiConfViewModel()
@@ -29,21 +29,95 @@ struct SessionListView: View {
     @ObservedObject var viewModel: KikiConfViewModel
 
     var body: some View {
-        NavigationView {
-            List(viewModel.sessions, id: \.id) { session in
+                NavigationView {
+            List(viewModel.sessions) { session in
                 NavigationLink(destination: SessionDetailsView(session: session)) {
                     VStack(alignment: .leading) {
-                        Text(session.title).font(.headline)
+                        SessionView(session: session)
                     }
                 }
             }
             .navigationTitle("Sessions")
+            .toolbar {
+                ToolbarItem(placement: .automatic) {
+                    LanguageMenu(viewModel: viewModel)
+                }
+            }
             .onAppear {
                 viewModel.startObservingSessions()
             }
             .onDisappear {
                 viewModel.stopObservingSessions()
             }
+        }
+    }
+}
+
+
+struct LanguageMenu: View {
+    @ObservedObject var viewModel: KikiConfViewModel
+
+    @State var languages: [String] = ["French", "English"]
+    @State var selections: [String] = []
+
+    
+    var body: some View {
+        Menu {
+            ForEach(self.languages, id: \.self) { language in
+                Button(action: {
+                    viewModel.toggleLanguageChecked(language: language)
+                }) {
+                    HStack {
+                        Label {
+                            Text(language)
+                        } icon: {
+                            if (viewModel.enabledLanguages.contains(language)) {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                }
+            }
+        } label: {
+            Text("Filter")
+        }
+    }
+}
+
+
+struct CheckBox: View {
+    @Binding var isChecked: Bool {
+        didSet {
+            print("setting isChecked: \(isChecked)")
+        }
+    }
+    var imageName: String {
+        return isChecked ? "checkmark.square" : "square"
+    }
+    var body: some View {
+        Button(action: {
+            self.isChecked.toggle()
+        }) {
+            Image(systemName: self.imageName)
+        }
+    }
+}
+
+struct SessionView: View {
+    var session: SessionDetails
+
+    var body: some View {
+        HStack {
+            let countryCode = session.language == "English" ? "GB" : "FR"
+            let flag = Flag(countryCode: countryCode)!
+            let flagImage = flag.originalImage
+            
+            Image(uiImage: flagImage).resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32)
+            
+            Spacer().frame(width: 16)
+            Text(session.title).font(.headline)
         }
     }
 }
@@ -91,7 +165,7 @@ struct SpeakerListView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.speakers, id: \.id) { speaker in
+            List(viewModel.speakers) { speaker in
                 VStack(alignment: .leading) {
                     SpeakerView(speaker: speaker)
                 }
@@ -137,7 +211,7 @@ struct RoomListView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.rooms, id: \.id) { room in
+            List(viewModel.rooms) { room in
                 VStack(alignment: .leading) {
                     Text(room.name).font(.headline)
                 }

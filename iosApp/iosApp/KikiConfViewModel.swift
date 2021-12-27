@@ -48,11 +48,21 @@ class KikiConfViewModel: ObservableObject {
         }
     }
     
+    func getFlag(session: SessionDetails) -> String {
+        return  session.language == "French" ?  "🇫🇷" : "🇬🇧"
+    }
+    
+    func getSessionSpeakerLocation(session: SessionDetails) -> String {
+        var text = session.speakers.map { $0.name }.joined(separator: ",")
+        text += " / \(session.room.name) / \(getFlag(session: session))"
+        return text
+    }
+    
     func stopObservingSessions() {
         sessionsTask?.cancel()
     }
     
-    func toggleLanguageChecked(language: String) {        
+    func toggleLanguageChecked(language: String) {
         let checked = enabledLanguages.contains(language) ? false : true
         repository.updateEnableLanguageSetting(language: language, checked: checked)
     }

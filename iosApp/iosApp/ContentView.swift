@@ -91,6 +91,8 @@ struct SessionView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            Text(viewModel.getSessionTime(session: session))
+            Spacer()
             Text(session.title).font(.headline).foregroundColor(.blue)
             Spacer()
             Text(viewModel.getSessionSpeakerLocation(session: session))

@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 import shared
-import FlagKit
+
 
 struct ContentView: View {
     @StateObject var viewModel = KikiConfViewModel()
@@ -33,7 +33,7 @@ struct SessionListView: View {
             List(viewModel.sessions) { session in
                 NavigationLink(destination: SessionDetailsView(session: session)) {
                     VStack(alignment: .leading) {
-                        SessionView(session: session)
+                        SessionView(viewModel: viewModel, session: session)
                     }
                 }
             }
@@ -85,39 +85,15 @@ struct LanguageMenu: View {
 }
 
 
-struct CheckBox: View {
-    @Binding var isChecked: Bool {
-        didSet {
-            print("setting isChecked: \(isChecked)")
-        }
-    }
-    var imageName: String {
-        return isChecked ? "checkmark.square" : "square"
-    }
-    var body: some View {
-        Button(action: {
-            self.isChecked.toggle()
-        }) {
-            Image(systemName: self.imageName)
-        }
-    }
-}
-
 struct SessionView: View {
+    @ObservedObject var viewModel: KikiConfViewModel
     var session: SessionDetails
 
     var body: some View {
-        HStack {
-            let countryCode = session.language == "English" ? "GB" : "FR"
-            let flag = Flag(countryCode: countryCode)!
-            let flagImage = flag.originalImage
-            
-            Image(uiImage: flagImage).resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32)
-            
-            Spacer().frame(width: 16)
-            Text(session.title).font(.headline)
+        VStack(alignment: .leading) {
+            Text(session.title).font(.headline).foregroundColor(.blue)
+            Spacer()
+            Text(viewModel.getSessionSpeakerLocation(session: session))
         }
     }
 }

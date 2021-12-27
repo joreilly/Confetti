@@ -1,13 +1,10 @@
 package dev.johnoreilly.kikiconf.android.sessions
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -17,13 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.johnoreilly.kikiconf.android.KikiConfViewModel
 import dev.johnoreilly.kikiconf.fragment.SessionDetails
 
@@ -49,7 +44,7 @@ fun SessionListView(viewModel: KikiConfViewModel, bottomBar: @Composable () -> U
         if (sessions.isNotEmpty()) {
             LazyColumn {
                 items(sessions) { session ->
-                    SessionView(session, sessionSelected)
+                    SessionView(viewModel, session, sessionSelected)
                 }
             }
         } else {
@@ -106,23 +101,36 @@ private fun Filter(enabledLanguages: Set<String>, onLanguageChecked: (String, Bo
 }
 
 @Composable
-fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {
+fun SessionView(viewModel: KikiConfViewModel, session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {
     val context = LocalContext.current
 
-    Row(modifier = Modifier
+
+    Column(modifier = Modifier
         .fillMaxWidth()
-        .clickable(onClick = { sessionSelected(session) })
-        .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (!session.language.isNullOrEmpty()) {
-            println("JFOR, session = $session")
-            val flagResourceId = context.resources.getIdentifier("flag_${session.language?.toLowerCase()}", "drawable", context.getPackageName())
-            Image(painterResource(flagResourceId), modifier = Modifier.size(32.dp), contentDescription = session.language)
+        .clickable(onClick = { sessionSelected(session) }),
+        ) {
+
+        Row(modifier = Modifier.background(color = Color(0xFFEEEEEE))
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically) {
+
+            val timeString = viewModel.getSessionTime(session)
+            Text(timeString, color = Color.Black)
         }
 
-        Spacer(modifier = Modifier.size(16.dp))
-        Text(text = session.title, style = TextStyle(fontSize = 16.sp))
+        Row(modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (!session.language.isNullOrEmpty()) {
+                val flagResourceId = context.resources.getIdentifier("flag_${session.language?.toLowerCase()}", "drawable", context.getPackageName())
+                Image(painterResource(flagResourceId), modifier = Modifier.size(32.dp), contentDescription = session.language)
+            }
+
+            Spacer(modifier = Modifier.size(16.dp))
+            Text(text = session.title, style = TextStyle(fontSize = 16.sp))
+        }
+
     }
 
     Divider()

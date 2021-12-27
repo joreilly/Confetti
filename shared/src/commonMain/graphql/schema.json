@@ -183,6 +183,18 @@
             "args": []
           },
           {
+            "name": "endDate",
+            "isDeprecated": false,
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "feedback",
             "isDeprecated": false,
             "type": {
@@ -231,6 +243,18 @@
             "args": []
           },
           {
+            "name": "room",
+            "isDeprecated": false,
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Room"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "slido",
             "isDeprecated": false,
             "type": {
@@ -253,6 +277,18 @@
                     "name": "Speaker"
                   }
                 }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "startDate",
+            "isDeprecated": false,
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
               }
             },
             "args": []

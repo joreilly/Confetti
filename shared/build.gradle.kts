@@ -22,9 +22,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}") {
+                api(Kotlinx.coroutinesCore) {
                     isForce = true
                 }
+
+                api(Kotlinx.dateTime)
 
                 api(Deps.multiplatformSettings)
                 api(Deps.multiplatformSettingsCoroutines)

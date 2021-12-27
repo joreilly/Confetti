@@ -5,6 +5,7 @@ object Versions {
 
     const val kotlinCoroutines = "1.6.0-RC"
     const val kmpNativeCoroutines = "0.11.1-new-mm"
+    const val kotlinxDateTime = "0.3.0"
 
     const val compose = "1.1.0-rc01"
     const val composeCompiler = "1.1.0-rc02"
@@ -17,16 +18,21 @@ object Versions {
 }
 
 
-object Deps {
-    //const val multiplatformSettings = "com.russhwolf:multiplatform-settings-no-arg:${Versions.multiplatformSettings}"
-    const val multiplatformSettings = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
-    const val multiplatformSettingsCoroutines = "com.russhwolf:multiplatform-settings-coroutines:${Versions.multiplatformSettings}"
-}
-
 object AndroidSdk {
     const val min = 21
     const val compile = 31
     const val target = compile
+}
+
+
+object Deps {
+    const val multiplatformSettings = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
+    const val multiplatformSettingsCoroutines = "com.russhwolf:multiplatform-settings-coroutines:${Versions.multiplatformSettings}"
+}
+
+object Kotlinx {
+    const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
+    const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}"
 }
 
 object Apollo {

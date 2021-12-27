@@ -20,6 +20,9 @@ fragment SessionDetails on Session {
       name
       bio
     }
+  	room {
+      name
+    }
     tags
 }
 

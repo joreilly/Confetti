@@ -30,4 +30,18 @@ class KikiConfViewModel(private val repository: KikiConfRepository): ViewModel()
         val timeFormatter = SimpleDateFormat("HH:mm")
         return timeFormatter.format(date)
     }
+
+    fun getSessionSpeakerLocation(session: SessionDetails): String {
+        var text = session.speakers.joinToString(", ") { it.name }
+        text += " / ${session.room.name} / ${getLanguageInEmoji(session.language)}"
+        return text
+    }
+
+    fun getLanguageInEmoji(language: String?): String {
+        return when (language?.toLowerCase()) {
+            "english" -> "\uD83C\uDDEC\uD83C\uDDE7"
+            "french" -> "\uD83C\uDDEB\uD83C\uDDF7"
+            else -> "\uD83C\uDDEC\uD83C\uDDE7 \uD83C\uDDEB\uD83C\uDDF7"
+        }
+    }
 }

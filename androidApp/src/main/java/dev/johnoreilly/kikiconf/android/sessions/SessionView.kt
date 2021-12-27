@@ -108,7 +108,7 @@ fun SessionView(viewModel: KikiConfViewModel, session: SessionDetails, sessionSe
     Column(modifier = Modifier
         .fillMaxWidth()
         .clickable(onClick = { sessionSelected(session) }),
-        ) {
+    ) {
 
         Row(modifier = Modifier.background(color = Color(0xFFEEEEEE))
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -119,17 +119,20 @@ fun SessionView(viewModel: KikiConfViewModel, session: SessionDetails, sessionSe
             Text(timeString, color = Color.Black)
         }
 
-        Row(modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (!session.language.isNullOrEmpty()) {
-                val flagResourceId = context.resources.getIdentifier("flag_${session.language?.toLowerCase()}", "drawable", context.getPackageName())
-                Image(painterResource(flagResourceId), modifier = Modifier.size(32.dp), contentDescription = session.language)
+        Column(modifier = Modifier.padding(16.dp)) {
+
+            Row(verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = session.title, style = TextStyle(fontSize = 18.sp, color = Color.Blue))
             }
 
-            Spacer(modifier = Modifier.size(16.dp))
-            Text(text = session.title, style = TextStyle(fontSize = 16.sp))
+            Row(modifier = Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically
+            ) {
+                val sessionSpeakerLocationText = viewModel.getSessionSpeakerLocation(session)
+                Text(sessionSpeakerLocationText,  style = TextStyle(fontSize = 14.sp))
+            }
         }
+
 
     }
 

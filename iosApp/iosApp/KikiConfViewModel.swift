@@ -48,16 +48,6 @@ class KikiConfViewModel: ObservableObject {
         }
     }
     
-    func getFlag(session: SessionDetails) -> String {
-        return  session.language == "French" ?  "🇫🇷" : "🇬🇧"
-    }
-    
-    func getSessionSpeakerLocation(session: SessionDetails) -> String {
-        var text = session.speakers.map { $0.name }.joined(separator: ",")
-        text += " / \(session.room.name) / \(getFlag(session: session))"
-        return text
-    }
-    
     func stopObservingSessions() {
         sessionsTask?.cancel()
     }
@@ -101,6 +91,34 @@ class KikiConfViewModel: ObservableObject {
     
     func stopObservingRooms() {
         roomsTask?.cancel()
+    }
+
+    
+    func getFlag(session: SessionDetails) -> String {
+        return  session.language == "French" ?  "🇫🇷" : "🇬🇧"
+    }
+    
+    func getSessionSpeakerLocation(session: SessionDetails) -> String {
+        var text = session.speakers.map { $0.name }.joined(separator: ",")
+        text += " / \(session.room.name) / \(getFlag(session: session))"
+        return text
+    }
+    
+    
+    func getSessionTime(session: SessionDetails) -> String {
+        // easier way to do this?
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss+SSSS"
+        let date = dateFormatter.date(from: session.startDate)
+        
+        if let startDate = date {
+            var calendar = Calendar.current
+            let hour = calendar.component(.hour, from: startDate)
+            let minute = calendar.component(.minute, from: startDate)
+            return "\(hour):\(minute)"
+        }
+        
+        return ""
     }
 
 }

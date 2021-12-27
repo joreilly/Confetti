@@ -13,6 +13,7 @@ query GetSession($id: String!){
 fragment SessionDetails on Session {
     id
     title
+    startDate,endDate
     description
     language
     speakers {

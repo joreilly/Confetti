@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dev.johnoreilly.kikiconf.KikiConfRepository
 import dev.johnoreilly.kikiconf.fragment.SessionDetails
 import kotlinx.coroutines.flow.*
+import java.text.SimpleDateFormat
 
 
 class KikiConfViewModel(private val repository: KikiConfRepository): ViewModel() {
@@ -19,5 +20,14 @@ class KikiConfViewModel(private val repository: KikiConfRepository): ViewModel()
 
     fun onLanguageChecked(language: String, checked: Boolean) {
         repository.updateEnableLanguageSetting(language, checked)
+    }
+
+    fun getSessionTime(session: SessionDetails): String {
+        // TODO cleaner way of doing this?
+        val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val date = df.parse(session.startDate)
+
+        val timeFormatter = SimpleDateFormat("HH:mm")
+        return timeFormatter.format(date)
     }
 }

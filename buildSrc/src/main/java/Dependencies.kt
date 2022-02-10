@@ -7,10 +7,10 @@ object Versions {
     const val kmpNativeCoroutines = "0.11.1-new-mm"
     const val kotlinxDateTime = "0.3.0"
 
-    const val compose = "1.1.0-rc01"
-    const val composeCompiler = "1.1.0-rc02"
-    const val navCompose = "2.4.0-rc01"
-    const val accompanist = "0.21.0-beta"
+    const val compose = "1.1.0"
+    const val composeCompiler = "1.1.0"
+    const val navCompose = "2.4.1"
+    const val accompanist = "0.23.0"
 
     const val multiplatformSettings = "0.8.1"
     const val koin = "3.1.4"

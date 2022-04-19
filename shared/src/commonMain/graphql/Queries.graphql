@@ -40,7 +40,7 @@ fragment SpeakerDetails on Speaker {
     company
     country
     featured
-    shortBio
+    bio
     socials {
         name
         link

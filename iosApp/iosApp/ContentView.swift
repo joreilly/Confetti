@@ -165,7 +165,7 @@ struct SpeakerView: View {
     
     var body: some View {
         HStack {
-            if let image = speaker.photoUrl,
+            if let image = speaker.imageUrl(),
                let url = URL(string: image) {
                 AsyncImage(url: url) { image in
                     image.resizable()

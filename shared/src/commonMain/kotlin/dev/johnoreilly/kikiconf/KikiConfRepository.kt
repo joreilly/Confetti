@@ -4,6 +4,7 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.watch
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
 import dev.johnoreilly.kikiconf.fragment.SessionDetails
+import dev.johnoreilly.kikiconf.fragment.SpeakerDetails
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.combine
@@ -14,6 +15,20 @@ import org.koin.core.component.inject
 
 // needed for iOS client as "description" is reserved
 fun SessionDetails.sessionDescription() = this.description
+
+
+fun SpeakerDetails.imageUrl(): String {
+    return "https://raw.githubusercontent.com/paug/android-makers-2022/main/$photoUrl"
+        .replace("..", "")
+        .replace(".svg", ".svg.png")
+        .let {
+            if (it.endsWith(".svg.png")) {
+                it.replace("logos/", "logos/pngs/")
+            } else {
+                it
+            }
+        }
+}
 
 class KikiConfRepository: KoinComponent {
     @NativeCoroutineScope

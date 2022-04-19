@@ -20,6 +20,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import dev.johnoreilly.kikiconf.android.KikiConfViewModel
 import dev.johnoreilly.kikiconf.fragment.SpeakerDetails
+import dev.johnoreilly.kikiconf.imageUrl
 
 
 @Composable
@@ -60,8 +61,7 @@ fun SpeakerView(speaker: SpeakerDetails) {
                 shape = CircleShape,
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
             ) {
-                val speakerUrl = imageUrl(speaker.photoUrl)
-                Image(painter = rememberImagePainter(speakerUrl),
+                Image(painter = rememberImagePainter(speaker.imageUrl()),
                     modifier = Modifier.size(60.dp),
                     contentDescription = speaker.name
                 )
@@ -81,16 +81,3 @@ fun SpeakerView(speaker: SpeakerDetails) {
     Divider()
 }
 
-internal fun imageUrl(relativeUrl: String): String {
-    return "https://raw.githubusercontent.com/paug/android-makers-2022/main/$relativeUrl"
-        .replace("..", "")
-        .replace(".svg", ".svg.png")
-        .let {
-            if (it.endsWith(".svg.png")) {
-                it.replace("logos/", "logos/pngs/")
-            } else {
-                it
-            }
-        }
-
-}

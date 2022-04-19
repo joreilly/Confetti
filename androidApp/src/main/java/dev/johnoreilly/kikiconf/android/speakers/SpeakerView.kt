@@ -60,7 +60,8 @@ fun SpeakerView(speaker: SpeakerDetails) {
                 shape = CircleShape,
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
             ) {
-                Image(painter = rememberImagePainter(speaker.photoUrl),
+                val speakerUrl = imageUrl(speaker.photoUrl)
+                Image(painter = rememberImagePainter(speakerUrl),
                     modifier = Modifier.size(60.dp),
                     contentDescription = speaker.name
                 )
@@ -78,4 +79,18 @@ fun SpeakerView(speaker: SpeakerDetails) {
     }
 
     Divider()
+}
+
+internal fun imageUrl(relativeUrl: String): String {
+    return "https://raw.githubusercontent.com/paug/android-makers-2022/main/$relativeUrl"
+        .replace("..", "")
+        .replace(".svg", ".svg.png")
+        .let {
+            if (it.endsWith(".svg.png")) {
+                it.replace("logos/", "logos/pngs/")
+            } else {
+                it
+            }
+        }
+
 }

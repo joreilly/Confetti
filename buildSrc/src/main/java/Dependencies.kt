@@ -1,19 +1,19 @@
 
 object Versions {
-    const val kotlinVersion = "1.6.10"
+    const val kotlinVersion = "1.6.20"
     const val apollo = "3.2.2"
 
     const val kotlinCoroutines = "1.6.0"
     const val kmpNativeCoroutines = "0.11.1-new-mm"
     const val kotlinxDateTime = "0.3.0"
 
-    const val compose = "1.1.0"
-    const val composeCompiler = "1.1.0"
-    const val navCompose = "2.4.1"
+    const val compose = "1.2.0-alpha08"
+    const val composeCompiler = "1.2.0-alpha08"
+    const val navCompose = "2.4.2"
     const val accompanist = "0.23.0"
 
     const val multiplatformSettings = "0.8.1"
-    const val koin = "3.1.4"
+    const val koin = "3.1.6"
     const val junit = "4.13"
 }
 
@@ -37,7 +37,8 @@ object Kotlinx {
 
 object Apollo {
     const val apolloRuntime = "com.apollographql.apollo3:apollo-runtime:${Versions.apollo}"
-    const val apolloNormalizedCache = "com.apollographql.apollo3:apollo-normalized-cache:${Versions.apollo}"
+    const val apolloNormalizedCacheInMemory = "com.apollographql.apollo3:apollo-normalized-cache:${Versions.apollo}"
+    const val apolloNormalizedCacheSqlite = "com.apollographql.apollo3:apollo-normalized-cache-sqlite:${Versions.apollo}"
 }
 
 object Compose {

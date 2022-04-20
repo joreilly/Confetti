@@ -2,6 +2,7 @@ package dev.johnoreilly.kikiconf.di
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import dev.johnoreilly.kikiconf.AppSettings
 import dev.johnoreilly.kikiconf.KikiConfRepository
@@ -23,16 +24,16 @@ fun initKoin() = initKoin() {}
 
 fun commonModule() = module {
     single { KikiConfRepository() }
-    single { createApolloClient() }
+    single { createApolloClient(get()) }
     single { AppSettings(get()) }
 }
 
-fun createApolloClient(): ApolloClient {
-    // Creates a 10MB MemoryCacheFactory
-    val cacheFactory = MemoryCacheFactory(maxSizeBytes = 10 * 1024 * 1024)
+fun createApolloClient(sqlNormalizedCacheFactory: NormalizedCacheFactory): ApolloClient {
+    val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)
+        .chain(sqlNormalizedCacheFactory)
 
     return ApolloClient.Builder()
         .serverUrl("https://kiki-conf.ew.r.appspot.com/graphql")
-        .normalizedCache(cacheFactory)
+        .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)
         .build()
 }

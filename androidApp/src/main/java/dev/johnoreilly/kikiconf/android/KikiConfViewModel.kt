@@ -24,7 +24,7 @@ class KikiConfViewModel(private val repository: KikiConfRepository): ViewModel()
 
     fun getSessionTime(session: SessionDetails): String {
         // TODO cleaner way of doing this?
-        val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ")
         val date = df.parse(session.startDate)
 
         val timeFormatter = SimpleDateFormat("HH:mm")

@@ -6,6 +6,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "KikiConf"
+rootProject.name = "Confetti"
 include(":androidApp")
 include(":shared")

@@ -22,11 +22,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(Kotlinx.coroutinesCore) {
-                    isForce = true
+                with(Kotlinx) {
+                    implementation(coroutinesCore)
+                    implementation(dateTime)
                 }
-
-                api(Kotlinx.dateTime)
 
                 api(Deps.multiplatformSettings)
                 api(Deps.multiplatformSettingsCoroutines)

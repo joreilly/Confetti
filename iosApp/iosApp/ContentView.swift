@@ -4,7 +4,7 @@ import shared
 
 
 struct ContentView: View {
-    @StateObject var viewModel = KikiConfViewModel()
+    @StateObject var viewModel = ConfettiViewModel()
 
     var body: some View {
         TabView {
@@ -26,7 +26,7 @@ struct ContentView: View {
 }
 
 struct SessionListView: View {
-    @ObservedObject var viewModel: KikiConfViewModel
+    @ObservedObject var viewModel: ConfettiViewModel
 
     var body: some View {
                 NavigationView {
@@ -55,7 +55,7 @@ struct SessionListView: View {
 
 
 struct LanguageMenu: View {
-    @ObservedObject var viewModel: KikiConfViewModel
+    @ObservedObject var viewModel: ConfettiViewModel
 
     @State var languages: [String] = ["French", "English"]
     @State var selections: [String] = []
@@ -86,7 +86,7 @@ struct LanguageMenu: View {
 
 
 struct SessionView: View {
-    @ObservedObject var viewModel: KikiConfViewModel
+    @ObservedObject var viewModel: ConfettiViewModel
     var session: SessionDetails
 
     var body: some View {
@@ -139,7 +139,7 @@ struct SessionDetailsView: View {
 
 
 struct SpeakerListView: View {
-    @ObservedObject var viewModel: KikiConfViewModel
+    @ObservedObject var viewModel: ConfettiViewModel
 
     var body: some View {
         NavigationView {
@@ -185,7 +185,7 @@ struct SpeakerView: View {
 
 
 struct RoomListView: View {
-    @ObservedObject var viewModel: KikiConfViewModel
+    @ObservedObject var viewModel: ConfettiViewModel
 
     var body: some View {
         NavigationView {

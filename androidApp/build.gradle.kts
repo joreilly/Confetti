@@ -6,7 +6,7 @@ plugins {
 android {
     compileSdk = AndroidSdk.compile
     defaultConfig {
-        applicationId = "dev.johnoreilly.kikiconf.androidApp"
+        applicationId = "dev.johnoreilly.confetti"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.target
 

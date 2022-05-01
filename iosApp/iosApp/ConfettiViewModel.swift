@@ -17,9 +17,6 @@ class ConfettiViewModel: ObservableObject {
     
     @Published public var enabledLanguages: Set<String> = []
     
-    private var sessionsTask: Task<(), Never>? = nil
-    private var speakeresTask: Task<(), Never>? = nil
-    private var roomsTask: Task<(), Never>? = nil
     
     init() {
         Task {
@@ -34,23 +31,7 @@ class ConfettiViewModel: ObservableObject {
         }
     }
 
-    
-    func startObservingSessions() {
-        sessionsTask = Task {
-            do {
-                let stream = asyncStream(for: repository.sessionsNative)
-                for try await data in stream {
-                    self.sessions = data
-                }
-            } catch {
-                print("Failed with error: \(error)")
-            }
-        }
-    }
-    
-    func stopObservingSessions() {
-        sessionsTask?.cancel()
-    }
+        
     
     func toggleLanguageChecked(language: String) {
         let checked = enabledLanguages.contains(language) ? false : true
@@ -58,40 +39,41 @@ class ConfettiViewModel: ObservableObject {
     }
 
     
-    func startObservingSpeakers() {
-        speakeresTask = Task {
-            do {
-                let stream = asyncStream(for: repository.speakersNative)
-                for try await data in stream {
-                    self.speakers = data
-                }
-            } catch {
-                print("Failed with error: \(error)")
+    func observeSessions() async {
+        do {
+            let stream = asyncStream(for: repository.sessionsNative)
+            for try await data in stream {
+                self.sessions = data
             }
+        } catch {
+            print("Failed with error: \(error)")
         }
-    }
-    
-    func stopObservingSpeakers() {
-        speakeresTask?.cancel()
     }
 
-    
-    func startObservingRooms() {
-        roomsTask = Task {
-            do {
-                let stream = asyncStream(for: repository.roomsNative)
-                for try await data in stream {
-                    self.rooms = data
-                }
-            } catch {
-                print("Failed with error: \(error)")
+    func observeSpeakers() async {
+        do {
+            let stream = asyncStream(for: repository.speakersNative)
+            for try await data in stream {
+                self.speakers = data
             }
+        } catch {
+            print("Failed with error: \(error)")
         }
     }
     
-    func stopObservingRooms() {
-        roomsTask?.cancel()
+
+    
+    func observeRooms() async {
+        do {
+            let stream = asyncStream(for: repository.roomsNative)
+            for try await data in stream {
+                self.rooms = data
+            }
+        } catch {
+            print("Failed with error: \(error)")
+        }
     }
+    
 
     
     func getFlag(session: SessionDetails) -> String {
@@ -105,6 +87,7 @@ class ConfettiViewModel: ObservableObject {
     }
     
     
+    // TODO move this in to common code
     func getSessionTime(session: SessionDetails) -> String {
         // easier way to do this?
         let dateFormatter = DateFormatter()
@@ -112,7 +95,7 @@ class ConfettiViewModel: ObservableObject {
         let date = dateFormatter.date(from: session.startDate)
         
         if let startDate = date {
-            var calendar = Calendar.current
+            let calendar = Calendar.current
             let hour = calendar.component(.hour, from: startDate)
             let minute = calendar.component(.minute, from: startDate)
             return "\(hour):\(minute)"

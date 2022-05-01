@@ -43,11 +43,8 @@ struct SessionListView: View {
                     LanguageMenu(viewModel: viewModel)
                 }
             }
-            .onAppear {
-                viewModel.startObservingSessions()
-            }
-            .onDisappear {
-                viewModel.stopObservingSessions()
+            .task {
+                await viewModel.observeSessions()
             }
         }
     }
@@ -149,11 +146,8 @@ struct SpeakerListView: View {
                 }
             }
             .navigationTitle("Speakers")
-            .onAppear {
-                viewModel.startObservingSpeakers()
-            }
-            .onDisappear {
-                viewModel.stopObservingSpeakers()
+            .task {
+                await viewModel.observeSpeakers()
             }
         }
     }
@@ -195,13 +189,9 @@ struct RoomListView: View {
                 }
             }
             .navigationTitle("Rooms")
-            .onAppear {
-                viewModel.startObservingRooms()
+            .task {
+                await viewModel.observeRooms()
             }
-            .onDisappear {
-                viewModel.stopObservingRooms()
-            }
-
         }
     }
 }

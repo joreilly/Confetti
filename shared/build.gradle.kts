@@ -88,7 +88,7 @@ android {
 }
 
 apollo {
-    packageName.set("dev.johnoreilly.kikiconf")
+    packageName.set("dev.johnoreilly.confetti")
     codegenModels.set("operationBased")
     generateSchema.set(true)
 }

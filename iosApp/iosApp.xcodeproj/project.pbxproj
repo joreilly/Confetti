@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
-		1ACC92E427610B870010E625 /* KikiConfViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACC92E327610B870010E625 /* KikiConfViewModel.swift */; };
+		1ACC92E427610B870010E625 /* ConfettiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACC92E327610B870010E625 /* ConfettiViewModel.swift */; };
 		1AEA56C22773D3CA0077CFFE /* KMPNativeCoroutinesAsync in Frameworks */ = {isa = PBXBuildFile; productRef = 1AEA56C12773D3CA0077CFFE /* KMPNativeCoroutinesAsync */; };
 		1AEA56C42773D3CA0077CFFE /* KMPNativeCoroutinesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 1AEA56C32773D3CA0077CFFE /* KMPNativeCoroutinesCore */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
@@ -32,7 +32,7 @@
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		1ACC92E327610B870010E625 /* KikiConfViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KikiConfViewModel.swift; sourceTree = "<group>"; };
+		1ACC92E327610B870010E625 /* ConfettiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiViewModel.swift; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
-				1ACC92E327610B870010E625 /* KikiConfViewModel.swift */,
+				1ACC92E327610B870010E625 /* ConfettiViewModel.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -197,7 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
-				1ACC92E427610B870010E625 /* KikiConfViewModel.swift in Sources */,
+				1ACC92E427610B870010E625 /* ConfettiViewModel.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

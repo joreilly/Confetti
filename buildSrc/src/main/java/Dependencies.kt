@@ -5,7 +5,7 @@ object Versions {
 
     const val kotlinCoroutines = "1.6.0"
     const val kmpNativeCoroutines = "0.11.1-new-mm"
-    const val kotlinxDateTime = "0.3.0"
+    const val kotlinxDateTime = "0.3.2"
 
     const val compose = "1.2.0-alpha08"
     const val composeCompiler = "1.2.0-alpha08"

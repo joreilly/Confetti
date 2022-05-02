@@ -88,7 +88,7 @@ struct SessionView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(viewModel.getSessionTime(session: session))
+            Text(session.sessionTime())
             Spacer()
             Text(session.title).font(.headline).foregroundColor(.blue)
             Spacer()

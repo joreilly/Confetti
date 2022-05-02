@@ -85,24 +85,6 @@ class ConfettiViewModel: ObservableObject {
         text += " / \(session.room.name) / \(getFlag(session: session))"
         return text
     }
-    
-    
-    // TODO move this in to common code
-    func getSessionTime(session: SessionDetails) -> String {
-        // easier way to do this?
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss+SSSS"
-        let date = dateFormatter.date(from: session.startDate)
-        
-        if let startDate = date {
-            let calendar = Calendar.current
-            let hour = calendar.component(.hour, from: startDate)
-            let minute = calendar.component(.minute, from: startDate)
-            return "\(hour):\(minute)"
-        }
-        
-        return ""
-    }
 
 }
 

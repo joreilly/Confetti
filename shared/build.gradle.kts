@@ -24,7 +24,7 @@ kotlin {
             dependencies {
                 with(Kotlinx) {
                     implementation(coroutinesCore)
-                    implementation(dateTime)
+                    api(dateTime)
                 }
 
                 api(Deps.multiplatformSettings)
@@ -40,6 +40,7 @@ kotlin {
                     api(apolloRuntime)
                     implementation(apolloNormalizedCacheInMemory)
                     implementation(apolloNormalizedCacheSqlite)
+                    implementation(adapters)
                 }
             }
         }
@@ -90,4 +91,5 @@ apollo {
     packageName.set("dev.johnoreilly.confetti")
     codegenModels.set("operationBased")
     generateSchema.set(true)
+    mapScalar("Instant", "kotlinx.datetime.Instant", "com.apollographql.apollo3.adapter.KotlinxInstantAdapter")
 }

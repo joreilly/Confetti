@@ -9,6 +9,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -28,6 +30,12 @@ fun SpeakerDetails.imageUrl(): String {
                 it
             }
         }
+}
+
+fun SessionDetails.sessionTime(): String {
+    // TODO use either conference or local time zone
+    val localDateTime = this.startInstant.toLocalDateTime(TimeZone.UTC)
+    return "${localDateTime.hour}:${localDateTime.minute}"
 }
 
 class ConfettiRepository: KoinComponent {

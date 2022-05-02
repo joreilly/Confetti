@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.sessionTime
 
 
 @Composable
@@ -115,7 +116,7 @@ fun SessionView(viewModel: ConfettiViewModel, session: SessionDetails, sessionSe
             .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically) {
 
-            val timeString = viewModel.getSessionTime(session)
+            val timeString = session.sessionTime()
             Text(timeString, color = Color.Black)
         }
 

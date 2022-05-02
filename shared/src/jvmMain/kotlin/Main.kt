@@ -11,7 +11,7 @@ fun main()  {
         println("Sessions")
         repo.sessions.collect { sessions ->
             sessions.forEach { session ->
-                println("${session.startDate} ${session.title}")
+                println("${session.startInstant} ${session.title}")
             }
         }
     }

@@ -16,6 +16,11 @@
       },
       {
         "kind": "SCALAR",
+        "name": "Instant",
+        "description": "A type representing a formatted kotlinx.datetime.Instant"
+      },
+      {
+        "kind": "SCALAR",
         "name": "Int",
         "description": "Built-in Int"
       },
@@ -328,12 +333,25 @@
           },
           {
             "name": "endDate",
-            "isDeprecated": false,
+            "isDeprecated": true,
+            "deprecationReason": "Use endInstant instead",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "endInstant",
+            "isDeprecated": false,
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Instant"
               }
             },
             "args": []
@@ -427,12 +445,25 @@
           },
           {
             "name": "startDate",
-            "isDeprecated": false,
+            "isDeprecated": true,
+            "deprecationReason": "Use startInstant instead",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "startInstant",
+            "isDeprecated": false,
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Instant"
               }
             },
             "args": []

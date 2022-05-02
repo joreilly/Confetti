@@ -39,6 +39,7 @@ object Apollo {
     const val apolloRuntime = "com.apollographql.apollo3:apollo-runtime:${Versions.apollo}"
     const val apolloNormalizedCacheInMemory = "com.apollographql.apollo3:apollo-normalized-cache:${Versions.apollo}"
     const val apolloNormalizedCacheSqlite = "com.apollographql.apollo3:apollo-normalized-cache-sqlite:${Versions.apollo}"
+    const val adapters = "com.apollographql.apollo3:apollo-adapters:${Versions.apollo}"
 }
 
 object Compose {

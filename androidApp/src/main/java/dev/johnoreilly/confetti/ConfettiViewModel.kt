@@ -1,10 +1,8 @@
 package dev.johnoreilly.confetti
 
 import androidx.lifecycle.ViewModel
-import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.*
-import java.text.SimpleDateFormat
 
 
 class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel() {
@@ -20,15 +18,6 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
 
     fun onLanguageChecked(language: String, checked: Boolean) {
         repository.updateEnableLanguageSetting(language, checked)
-    }
-
-    fun getSessionTime(session: SessionDetails): String {
-        // TODO cleaner way of doing this?
-        val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ")
-        val date = df.parse(session.startDate)
-
-        val timeFormatter = SimpleDateFormat("HH:mm")
-        return timeFormatter.format(date)
     }
 
     fun getSessionSpeakerLocation(session: SessionDetails): String {

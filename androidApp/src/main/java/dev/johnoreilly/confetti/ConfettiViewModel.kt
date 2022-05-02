@@ -26,6 +26,10 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
         return text
     }
 
+    fun getSessionTime(session: SessionDetails): String {
+        return repository.getSessionTime(session)
+    }
+
     fun getLanguageInEmoji(language: String?): String {
         return when (language?.toLowerCase()) {
             "english" -> "\uD83C\uDDEC\uD83C\uDDE7"

@@ -9,10 +9,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+
 
 
 // needed for iOS client as "description" is reserved
@@ -32,11 +34,6 @@ fun SpeakerDetails.imageUrl(): String {
         }
 }
 
-fun SessionDetails.sessionTime(): String {
-    // TODO use either conference or local time zone
-    val localDateTime = this.startInstant.toLocalDateTime(TimeZone.UTC)
-    return "${localDateTime.hour}:${localDateTime.minute}"
-}
 
 class ConfettiRepository: KoinComponent {
     @NativeCoroutineScope
@@ -45,10 +42,14 @@ class ConfettiRepository: KoinComponent {
     private val apolloClient: ApolloClient by inject()
     private val appSettings: AppSettings by inject()
 
+    private var timeZone: TimeZone = TimeZone.currentSystemDefault()
+
     val enabledLanguages = appSettings.enabledLanguages
 
     val sessions = apolloClient.query(GetSessionsQuery()).watch().map {
-        it.dataAssertNoErrors.sessions.map { it.sessionDetails }
+        it.dataAssertNoErrors.sessions
+            .map { it.sessionDetails }
+            .sortedBy { it.startInstant }
     }.combine(enabledLanguages) { sessions, enabledLanguages ->
         sessions.filter { enabledLanguages.contains(it.language) }
     }
@@ -59,6 +60,21 @@ class ConfettiRepository: KoinComponent {
 
     val rooms = apolloClient.query(GetRoomsQuery()).watch().map {
         it.dataAssertNoErrors.rooms.map { it.roomDetails }
+    }
+
+
+    init {
+        coroutineScope.launch {
+            val configResponse = apolloClient.query(GetConfigurationQuery()).execute()
+            configResponse.data?.config?.timezone?.let {
+                timeZone = TimeZone.of(it)
+            }
+        }
+    }
+
+    fun getSessionTime(session: SessionDetails): String {
+        val localDateTime = session.startInstant.toLocalDateTime(timeZone)
+        return "${localDateTime.hour}:${localDateTime.minute}"
     }
 
     suspend fun getSession(sessionId: String): SessionDetails? {

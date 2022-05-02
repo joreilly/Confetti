@@ -60,3 +60,10 @@ fragment RoomDetails on Room {
     name
     capacity
 }
+
+
+query GetConfiguration {
+  config {
+    timezone
+  }
+}

@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.sessions
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.sessionTime
 
 
 @Composable
@@ -41,16 +41,18 @@ fun SessionListView(viewModel: ConfettiViewModel, bottomBar: @Composable () -> U
 
         )},
         bottomBar = bottomBar
-    ) {
-        if (sessions.isNotEmpty()) {
-            LazyColumn {
-                items(sessions) { session ->
-                    SessionView(viewModel, session, sessionSelected)
+    ) { padding ->
+        Column(modifier = Modifier.padding(padding)) {
+            if (sessions.isNotEmpty()) {
+                LazyColumn {
+                    items(sessions) { session ->
+                        SessionView(viewModel, session, sessionSelected)
+                    }
                 }
-            }
-        } else {
-            Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
-                CircularProgressIndicator()
+            } else {
+                Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                    CircularProgressIndicator()
+                }
             }
         }
     }
@@ -103,8 +105,6 @@ private fun Filter(enabledLanguages: Set<String>, onLanguageChecked: (String, Bo
 
 @Composable
 fun SessionView(viewModel: ConfettiViewModel, session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {
-    val context = LocalContext.current
-
 
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -116,7 +116,7 @@ fun SessionView(viewModel: ConfettiViewModel, session: SessionDetails, sessionSe
             .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically) {
 
-            val timeString = session.sessionTime()
+            val timeString =  viewModel.getSessionTime(session)
             Text(timeString, color = Color.Black)
         }
 
@@ -133,8 +133,6 @@ fun SessionView(viewModel: ConfettiViewModel, session: SessionDetails, sessionSe
                 Text(sessionSpeakerLocationText,  style = TextStyle(fontSize = 14.sp))
             }
         }
-
-
     }
 
     Divider()
@@ -159,31 +157,37 @@ fun SessionDetailView(viewModel: ConfettiViewModel, sessionId: String, popBack: 
                 }
             )
         }
-    ) {
-        session?.let { session ->
-            Column(modifier = Modifier.fillMaxWidth()
-                .padding(16.dp)
-                .verticalScroll(state = scrollState)
-            ) {
+    ) { padding ->
+        Column(modifier = Modifier.padding(padding)) {
+            session?.let { session ->
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(16.dp)
+                        .verticalScroll(state = scrollState)
+                ) {
 
-                Text(text = session.title, style = TextStyle(color = Color.Blue,fontSize = 22.sp))
+                    Text(
+                        text = session.title,
+                        style = TextStyle(color = Color.Blue, fontSize = 22.sp)
+                    )
 
-                Spacer(modifier = Modifier.size(16.dp))
-                Text(text = session.description, style = TextStyle(fontSize = 16.sp))
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Text(text = session.description, style = TextStyle(fontSize = 16.sp))
 
-                Spacer(modifier = Modifier.size(16.dp))
-                Row {
-                    session.tags.forEach { tag ->
-                        //Text(tag)
-                        Chip(tag)
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Row {
+                        session.tags.forEach { tag ->
+                            //Text(tag)
+                            Chip(tag)
+                        }
                     }
-                }
 
-                Spacer(modifier = Modifier.size(16.dp))
-                session.speakers.forEach { speaker ->
-                    Text(speaker.name, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.size(8.dp))
-                    Text(speaker.bio)
+                    Spacer(modifier = Modifier.size(16.dp))
+                    session.speakers.forEach { speaker ->
+                        Text(speaker.name, fontWeight = FontWeight.Bold)
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(speaker.bio)
+                    }
                 }
             }
         }

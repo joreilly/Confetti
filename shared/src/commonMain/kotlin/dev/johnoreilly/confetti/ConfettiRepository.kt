@@ -5,8 +5,11 @@ import com.apollographql.apollo3.cache.normalized.watch
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.type.Configuration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -46,13 +49,7 @@ class ConfettiRepository: KoinComponent {
 
     val enabledLanguages = appSettings.enabledLanguages
 
-    val sessions = apolloClient.query(GetSessionsQuery()).watch().map {
-        it.dataAssertNoErrors.sessions
-            .map { it.sessionDetails }
-            .sortedBy { it.startInstant }
-    }.combine(enabledLanguages) { sessions, enabledLanguages ->
-        sessions.filter { enabledLanguages.contains(it.language) }
-    }
+    val sessions = MutableStateFlow<List<SessionDetails>>(emptyList())
 
     val speakers = apolloClient.query(GetSpeakersQuery()).watch().map {
         it.dataAssertNoErrors.speakers.map { it.speakerDetails }
@@ -68,6 +65,16 @@ class ConfettiRepository: KoinComponent {
             val configResponse = apolloClient.query(GetConfigurationQuery()).execute()
             configResponse.data?.config?.timezone?.let {
                 timeZone = TimeZone.of(it)
+            }
+
+            apolloClient.query(GetSessionsQuery()).watch().map {
+                it.dataAssertNoErrors.sessions
+                    .map { it.sessionDetails }
+                    .sortedBy { it.startInstant }
+            }.combine(enabledLanguages) { sessionList, enabledLanguages ->
+                sessionList.filter { enabledLanguages.contains(it.language) }
+            }.collect {
+                sessions.value = it
             }
         }
     }

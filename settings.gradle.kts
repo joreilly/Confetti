@@ -9,3 +9,4 @@ pluginManagement {
 rootProject.name = "Confetti"
 include(":androidApp")
 include(":shared")
+include(":server")

@@ -1,0 +1,1047 @@
+{
+  "195718": {
+    "title": "Story of a full-remote culture",
+    "description": "Remote working has really been a strong trend for several years now and obviously, those days, it became a reality for a lot of people, especially for software engineers. But there are various ways of working remotely and it's not always obvious to settle a remote culture in a company. In this talk, we'll talk about remote-friendly and remote-first companies, benefits that remote work brings to a company and how to work in a distributed team. ",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "9716ff27-d78b-437f-9ce8-24087a771ccc"
+    ],
+    "tags": [
+      "Soft skills"
+    ],
+    "icon": "opening",
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e957e531954df001b6e288d",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/195718",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=c4e503f1-c1e2-40fc-8bf0-bf23c1cdd1e5"
+  },
+  "173222": {
+    "title": "Benchmarking your application",
+    "description": "Back in 1974, Donald Knuth said that “premature optimization is the root of all evil (or at least most of it) in programming”. But optimization without benchmarks can be even worse than that. It’s like following a map without using a compass, and just following your instinct that you’re going in the right direction. \r\n\r\nWhether it is during development or at runtime, many tools exist to let you measure the performance of your applications. These measures can then be used to prioritize which parts to optimize first, as well as measure the performances gained (or lost) after a refactoring.\r\n",
+    "language": "English",
+    "complexity": "Advanced",
+    "speakers": [
+      "bf58d77f-fad3-49b7-a6b3-82b5f46e5549"
+    ],
+    "tags": [
+      "Testing",
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9580f11954df001b6e28b2",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/173222",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=bd68ae62-894d-4161-89a4-ed8988918dcb"
+  },
+  "173703": {
+    "title": "Dekompiling",
+    "description": "Kotlin has many features that are leaps and bounds ahead of Java. However, its primary target platform being the JVM, all of these features still need to compile to the same bytecode as Java does.\r\n\r\nThis is a look at how a variety of interesting Kotlin features are compiled to bytecode, and what their Java equivalents would be. Even though Kotlin abstracts away much of the virtual machine and the original feature set of Java with its own features, it’s still important to know what your Kotlin code compiles to. Not only can this knowledge give you the power to optimize your code, but it will also help you avoid subtle bugs that would otherwise be near impossible to track down.",
+    "language": "English",
+    "complexity": "Advanced",
+    "speakers": [
+      "1916ae1c-96d7-480f-9eed-bf5dce444441"
+    ],
+    "tags": [
+      "Language",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e957f301954df001b6e289a",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/173703",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=662514bf-3daf-4c33-9f8f-7cbcbfa38576"
+  },
+  "166909": {
+    "title": "Fueled Reactive apps with Asynchronous Flow",
+    "description": "Reactive Extensions are widely used on large scale successful Android applications, and for this, the most popular library is an adaptation of these Reactive Extensions, the very well known RxJava. What if we could use the existing Kotlin suspending functions asynchronously to return more than a single value?\r\nHow could we return multiple asynchronously backed results in Kotlin?\r\nKotlin Flows to the rescue!\r\nWould Kotlin Flows replace RxJava in the long term on the Android platform? How could we start migrating smoothly to Flow on hybrid (Java & Kotlin) languages apps?",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "75a99392-2d32-4632-9d9b-a70bb700365c"
+    ],
+    "tags": [
+      "Design",
+      "GreenTech",
+      "Language",
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9580801954df001b6e28af",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/166909",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=1c8ee038-bd83-4e2b-a054-8127df1c9375"
+  },
+  "175345": {
+    "title": "Tirer le meilleur de Firebase Remote Config",
+    "description": "Dans cette mini session, nous verrons comment mettre en place du remote config (ou encore appelé feature flag) avec firebase. J'expliquerai comment ça marche, quelles valeurs on peut stocker dedans et modifier, comment l'utiliser avec des cas concrets.\r\n\r\nNous verrons les cas d'utilisation principaux :\r\n- comment activer une feature caché à l'utilisateur\r\n- comment activer ou non une certaine features à certains utilisateurs\r\n- comment faire tester une nouvelle fonctionnalité à un groupe d'utilisateurs\r\n- comment faire un ab test, tracker et avoir un bon résultat\r\n\r\nEt les bonnes pratiques :\r\n- les méthodes pour charger la config\r\n- le système de cache\r\n- les limites et les problèmes",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "96b5b534-e4ad-4cc9-99c9-0bb194633d16"
+    ],
+    "tags": [
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e957fd81954df001b6e28ac",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175345",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=e7fc1eb2-ba5b-494e-94db-1ed9c661275b"
+  },
+  "176384": {
+    "title": "Que peux apporter la blockchain à un développeur mobile en 2020 ?",
+    "description": "Malgré plus de 10 ans d'existence, les technologies regroupées sous l'appellation blockchain restent méconnues. Elle présentent malgré tout des avantages dans beaucoup d'applications comme la gestion de l'identité, la sécurité des données, ou le respect des données privées. Nous ferons dans ce talk l'état de l'art des technologies blockchain, et leurs applications possibles dans une application mobile.",
+    "language": "French",
+    "complexity": "Intermediate",
+    "speakers": [
+      "933caffb-2f12-49f0-b438-fcb1e0c6562b"
+    ],
+    "tags": [
+      "Architecture",
+      "Security"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9581491954df001b6e28b5",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176384",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=f5739f99-1d0f-48b9-9dc6-1b7a830e823f"
+  },
+  "169303": {
+    "title": "How much memory do your objects really use?",
+    "description": "With the latest generation of shiny new Android phones having sometimes up to 12Gb of RAM, it might seem like memory usage concerns are thing of the past. Not so fast. Backwards compatibility is still a thing, and memory can definitely still be a deciding factor when making design decisions for your software. \r\n\r\nIf your goal is to store large bitmaps (or other array-based data) in memory, the estimations are easy enough. However, if you're storing complex structures of objects, the actual memory size of the data can be difficult to evaluate. In this talk, I'll go over the memory structure of the JVM and how much memory an instance of a given class uses. I'll then present a way to examine objects at runtime, to assess exactly how much memory they & the objects they reference are using up. Using this method, I'll look at some data structures that were designed to optimize memory usage, and give an estimate of their real impact over more conventional data structures.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "305ca7a0-8158-45a6-8bbf-10f6ad55ef18"
+    ],
+    "tags": [
+      "Architecture",
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9583281954df001b6e28c3",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/169303",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=dab62b71-c676-4eeb-b222-6fc9977e8ae4"
+  },
+  "175670": {
+    "title": "Nitrogen in your (test) pyramid.",
+    "description": "Unit, integration, UI tests are part of the famous test pyramid, different tools were used in order to full fill it, but still today there are lot of issues about how to execute it in a proper manner and how to sync all environments (local, ci, etc) in order to satisfy all the testing criteria, and having a good reports.\r\n\r\nFrom IO 2018 with the announcement of project Nitrogen, Google'd like to \"nitrogenize\" our tests creating a single entry point and solve all issues\r\nwe had in the past. With October release of Robolectric 4.0 and androidx.test 1.0.0, both testing environments are converging on a set of common test APIs. Robolectric now supports the AndroidJUnit4 test runner, ActivityTestRule, and Espresso for interacting with UI components.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "b8e52efe-7709-4af8-8e97-cb07860b8e24"
+    ],
+    "tags": [
+      "Architecture",
+      "Testing"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9582751954df001b6e28be",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175670",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=370486d3-ce27-4b2e-a9a5-1aa97b368ac7"
+  },
+  "175760": {
+    "title": "Welcome onBoard!",
+    "description": "Congratulation! 🥳\r\nYou finally managed to hire the rare gem that a developer is.\r\nNow, s/he can help you can take some of the workloads off your shoulders and slay bugs 🤺\r\nWell, not exactly 😟\r\nThe first steps in a new company are often hard and stressful. It may take some time before s/he finds her/his marks and get up to speed with the rest of the team.\r\nCome and learn how to make a newbie feeling welcome and happy to work in your team.\r\n\r\n(This talk will also give tips for the newly hired devs)",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "0f359408-c439-4f1b-986b-f8344d6d60e0"
+    ],
+    "tags": [
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9581e51954df001b6e28b8",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175760",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=050385f7-508f-4863-a7ef-ce94ee33fc7f"
+  },
+  "174162": {
+    "title": "Utilisez les DSL Kotlin pour vos scripts Gradle",
+    "description": "100% Kotlin comme langage pour votre projet... et pourquoi pas ?! Il est peut-être temps d'utiliser un seul langage pour le développement de votre logiciel et pour tous les scripts de votre application. Voyons ensemble l'une des nouveautés apparues dans Gradle 5.0, le support du DSL Kotlin en version production ready !",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "6520ad1e-8c4e-45c1-b34d-91ca73db27fe"
+    ],
+    "tags": [
+      "Language",
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9583761954df001b6e28c9",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/174162",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=4b20b28e-c917-489f-94ce-a0e630d2c43d"
+  },
+  "175102": {
+    "title": "Animation journey: MotionLayout chapter.",
+    "description": "One of our goal as an Android developer is to provide a nice and smooth UI to our guest. \r\nReleased with ConstraintLayout 2.0, MotionLayout is the new animation toy for Android Developers. This new tool proves to be simple, practical and allows you to create fancy animation in a short amount of time. But in practice, is this beta library really stable? \r\nIn Disney+, we have been using this library on development for more than a year, on mobile, tablet and TV. Integration, improvements and bugs, I want to tell you more about our MotionLayout adventure in Disney+.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "c3226ef8-4784-4a3c-a83d-6b70c0dcde1d"
+    ],
+    "tags": [
+      "Animation"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9584ff1954df001b6e28d2",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175102",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=71248e2a-7374-4726-bc83-44b4cf1e5aa1"
+  },
+  "169276": {
+    "title": "Compilez, déployez et gérez votre CI en Kotlin",
+    "description": "Kotlin est devenu le standard pour le dev Android. Mais saviez vous qu'il pouvait être utilisé dans de nombreux autres cas ?\r\n\r\n* Sur les machines de dev, pour la gestion des pull requests et connexion Jira.\r\n* Sur les serveurs de CI  avec un runner Kotlin qui execute la compilation, tests et publication.\r\n* De manière générale, pour remplacer Bash et Perl par du Kotlin partout!\r\n\r\nAprès une introduction à KScript et Clikt, nous présenterons Kinta, un outil d'automatisation pour le développement mobile, évolutif et opensource.\r\n",
+    "language": "French",
+    "complexity": "Intermediate",
+    "speakers": [
+      "9c90fc80-8166-4e7a-975c-5b4321000659",
+      "d904f0ac-0ae8-4405-8223-4f688adef9df"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95847e1954df001b6e28cf",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/169276",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=75dd63e4-864e-48d0-ae75-163c1bc3371b"
+  },
+  "176363": {
+    "title": "How to make your app lose weight",
+    "description": "For a ton of reasons, we want our apps to be lighter. To take less storage space? To be quicker to download?  To get the next billion users? But yes, it takes time to do everything… But... NO. I promise, it can be really easy to lose weight! (At least for your app)\r\n\r\nI want to show you, with only a few hours, your app can be smaller and everybody can do it. WEBP, R8, Lint, so many tools to help us achieve this, I’ll explain everything to you.",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "f3facba0-c34d-4c87-a7e7-a81a67c8029d"
+    ],
+    "tags": [
+      "Architecture",
+      "Design",
+      "Language",
+      "Soft skills",
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95855a1954df001b6e28e1",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176363",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=d275ae26-4a4f-4707-ab93-3a567d801071"
+  },
+  "176209": {
+    "title": "The Hitchhikers Guide Through Kotlin Multiplatform",
+    "description": "Since the early days of mobile that we keep seeing new frameworks being designed to overcome one of the biggest challenges:\r\n* How can I develop for both Android and iOS?\r\n\r\nAlthough it’s initial promises, when we talk about performance, maintainability or even customization we keep discarding these solutions and we always choose native.\r\n\r\n\r\nFast forward to the present, and now we have two new languages: Android is Kotlin first and iOS, Swift. And if you put them side by side you can see a lot of similarities between both what will ease switching between one to the other if you have to develop for both platforms.\r\n\r\nBut what I told that you could just develop in Kotlin and run it seamlessly on all devices?\r\n\r\nHere comes Kotlin Multiplatform!",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "2bc1e95f-1243-4ad0-8a11-75541fee10e0"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9584121954df001b6e28cc",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176209",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=9ee87c57-21ca-4651-970b-22d9b330d862"
+  },
+  "174736": {
+    "title": "Getting the most out of Android KTX",
+    "description": "Ever wish you could just use a lambda as an onClickListener? Or change the View visibility by modifying a simple \"isVisible\" boolean? Or how about using a doOnLayout{} method to run a block of code after view layout?\r\n\r\nThese are just a few examples of how Android KTX extensions help solve common problems. They improve the existing Jetpack and Android platform APIs so you can consume them from Kotlin in a concise and idiomatic way.\r\n\r\nThis talk will discuss what KTX extensions are and explore the most useful extensions that you can use in your daily workflow.",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "b3770b77-c9c8-454d-8b7a-045ca1d66b7b"
+    ],
+    "tags": [
+      "Architecture"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9585b81954df001b6e28e4",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/174736",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=6c8003e2-be92-498b-b6c2-e435d551874b"
+  },
+  "186387": {
+    "title": "Whats new with Data Storage?",
+    "description": "Google introduced the idea of Scoped Storage to further increase the security of application storage usage. Scoped Storage was planned to be implemented in Android 10, but it caused great noise in the developer community, so it has been postponed. Now with Android 11 on the sight, it looks like Scoped Storage is happening for real. Within my talk I will briefly introduce Scoped Storage to the audience, describe some challenges with the migration to it, and share my thoughts how could we do it in a pain free way.",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "0b98f2d1-1e2f-4ea7-81b7-6a0d0d700112"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9586111954df001b6e28e7",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/186387",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=985e70d1-f75a-46c6-b8d7-17e51fbf3bcf"
+  },
+  "176377": {
+    "title": "Experimenting with the Kotlin Compiler",
+    "description": "A lot of us will agree that Kotlin is an awesome language - but have you ever thought about experimenting with the Kotlin Compiler? This talk explores how to set up your development environment, add, remove or change language features, get feedback from the community and get your suggestions merged.\r\n\r\nYou will get to know how to set up IntelliJ for working on different parts of the compiler in the Kotlin repo and learn how the compiler is structured and the different compilation phases. After looking at the structure, you will get know how to modify existing language features such and how to add a language keyword to Kotlin. In the end, we will look at different ways of bringing your changes to the Kotlin programming language!\r\n\r\nYou will leave this talk with a solid grasp of Kotlin Compiler mechanisms and how to change things up a bit. You don't need to know anything about compilers or Computer Science theory!",
+    "language": "English",
+    "complexity": "Advanced",
+    "speakers": [
+      "c03a7211-54ff-4819-9789-1a22ed91fafc"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9587591954df001b6e28f0",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176377",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=1ddb73e0-57bf-4a89-8c9f-daff8c2304ce"
+  },
+  "166442": {
+    "title": "Introduction au Sketchnoting",
+    "description": "Venez découvrir les Sketchnotes ou les prises de note mêlant textes et dessins. Ca améliore la concentration et la mémorisation de façon hyper efficace ! \r\nPas besoin d'être un artiste, je vous transmettrai les bases et quelques tips pour appliquer directement dans les talks suivants à Android Maker !\r\nFacultatif : Prévoyez un carnet et un crayon pour directement participer pendant ce talk ! ",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "2f909cb1-ca6f-4e25-8442-f67cdc7f2b5c"
+    ],
+    "tags": [
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9587051954df001b6e28ed",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/166442",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=4b8d3909-b6ed-4d23-a471-54f002211c55"
+  },
+  "168081": {
+    "title": "Everything They Don’t Tell You About Dynamic Features and Instant Apps",
+    "description": "Creating an Android project that is decoupled enough to be able to release an individual feature as an instant app is a tough ask. It becomes even more daunting when your starting point is a monolithic, single module project. In this talk we’ll go over how we modularised the Cricket World Cup 2019 app in order to release an instant app, and we’ll show every single problem we hit along the way.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "0ef1e55b-29b9-4c4b-938d-c59b6c8ea9d3"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95916a1954df001b6e2955",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/168081",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=d5d5ca94-02c0-4b80-a8d3-bf0e1372d8e2"
+  },
+  "176462": {
+    "title": "How to add Flutter to your existing app",
+    "description": "From the day that it's announced, Flutter is attracting so many developers from different backgrounds. It gives the developers a chance to develop an app from a single codebase and deploy it for Android, iOS, Desktop, and Web. But not everyone is in the position to abandon an existing codebase and start from scratch - luckily Flutter got you covered even if you just want to extend your existing application with cool Flutter features.\r\n\r\nIn this talk, we will have a look at how you can add Flutter to your ongoing iOS and Android applications by showing a real-life example app with thousands of users and, we will talk about how you can rewrite your existing applications step by step with Flutter.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "adadf66f-529c-48fd-ba12-94903187a216"
+    ],
+    "tags": [
+      "Soft skills",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9587ad1954df001b6e28f3",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176462",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=72ebcb5d-de0f-478a-a1ae-8bbac422905a"
+  },
+  "176426": {
+    "title": "Let's build Android UI with Jetpack Compose",
+    "description": "The Android UI API uses a similar approach for the past decade. Recently, developers use DSL, functional programming more often than a few years ago. The Android UI Toolkit team proposed a new way of creating UI for Android applications.\r\n                        \r\nThis workshop will cover following topics:\r\n - Getting Started with Jetpack Compose\r\n - We will build set of screens with Jetpack Compose\r\n - We will migrate screen in application from tradition to the new approach\r\n - Overview of the internals of Jetpack Compose",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "6e75d5a7-6616-4fe1-8681-a4a78db7b62e"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9591cc1954df001b6e2958",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176426",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=8904dd2f-c7b8-464f-a977-e9d21d8be1ca"
+  },
+  "176114": {
+    "title": "Mobile Trends 2020 - Vers une expérience mobile 5 étoiles",
+    "description": "Nous créons des applications pour rendre service à nos utilisateurs. Mais au delà de la qualité, de la robustesse et de la fiabilité de ce service, comment proposer une expérience mobile confortable et attrayante ?\r\n\r\nAprès avoir étudié les changements et les tendances des applications les plus populaires, nous vous proposons 10 bonnes pratiques de conceptions qui vous éviterons les faux pas, et vous aideront à proposer une expérience mobile intuitive et immersive.\r\n\r\nLes 5 étoiles sur les stores sont au bout du chemin !",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "4f6d2a24-eb80-46df-bf6b-09af7c915c73",
+      "2553ba47-e51c-42c6-b7b5-1136d927eca2"
+    ],
+    "tags": [
+      "Design",
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9587ed1954df001b6e28f6",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176114",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=9e3c198d-ed3c-4edc-b692-fffca81459b9"
+  },
+  "176381": {
+    "title": "Android App Bundle / Android PacKage : à chaque format suffit sa tâche",
+    "description": "Pendant plus de 10 ans, l'apk a fait office de format à la fois pour l'installation et la publication d'applications Android. Aujourd'hui, le format aab (Android App Bundle) qui a été introduit en 2018 est devenu le format officiel de publication. Ses principaux objectifs: réduire la taille des packages servis par le store, et favoriser la modularité des applications grâce notamment aux dynamics features. \r\nL'apk reste plus que jamais le format d'installation d'une application. S'il a longtemps été d'usage pour un développeur de déployer un apk \"fat\", l'aab donne à présent au Playstore une opportunité d'optimiser le (ou plutôt les) package[s] qui seront transmis. \r\nNous verrons en détails comment tout cela est rendu possible. \r\n\r\n",
+    "language": "French",
+    "complexity": "Intermediate",
+    "speakers": [
+      "b8647805-eaff-4885-929f-513d5f1ee728"
+    ],
+    "tags": [
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9592d11954df001b6e2988",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176381",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=b08add4b-39d7-49a9-9fa4-b15f96c20fd7"
+  },
+  "170959": {
+    "title": "Developing in the Dark",
+    "description": "Night mode is live! Android 10 is out and users can turn on this option on their phone, so it's time to adopt it. Yet many perceive its adoption as hard and complicated for an existing application.\r\n\r\nThis talk will show the journey of the Rider app at Deliveroo to support night mode: starting from the adoption of the new material components library, to tackling an existing design system to support multiple apps. It will show to how to design a new day and night theme and how to approach this migration within a team, with the constraint of a two weeks release cycle.\r\n\r\nBy the end of the talk you'll have a good idea of how to support dark mode on an Android application.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "2e5f6d59-ad04-4d16-a6d7-d9c61aa7304c"
+    ],
+    "tags": [
+      "Design"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9592671954df001b6e296d",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/170959",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=2ef41254-092e-4808-b27e-c13a85cff883"
+  },
+  "176470": {
+    "title": "Reducing memory footprint of your app - what LeakCanary is not telling you about",
+    "description": "Using LeakCanary but still seeing a lot of OutOfMemoryError crash reports on Firebase? \r\n\r\nIn this talk, I’ll show examples of non-trivial cases that I found in commercial projects with solutions that might help reduce memory consumption in your app (by almost a half!).\r\n\r\nI’ll explain why Glide is not always able to free all unused bitmaps and what problems you might encounter while using RecyclerView and ViewPager.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "d3841a2b-b09c-41f7-afa6-26734c05a277"
+    ],
+    "tags": [
+      "Architecture",
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9593221954df001b6e298f",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176470",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=636ff551-8e8f-46d2-ab3a-054906700d80"
+  },
+  "176506": {
+    "title": "Everything is an API",
+    "description": "When creating a new app module, or modularising an existing one, it becomes easy to forget who might be consuming it. It becomes easy to forget that every decision you make will affect how it is used, or in the worst case, abused. We're told that code should document itself, but how do these design decisions reflect in the understanding of intended use?\r\n\r\nJust because we might not be exposing a module as a public or open-sourced library, doesn't mean we can't benefit from making good decisions towards an effective and sensible API. By taking the stance that every piece of code we write is an API we can build more versatile and scalable applications.\r\n\r\nIn this talk, I'll discuss how you can apply best practices from the open-source world to your project, to guard implementations, provide concise and specific contracts, practical documentation mechanisms, and how doing so can aid (or harm) your build time.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "10659767-356c-4cd5-ba9c-12cec7a3ce79"
+    ],
+    "tags": [
+      "Architecture"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9593731954df001b6e299d",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176506",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=243be93d-550b-491c-aba1-3889b62e7be6"
+  },
+  "172261": {
+    "title": "How to effectively scan barcodes on Android",
+    "description": "Android does not provide a native solution to detect barcodes in your application. However, some barcode image processing libraries are available but it is not always easy to use them for top performance.\r\nThrough this talk, we will see how to implement barcode detection in your Android application from camera management to optimization of barcode recognition thanks to machine learning.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "4674e36f-50f8-4ffb-a486-679d730c759e"
+    ],
+    "tags": [
+      "Architecture",
+      "Artificial Intelligence",
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9593cf1954df001b6e29af",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/172261",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=d6a8c318-4dfc-49c2-a71a-30a9494c8b92"
+  },
+  "174763": {
+    "title": "From 7 to 70 Developers, How to Scale your App Release Process",
+    "description": "In 4 years the Engineering Team at Lyft went from 7 to 70 Android Developers. \r\n\r\n- How do you scale a team while maintaining productivity and the app quality?\r\n- How to implement a \"Release Train\" and set up your team for success?\r\n- How to enforce the release process and prevent late merges?\r\n- How to handle incidents?\r\n\r\nIn this talk, we will highlight solutions we came up with to tackle these challenges.",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "f8c30c09-8132-4ac8-91a5-9e7b293063a4",
+      "cb9da4e8-c687-4231-96e7-f0e594fe7f5d"
+    ],
+    "tags": [
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95954f1954df001b6e29d6",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/174763",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=8a129ebf-415b-4a99-b21e-ac2b8565cbe5"
+  },
+  "175937": {
+    "title": "Gérer la restauration de données avec les Android Architecture Components.",
+    "description": "L’un des principaux enjeux du développement Android consiste à bien gérer le cycle de vie des composants du SDK.\r\nLes Android Architecture Components nous fournissent des outils pour s’abstraire d’une grosse partie de cet aspect.\r\nCependant, la restauration de l’état d’une application, détruite par le système, n’est pas triviale et est peu documentée.\r\nDans ce talk nous aborderons différentes approches pour résoudre ces problématiques et verrons pourquoi nous devons nous en préoccuper.\r\nNous montrerons comment nous avons intégré le module SavedState pour ViewModel dans notre architecture.",
+    "language": "French",
+    "complexity": "Intermediate",
+    "speakers": [
+      "8e801485-26e6-49a2-b3cd-91e8f481d2d1"
+    ],
+    "tags": [
+      "Architecture",
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9594c61954df001b6e29c4",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175937",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=55d80b1f-d3ee-42c5-83fe-d4b1756738bb"
+  },
+  "172401": {
+    "title": "The Secrets of the Build Scan Plugin and the internals of Gradle",
+    "description": "Build scans provide some very useful information about Gradle Builds. Build time, configuration time, task execution time.\r\nScans even show garbage collection time, time spent downloading dependencies, time spent in annotation processors? What can you do with all this data?\r\n\r\nIn this talk I'll share how to surface actionable information from your Gradle build immediately to developers without using the build scan plugin or Gradle Enterprise.",
+    "language": "English",
+    "complexity": "Advanced",
+    "speakers": [
+      "89694c9d-5de0-4f39-a50a-ed48d6eb56ca"
+    ],
+    "tags": [
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9594721954df001b6e29c1",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/172401",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=763a1120-13e7-4f7a-abc0-95a77d8bbfc0"
+  },
+  "176241": {
+    "title": "ConstraintLayout: now and next",
+    "description": "ConstraintLayout is a popular library to simplify creating adaptable UI and animations. This session will cover the latest 2.0 release with the MotionLayout component as well as presenting what's coming next -- with even more flexible graphical capabilities and Compose integration.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "ed1e4545-4547-4697-9515-28f4174f09dd",
+      "a7d0fcec-49dd-4e65-bcb7-ad3d1901928c"
+    ],
+    "tags": [
+      "Animation",
+      "Architecture",
+      "Design",
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9595931954df001b6e29dd",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176241",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=c03988ec-b3ec-41a5-ad5c-233637c8e918"
+  },
+  "176472": {
+    "title": "What's my manager doing all day?",
+    "description": "You've been coding non stop for hours and your manager is nowhere to be seen. Their desk is always empty so clearly not a lot of actual work must be getting done. Can going to that many meetings possibly be a good use of anybody's time?\r\n\r\nIn this talk, I'll go over what managers actually do, and how it can be useful, at least when they are good at their job! Relaying information, hiring, coaching, protecting your team from BS, or helping them grow are all important activities that might not feel like real work. This should also give you a better idea of wether or not this could be a good career move for you, or if it's better to stay a maker.",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "0b1323da-2946-49de-be5c-e54d44e12325"
+    ],
+    "tags": [
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95960d1954df001b6e29eb",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176472",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=9fa33b09-543c-4c54-8799-43a0ba85b4bf"
+  },
+  "176235": {
+    "title": "CameraX - the new powerful Jetpack library",
+    "description": "Camera development has been quite a painful task. But now comes the new Jetpack library : CameraX. With a use case based lifecycle aware approach, it provides a consistent & easy to use API. In the talk, I will talk about:\r\nOverview & architecture\r\nLibrary structure with 3 main abstracted handles \r\nBinding the use cases to the Lifecycle\r\nPrimary benefits \r\nSample app code to demonstrate how to get started\r\nThe goal is to help everyone understand how this library aims to strike a balance between abstracting away the difficult bits of managing the camera while allowing flexibility and customization. The “Click of a camera” has just become easier!",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "a34985cc-f276-4f1a-ba53-db86d084fe93"
+    ],
+    "tags": [
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95969b1954df001b6e29f8",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176235",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=01c13064-553f-4d33-bdc1-538f3fe46892"
+  },
+  "176338": {
+    "title": "Handle gestures and touch events for CustomView",
+    "description": "Creating custom view itself is a challenging task, what if you have a requirement it needs to be aware of touch events, gestures(Drag, fling, swipe), that itself makes the task daunting and to make it worst, a designers comes up with a requirement its properties(background, shape, etc) should react based on the touch.\r\n\t\r\n\tIn this talk, we learn about how android touch system work. We will also learn how to deal with nested scrolling view groups, along with mixture of canvas, animation API's how  we can manipulate our view appearance based on user touch behaviour. We will also have an overview of other alternatives provided by android framework.\r\n\t\r\n\tAt the end of talk we will have good understanding about the touch system and ways to incorporate this in our apps.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "464fd6c7-2ecb-48cf-8f9d-c82bb160cb5f"
+    ],
+    "tags": [
+      "Animation",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95972a1954df001b6e29fb",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176338",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=70aa61c0-8c40-41b6-8ef0-7237407c628e"
+  },
+  "176505": {
+    "title": "Mathematics for Developers",
+    "description": "20-30 years ago the classic path to a software development career was a degree in computer science, mathematics or a closely related field. Our eco-system has changed a lot since then and many developers have joined the industry from all walks of life: self-educated, going through developer bootcamps, cross-training from other professions etc.\r\n\r\nWhile mathematics is not necessarily a requirement to be a good software developer, there are a lot of areas in our day-to-day work that use maths to a varying degree. Think about animations, machine learning, functional programming, lambda calculus and many more.\r\n\r\nThis talk is for people who are interested in extending their maths knowledge, building up on existing foundations or starting from scratch. \r\n\r\nWhile it's obviously impossible to teach maths in 40 minutes, this session will look at common areas in which maths help us being better developers and at the pathways to build up the knowledge needed. You will leave this talk with an idea of what might be useful to know and brush up on and some guidance on how to get there.\r\n\r\n\r\n",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "eb5cd092-73fa-402d-8636-8a52574e74c3"
+    ],
+    "tags": [
+      "Language",
+      "Soft skills",
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9597951954df001b6e2a01",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176505",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=bdffedc9-d11e-422b-bb57-65d6f607da35"
+  },
+  "175713": {
+    "title": "Shrink, Secure & Optimize Your App With R8",
+    "description": "This talk dives into some of the details of how the new shrinker Google R8 evolved, & how it differs from D8 and Proguard. Android developers know that app size, security and optimization is an important factor in user engagement. In an emerging market like India size of an application matters. The lesser the size the probability of increasing downloads will be more. Smaller is always faster such as download, install, startup. Here comes R8 which is a shrinking technique to shrink your app size. It uses Tree Shaking, Optimization for size, Minification(Obfuscation) techniques.\r\n\r\nFollowing is the outline of the talk:\r\n1. How R8 evolved from Java Compiler, Dex Compiler, Proguard, D8.\r\n2. What are keep rules?\r\n3. What is shrinking in R8?\r\n4. How much you can save using R8?\r\n5. What are R8 shrinking fundamentals?\r\n5. R8 for library developer. \r\n6. Some of the best practices for R8.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "783383ee-7b06-415a-9e72-a46a21bb3e92"
+    ],
+    "tags": [
+      "Security",
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95985f1954df001b6e2a04",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175713",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=6e3f5d7f-f37f-4b51-ac71-eb847d47e8e5"
+  },
+  "172299": {
+    "title": "20 ans de métier et encore pas mal de questions",
+    "description": "Ne serions-nous pas un peu trop enthousiastes vis à vis des nouveautés proposées par Google ? Arriverons-nous un jour à avoir une vraie politique de test sous Android ? Rx n’est il pas trop puissant et trop peu intuitif pour nos besoins ?  \r\n\r\nPlus généralement ne vivons pas nous le métier le plus changeant de l’histoire ? Et si nous étions trop technique ? D’autre part Medium ne serait il pas notre Instagram en contribuant à notre syndrome de l’imposteur ? \r\n\r\nEt enfin que se passerait-il si les gens du bâtiment et de l’automobile travaillaient comme nous ? \r\n\r\nVoici une partie des questions que je voudrai partager avec vous. Je présenterai mes réflexions 100 % subjectives après vingt ans de carrière dont presque dix sous Android. \r\n\r\nJe ferai un point sur comment le métier a changé globalement depuis mes débuts en 2000. Je détaillerai ensuite les spécificités du métier de dévelopeur.se Android en 2020. \r\n\r\nJe finirai sur un point de vue très personnel sur notre statut de dévelopeur.se et les évolutions possibles.  \r\n ",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "a0eaa66e-1b5f-4b90-a2c8-0e50472971b8"
+    ],
+    "tags": [
+      "Soft skills",
+      "Testing",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959b211954df001b6e2a0e",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/172299",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=1c32dd6f-6e79-4919-b210-211b2092ee7d"
+  },
+  "175149": {
+    "title": "Annotation processing for Kotlin done right",
+    "description": "Everyone was crazy about annotation processing, but then Kotlin started to appear on the horizon. With Kotlin growing up, developers began to back away from annotation processing gradually, mainly due to its performance issues and the new Kotlin features that were able to replace it in some of the cases. But developers could not get away from it 100% - there were, and are plenty of scenarios when their co-existance with Kotlin is still required. In my talk, I am going to introduce you to how to write and test annotation processors that behave well even in Kotlin projects.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "3e135478-0ce2-4d41-bf3a-bdd7ff29d554"
+    ],
+    "tags": [
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959c2a1954df001b6e2a12",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175149",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=04a22561-d92e-4626-931b-f87e7c5ef88e"
+  },
+  "174286": {
+    "title": "Managing parallelism using coroutines",
+    "description": "Using Kotlin coroutines it’s really easy to execute a task in a background thread and update the UI based on the result. Just enter the coroutine world using the launch method and then change thread using withContext. It’s even simpler if the task is an http call (thanks to coroutines support in retrofit) or a database query (thanks to Room). The final code is the same we’d use to execute synchronous code.\r\nBut coroutines are more than just a tool to switch thread, we can use them to execute tasks in parallel. The code is still really easy to read but sometimes it can be difficult to write: we need to pay attention to many aspects (like nested scopes, exceptions and dispatchers). In this talk we’ll see how to leverage the coroutines library to manage parallelism, from the basic concepts to some advanced example.\r\n",
+    "language": "English",
+    "complexity": "Advanced",
+    "speakers": [
+      "2e93a5e7-2037-4d7d-a548-7512f9c14960"
+    ],
+    "tags": [
+      "Language"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959aa81954df001b6e2a0b",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/174286",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=70927300-28f8-45aa-8e3a-abc82b87db1e"
+  },
+  "166026": {
+    "title": "Demystifying Low Latency Audio on Android",
+    "description": "Enabling an enhanced audio experience for your users is the topmost priority for developers who build audio processing apps. Android, however, holds dark secrets about low latency audio, thus making it harder for developers to build responsive audio apps and user experiences. This talk uncovers those dark secrets while also giving a quick rundown on working with Native code along with Kotlin and how the platform has evolved over time to fix the issues with Low Latency Audio. Towards the end, Oboe library for building real-time audio apps is introduced showcasing how it simplifies everything.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "3e5fddb1-d6ae-42af-8f79-a3c0b61b0892"
+    ],
+    "tags": [
+      "Architecture",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959dcc1954df001b6e2a1e",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/166026",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=01f4a750-604d-4bcf-a787-c228e626c22b"
+  },
+  "168437": {
+    "title": "Flowing Things, not so strange in the MVI world",
+    "description": "Migrating an Rx MVI pattern completely to coroutines using Flow.\r\n\r\nIn the MVI world, there was a missing piece from the coroutines framework and due to this, it always felt strange to completely adopt coroutines. Recently, with the introduction of Co-routines Flow library, things are not so strange anymore.\r\nIn this talk we will have a look at Coroutines Flow library, its need and how it compares with the reactive world. We will then learn to migrate an Rx MVI pattern to use coroutines Flow.",
+    "language": "English",
+    "complexity": "Advanced",
+    "speakers": [
+      "6b8f27b2-f4f8-4dcb-92e7-0381ae87ad85"
+    ],
+    "tags": [
+      "Architecture"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959c871954df001b6e2a15",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/168437",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=310a2c2d-50bc-4a8c-8760-d327f130f185"
+  },
+  "174151": {
+    "title": "Ne vous perdez plus avec le framework de localisation Android",
+    "description": "Français:\r\nAujourd’hui, on compte plus de 2,3 milliards d’appareils tournant sous Android dans le monde. Cela représente tout autant de récepteurs GPS - ou plutôt GNSS – et beaucoup d’applications nécessitent ou utilisent une position. Cela parait simple d’utiliser les Google Play Services pour récupérer une lastLocation ou directement la couche android.location avec un joli onLocationChanged ; et c’est parfois bien suffisant dans bien des cas, mais pas toujours...\r\n\r\nAlors, comment cette position est-elle construite ? Par quelles entrées ? De plus, qu’est-ce qu’une position exactement ? Et c’est quoi la FusedLocation ? On peut très vite se perdre lorsque l’on cherche à se positionner correctement et avec précision. \r\n\r\nLe framework de localisation Android est complexe et relativement lourd… Il reste cela dit très performant et cache pas mal de secrets ! Par exemple, saviez-vous que vous pouvez lire directement le contenu d’un message envoyé par les satellites ? Ou encore qu’on peut utiliser d’autres sources de données pour calculer une position, notamment grâce à la fusion ?\r\nDurant cette présentation, nous allons décortiquer la couche android.location et comprendre comment une position est calculée, comment bien utiliser les différentes callbacks ou méthodes qui doivent nous retourner cette position. Mais aussi les différentes capacités cachées du framework, et pourquoi pas une introduction au monde merveilleux du GNSS… \r\n\r\nEnglish:\r\nToday, we count more than 2.3 billion Android devices in the world. This is as much GPS receivers; or GNSS receivers, and a\r\nlot of application require or use a location. Using Google Play Services looks easy for gathering a lastLocation, or directly through the android.location layer with a nice onLocationChanged; this is often enough. But how this location is computed? Using which inputs? What is truly a location? And what is this FusedLocation everybody talks about ? We can be quickly lost when we search for a precise position.\r\nThe Android’s framework is complexe, quite heavy, yet, it performs well et hides some secrets. For instance, did you know that you can read the whole content of a satellite message? But also, we can use several sources for positioning using fusion! \r\nDuring this talk, we will be dissecting the android.location layer and understand how a position is calculated. How to use correctly the multiple callbacks or methods available which returns a location. But also, the different hidden ability of the framework, and why an introduction to the wonderful world of GNSS… \r\n",
+    "language": "French",
+    "complexity": "Intermediate",
+    "speakers": [
+      "9b593465-3930-4605-8f4d-4dacc490a7e5"
+    ],
+    "tags": [
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959cdd1954df001b6e2a18",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/174151",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=c382dee1-afa2-4fd8-b41a-b8db66520601"
+  },
+  "173975": {
+    "title": "Why derive a Password",
+    "description": "As Android developers, security matters in Android development. With the rapid growth of Android devices in the world, Security has never been as important as it is today, and it will never be an outdated subject.\r\n\r\nThis session will talk about why derive a Password in application and how to do it on Android.\r\n\r\nPasswords or passphrases created by humans are often short or predictable enough to allow password cracking. Taking some examples of several common attacks we will explain why using the password directly for encryption and authentication is risky. We will understand how Secure Derivation of Passwords can prevent password cracking. And most important, we will talk about what are the solutions on Android.\r\n\r\nIn this talk you will learn password security on Android:\r\n- Cryptographic knowledge about password cracking\r\n- What is the key derivation\r\n- Solutions for key derivation\r\n- How to improve password security on Android using Password-based key derivation functions?\r\n- What are the existing Android framework API solutions, the limitations, the improvements?\r\n- On Android, how to use modern password-based key derivation functions such as PBKDF2 and Argon2\r\n\r\nAndroid engineers interested in improving password security and understanding cryptographic in Android development are definitely recommended to come to this talk.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "0cc865f0-2d9d-479d-b247-181ff5b8357a"
+    ],
+    "tags": [
+      "Security"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959d821954df001b6e2a1b",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/173975",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=8b149a02-f874-4db3-bf73-1d498b90240d"
+  },
+  "175957": {
+    "title": "Flutter: A Path of Vines and Flowers",
+    "description": "The Flutter framework provides some great features that have lured a lot of developers. In real life though, not everything is perfect. As professional developers, we can expect nothing less than great tooling, a strong support for enabling several environments, a robust way of managing resources and providing a great user experience. In this talk I'll explain the great features but I'll also cover several aspects that Flutter development is currently lacking, all of that from an Android developer perspective.",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "7c888e22-f254-4e04-aa56-1853ab18c000"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959e651954df001b6e2a21",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175957",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=14ce844e-eb1a-45d5-840a-5e257af4d591"
+  },
+  "192939": {
+    "title": "Intégrer plusieurs librairies Kotlin Native dans vos apps Android/iOS",
+    "description": "Les applications Coyote Android et iOS partagent du code métier en C++ depuis 10 ans.\r\n\r\nJNI, Bindings Objective-C sont du boilerplate dont on se passerait bien d'écrire, en plus les développeurs préfèrent écrire Kotlin ...\r\n\r\nKotlin Native arrive à point.\r\n\r\nMais comment intégrer plusieurs librairies Kotlin Native dans vos applications Android/iOS?",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "22971f2f-e773-4c71-a767-4e0cf49d0e04"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959eba1954df001b6e2a24",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/192939",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=7b484e61-71b6-42bc-a84a-53cf65610ba6"
+  },
+  "177389": {
+    "title": "App Clinic",
+    "description": "A bunch of Android experts will come on stage, discovering a few applications in live, they will provide feedback and advices to the developers. \r\n\r\nPropose your application for the review by sending the Play Store link or the APK to app.clinic@androidmakers.fr",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "00697e34-7c28-4e6d-a5dc-271203984645",
+      "e397fee8-078f-4694-8a1f-35b1d57f1fce",
+      "2f06b856-2d7e-4062-b595-d4a01623c34d",
+      "2bcd8543-a998-48c9-8cbf-e03f9b17ff83"
+    ],
+    "tags": [
+      "Design"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959fe91954df001b6e2a37",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/177389",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=d09425c3-2ca8-4350-ae7b-ad9116d40c8d"
+  },
+  "165628": {
+    "title": "Please Draw Me a Sheep... in AR",
+    "description": "Augmented Reality (AR) is booming on mobile with ARCore / ARKit and new tools are emerging for building awesome experiences.\r\n\r\nLike The Little Prince you will learn the foundations of ARCore and Sceneform for actually drawing a sheep in AR using basic forms and tools, and its rendering pipeline.\r\n\r\nThrough this talk, you will have an overview of what these libraries can offer from dealing with simple 3D shapes to advanced 3D assets or bringing Android UI components in AR. In the end, we will go further and see how to bring some AR fun with newly introduced features and Unity.",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "462e6b97-01f9-44b1-864c-9d85bedf911b"
+    ],
+    "tags": [
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959f7c1954df001b6e2a2a",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/165628",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=acc7fe58-2f27-4163-b103-823fd4f867c9"
+  },
+  "176369": {
+    "title": "Taking over someone else's codebase",
+    "description": "Android has now been around for quite a while and it's becoming rare to have the chance of writing a new app from scratch in a professional environment. In this talk we'll have a look at problems that may arise while taking on someone else's codebase, what can be done to have an impact from day one and avoid the usual \"I don't understand this code\" frustration.\r\nThis talk will include both technical bits (quick architecture wins, gradle tweaking...)  as well as more generic advice regarding communicating empathically with other developers and making incremental changes leading to a codebase we feel comfortable and happy with.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "0b65f68e-972b-41de-ae7a-92a2f77893c3"
+    ],
+    "tags": [
+      "Architecture",
+      "Language",
+      "Security",
+      "Soft skills",
+      "Testing",
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e959f1e1954df001b6e2a27",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176369",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=3d32e8f5-7062-459c-aced-5b5580b332e1"
+  },
+  "174186": {
+    "title": "Soyons acteurs du développement (mobile) durable",
+    "description": "Remplacer les gobelets en plastique par des gourdes. Éteindre les appareils en veille. La prise de conscience collective sur l’environnement a permis de déterminer des gestes  simples que l’on peut tous faire pour améliorer à notre niveau la situation écologique.\r\n\r\nMais qu’en est-il de nos habitudes professionnelles ? En tant que développeurs mobiles, des gestes sont également possibles. Aussi bien notre chaîne de production (poste de travail, usine d’intégration continue) que nos apps. Car chaque consommation énergétique, si peu coûteuse soit-elle, multipliée par des centaines de milliers d’installations engendre un triste gâchis.\r\n\r\nConscient de surfer sur la vague environnementale, ce talk abordera ces habitudes de développeurs mobiles que nous pouvons changer, à quel prix et pour quels bénéfices. Nous parlerons également d'obsolescence programmée, dont nous nous rendons complices sans même parfois nous en apercevoir. \r\n",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "12f64022-4a11-46a9-9bf2-91da26b6839f"
+    ],
+    "tags": [
+      "GreenTech"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a0e11954df001b6e2a3a",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/174186",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=a925dfd9-2d25-48a6-8c52-5b88cf3ac5f3"
+  },
+  "172307": {
+    "title": "Riding the state flow",
+    "description": "View, State, Action ... Unidirectional Data Flow is not a concept unique to React. Used for many years in Web development, it tends to propagate to mobile platforms. Why? Because it helps develop our UI and consider the changes as states and events. \r\n\r\nThis topic is not new on Android. But Kotlin and coroutines can now greatly improve our experience.\r\n\r\nLet's see how we can structure our Android MVVM development with such an approach. Let's take some concrete samples and see how we can easily write it with just a Kotlin function, and even embrace functional programming.  ",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "66fbb80a-cd18-4ba1-931d-d070d060ab95"
+    ],
+    "tags": [
+      "Architecture",
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a1471954df001b6e2a3d",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/172307",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=9b93e8df-7e26-4450-932d-fd4b7ffc954b"
+  },
+  "165920": {
+    "title": "Demystifying the Google Assistant for Android developers",
+    "description": "Everybody knows about the Google Assistant. We probably all have already used it at least once if only to try it and some talks already answer quite a few questions about it very well.\r\n\r\nHowever, it seems to remain mysterious as for the scope of its field of action and implementation for us developers.\r\n\r\nFor instance, can you answer these questions:\r\n\r\n- Can you define what is an interaction with the Assistant?\r\n- What kind of interactions are available?\r\n- How do I build a simple interaction?\r\n- How do I build a more complex, conversation like interaction?\r\n- Can I build a complex visual response through the Assistant?\r\n- Can I ship an interaction to production?\r\n- Can I even build my own interactions?!\r\n\r\nIf you can't, come listen to me talk about the Google Assistant from an Android developer's perspective through actual code and demos.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "9658fd1d-2e15-45cc-9302-7d29be9f7213"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a21c1954df001b6e2a40",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/165920",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=287c9fba-6f84-4b7d-a005-9f697569a173"
+  },
+  "168603": {
+    "title": "Android everywhere!",
+    "description": "Mobile + TV + Auto + Chromebooks + screen casting + Desktop mode + foldables!\r\n\r\nFeedback and live demos on VLC adaptation to all possible Android platforms/devices.\r\n\r\nAdapting your app to these platforms has many benefits, and in some case it doesn't require much work!\r\n\r\nWe will see how to adapt an Android application to enjoy it everywhere and what the result looks like.",
+    "language": "French",
+    "complexity": "Intermediate",
+    "speakers": [
+      "78ffd2f4-e52a-4a7d-8ead-8cf072843946"
+    ],
+    "tags": [
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a2c61954df001b6e2a46",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/168603",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=40474842-b22e-4533-99b8-8a5e7b00d421"
+  },
+  "171059": {
+    "title": "Kotlin Reactive Programming Patterns",
+    "description": "Managing state in client-server applications is challenging. User operations spanning multiple screens, flaky network calls, rolling back stale transactions, offline mode support, the list goes on and on.\r\n\r\nFunctional-Reactive architectures have become a popular choice over the last few years to solve these types of problems. But, whether you choose MVVM or MVI, Redux or Flux, RxJava or Flow, React over Flutter over Native development, it shouldn't matter. Aren't there some core ideas you could reuse everywhere?\r\n\r\nIn this session, we'll be focusing on Unidirectional Data Flow, Immutable Data Stores, State Machines, and error handling strategies. Using these core ideas, we'll build a mental toolbox that you can use in your own Kotlin multi-platform projects.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "878ec0bb-f4d7-4b83-a9af-ff6e359a35dc"
+    ],
+    "tags": [
+      "Architecture",
+      "Language"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a3a31954df001b6e2a4c",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/171059",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=17cd2383-e66a-4170-b390-ec7d9a3c86f6"
+  },
+  "172129": {
+    "title": "Lessons from a Librarian",
+    "description": "Codebase maintenance is a fun, terrible, exciting, daunting, nuanced, and interesting line of work. Sometimes you’re the janitor and sometimes you’re the surgeon. This talk is about lessons learned over the years of doing core librarian work in open source and on a big team in a large codebase. From API design to engaging dogma, we’ll dive into the many facets of maintaining a codebase’s foundations and the community that grows around it, and how to leverage them for a better developer experience for everyone.\r\n\r\nOh, and tombstone cakes.\r\n",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "8ce6cf3a-735e-4a2a-b05f-e2081e5b6741",
+      "e862a78f-9664-4f80-9f3f-2eea47aa7fcb"
+    ],
+    "tags": [
+      "Architecture",
+      "Language",
+      "Soft skills",
+      "Testing",
+      "Tools",
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a2761954df001b6e2a43",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/172129",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=20f5fa1a-62b8-4c43-a591-d273c22beea3"
+  },
+  "176420": {
+    "title": "Take Control Of Your APIs With GraphQL",
+    "description": "Have you ever been blocked from being productive at your job because you're waiting on a change from the API team? Started building a page only to find out the API response doesn't actually have what you need? With GraphQL, we don't have to wait for someone else. In this talk, we'll introduce the benefits of a client side API and understand why this will be the approach of the future. You'll learn what tools are available for consuming GraphQL APIs on Android, and tips for having them coexist with the REST APIs you already support. You'll leave this talk with a clear roadmap on how you can begin migrating your apps to this new technology. ",
+    "language": "English",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "b9af7051-03c3-4595-88ca-a1825112ece4"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a3551954df001b6e2a49",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176420",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=490d77d2-4de6-4bc0-8222-cdd0d447e4f7"
+  },
+  "175635": {
+    "title": "Finding the view",
+    "description": "findViewById() has been something Android developers tried to avoid to reduce boilerplate and we has different ways to access the views from the code side. I will give a brief introduction to how views are created from the xml, how findViewById() works and I will talk about the alternatives like ViewBindings, DataBindings, Kotlin Synthetics and how they work. I will also talk about Compose which is the future of the android UI. ",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "e11a53fd-1cfb-4930-9dfa-42187e94d869"
+    ],
+    "tags": [
+      "Under the hood"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a3fd1954df001b6e2a4f",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/175635",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=4fcfce19-83bf-4ec8-88df-53a2df51f573"
+  },
+  "176240": {
+    "title": "Android Studio Design Tools",
+    "description": "Android Studio 4.0 introduced many new design tools -- MotionLayout, live Layout Inspector, Validation, etc. It is now easier and faster than ever to build android applications. This talk will cover both new and existing tools, and how to take advantage of them to speed up your development workflow.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "ed1e4545-4547-4697-9515-28f4174f09dd",
+      "a7d0fcec-49dd-4e65-bcb7-ad3d1901928c"
+    ],
+    "tags": [
+      "Animation",
+      "Design",
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a43a1954df001b6e2a52",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176240",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=2cb89bb1-75fc-4667-97d1-9052ebfadf36"
+  },
+  "176513": {
+    "title": "Conquering Common Conundrums with ConstraintLayout",
+    "description": "ConstraintLayout was announced at Google I/O 2016, but even after 4 years of improvements, additions, and fixes, it can still be a little daunting to get started with ConstraintLayout. Even if you've been using it for a while, the sheer volume of functionality and possibility can be overwhelming. You might have a nagging feeling that you are not using ConstraintLayout in \"the right away\" or at least not using it to its full potential.\r\n\r\nIn this session, we're going to look at common layout problems and ask common layout questions, and start solving them with ConstraintLayout, exploring why and when we might choose some features and functionality over others and building a basic set of tools and techniques. Hopefully, after this talk, ConstraintLayout will feel less overwhelming with a fundamental toolset upon which you can build as you conquer increasingly complex layouts.",
+    "language": "English",
+    "complexity": "Intermediate",
+    "speakers": [
+      "2d41d3fb-3321-4b47-a401-ae84a5de2423"
+    ],
+    "tags": [
+      "Tools"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a5171954df001b6e2a58",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176513",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=95f355f0-19ac-4958-8a92-7cf2091885e7"
+  },
+  "176490": {
+    "title": "L'accessibilité en toute simplicité",
+    "description": "Vous cherchez à rendre votre app accessible mais vous avez peur que ce soit trop compliqué ? \r\nVous avez un audit d'accessibilité en vue et vous paniquez ? \r\nCette session est pour vous !  \r\nBien que l'a11y ai pour réputation d'être difficile à mettre en place, il est possible de le faire avec très peu d'efforts grâce à quelques principes simples.\r\nDe plus, nous allons voir comment rendre votre app accessible peut vous aider à écrire du code qualitatif.",
+    "language": "French",
+    "complexity": "Intermediate",
+    "speakers": [
+      "a16b8efa-a150-45bc-b4e6-243583659c26"
+    ],
+    "tags": [
+      "Architecture",
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a4bf1954df001b6e2a55",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/176490",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=73c8c7e1-45db-4ccc-9a0f-60e69fd3ede5"
+  },
+  "197096": {
+    "title": "Pull requests 👨‍💻, yoga 🧘‍♂️ & avocado toasts 🥑: 7 ans d’engineering à Square ✨",
+    "description": "En 2013, j’ai eu l’opportunité de déménager à San Francisco pour rejoindre l’équipe Android de Square. J'y ai beaucoup appris et découvert de nombreuses pratiques que j’aimerai partager avec l’audience. Ces pratiques sont parfois individuelles, parfois collectives, parfois du Software Engineering et parfois plus générale. Et probablement pas Scum Master frAgile certified ;-) . Quelques sujets parmi la multitude abordée: Design Docs, transparence, core team vs décentralisation, méditation, le secrets des entretiens de code…",
+    "language": "French",
+    "complexity": "Intermediate",
+    "speakers": [
+      "a733fc42-dcb9-4107-9675-70335f2889e9"
+    ],
+    "tags": [
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e95a6691954df001b6e2a5e",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/197096",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=59591b6f-c025-4eff-9ec5-c6c3d37ec931"
+  },
+  "197097": {
+    "title": "Pause détente & étirements",
+    "description": "20 minutes pour faire un break et étirer vos petits muscles avant de reprendre la journée !\nRejoignez moi pour dérouiller vos cervicales et metacarpes sans bouger de votre écran!",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "b18ff130-676b-4a26-b36f-518d93778c6c"
+    ],
+    "tags": [
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9cc00e388f06001b4331cb"
+  },
+  "197098": {
+    "title": "Pause détente & étirements",
+    "description": "20 minutes pour faire un break et étirer vos petits muscles avant de reprendre la journée !\nRejoignez moi pour dérouiller vos cervicales et metacarpes sans bouger de votre écran!",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "b18ff130-676b-4a26-b36f-518d93778c6c"
+    ],
+    "tags": [
+      "Soft skills"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9df9f31195cf001b0a2df7"
+  },
+  "198665": {
+    "title": "Développez votre propre application audio de relaxation",
+    "description": "In this little workshop, we will discover some of the Android audio APIs in a concrete example: we are going to build, step by step, our own relaxing application.\n\nThis session is meant for everyone that have little knowledge of the audio stack on Android and that wants to bring home a little memory from AndroidMakers 2020 :)\n\nHere is a link of what we will build: https://drive.google.com/open?id=1lnykBAyXfyK0O66muPLwvXBEnL8rwUGA (The sound in the recording is very low, my bad)\n\nNote: this session will be held in French. Sorry for non-French speakers :/\n\nWhat you will do:\n- Discover some audio features in a concrete example\n- Create a little relaxing audio app\n- Use MediaPlayer to indefinitely loop a song\n- Use SoundPool to overlap sounds and create an infinite audio experience\n- Use ValueAnimator to create a subtle \"breathing\" animation\n\nWhat you won't do:\n- Use a specific app architecture (MVVM, MVP, etc.)\n- Deep dive into the audio features of Android\n- Cover all UX aspects of an audio app (background support, etc.)\n\nRequirements:\n- Computer with AndroidStudio (3.6.+)\n- Workshop kit: https://drive.google.com/open?id=1cuxzy4yRhLpknLn43d8o_P7I-7nrS3Rc\n- Android device or emulator\n- Bonus: headphones",
+    "language": "French",
+    "complexity": "Introductory and overview",
+    "speakers": [
+      "453b89b2-b526-4c8d-87cb-de95a31cc311"
+    ],
+    "tags": [
+      "workshop",
+      "audio"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e9dc58a91eb5d001bc681cd",
+    "feedback": "https://openfeedback-b7ab9.web.app/mMHR63ARZQpPidFQISyc/2020-04-20/198665",
+    "slido": "https://app.sli.do/event/79lcfi8m?section=59958154-a211-42a9-a894-83abb9cbcf7e"
+  },
+  "keynote": {
+    "title": "Keynote",
+    "description": "Keynote",
+    "icon": "opening",
+    "language": "",
+    "complexity": "",
+    "speakers": [],
+    "tags": [
+      "Keynote"
+    ]
+  },
+  "welcome": {
+    "title": "Welcome Message",
+    "description": "Welcome Message",
+    "icon": "registration",
+    "language": "",
+    "complexity": "",
+    "speakers": [],
+    "tags": [
+      "Welcome Message"
+    ],
+    "platformUrl": "https://androidmakers.virtualconference.com/#/conference/5e957e531954df001b6e288d"
+  },
+  "break": {
+    "description": "Coffeeeeeee! ☕️",
+    "icon": "coffee-break",
+    "title": "Coffee break",
+    "tags": [
+      "Service"
+    ]
+  },
+  "thank-you": {
+    "description": "Thank you and see you next year! 👋",
+    "title": "👋 Closing Keynote 👋",
+    "tags": [
+      "Service"
+    ]
+  }
+}

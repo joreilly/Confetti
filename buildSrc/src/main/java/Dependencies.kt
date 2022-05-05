@@ -28,11 +28,19 @@ object AndroidSdk {
 object Deps {
     const val multiplatformSettings = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
     const val multiplatformSettingsCoroutines = "com.russhwolf:multiplatform-settings-coroutines:${Versions.multiplatformSettings}"
+    const val okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
+    const val graphqlKotlinSpringServer = "com.expediagroup:graphql-kotlin-spring-server:5.3.1"
+    const val junit = "junit:junit:4.13.2"
 }
 
 object Kotlinx {
     const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}"
+    const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
+}
+
+object Kotlin {
+    const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlinVersion}"
 }
 
 object Apollo {

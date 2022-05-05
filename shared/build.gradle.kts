@@ -92,4 +92,9 @@ apollo {
     codegenModels.set("operationBased")
     generateSchema.set(true)
     mapScalar("Instant", "kotlinx.datetime.Instant", "com.apollographql.apollo3.adapter.KotlinxInstantAdapter")
+
+    introspection {
+        endpointUrl.set("https://kiki-conf.ew.r.appspot.com/graphql")
+        schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+    }
 }

@@ -1,0 +1,18 @@
+name: Update GraphQL schema
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Update schema and open a PR if needed
+        run: ./scripts/update-schema.main.kts --schema shared/src/commonMain/graphql/schema.graphqls --endpoint https://kiki-conf.ew.r.appspot.com/graphql
+
+

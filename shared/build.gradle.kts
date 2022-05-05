@@ -54,7 +54,7 @@ kotlin {
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
+                implementation(Deps.junit)
             }
         }
         val iosX64Main by getting
@@ -94,7 +94,7 @@ apollo {
     mapScalar("Instant", "kotlinx.datetime.Instant", "com.apollographql.apollo3.adapter.KotlinxInstantAdapter")
 
     introspection {
-        endpointUrl.set("https://kiki-conf.ew.r.appspot.com/graphql")
+        endpointUrl.set("https://confetti-349319.uw.r.appspot.com/graphql")
         schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
     }
 }

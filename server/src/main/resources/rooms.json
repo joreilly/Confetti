@@ -1,0 +1,27 @@
+{
+  "0": {
+    "name": "Track 1",
+    "capacity": 380000,
+    "level": "Online"
+  },
+  "1": {
+    "name": "Track 2",
+    "capacity": 380000,
+    "level": "Online"
+  },
+  "2": {
+    "name": "Track 3",
+    "capacity": 380000,
+    "level": "Online"
+  },
+  "3": {
+    "name": "Track 4",
+    "capacity": 380000,
+    "level": "Online"
+  },
+  "all": {
+    "name": "All",
+    "capacity": 380000,
+    "level": "Online"
+  }
+}

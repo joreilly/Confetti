@@ -1,0 +1,859 @@
+{
+  "2020-04-20": {
+    "dateReadable": "April 20",
+    "date": "2020-04-20",
+    "timeslots": [
+      {
+        "startTime": "10:00",
+        "endTime": "10:20",
+        "sessions": [
+          {
+            "items": [
+              "welcome"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "10:20",
+        "endTime": "11:00",
+        "sessions": [
+          {
+            "items": [
+              "195718"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "11:00",
+        "endTime": "11:20",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "11:20",
+        "endTime": "11:40",
+        "sessions": [
+          {
+            "items": [
+              "173703"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "175345"
+            ]
+          },
+          {
+            "items": [
+              "166909"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "173222"
+            ],
+            "extend": 2
+          }
+        ]
+      },
+      {
+        "startTime": "11:40",
+        "endTime": "12:00",
+        "sessions": [
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "176384"
+            ]
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "12:00",
+        "endTime": "12:10",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "12:10",
+        "endTime": "12:30",
+        "sessions": [
+          {
+            "items": [],
+            "extend": 2
+          },
+          {
+            "items": [
+              "175760"
+            ]
+          },
+          {
+            "items": [
+              "175670"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "169303"
+            ],
+            "extend": 2
+          }
+        ]
+      },
+      {
+        "startTime": "12:30",
+        "endTime": "12:50",
+        "sessions": [
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "174162"
+            ]
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "12:50",
+        "endTime": "13:50",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "13:50",
+        "endTime": "14:10",
+        "sessions": [
+          {
+            "items": [
+              "176209"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "169276"
+            ]
+          },
+          {
+            "items": [
+              "175102"
+            ]
+          },
+          {
+            "items": [
+              "176363"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "14:10",
+        "endTime": "14:30",
+        "sessions": [
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "186387"
+            ]
+          },
+          {
+            "items": [
+              "174736"
+            ]
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "14:30",
+        "endTime": "14:40",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "14:40",
+        "endTime": "15:20",
+        "sessions": [
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "166442"
+            ]
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "15:20",
+        "endTime": "15:40",
+        "sessions": [
+          {
+            "items": [
+              "197097"
+            ]
+          },
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "15:40",
+        "endTime": "16:20",
+        "sessions": [
+          {
+            "items": [
+              "176462"
+            ]
+          },
+          {
+            "items": [
+              "176114"
+            ]
+          },
+          {
+            "items": [
+              "168081"
+            ]
+          },
+          {
+            "items": [
+              "176426"
+            ],
+            "extend": 3
+          }
+        ]
+      },
+      {
+        "startTime": "16:20",
+        "endTime": "16:30",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "16:30",
+        "endTime": "16:50",
+        "sessions": [
+          {
+            "items": [],
+            "extend": 2
+          },
+          {
+            "items": [
+              "176381"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "176470"
+            ]
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "16:50",
+        "endTime": "17:10",
+        "sessions": [
+          {
+            "items": [
+              "172261"
+            ]
+          },
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "176506"
+            ]
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "17:10",
+        "endTime": "17:20",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "17:20",
+        "endTime": "18:00",
+        "sessions": [
+          {
+            "items": [
+              "172401"
+            ]
+          },
+          {
+            "items": [
+              "175937"
+            ]
+          },
+          {
+            "items": [
+              "174763"
+            ]
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "18:00",
+        "endTime": "18:20",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "18:20",
+        "endTime": "18:40",
+        "sessions": [
+          {
+            "items": [
+              "176241"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [],
+            "extend": 2
+          },
+          {
+            "items": [
+              "176472"
+            ]
+          },
+          {
+            "items": [],
+            "extend": 2
+          }
+        ]
+      },
+      {
+        "startTime": "18:40",
+        "endTime": "19:00",
+        "sessions": [
+          {
+            "items": []
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          }
+        ]
+      }
+    ],
+    "tracks": [
+      {
+        "title": "Track 1",
+        "infos": "Online"
+      },
+      {
+        "title": "Track 2",
+        "infos": "Online"
+      },
+      {
+        "title": "Track 3",
+        "infos": "Online"
+      },
+      {
+        "title": "Track 4",
+        "infos": "Online"
+      }
+    ]
+  },
+  "2020-04-21": {
+    "dateReadable": "April 21",
+    "date": "2020-04-21",
+    "timeslots": [
+      {
+        "startTime": "10:00",
+        "endTime": "10:40",
+        "sessions": [
+          {
+            "items": [
+              "172307"
+            ]
+          },
+          {
+            "items": [
+              "176338"
+            ]
+          },
+          {
+            "items": [
+              "176505"
+            ]
+          },
+          {
+            "items": [
+              "175713"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "10:40",
+        "endTime": "11:00",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "11:00",
+        "endTime": "11:40",
+        "sessions": [
+          {
+            "items": [
+              "174286"
+            ]
+          },
+          {
+            "items": [
+              "172299"
+            ]
+          },
+          {
+            "items": [
+              "175149"
+            ]
+          },
+          {
+            "items": [
+              "198665"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "11:40",
+        "endTime": "11:50",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "11:50",
+        "endTime": "12:10",
+        "sessions": [
+          {
+            "items": [
+              "168437"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "174151"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "173975"
+            ]
+          },
+          {
+            "items": [
+              "166026"
+            ],
+            "extend": 2
+          }
+        ]
+      },
+      {
+        "startTime": "12:10",
+        "endTime": "12:30",
+        "sessions": [
+          {
+            "items": []
+          },
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "175957"
+            ]
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "12:30",
+        "endTime": "13:30",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "13:30",
+        "endTime": "13:50",
+        "sessions": [
+          {
+            "items": [
+              "165628"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "192939"
+            ]
+          },
+          {
+            "items": [
+              "176377"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [],
+            "extend": 2
+          }
+        ]
+      },
+      {
+        "startTime": "13:50",
+        "endTime": "14:10",
+        "sessions": []
+      },
+      {
+        "startTime": "14:10",
+        "endTime": "14:20",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "14:20",
+        "endTime": "14:40",
+        "sessions": [
+          {
+            "items": [
+              "176369"
+            ],
+            "extend": 2
+          },
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "176235"
+            ]
+          },
+          {
+            "items": [
+              "177389"
+            ],
+            "extend": 5
+          }
+        ]
+      },
+      {
+        "startTime": "14:40",
+        "endTime": "15:00",
+        "sessions": [
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "174186"
+            ]
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "15:00",
+        "endTime": "15:20",
+        "sessions": [
+          {
+            "items": [
+              "197098"
+            ]
+          },
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "15:20",
+        "endTime": "15:40",
+        "sessions": [
+          {
+            "items": [
+              "170959"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "197096"
+            ],
+            "extend": 2
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "15:40",
+        "endTime": "16:00",
+        "sessions": [
+          {
+            "items": []
+          },
+          {
+            "items": []
+          },
+          {
+            "items": [
+              "165920"
+            ]
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "16:00",
+        "endTime": "16:10",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "16:10",
+        "endTime": "16:30",
+        "sessions": [
+          {
+            "items": [
+              "172129"
+            ]
+          },
+          {
+            "items": [
+              "168603"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "176420"
+            ],
+            "extend": 2
+          },
+          {
+            "items": [
+              "171059"
+            ],
+            "extend": 2
+          }
+        ]
+      },
+      {
+        "startTime": "16:30",
+        "endTime": "16:50",
+        "sessions": [
+          {
+            "items": [
+              "175635"
+            ]
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "16:50",
+        "endTime": "17:00",
+        "sessions": [
+          {
+            "items": [
+              "break"
+            ]
+          }
+        ]
+      },
+      {
+        "startTime": "17:00",
+        "endTime": "17:40",
+        "sessions": [
+          {
+            "items": [
+              "176240"
+            ]
+          },
+          {
+            "items": [
+              "176490"
+            ]
+          },
+          {
+            "items": [
+              "176513"
+            ]
+          },
+          {
+            "items": []
+          }
+        ]
+      },
+      {
+        "startTime": "17:40",
+        "endTime": "18:10",
+        "sessions": [
+          {
+            "items": [
+              "thank-you"
+            ]
+          }
+        ]
+      }
+    ],
+    "tracks": [
+      {
+        "title": "Track 1",
+        "infos": "Online"
+      },
+      {
+        "title": "Track 2",
+        "infos": "Online"
+      },
+      {
+        "title": "Track 3",
+        "infos": "Online"
+      },
+      {
+        "title": "Track 4",
+        "infos": "Online"
+      }
+    ]
+  }
+}

@@ -5,16 +5,14 @@ import com.apollographql.apollo3.cache.normalized.watch
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.type.Configuration
+import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -44,6 +42,7 @@ class ConfettiRepository: KoinComponent {
 
     private val apolloClient: ApolloClient by inject()
     private val appSettings: AppSettings by inject()
+    private val dateTimeFormatter: DateTimeFormatter by inject()
 
     private var timeZone: TimeZone = TimeZone.currentSystemDefault()
 
@@ -80,8 +79,7 @@ class ConfettiRepository: KoinComponent {
     }
 
     fun getSessionTime(session: SessionDetails): String {
-        val localDateTime = session.startInstant.toLocalDateTime(timeZone)
-        return "${localDateTime.hour}:${localDateTime.minute}"
+        return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
     }
 
     suspend fun getSession(sessionId: String): SessionDetails? {

@@ -85,6 +85,10 @@ android {
         minSdk = 21
         targetSdk = 31
     }
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
 }
 
 apollo {
@@ -97,4 +101,8 @@ apollo {
         endpointUrl.set("https://confetti-349319.uw.r.appspot.com/graphql")
         schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
     }
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }

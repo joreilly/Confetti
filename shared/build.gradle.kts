@@ -75,6 +75,13 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
+
+        val jvmMain by getting {
+            dependencies {
+                // hack to allow use of MainScope() in shared code used by JVM console app
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:${Versions.kotlinCoroutines}")
+            }
+        }
     }
 }
 

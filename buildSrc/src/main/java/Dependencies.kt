@@ -1,19 +1,19 @@
 
 object Versions {
-    const val kotlinVersion = "1.6.20"
+    const val kotlinVersion = "1.6.21"
     const val apollo = "3.3.0"
 
     const val kotlinCoroutines = "1.6.0"
     const val kmpNativeCoroutines = "0.11.1-new-mm"
     const val kotlinxDateTime = "0.3.2"
 
-    const val compose = "1.2.0-alpha08"
-    const val composeCompiler = "1.2.0-alpha08"
+    const val compose = "1.2.0-beta01"
+    const val composeCompiler = "1.2.0-beta01"
     const val navCompose = "2.4.2"
     const val accompanist = "0.23.0"
 
     const val multiplatformSettings = "0.8.1"
-    const val koin = "3.1.6"
+    const val koin = "3.2.0"
     const val junit = "4.13"
 }
 

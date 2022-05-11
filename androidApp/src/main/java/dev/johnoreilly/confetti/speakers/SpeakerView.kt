@@ -1,6 +1,6 @@
 package dev.johnoreilly.confetti.speakers
 
-import androidx.compose.foundation.Image
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,17 +12,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.imageUrl
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SpeakerListView(viewModel: ConfettiViewModel, bottomBar: @Composable () -> Unit) {
     val speakers by viewModel.speakers.collectAsState(emptyList())
@@ -56,16 +59,12 @@ fun SpeakerView(speaker: SpeakerDetails) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (speaker.photoUrl.isNotEmpty()) {
-            Surface(
-                modifier = Modifier.size(60.dp),
-                shape = CircleShape,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
-            ) {
-                Image(painter = rememberImagePainter(speaker.imageUrl()),
-                    modifier = Modifier.size(60.dp),
-                    contentDescription = speaker.name
-                )
-            }
+            AsyncImage(
+                model =speaker.imageUrl(),
+                contentDescription = speaker.imageUrl(),
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(60.dp).clip(CircleShape)
+            )
         } else {
             Spacer(modifier = Modifier.size(60.dp))
         }

@@ -61,7 +61,7 @@ object Compose {
     const val materialIconsCore = "androidx.compose.material:material-icons-core:${Versions.compose}"
     const val materialIconsExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
     const val navigation = "androidx.navigation:navigation-compose:${Versions.navCompose}"
-    const val coilCompose = "io.coil-kt:coil-compose:1.3.1"
+    const val coilCompose = "io.coil-kt:coil-compose:2.0.0"
 }
 
 object Koin {

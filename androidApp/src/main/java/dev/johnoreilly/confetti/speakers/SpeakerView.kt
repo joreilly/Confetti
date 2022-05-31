@@ -58,7 +58,7 @@ fun SpeakerView(speaker: SpeakerDetails) {
         .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (speaker.photoUrl.isNotEmpty()) {
+        if (speaker.photoUrl?.isNotEmpty() == true) {
             AsyncImage(
                 model =speaker.imageUrl(),
                 contentDescription = speaker.imageUrl(),

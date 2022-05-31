@@ -30,7 +30,6 @@ fun SessionListView(viewModel: ConfettiViewModel, bottomBar: @Composable () -> U
 
     val enabledLanguages by viewModel.enabledLanguages.collectAsState(emptySet())
 
-
     Scaffold(
         topBar = { TopAppBar (
             title = { Text("Sessions") },
@@ -75,33 +74,41 @@ private fun Filter(enabledLanguages: Set<String>, onLanguageChecked: (String, Bo
         expanded = expanded,
         onDismissRequest = { expanded = false }
     ) {
-        val languages = listOf("French", "English")
+        val languages = listOf(
+            LanguageDescriptor("French", "fr-FR"),
+            LanguageDescriptor("English", "en-US"),
+        )
 
         languages.forEach { language ->
             DropdownMenuItem(onClick = {
                 expanded = false
             }) {
                 val flagResourceId = context.resources.getIdentifier(
-                    "flag_${language.toLowerCase()}",
+                    "flag_${language.displayName.lowercase()}",
                     "drawable",
                     context.packageName
                 )
                 Image(
                     painterResource(flagResourceId),
                     modifier = Modifier.size(20.dp),
-                    contentDescription = language
+                    contentDescription = language.displayName
                 )
 
                 Spacer(modifier = Modifier.size(8.dp))
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(text = language)
+                    Text(text = language.displayName)
                 }
-                Checkbox(checked = enabledLanguages.contains(language),
-                    onCheckedChange = { onLanguageChecked(language, it) })
+                Checkbox(checked = enabledLanguages.contains(language.ietfCode),
+                    onCheckedChange = { onLanguageChecked(language.ietfCode, it) })
             }
         }
     }
 }
+
+private class LanguageDescriptor(
+    val displayName: String,
+    val ietfCode: String
+)
 
 @Composable
 fun SessionView(viewModel: ConfettiViewModel, session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {

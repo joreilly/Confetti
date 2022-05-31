@@ -4,6 +4,7 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
 import com.apollographql.apollo3.cache.normalized.normalizedCache
+import com.apollographql.apollo3.network.http.LoggingInterceptor
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import org.koin.core.context.startKoin
@@ -34,6 +35,8 @@ fun createApolloClient(sqlNormalizedCacheFactory: NormalizedCacheFactory): Apoll
 
     return ApolloClient.Builder()
         .serverUrl("https://confetti-349319.uw.r.appspot.com/graphql")
+        //.serverUrl("http://10.0.2.2:8080/graphql")
+        .addHttpInterceptor(LoggingInterceptor())
         .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)
         .build()
 }

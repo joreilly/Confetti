@@ -42,41 +42,25 @@ type Query {
 }
 
 type Room {
-  capacity: Int!
+  capacity: Int
 
   id: String!
-
-  level: String!
 
   name: String!
 }
 
 type Session {
-  complexity: String
-
   description: String!
 
-  endDate: String! @deprecated(reason: "Use endInstant instead")
-
   endInstant: Instant!
-
-  feedback: String
-
-  icon: String
 
   id: String!
 
   language: String
 
-  platformUrl: String
-
   room: Room!
 
-  slido: String
-
   speakers: [Speaker!]!
-
-  startDate: String! @deprecated(reason: "Use startInstant instead")
 
   startInstant: Instant!
 
@@ -98,19 +82,11 @@ type Speaker {
 
   company: String
 
-  companyLogo: String
-
-  country: String
-
-  featured: Boolean!
-
   id: String!
 
   name: String!
 
-  order: Float
-
-  photoUrl: String!
+  photoUrl: String
 
   socials: [Social!]!
 }

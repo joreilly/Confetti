@@ -12,6 +12,7 @@ dependencies {
   implementation(Kotlinx.serialization)
   implementation(Deps.okhttp)
   implementation(Kotlin.reflect)
+  implementation(Deps.xoxo)
 
   testImplementation(Deps.junit)
 }

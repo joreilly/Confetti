@@ -14,7 +14,7 @@ class AppSettings(val settings: ObservableSettings) {
 
     init {
         if (settings.getString(ENABLED_LANGUAGES_SETTING, "").isEmpty()) {
-            settings.putString("enabled_languages", "French,English")
+            settings.putString(ENABLED_LANGUAGES_SETTING, "en-US")
         }
     }
 
@@ -36,6 +36,6 @@ class AppSettings(val settings: ObservableSettings) {
         settingsString?.split(",")?.toSet() ?: emptySet()
 
     companion object {
-        const val ENABLED_LANGUAGES_SETTING = "enabled_languages"
+        const val ENABLED_LANGUAGES_SETTING = "enabled_languages_2"
     }
 }

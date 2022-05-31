@@ -38,8 +38,6 @@ fragment SpeakerDetails on Speaker {
     name
     photoUrl
     company
-    country
-    featured
     bio
     socials {
         name

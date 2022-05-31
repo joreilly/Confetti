@@ -7,65 +7,55 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 data class Room(
-  val id: String,
-  val name: String,
-  val capacity: Int,
-  val level: String
+    val id: String,
+    val name: String,
+    val capacity: Int?
 )
 
+/**
+ * @param language an [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US
+ */
 data class Session(
-  val id: String,
-  val title: String,
-  val description: String,
-  val language: String?,
-  private val speakerIds: Set<String>,
-  val complexity: String?,
-  val tags: List<String>,
-  val icon: String?,
-  val platformUrl: String?,
-  val feedback: String?,
-  val slido: String?,
-  @Deprecated("Use startInstant instead")
-  val startDate: String,
-  @Deprecated("Use endInstant instead")
-  val endDate: String,
-  private val roomId: String,
+    val id: String,
+    val title: String,
+    val description: String,
+    val language: String?,
+    private val speakerIds: Set<String>,
+    val tags: List<String>,
+    val startInstant: Instant,
+    val endInstant: Instant,
+    private val roomId: String,
 ) {
-  val startInstant: Instant = Instant.parse(startDate)
-  val endInstant: Instant = Instant.parse(endDate)
 
-  val speakers: List<Speaker>
-    get() {
-      return CachedData.speakers().filter {
-        speakerIds.contains(it.id)
-      }
-    }
-  // A session might not have a room yet
-  val room: Room
-    get() {
-      return CachedData.rooms().single {
-        it.id == roomId
-      }
-    }
+    val speakers: List<Speaker>
+        get() {
+            return CachedData.speakers().filter {
+                speakerIds.contains(it.id)
+            }
+        }
+
+    // A session might not have a room yet
+    val room: Room
+        get() {
+            return CachedData.rooms().single {
+                it.id == roomId
+            }
+        }
 }
 
 data class Speaker(
-  val id: String,
-  val order: Float?,
-  val featured: Boolean,
-  val name: String,
-  val bio: String,
-  val country: String?,
-  val companyLogo: String?,
-  val company: String?,
-  val socials: List<Social>,
-  val photoUrl: String
+    val id: String,
+    val name: String,
+    val bio: String,
+    val company: String?,
+    val socials: List<Social>,
+    val photoUrl: String?
 )
 
 data class Social(
-  val icon: String,
-  val link: String,
-  val name: String
+    val icon: String,
+    val link: String,
+    val name: String
 )
 
 data class PartnerGroup(

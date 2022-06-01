@@ -6,23 +6,23 @@ import com.expediagroup.graphql.generator.TopLevelObject
 import com.expediagroup.graphql.generator.extensions.print
 import com.expediagroup.graphql.generator.hooks.SchemaGeneratorHooks
 import com.expediagroup.graphql.generator.toSchema
-import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
-import com.expediagroup.graphql.server.operations.Subscription
 import graphql.language.StringValue
 import graphql.schema.*
 import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import okio.buffer
 import okio.source
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.reactive.CorsWebFilter
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
+
 
 @SpringBootApplication
 class DefaultApplication {
@@ -62,6 +62,19 @@ class DefaultApplication {
     }
 
     return schema
+  }
+
+  @Bean
+  fun corsWebFilter(): CorsWebFilter {
+    val corsConfig = CorsConfiguration().apply {
+      addAllowedOrigin("*")
+      addAllowedMethod("*")
+      addAllowedHeader("*")
+    }
+
+    val source = UrlBasedCorsConfigurationSource()
+    source.registerCorsConfiguration("/**", corsConfig)
+    return CorsWebFilter(source)
   }
 }
 

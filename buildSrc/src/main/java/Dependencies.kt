@@ -1,7 +1,7 @@
 
 object Versions {
     const val kotlinVersion = "1.6.21"
-    const val apollo = "3.3.0"
+    const val apollo = "3.3.1-SNAPSHOT"
 
     const val kotlinCoroutines = "1.6.0"
     const val kmpNativeCoroutines = "0.11.1-new-mm"
@@ -49,6 +49,7 @@ object Apollo {
     const val apolloNormalizedCacheInMemory = "com.apollographql.apollo3:apollo-normalized-cache:${Versions.apollo}"
     const val apolloNormalizedCacheSqlite = "com.apollographql.apollo3:apollo-normalized-cache-sqlite:${Versions.apollo}"
     const val adapters = "com.apollographql.apollo3:apollo-adapters:${Versions.apollo}"
+    const val gradlePluginExternal = "com.apollographql.apollo3:apollo-gradle-plugin-external:${Versions.apollo}"
 }
 
 object Compose {

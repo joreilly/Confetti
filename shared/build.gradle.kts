@@ -109,6 +109,14 @@ apollo {
         //endpointUrl.set("http://localhost:8080/graphql")
         schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
     }
+    val apolloKey = System.getenv("APOLLO_KEY")
+    if (apolloKey.isNullOrBlank().not()) {
+        registry {
+            key.set(apolloKey)
+            graph.set("Confetti")
+            schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+        }
+    }
 }
 
 dependencies {

@@ -1,10 +1,19 @@
 package fr.androidmakers.server.model
 
+import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import fr.androidmakers.server.CachedData
+import graphql.introspection.Introspection
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+
+@GraphQLDirective(
+    name = "experimental",
+    description = "This field can be changed without warning",
+    locations = [Introspection.DirectiveLocation.FIELD_DEFINITION]
+)
+annotation class Experimental
 
 data class Room(
     val id: String,
@@ -22,7 +31,9 @@ data class Session(
     val language: String?,
     private val speakerIds: Set<String>,
     val tags: List<String>,
+    @Experimental
     val startInstant: Instant,
+    @Experimental
     val endInstant: Instant,
     private val roomId: String,
 ) {

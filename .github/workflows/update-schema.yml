@@ -2,6 +2,7 @@ name: Update GraphQL schema
 on:
   schedule:
     - cron: "0 0 * * *"
+#  pull_request
 
 jobs:
   update:
@@ -10,5 +11,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: apollographql/update-graphql-schema@main
         with:
-          endpoint: "https://confetti-349319.uw.r.appspot.com/graphql"
+          key: ${{ secrets.APOLLO_KEY }}
+          graph: "Confetti"
           schema: "shared/src/commonMain/graphql/schema.graphqls"

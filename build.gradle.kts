@@ -3,6 +3,9 @@ buildscript {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven {
+            url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.2.0")
@@ -20,6 +23,10 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        }
+
     }
 }
 

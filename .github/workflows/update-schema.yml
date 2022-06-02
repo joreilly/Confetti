@@ -1,8 +1,8 @@
 name: Update GraphQL schema
 on:
-#  schedule:
-#    - cron: "0 0 * * *"
-  pull_request
+  schedule:
+    - cron: "0 0 * * *"
+#  pull_request
 
 jobs:
   update:

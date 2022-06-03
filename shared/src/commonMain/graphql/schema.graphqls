@@ -130,6 +130,6 @@ type Venue {
 }
 
 """
-A type representing a formatted kotlinx.datetime.Instant
+A scalar type representing a formatted kotlinx.datetime.Instant 
 """
 scalar Instant

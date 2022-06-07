@@ -4,9 +4,6 @@ import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import fr.androidmakers.server.CachedData
 import graphql.introspection.Introspection
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 @GraphQLDirective(
     name = "experimental",
@@ -18,7 +15,25 @@ annotation class Experimental
 data class Room(
     val id: String,
     val name: String,
-    val capacity: Int?
+    val capacity: Int?,
+)
+
+data class SessionConnection(
+    val totalCount: Int,
+    val edges: List<SessionEdge>,
+    val pageInfo: PageInfo,
+)
+
+data class SessionEdge(
+    val node: Session,
+    val cursor: String,
+)
+
+data class PageInfo(
+    val hasPreviousPage: Boolean,
+    val hasNextPage: Boolean,
+    val startCursor: String,
+    val endCursor: String,
 )
 
 /**
@@ -60,26 +75,26 @@ data class Speaker(
     val bio: String,
     val company: String?,
     val socials: List<Social>,
-    val photoUrl: String?
+    val photoUrl: String?,
 )
 
 data class Social(
     val icon: String,
     val link: String,
-    val name: String
+    val name: String,
 )
 
 data class PartnerGroup(
     val order: Int,
     val title: String,
-    val partners: List<Partner>
+    val partners: List<Partner>,
 )
 
 data class Partner(
     val order: Int,
     val name: String,
     val logoUrl: String,
-    val url: String
+    val url: String,
 )
 
 
@@ -93,5 +108,5 @@ data class Venue(
 )
 
 data class Configuration(
-    val timezone: String
+    val timezone: String,
 )

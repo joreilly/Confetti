@@ -49,7 +49,7 @@ object Apollo {
     const val apolloNormalizedCacheInMemory = "com.apollographql.apollo3:apollo-normalized-cache:${Versions.apollo}"
     const val apolloNormalizedCacheSqlite = "com.apollographql.apollo3:apollo-normalized-cache-sqlite:${Versions.apollo}"
     const val adapters = "com.apollographql.apollo3:apollo-adapters:${Versions.apollo}"
-    const val gradlePluginExternal = "com.apollographql.apollo3:apollo-gradle-plugin-external:${Versions.apollo}"
+    const val tooling = "com.apollographql.apollo3:apollo-tooling:${Versions.apollo}"
 }
 
 object Compose {

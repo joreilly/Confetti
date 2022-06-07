@@ -1,6 +1,6 @@
 package fr.androidmakers.server
 
-import com.apollographql.apollo3.gradle.internal.SchemaUploader
+import com.apollographql.apollo3.tooling.SchemaUploader
 import com.expediagroup.graphql.generator.SchemaGeneratorConfig
 import com.expediagroup.graphql.generator.TopLevelObject
 import com.expediagroup.graphql.generator.extensions.print

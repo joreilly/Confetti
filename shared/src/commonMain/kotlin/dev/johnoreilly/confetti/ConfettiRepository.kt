@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.cache.normalized.watch
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -66,9 +67,10 @@ class ConfettiRepository: KoinComponent {
                 timeZone = TimeZone.of(it)
             }
 
-            apolloClient.query(GetSessionsQuery()).watch().map {
-                it.dataAssertNoErrors.sessions
-                    .map { it.sessionDetails }
+            // TODO: We fetch the first page only, assuming there are <100 conferennces. Pagination should be implemented instead.
+            apolloClient.query(GetSessionsQuery(first = Optional.Present(100))).watch().map {
+                it.dataAssertNoErrors.sessions.edges
+                    .map { it.node.sessionDetails }
                     .sortedBy { it.startInstant }
             }.combine(enabledLanguages) { sessionList, enabledLanguages ->
                 sessionList.filter { enabledLanguages.contains(it.language) }

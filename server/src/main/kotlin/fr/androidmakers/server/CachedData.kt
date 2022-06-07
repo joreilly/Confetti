@@ -7,6 +7,7 @@ import okio.source
 import xoxo.firstNonBlankTextContent
 import xoxo.toXmlDocument
 import xoxo.walkElements
+import java.util.Base64
 
 
 private class SessionizeItem(
@@ -15,12 +16,12 @@ private class SessionizeItem(
     val start: String,
     val end: String,
     val language: String,
-    val speakers: List<SessionizeSpeaker>
+    val speakers: List<SessionizeSpeaker>,
 )
 
 private class SessionizeSpeaker(
     val id: String,
-    val name: String
+    val name: String,
 )
 
 object CachedData {
@@ -80,7 +81,7 @@ object CachedData {
         TODO()
     }
 
-    fun sessions(): List<Session> {
+    fun allSessions(): List<Session> {
         return data.map {
             Session(
                 id = it.title,
@@ -94,6 +95,24 @@ object CachedData {
                 roomId = it.room
             )
         }
+    }
+
+    fun sessions(first: Int, after: String?): SessionConnection {
+        val sessionList = allSessions()
+        val fromIndex = if (after == null) 0 else sessionList.indexOfFirst { it.id == after.decodeBase64() } + 1
+        val toIndex = (fromIndex + first).coerceAtMost(sessionList.size)
+        val sessionSubList = sessionList.subList(fromIndex = fromIndex, toIndex = toIndex)
+        val edges = sessionSubList.map { session -> SessionEdge(node = session, cursor = session.id.encodeBase64()) }
+        return SessionConnection(
+            totalCount = sessionList.size,
+            edges = edges,
+            pageInfo = PageInfo(
+                hasPreviousPage = fromIndex > 0,
+                hasNextPage = toIndex < sessionList.size,
+                startCursor = edges.first().cursor,
+                endCursor = edges.last().cursor,
+            )
+        )
     }
 
     fun speakers(): List<Speaker> {
@@ -115,4 +134,12 @@ object CachedData {
     fun partners(): List<PartnerGroup> {
         return emptyList()
     }
+}
+
+fun String.encodeBase64(): String {
+    return Base64.getEncoder().encodeToString(toByteArray())
+}
+
+fun String.decodeBase64(): String {
+    return String(Base64.getDecoder().decode(this))
 }

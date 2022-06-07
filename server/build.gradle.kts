@@ -13,7 +13,7 @@ dependencies {
   implementation(Deps.okhttp)
   implementation(Kotlin.reflect)
   implementation(Deps.xoxo)
-  implementation(Apollo.gradlePluginExternal)
+  implementation(Apollo.tooling)
 
   testImplementation(Deps.junit)
 }

@@ -7,6 +7,16 @@ A type representing a formatted kotlinx.datetime.Instant
 """
 scalar Instant
 
+type PageInfo {
+  endCursor: String!
+
+  hasNextPage: Boolean!
+
+  hasPreviousPage: Boolean!
+
+  startCursor: String!
+}
+
 type Partner {
   logoUrl: String!
 
@@ -34,7 +44,7 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions: [Session!]!
+  sessions(first: Int, after: String): SessionConnection!
 
   speakers: [Speaker!]!
 
@@ -67,6 +77,20 @@ type Session {
   tags: [String!]!
 
   title: String!
+}
+
+type SessionConnection {
+  edges: [SessionEdge!]!
+
+  pageInfo: PageInfo!
+
+  totalCount: Int!
+}
+
+type SessionEdge {
+  cursor: String!
+
+  node: Session!
 }
 
 type Social {

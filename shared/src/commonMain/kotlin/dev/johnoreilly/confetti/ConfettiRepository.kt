@@ -52,28 +52,28 @@ class ConfettiRepository: KoinComponent {
     val sessions = MutableStateFlow<List<SessionDetails>>(emptyList())
 
     val speakers = apolloClient.query(GetSpeakersQuery()).watch().map {
-        it.dataAssertNoErrors.speakers.map { it.speakerDetails }
+        it.dataAssertNoErrors.source.speakers.map { it.speakerDetails }
     }
 
     val rooms = apolloClient.query(GetRoomsQuery()).watch().map {
-        it.dataAssertNoErrors.rooms.map { it.roomDetails }
+        it.dataAssertNoErrors.source.rooms.map { it.roomDetails }
     }
 
 
     init {
         coroutineScope.launch {
             val configResponse = apolloClient.query(GetConfigurationQuery()).execute()
-            configResponse.data?.config?.timezone?.let {
+            configResponse.data?.source?.config?.timezone?.let {
                 timeZone = TimeZone.of(it)
             }
 
             // TODO: We fetch the first page only, assuming there are <100 conferennces. Pagination should be implemented instead.
             apolloClient.query(GetSessionsQuery(first = Optional.Present(100))).watch().map {
-                it.dataAssertNoErrors.sessions.edges
+                it.dataAssertNoErrors.source.sessions.edges
                     .map { it.node.sessionDetails }
                     .sortedBy { it.startInstant }
             }.combine(enabledLanguages) { sessionList, enabledLanguages ->
-                sessionList.filter { enabledLanguages.contains(it.language) }
+                sessionList//.filter { enabledLanguages.contains(it.language) }
             }.collect {
                 sessions.value = it
             }
@@ -86,7 +86,7 @@ class ConfettiRepository: KoinComponent {
 
     suspend fun getSession(sessionId: String): SessionDetails? {
         val response = apolloClient.query(GetSessionQuery(sessionId)).execute()
-        return response.data?.session?.sessionDetails
+        return response.data?.source?.session?.sessionDetails
     }
 
     fun updateEnableLanguageSetting(language: String, checked: Boolean) {

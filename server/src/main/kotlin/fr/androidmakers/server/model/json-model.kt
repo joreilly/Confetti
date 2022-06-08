@@ -1,106 +1,39 @@
 package fr.androidmakers.server.model
 
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class JsonRoom(
-  val name: String,
-  val capacity: Int,
-  val level: String
+@kotlinx.serialization.Serializable
+data class JsonAgenda(
+    val talks: Map<String, List<JsonTalkWrapper>>
 )
 
-typealias JsonRoomData = Map<String, JsonRoom>
-
-@Serializable
-data class JsonSession(
-  val title: String,
-  val description: String,
-  val language: String? = null,
-  val complexity: String? = null,
-  val speakers: List<String> = emptyList(),
-  val tags: List<String> = emptyList(),
-  val icon: String? = null,
-  val platformUrl: String? = null,
-  val feedback: String? = null,
-  val slido: String? = null,
+@kotlinx.serialization.Serializable
+data class JsonTalkWrapper(
+    val id: String,
+    val time: String,
+    val startTime: String,
+    val endTime: String,
+    val roomId: String = "unknown",
+    val talk: JsonTalk? = null
 )
 
-typealias JsonSessionData = Map<String, JsonSession>
-
-@Serializable
-data class JsonSpeaker(
-  val order: Float? = null,
-  val featured: Boolean = false,
-  val name: String,
-  val bio: String,
-  val country: String?,
-  val companyLogo: String? = null,
-  val company: String? = null,
-  val socials: List<JsonSocial>,
-  val photoUrl: String
-)
-
-typealias JsonSpeakerData = Map<String, JsonSpeaker>
-
-@Serializable
-data class JsonSocial(
-  val icon: String,
-  val link: String,
-  val name: String
-)
-
-typealias JsonSchedule = Map<String, JsonDay>
-
-@Serializable
-data class JsonDay(
-  val timeslots: List<JsonTimeslot>,
-  val tracks: List<JsonTrack>
-)
-
-@Serializable
-data class JsonTimeslot(
-  val startTime: String,
-  val endTime: String,
-  val sessions: List<JsonTimeslotSession>,
-)
-
-@Serializable
-data class JsonTimeslotSession(
-  val items: List<String>,
-  val extend: Int? = null,
-)
-
-@Serializable
-data class JsonTrack(
-  val title: String,
-  val infos: String,
-)
-
-typealias JsonPartnerData = List<JsonPartnerGroup>
-
-@Serializable
-data class JsonPartnerGroup(
-    val order: Int,
+@kotlinx.serialization.Serializable
+data class JsonTalk(
+    val id: String,
     val title: String,
-    val items: List<JsonPartner>
+    val level: String? = null,
+    val abstract: String,
+    val category: String,
+    val format: String,
+    val language: String,
+    val speakers: List<JsonSpeakers>,
 )
 
-@Serializable
-data class JsonPartner(
-    val order: Int,
-    val name: String,
-    val logoUrl: String,
-    val url: String
-)
-
-typealias JsonVenueData = Map<String, JsonVenue>
-
-@Serializable
-data class JsonVenue(
-    val name: String,
-    val address: String? = null,
-    val coordinates: String? = null,
-    val description: String,
-    val descriptionFr: String,
-    val imageUrl: String,
+@kotlinx.serialization.Serializable
+data class JsonSpeakers(
+    val id: String,
+    val display_name: String,
+    val bio: String,
+    val company: String,
+    val photo_url: String,
+    val twitter: String?,
+    val github:String?,
 )

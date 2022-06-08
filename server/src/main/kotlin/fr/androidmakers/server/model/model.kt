@@ -1,8 +1,11 @@
 package fr.androidmakers.server.model
 
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
-import fr.androidmakers.server.CachedData
+import fr.androidmakers.server.DATA_SOURCE_CONTEXT_KEY
+import fr.androidmakers.server.DataSource
+import fr.androidmakers.server.DroidConSfoDataSource
 import graphql.introspection.Introspection
+import graphql.schema.DataFetchingEnvironment
 import kotlinx.datetime.Instant
 
 @GraphQLDirective(
@@ -50,23 +53,23 @@ data class Session(
     val startInstant: Instant,
     @Experimental
     val endInstant: Instant,
-    private val roomId: String,
+    internal val roomId: String,
 ) {
 
-    val speakers: List<Speaker>
-        get() {
-            return CachedData.speakers().filter {
-                speakerIds.contains(it.id)
-            }
+    fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
+        val dataSource = dfe.graphQlContext.get(DATA_SOURCE_CONTEXT_KEY) as DataSource
+        return dataSource.speakers().filter {
+            speakerIds.contains(it.id)
         }
+    }
 
     // A session might not have a room yet
-    val room: Room
-        get() {
-            return CachedData.rooms().single {
-                it.id == roomId
-            }
+    fun room(dfe: DataFetchingEnvironment): Room {
+        val dataSource = dfe.graphQlContext.get(DATA_SOURCE_CONTEXT_KEY) as DataSource
+        return dataSource.rooms().single {
+            it.id == roomId
         }
+    }
 }
 
 data class Speaker(

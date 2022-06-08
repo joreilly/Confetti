@@ -11,7 +11,7 @@ data class JsonTalkWrapper(
     val time: String,
     val startTime: String,
     val endTime: String,
-    val roomId: String = "unknown",
+    val room: String = "unknown",
     val talk: JsonTalk? = null
 )
 

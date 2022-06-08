@@ -1,7 +1,6 @@
 package fr.androidmakers.server
 
 import fr.androidmakers.server.model.*
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -74,7 +73,7 @@ class DevFestLilleDataSource : DataSource {
                     language = "fr-FR",
                     speakerIds = talkWrapper.talk.speakers.map { it.id }.toSet(),
                     tags = emptyList(),
-                    roomId = talkWrapper.roomId,
+                    roomId = talkWrapper.room,
                     startInstant = LocalDateTime.parse(talkWrapper.startTime).toInstant(TimeZone.of("Europe/Paris")),
                     endInstant = LocalDateTime.parse(talkWrapper.endTime).toInstant(TimeZone.of("Europe/Paris")),
                 )

@@ -73,7 +73,7 @@ class ConfettiRepository: KoinComponent {
                     .map { it.node.sessionDetails }
                     .sortedBy { it.startInstant }
             }.combine(enabledLanguages) { sessionList, enabledLanguages ->
-                sessionList//.filter { enabledLanguages.contains(it.language) }
+                sessionList.filter { enabledLanguages.contains(it.language) }
             }.collect {
                 sessions.value = it
             }

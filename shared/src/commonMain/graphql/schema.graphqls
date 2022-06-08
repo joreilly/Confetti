@@ -1,3 +1,9 @@
+enum Conference {
+  DroidConfSf
+
+  DevFestLille
+}
+
 type Configuration {
   timezone: String!
 }
@@ -36,19 +42,7 @@ type PartnerGroup {
 }
 
 type Query {
-  config: Configuration!
-
-  partnerGroups: [PartnerGroup!]!
-
-  rooms: [Room!]!
-
-  session(id: String!): Session!
-
-  sessions(first: Int, after: String): SessionConnection!
-
-  speakers: [Speaker!]!
-
-  venue(id: String!): Venue!
+  source(conference: Conference!): Source!
 }
 
 type Room {
@@ -68,15 +62,15 @@ type Session {
 
   language: String
 
-  room: Room!
-
-  speakers: [Speaker!]!
-
   startInstant: Instant!
 
   tags: [String!]!
 
   title: String!
+
+  room: Room!
+
+  speakers: [Speaker!]!
 }
 
 type SessionConnection {
@@ -99,6 +93,22 @@ type Social {
   link: String!
 
   name: String!
+}
+
+type Source {
+  config: Configuration!
+
+  partnerGroups: [PartnerGroup!]!
+
+  rooms: [Room!]!
+
+  session(id: String!): Session!
+
+  sessions(first: Int, after: String): SessionConnection!
+
+  speakers: [Speaker!]!
+
+  venue(id: String!): Venue!
 }
 
 type Speaker {

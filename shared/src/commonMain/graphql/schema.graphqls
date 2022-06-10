@@ -1,11 +1,35 @@
-type Configuration {
-  timezone: String!
+schema {
+  query: Query
 }
 
 """
-A type representing a formatted kotlinx.datetime.Instant
+Directs the executor to include this field or fragment only when the `if` argument is true
 """
-scalar Instant
+directive @include ("Included when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Directs the executor to skip this field or fragment when the `if`'argument is true.
+"""
+directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+This field can be changed without warning
+"""
+directive @experimental on FIELD_DEFINITION
+
+"""
+Marks the field, argument, input field or enum value as deprecated
+"""
+directive @deprecated ("The reason for the deprecation" reason: String = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|ENUM_VALUE|INPUT_FIELD_DEFINITION
+
+"""
+Exposes a URL that specifies the behaviour of this scalar.
+"""
+directive @specifiedBy ("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
+
+type Configuration {
+  timezone: String!
+}
 
 type PageInfo {
   endCursor: String!
@@ -36,19 +60,7 @@ type PartnerGroup {
 }
 
 type Query {
-  config: Configuration!
-
-  partnerGroups: [PartnerGroup!]!
-
-  rooms: [Room!]!
-
-  session(id: String!): Session!
-
-  sessions(first: Int, after: String): SessionConnection!
-
-  speakers: [Speaker!]!
-
-  venue(id: String!): Venue!
+  source(conference: Conference!): Source!
 }
 
 type Room {
@@ -62,7 +74,7 @@ type Room {
 type Session {
   description: String!
 
-  endInstant: Instant!
+  endInstant: Instant! @experimental
 
   id: String!
 
@@ -72,7 +84,7 @@ type Session {
 
   speakers: [Speaker!]!
 
-  startInstant: Instant!
+  startInstant: Instant! @experimental
 
   tags: [String!]!
 
@@ -99,6 +111,22 @@ type Social {
   link: String!
 
   name: String!
+}
+
+type Source {
+  config: Configuration!
+
+  partnerGroups: [PartnerGroup!]!
+
+  rooms: [Room!]!
+
+  session(id: String!): Session!
+
+  sessions(after: String, first: Int): SessionConnection!
+
+  speakers: [Speaker!]!
+
+  venue(id: String!): Venue!
 }
 
 type Speaker {
@@ -129,6 +157,13 @@ type Venue {
   name: String!
 }
 
-schema {
-  query: Query
+enum Conference {
+  DevFestLille
+
+  DroidConfSf
 }
+
+"""
+A type representing a formatted kotlinx.datetime.Instant
+"""
+scalar Instant

@@ -6,11 +6,11 @@ import graphql.introspection.Introspection
 import kotlinx.datetime.Instant
 
 @GraphQLDirective(
-    name = "experimental",
+    name = "requiresOptIn",
     description = "This field can be changed without warning",
     locations = [Introspection.DirectiveLocation.FIELD_DEFINITION]
 )
-annotation class Experimental
+annotation class RequiresOptIn(val feature: String)
 
 data class Room(
     val id: String,
@@ -46,9 +46,9 @@ data class Session(
     val language: String?,
     private val speakerIds: Set<String>,
     val tags: List<String>,
-    @Experimental
+    @RequiresOptIn("experimental")
     val startInstant: Instant,
-    @Experimental
+    @RequiresOptIn("experimental")
     val endInstant: Instant,
     private val roomId: String,
 ) {

@@ -1,21 +1,25 @@
 query GetSessions($first: Int! = 10, $after: String = null) {
-    sessions(first: $first, after: $after) {
-        edges {
-            node {
-                ...SessionDetails
+    source(conference: DevFestLille) {
+        sessions(first: $first, after: $after) {
+            edges {
+                node {
+                    ...SessionDetails
+                }
             }
-        }
-        pageInfo {
-            hasNextPage
-            endCursor
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
         }
     }
 }
 
 query GetSession($id: String!){
-	session(id: $id) {
-	    ...SessionDetails
-	}
+    source(conference: DevFestLille) {
+        session(id: $id) {
+            ...SessionDetails
+        }
+    }
 }
 
 fragment SessionDetails on Session {
@@ -36,8 +40,10 @@ fragment SessionDetails on Session {
 
 
 query GetSpeakers {
-    speakers {
-        ...SpeakerDetails
+    source(conference: DevFestLille) {
+        speakers {
+            ...SpeakerDetails
+        }
     }
 }
 
@@ -56,8 +62,10 @@ fragment SpeakerDetails on Speaker {
 
 
 query GetRooms {
-    rooms {
-        ...RoomDetails
+    source(conference: DevFestLille) {
+        rooms {
+            ...RoomDetails
+        }
     }
 }
 
@@ -69,7 +77,9 @@ fragment RoomDetails on Room {
 
 
 query GetConfiguration {
-  config {
-    timezone
-  }
+    source(conference: DevFestLille) {
+        config {
+            timezone
+        }
+    }
 }

@@ -23,7 +23,7 @@ appengine {
     setArtifact(tasks.named("bootJar").flatMap { (it as Jar).archiveFile })
   }
   deploy {
-    projectId = "confetti-349319"
+    projectId = "kiki-conf"
     version = "GCLOUD_CONFIG"
   }
 }

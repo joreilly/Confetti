@@ -24,7 +24,7 @@ private class SessionizeSpeaker(
     val name: String,
 )
 
-object CachedData {
+class DroidConSfoDataSource : DataSource {
     private val data by lazy {
         javaClass.classLoader!!.getResourceAsStream("sessionize.xml").source().buffer()
             .toXmlDocument()
@@ -67,7 +67,7 @@ object CachedData {
     }
 
 
-    fun rooms(): List<Room> {
+    override fun rooms(): List<Room> {
         return data.map { it.room }.distinct().map {
             Room(
                 id = it,
@@ -77,11 +77,11 @@ object CachedData {
         }
     }
 
-    fun venue(id: String): Venue {
+    override fun venue(id: String): Venue {
         TODO()
     }
 
-    fun allSessions(): List<Session> {
+    override fun allSessions(): List<Session> {
         return data.map {
             Session(
                 id = it.title,
@@ -97,25 +97,11 @@ object CachedData {
         }
     }
 
-    fun sessions(first: Int, after: String?): SessionConnection {
-        val sessionList = allSessions()
-        val fromIndex = if (after == null) 0 else sessionList.indexOfFirst { it.id == after.decodeBase64() } + 1
-        val toIndex = (fromIndex + first).coerceAtMost(sessionList.size)
-        val sessionSubList = sessionList.subList(fromIndex = fromIndex, toIndex = toIndex)
-        val edges = sessionSubList.map { session -> SessionEdge(node = session, cursor = session.id.encodeBase64()) }
-        return SessionConnection(
-            totalCount = sessionList.size,
-            edges = edges,
-            pageInfo = PageInfo(
-                hasPreviousPage = fromIndex > 0,
-                hasNextPage = toIndex < sessionList.size,
-                startCursor = edges.first().cursor,
-                endCursor = edges.last().cursor,
-            )
-        )
+    override fun sessions(first: Int, after: String?): SessionConnection {
+        return sliceSessions(allSessions(), first, after)
     }
 
-    fun speakers(): List<Speaker> {
+    override fun speakers(): List<Speaker> {
         return data.flatMap {
             it.speakers.map { it.name }
         }.distinct()
@@ -131,7 +117,7 @@ object CachedData {
             }
     }
 
-    fun partners(): List<PartnerGroup> {
+    override fun partners(): List<PartnerGroup> {
         return emptyList()
     }
 }

@@ -32,6 +32,8 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
 
     fun getLanguageInEmoji(language: String?): String {
         return when (language?.toLowerCase()) {
+            "en-us" -> "\uD83C\uDDEC\uD83C\uDDE7"
+            "fr-fr" -> "\uD83C\uDDEB\uD83C\uDDF7"
             "english" -> "\uD83C\uDDEC\uD83C\uDDE7"
             "french" -> "\uD83C\uDDEB\uD83C\uDDF7"
             else -> "\uD83C\uDDEC\uD83C\uDDE7 \uD83C\uDDEB\uD83C\uDDF7"

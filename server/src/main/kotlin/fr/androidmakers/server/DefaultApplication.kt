@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
-import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 
@@ -41,7 +40,7 @@ class DefaultApplication {
       subscriptions = emptyList()
     )
 
-    val key = javaClass.classLoader.getResourceAsStream("apollo.key")?.use {
+    val key = javaClass.classLoader.getResourceAsStream("apollo.key.old")?.use {
       it.source().buffer().readUtf8().trim()
     }
     if (key != null) {

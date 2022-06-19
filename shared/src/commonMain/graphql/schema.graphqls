@@ -15,7 +15,7 @@ directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INL
 """
 This field can be changed without warning
 """
-directive @experimental on FIELD_DEFINITION
+directive @requiresOptIn (feature: String!) on FIELD_DEFINITION
 
 """
 Marks the field, argument, input field or enum value as deprecated
@@ -60,7 +60,19 @@ type PartnerGroup {
 }
 
 type Query {
-  source(conference: Conference!): Source!
+  config: Configuration!
+
+  partnerGroups: [PartnerGroup!]!
+
+  rooms: [Room!]!
+
+  session(id: String!): Session!
+
+  sessions(after: String, first: Int): SessionConnection!
+
+  speakers: [Speaker!]!
+
+  venue(id: String!): Venue!
 }
 
 type Room {
@@ -74,7 +86,7 @@ type Room {
 type Session {
   description: String!
 
-  endInstant: Instant! @experimental
+  endInstant: Instant! @requiresOptIn(feature: "experimental")
 
   id: String!
 
@@ -84,7 +96,7 @@ type Session {
 
   speakers: [Speaker!]!
 
-  startInstant: Instant! @experimental
+  startInstant: Instant! @requiresOptIn(feature: "experimental")
 
   tags: [String!]!
 
@@ -113,22 +125,6 @@ type Social {
   name: String!
 }
 
-type Source {
-  config: Configuration!
-
-  partnerGroups: [PartnerGroup!]!
-
-  rooms: [Room!]!
-
-  session(id: String!): Session!
-
-  sessions(after: String, first: Int): SessionConnection!
-
-  speakers: [Speaker!]!
-
-  venue(id: String!): Venue!
-}
-
 type Speaker {
   bio: String!
 
@@ -155,12 +151,6 @@ type Venue {
   imageUrl: String!
 
   name: String!
-}
-
-enum Conference {
-  DevFestLille
-
-  DroidConfSf
 }
 
 """

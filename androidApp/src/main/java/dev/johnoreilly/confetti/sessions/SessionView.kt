@@ -33,10 +33,11 @@ fun SessionListView(viewModel: ConfettiViewModel, bottomBar: @Composable () -> U
     Scaffold(
         topBar = { TopAppBar (
             title = { Text("Sessions") },
-            actions = { Filter(enabledLanguages, onLanguageChecked = { languageCode, checked ->
-                viewModel.onLanguageChecked(languageCode, checked)
-            })
-            }
+            // TODO need to figure out how we want to generally handle languages
+//            actions = { Filter(enabledLanguages, onLanguageChecked = { languageCode, checked ->
+//                viewModel.onLanguageChecked(languageCode, checked)
+//            })
+//            }
 
         )},
         bottomBar = bottomBar

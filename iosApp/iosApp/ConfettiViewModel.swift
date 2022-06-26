@@ -77,7 +77,8 @@ class ConfettiViewModel: ObservableObject {
 
     
     func getFlag(session: SessionDetails) -> String {
-        return  session.language == "French" ?  "🇫🇷" : "🇬🇧"
+        // TODO need to figure out how we want to generally handle languages
+        return  "" //session.language == "French" ?  "🇫🇷" : "🇬🇧"
     }
     
     func getSessionSpeakerLocation(session: SessionDetails) -> String {

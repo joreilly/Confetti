@@ -38,11 +38,12 @@ struct SessionListView: View {
                 }
             }
             .navigationTitle("Sessions")
-            .toolbar {
-                ToolbarItem(placement: .automatic) {
-                    LanguageMenu(viewModel: viewModel)
-                }
-            }
+            // TODO need to figure out how we want to generally handle languages
+//            .toolbar {
+//                ToolbarItem(placement: .automatic) {
+//                    LanguageMenu(viewModel: viewModel)
+//                }
+//            }
             .task {
                 await viewModel.observeSessions()
             }

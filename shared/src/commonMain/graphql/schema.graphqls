@@ -8,13 +8,13 @@ A type representing a formatted kotlinx.datetime.Instant
 scalar Instant
 
 type PageInfo {
-  endCursor: String!
+  endCursor: String
 
   hasNextPage: Boolean!
 
   hasPreviousPage: Boolean!
 
-  startCursor: String!
+  startCursor: String
 }
 
 type Partner {

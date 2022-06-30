@@ -7,7 +7,7 @@ import okio.source
 import xoxo.firstNonBlankTextContent
 import xoxo.toXmlDocument
 import xoxo.walkElements
-import java.util.Base64
+import java.util.*
 
 
 private class SessionizeItem(
@@ -84,7 +84,7 @@ object CachedData {
     fun allSessions(): List<Session> {
         return data.map {
             Session(
-                id = it.title,
+                id = it.start + " " + it.title,
                 title = it.title,
                 description = it.title,
                 language = it.language,
@@ -109,8 +109,8 @@ object CachedData {
             pageInfo = PageInfo(
                 hasPreviousPage = fromIndex > 0,
                 hasNextPage = toIndex < sessionList.size,
-                startCursor = edges.first().cursor,
-                endCursor = edges.last().cursor,
+                startCursor = edges.firstOrNull()?.cursor,
+                endCursor = edges.lastOrNull()?.cursor,
             )
         )
     }

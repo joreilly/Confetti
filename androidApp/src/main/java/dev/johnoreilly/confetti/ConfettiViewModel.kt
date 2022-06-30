@@ -2,11 +2,11 @@ package dev.johnoreilly.confetti
 
 import androidx.lifecycle.ViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 
-class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel() {
+class ConfettiViewModel(private val repository: ConfettiRepository) : ViewModel() {
     val enabledLanguages: Flow<Set<String>> = repository.enabledLanguages
 
     val sessions = repository.sessions
@@ -38,5 +38,9 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
             "french" -> "\uD83C\uDDEB\uD83C\uDDF7"
             else -> ""
         }
+    }
+
+    fun fetchMoreSessions() {
+        repository.fetchMoreSessions()
     }
 }

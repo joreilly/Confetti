@@ -1,0 +1,6 @@
+extend type Query
+@typePolicy(embeddedFields: "sessions")
+@fieldPolicy(forField: "sessions", paginationArgs: "first, after")
+
+extend type SessionConnection @typePolicy(embeddedFields: "edges")
+extend type Session @typePolicy(keyFields: "id")

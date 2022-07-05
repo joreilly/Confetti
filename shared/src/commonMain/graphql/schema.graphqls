@@ -48,7 +48,7 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions(first: Int, after: String, favoritesOnly: Boolean): SessionConnection!
+  sessions(first: Int, after: String): SessionConnection!
 
   speakers: [Speaker!]!
 

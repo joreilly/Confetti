@@ -3,7 +3,6 @@ package dev.johnoreilly.confetti
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.cache.normalized.watch
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
@@ -55,10 +54,7 @@ class ConfettiRepository : KoinComponent {
     val sessions = MutableStateFlow<List<SessionDetails>>(emptyList())
     private var hasFetchedAllSessions = false
     private var isFetchingSessions = false
-
-    val favoriteSessions = MutableStateFlow<List<SessionDetails>>(emptyList())
-    private var hasFetchedAllFavoriteSessions = false
-    private var isFetchingFavoriteSessions = false
+    val filterFavoriteSessions = MutableStateFlow(false)
 
     val speakers = apolloClient.query(GetSpeakersQuery()).watch().map {
         it.dataAssertNoErrors.speakers.map { it.speakerDetails }
@@ -76,37 +72,21 @@ class ConfettiRepository : KoinComponent {
                 timeZone = TimeZone.of(it)
             }
 
-            launch {
-                // Fetch the first page and watch it.
-                // Calling fetchMoreSessions() will fetch the following pages and notify watchers.
-                apolloClient.query(GetSessionsQuery(first = Optional.Present(15)))
-                    .fetchPolicy(FetchPolicy.CacheAndNetwork)
-                    .watch()
-                    .map {
-                        it.dataAssertNoErrors.sessions.edges
-                            .map { it.node.sessionDetails }
-                    }.combine(enabledLanguages) { sessionList, enabledLanguages ->
-                        sessionList.filter { enabledLanguages.contains(it.language) }
-                    }.collect {
-                        sessions.value = it
-                    }
-            }
-
-            launch {
-                // Fetch the first page and watch it.
-                // Calling fetchMoreSessions() will fetch the following pages and notify watchers.
-                apolloClient.query(GetFavoriteSessionsQuery(first = Optional.Present(15)))
-                    .fetchPolicy(FetchPolicy.CacheAndNetwork)
-                    .watch()
-                    .map {
-                        it.dataAssertNoErrors.sessions.edges
-                            .map { it.node.sessionDetails }
-                    }.combine(enabledLanguages) { sessionList, enabledLanguages ->
-                        sessionList.filter { enabledLanguages.contains(it.language) }
-                    }.collect {
-                        favoriteSessions.value = it
-                    }
-            }
+            // Fetch the first page and watch it.
+            // Calling fetchMoreSessions() will fetch the following pages and notify watchers.
+            apolloClient.query(GetSessionsQuery(first = Optional.Present(15)))
+                .fetchPolicy(FetchPolicy.CacheAndNetwork)
+                .watch()
+                .map {
+                    it.dataAssertNoErrors.sessions.edges
+                        .map { it.node.sessionDetails }
+                }.combine(enabledLanguages) { sessionList, enabledLanguages ->
+                    sessionList.filter { enabledLanguages.contains(it.language) }
+                }.combine(filterFavoriteSessions) { sessionList, filterFavoriteSessions ->
+                    sessionList.filter { it.isFavorite == filterFavoriteSessions }
+                }.collect {
+                    sessions.value = it
+                }
         }
     }
 
@@ -115,7 +95,8 @@ class ConfettiRepository : KoinComponent {
     }
 
     fun getSession(sessionId: String): Flow<SessionDetails?> {
-        return apolloClient.query(GetSessionQuery(sessionId)).watch().map { it.data?.session?.sessionDetails }
+        return apolloClient.query(GetSessionQuery(sessionId)).watch()
+            .map { it.data?.session?.sessionDetails }
     }
 
     fun updateEnableLanguageSetting(language: String, checked: Boolean) {
@@ -151,63 +132,9 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    fun fetchMoreFavoriteSessions() {
-        if (isFetchingFavoriteSessions || hasFetchedAllFavoriteSessions) return
-        isFetchingFavoriteSessions = true
-        coroutineScope.launch {
-            // Get the last cursor from the cache
-            val lastCursor = try {
-                apolloClient.query(GetFavoriteSessionsQuery())
-                    .fetchPolicy(FetchPolicy.CacheOnly)
-                    .execute()
-                    .dataAssertNoErrors.sessions.edges.last().cursor
-            } catch (e: Exception) {
-                null
-            }
-
-            // Fetch the page after it, from the network
-            try {
-                val fetchedItemCount =
-                    apolloClient.query(
-                        GetFavoriteSessionsQuery(
-                            after = Optional.presentIfNotNull(
-                                lastCursor
-                            )
-                        )
-                    )
-                        .fetchPolicy(FetchPolicy.NetworkOnly)
-                        .execute()
-                        .dataAssertNoErrors.sessions.edges.size
-                hasFetchedAllFavoriteSessions = fetchedItemCount == 0
-            } catch (_: Exception) {
-            } finally {
-                isFetchingFavoriteSessions = false
-            }
-        }
-    }
-
     suspend fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
         apolloClient.mutation(SetSessionFavoriteMutation(sessionId, isFavorite))
             .execute()
-
-        if (isFavorite) {
-            // Session added to the favorite list: refresh the cache by fetching the first page
-            val fetchedItemCount =
-                apolloClient.query(GetFavoriteSessionsQuery())
-                    .fetchPolicy(FetchPolicy.NetworkOnly)
-                    .execute()
-                    .dataAssertNoErrors.sessions.edges.size
-            hasFetchedAllFavoriteSessions = fetchedItemCount == 0
-        } else {
-            // Session removed from the favorite list: manually update the cache
-            val dataFromCache = apolloClient.apolloStore.readOperation(GetFavoriteSessionsQuery())
-            val updatedData = dataFromCache.copy(
-                sessions = dataFromCache.sessions.copy(
-                    edges = dataFromCache.sessions.edges.filterNot { it.node.id == sessionId }
-                )
-            )
-            apolloClient.apolloStore.writeOperation(GetFavoriteSessionsQuery(), updatedData)
-        }
     }
 
 }

@@ -1,16 +1,5 @@
 query GetSessions($first: Int! = 10, $after: String = null) {
-    sessions(first: $first, after: $after, favoritesOnly: false) {
-        edges {
-            cursor
-            node {
-                ...SessionDetails
-            }
-        }
-    }
-}
-
-query GetFavoriteSessions($first: Int! = 10, $after: String = null) {
-    sessions(first: $first, after: $after, favoritesOnly: true) {
+    sessions(first: $first, after: $after) {
         edges {
             cursor
             node {

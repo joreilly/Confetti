@@ -12,9 +12,10 @@ class ConfettiViewModel(private val repository: ConfettiRepository) : ViewModel(
     val enabledLanguages: Flow<Set<String>> = repository.enabledLanguages
 
     val sessions = repository.sessions
-    val favoriteSessions = repository.favoriteSessions
     val speakers = repository.speakers
     val rooms = repository.rooms
+
+    val filterFavoriteSessions = repository.filterFavoriteSessions as Flow<Boolean>
 
     fun getSession(sessionId: String): Flow<SessionDetails?> {
         return repository.getSession(sessionId)
@@ -47,13 +48,13 @@ class ConfettiViewModel(private val repository: ConfettiRepository) : ViewModel(
         repository.fetchMoreSessions()
     }
 
-    fun fetchMoreFavoriteSessions() {
-        repository.fetchMoreFavoriteSessions()
-    }
-
     fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
         viewModelScope.launch {
             repository.setSessionFavorite(sessionId, isFavorite)
         }
+    }
+
+    fun onFavoriteFilterClick() {
+        repository.filterFavoriteSessions.value = !repository.filterFavoriteSessions.value
     }
 }

@@ -84,7 +84,7 @@ object CachedData {
         TODO()
     }
 
-    fun allSessions(favoritesOnly: Boolean): List<Session> {
+    fun allSessions(): List<Session> {
         return data.map {
             val id = it.start + " " + it.title
             Session(
@@ -99,7 +99,7 @@ object CachedData {
                 roomId = it.room,
                 isFavorite = favoriteSessionIds.contains(id)
             )
-        }.filter { !favoritesOnly || favoriteSessionIds.contains(it.id) }
+        }
     }
 
     fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
@@ -110,8 +110,8 @@ object CachedData {
         }
     }
 
-    fun sessions(first: Int, after: String?, favoritesOnly: Boolean): SessionConnection {
-        val sessionList = allSessions(favoritesOnly)
+    fun sessions(first: Int, after: String?): SessionConnection {
+        val sessionList = allSessions()
         val fromIndex = if (after == null) 0 else sessionList.indexOfFirst { it.id == after.decodeBase64() } + 1
         val toIndex = (fromIndex + first).coerceAtMost(sessionList.size)
         val sessionSubList = sessionList.subList(fromIndex = fromIndex, toIndex = toIndex)

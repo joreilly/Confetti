@@ -9,6 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +35,8 @@ fun SessionListView(
 
     val enabledLanguages by viewModel.enabledLanguages.collectAsState(emptySet())
 
+    val filterFavoriteSessions by viewModel.filterFavoriteSessions.collectAsState(false)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -42,7 +46,16 @@ fun SessionListView(
 //                viewModel.onLanguageChecked(languageCode, checked)
 //            })
 //            }
-
+                actions = {
+                    IconButton(onClick = {
+                        viewModel.onFavoriteFilterClick()
+                    }) {
+                        Icon(
+                            imageVector = if (filterFavoriteSessions) Icons.Filled.Star else Icons.Filled.StarBorder,
+                            contentDescription = "Favorites"
+                        )
+                    }
+                }
             )
         },
         bottomBar = bottomBar

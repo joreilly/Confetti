@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -18,7 +17,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.johnoreilly.confetti.rooms.RoomListView
-import dev.johnoreilly.confetti.sessions.FavoriteSessionListView
 import dev.johnoreilly.confetti.sessions.SessionDetailView
 import dev.johnoreilly.confetti.sessions.SessionListView
 import dev.johnoreilly.confetti.speakers.SpeakerListView
@@ -42,7 +40,6 @@ class MainActivity : ComponentActivity() {
 
 sealed class Screen(val title: String) {
     object SessionList : Screen("Session List")
-    object FavoriteSessionList : Screen("Favorite Session List")
     object SessionDetails : Screen("Session Details")
     object SpeakerList : Screen("Speaker List")
     object RoomList : Screen("Room List")
@@ -52,7 +49,6 @@ data class BottomNavigationitem(val route: String, val icon: ImageVector, val ic
 
 val bottomNavigationItems = listOf(
     BottomNavigationitem(Screen.SessionList.title, Icons.Filled.PlayArrow, Screen.SessionList.title),
-    BottomNavigationitem(Screen.FavoriteSessionList.title, Icons.Filled.Star, Screen.FavoriteSessionList.title),
     BottomNavigationitem(Screen.SpeakerList.title, Icons.Default.Person, Screen.SpeakerList.title),
     BottomNavigationitem(Screen.RoomList.title, Icons.Default.LocationOn, Screen.RoomList.title)
 )
@@ -69,11 +65,6 @@ fun MainLayout() {
     NavHost(navController, startDestination = Screen.SessionList.title) {
         composable(Screen.SessionList.title) {
             SessionListView(viewModel, bottomBar) { session ->
-                navController.navigate(Screen.SessionDetails.title + "/${session.id}")
-            }
-        }
-        composable(Screen.FavoriteSessionList.title) {
-            FavoriteSessionListView(viewModel, bottomBar) { session ->
                 navController.navigate(Screen.SessionDetails.title + "/${session.id}")
             }
         }

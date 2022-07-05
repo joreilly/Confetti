@@ -10,8 +10,8 @@ class RootQuery : Query {
   fun rooms(): List<Room> {
     return CachedData.rooms()
   }
-  fun sessions(first: Int? = 10, after: String? = null, favoritesOnly: Boolean? = null): SessionConnection {
-    return CachedData.sessions(first = first ?: 10, after = after, favoritesOnly = favoritesOnly ?: false)
+  fun sessions(first: Int? = 10, after: String? = null): SessionConnection {
+    return CachedData.sessions(first = first ?: 10, after = after)
   }
   fun speakers(): List<Speaker> {
     return CachedData.speakers()
@@ -26,7 +26,7 @@ class RootQuery : Query {
   }
 
   fun session(id: String): Session {
-    return CachedData.allSessions(favoritesOnly = false).first { it.id == id }
+    return CachedData.allSessions().first { it.id == id }
   }
 
   fun config(): Configuration {
@@ -40,7 +40,6 @@ class RootQuery : Query {
 class RootMutation : Mutation {
   fun setSessionFavorite(sessionId: String, isFavorite: Boolean): Session {
     CachedData.setSessionFavorite(sessionId = sessionId, isFavorite = isFavorite)
-    val session = CachedData.allSessions(favoritesOnly = false).first { it.id == sessionId }
-    return session
+    return CachedData.allSessions().first { it.id == sessionId }
   }
 }

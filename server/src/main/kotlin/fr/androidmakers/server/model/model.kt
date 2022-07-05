@@ -51,6 +51,8 @@ data class Session(
     @RequiresOptIn("experimental")
     val endInstant: Instant,
     private val roomId: String,
+    @RequiresOptIn("experimental")
+    val isFavorite: Boolean,
 ) {
 
     val speakers: List<Speaker>

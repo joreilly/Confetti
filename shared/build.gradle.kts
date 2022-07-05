@@ -106,8 +106,8 @@ apollo {
 
     introspection {
         endpointUrl.set("https://confetti-349319.uw.r.appspot.com/graphql")
-        //endpointUrl.set("http://localhost:8080/graphql")
-        schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+        endpointUrl.set("http://localhost:8080/graphql")
+//        schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
     }
     val apolloKey = System.getenv("APOLLO_KEY")
     if (apolloKey.isNullOrBlank().not()) {

@@ -25,7 +25,7 @@ private class SessionizeSpeaker(
 )
 
 object CachedData {
-    private val data by lazy {
+    private val data: List<SessionizeItem> by lazy {
         javaClass.classLoader!!.getResourceAsStream("sessionize.xml").source().buffer()
             .toXmlDocument()
             .root // <div class="sz-root">
@@ -66,6 +66,9 @@ object CachedData {
             }.toList()
     }
 
+    // TODO This must not be global but per user of course! And also, persisted.
+    // Need to implement some kind of authetication
+    private val favoriteSessionIds = mutableListOf<String>()
 
     fun rooms(): List<Room> {
         return data.map { it.room }.distinct().map {
@@ -81,10 +84,11 @@ object CachedData {
         TODO()
     }
 
-    fun allSessions(): List<Session> {
+    fun allSessions(favoritesOnly: Boolean): List<Session> {
         return data.map {
+            val id = it.start + " " + it.title
             Session(
-                id = it.start + " " + it.title,
+                id = id,
                 title = it.title,
                 description = it.title,
                 language = it.language,
@@ -92,13 +96,22 @@ object CachedData {
                 tags = emptyList(),
                 startInstant = it.start.toInstant(),
                 endInstant = it.end.toInstant(),
-                roomId = it.room
+                roomId = it.room,
+                isFavorite = favoriteSessionIds.contains(id)
             )
+        }.filter { !favoritesOnly || favoriteSessionIds.contains(it.id) }
+    }
+
+    fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
+        if (isFavorite) {
+            favoriteSessionIds.add(sessionId)
+        } else {
+            favoriteSessionIds.remove(sessionId)
         }
     }
 
-    fun sessions(first: Int, after: String?): SessionConnection {
-        val sessionList = allSessions()
+    fun sessions(first: Int, after: String?, favoritesOnly: Boolean): SessionConnection {
+        val sessionList = allSessions(favoritesOnly)
         val fromIndex = if (after == null) 0 else sessionList.indexOfFirst { it.id == after.decodeBase64() } + 1
         val toIndex = (fromIndex + first).coerceAtMost(sessionList.size)
         val sessionSubList = sessionList.subList(fromIndex = fromIndex, toIndex = toIndex)

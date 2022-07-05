@@ -1,5 +1,6 @@
 package fr.androidmakers.server
 
+import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
 import fr.androidmakers.server.model.*
 import org.springframework.stereotype.Component
@@ -9,8 +10,8 @@ class RootQuery : Query {
   fun rooms(): List<Room> {
     return CachedData.rooms()
   }
-  fun sessions(first: Int? = 10, after: String? = null): SessionConnection {
-    return CachedData.sessions(first ?: 10, after)
+  fun sessions(first: Int? = 10, after: String? = null, favoritesOnly: Boolean? = null): SessionConnection {
+    return CachedData.sessions(first = first ?: 10, after = after, favoritesOnly = favoritesOnly ?: false)
   }
   fun speakers(): List<Speaker> {
     return CachedData.speakers()
@@ -25,12 +26,21 @@ class RootQuery : Query {
   }
 
   fun session(id: String): Session {
-    return CachedData.allSessions().first { it.id == id }
+    return CachedData.allSessions(favoritesOnly = false).first { it.id == id }
   }
 
   fun config(): Configuration {
     return Configuration(
         timezone = "Europe/Paris"
     )
+  }
+}
+
+@Component
+class RootMutation : Mutation {
+  fun setSessionFavorite(sessionId: String, isFavorite: Boolean): Session {
+    CachedData.setSessionFavorite(sessionId = sessionId, isFavorite = isFavorite)
+    val session = CachedData.allSessions(favoritesOnly = false).first { it.id == sessionId }
+    return session
   }
 }

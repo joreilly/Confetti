@@ -1,5 +1,16 @@
 query GetSessions($first: Int! = 10, $after: String = null) {
-    sessions(first: $first, after: $after) {
+    sessions(first: $first, after: $after, favoritesOnly: false) {
+        edges {
+            cursor
+            node {
+                ...SessionDetails
+            }
+        }
+    }
+}
+
+query GetFavoriteSessions($first: Int! = 10, $after: String = null) {
+    sessions(first: $first, after: $after, favoritesOnly: true) {
         edges {
             cursor
             node {
@@ -29,6 +40,7 @@ fragment SessionDetails on Session {
       name
     }
     tags
+    isFavorite
 }
 
 
@@ -68,5 +80,11 @@ fragment RoomDetails on Room {
 query GetConfiguration {
   config {
     timezone
+  }
+}
+
+mutation SetSessionFavorite($sessionId: String!, $isFavorite: Boolean!) {
+  setSessionFavorite(sessionId: $sessionId, isFavorite: $isFavorite) {
+    ...SessionDetails
   }
 }

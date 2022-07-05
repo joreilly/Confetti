@@ -174,9 +174,7 @@ fun SessionView(
 fun SessionDetailView(viewModel: ConfettiViewModel, sessionId: String, popBack: () -> Unit) {
     val scrollState = rememberScrollState()
 
-    val session by produceState<SessionDetails?>(initialValue = null, sessionId) {
-        value = viewModel.getSession(sessionId)
-    }
+    val session by viewModel.getSession(sessionId).collectAsState(null)
 
     Scaffold(
         topBar = {
@@ -219,6 +217,13 @@ fun SessionDetailView(viewModel: ConfettiViewModel, sessionId: String, popBack: 
                         Text(speaker.name, fontWeight = FontWeight.Bold)
                         Spacer(modifier = Modifier.size(8.dp))
                         Text(speaker.bio)
+                    }
+
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Button(onClick = {
+                        viewModel.setSessionFavorite(session.id, !session.isFavorite)
+                    }) {
+                        Text(if (session.isFavorite) "Remove from favorites" else "Add to favorites")
                     }
                 }
             }

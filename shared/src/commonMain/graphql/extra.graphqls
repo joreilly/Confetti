@@ -1,6 +1,5 @@
-extend type Query
-@typePolicy(embeddedFields: "sessions")
-@fieldPolicy(forField: "sessions", paginationArgs: "first, after")
+extend schema @link(url: "https://specs.apollo.dev/kotlin_labs/v0.2", import: ["@typePolicy"])
 
-extend type SessionConnection @typePolicy(embeddedFields: "edges")
+extend type Query @typePolicy(connectionFields: "sessions")
+
 extend type Session @typePolicy(keyFields: "id")

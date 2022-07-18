@@ -5,4 +5,12 @@
         <!-- 10.0.2.2 is localhost in the emulator -->
         <domain includeSubdomains="true">10.0.2.2</domain>
     </domain-config>
+
+    <!-- Allow trusting of user CAs only for debuggable builds.  This allows the use of e.g. Charles Proxy with https. -->
+    <!-- See https://developer.android.com/training/articles/security-config.html#TrustingDebugCa -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
 </network-security-config>

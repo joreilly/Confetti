@@ -1,13 +1,10 @@
 query GetSessions($first: Int! = 10, $after: String = null) {
     sessions(first: $first, after: $after) {
         edges {
+            cursor
             node {
                 ...SessionDetails
             }
-        }
-        pageInfo {
-            hasNextPage
-            endCursor
         }
     }
 }
@@ -32,6 +29,7 @@ fragment SessionDetails on Session {
       name
     }
     tags
+    isFavorite
 }
 
 
@@ -71,5 +69,11 @@ fragment RoomDetails on Room {
 query GetConfiguration {
   config {
     timezone
+  }
+}
+
+mutation SetSessionFavorite($sessionId: String!, $isFavorite: Boolean!) {
+  setSessionFavorite(sessionId: $sessionId, isFavorite: $isFavorite) {
+    ...SessionDetails
   }
 }

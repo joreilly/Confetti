@@ -1,7 +1,7 @@
 
 object Versions {
     const val kotlinVersion = "1.7.0"
-    const val apollo = "3.4.0"
+    const val apollo = "3.4.1-SNAPSHOT"
 
     const val kotlinCoroutines = "1.6.3"
     const val kmpNativeCoroutines = "0.12.5-new-mm"
@@ -46,8 +46,8 @@ object Kotlin {
 
 object Apollo {
     const val apolloRuntime = "com.apollographql.apollo3:apollo-runtime:${Versions.apollo}"
-    const val apolloNormalizedCacheInMemory = "com.apollographql.apollo3:apollo-normalized-cache:${Versions.apollo}"
-    const val apolloNormalizedCacheSqlite = "com.apollographql.apollo3:apollo-normalized-cache-sqlite:${Versions.apollo}"
+    const val apolloNormalizedCacheInMemory = "com.apollographql.apollo3:apollo-normalized-cache-incubating:${Versions.apollo}"
+    const val apolloNormalizedCacheSqlite = "com.apollographql.apollo3:apollo-normalized-cache-sqlite-incubating:${Versions.apollo}"
     const val adapters = "com.apollographql.apollo3:apollo-adapters:${Versions.apollo}"
     const val tooling = "com.apollographql.apollo3:apollo-tooling:${Versions.apollo}"
 }

@@ -6,6 +6,7 @@ import com.expediagroup.graphql.generator.TopLevelObject
 import com.expediagroup.graphql.generator.extensions.print
 import com.expediagroup.graphql.generator.hooks.SchemaGeneratorHooks
 import com.expediagroup.graphql.generator.toSchema
+import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
 import graphql.language.StringValue
 import graphql.schema.*
@@ -32,12 +33,13 @@ class DefaultApplication {
   @Bean
   fun schema(
     query: Query,
+    mutation: Mutation,
     schemaConfig: SchemaGeneratorConfig
   ): GraphQLSchema {
     val schema = toSchema(
       config = schemaConfig,
       queries = listOf(TopLevelObject(query, RootQuery::class)),
-      mutations = emptyList(),
+      mutations = listOf(TopLevelObject(mutation, RootMutation::class)),
       subscriptions = emptyList()
     )
 

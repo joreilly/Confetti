@@ -32,8 +32,8 @@ data class SessionEdge(
 data class PageInfo(
     val hasPreviousPage: Boolean,
     val hasNextPage: Boolean,
-    val startCursor: String,
-    val endCursor: String,
+    val startCursor: String?,
+    val endCursor: String?,
 )
 
 /**
@@ -51,6 +51,8 @@ data class Session(
     @RequiresOptIn("experimental")
     val endInstant: Instant,
     private val roomId: String,
+    @RequiresOptIn("experimental")
+    val isFavorite: Boolean,
 ) {
 
     val speakers: List<Speaker>

@@ -1,15 +1,16 @@
 package dev.johnoreilly.confetti.sessions
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,32 +26,56 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 
 
 @Composable
-fun SessionListView(viewModel: ConfettiViewModel, bottomBar: @Composable () -> Unit, sessionSelected: (session: SessionDetails) -> Unit) {
+fun SessionListView(
+    viewModel: ConfettiViewModel,
+    bottomBar: @Composable () -> Unit,
+    sessionSelected: (session: SessionDetails) -> Unit
+) {
     val sessions by viewModel.sessions.collectAsState(emptyList())
 
     val enabledLanguages by viewModel.enabledLanguages.collectAsState(emptySet())
 
+    val filterFavoriteSessions by viewModel.filterFavoriteSessions.collectAsState(false)
+
     Scaffold(
-        topBar = { TopAppBar (
-            title = { Text("Sessions") },
-            // TODO need to figure out how we want to generally handle languages
+        topBar = {
+            TopAppBar(
+                title = { Text("Sessions") },
+                // TODO need to figure out how we want to generally handle languages
 //            actions = { Filter(enabledLanguages, onLanguageChecked = { languageCode, checked ->
 //                viewModel.onLanguageChecked(languageCode, checked)
 //            })
 //            }
-
-        )},
+                actions = {
+                    IconButton(onClick = {
+                        viewModel.onFavoriteFilterClick()
+                    }) {
+                        Icon(
+                            imageVector = if (filterFavoriteSessions) Icons.Filled.Star else Icons.Filled.StarBorder,
+                            contentDescription = "Favorites"
+                        )
+                    }
+                }
+            )
+        },
         bottomBar = bottomBar
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             if (sessions.isNotEmpty()) {
                 LazyColumn {
-                    items(sessions) { session ->
+                    itemsIndexed(sessions) { index, session ->
                         SessionView(viewModel, session, sessionSelected)
+                        if (index == sessions.size - 1) {
+                            viewModel.fetchMoreSessions()
+                        }
                     }
                 }
             } else {
-                Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                ) {
                     CircularProgressIndicator()
                 }
             }
@@ -59,7 +84,7 @@ fun SessionListView(viewModel: ConfettiViewModel, bottomBar: @Composable () -> U
 }
 
 @Composable
-private fun Filter(enabledLanguages: Set<String>, onLanguageChecked: (String, Boolean) -> Unit,) {
+private fun Filter(enabledLanguages: Set<String>, onLanguageChecked: (String, Boolean) -> Unit) {
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
 
@@ -112,33 +137,44 @@ private class LanguageDescriptor(
 )
 
 @Composable
-fun SessionView(viewModel: ConfettiViewModel, session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {
+fun SessionView(
+    viewModel: ConfettiViewModel,
+    session: SessionDetails,
+    sessionSelected: (session: SessionDetails) -> Unit
+) {
 
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .clickable(onClick = { sessionSelected(session) }),
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = { sessionSelected(session) }),
     ) {
 
-        Row(modifier = Modifier.background(color = Color(0xFFEEEEEE))
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier
+                .background(color = Color(0xFFEEEEEE))
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-            val timeString =  viewModel.getSessionTime(session)
+            val timeString = viewModel.getSessionTime(session)
             Text(timeString, color = Color.Black)
         }
 
         Column(modifier = Modifier.padding(16.dp)) {
 
-            Row(verticalAlignment = Alignment.CenterVertically
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = session.title, style = TextStyle(fontSize = 18.sp, color = Color.Blue))
             }
 
-            Row(modifier = Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically
+            Row(
+                modifier = Modifier.padding(top = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 val sessionSpeakerLocationText = viewModel.getSessionSpeakerLocation(session)
-                Text(sessionSpeakerLocationText,  style = TextStyle(fontSize = 14.sp))
+                Text(sessionSpeakerLocationText, style = TextStyle(fontSize = 14.sp))
             }
         }
     }
@@ -151,13 +187,11 @@ fun SessionView(viewModel: ConfettiViewModel, session: SessionDetails, sessionSe
 fun SessionDetailView(viewModel: ConfettiViewModel, sessionId: String, popBack: () -> Unit) {
     val scrollState = rememberScrollState()
 
-    val session by produceState<SessionDetails?>(initialValue = null, sessionId) {
-        value = viewModel.getSession(sessionId)
-    }
+    val session by viewModel.getSession(sessionId).collectAsState(null)
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text( session?.title ?: "") },
+            TopAppBar(title = { Text(session?.title ?: "") },
                 navigationIcon = {
                     IconButton(onClick = { popBack() }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -169,7 +203,8 @@ fun SessionDetailView(viewModel: ConfettiViewModel, sessionId: String, popBack: 
         Column(modifier = Modifier.padding(padding)) {
             session?.let { session ->
                 Column(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(16.dp)
                         .verticalScroll(state = scrollState)
                 ) {
@@ -196,6 +231,13 @@ fun SessionDetailView(viewModel: ConfettiViewModel, sessionId: String, popBack: 
                         Spacer(modifier = Modifier.size(8.dp))
                         Text(speaker.bio)
                     }
+
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Button(onClick = {
+                        viewModel.setSessionFavorite(session.id, !session.isFavorite)
+                    }) {
+                        Text(if (session.isFavorite) "Remove from favorites" else "Add to favorites")
+                    }
                 }
             }
         }
@@ -211,11 +253,11 @@ fun Chip(name: String = "Chip") {
         shape = RoundedCornerShape(16.dp),
         color = MaterialTheme.colors.primary
     ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.body2,
-                color = Color.White,
-                modifier = Modifier.padding(10.dp)
-            )
+        Text(
+            text = name,
+            style = MaterialTheme.typography.body2,
+            color = Color.White,
+            modifier = Modifier.padding(10.dp)
+        )
     }
 }

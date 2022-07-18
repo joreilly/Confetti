@@ -7,7 +7,7 @@ import okio.source
 import xoxo.firstNonBlankTextContent
 import xoxo.toXmlDocument
 import xoxo.walkElements
-import java.util.Base64
+import java.util.*
 
 
 private class SessionizeItem(
@@ -25,7 +25,7 @@ private class SessionizeSpeaker(
 )
 
 object CachedData {
-    private val data by lazy {
+    private val data: List<SessionizeItem> by lazy {
         javaClass.classLoader!!.getResourceAsStream("sessionize.xml").source().buffer()
             .toXmlDocument()
             .root // <div class="sz-root">
@@ -66,6 +66,9 @@ object CachedData {
             }.toList()
     }
 
+    // TODO This must not be global but per user of course! And also, persisted.
+    // Need to implement some kind of authetication
+    private val favoriteSessionIds = mutableListOf<String>()
 
     fun rooms(): List<Room> {
         return data.map { it.room }.distinct().map {
@@ -83,8 +86,9 @@ object CachedData {
 
     fun allSessions(): List<Session> {
         return data.map {
+            val id = it.start + " " + it.title
             Session(
-                id = it.title,
+                id = id,
                 title = it.title,
                 description = it.title,
                 language = it.language,
@@ -92,8 +96,17 @@ object CachedData {
                 tags = emptyList(),
                 startInstant = it.start.toInstant(),
                 endInstant = it.end.toInstant(),
-                roomId = it.room
+                roomId = it.room,
+                isFavorite = favoriteSessionIds.contains(id)
             )
+        }
+    }
+
+    fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
+        if (isFavorite) {
+            favoriteSessionIds.add(sessionId)
+        } else {
+            favoriteSessionIds.remove(sessionId)
         }
     }
 
@@ -109,8 +122,8 @@ object CachedData {
             pageInfo = PageInfo(
                 hasPreviousPage = fromIndex > 0,
                 hasNextPage = toIndex < sessionList.size,
-                startCursor = edges.first().cursor,
-                endCursor = edges.last().cursor,
+                startCursor = edges.firstOrNull()?.cursor,
+                endCursor = edges.lastOrNull()?.cursor,
             )
         )
     }

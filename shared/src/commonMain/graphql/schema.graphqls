@@ -7,6 +7,10 @@ A type representing a formatted kotlinx.datetime.Instant
 """
 scalar Instant
 
+type Mutation {
+  setSessionFavorite(sessionId: String!, isFavorite: Boolean!): Session!
+}
+
 type PageInfo {
   endCursor: String
 
@@ -65,6 +69,8 @@ type Session {
   endInstant: Instant!
 
   id: String!
+
+  isFavorite: Boolean!
 
   language: String
 
@@ -131,4 +137,5 @@ type Venue {
 
 schema {
   query: Query
+  mutation: Mutation
 }

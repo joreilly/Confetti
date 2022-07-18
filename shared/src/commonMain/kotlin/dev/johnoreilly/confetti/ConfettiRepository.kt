@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -53,7 +54,7 @@ class ConfettiRepository : KoinComponent {
     val sessions = MutableStateFlow<List<SessionDetails>>(emptyList())
     private var hasFetchedAllSessions = false
     private var isFetchingSessions = false
-
+    val filterFavoriteSessions = MutableStateFlow(false)
 
     val speakers = apolloClient.query(GetSpeakersQuery()).watch().map {
         it.dataAssertNoErrors.speakers.map { it.speakerDetails }
@@ -81,6 +82,8 @@ class ConfettiRepository : KoinComponent {
                         .map { it.node.sessionDetails }
                 }.combine(enabledLanguages) { sessionList, enabledLanguages ->
                     sessionList.filter { enabledLanguages.contains(it.language) }
+                }.combine(filterFavoriteSessions) { sessionList, filterFavoriteSessions ->
+                    sessionList.filter { it.isFavorite == filterFavoriteSessions }
                 }.collect {
                     sessions.value = it
                 }
@@ -91,9 +94,9 @@ class ConfettiRepository : KoinComponent {
         return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
     }
 
-    suspend fun getSession(sessionId: String): SessionDetails? {
-        val response = apolloClient.query(GetSessionQuery(sessionId)).execute()
-        return response.data?.session?.sessionDetails
+    fun getSession(sessionId: String): Flow<SessionDetails?> {
+        return apolloClient.query(GetSessionQuery(sessionId)).watch()
+            .map { it.data?.session?.sessionDetails }
     }
 
     fun updateEnableLanguageSetting(language: String, checked: Boolean) {
@@ -128,4 +131,10 @@ class ConfettiRepository : KoinComponent {
             }
         }
     }
+
+    suspend fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
+        apolloClient.mutation(SetSessionFavoriteMutation(sessionId, isFavorite))
+            .execute()
+    }
+
 }

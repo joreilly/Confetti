@@ -1,8 +1,10 @@
 package dev.johnoreilly.confetti
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -13,7 +15,9 @@ class ConfettiViewModel(private val repository: ConfettiRepository) : ViewModel(
     val speakers = repository.speakers
     val rooms = repository.rooms
 
-    suspend fun getSession(sessionId: String): SessionDetails? {
+    val filterFavoriteSessions = repository.filterFavoriteSessions as Flow<Boolean>
+
+    fun getSession(sessionId: String): Flow<SessionDetails?> {
         return repository.getSession(sessionId)
     }
 
@@ -42,5 +46,15 @@ class ConfettiViewModel(private val repository: ConfettiRepository) : ViewModel(
 
     fun fetchMoreSessions() {
         repository.fetchMoreSessions()
+    }
+
+    fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
+        viewModelScope.launch {
+            repository.setSessionFavorite(sessionId, isFavorite)
+        }
+    }
+
+    fun onFavoriteFilterClick() {
+        repository.filterFavoriteSessions.value = !repository.filterFavoriteSessions.value
     }
 }

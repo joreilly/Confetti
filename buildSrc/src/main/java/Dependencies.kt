@@ -1,3 +1,4 @@
+import Versions.paging
 
 object Versions {
     const val kotlinVersion = "1.7.0"
@@ -15,6 +16,8 @@ object Versions {
     const val multiplatformSettings = "0.8.1"
     const val koin = "3.2.0"
     const val junit = "4.13"
+
+    const val paging = "3.1.1"
 }
 
 
@@ -73,5 +76,7 @@ object Koin {
     val compose = "io.insert-koin:koin-androidx-compose:${Versions.koin}"
 }
 
-
-
+object Paging {
+    val runtime = "androidx.paging:paging-runtime:$paging"
+    val compose = "androidx.paging:paging-compose:1.0.0-alpha15"
+}

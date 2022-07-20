@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.cache.normalized.watch
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
@@ -11,10 +12,7 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import org.koin.core.component.KoinComponent
@@ -51,10 +49,8 @@ class ConfettiRepository : KoinComponent {
 
     val enabledLanguages = appSettings.enabledLanguages
 
-    val sessions = MutableStateFlow<List<SessionDetails>>(emptyList())
     private var hasFetchedAllSessions = false
     private var isFetchingSessions = false
-    val filterFavoriteSessions = MutableStateFlow(false)
 
     val speakers = apolloClient.query(GetSpeakersQuery()).watch().map {
         it.dataAssertNoErrors.speakers.map { it.speakerDetails }
@@ -64,31 +60,10 @@ class ConfettiRepository : KoinComponent {
         it.dataAssertNoErrors.rooms.map { it.roomDetails }
     }
 
-
-    init {
-        coroutineScope.launch {
-            val configResponse = apolloClient.query(GetConfigurationQuery()).execute()
-            configResponse.data?.config?.timezone?.let {
-                timeZone = TimeZone.of(it)
-            }
-
-            // Fetch the first page and watch it.
-            // Calling fetchMoreSessions() will fetch the following pages and notify watchers.
-            apolloClient.query(GetSessionsQuery(first = Optional.Present(15)))
-                .fetchPolicy(FetchPolicy.CacheAndNetwork)
-                .watch()
-                .map {
-                    it.dataAssertNoErrors.sessions.edges
-                        .map { it.node.sessionDetails }
-                }.combine(enabledLanguages) { sessionList, enabledLanguages ->
-                    sessionList.filter { enabledLanguages.contains(it.language) }
-                }.combine(filterFavoriteSessions) { sessionList, filterFavoriteSessions ->
-                    sessionList.filter { it.isFavorite == filterFavoriteSessions }
-                }.collect {
-                    sessions.value = it
-                }
-        }
-    }
+    val sessionsCacheInvalidated: SharedFlow<Unit> = apolloClient.query(GetSessionsQuery())
+        .watch(data = null)
+        .map { }
+        .shareIn(coroutineScope, started = SharingStarted.Eagerly)
 
     fun getSessionTime(session: SessionDetails): String {
         return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
@@ -103,24 +78,14 @@ class ConfettiRepository : KoinComponent {
         appSettings.updateEnableLanguageSetting(language, checked)
     }
 
-    fun fetchMoreSessions() {
-        if (isFetchingSessions || hasFetchedAllSessions) return
+    fun fetchMoreSessions(after: String?): Boolean {
+        if (isFetchingSessions) return false
+        if (hasFetchedAllSessions) return true
         isFetchingSessions = true
         coroutineScope.launch {
-            // Get the last cursor from the cache
-            val lastCursor = try {
-                apolloClient.query(GetSessionsQuery())
-                    .fetchPolicy(FetchPolicy.CacheOnly)
-                    .execute()
-                    .dataAssertNoErrors.sessions.edges.last().cursor
-            } catch (e: Exception) {
-                null
-            }
-
-            // Fetch the page after it, from the network
             try {
                 val fetchedItemCount =
-                    apolloClient.query(GetSessionsQuery(after = Optional.presentIfNotNull(lastCursor)))
+                    apolloClient.query(GetSessionsQuery(after = Optional.presentIfNotNull(after)))
                         .fetchPolicy(FetchPolicy.NetworkOnly)
                         .execute()
                         .dataAssertNoErrors.sessions.edges.size
@@ -130,6 +95,7 @@ class ConfettiRepository : KoinComponent {
                 isFetchingSessions = false
             }
         }
+        return hasFetchedAllSessions
     }
 
     suspend fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
@@ -137,11 +103,18 @@ class ConfettiRepository : KoinComponent {
             .execute()
     }
 
-    suspend fun fetchSessionPage(cursor: String?): List<GetSessionsQuery.Edge> {
-        return apolloClient.query(GetSessionsQuery(after = Optional.presentIfNotNull(cursor)))
-            .fetchPolicy(FetchPolicy.NetworkOnly)
-            .execute()
-            .dataAssertNoErrors.sessions.edges
+    fun clearCache() {
+        apolloClient.apolloStore.clearAll()
     }
 
+    suspend fun getAllSessionsFromCache(): List<GetSessionsQuery.Edge> {
+        return try {
+            apolloClient.query(GetSessionsQuery())
+                .fetchPolicy(FetchPolicy.CacheOnly)
+                .execute()
+                .dataAssertNoErrors.sessions.edges
+        } catch (ApolloCacheException: Exception) {
+            emptyList()
+        }
+    }
 }

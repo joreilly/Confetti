@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -13,21 +15,25 @@ import java.util.*
 class ConfettiViewModel(private val repository: ConfettiRepository) : ViewModel() {
     val enabledLanguages: Flow<Set<String>> = repository.enabledLanguages
 
-    val sessions = Pager(PagingConfig(pageSize = 10)) {
+    private val _filterFavoriteSessions: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val filterFavoriteSessions: Flow<Boolean> = _filterFavoriteSessions
+
+    @OptIn(ExperimentalPagingApi::class)
+    val sessions = Pager(
+        config = PagingConfig(pageSize = 10),
+        remoteMediator = SessionRemoteMediator(repository)
+    ) {
         SessionPagingSource(repository)
     }.flow
         .map { pagingData ->
             pagingData.filter {
-                val filterFavorites = repository.filterFavoriteSessions.value
+                val filterFavorites = _filterFavoriteSessions.value
                 !filterFavorites || it.node.sessionDetails.isFavorite
             }
         }
-        .cachedIn(viewModelScope)
 
     val speakers = repository.speakers
     val rooms = repository.rooms
-
-    val filterFavoriteSessions = repository.filterFavoriteSessions as Flow<Boolean>
 
     fun getSession(sessionId: String): Flow<SessionDetails?> {
         return repository.getSession(sessionId)
@@ -56,10 +62,6 @@ class ConfettiViewModel(private val repository: ConfettiRepository) : ViewModel(
         }
     }
 
-    fun fetchMoreSessions() {
-        repository.fetchMoreSessions()
-    }
-
     fun setSessionFavorite(sessionId: String, isFavorite: Boolean) {
         viewModelScope.launch {
             repository.setSessionFavorite(sessionId, isFavorite)
@@ -67,28 +69,83 @@ class ConfettiViewModel(private val repository: ConfettiRepository) : ViewModel(
     }
 
     fun onFavoriteFilterClick() {
-        repository.filterFavoriteSessions.value = !repository.filterFavoriteSessions.value
+        _filterFavoriteSessions.value = !_filterFavoriteSessions.value
+    }
+
+    inner class SessionPagingSource(
+        private val repository: ConfettiRepository
+    ) : PagingSource<String, GetSessionsQuery.Edge>() {
+        override suspend fun load(params: LoadParams<String>): LoadResult<String, GetSessionsQuery.Edge> {
+            // Get all sessions from the cache, but we wantonly the page after the
+            // given key: we slice the list manually.
+            val allSessionEdges = repository.getAllSessionsFromCache()
+            val indexOfCursor = allSessionEdges.indexOfFirst { it.cursor == params.key }
+            val sessionEdgesAfterCursor =
+                if (indexOfCursor == -1) {
+                    allSessionEdges
+                } else {
+                    allSessionEdges.subList(indexOfCursor + 1, allSessionEdges.size)
+                }
+
+            // Observe the list to know when to invalidate this source
+            viewModelScope.launch {
+                repository.sessionsCacheInvalidated.take(1).collect {
+                    invalidate()
+                }
+            }
+
+            val nextKey = sessionEdgesAfterCursor.lastOrNull()?.cursor
+            return LoadResult.Page(
+                data = sessionEdgesAfterCursor,
+                prevKey = null,
+                nextKey = nextKey
+            )
+        }
+
+        override fun getRefreshKey(state: PagingState<String, GetSessionsQuery.Edge>): String? {
+            return null
+        }
+
+        override val keyReuseSupported = true
     }
 }
 
-private class SessionPagingSource(
+@OptIn(ExperimentalPagingApi::class)
+private class SessionRemoteMediator(
     private val repository: ConfettiRepository
-) : PagingSource<String, GetSessionsQuery.Edge>() {
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, GetSessionsQuery.Edge> {
-        val cursor = params.key
+) : RemoteMediator<String, GetSessionsQuery.Edge>() {
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<String, GetSessionsQuery.Edge>
+    ): MediatorResult {
         return try {
-            val sessionEdges = repository.fetchSessionPage(cursor)
-            LoadResult.Page(
-                data = sessionEdges,
-                prevKey = null,
-                nextKey = sessionEdges.lastOrNull()?.cursor
-            )
-        } catch (e: Exception) {
-            LoadResult.Error(e)
-        }
-    }
+            val afterCursor: String? = when (loadType) {
+                LoadType.REFRESH -> {
+                    // null means get the first page
+                    null
+                }
+                LoadType.PREPEND -> {
+                    // Prepend not supported by API
+                    return MediatorResult.Success(endOfPaginationReached = true)
+                }
+                LoadType.APPEND -> {
+                    val lastItem = state.lastItemOrNull()
+                    if (lastItem == null) {
+                        // Can be null when no pages have been loaded yet
+                        return MediatorResult.Success(endOfPaginationReached = false)
+                    }
+                    lastItem.cursor
+                }
+            }
 
-    override fun getRefreshKey(state: PagingState<String, GetSessionsQuery.Edge>): String? {
-        return null
+            if (loadType == LoadType.REFRESH) {
+                repository.clearCache()
+            }
+
+            val endOfPaginationReached = repository.fetchMoreSessions(after = afterCursor)
+            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        } catch (e: Exception) {
+            MediatorResult.Error(e)
+        }
     }
 }

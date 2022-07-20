@@ -46,7 +46,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("com.google.android.material:material:1.4.0")
 
-    with (Compose) {
+    with(Compose) {
         implementation(compiler)
         implementation(ui)
         implementation(uiGraphics)
@@ -59,9 +59,14 @@ dependencies {
         implementation(coilCompose)
     }
 
-    with (Koin) {
+    with(Koin) {
         implementation(core)
         implementation(android)
+        implementation(compose)
+    }
+
+    with(Paging) {
+        implementation(runtime)
         implementation(compose)
     }
 }

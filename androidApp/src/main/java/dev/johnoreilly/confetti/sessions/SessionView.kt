@@ -3,7 +3,6 @@ package dev.johnoreilly.confetti.sessions
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -21,7 +20,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.GetSessionsQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
 
 
@@ -31,7 +35,8 @@ fun SessionListView(
     bottomBar: @Composable () -> Unit,
     sessionSelected: (session: SessionDetails) -> Unit
 ) {
-    val sessions by viewModel.sessions.collectAsState(emptyList())
+    val sessions: LazyPagingItems<GetSessionsQuery.Edge> =
+        viewModel.sessions.collectAsLazyPagingItems()
 
     val enabledLanguages by viewModel.enabledLanguages.collectAsState(emptySet())
 
@@ -49,6 +54,7 @@ fun SessionListView(
                 actions = {
                     IconButton(onClick = {
                         viewModel.onFavoriteFilterClick()
+                        sessions.refresh()
                     }) {
                         Icon(
                             imageVector = if (filterFavoriteSessions) Icons.Filled.Star else Icons.Filled.StarBorder,
@@ -61,22 +67,30 @@ fun SessionListView(
         bottomBar = bottomBar
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            if (sessions.isNotEmpty()) {
-                LazyColumn {
-                    itemsIndexed(sessions) { index, session ->
-                        SessionView(viewModel, session, sessionSelected)
-                        if (index == sessions.size - 1) {
-                            viewModel.fetchMoreSessions()
-                        }
-                    }
-                }
-            } else {
+            if (sessions.loadState.refresh == LoadState.Loading) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .wrapContentSize(Alignment.Center)
                 ) {
                     CircularProgressIndicator()
+                }
+            } else {
+                LazyColumn {
+                    items(sessions) { session ->
+                        SessionView(viewModel, session!!.node.sessionDetails, sessionSelected)
+                    }
+
+
+                    if (sessions.loadState.append == LoadState.Loading) {
+                        item {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentWidth(Alignment.CenterHorizontally)
+                            )
+                        }
+                    }
                 }
             }
         }

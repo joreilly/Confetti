@@ -137,4 +137,11 @@ class ConfettiRepository : KoinComponent {
             .execute()
     }
 
+    suspend fun fetchSessionPage(cursor: String?): List<GetSessionsQuery.Edge> {
+        return apolloClient.query(GetSessionsQuery(after = Optional.presentIfNotNull(cursor)))
+            .fetchPolicy(FetchPolicy.NetworkOnly)
+            .execute()
+            .dataAssertNoErrors.sessions.edges
+    }
+
 }

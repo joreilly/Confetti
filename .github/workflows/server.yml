@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'server'
+      - 'server/**'
 
 # Cancel any current or previous job from the same PR
 concurrency:

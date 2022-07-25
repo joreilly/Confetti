@@ -29,7 +29,7 @@ object Deps {
     const val multiplatformSettings = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
     const val multiplatformSettingsCoroutines = "com.russhwolf:multiplatform-settings-coroutines:${Versions.multiplatformSettings}"
     const val okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
-    const val graphqlKotlinSpringServer = "com.expediagroup:graphql-kotlin-spring-server:5.3.1"
+    const val graphqlKotlinSpringServer = "com.expediagroup:graphql-kotlin-spring-server:5.5.0"
     const val junit = "junit:junit:4.13.2"
     const val xoxo = "net.mbonnin.xoxo:xoxo:0.2"
 }

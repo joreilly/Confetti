@@ -1,0 +1,24 @@
+name: Server CI
+
+on:
+  pull_request:
+    paths:
+      - '*'
+  push:
+    paths:
+      - 'server'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: actions/setup-java@v1
+      with:
+        java-version: 11
+    - run: |
+      echo ${{ secrets.GOOGLE_SERVICES_JSON }} > server/google_services.json
+      ./gradlew :server:appengineDeploy
+
+

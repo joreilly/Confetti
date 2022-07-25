@@ -15,7 +15,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-allopen:${Versions.kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlinVersion}")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.5.6")
-        classpath("com.google.cloud.tools:appengine-gradle-plugin:2.4.2")
+        classpath("com.google.cloud.tools:appengine-gradle-plugin:2.4.4")
     }
 }
 
@@ -23,10 +23,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-        }
-
     }
 }
 

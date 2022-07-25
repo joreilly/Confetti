@@ -22,6 +22,9 @@ appengine {
   stage {
     setArtifact(tasks.named("bootJar").flatMap { (it as Jar).archiveFile })
   }
+  tools {
+    setServiceAccountKeyFile(file("google_services.json"))
+  }
   deploy {
     projectId = "confetti-349319"
     version = "GCLOUD_CONFIG"

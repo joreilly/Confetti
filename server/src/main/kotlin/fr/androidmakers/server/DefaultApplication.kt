@@ -9,6 +9,7 @@ import com.expediagroup.graphql.generator.toSchema
 import com.expediagroup.graphql.server.operations.Query
 import graphql.language.StringValue
 import graphql.schema.*
+import graphql.schema.idl.SchemaPrinter
 import kotlinx.datetime.Instant
 import okio.buffer
 import okio.source
@@ -44,6 +45,7 @@ class DefaultApplication {
     val key = javaClass.classLoader.getResourceAsStream("apollo.key")?.use {
       it.source().buffer().readUtf8().trim()
     }
+
     if (key != null) {
       val graph = key.split(":").getOrNull(1)
       if (graph == null) {
@@ -62,6 +64,22 @@ class DefaultApplication {
     }
 
     return schema
+  }
+
+  private fun GraphQLSchema.print(): String {
+    return SchemaPrinter(
+      SchemaPrinter.Options.defaultOptions()
+        .includeIntrospectionTypes(false)
+        .includeScalarTypes(true)
+        .includeSchemaDefinition(false)
+        .includeSchemaElement {
+          when (it) {
+            is GraphQLDirective -> !setOf("include", "skip", "specifiedBy", "deprecated").contains(it.name)
+            else -> true
+          }
+        }
+        .includeDirectiveDefinitions(true)
+    ).print(this)
   }
 
   @Bean

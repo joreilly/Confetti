@@ -22,6 +22,7 @@ jobs:
       with:
         java-version: 11
     - run: |
+        echo ${{ secrets.APOLLO_KEY }} > server/src/main/resources/apollo.key
         ./gradlew :server:setupGoogleServices
         ./gradlew :server:appengineDeploy
       env:

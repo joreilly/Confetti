@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,13 +26,18 @@ fun RoomListView(viewModel: ConfettiViewModel, bottomBar: @Composable () -> Unit
         bottomBar = bottomBar
     ) {
         if (rooms.isNotEmpty()) {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.padding(it)
+            ) {
                 items(rooms) { room ->
                     RoomView(room)
                 }
             }
         } else {
-            Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+            Box(modifier = Modifier.fillMaxSize()
+                .wrapContentSize(Alignment.Center)
+                .padding(it)
+            ) {
                 CircularProgressIndicator()
             }
         }

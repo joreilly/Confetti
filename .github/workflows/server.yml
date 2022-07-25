@@ -1,10 +1,9 @@
 name: Server CI
 
 on:
-  pull_request:
-    paths:
-      - '*'
   push:
+    branches:
+      - 'main'
     paths:
       - 'server'
 

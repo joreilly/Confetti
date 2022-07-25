@@ -33,7 +33,6 @@ appengine {
 
 tasks.register("setupGoogleServices") {
   doLast {
-    println("Len: ${System.getenv("GOOGLE_SERVICES_JSON").length}")
     file("google_services.json").writeText(System.getenv("GOOGLE_SERVICES_JSON"))
   }
 }

@@ -1,4 +1,4 @@
-name: Android CI
+name: iOS CI
 
 on: pull_request
 

@@ -18,8 +18,8 @@ jobs:
       with:
         java-version: 11
     - run: |
-      ./gradlew :server:setupGoogleServices
-      ./gradlew :server:appengineDeploy
+        ./gradlew :server:setupGoogleServices
+        ./gradlew :server:appengineDeploy
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 

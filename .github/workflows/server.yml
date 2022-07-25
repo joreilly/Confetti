@@ -18,7 +18,7 @@ jobs:
       with:
         java-version: 11
     - run: |
-      echo ${{ secrets.GOOGLE_SERVICES_JSON }} > server/google_services.json
+      echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > server/google_services.json
       ./gradlew :server:appengineDeploy
 
 

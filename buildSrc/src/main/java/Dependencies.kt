@@ -12,7 +12,7 @@ object Versions {
     const val navCompose = "2.5.1"
     const val accompanist = "0.25.1"
 
-    const val multiplatformSettings = "0.9"
+    const val multiplatformSettings = "1.0.0-alpha01"
     const val koin = "3.2.0"
     const val junit = "4.13"
 }

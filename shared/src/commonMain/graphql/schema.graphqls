@@ -1,20 +1,14 @@
-"""
-This field can be changed without warning
-"""
-directive @requiresOptIn (feature: String!) on FIELD_DEFINITION
-
 type Configuration {
   timezone: String!
 }
 
+"""
+A type representing a formatted kotlinx.datetime.Instant
+"""
+scalar Instant
+
 type PageInfo {
-  endCursor: String!
-
-  hasNextPage: Boolean!
-
-  hasPreviousPage: Boolean!
-
-  startCursor: String!
+  endCursor: String
 }
 
 type Partner {
@@ -22,14 +16,10 @@ type Partner {
 
   name: String!
 
-  order: Int!
-
   url: String!
 }
 
 type PartnerGroup {
-  order: Int!
-
   partners: [Partner!]!
 
   title: String!
@@ -44,7 +34,7 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions(after: String, first: Int): SessionConnection!
+  sessions(first: Int, after: String): SessionConnection!
 
   speakers: [Speaker!]!
 
@@ -60,41 +50,35 @@ type Room {
 }
 
 type Session {
-  description: String!
+  description: String
 
-  endInstant: Instant! @requiresOptIn(feature: "experimental")
+  endInstant: Instant!
 
   id: String!
 
   language: String
 
-  room: Room!
-
-  speakers: [Speaker!]!
-
-  startInstant: Instant! @requiresOptIn(feature: "experimental")
+  startInstant: Instant!
 
   tags: [String!]!
 
   title: String!
+
+  room: Room @deprecated(reason: "use rooms instead")
+
+  rooms: [Room!]!
+
+  speakers: [Speaker!]!
 }
 
 type SessionConnection {
-  edges: [SessionEdge!]!
+  nodes: [Session!]!
 
   pageInfo: PageInfo!
-
-  totalCount: Int!
-}
-
-type SessionEdge {
-  cursor: String!
-
-  node: Session!
 }
 
 type Social {
-  icon: String!
+  icon: String
 
   link: String!
 
@@ -102,7 +86,7 @@ type Social {
 }
 
 type Speaker {
-  bio: String!
+  bio: String
 
   company: String
 
@@ -129,7 +113,6 @@ type Venue {
   name: String!
 }
 
-"""
-A type representing a formatted kotlinx.datetime.Instant
-"""
-scalar Instant
+schema {
+  query: Query
+}

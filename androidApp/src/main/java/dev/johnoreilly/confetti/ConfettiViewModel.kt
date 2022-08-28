@@ -23,7 +23,7 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
 
     fun getSessionSpeakerLocation(session: SessionDetails): String {
         var text = session.speakers.joinToString(", ") { it.name }
-        text += " / ${session.room.name} / ${getLanguageInEmoji(session.language)}"
+        text += " / ${session.room?.name} / ${getLanguageInEmoji(session.language)}"
         return text
     }
 

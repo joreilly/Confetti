@@ -1,10 +1,10 @@
-name: Server CI
+name: Backend Test
 
 on: pull_request
 
 # Cancel any current or previous job from the same PR
 concurrency:
-  group: server-${{ github.head_ref }}
+  group: backend-test-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       with:
         java-version: 11
     - run: |
-        ./gradlew :server:build
+        ./gradlew :backend:graphql:build
 
 
 

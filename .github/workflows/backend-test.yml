@@ -17,7 +17,8 @@ jobs:
       with:
         java-version: 11
     - run: |
-        ./gradlew :backend:graphql:build
+        ./gradlew :backend:service-graphql:build
+        ./gradlew :backend:service-import:build
 
 
 

@@ -23,8 +23,8 @@ jobs:
         java-version: 11
     - run: |
         echo ${{ secrets.APOLLO_KEY }} > backend/graphql/src/main/resources/apollo.key
-        ./gradlew :backend:graphql:setupGoogleServices
-        ./gradlew :backend:graphql:appengineDeploy
+        ./gradlew :backend:setupGoogleServices
+        ./gradlew appengineDeploy
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 

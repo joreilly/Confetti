@@ -83,7 +83,7 @@ class ConfettiViewModel: ObservableObject {
     
     func getSessionSpeakerLocation(session: SessionDetails) -> String {
         var text = session.speakers.map { $0.name }.joined(separator: ",")
-        text += " / \(session.room.name) / \(getFlag(session: session))"
+        text += " / \(session.room?.name) / \(getFlag(session: session))"
         return text
     }
 

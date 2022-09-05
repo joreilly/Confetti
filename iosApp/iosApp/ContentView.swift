@@ -108,7 +108,7 @@ struct SessionDetailsView: View {
                 Text(session.title).font(.title).foregroundColor(.blue)
                 Divider()
                 
-                Text(session.sessionDescription())
+                Text(session.sessionDescription() ?? "")
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(alignment: .center) {
                         ForEach(session.tags, id: \.self) { tag in
@@ -126,7 +126,7 @@ struct SessionDetailsView: View {
                 
                 ForEach(session.speakers, id: \.self) { speaker in
                     Text(speaker.name).bold()
-                    Text(speaker.bio)
+                    Text(speaker.bio ?? "")
                 }
                 Spacer()
             }

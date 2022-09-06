@@ -32,6 +32,10 @@ object Deps {
     const val graphqlKotlinSpringServer = "com.expediagroup:graphql-kotlin-spring-server:5.5.0"
     const val junit = "junit:junit:4.13.2"
     const val xoxo = "net.mbonnin.xoxo:xoxo:0.2"
+    const val bareGraphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
+    const val kaml = "com.charleskorn.kaml:kaml:0.47.0"
+    const val ktorCio = "io.ktor:ktor-server-cio:2.1.0"
+    const val ktorStatusPages = "io.ktor:ktor-server-status-pages:2.1.0"
 }
 
 object Kotlinx {

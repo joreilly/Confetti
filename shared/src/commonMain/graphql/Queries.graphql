@@ -1,12 +1,9 @@
 query GetSessions($first: Int! = 10, $after: String = null) {
     sessions(first: $first, after: $after) {
-        edges {
-            node {
-                ...SessionDetails
-            }
+        nodes {
+            ...SessionDetails
         }
         pageInfo {
-            hasNextPage
             endCursor
         }
     }

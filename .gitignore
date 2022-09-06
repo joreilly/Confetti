@@ -1,14 +1,21 @@
 xcuserdata
-google_services.json
+service_account_key.json
 *.iml
 .gradle
 /local.properties
-.idea
 .DS_Store
 /build
-*/build
+**/build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
 apollo.key
+apollo.key.unused
+
+# Idea
+**/.idea/*
+!**/.idea/codeStyles
+!**/.idea/icon.png
+!**/.idea/runConfigurations
+!**/.idea/scopes

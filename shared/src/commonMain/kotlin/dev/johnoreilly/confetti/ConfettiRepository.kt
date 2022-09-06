@@ -59,7 +59,6 @@ class ConfettiRepository: KoinComponent {
         it.dataAssertNoErrors.rooms.map { it.roomDetails }
     }
 
-
     init {
         coroutineScope.launch {
             val configResponse = apolloClient.query(GetConfigurationQuery()).execute()
@@ -69,8 +68,8 @@ class ConfettiRepository: KoinComponent {
 
             // TODO: We fetch the first page only, assuming there are <100 conferennces. Pagination should be implemented instead.
             apolloClient.query(GetSessionsQuery(first = Optional.Present(100))).watch().map {
-                it.dataAssertNoErrors.sessions.edges
-                    .map { it.node.sessionDetails }
+                it.dataAssertNoErrors.sessions.nodes
+                    .map { it.sessionDetails }
                     .sortedBy { it.startInstant }
             }.combine(enabledLanguages) { sessionList, enabledLanguages ->
                 sessionList.filter { enabledLanguages.contains(it.language) }

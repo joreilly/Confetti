@@ -180,7 +180,7 @@ fun SessionDetailView(viewModel: ConfettiViewModel, sessionId: String, popBack: 
                     )
 
                     Spacer(modifier = Modifier.size(16.dp))
-                    Text(text = session.description, style = TextStyle(fontSize = 16.sp))
+                    Text(text = session.description?: "", style = TextStyle(fontSize = 16.sp))
 
                     Spacer(modifier = Modifier.size(16.dp))
                     Row {
@@ -194,7 +194,7 @@ fun SessionDetailView(viewModel: ConfettiViewModel, sessionId: String, popBack: 
                     session.speakers.forEach { speaker ->
                         Text(speaker.name, fontWeight = FontWeight.Bold)
                         Spacer(modifier = Modifier.size(8.dp))
-                        Text(speaker.bio)
+                        Text(speaker.bio ?: "")
                     }
                 }
             }

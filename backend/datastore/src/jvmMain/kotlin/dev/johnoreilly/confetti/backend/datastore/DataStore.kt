@@ -3,13 +3,9 @@ package dev.johnoreilly.confetti.backend.datastore
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.datastore.*
 import com.google.datastore.v1.QueryResultBatch
-import dev.johnoreilly.confetti.backend.datastore.DataStore.Companion.toValue
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
-import net.mbonnin.bare.graphql.asMap
-import net.mbonnin.bare.graphql.asString
-import net.mbonnin.bare.graphql.toAny
-import net.mbonnin.bare.graphql.toJsonElement
+import net.mbonnin.bare.graphql.*
 import java.io.File
 
 class DataStore {
@@ -36,9 +32,11 @@ class DataStore {
         sessions: List<DSession>,
         rooms: List<DRoom>,
         speakers: List<DSpeaker>,
+        partnerGroups: List<DPartnerGroup>,
         config: DConfig
     ) {
         datastore.runInTransaction {
+            it.put(partnerGroups.toEntity(conf))
             it.put(*sessions.map { it.toEntity(conf) }.toTypedArray())
             it.put(*rooms.map { it.toEntity(conf) }.toTypedArray())
             it.put(*speakers.map { it.toEntity(conf) }.toTypedArray())
@@ -51,6 +49,7 @@ class DataStore {
             println(message)
         }
     }
+
     fun readSessions(conf: String, limit: Int, cursor: String?): DPage<DSession> {
         log("readSessions limit=$limit")
         val query: EntityQuery? = Query.newEntityQueryBuilder()
@@ -80,6 +79,20 @@ class DataStore {
             else -> result.cursorAfter.toUrlSafe()
         }
         return DPage(items, nextPageCursor = nextPageCursor)
+    }
+
+    fun readPartnerGroups(conf: String): List<DPartnerGroup> {
+        log("readPartnerGroups")
+        return datastore.get(
+            keyFactory
+                .setKind(KIND_PARTNERGROUPS)
+                .addAncestor(PathElement.of(KIND_CONF, conf))
+                .newKey(THE_PARTNERGROUPS)
+        ).getString(THE_PARTNERGROUPS).let {
+            Json.parseToJsonElement(it).toAny().asList.map {
+                it.asMap.toPartnerGroup()
+            }
+        }
     }
 
     fun readConfig(conf: String): DConfig {
@@ -173,6 +186,16 @@ class DataStore {
             .build()
     }
 
+    private fun List<DPartnerGroup>.toEntity(conf: String): Entity {
+        return Entity.newBuilder(
+            keyFactory.addAncestor(PathElement.of(KIND_CONF, conf))
+                .setKind(KIND_PARTNERGROUPS)
+                .newKey(THE_PARTNERGROUPS)
+        )
+            .set(THE_PARTNERGROUPS, map { it.toMap() }.toJsonElement().toString().toValue(excludeFromIndex = true))
+            .build()
+    }
+
     private fun DSpeaker.toEntity(conf: String): Entity {
         return Entity.newBuilder(
             keyFactory.addAncestor(PathElement.of(KIND_CONF, conf))
@@ -187,7 +210,36 @@ class DataStore {
             .build()
     }
 
-    private fun DLink.toMap(): Map<String, Any> {
+    private fun DPartnerGroup.toMap(): Map<String, Any?> {
+        return mapOf(
+            "key" to key,
+            "partners" to partners.map { it.toMap() }
+        )
+    }
+
+    private fun DPartner.toMap(): Map<String, Any?> {
+        return mapOf(
+            "name" to this.name,
+            "url" to this.url,
+            "logoUrl" to this.logoUrl
+        )
+    }
+    private fun Map<String, Any?>.toPartner(): DPartner {
+        return DPartner(
+            name = get("name").asString,
+            url = get("url").asString,
+            logoUrl = get("logoUrl").asString
+        )
+    }
+
+    private fun Map<String, Any?>.toPartnerGroup(): DPartnerGroup {
+        return DPartnerGroup(
+            key = get("key").asString,
+            partners = get("partners").asList.map { it.asMap.toPartner() },
+        )
+    }
+
+    private fun DLink.toMap(): Map<String, Any?> {
         return mapOf(
             "key" to key,
             "url" to url
@@ -275,7 +327,9 @@ class DataStore {
         private const val KIND_CONFIG = "Config"
         private const val KIND_ROOM = "Room"
         private const val KIND_SPEAKER = "Speaker"
+        private const val KIND_PARTNERGROUPS = "Partners"
 
         private const val THE_CONFIG = "config"
+        private const val THE_PARTNERGROUPS = "partnerGroups"
     }
 }

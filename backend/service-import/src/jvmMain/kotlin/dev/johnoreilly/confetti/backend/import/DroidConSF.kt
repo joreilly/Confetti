@@ -107,6 +107,7 @@ object DroidConSF {
           )
         }
       },
+      partnerGroups = emptyList(),
       config = DConfig(
         timeZone = TIMEZONE
       )

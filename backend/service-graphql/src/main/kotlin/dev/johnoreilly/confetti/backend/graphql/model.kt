@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
 annotation class RequiresOptIn(val feature: String)
 
 @Component
-class RootQuery() : Query {
+class RootQuery : Query {
     fun rooms(dfe: DataFetchingEnvironment): List<Room> {
         return dfe.source().rooms()
     }

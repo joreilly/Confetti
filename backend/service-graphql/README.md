@@ -2,11 +2,13 @@
 
 From the root project:
 
+**Run locally:**
 ```
-# Run locally
-./gradlew :server:bootRun
+./gradlew :backend:service-graphql:bootRun
+```
 
-# Deploy to Google Cloud
-./gradlew :server:appengineDeploy
+**Deploy to Google Cloud:**
+```
+./gradlew :backend:service-graphql:appengineDeploy
 ```
 

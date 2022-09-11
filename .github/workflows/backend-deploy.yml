@@ -6,7 +6,7 @@ on:
       - 'main'
     paths:
       - 'backend/**'
-      - ".github/workflows"
+      - ".github/workflows/**"
 
 # Cancel any current or previous job from the same PR
 concurrency:

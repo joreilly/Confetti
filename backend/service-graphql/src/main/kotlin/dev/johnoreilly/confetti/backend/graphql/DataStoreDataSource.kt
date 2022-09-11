@@ -1,9 +1,6 @@
 package dev.johnoreilly.confetti.backend.graphql
 
-import dev.johnoreilly.confetti.backend.datastore.DLink
-import dev.johnoreilly.confetti.backend.datastore.DSession
-import dev.johnoreilly.confetti.backend.datastore.DSpeaker
-import dev.johnoreilly.confetti.backend.datastore.DataStore
+import dev.johnoreilly.confetti.backend.datastore.*
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 
@@ -90,6 +87,23 @@ class DataStoreDataSource(private val conf: String) : DataSource {
         )
     }
     override fun partnerGroups(): List<PartnerGroup> {
-        return emptyList()
+        return datastore.readPartnerGroups(conf).map {
+            it.toPartnerGroup()
+        }
+    }
+
+    private fun DPartnerGroup.toPartnerGroup(): PartnerGroup {
+        return PartnerGroup(
+            title = key,
+            partners = partners.map { it.toPartner() }
+        )
+    }
+
+    private fun DPartner.toPartner(): Partner {
+        return Partner(
+            name = name,
+            logoUrl = logoUrl,
+            url = url
+        )
     }
 }

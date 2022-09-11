@@ -114,22 +114,20 @@ object DevFestNantes {
                 session
             }
         }
-//        val partnerGroups = partners.asMap.entries.map {
-//            PartnerGroup(
-//                title = it.key,
-//                partners = it.value.asList.map { it.asMap }.map {
-//                    Partner(
-//                        name = it.get("title").asString,
-//                        logoUrl = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/partners/${
-//                            it.get(
-//                                "title"
-//                            )
-//                        }.png",
-//                        url = it.get("website")?.asString ?: ""
-//                    )
-//                }
-//            )
-//        }
+        val partnerGroups = partners.asMap.entries.map {
+            DPartnerGroup(
+                key = it.key,
+                partners = it.value.asList.map { it.asMap }.map {
+                    val title = it.get("title").asString
+                    val id = it.get("id").asString
+                    DPartner(
+                        name = title,
+                        logoUrl = "$baseUrl/src/images/partners/$id.png",
+                        url = it.get("website")?.asString ?: ""
+                    )
+                }
+            )
+        }
         val speakers = listYamls("data/speakers").map {
             val speaker = Yaml.default.parseToYamlNode(getGithubFile(it)).toAny().asMap
 
@@ -161,6 +159,7 @@ object DevFestNantes {
             sessions = sessions,
             rooms = rooms,
             speakers = speakers,
+            partnerGroups = partnerGroups,
             config = config
         )
     }

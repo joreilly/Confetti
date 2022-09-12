@@ -8,13 +8,7 @@ type Configuration {
 }
 
 type PageInfo {
-  endCursor: String!
-
-  hasNextPage: Boolean!
-
-  hasPreviousPage: Boolean!
-
-  startCursor: String!
+  endCursor: String
 }
 
 type Partner {
@@ -22,14 +16,10 @@ type Partner {
 
   name: String!
 
-  order: Int!
-
   url: String!
 }
 
 type PartnerGroup {
-  order: Int!
-
   partners: [Partner!]!
 
   title: String!
@@ -60,7 +50,7 @@ type Room {
 }
 
 type Session {
-  description: String!
+  description: String
 
   endInstant: Instant! @requiresOptIn(feature: "experimental")
 
@@ -68,7 +58,9 @@ type Session {
 
   language: String
 
-  room: Room!
+  room: Room
+
+  rooms: [Room!]!
 
   speakers: [Speaker!]!
 
@@ -80,21 +72,13 @@ type Session {
 }
 
 type SessionConnection {
-  edges: [SessionEdge!]!
+  nodes: [Session!]!
 
   pageInfo: PageInfo!
-
-  totalCount: Int!
-}
-
-type SessionEdge {
-  cursor: String!
-
-  node: Session!
 }
 
 type Social {
-  icon: String!
+  icon: String
 
   link: String!
 
@@ -102,7 +86,7 @@ type Social {
 }
 
 type Speaker {
-  bio: String!
+  bio: String
 
   company: String
 

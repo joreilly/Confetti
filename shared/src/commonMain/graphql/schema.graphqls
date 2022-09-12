@@ -1,11 +1,11 @@
+"""
+This field can be changed without warning
+"""
+directive @requiresOptIn (feature: String!) on FIELD_DEFINITION
+
 type Configuration {
   timezone: String!
 }
-
-"""
-A type representing a formatted kotlinx.datetime.Instant
-"""
-scalar Instant
 
 type PageInfo {
   endCursor: String
@@ -34,7 +34,7 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions(first: Int, after: String): SessionConnection!
+  sessions(after: String, first: Int): SessionConnection!
 
   speakers: [Speaker!]!
 
@@ -52,23 +52,23 @@ type Room {
 type Session {
   description: String
 
-  endInstant: Instant!
+  endInstant: Instant! @requiresOptIn(feature: "experimental")
 
   id: String!
 
   language: String
 
-  startInstant: Instant!
-
-  tags: [String!]!
-
-  title: String!
-
-  room: Room @deprecated(reason: "use rooms instead")
+  room: Room
 
   rooms: [Room!]!
 
   speakers: [Speaker!]!
+
+  startInstant: Instant! @requiresOptIn(feature: "experimental")
+
+  tags: [String!]!
+
+  title: String!
 }
 
 type SessionConnection {
@@ -113,6 +113,7 @@ type Venue {
   name: String!
 }
 
-schema {
-  query: Query
-}
+"""
+A type representing a formatted kotlinx.datetime.Instant
+"""
+scalar Instant

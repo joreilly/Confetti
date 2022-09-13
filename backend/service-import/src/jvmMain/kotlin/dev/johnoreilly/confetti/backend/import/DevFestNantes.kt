@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.backend.import
 
 import com.charleskorn.kaml.*
 import dev.johnoreilly.confetti.backend.datastore.*
+import dev.johnoreilly.confetti.backend.import.DevFestNantes.plus
 import kotlinx.datetime.*
 import kotlinx.serialization.json.Json
 import net.mbonnin.bare.graphql.asList
@@ -62,8 +63,20 @@ object DevFestNantes {
             .map { "$path/$it" }
     }
 
+    private fun Map<String, Any?>.startTime(): LocalDateTime {
+        val day = if (get("key").asString.startsWith("day-1")) {
+            "2022-10-20"
+        } else {
+            "2022-10-21"
+        }
+
+        return LocalDateTime.parse("${day}T${get("start")}")
+    }
+
+    private val UNKNOWN_END = LocalDateTime(0, 1, 1, 0, 0)
+
     internal fun import() {
-        val slots = getJsonGithubFile("data/slots.json")
+        val slots = getJsonGithubFile("data/slots.json").asMap.get("slots").asList.map { it.asMap }
         val categories =
             getJsonGithubFile("data/categories.json").asMap.get("categories").asList.map { it.asMap }
         val partners = getJsonGithubFile("data/partners.json")
@@ -72,19 +85,21 @@ object DevFestNantes {
         var sessions = listYamls("data/sessions").mapIndexed { index, session ->
             val talk = Yaml.default.parseToYamlNode(getGithubFile(session)).toAny().asMap
 
-            val slot = slots.asMap.get("slots").asList.map { it.asMap }.first { it.get("key") == talk.get("slot") }
-            val day = if (talk.get("slot").asString.startsWith("day-1")) {
-                "2022-10-20"
-            } else {
-                "2022-10-21"
-            }
-            val localDateTime = LocalDateTime.parse("${day}T${slot.get("start")}")
+            val slot = slots.first { it.get("key") == talk.get("slot") }
+            val localDateTime = slot.startTime()
             val roomId = talk.get("room").asString
 
             roomIds.add(roomId)
 
+            /**
+             * construct a valid ID for DataStore
+             */
+            val id = session.substringAfterLast("/")
+                .replace("_", "")
+                .substringBeforeLast(".")
+                .take(64)
             DSession(
-                id = index.toString(),
+                id = id,
                 title = talk.get("title").asString,
                 description = talk.get("abstract").asString,
                 language = when (talk.get("language").asString.lowercase()) {
@@ -96,18 +111,21 @@ object DevFestNantes {
                     categories.firstOrNull { it.get("id") == tagId.asString }?.get("label")?.asString
                 },
                 start = localDateTime,
-                end = LocalDateTime(0, 1, 1, 0, 0),
+                // The YAMLs do not have and end time
+                end = UNKNOWN_END,
                 rooms = listOf(roomId),
                 type = "talk"
             )
-        } + keynote("2022-10-20T09:00") + keynote("2022-10-21T17:20")
+        } + slotSessions(slots)
 
         val sortedSessions = sessions.sortedBy { it.start }
 
         sessions = sessions.map { session ->
-            if (session.end.year == 0) {
+            if (session.end == UNKNOWN_END) {
                 val end = sortedSessions.firstOrNull { candidate ->
-                    candidate.start > session.start && candidate.start.dayOfMonth == session.start.dayOfMonth
+                    candidate.start > session.start
+                        && candidate.start.dayOfMonth == session.start.dayOfMonth
+                        && candidate.rooms.intersect(session.rooms.toSet()).isNotEmpty()
                 }?.start ?: (session.start + 40.minutes)
                 session.copy(end = end)
             } else {
@@ -156,7 +174,7 @@ object DevFestNantes {
 
         return DataStore().write(
             conf = "devfestnantes",
-            sessions = sessions,
+            sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,
             partnerGroups = partnerGroups,
@@ -178,6 +196,127 @@ object DevFestNantes {
         )
     }
 
+    private fun slotSessions(slots: List<Map<String, Any?>>): List<DSession> {
+        /**
+         * Some of the logic that determines Rooms is in code so I just hardcode the rules here
+         * See https://github.com/GDG-Nantes/Devfest2022/blob/d82c0b815d6e67b61db7cf9faf61c2069d875abc/src/components/schedule/large.tsx#L60
+         */
+        return slots.mapNotNull {
+            val id = it.get("key").asString
+            val type = it.get("type").asString
+            when  {
+                id == "day-2-pause-2" -> {
+                    DSession(
+                        id = id,
+                        title = "Break",
+                        description = "Break",
+                        language = "fr-FR",
+                        speakers = emptyList(),
+                        tags = emptyList(),
+                        start = it.startTime(),
+                        end = UNKNOWN_END,
+                        rooms = FIRST_6_ROOMS,
+                        type = "break"
+                    )
+                }
+                id == "day-1-party" -> {
+                    DSession(
+                        id = id,
+                        title = "Party",
+                        description = "Party",
+                        language = "fr-FR",
+                        speakers = emptyList(),
+                        tags = emptyList(),
+                        start = it.startTime(),
+                        end = UNKNOWN_END,
+                        rooms = ALL_ROOMS,
+                        type = "party"
+                    )
+                }
+                type == "opening" -> {
+                    DSession(
+                        id = id,
+                        title = "Opening",
+                        description = "Opening",
+                        language = "fr-FR",
+                        speakers = emptyList(),
+                        tags = emptyList(),
+                        start = it.startTime(),
+                        end = UNKNOWN_END,
+                        rooms = ALL_ROOMS,
+                        type = "opening"
+                    )
+                }
+                type == "keynote" -> {
+                    DSession(
+                        id =id,
+                        title = "Keynote",
+                        description = "Keynote",
+                        language = "fr-FR",
+                        speakers = emptyList(),
+                        tags = emptyList(),
+                        start = it.startTime(),
+                        end = UNKNOWN_END,
+                        rooms = listOf(ROOM_JULES_VERNE),
+                        type = "keynote"
+                    )
+                }
+                type == "break" -> {
+                    val notForCodelab = it.get("display")?.asMap?.containsKey("notForCodelab") ?: false
+                    DSession(
+                        id = id,
+                        title = "Break",
+                        description = "Break",
+                        language = "fr-FR",
+                        speakers = emptyList(),
+                        tags = emptyList(),
+                        start = it.startTime(),
+                        end = UNKNOWN_END,
+                        rooms = if (notForCodelab) FIRST_4_ROOMS else ALL_ROOMS,
+                        type = "break"
+                    )
+                }
+                type == "lunch" -> {
+                    DSession(
+                        id = id,
+                        title = "Lunch",
+                        description = "Lunch",
+                        language = "fr-FR",
+                        speakers = emptyList(),
+                        tags = emptyList(),
+                        start = it.startTime(),
+                        end = UNKNOWN_END,
+                        rooms = ALL_ROOMS,
+                        type = "lunch"
+                    )
+                }
+                else -> null
+            }
+        }
+
+    }
+
+    private const val ROOM_JULES_VERNE = "Jules Verne"
+    private const val ROOM_TITAN = "Titan"
+    private const val ROOM_BELEM = "Belem"
+    private const val ROOM_TOUR_DE_BRETAGNE = "Tour de Bretagne"
+    private const val ROOM_LES_MACHINES = "Les Machines"
+    private const val ROOM_HANGAR = "Hangar"
+    private const val ROOM_L_ATELIER = "L'Atelier"
+    private val FIRST_4_ROOMS = listOf(
+        ROOM_JULES_VERNE,
+        ROOM_TITAN,
+        ROOM_BELEM,
+        ROOM_TOUR_DE_BRETAGNE
+    )
+    private val FIRST_6_ROOMS = FIRST_4_ROOMS + listOf(
+        ROOM_LES_MACHINES,
+        ROOM_HANGAR,
+    )
+    private val ALL_ROOMS = FIRST_6_ROOMS + listOf(
+        ROOM_L_ATELIER
+    )
+
     private fun keynote(localDateTime: String): DSession {
         val start = LocalDateTime.parse(localDateTime)
         return DSession(
@@ -189,7 +328,7 @@ object DevFestNantes {
             tags = emptyList(),
             start = start,
             end = start.plus(40.minutes),
-            rooms = listOf("Jules Verne"),
+            rooms = listOf(ROOM_JULES_VERNE),
             type = "keynote"
         )
     }

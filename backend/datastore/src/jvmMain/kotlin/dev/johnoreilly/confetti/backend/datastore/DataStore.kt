@@ -37,13 +37,37 @@ class DataStore {
         config: DConfig
     ) {
         datastore.runInTransaction {
-            it.put(*venues.map { it.toEntity(conf) }.toTypedArray())
             it.put(partnerGroups.toEntity(conf))
-            it.put(*sessions.map { it.toEntity(conf) }.toTypedArray())
-            it.put(*rooms.map { it.toEntity(conf) }.toTypedArray())
-            it.put(*speakers.map { it.toEntity(conf) }.toTypedArray())
             it.put(config.toEntity(conf))
+            it.deleteAll(conf, KIND_VENUE)
+            it.put(*venues.map { it.toEntity(conf) }.toTypedArray())
+            it.deleteAll(conf, KIND_SESSION)
+            it.put(*sessions.map { it.toEntity(conf) }.toTypedArray())
+            it.deleteAll(conf, KIND_ROOM)
+            it.put(*rooms.map { it.toEntity(conf) }.toTypedArray())
+            it.deleteAll(conf, KIND_SPEAKER)
+            it.put(*speakers.map { it.toEntity(conf) }.toTypedArray())
         }
+    }
+
+    private fun DatastoreReaderWriter.deleteAll(conf: String, kind: String) {
+        val query: EntityQuery? = Query.newEntityQueryBuilder()
+            .setKind(kind)
+            .setLimit(100)
+            .setFilter(
+                StructuredQuery.PropertyFilter.hasAncestor(
+                    keyFactory.setKind(KIND_CONF).newKey(conf)
+                )
+            )
+            .build()
+        val result = datastore.run(query)
+
+        val keys = mutableListOf<Key>()
+        result.forEach {
+            keys.add(it.key)
+        }
+
+        datastore.delete(*keys.toTypedArray())
     }
 
     private fun log(message: String) {

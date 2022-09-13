@@ -71,7 +71,9 @@ class DataStoreDataSource(private val conf: String) : DataSource {
             tags = tags,
             startInstant = start.toInstant(TimeZone.of(_config.timezone)),
             endInstant = end.toInstant(TimeZone.of(_config.timezone)),
-            roomIds = rooms.toSet()
+            roomIds = rooms.toSet(),
+            complexity = complexity,
+            feedbackId = feedbackId
         )
     }
 
@@ -90,7 +92,9 @@ class DataStoreDataSource(private val conf: String) : DataSource {
             bio = bio,
             company = company,
             socials = links.map { it.toSocial() },
-            photoUrl = photoUrl
+            photoUrl = photoUrl,
+            companyLogoUrl = companyLogoUrl,
+            city = city
         )
     }
 

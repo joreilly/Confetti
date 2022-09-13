@@ -111,8 +111,10 @@ object DevFestNantes {
                     categories.firstOrNull { it.get("id") == tagId.asString }?.get("label")?.asString
                 },
                 start = localDateTime,
-                // The YAMLs do not have and end time
+                // The YAMLs do not have an end time
                 end = UNKNOWN_END,
+                complexity = talk.get("complexity")?.asString,
+                feedbackId = talk.get("openfeedbackId")?.asString,
                 rooms = listOf(roomId),
                 type = "talk"
             )
@@ -157,7 +159,9 @@ object DevFestNantes {
                 links = speaker.get("socials").asMap.entries.map {
                     DLink(key = it.key, url = it.value.asString)
                 },
-                photoUrl = speaker.get("photoUrl")?.asString
+                photoUrl = speaker.get("photoUrl")?.asString,
+                companyLogoUrl = speaker.get("companyLogo")?.asString?.let { "${baseUrl}src$it" },
+                city = speaker.get("city")?.asString,
             )
         }
 
@@ -204,7 +208,7 @@ object DevFestNantes {
         return slots.mapNotNull {
             val id = it.get("key").asString
             val type = it.get("type").asString
-            when  {
+            when {
                 id == "day-2-pause-2" -> {
                     DSession(
                         id = id,
@@ -216,9 +220,12 @@ object DevFestNantes {
                         start = it.startTime(),
                         end = UNKNOWN_END,
                         rooms = FIRST_6_ROOMS,
-                        type = "break"
+                        type = "break",
+                        complexity = null,
+                        feedbackId = null,
                     )
                 }
+
                 id == "day-1-party" -> {
                     DSession(
                         id = id,
@@ -230,9 +237,12 @@ object DevFestNantes {
                         start = it.startTime(),
                         end = UNKNOWN_END,
                         rooms = ALL_ROOMS,
-                        type = "party"
+                        type = "party",
+                        complexity = null,
+                        feedbackId = null,
                     )
                 }
+
                 type == "opening" -> {
                     DSession(
                         id = id,
@@ -244,12 +254,15 @@ object DevFestNantes {
                         start = it.startTime(),
                         end = UNKNOWN_END,
                         rooms = ALL_ROOMS,
-                        type = "opening"
+                        type = "opening",
+                        complexity = null,
+                        feedbackId = null,
                     )
                 }
+
                 type == "keynote" -> {
                     DSession(
-                        id =id,
+                        id = id,
                         title = "Keynote",
                         description = "Keynote",
                         language = "fr-FR",
@@ -258,9 +271,13 @@ object DevFestNantes {
                         start = it.startTime(),
                         end = UNKNOWN_END,
                         rooms = listOf(ROOM_JULES_VERNE),
-                        type = "keynote"
-                    )
+                        type = "keynote",
+                        complexity = null,
+                        feedbackId = null,
+
+                        )
                 }
+
                 type == "break" -> {
                     val notForCodelab = it.get("display")?.asMap?.containsKey("notForCodelab") ?: false
                     DSession(
@@ -273,9 +290,13 @@ object DevFestNantes {
                         start = it.startTime(),
                         end = UNKNOWN_END,
                         rooms = if (notForCodelab) FIRST_4_ROOMS else ALL_ROOMS,
-                        type = "break"
-                    )
+                        type = "break",
+                        complexity = null,
+                        feedbackId = null,
+
+                        )
                 }
+
                 type == "lunch" -> {
                     DSession(
                         id = id,
@@ -287,9 +308,12 @@ object DevFestNantes {
                         start = it.startTime(),
                         end = UNKNOWN_END,
                         rooms = ALL_ROOMS,
-                        type = "lunch"
-                    )
+                        type = "lunch",
+                        complexity = null,
+                        feedbackId = null,
+                        )
                 }
+
                 else -> null
             }
         }
@@ -316,22 +340,6 @@ object DevFestNantes {
     private val ALL_ROOMS = FIRST_6_ROOMS + listOf(
         ROOM_L_ATELIER
     )
-
-    private fun keynote(localDateTime: String): DSession {
-        val start = LocalDateTime.parse(localDateTime)
-        return DSession(
-            id = "keynote",
-            title = "Keynote",
-            description = "Keynote",
-            language = "fr-FR",
-            speakers = emptyList(),
-            tags = emptyList(),
-            start = start,
-            end = start.plus(40.minutes),
-            rooms = listOf(ROOM_JULES_VERNE),
-            type = "keynote"
-        )
-    }
 
     private operator fun LocalDateTime.plus(duration: Duration): LocalDateTime {
         return toInstant(TimeZone.UTC).plus(duration).toLocalDateTime(TimeZone.UTC)

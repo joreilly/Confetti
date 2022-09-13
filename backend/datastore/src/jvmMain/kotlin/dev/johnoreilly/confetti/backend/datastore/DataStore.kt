@@ -170,7 +170,9 @@ class DataStore {
             links = getList<StringValue>("links").map {
                 Json.parseToJsonElement(it.get()).toAny().asMap.toLink()
             },
-            photoUrl = getStringOrNull("photoUrl")
+            photoUrl = getStringOrNull("photoUrl"),
+            companyLogoUrl = getStringOrNull("companyLogoUrl"),
+            city = getStringOrNull("city"),
         )
     }
 
@@ -190,6 +192,8 @@ class DataStore {
             language = getStringOrNull("language"),
             start = getString("start").toLocalDateTime(),
             end = getString("end").toLocalDateTime(),
+            complexity = getStringOrNull("complexity"),
+            feedbackId = getStringOrNull("feedbackId"),
             tags = getList<StringValue>("tags").map { it.get() },
             rooms = getList<StringValue>("rooms").map { it.get() },
             speakers = getList<StringValue>("speakers").map { it.get() }
@@ -208,6 +212,8 @@ class DataStore {
             .set("language", language.toValue())
             .set("start", start.toString().toValue())
             .set("end", end.toString().toValue())
+            .set("complexity", complexity.toValue())
+            .set("feedbackId", feedbackId.toValue())
             .set("tags", tags.toValue())
             .set("rooms", rooms.toValue())
             .set("speakers", speakers.toValue())
@@ -259,6 +265,8 @@ class DataStore {
             .set("bio", bio.toValue(excludeFromIndex = true))
             .set("company", company.toValue())
             .set("photoUrl", photoUrl.toValue())
+            .set("companyLogoUrl", companyLogoUrl.toValue())
+            .set("city", city.toValue())
             .set("links", links.map { it.toMap().toJsonElement().toString() }.toValue(excludeFromIndex = true))
             .build()
     }

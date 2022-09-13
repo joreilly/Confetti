@@ -4,7 +4,7 @@ interface DataSource {
   fun rooms(): List<Room>
   fun sessions(first: Int, after: String?): SessionConnection
   fun speakers(): List<Speaker>
-  fun venue(id: String): Venue
+  fun venues(): List<Venue>
   fun partnerGroups(): List<PartnerGroup>
   fun configuration(): Configuration
 }

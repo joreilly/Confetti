@@ -33,9 +33,11 @@ class DataStore {
         rooms: List<DRoom>,
         speakers: List<DSpeaker>,
         partnerGroups: List<DPartnerGroup>,
+        venues: List<DVenue>,
         config: DConfig
     ) {
         datastore.runInTransaction {
+            it.put(*venues.map { it.toEntity(conf) }.toTypedArray())
             it.put(partnerGroups.toEntity(conf))
             it.put(*sessions.map { it.toEntity(conf) }.toTypedArray())
             it.put(*rooms.map { it.toEntity(conf) }.toTypedArray())
@@ -123,6 +125,18 @@ class DataStore {
         )
     }
 
+    private fun Entity.toVenue(): DVenue {
+        return DVenue(
+            id = key.name,
+            name = getString("name"),
+            address = getStringOrNull("address"),
+            latitude = getDoubleOrNull("latitude"),
+            longitude = getDoubleOrNull("longitude"),
+            description = (Json.parseToJsonElement(getString("description")).toAny() as Map<String, String>),
+            imageUrl = getStringOrNull("imageUrl")
+        )
+    }
+
     private fun Entity.toSpeaker(): DSpeaker {
         return DSpeaker(
             id = key.name,
@@ -183,6 +197,21 @@ class DataStore {
                 .newKey(id)
         )
             .set("name", name.toValue())
+            .build()
+    }
+
+    private fun DVenue.toEntity(conf: String): Entity {
+        return Entity.newBuilder(
+            keyFactory.addAncestor(PathElement.of(KIND_CONF, conf))
+                .setKind(KIND_VENUE)
+                .newKey(id)
+        )
+            .set("name", name.toValue())
+            .set("address", address.toValue())
+            .set("latitude", latitude.toValue())
+            .set("longitude", longitude.toValue())
+            .set("description", description.toJsonElement().toString().toValue(true))
+            .set("imageUrl", imageUrl.toValue())
             .build()
     }
 
@@ -281,6 +310,26 @@ class DataStore {
         return items
     }
 
+    fun readVenues(conf: String): List<DVenue> {
+        val query: EntityQuery? = Query.newEntityQueryBuilder()
+            .setKind(KIND_VENUE)
+            .setLimit(100)
+            .setFilter(
+                StructuredQuery.PropertyFilter.hasAncestor(
+                    keyFactory.setKind(KIND_CONF).newKey(conf)
+                )
+            )
+            .build()
+        val result = datastore.run(query)
+
+        val items = mutableListOf<DVenue>()
+        result.forEach {
+            items.add(it.toVenue())
+        }
+
+        return items
+    }
+
     fun readSpeakers(conf: String): List<DSpeaker> {
         log("readSpeakers")
         val query: EntityQuery? = Query.newEntityQueryBuilder()
@@ -322,12 +371,20 @@ class DataStore {
             null
         }
 
+        private fun Entity.getDoubleOrNull(name: String): Double? = try {
+            getDouble(name)
+        } catch (_: Exception) {
+            null
+        }
+
+
         private const val KIND_SESSION = "Session"
         private const val KIND_CONF = "Conf"
         private const val KIND_CONFIG = "Config"
         private const val KIND_ROOM = "Room"
         private const val KIND_SPEAKER = "Speaker"
         private const val KIND_PARTNERGROUPS = "Partners"
+        private const val KIND_VENUE = "Venue"
 
         private const val THE_CONFIG = "config"
         private const val THE_PARTNERGROUPS = "partnerGroups"

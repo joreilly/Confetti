@@ -23,15 +23,26 @@ class DataStoreDataSource(private val conf: String) : DataSource {
         }
     }
 
+
+    private val _venues: List<Venue> by lazy {
+        datastore.readVenues(conf).map {
+            Venue(
+                id = it.id,
+                name = it.name,
+                latitude = it.latitude,
+                longitude = it.longitude,
+                address = it.address,
+                imageUrl = it.imageUrl,
+                descriptions = it.description
+            )
+        }
+    }
+
     private val _speakers by lazy {
         datastore.readSpeakers(conf).map { it.toSpeaker() }
     }
     override fun rooms(): List<Room> {
         return _rooms
-    }
-
-    override fun venue(id: String): Venue {
-        TODO()
     }
 
     override fun configuration(): Configuration {
@@ -66,6 +77,10 @@ class DataStoreDataSource(private val conf: String) : DataSource {
 
     override fun speakers(): List<Speaker> {
         return _speakers
+    }
+
+    override fun venues(): List<Venue> {
+        return _venues
     }
 
     private fun DSpeaker.toSpeaker(): Speaker {

@@ -20,6 +20,16 @@ class DRoom(
   val name: String
 )
 
+class DVenue(
+  val id: String,
+  val name: String,
+  val address: String?,
+  val latitude: Double?,
+  val longitude: Double?,
+  val description: Map<String, String>,
+  val imageUrl: String?,
+)
+
 class DSpeaker(
   val id: String,
   val name: String,

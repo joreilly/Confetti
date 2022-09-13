@@ -30,7 +30,11 @@ class RootQuery : Query {
     }
 
     fun venue(dfe: DataFetchingEnvironment, id: String): Venue {
-        return dfe.source().venue(id)
+        return dfe.source().venues().first { it.id == id }
+    }
+
+    fun venues(dfe: DataFetchingEnvironment): List<Venue> {
+        return dfe.source().venues()
     }
 
     fun partnerGroups(dfe: DataFetchingEnvironment): List<PartnerGroup> {
@@ -137,13 +141,34 @@ data class Partner(
 )
 
 data class Venue(
+    val id: String,
     val name: String,
+    val latitude: Double?,
+    val longitude: Double?,
     val address: String? = null,
-    val coordinates: String? = null,
-    val description: String,
-    val descriptionFr: String,
-    val imageUrl: String,
-)
+    val imageUrl: String?,
+    private val descriptions: Map<String, String>
+) {
+    @Deprecated("use latitude and longitude instead")
+    val coordinates: String?
+        get() {
+            return if (latitude != null && longitude != null) {
+                "$latitude,$longitude"
+            } else {
+                null
+            }
+        }
+
+    @Deprecated("description(language: \"fr\") instead")
+    val descriptionFr: String
+        get() {
+            return descriptions.get("fr") ?: descriptions.get("en") ?: ""
+        }
+
+    fun description(language: String? = "en"): String {
+        return descriptions.get(language) ?: descriptions.get("en") ?: ""
+    }
+}
 
 data class Configuration(
     val timezone: String,

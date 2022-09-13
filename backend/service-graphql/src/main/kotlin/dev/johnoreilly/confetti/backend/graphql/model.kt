@@ -89,6 +89,8 @@ data class Session(
     @RequiresOptIn("experimental")
     val endInstant: Instant,
     private val roomIds: Set<String>,
+    val complexity: String?,
+    val feedbackId: String?,
 ) {
     fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
         return dfe.source().speakers().filter {
@@ -119,6 +121,8 @@ data class Speaker(
     val name: String,
     val bio: String?,
     val company: String?,
+    val companyLogoUrl: String?,
+    val city: String?,
     val socials: List<Social>,
     val photoUrl: String?,
 )

@@ -10,6 +10,8 @@ data class DSession(
   val language: String?,
   val start: LocalDateTime,
   val end: LocalDateTime,
+  val complexity: String?,
+  val feedbackId: String?,
   val tags: List<String>,
   val rooms: List<String>,
   val speakers: List<String>
@@ -35,6 +37,8 @@ class DSpeaker(
   val name: String,
   val bio: String?,
   val company: String?,
+  val companyLogoUrl: String?,
+  val city: String?,
   val links: List<DLink>,
   val photoUrl: String?,
 )

@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti.backend.import
 
 import com.charleskorn.kaml.*
 import dev.johnoreilly.confetti.backend.datastore.*
-import dev.johnoreilly.confetti.backend.import.DevFestNantes.plus
 import kotlinx.datetime.*
 import kotlinx.serialization.json.Json
 import net.mbonnin.bare.graphql.asList
@@ -157,7 +156,15 @@ object DevFestNantes {
                 bio = speaker.get("bio")?.asString,
                 company = speaker.get("company")?.asString,
                 links = speaker.get("socials").asMap.entries.map {
-                    DLink(key = it.key, url = it.value.asString)
+                    val handle = it.value.asString.trim()
+                    val url = when (it.key) {
+                        "github" -> "https://github.com/$handle"
+                        "linkedin" -> "https://www.linkedin.com/$handle"
+                        "twitter" -> "https://twitter.com/" + handle.trimStart('@')
+                        "facebook" -> "https://www.facebook.com/$handle"
+                        else -> ""
+                    }
+                    DLink(key = it.key, url = url)
                 },
                 photoUrl = speaker.get("photoUrl")?.asString,
                 companyLogoUrl = speaker.get("companyLogo")?.asString?.let { "${baseUrl}src$it" },

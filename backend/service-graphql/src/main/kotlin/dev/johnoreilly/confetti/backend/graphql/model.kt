@@ -75,7 +75,8 @@ data class PageInfo(
 )
 
 /**
- * @param language an [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US
+ * @property language an [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US
+ * @property type one of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format
  */
 data class Session(
     val id: String,
@@ -91,6 +92,7 @@ data class Session(
     private val roomIds: Set<String>,
     val complexity: String?,
     val feedbackId: String?,
+    val type: String,
 ) {
     fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
         return dfe.source().speakers().filter {

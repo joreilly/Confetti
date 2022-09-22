@@ -116,7 +116,7 @@ object DevFestNantes {
                 complexity = talk.get("complexity")?.asString,
                 feedbackId = talk.get("openfeedbackId")?.asString,
                 rooms = listOf(roomId),
-                type = "talk"
+                type = talk.get("talkType")?.asString ?: "talk"
             )
         } + slotSessions(slots)
 

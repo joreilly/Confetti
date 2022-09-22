@@ -73,7 +73,8 @@ class DataStoreDataSource(private val conf: String) : DataSource {
             endInstant = end.toInstant(TimeZone.of(_config.timezone)),
             roomIds = rooms.toSet(),
             complexity = complexity,
-            feedbackId = feedbackId
+            feedbackId = feedbackId,
+            type = type
         )
     }
 

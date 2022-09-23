@@ -1,5 +1,5 @@
 import SwiftUI
-import shared
+import ConfettiKit
 
 @main
 struct iOSApp: App {

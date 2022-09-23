@@ -3,7 +3,10 @@ plugins {
     id("com.android.library")
     id("com.apollographql.apollo3")
     id("com.rickclephas.kmp.nativecoroutines")
+    id("io.github.luca992.multiplatform-swiftpackage") version "2.0.5-arm64"
 }
+
+version = "1.0"
 
 kotlin {
     android()
@@ -15,7 +18,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared"
+            baseName = "ConfettiKit"
         }
     }
 
@@ -121,4 +124,12 @@ apollo {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+}
+
+multiplatformSwiftPackage {
+    packageName("ConfettiKit")
+    swiftToolsVersion("5.3")
+    targetPlatforms {
+        iOS { v("14") }
+    }
 }

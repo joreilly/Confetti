@@ -1,6 +1,6 @@
 import SwiftUI
 import Combine
-import shared
+import ConfettiKit
 
 
 struct ContentView: View {

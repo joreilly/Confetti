@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import shared
+import ConfettiKit
 import KMPNativeCoroutinesAsync
 
 

@@ -43,9 +43,6 @@ kotlin {
 dependencies {
     implementation(project(":shared"))
 
-    implementation("androidx.activity:activity-compose:1.4.0")
-    implementation("com.google.android.material:material:1.4.0")
-
     with (Compose) {
         implementation(compiler)
         implementation(ui)
@@ -57,6 +54,12 @@ dependencies {
         implementation(materialIconsExtended)
         implementation(navigation)
         implementation(coilCompose)
+
+        implementation(activityCompose)
+        implementation(lifecycleRuntimeCompose)
+        implementation(material3)
+        implementation(material3WindowSizeClass)
+        implementation(splashScreen)
     }
 
     with (Koin) {

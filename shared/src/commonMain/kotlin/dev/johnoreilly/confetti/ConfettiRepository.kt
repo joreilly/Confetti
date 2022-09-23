@@ -23,20 +23,6 @@ import org.koin.core.component.inject
 fun SessionDetails.sessionDescription() = this.description
 
 
-fun SpeakerDetails.imageUrl(): String {
-    return "https://raw.githubusercontent.com/paug/android-makers-2022/main/$photoUrl"
-        .replace("..", "")
-        .replace(".svg", ".svg.png")
-        .let {
-            if (it.endsWith(".svg.png")) {
-                it.replace("logos/", "logos/pngs/")
-            } else {
-                it
-            }
-        }
-}
-
-
 class ConfettiRepository: KoinComponent {
     @NativeCoroutineScope
     private val coroutineScope: CoroutineScope = MainScope()

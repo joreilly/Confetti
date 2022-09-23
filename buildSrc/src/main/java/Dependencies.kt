@@ -7,13 +7,16 @@ object Versions {
     const val kmpNativeCoroutines = "0.12.6-new-mm"
     const val kotlinxDateTime = "0.4.0"
 
-    const val compose = "1.2.1"
-    const val composeCompiler = "1.3.0"
-    const val navCompose = "2.5.1"
-    const val accompanist = "0.25.1"
+    const val compose = "1.3.0-beta03"
+    const val composeCompiler = "1.3.1"
+    const val navCompose = "2.5.2"
+    const val accompanist = "0.26.2-beta"
+    const val composeMaterial3 = "1.0.0-alpha13"
+    const val activityCompose = "1.6.0-rc02"
+    const val lifecycle = "2.6.0-alpha02"
 
     const val multiplatformSettings = "1.0.0-alpha01"
-    const val koin = "3.2.0"
+    const val koin = "3.2.1"
     const val junit = "4.13"
 }
 
@@ -37,6 +40,7 @@ object Deps {
     const val ktorCio = "io.ktor:ktor-server-cio:2.1.0"
     const val ktorStatusPages = "io.ktor:ktor-server-status-pages:2.1.0"
 }
+
 
 object Kotlinx {
     const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
@@ -68,6 +72,12 @@ object Compose {
     const val materialIconsExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
     const val navigation = "androidx.navigation:navigation-compose:${Versions.navCompose}"
     const val coilCompose = "io.coil-kt:coil-compose:2.0.0"
+
+    const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
+    const val lifecycleRuntimeCompose = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifecycle}"
+    const val material3 = "androidx.compose.material3:material3:${Versions.composeMaterial3}"
+    const val material3WindowSizeClass = "androidx.compose.material3:material3-window-size-class:${Versions.composeMaterial3}"
+    const val splashScreen = "androidx.core:core-splashscreen:1.0.0"
 }
 
 object Koin {

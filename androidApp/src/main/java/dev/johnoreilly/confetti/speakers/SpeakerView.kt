@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package dev.johnoreilly.confetti.speakers
 
 import android.annotation.SuppressLint
@@ -6,7 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,28 +23,49 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.imageUrl
+import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
+import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
+import org.koin.androidx.compose.getViewModel
 
+
+@Composable
+fun SpeakersRoute(viewModel: ConfettiViewModel = getViewModel()) {
+    val speakers by viewModel.speakers.collectAsState(emptyList())
+    SpeakerListView(speakers)
+}
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SpeakerListView(viewModel: ConfettiViewModel, bottomBar: @Composable () -> Unit) {
-    val speakers by viewModel.speakers.collectAsState(emptyList())
-
-    Scaffold(
-        topBar = { TopAppBar (title = { Text("Speakers") } ) },
-        bottomBar = bottomBar
-    ) {
-        if (speakers.isNotEmpty()) {
-            LazyColumn {
-                items(speakers) { speaker ->
-                    SpeakerView(speaker)
+fun SpeakerListView(speakers: List<SpeakerDetails>) {
+    ConfettiGradientBackground {
+        Scaffold(
+            topBar = {
+                ConfettiTopAppBar(
+                    titleRes = R.string.speakers,
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
+                    modifier = Modifier.windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
+                    )
+                )
+            },
+            containerColor = Color.Transparent
+        ) { innerPadding ->
+            Column(modifier = Modifier.padding(innerPadding)) {
+                if (speakers.isNotEmpty()) {
+                    LazyColumn {
+                        items(speakers) { speaker ->
+                            SpeakerView(speaker)
+                        }
+                    }
+                } else {
+                    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                        CircularProgressIndicator()
+                    }
                 }
-            }
-        } else {
-            Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
-                CircularProgressIndicator()
             }
         }
     }
@@ -60,8 +83,8 @@ fun SpeakerView(speaker: SpeakerDetails) {
     ) {
         if (speaker.photoUrl?.isNotEmpty() == true) {
             AsyncImage(
-                model =speaker.imageUrl(),
-                contentDescription = speaker.imageUrl(),
+                model =speaker.photoUrl,
+                contentDescription = speaker.name,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(60.dp).clip(CircleShape)
             )
@@ -76,7 +99,5 @@ fun SpeakerView(speaker: SpeakerDetails) {
             Text(text = speaker.company ?: "", style = TextStyle(color = Color.DarkGray, fontSize = 14.sp))
         }
     }
-
-    Divider()
 }
 

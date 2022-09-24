@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Confetti</string>
+
+
+    <string name="sessions">Sessions</string>
+    <string name="speakers">Speakers</string>
+    <string name="rooms">Rooms</string>
+
 </resources>

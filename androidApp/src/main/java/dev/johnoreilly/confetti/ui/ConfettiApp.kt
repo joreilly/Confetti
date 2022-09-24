@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.navigation.ConfettiNavHost
 import dev.johnoreilly.confetti.navigation.TopLevelDestination
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
@@ -41,7 +42,8 @@ import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 @Composable
 fun ConfettiApp(
     windowSizeClass: WindowSizeClass,
-    appState: ConfettiAppState = rememberConfettiAppState(windowSizeClass)
+    displayFeatures: List<DisplayFeature>,
+    appState: ConfettiAppState = rememberConfettiAppState(windowSizeClass, displayFeatures)
 ) {
     ConfettiTheme {
         ConfettiBackground {
@@ -78,6 +80,8 @@ fun ConfettiApp(
 
                     ConfettiNavHost(
                         navController = appState.navController,
+                        isExpandedScreen = appState.isExpandedScreen,
+                        displayFeatures = appState.displayFeatures,
                         onBackClick = appState::onBackClick,
                         onNavigateToDestination = appState::navigate,
                         modifier = Modifier

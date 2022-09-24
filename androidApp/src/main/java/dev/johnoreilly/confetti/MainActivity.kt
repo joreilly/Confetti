@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.view.WindowCompat
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dev.johnoreilly.confetti.ui.ConfettiApp
 
 
@@ -20,7 +21,10 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            ConfettiApp(calculateWindowSizeClass(this))
+            val windowSizeClass = calculateWindowSizeClass(this)
+            val displayFeatures = calculateDisplayFeatures(this)
+
+            ConfettiApp(windowSizeClass, displayFeatures)
         }
     }
 }

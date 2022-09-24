@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.rooms.navigation.SessionsDestination
@@ -14,6 +15,8 @@ import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
 @Composable
 fun ConfettiNavHost(
     navController: NavHostController,
+    isExpandedScreen: Boolean,
+    displayFeatures: List<DisplayFeature>,
     onNavigateToDestination: (ConfettiNavigationDestination, String) -> Unit = { _, _ -> },
     onBackClick: () -> Unit = {},
     modifier: Modifier = Modifier,
@@ -24,12 +27,13 @@ fun ConfettiNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        sessionsGraph(navigateToSession = {
-            onNavigateToDestination(
-                SessionDetailsDestination,
-                SessionDetailsDestination.createNavigationRoute(it)
-            )
-        })
+        sessionsGraph(isExpandedScreen, displayFeatures,
+            navigateToSession = {
+                onNavigateToDestination(
+                    SessionDetailsDestination,
+                    SessionDetailsDestination.createNavigationRoute(it)
+                )
+            })
         sessionDetailsGraph(onBackClick)
         speakersGraph()
         roomsGraph()

@@ -7,9 +7,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.PlayArrow
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -18,6 +16,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.sessions.navigation.RoomsDestination
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.navigation.ConfettiNavigationDestination
@@ -28,10 +27,11 @@ import dev.johnoreilly.confetti.speakers.navigation.SpeakersDestination
 @Composable
 fun rememberConfettiAppState(
     windowSizeClass: WindowSizeClass,
+    displayFeatures: List<DisplayFeature>,
     navController: NavHostController = rememberNavController()
 ): ConfettiAppState {
-    return remember(navController, windowSizeClass) {
-        ConfettiAppState(navController, windowSizeClass)
+    return remember(navController, windowSizeClass, displayFeatures) {
+        ConfettiAppState(navController, windowSizeClass, displayFeatures)
     }
 }
 
@@ -39,7 +39,8 @@ fun rememberConfettiAppState(
 @Stable
 class ConfettiAppState(
     val navController: NavHostController,
-    val windowSizeClass: WindowSizeClass
+    val windowSizeClass: WindowSizeClass,
+    val displayFeatures: List<DisplayFeature>
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController
@@ -51,6 +52,9 @@ class ConfettiAppState(
 
     val shouldShowNavRail: Boolean
         get() = !shouldShowBottomBar
+
+    val isExpandedScreen: Boolean
+        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded
 
     /**
      * Top level destinations to be used in the BottomBar and NavRail

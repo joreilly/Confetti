@@ -16,6 +16,10 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
         repository.updateEnableLanguageSetting(language, checked)
     }
 
+    suspend fun getSession(sessionId: String): SessionDetails? {
+        return repository.getSession(sessionId)
+    }
+
     fun getSessionTime(session: SessionDetails): String {
         return repository.getSessionTime(session)
     }

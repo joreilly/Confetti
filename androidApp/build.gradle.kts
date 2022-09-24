@@ -60,6 +60,8 @@ dependencies {
         implementation(material3)
         implementation(material3WindowSizeClass)
         implementation(splashScreen)
+
+        implementation(accompanistAdaptive)
     }
 
     with (Koin) {

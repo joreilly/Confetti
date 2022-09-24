@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.rooms.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.sessions.SessionsRoute
 
@@ -10,8 +11,8 @@ object SessionsDestination : ConfettiNavigationDestination {
     override val destination = "sessions_destination"
 }
 
-fun NavGraphBuilder.sessionsGraph(navigateToSession: (String) -> Unit) {
+fun NavGraphBuilder.sessionsGraph(isExpandedScreen: Boolean, displayFeatures: List<DisplayFeature>, navigateToSession: (String) -> Unit) {
     composable(route = SessionsDestination.route) {
-        SessionsRoute(navigateToSession)
+        SessionsRoute(isExpandedScreen, displayFeatures, navigateToSession)
     }
 }

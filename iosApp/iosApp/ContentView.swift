@@ -28,16 +28,32 @@ struct ContentView: View {
 struct SessionListView: View {
     @ObservedObject var viewModel: ConfettiViewModel
 
+    let gradient = Gradient(colors: [Color(0xFFEBFB), Color(0xFFEDE6)])
+    
+    
     var body: some View {
-                NavigationView {
+        NavigationView {
             List(viewModel.sessions) { session in
                 NavigationLink(destination: SessionDetailsView(session: session)) {
                     VStack(alignment: .leading) {
                         SessionView(viewModel: viewModel, session: session)
                     }
                 }
+                .listRowBackground(Color.clear)
             }
-            .navigationTitle("Sessions")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Sessions").font(.largeTitle.bold())
+                }
+            }
+            .scrollContentBackground(.hidden)
+            .background {
+                LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.vertical)
+            }
+
+                    
             // TODO need to figure out how we want to generally handle languages
 //            .toolbar {
 //                ToolbarItem(placement: .automatic) {
@@ -89,9 +105,9 @@ struct SessionView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(viewModel.getSessionTime(session: session))
+            Text(viewModel.getSessionTime(session: session)).bold()
             Spacer()
-            Text(session.title).font(.headline).foregroundColor(.blue)
+            Text(session.title).font(.headline)
             Spacer()
             Text(viewModel.getSessionSpeakerLocation(session: session))
         }
@@ -197,4 +213,15 @@ struct RoomListView: View {
     }
 }
 
+extension Color {
+  init(_ hex: UInt, alpha: Double = 1) {
+    self.init(
+      .sRGB,
+      red: Double((hex >> 16) & 0xFF) / 255,
+      green: Double((hex >> 8) & 0xFF) / 255,
+      blue: Double(hex & 0xFF) / 255,
+      opacity: alpha
+    )
+  }
+}
 

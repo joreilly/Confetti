@@ -13,7 +13,6 @@ import okhttp3.Request
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-
 private val timeZone = "Europe/Paris"
 private val okHttpClient = OkHttpClient()
 private val baseUrl = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/"
@@ -50,7 +49,7 @@ object DevFestNantes {
             .map { it.asMap }
     }
 
-    private fun listYamls(path: String): List<String> {
+    private fun listFiles(path: String): List<String> {
         var files: List<Map<String, Any?>> = getFiles("master")
 
         path.split("/").forEach { comp ->
@@ -58,9 +57,11 @@ object DevFestNantes {
             files = getFiles(sha)
         }
 
-        return files.map { it.get("path").asString }.filter { it.endsWith(".yml") }
+        return files.map { it.get("path").asString }
             .map { "$path/$it" }
     }
+
+    private fun listYamls(path: String): List<String> = listFiles(path).filter { it.endsWith(".yml") }
 
     private fun Map<String, Any?>.startTime(): LocalDateTime {
         val day = if (get("key").asString.startsWith("day-1")) {
@@ -81,7 +82,7 @@ object DevFestNantes {
         val partners = getJsonGithubFile("data/partners.json")
 
         val roomIds = mutableSetOf<String>()
-        var sessions = listYamls("data/sessions").mapIndexed { index, session ->
+        var sessions = listYamls("data/sessions").map { session ->
             val talk = Yaml.default.parseToYamlNode(getGithubFile(session)).toAny().asMap
 
             val slot = slots.first { it.get("key") == talk.get("slot") }
@@ -133,15 +134,17 @@ object DevFestNantes {
                 session
             }
         }
+        val allImages = listFiles("src/images/partners").map { it.substringAfterLast("/") }
         val partnerGroups = partners.asMap.entries.map {
             DPartnerGroup(
                 key = it.key,
                 partners = it.value.asList.map { it.asMap }.map {
                     val title = it.get("title").asString
                     val id = it.get("id").asString
+                    val image = allImages.firstOrNull { it.substringBeforeLast(".") == id }
                     DPartner(
                         name = title,
-                        logoUrl = "$baseUrl/src/images/partners/$id.png",
+                        logoUrl = (image?.let { "$baseUrl/src/images/partners/$it" }) ?: error("No partner image for $id"),
                         url = it.get("website")?.asString ?: ""
                     )
                 }
@@ -318,7 +321,7 @@ object DevFestNantes {
                         type = "lunch",
                         complexity = null,
                         feedbackId = null,
-                        )
+                    )
                 }
 
                 else -> null

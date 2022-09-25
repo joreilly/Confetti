@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalLifecycleComposeApi::class
+)
 
 package dev.johnoreilly.confetti.sessions
 
@@ -16,6 +18,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
@@ -23,8 +27,11 @@ import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailView
 import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
+import dev.johnoreilly.confetti.ui.component.ConfettiTab
+import dev.johnoreilly.confetti.ui.component.ConfettiTabRow
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -38,22 +45,28 @@ fun SessionsRoute(
     viewModel: ConfettiViewModel = getViewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val sessions by viewModel.sessions.collectAsState(emptyList())
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     var session by remember { mutableStateOf<SessionDetails?>(null) }
 
-    val tiemFormatter: (SessionDetails) -> String = {
+    val timeFormatter: (SessionDetails) -> String = {
         viewModel.getSessionTime(it)
     }
 
+    // TODO probably move most of this in to another composable
     if (isExpandedScreen) {
         TwoPane(
             first = {
-                SessionListView(sessions, sessionSelected = { sessionId ->
+                SessionListContent(uiState,
+                    switchTab = {
+                        viewModel.switchTab(it)
+                    },
+                    sessionSelected = { sessionId ->
                     coroutineScope.launch {
                         session = viewModel.getSession(sessionId)
                     }
 
-                }, tiemFormatter)
+                }, timeFormatter)
             },
             second = {
                 SessionDetailView(session, {})
@@ -67,15 +80,20 @@ fun SessionsRoute(
             modifier = Modifier.padding(8.dp)
         )
     } else {
-        SessionListView(sessions, navigateToSession, tiemFormatter)
+        SessionListContent(uiState,
+            switchTab = {
+                viewModel.switchTab((it))
+            },
+            navigateToSession, timeFormatter)
     }
 }
 
 @Composable
-fun SessionListView(
-    sessions: List<SessionDetails>,
+fun SessionListContent(
+    uiState: SessionsUiState,
+    switchTab: (Int) -> Unit,
     sessionSelected: (sessionId: String) -> Unit,
-    tiemFormatter: (SessionDetails) -> String
+    timeFormatter: (SessionDetails) -> String
 ) {
 
     ConfettiGradientBackground {
@@ -94,16 +112,32 @@ fun SessionListView(
             containerColor = Color.Transparent
         ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                if (sessions.isNotEmpty()) {
-                    LazyColumn {
-                        items(sessions) { session ->
-                            SessionView(session, sessionSelected, tiemFormatter)
+
+                when (uiState) {
+                    SessionsUiState.Loading ->
+                        Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                            CircularProgressIndicator()
                         }
-                    }
-                } else {
-                    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
-                        CircularProgressIndicator()
-                    }
+                    is SessionsUiState.Success ->
+                        Column {
+                            ConfettiTabRow(selectedTabIndex = uiState.selectedDateIndex) {
+                                uiState.sessionDates.forEachIndexed { index, date ->
+                                    ConfettiTab(
+                                        selected = index == uiState.selectedDateIndex,
+                                        onClick = {
+                                            switchTab(index)
+                                        },
+                                        text = { Text(text = date.toString()) }
+                                    )
+                                }
+                            }
+                            LazyColumn {
+                                items(uiState.sessions) { session ->
+                                    SessionView(session, sessionSelected, timeFormatter)
+                                }
+                            }
+                        }
+                    is SessionsUiState.Empty -> {}
                 }
             }
         }
@@ -134,8 +168,7 @@ fun SessionView(
 
         Column(modifier = Modifier.padding(16.dp)) {
 
-            Row(verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = session.title, style = TextStyle(fontSize = 18.sp))
             }
 
@@ -158,7 +191,7 @@ fun getLanguageInEmoji(language: String?): String {
     // TODO need to figure out how we want to generally handle languages
     return when (language) {
         "en-US" -> "\uD83C\uDDEC\uD83C\uDDE7"
-        "fr" -> "\uD83C\uDDEB\uD83C\uDDF7"
+        "fr-FR" -> "\uD83C\uDDEB\uD83C\uDDF7"
         else -> ""
     }
 }

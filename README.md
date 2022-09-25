@@ -10,8 +10,6 @@ Can use Andrioid Studio/IntelliJ to build/run Android client.  Requires XCode 14
 
 
 
-<img width="1078" alt="Screenshot 2022-09-25 at 15 36 32" src="https://user-images.githubusercontent.com/6302/192149386-bbffb23d-321e-49cd-990d-959317c3d6ec.png">
+<img width="1079" alt="Screenshot 2022-09-25 at 16 48 25" src="https://user-images.githubusercontent.com/6302/192152565-2c1db1f5-43dc-462b-9624-fe78f909b197.png">
 
-
-
-<img width="1078" alt="Screenshot 2022-09-24 at 19 18 58" src="https://user-images.githubusercontent.com/6302/192113016-2af23df9-24a8-4eee-9374-4c37447bb3ae.png">
+<img width="1081" alt="Screenshot 2022-09-25 at 16 48 14" src="https://user-images.githubusercontent.com/6302/192152571-3f697d34-5b26-4111-b1ea-60e98de60ffa.png">

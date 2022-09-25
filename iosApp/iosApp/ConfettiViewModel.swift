@@ -8,6 +8,7 @@ extension SessionDetails: Identifiable { }
 extension SpeakerDetails: Identifiable { }
 extension RoomDetails: Identifiable { }
 
+
 @MainActor
 class ConfettiViewModel: ObservableObject {
     let repository = ConfettiRepository()
@@ -16,6 +17,9 @@ class ConfettiViewModel: ObservableObject {
     @Published public var rooms: [RoomDetails] = []
     
     @Published public var enabledLanguages: Set<String> = []
+    
+    @Published var sessionMap = [Kotlinx_datetimeLocalDate: [SessionDetails]]()
+    @Published public var sessionDates: [Kotlinx_datetimeLocalDate] = []
     
     
     init() {
@@ -29,9 +33,27 @@ class ConfettiViewModel: ObservableObject {
                 print("Failed with error: \(error)")
             }
         }
+        
+        
+        Task {
+            do {
+                let stream = asyncStream(for: repository.sessionDatesNative)
+                for try await data in stream {
+                    self.sessionDates = data
+                }
+            } catch {
+                print("Failed with error: \(error)")
+            }
+        }
+
     }
 
-        
+    func setSelectedDateIndex(index: Int) {
+        if (index < sessionDates.count) {
+            let selectedDate = sessionDates[index]
+            sessions = sessionMap[selectedDate] ?? []
+        }
+    }
     
     func toggleLanguageChecked(language: String) {
         let checked = enabledLanguages.contains(language) ? false : true
@@ -41,9 +63,10 @@ class ConfettiViewModel: ObservableObject {
     
     func observeSessions() async {
         do {
-            let stream = asyncStream(for: repository.sessionsNative)
+            let stream = asyncStream(for: repository.sessionsMapNative)
             for try await data in stream {
-                self.sessions = data
+                self.sessionMap = data
+                setSelectedDateIndex(index: 0)
             }
         } catch {
             print("Failed with error: \(error)")
@@ -82,8 +105,11 @@ class ConfettiViewModel: ObservableObject {
     }
     
     func getSessionSpeakerLocation(session: SessionDetails) -> String {
-        var text = session.speakers.map { $0.name }.joined(separator: ",")
-        text += " / \(session.room?.name ?? "") / \(getFlag(session: session))"
+        var text = ""
+        if (session.speakers.count > 0) {
+            text = session.speakers.map { $0.name }.joined(separator: ",")
+        }
+        text += "\(session.room?.name ?? "") / \(getFlag(session: session))"
         return text
     }
 
@@ -91,6 +117,5 @@ class ConfettiViewModel: ObservableObject {
     func getSessionTime(session: SessionDetails) -> String {
         return repository.getSessionTime(session: session)
     }
-
 }
 

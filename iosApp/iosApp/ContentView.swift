@@ -6,6 +6,10 @@ import ConfettiKit
 struct ContentView: View {
     @StateObject var viewModel = ConfettiViewModel()
 
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor.white
+    }
+    
     var body: some View {
         TabView {
             SessionListView(viewModel: viewModel)
@@ -30,14 +34,32 @@ struct SessionListView: View {
 
     let gradient = Gradient(colors: [Color(0xFFEBFB), Color(0xFFEDE6)])
     
+    @State private var sessionDateIndex = 0
+    
     
     var body: some View {
         NavigationView {
-            List(viewModel.sessions) { session in
-                NavigationLink(destination: SessionDetailsView(session: session)) {
-                    SessionView(viewModel: viewModel, session: session)
+            VStack {
+                Spacer().frame(height: 16)
+
+                Picker(selection: $sessionDateIndex, label: Text("Date")) {
+                    ForEach(0..<viewModel.sessionDates.count, id: \.self) { i in
+                        Text("\(viewModel.sessionDates[i])").tag(i)
+                    }
                 }
-                .listRowBackground(Color.clear)
+                .pickerStyle(.segmented)
+                .onChange(of: sessionDateIndex) { index in
+                    print("Color tag: \(index)")
+                    viewModel.setSelectedDateIndex(index: index)
+                }
+                
+                List(viewModel.sessions) { session in
+                    NavigationLink(destination: SessionDetailsView(session: session)) {
+                        SessionView(viewModel: viewModel, session: session)
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -50,20 +72,23 @@ struct SessionListView: View {
                 LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.vertical)
             }
-
-                    
-            // TODO need to figure out how we want to generally handle languages
-//            .toolbar {
-//                ToolbarItem(placement: .automatic) {
-//                    LanguageMenu(viewModel: viewModel)
-//                }
-//            }
             .task {
                 await viewModel.observeSessions()
             }
         }
     }
 }
+
+
+
+// TODO need to figure out how we want to generally handle languages
+//            .toolbar {
+//                ToolbarItem(placement: .automatic) {
+//                    LanguageMenu(viewModel: viewModel)
+//                }
+//            }
+
+
 
 
 struct LanguageMenu: View {
@@ -105,9 +130,10 @@ struct SessionView: View {
         VStack(alignment: .leading) {
             Text(viewModel.getSessionTime(session: session)).bold()
             Spacer()
-            Text(session.title).font(.headline)
+            Text(session.title)
+            Spacer().frame(height: 8)
+            Text(viewModel.getSessionSpeakerLocation(session: session)).font(.system(size: 14))
             Spacer()
-            Text(viewModel.getSessionSpeakerLocation(session: session))
         }
     }
 }

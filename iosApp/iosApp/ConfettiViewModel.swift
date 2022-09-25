@@ -78,12 +78,12 @@ class ConfettiViewModel: ObservableObject {
     
     func getFlag(session: SessionDetails) -> String {
         // TODO need to figure out how we want to generally handle languages
-        return  session.language == "fr" ?  "🇫🇷" : "🇬🇧"
+        return  session.language == "fr-FR" ?  "🇫🇷" : "🇬🇧"
     }
     
     func getSessionSpeakerLocation(session: SessionDetails) -> String {
         var text = session.speakers.map { $0.name }.joined(separator: ",")
-        text += " / \(session.room?.name) / \(getFlag(session: session))"
+        text += " / \(session.room?.name ?? "") / \(getFlag(session: session))"
         return text
     }
 

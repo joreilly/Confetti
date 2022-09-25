@@ -35,9 +35,7 @@ struct SessionListView: View {
         NavigationView {
             List(viewModel.sessions) { session in
                 NavigationLink(destination: SessionDetailsView(session: session)) {
-                    VStack(alignment: .leading) {
-                        SessionView(viewModel: viewModel, session: session)
-                    }
+                    SessionView(viewModel: viewModel, session: session)
                 }
                 .listRowBackground(Color.clear)
             }

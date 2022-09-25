@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.*
 
 class SessionDetailsViewModel(
     savedStateHandle: SavedStateHandle,
-    private val repository: ConfettiRepository
+    repository: ConfettiRepository
 ) : ViewModel() {
 
     private val sessionId: String? = savedStateHandle[SessionDetailsDestination.sessionIdArg]

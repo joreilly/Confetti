@@ -129,11 +129,17 @@ data class Speaker(
     val photoUrl: String?,
 )
 
+
 data class Social(
     val icon: String?,
+    @Deprecated("use url instead", ReplaceWith("url"))
     val link: String,
     val name: String,
-)
+) {
+    @Suppress("DEPRECATION")
+    val url: String
+        get() = link
+}
 
 data class PartnerGroup(
     val title: String,

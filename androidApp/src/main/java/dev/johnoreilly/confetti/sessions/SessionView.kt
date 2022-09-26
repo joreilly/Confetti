@@ -28,6 +28,7 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionsUiState
+import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailView
 import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
@@ -152,10 +153,13 @@ fun SessionView(
     tiemFormatter: (SessionDetails) -> String
 ) {
 
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .clickable(onClick = { sessionSelected(session.id) }),
-    ) {
+    var modifier = Modifier.fillMaxSize()
+    if (!session.isBreak()) {
+        modifier = modifier.clickable(onClick = {
+            sessionSelected(session.id)
+        })
+    }
+    Column(modifier) {
 
         Row(modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)

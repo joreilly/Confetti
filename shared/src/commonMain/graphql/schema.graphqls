@@ -91,6 +91,8 @@ type Social {
   link: String!
 
   name: String!
+
+  url: String!
 }
 
 type Speaker {

@@ -18,6 +18,7 @@ query GetSession($id: String!){
 fragment SessionDetails on Session {
     id
     title
+    type
     startInstant,endInstant
     description
     language

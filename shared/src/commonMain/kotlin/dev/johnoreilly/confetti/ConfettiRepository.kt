@@ -20,6 +20,7 @@ import org.koin.core.component.inject
 // needed for iOS client as "description" is reserved
 fun SessionDetails.sessionDescription() = this.description
 
+fun SessionDetails.isBreak() = this.type == "break"
 
 class ConfettiRepository: KoinComponent {
     @NativeCoroutineScope

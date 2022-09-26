@@ -49,13 +49,18 @@ struct SessionListView: View {
                 }
                 .pickerStyle(.segmented)
                 .onChange(of: sessionDateIndex) { index in
-                    print("Color tag: \(index)")
                     viewModel.setSelectedDateIndex(index: index)
                 }
                 
                 List(viewModel.sessions) { session in
-                    NavigationLink(destination: SessionDetailsView(session: session)) {
-                        SessionView(viewModel: viewModel, session: session)
+                    VStack {
+                        if (!session.isBreak()) {
+                            NavigationLink(destination: SessionDetailsView(session: session)) {
+                                SessionView(viewModel: viewModel, session: session)
+                            }
+                        } else {
+                            SessionView(viewModel: viewModel, session: session)
+                        }
                     }
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)

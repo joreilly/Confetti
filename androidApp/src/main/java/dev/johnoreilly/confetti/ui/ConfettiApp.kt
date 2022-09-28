@@ -50,6 +50,7 @@ fun ConfettiApp(
             Scaffold(
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onBackground,
+                contentWindowInsets = WindowInsets(0, 0, 0, 0),
                 bottomBar = {
                     if (appState.shouldShowBottomBar) {
                         ConfettiBottomBar(
@@ -138,11 +139,6 @@ private fun ConfettiBottomBar(
     // navigation is equal to the container color of the navigation bar.
     Surface(color = MaterialTheme.colorScheme.surface) {
         NavigationBar(
-            modifier = Modifier.windowInsetsPadding(
-                WindowInsets.safeDrawing.only(
-                    WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
-                )
-            ),
             containerColor = ConfettiNavigationDefaults.NavigationContainerColor,
             contentColor = ConfettiNavigationDefaults.navigationContentColor(),
             tonalElevation = 0.dp,

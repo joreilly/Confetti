@@ -46,13 +46,11 @@ fun SpeakerListView(speakers: List<SpeakerDetails>) {
                     titleRes = R.string.speakers,
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = Color.Transparent
-                    ),
-                    modifier = Modifier.windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                     )
                 )
             },
-            containerColor = Color.Transparent
+            containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 if (speakers.isNotEmpty()) {

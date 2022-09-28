@@ -40,13 +40,11 @@ fun RoomListView(rooms: List<RoomDetails>) {
                     titleRes = R.string.rooms,
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = Color.Transparent
-                    ),
-                    modifier = Modifier.windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                     )
                 )
             },
-            containerColor = Color.Transparent
+            containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 if (rooms.isNotEmpty()) {

@@ -104,13 +104,11 @@ fun SessionListContent(
                     titleRes = R.string.sessions,
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = Color.Transparent
-                    ),
-                    modifier = Modifier.windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
                     )
                 )
             },
-            containerColor = Color.Transparent
+            containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
 

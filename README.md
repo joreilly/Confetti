@@ -1,6 +1,6 @@
 # Confetti 🎊
 
-KMM GraphQL project with Jetpack Compose Android and SwiftUI iOS clients along with GraphQL backend.
+KMM GraphQL project to allow viewing of conference information. Includes Jetpack Compose Android and SwiftUI iOS clients (that consume shared Apollo GraphQL based Kotlin Multiplatform code) along with GraphQL backend implementation.
 
 ### Building
 Can use Andrioid Studio/IntelliJ to build/run Android client.  Requires XCode 14 or later for iOS client.

@@ -106,7 +106,7 @@ private fun ConfettiNavRail(
 
     NavigationRail(
         modifier = modifier,
-        containerColor = ConfettiNavigationDefaults.NavigationContainerColor,
+        containerColor = Color.Transparent,
         contentColor = ConfettiNavigationDefaults.navigationContentColor(),
     ) {
         destinations.forEach { destination ->
@@ -135,37 +135,31 @@ private fun ConfettiBottomBar(
     onNavigateToDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?
 ) {
-    // Wrap the navigation bar in a surface so the color behind the system
-    // navigation is equal to the container color of the navigation bar.
-    Surface(color = MaterialTheme.colorScheme.surface) {
-        NavigationBar(
-            containerColor = ConfettiNavigationDefaults.NavigationContainerColor,
-            contentColor = ConfettiNavigationDefaults.navigationContentColor(),
-            tonalElevation = 0.dp,
-        ) {
-            destinations.forEach { destination ->
-                val selected =
-                    currentDestination?.hierarchy?.any { it.route == destination.route } == true
-                NavigationBarItem(
-                    selected = selected,
-                    onClick = { onNavigateToDestination(destination) },
-                    icon = {
-                        val icon = if (selected) {
-                            destination.selectedIcon
-                        } else {
-                            destination.unselectedIcon
-                        }
-                        Icon(icon, contentDescription = stringResource(destination.iconTextId))
-                    },
-                    label = { Text(stringResource(destination.iconTextId)) }
-                )
-            }
+    NavigationBar(
+        contentColor = ConfettiNavigationDefaults.navigationContentColor(),
+        tonalElevation = 0.dp,
+    ) {
+        destinations.forEach { destination ->
+            val selected =
+                currentDestination?.hierarchy?.any { it.route == destination.route } == true
+            NavigationBarItem(
+                selected = selected,
+                onClick = { onNavigateToDestination(destination) },
+                icon = {
+                    val icon = if (selected) {
+                        destination.selectedIcon
+                    } else {
+                        destination.unselectedIcon
+                    }
+                    Icon(icon, contentDescription = stringResource(destination.iconTextId))
+                },
+                label = { Text(stringResource(destination.iconTextId)) }
+            )
         }
     }
 }
 
 object ConfettiNavigationDefaults {
-    val NavigationContainerColor = Color.Transparent
     @Composable
     fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
     @Composable

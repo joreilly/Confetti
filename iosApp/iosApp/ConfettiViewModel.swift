@@ -40,6 +40,7 @@ class ConfettiViewModel: ObservableObject {
                 let stream = asyncStream(for: repository.sessionDatesNative)
                 for try await data in stream {
                     self.sessionDates = data
+                    setSelectedDateIndex(index: 0)
                 }
             } catch {
                 print("Failed with error: \(error)")

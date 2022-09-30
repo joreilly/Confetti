@@ -41,6 +41,7 @@ private fun update(conf: String?) {
   when (conf) {
     "droidconsf" -> DroidConSF.import()
     "devfestnantes" -> DevFestNantes.import()
+    "frenchkit2022" -> FrenchKit.import()
     else -> error("")
   }
 }

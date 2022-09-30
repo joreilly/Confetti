@@ -98,6 +98,7 @@ class DefaultApplication {
       val source =  when (conf) {
         "droidconsf" -> DataStoreDataSource("droidconsf")
         "devfestnantes" -> DataStoreDataSource("devfestnantes")
+        "frenchkit2022" -> DataStoreDataSource("frenchkit2022")
         else -> error("Conference not supported: $conf")
       }
 

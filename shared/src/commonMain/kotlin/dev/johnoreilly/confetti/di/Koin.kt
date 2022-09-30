@@ -35,7 +35,7 @@ fun createApolloClient(sqlNormalizedCacheFactory: NormalizedCacheFactory): Apoll
 
     return ApolloClient.Builder()
         .serverUrl("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql")
-        //.serverUrl("http://10.0.2.2:8080/graphql?conference=devfestnantes")
+        //.serverUrl("http://10.0.2.2:8080/graphql?conference=frenchkit2022")
         .addHttpInterceptor(LoggingInterceptor())
         .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)
         .build()

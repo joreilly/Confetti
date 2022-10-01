@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import ConfettiKit
+import AsyncAlgorithms
 import KMPNativeCoroutinesAsync
 
 
@@ -8,18 +9,23 @@ extension SessionDetails: Identifiable { }
 extension SpeakerDetails: Identifiable { }
 extension RoomDetails: Identifiable { }
 
+struct SessionsUiState {
+    var confDates: [Kotlinx_datetimeLocalDate]
+    var selectedDateIndex: Int
+    var sessions: [SessionDetails]
+}
 
 @MainActor
 class ConfettiViewModel: ObservableObject {
     let repository = ConfettiRepository()
-    @Published public var sessions: [SessionDetails] = []
     @Published public var speakers: [SpeakerDetails] = []
     @Published public var rooms: [RoomDetails] = []
     
     @Published public var enabledLanguages: Set<String> = []
     
-    @Published var sessionMap = [Kotlinx_datetimeLocalDate: [SessionDetails]]()
-    @Published public var sessionDates: [Kotlinx_datetimeLocalDate] = []
+    @Published public var selectedDateIndex: Int = 0
+    
+    @Published public var uiState: SessionsUiState?
     
     
     init() {
@@ -33,47 +39,28 @@ class ConfettiViewModel: ObservableObject {
                 print("Failed with error: \(error)")
             }
         }
-        
-        
+
+
         Task {
-            do {
-                let stream = asyncStream(for: repository.sessionDatesNative)
-                for try await data in stream {
-                    self.sessionDates = data
-                    setSelectedDateIndex(index: 0)
-                }
-            } catch {
-                print("Failed with error: \(error)")
+            let confDatesAsyncSequence = asyncStream(for: repository.confDatesNative)
+            let sessionsMapAsyncSequence = asyncStream(for: repository.sessionsMapNative)
+            
+            for try await (confDates, sessionsMap, selectedDateIndex)
+                    in combineLatest(confDatesAsyncSequence, sessionsMapAsyncSequence, $selectedDateIndex.values) {
+                
+                let selectedDate = confDates[selectedDateIndex]
+                let sessions = sessionsMap[selectedDate] ?? []
+                self.uiState = SessionsUiState(confDates: confDates, selectedDateIndex: selectedDateIndex, sessions: sessions)
             }
         }
-
     }
 
-    func setSelectedDateIndex(index: Int) {
-        if (index < sessionDates.count) {
-            let selectedDate = sessionDates[index]
-            sessions = sessionMap[selectedDate] ?? []
-        }
-    }
-    
     func toggleLanguageChecked(language: String) {
         let checked = enabledLanguages.contains(language) ? false : true
         repository.updateEnableLanguageSetting(language: language, checked: checked)
     }
 
     
-    func observeSessions() async {
-        do {
-            let stream = asyncStream(for: repository.sessionsMapNative)
-            for try await data in stream {
-                self.sessionMap = data
-                setSelectedDateIndex(index: 0)
-            }
-        } catch {
-            print("Failed with error: \(error)")
-        }
-    }
-
     func observeSpeakers() async {
         do {
             let stream = asyncStream(for: repository.speakersNative)

@@ -29,41 +29,39 @@ struct ContentView: View {
     }
 }
 
+
 struct SessionListView: View {
     @ObservedObject var viewModel: ConfettiViewModel
 
     let gradient = Gradient(colors: [Color(0xFFEBFB), Color(0xFFEDE6)])
-    
-    @State private var sessionDateIndex = 0
-    
     
     var body: some View {
         NavigationView {
             VStack {
                 Spacer().frame(height: 16)
 
-                Picker(selection: $sessionDateIndex, label: Text("Date")) {
-                    ForEach(0..<viewModel.sessionDates.count, id: \.self) { i in
-                        Text("\(viewModel.sessionDates[i])").tag(i)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .onChange(of: sessionDateIndex) { index in
-                    viewModel.setSelectedDateIndex(index: index)
-                }
-                
-                List(viewModel.sessions) { session in
-                    VStack {
-                        if (!session.isBreak()) {
-                            NavigationLink(destination: SessionDetailsView(session: session)) {
-                                SessionView(viewModel: viewModel, session: session)
-                            }
-                        } else {
-                            SessionView(viewModel: viewModel, session: session)
+                if let uiState = viewModel.uiState {
+                    Picker(selection: $viewModel.selectedDateIndex, label: Text("Date")) {
+                        ForEach(0..<uiState.confDates.count, id: \.self) { i in
+                            Text("\(uiState.confDates[i])").tag(i)
                         }
                     }
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
+                    .pickerStyle(.segmented)
+                    
+                    List(uiState.sessions) { session in
+                        VStack {
+                            if (!session.isBreak()) {
+                                NavigationLink(destination: SessionDetailsView(session: session)) {
+                                    SessionView(viewModel: viewModel, session: session)
+                                }
+                            } else {
+                                SessionView(viewModel: viewModel, session: session)
+                            }
+                        }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                    }
+
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -76,9 +74,6 @@ struct SessionListView: View {
             .background {
                 LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.vertical)
-            }
-            .task {
-                await viewModel.observeSessions()
             }
         }
     }

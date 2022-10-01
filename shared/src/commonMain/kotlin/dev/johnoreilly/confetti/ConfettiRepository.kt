@@ -45,7 +45,7 @@ class ConfettiRepository: KoinComponent {
         it.groupBy { it.startInstant.toLocalDateTime(timeZone).date }
     }
 
-    val sessionDates: Flow<List<LocalDate>> = sessionsMap.map {
+    val confDates: Flow<List<LocalDate>> = sessionsMap.map {
         it.keys.toList().sorted()
     }
 

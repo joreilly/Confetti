@@ -17,28 +17,20 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
 
     val uiState: StateFlow<SessionsUiState> =
         combine(
+            repository.confDates,
             repository.sessionsMap,
             selectedDateIndex
+        ) { confDates, sessionsMap, selectedDateIndex ->
 
-        ) { sessionMap, selectedDateIndex ->
-
-            val sessionDates = sessionMap.keys.toList().sorted()
-
-            if (selectedDateIndex < sessionDates.size) {
-                val selectedDate = sessionDates[selectedDateIndex]
-                val sessions = sessionMap[selectedDate] ?: emptyList()
-                SessionsUiState.Success(sessionDates, selectedDateIndex, sessions)
-            } else {
-                SessionsUiState.Empty
-            }
+            val selectedDate = confDates[selectedDateIndex]
+            val sessions = sessionsMap[selectedDate] ?: emptyList()
+            SessionsUiState.Success(confDates, selectedDateIndex, sessions)
 
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
 
     fun switchTab(newIndex: Int) {
-        if (newIndex != selectedDateIndex.value) {
-            selectedDateIndex.value = newIndex //sessionDates.value?.get(newIndex)
-        }
+        selectedDateIndex.value = newIndex
     }
 
     fun onLanguageChecked(language: String, checked: Boolean) {
@@ -58,10 +50,8 @@ sealed interface SessionsUiState {
     object Loading : SessionsUiState
 
     data class Success(
-        val sessionDates: List<LocalDate>,
+        val confDates: List<LocalDate>,
         val selectedDateIndex: Int,
         val sessions: List<SessionDetails>
     ) : SessionsUiState
-
-    object Empty : SessionsUiState
 }

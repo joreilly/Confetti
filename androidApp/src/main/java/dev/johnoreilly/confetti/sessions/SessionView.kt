@@ -120,7 +120,7 @@ fun SessionListContent(
                     is SessionsUiState.Success ->
                         Column {
                             ConfettiTabRow(selectedTabIndex = uiState.selectedDateIndex) {
-                                uiState.sessionDates.forEachIndexed { index, date ->
+                                uiState.confDates.forEachIndexed { index, date ->
                                     ConfettiTab(
                                         selected = index == uiState.selectedDateIndex,
                                         onClick = {
@@ -136,7 +136,6 @@ fun SessionListContent(
                                 }
                             }
                         }
-                    is SessionsUiState.Empty -> {}
                 }
             }
         }

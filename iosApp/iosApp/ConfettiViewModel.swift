@@ -9,10 +9,9 @@ extension SessionDetails: Identifiable { }
 extension SpeakerDetails: Identifiable { }
 extension RoomDetails: Identifiable { }
 
-struct SessionsUiState {
-    var confDates: [Kotlinx_datetimeLocalDate]
-    var selectedDateIndex: Int
-    var sessions: [SessionDetails]
+enum SessionsUiState {
+    case loading
+    case success([Kotlinx_datetimeLocalDate], Int, [SessionDetails])
 }
 
 @MainActor
@@ -25,7 +24,7 @@ class ConfettiViewModel: ObservableObject {
     
     @Published public var selectedDateIndex: Int = 0
     
-    @Published public var uiState: SessionsUiState?
+    @Published public var uiState: SessionsUiState = .loading
     
     
     init() {
@@ -50,7 +49,7 @@ class ConfettiViewModel: ObservableObject {
                 
                 let selectedDate = confDates[selectedDateIndex]
                 let sessions = sessionsMap[selectedDate] ?? []
-                self.uiState = SessionsUiState(confDates: confDates, selectedDateIndex: selectedDateIndex, sessions: sessions)
+                self.uiState = SessionsUiState.success(confDates, selectedDateIndex, sessions)
             }
         }
     }

@@ -40,15 +40,16 @@ struct SessionListView: View {
             VStack {
                 Spacer().frame(height: 16)
 
-                if let uiState = viewModel.uiState {
+                switch viewModel.uiState {
+                case .success(let confDates, _, let sessions):
                     Picker(selection: $viewModel.selectedDateIndex, label: Text("Date")) {
-                        ForEach(0..<uiState.confDates.count, id: \.self) { i in
-                            Text("\(uiState.confDates[i])").tag(i)
+                        ForEach(0..<confDates.count, id: \.self) { i in
+                            Text("\(confDates[i])").tag(i)
                         }
                     }
                     .pickerStyle(.segmented)
-                    
-                    List(uiState.sessions) { session in
+
+                    List(sessions) { session in
                         VStack {
                             if (!session.isBreak()) {
                                 NavigationLink(destination: SessionDetailsView(session: session)) {
@@ -61,7 +62,8 @@ struct SessionListView: View {
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                     }
-
+                case .loading:
+                    ProgressView()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

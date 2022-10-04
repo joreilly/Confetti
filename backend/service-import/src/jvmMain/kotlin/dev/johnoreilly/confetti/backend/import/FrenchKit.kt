@@ -11,20 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 object FrenchKit {
-    val okHttpClient = OkHttpClient()
 
-    private fun getUrl(url: String): String {
-        return Request.Builder()
-            .url(url)
-            .build()
-            .let {
-                okHttpClient.newCall(it).execute().also {
-                    check(it.isSuccessful) {
-                        "Cannot get $url: ${it.body?.string()}"
-                    }
-                }
-            }.body!!.string()
-    }
 
     private fun String.toRoom() : String{
         return if (this.isBlank()) {
@@ -33,7 +20,6 @@ object FrenchKit {
             this
         }
     }
-    private fun getJsonUrl(url: String) = Json.parseToJsonElement(getUrl(url)).toAny()
 
     fun import() {
         val schedule = getJsonUrl("https://frenchkit.fr/schedule/schedule-14.json")

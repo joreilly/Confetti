@@ -42,6 +42,7 @@ private fun update(conf: String?) {
     "droidconsf" -> DroidConSF.import()
     "devfestnantes" -> DevFestNantes.import()
     "frenchkit2022" -> FrenchKit.import()
+    "droidconlondon2022" -> Sessionize.importDroidConLondon2022()
     else -> error("")
   }
 }

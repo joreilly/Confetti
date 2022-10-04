@@ -99,6 +99,7 @@ class DefaultApplication {
         "droidconsf" -> DataStoreDataSource("droidconsf")
         "devfestnantes" -> DataStoreDataSource("devfestnantes")
         "frenchkit2022" -> DataStoreDataSource("frenchkit2022")
+        "droidconlondon2022" -> DataStoreDataSource("droidconlondon2022")
         else -> error("Conference not supported: $conf")
       }
 

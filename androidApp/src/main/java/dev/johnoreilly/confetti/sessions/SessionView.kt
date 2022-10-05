@@ -164,7 +164,7 @@ fun SessionView(
             verticalAlignment = Alignment.CenterVertically) {
 
             val timeString = tiemFormatter(session)
-            Text(timeString, color = Color.Black, fontWeight = FontWeight.Bold)
+            Text(timeString, fontWeight = FontWeight.Bold)
         }
 
         Column(modifier = Modifier.padding(16.dp)) {

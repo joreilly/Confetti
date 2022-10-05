@@ -95,13 +95,7 @@ class DefaultApplication {
 
     override suspend fun generateContextMap(request: ServerRequest): Map<*, Any>? {
       val conf = request.queryParam("conference").orElse("devfestnantes")
-      val source =  when (conf) {
-        "droidconsf" -> DataStoreDataSource("droidconsf")
-        "devfestnantes" -> DataStoreDataSource("devfestnantes")
-        "frenchkit2022" -> DataStoreDataSource("frenchkit2022")
-        "droidconlondon2022" -> DataStoreDataSource("droidconlondon2022")
-        else -> error("Conference not supported: $conf")
-      }
+      val source = DataStoreDataSource(conf)
 
       return mapOf(SOURCE_KEY to source)
     }

@@ -23,6 +23,12 @@ kotlin {
         implementation(project(":backend:datastore"))
       }
     }
+
+    val jvmTest by getting {
+      dependencies {
+        implementation(Deps.junit)
+      }
+    }
   }
 }
 

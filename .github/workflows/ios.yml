@@ -16,7 +16,5 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Select Xcode
-        run: sudo xcode-select -switch /Applications/Xcode_14.0.app && /usr/bin/xcodebuild -version
       - name: Build iOS app
         run: xcodebuild -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 8' build

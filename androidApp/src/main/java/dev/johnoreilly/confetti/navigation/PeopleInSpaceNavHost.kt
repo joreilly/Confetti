@@ -10,6 +10,8 @@ import dev.johnoreilly.confetti.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.rooms.navigation.SessionsDestination
 import dev.johnoreilly.confetti.rooms.navigation.sessionsGraph
 import dev.johnoreilly.confetti.sessions.navigation.roomsGraph
+import dev.johnoreilly.confetti.spakerdetails.navigation.SpeakerDetailsDestination
+import dev.johnoreilly.confetti.spakerdetails.navigation.speakerDetailsGraph
 import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
 
 @Composable
@@ -35,7 +37,16 @@ fun ConfettiNavHost(
                 )
             })
         sessionDetailsGraph(onBackClick)
-        speakersGraph()
+
+        speakersGraph(
+            navigateToSpeaker = {
+                onNavigateToDestination(
+                    SpeakerDetailsDestination,
+                    SpeakerDetailsDestination.createNavigationRoute(it)
+                )
+            }
+        )
+        speakerDetailsGraph(onBackClick)
         roomsGraph()
     }
 }

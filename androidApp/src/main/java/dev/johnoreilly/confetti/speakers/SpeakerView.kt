@@ -31,14 +31,14 @@ import org.koin.androidx.compose.getViewModel
 
 
 @Composable
-fun SpeakersRoute(viewModel: ConfettiViewModel = getViewModel()) {
+fun SpeakersRoute(navigateToSpeaker: (String) -> Unit, viewModel: ConfettiViewModel = getViewModel()) {
     val speakers by viewModel.speakers.collectAsState(emptyList())
-    SpeakerListView(speakers)
+    SpeakerListView(speakers, navigateToSpeaker)
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SpeakerListView(speakers: List<SpeakerDetails>) {
+fun SpeakerListView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) -> Unit) {
     ConfettiGradientBackground {
         Scaffold(
             topBar = {
@@ -56,7 +56,7 @@ fun SpeakerListView(speakers: List<SpeakerDetails>) {
                 if (speakers.isNotEmpty()) {
                     LazyColumn {
                         items(speakers) { speaker ->
-                            SpeakerView(speaker)
+                            SpeakerView(speaker, navigateToSpeaker)
                         }
                     }
                 } else {
@@ -72,10 +72,10 @@ fun SpeakerListView(speakers: List<SpeakerDetails>) {
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun SpeakerView(speaker: SpeakerDetails) {
+fun SpeakerView(speaker: SpeakerDetails, navigateToSpeaker: (String) -> Unit) {
     Row(modifier = Modifier
         .fillMaxWidth()
-        .clickable(onClick = {  })
+        .clickable(onClick = { navigateToSpeaker(speaker.id) })
         .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

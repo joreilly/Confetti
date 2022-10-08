@@ -10,8 +10,8 @@ object SpeakersDestination : ConfettiNavigationDestination {
     override val destination = "speakers_destination"
 }
 
-fun NavGraphBuilder.speakersGraph() {
+fun NavGraphBuilder.speakersGraph(navigateToSpeaker: (String) -> Unit) {
     composable(route = SpeakersDestination.route) {
-        SpeakersRoute()
+        SpeakersRoute(navigateToSpeaker)
     }
 }

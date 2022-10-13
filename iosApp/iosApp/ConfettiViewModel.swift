@@ -41,12 +41,13 @@ class ConfettiViewModel: ObservableObject {
 
 
         Task {
-            let confDatesAsyncSequence = asyncStream(for: repository.confDatesNative)
             let sessionsMapAsyncSequence = asyncStream(for: repository.sessionsMapNative)
             
-            for try await (confDates, sessionsMap, selectedDateIndex)
-                    in combineLatest(confDatesAsyncSequence, sessionsMapAsyncSequence, $selectedDateIndex.values) {
-                
+            for try await (sessionsMap, selectedDateIndex)
+                    in combineLatest(sessionsMapAsyncSequence, $selectedDateIndex.values) {
+                let confDates = sessionsMap.map { $0.key }.sorted { e1, e2 in
+                    e2.compareTo(other: e1) > 0
+                }
                 let selectedDate = confDates[selectedDateIndex]
                 let sessions = sessionsMap[selectedDate] ?? []
                 self.uiState = SessionsUiState.success(confDates, selectedDateIndex, sessions)

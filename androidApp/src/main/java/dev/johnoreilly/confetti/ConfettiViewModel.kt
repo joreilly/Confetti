@@ -17,11 +17,10 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
 
     val uiState: StateFlow<SessionsUiState> =
         combine(
-            repository.confDates,
             repository.sessionsMap,
             selectedDateIndex
-        ) { confDates, sessionsMap, selectedDateIndex ->
-
+        ) { sessionsMap, selectedDateIndex ->
+            val confDates = sessionsMap.keys.toList().sorted()
             val selectedDate = confDates[selectedDateIndex]
             val sessions = sessionsMap[selectedDate] ?: emptyList()
             SessionsUiState.Success(confDates, selectedDateIndex, sessions)

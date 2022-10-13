@@ -8,7 +8,6 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsDestination
 import kotlinx.coroutines.flow.*
 
-
 class SessionDetailsViewModel(
     savedStateHandle: SavedStateHandle,
     repository: ConfettiRepository

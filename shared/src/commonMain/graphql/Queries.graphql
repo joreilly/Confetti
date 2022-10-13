@@ -1,4 +1,4 @@
-query GetSessions($first: Int! = 10, $after: String = null) {
+query GetEverything($first: Int! = 10, $after: String = null) {
     sessions(first: $first, after: $after) {
         nodes {
             ...SessionDetails
@@ -6,6 +6,15 @@ query GetSessions($first: Int! = 10, $after: String = null) {
         pageInfo {
             endCursor
         }
+    }
+    speakers {
+        ...SpeakerDetails
+    }
+    rooms {
+        ...RoomDetails
+    }
+    config {
+        timezone
     }
 }
 
@@ -32,13 +41,6 @@ fragment SessionDetails on Session {
     tags
 }
 
-
-query GetSpeakers {
-    speakers {
-        ...SpeakerDetails
-    }
-}
-
 fragment SpeakerDetails on Speaker {
     id
     name
@@ -52,22 +54,9 @@ fragment SpeakerDetails on Speaker {
     }
 }
 
-
-query GetRooms {
-    rooms {
-        ...RoomDetails
-    }
-}
-
 fragment RoomDetails on Room {
     id
     name
     capacity
 }
 
-
-query GetConfiguration {
-  config {
-    timezone
-  }
-}

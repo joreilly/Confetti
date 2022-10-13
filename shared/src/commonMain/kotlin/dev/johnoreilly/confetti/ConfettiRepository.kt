@@ -4,8 +4,6 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
-import com.apollographql.apollo3.cache.normalized.isFromCache
-import com.apollographql.apollo3.cache.normalized.watch
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -44,6 +42,8 @@ class ConfettiRepository : KoinComponent {
 
     private val everything = MutableStateFlow<EverythingResult>(EverythingLoading)
 
+    private var isRefreshingMutable = MutableStateFlow(false)
+
     val sessions: Flow<List<SessionDetails>>
         get() {
             return everything.filterIsInstance<EverythingSuccess>().map {
@@ -66,18 +66,7 @@ class ConfettiRepository : KoinComponent {
         }
 
     init {
-        coroutineScope.launch {
-            // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
-            apolloClient.query(GetEverythingQuery(first = Optional.present(100)))
-                .fetchPolicy(FetchPolicy.CacheAndNetwork)
-                .toFlow()
-                .map { EverythingSuccess(it.dataAssertNoErrors) as EverythingResult }
-                .catch {
-                    emit(EverythingError(it))
-                }.collect {
-                    everything.value = it
-                }
-        }
+        refresh(FetchPolicy.CacheAndNetwork)
     }
 
     private val currentData: GetEverythingQuery.Data
@@ -102,4 +91,24 @@ class ConfettiRepository : KoinComponent {
     fun updateEnableLanguageSetting(language: String, checked: Boolean) {
         appSettings.updateEnableLanguageSetting(language, checked)
     }
+
+    fun refresh(fetchPolicy: FetchPolicy = FetchPolicy.NetworkOnly) {
+        isRefreshingMutable.value = true
+        coroutineScope.launch {
+            // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
+            apolloClient.query(GetEverythingQuery(first = Optional.present(100)))
+                .fetchPolicy(fetchPolicy)
+                .toFlow()
+                .map { EverythingSuccess(it.dataAssertNoErrors) as EverythingResult }
+                .catch {
+                    emit(EverythingError(it))
+                }.collect {
+                    everything.value = it
+                    isRefreshingMutable.value = false
+                }
+        }
+    }
+
+    val isRefreshing: StateFlow<Boolean>
+        get() = isRefreshingMutable.asStateFlow()
 }

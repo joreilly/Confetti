@@ -43,6 +43,14 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
     fun getSessionTime(session: SessionDetails): String {
         return repository.getSessionTime(session)
     }
+
+    fun refresh() {
+        repository.refresh()
+    }
+
+    val isRefreshing: StateFlow<Boolean>
+        get() = repository.isRefreshing
+
 }
 
 sealed interface SessionsUiState {

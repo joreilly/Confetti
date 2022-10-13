@@ -1,4 +1,5 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+@file:OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
     ExperimentalLifecycleComposeApi::class
 )
 
@@ -8,11 +9,15 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.*
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,9 +38,9 @@ import dev.johnoreilly.confetti.sessiondetails.SessionDetailView
 import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.ConfettiTabRow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
-
 
 
 @Composable
@@ -47,6 +52,7 @@ fun SessionsRoute(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     var session by remember { mutableStateOf<SessionDetails?>(null) }
 
@@ -63,16 +69,19 @@ fun SessionsRoute(
                         viewModel.switchTab(it)
                     },
                     sessionSelected = { sessionId ->
-                    coroutineScope.launch {
-                        session = viewModel.getSession(sessionId)
-                    }
-
-                }, timeFormatter)
+                        coroutineScope.launch {
+                            session = viewModel.getSession(sessionId)
+                        }
+                    },
+                    timeFormatter,
+                    isRefreshing,
+                    { viewModel.refresh() }
+                )
             },
             second = {
                 SessionDetailView(session, {})
             },
-            strategy =  { density, layoutDirection, layoutCoordinates ->
+            strategy = { density, layoutDirection, layoutCoordinates ->
                 HorizontalTwoPaneStrategy(
                     splitFraction = 0.25f
                 ).calculateSplitResult(density, layoutDirection, layoutCoordinates)
@@ -81,11 +90,16 @@ fun SessionsRoute(
             modifier = Modifier.padding(8.dp)
         )
     } else {
-        SessionListContent(uiState,
+        SessionListContent(
+            uiState,
             switchTab = {
                 viewModel.switchTab((it))
             },
-            navigateToSession, timeFormatter)
+            navigateToSession,
+            timeFormatter,
+            isRefreshing,
+            { viewModel.refresh() }
+        )
     }
 }
 
@@ -94,7 +108,9 @@ fun SessionListContent(
     uiState: SessionsUiState,
     switchTab: (Int) -> Unit,
     sessionSelected: (sessionId: String) -> Unit,
-    timeFormatter: (SessionDetails) -> String
+    timeFormatter: (SessionDetails) -> String,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit
 ) {
 
     ConfettiGradientBackground {
@@ -117,7 +133,10 @@ fun SessionListContent(
                         Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
                             CircularProgressIndicator()
                         }
-                    is SessionsUiState.Success ->
+
+                    is SessionsUiState.Success -> {
+                        val state = rememberPullRefreshState(isRefreshing, onRefresh)
+
                         Column {
                             ConfettiTabRow(selectedTabIndex = uiState.selectedDateIndex) {
                                 uiState.confDates.forEachIndexed { index, date ->
@@ -130,12 +149,16 @@ fun SessionListContent(
                                     )
                                 }
                             }
-                            LazyColumn {
-                                items(uiState.sessions) { session ->
-                                    SessionView(session, sessionSelected, timeFormatter)
+                            Box(Modifier.pullRefresh(state).clipToBounds()) {
+                                LazyColumn {
+                                    items(uiState.sessions) { session ->
+                                        SessionView(session, sessionSelected, timeFormatter)
+                                    }
                                 }
+                                PullRefreshIndicator(isRefreshing, state, Modifier.align(Alignment.TopCenter))
                             }
                         }
+                    }
                 }
             }
         }
@@ -158,10 +181,12 @@ fun SessionView(
     }
     Column(modifier) {
 
-        Row(modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
             val timeString = tiemFormatter(session)
             Text(timeString, fontWeight = FontWeight.Bold)
@@ -173,10 +198,11 @@ fun SessionView(
                 Text(text = session.title, style = TextStyle(fontSize = 18.sp))
             }
 
-            Row(modifier = Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically
+            Row(
+                modifier = Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically
             ) {
                 val sessionSpeakerLocationText = getSessionSpeakerLocation(session)
-                Text(sessionSpeakerLocationText,  style = TextStyle(fontSize = 14.sp))
+                Text(sessionSpeakerLocationText, style = TextStyle(fontSize = 14.sp))
             }
         }
     }

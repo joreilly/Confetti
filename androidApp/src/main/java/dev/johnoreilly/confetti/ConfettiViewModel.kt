@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 
@@ -14,6 +15,8 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
     val rooms = repository.rooms
 
     var selectedDateIndex = MutableStateFlow<Int>(0)
+
+    var isRefreshing = MutableStateFlow(false)
 
     val uiState: StateFlow<SessionsUiState> =
         combine(
@@ -45,11 +48,12 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
     }
 
     fun refresh() {
-        repository.refresh()
+        viewModelScope.launch {
+            isRefreshing.value = true
+            repository.refresh()
+            isRefreshing.value = false
+        }
     }
-
-    val isRefreshing: StateFlow<Boolean>
-        get() = repository.isRefreshing
 
 }
 

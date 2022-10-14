@@ -48,6 +48,9 @@ struct SessionListView: View {
                 LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.vertical)
             }
+            .refreshable {
+                await viewModel.refresh()
+            }
         }
     }
 }

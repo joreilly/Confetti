@@ -105,5 +105,13 @@ class ConfettiViewModel: ObservableObject {
     func getSessionTime(session: SessionDetails) -> String {
         return repository.getSessionTime(session: session)
     }
+    
+    func refresh() async {
+        do {
+            try await asyncFunction(for: repository.refreshNative(networkOnly: true))
+        } catch {
+            print("Failed with error: \(error)")
+        }
+    }
 }
 

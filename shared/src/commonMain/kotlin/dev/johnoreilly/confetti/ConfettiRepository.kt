@@ -42,8 +42,6 @@ class ConfettiRepository : KoinComponent {
 
     private val everything = MutableStateFlow<EverythingResult>(EverythingLoading)
 
-    private var isRefreshingMutable = MutableStateFlow(false)
-
     val sessions: Flow<List<SessionDetails>>
         get() {
             return everything.filterIsInstance<EverythingSuccess>().map {
@@ -66,7 +64,9 @@ class ConfettiRepository : KoinComponent {
         }
 
     init {
-        refresh(FetchPolicy.CacheAndNetwork)
+        coroutineScope.launch {
+            refresh(networkOnly = false)
+        }
     }
 
     private val currentData: GetEverythingQuery.Data
@@ -92,23 +92,18 @@ class ConfettiRepository : KoinComponent {
         appSettings.updateEnableLanguageSetting(language, checked)
     }
 
-    fun refresh(fetchPolicy: FetchPolicy = FetchPolicy.NetworkOnly) {
-        isRefreshingMutable.value = true
-        coroutineScope.launch {
-            // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
-            apolloClient.query(GetEverythingQuery(first = Optional.present(100)))
-                .fetchPolicy(fetchPolicy)
-                .toFlow()
-                .map { EverythingSuccess(it.dataAssertNoErrors) as EverythingResult }
-                .catch {
-                    emit(EverythingError(it))
-                }.collect {
-                    everything.value = it
-                    isRefreshingMutable.value = false
-                }
-        }
-    }
+    suspend fun refresh(networkOnly: Boolean = true) {
+        val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
 
-    val isRefreshing: StateFlow<Boolean>
-        get() = isRefreshingMutable.asStateFlow()
+        // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
+        apolloClient.query(GetEverythingQuery(first = Optional.present(100)))
+            .fetchPolicy(fetchPolicy)
+            .toFlow()
+            .map { EverythingSuccess(it.dataAssertNoErrors) as EverythingResult }
+            .catch {
+                emit(EverythingError(it))
+            }.collect {
+                everything.value = it
+            }
+    }
 }

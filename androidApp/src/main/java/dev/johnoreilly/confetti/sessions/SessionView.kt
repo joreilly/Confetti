@@ -38,7 +38,6 @@ import dev.johnoreilly.confetti.sessiondetails.SessionDetailView
 import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.ConfettiTabRow
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 

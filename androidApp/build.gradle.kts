@@ -74,6 +74,7 @@ dependencies {
         implementation(splashScreen)
 
         implementation(accompanistAdaptive)
+        implementation(accompanistFlowLayout)
     }
 
     with (Koin) {

@@ -113,6 +113,7 @@ object DroidConSF {
             },
             partnerGroups = emptyList(),
             config = DConfig(
+                name = "droidcon SF",
                 timeZone = TIMEZONE
             ),
             venues = emptyList()

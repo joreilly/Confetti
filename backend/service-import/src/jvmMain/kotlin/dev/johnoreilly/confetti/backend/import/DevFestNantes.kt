@@ -183,6 +183,7 @@ object DevFestNantes {
         }
 
         val config = DConfig(
+            name = "DevFest Nantes",
             timeZone = timeZone
         )
 

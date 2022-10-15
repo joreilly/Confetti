@@ -318,7 +318,10 @@ class DataStore {
     }
 
     private fun Entity.toConfig(): DConfig {
-        return DConfig(getString("timeZone"))
+        return DConfig(
+            name = getString("name"),
+            timeZone = getString("timeZone")
+        )
     }
 
     fun readRooms(conf: String): List<DRoom> {

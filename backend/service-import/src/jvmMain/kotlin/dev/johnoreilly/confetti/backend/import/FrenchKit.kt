@@ -64,6 +64,7 @@ object FrenchKit {
             speakers = speakers,
             partnerGroups = emptyList(),
             config = DConfig(
+                name = "FrenchKit",
                 timeZone = "Europe/Paris"
             ),
             venues = listOf(

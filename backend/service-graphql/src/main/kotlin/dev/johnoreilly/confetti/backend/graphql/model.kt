@@ -183,5 +183,6 @@ data class Venue(
 }
 
 data class Configuration(
+    val name: String,
     val timezone: String,
 )

@@ -16,8 +16,6 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
 
     var selectedDateIndex = MutableStateFlow<Int>(0)
 
-    var isRefreshing = MutableStateFlow(false)
-
     val uiState: StateFlow<SessionsUiState> =
         combine(
             repository.sessionsMap,
@@ -47,12 +45,8 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
         return repository.getSessionTime(session)
     }
 
-    fun refresh() {
-        viewModelScope.launch {
-            isRefreshing.value = true
-            repository.refresh()
-            isRefreshing.value = false
-        }
+    suspend fun refresh() {
+        repository.refresh()
     }
 
 }

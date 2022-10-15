@@ -14,6 +14,14 @@ android {
         versionName = "1.0"
     }
 
+    signingConfigs {
+        create("confetti") {
+            keyAlias = "confetti"
+            keyPassword = "confetti"
+            storeFile = file("confetti.keystore")
+            storePassword = "confetti"
+        }
+    }
 
     buildFeatures {
         compose = true
@@ -26,6 +34,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("confetti")
+        }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("confetti")
         }
     }
 }

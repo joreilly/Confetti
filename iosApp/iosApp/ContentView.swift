@@ -20,10 +20,10 @@ struct ContentView: View {
                 .tabItem {
                     Label("Speakers", systemImage: "person")
                 }
-            RoomListView(viewModel: viewModel)
-                .tabItem {
-                    Label("Rooms", systemImage: "location")
-                }
+//            RoomListView(viewModel: viewModel)
+//                .tabItem {
+//                    Label("Rooms", systemImage: "location")
+//                }
 
         }
     }

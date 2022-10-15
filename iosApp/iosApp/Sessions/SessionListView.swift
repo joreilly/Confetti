@@ -44,10 +44,11 @@ struct SessionListView: View {
                 }
             }
             .scrollContentBackground(.hidden)
-            .background {
-                LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom)
-                    .edgesIgnoringSafeArea(.vertical)
-            }
+            .background(Color(0xF6F6F6))
+//            .background {
+//                LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom)
+//                    .edgesIgnoringSafeArea(.vertical)
+//            }
             .refreshable {
                 await viewModel.refresh()
             }
@@ -67,7 +68,7 @@ struct SessionView: View {
             Text(session.title)
             if session.room != nil {
                 Spacer().frame(height: 8)
-                Text(viewModel.getSessionSpeakerLocation(session: session)).font(.system(size: 14))
+                Text(viewModel.getSessionSpeakerLocation(session: session)).font(.system(size: 14)).bold()
             }
             Spacer()
         }

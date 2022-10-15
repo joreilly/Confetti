@@ -65,8 +65,10 @@ struct SessionView: View {
             Text(viewModel.getSessionTime(session: session)).bold()
             Spacer()
             Text(session.title)
-            Spacer().frame(height: 8)
-            Text(viewModel.getSessionSpeakerLocation(session: session)).font(.system(size: 14))
+            if session.room != nil {
+                Spacer().frame(height: 8)
+                Text(viewModel.getSessionSpeakerLocation(session: session)).font(.system(size: 14))
+            }
             Spacer()
         }
     }

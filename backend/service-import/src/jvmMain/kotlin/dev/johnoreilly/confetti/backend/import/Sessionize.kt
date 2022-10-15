@@ -13,6 +13,14 @@ object Sessionize {
     private fun import(conf: String, url: String) {
         val data = getJsonUrl(url)
 
+        val categories = data.asMap["categories"].asList.map { it.asMap }
+            .flatMap {
+                it["items"].asList
+            }.map {
+                it.asMap
+            }.map {
+                it["id"] to it["name"]
+            }.toMap()
         val sessions = data.asMap["sessions"].asList.map {
             it.asMap
         }.map {
@@ -26,7 +34,9 @@ object Sessionize {
                 end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
                 complexity = null,
                 feedbackId = null,
-                tags = emptyList(),
+                tags = it.get("categoryItems").asList.mapNotNull {categoryId ->
+                    categories.get(categoryId)?.asString
+                },
                 rooms = listOf(it.get("roomId").toString()),
                 speakers = it.get("speakers").asList.map { it.asString }
             )

@@ -51,7 +51,6 @@ fun SessionsRoute(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     var session by remember { mutableStateOf<SessionDetails?>(null) }
 
@@ -73,7 +72,6 @@ fun SessionsRoute(
                         }
                     },
                     timeFormatter,
-                    isRefreshing,
                     { viewModel.refresh() }
                 )
             },
@@ -96,7 +94,6 @@ fun SessionsRoute(
             },
             navigateToSession,
             timeFormatter,
-            isRefreshing,
             { viewModel.refresh() }
         )
     }
@@ -108,8 +105,7 @@ fun SessionListContent(
     switchTab: (Int) -> Unit,
     sessionSelected: (sessionId: String) -> Unit,
     timeFormatter: (SessionDetails) -> String,
-    isRefreshing: Boolean,
-    onRefresh: () -> Unit
+    onRefresh: suspend (() -> Unit)
 ) {
 
     //ConfettiGradientBackground {
@@ -134,7 +130,16 @@ fun SessionListContent(
                         }
 
                     is SessionsUiState.Success -> {
-                        val state = rememberPullRefreshState(isRefreshing, onRefresh)
+                        val refreshScope = rememberCoroutineScope()
+                        var refreshing by remember { mutableStateOf(false) }
+                        fun refresh() {
+                            refreshScope.launch {
+                                refreshing = true
+                                onRefresh()
+                                refreshing = false
+                            }
+                        }
+                        val state = rememberPullRefreshState(refreshing, ::refresh)
 
                         Column {
                             ConfettiTabRow(selectedTabIndex = uiState.selectedDateIndex) {
@@ -154,7 +159,7 @@ fun SessionListContent(
                                         SessionView(session, sessionSelected, timeFormatter)
                                     }
                                 }
-                                PullRefreshIndicator(isRefreshing, state, Modifier.align(Alignment.TopCenter))
+                                PullRefreshIndicator(refreshing, state, Modifier.align(Alignment.TopCenter))
                             }
                         }
                     }

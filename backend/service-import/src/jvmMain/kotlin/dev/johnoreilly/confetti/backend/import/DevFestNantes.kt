@@ -49,6 +49,8 @@ object DevFestNantes {
             .map { it.asMap }
     }
 
+    private val sessionIdsWithoutRoom = mutableSetOf<String>()
+
     private fun listFiles(path: String): List<String> {
         var files: List<Map<String, Any?>> = getFiles("master")
 
@@ -132,6 +134,17 @@ object DevFestNantes {
                 session.copy(end = end)
             } else {
                 session
+            }
+        }
+        sessions = sessions.map {
+            /**
+             * Remove the room for lunch & break sessions
+             * See https://github.com/GDG-Nantes/DevfestNantesMobile/issues/85
+             */
+            if (sessionIdsWithoutRoom.contains(it.id)) {
+                it.copy(rooms = emptyList())
+            } else {
+                it
             }
         }
         val allImages = listFiles("src/images/partners").map { it.substringAfterLast("/") }
@@ -221,6 +234,7 @@ object DevFestNantes {
             val type = it.get("type").asString
             when {
                 id == "day-2-pause-2" -> {
+                    sessionIdsWithoutRoom.add(id)
                     DSession(
                         id = id,
                         title = "Break",
@@ -230,7 +244,7 @@ object DevFestNantes {
                         tags = emptyList(),
                         start = it.startTime(),
                         end = UNKNOWN_END,
-                        rooms =  emptyList(),
+                        rooms = FIRST_6_ROOMS,
                         type = "break",
                         complexity = null,
                         feedbackId = null,
@@ -238,6 +252,7 @@ object DevFestNantes {
                 }
 
                 id == "day-1-party" -> {
+                    sessionIdsWithoutRoom.add(id)
                     DSession(
                         id = id,
                         title = "Party",
@@ -247,7 +262,7 @@ object DevFestNantes {
                         tags = emptyList(),
                         start = it.startTime(),
                         end = UNKNOWN_END,
-                        rooms =  emptyList(),
+                        rooms = ALL_ROOMS,
                         type = "party",
                         complexity = null,
                         feedbackId = null,
@@ -255,6 +270,7 @@ object DevFestNantes {
                 }
 
                 type == "opening" -> {
+                    sessionIdsWithoutRoom.add(id)
                     DSession(
                         id = id,
                         title = "Opening",
@@ -264,7 +280,7 @@ object DevFestNantes {
                         tags = emptyList(),
                         start = it.startTime(),
                         end = UNKNOWN_END,
-                        rooms =  emptyList(),
+                        rooms = ALL_ROOMS,
                         type = "opening",
                         complexity = null,
                         feedbackId = null,
@@ -290,6 +306,7 @@ object DevFestNantes {
                 }
 
                 type == "break" -> {
+                    sessionIdsWithoutRoom.add(id)
                     val notForCodelab = it.get("display")?.asMap?.containsKey("notForCodelab") ?: false
                     DSession(
                         id = id,
@@ -300,7 +317,7 @@ object DevFestNantes {
                         tags = emptyList(),
                         start = it.startTime(),
                         end = UNKNOWN_END,
-                        rooms = emptyList(), //if (notForCodelab) FIRST_4_ROOMS else ALL_ROOMS,
+                        rooms = if (notForCodelab) FIRST_4_ROOMS else ALL_ROOMS,
                         type = "break",
                         complexity = null,
                         feedbackId = null,
@@ -309,6 +326,7 @@ object DevFestNantes {
                 }
 
                 type == "lunch" -> {
+                    sessionIdsWithoutRoom.add(id)
                     DSession(
                         id = id,
                         title = "Lunch",
@@ -318,7 +336,7 @@ object DevFestNantes {
                         tags = emptyList(),
                         start = it.startTime(),
                         end = UNKNOWN_END,
-                        rooms =  emptyList(),
+                        rooms = ALL_ROOMS,
                         type = "lunch",
                         complexity = null,
                         feedbackId = null,

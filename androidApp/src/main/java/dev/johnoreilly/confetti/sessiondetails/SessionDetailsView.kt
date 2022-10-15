@@ -13,15 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.flowlayout.FlowRow
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -71,7 +67,7 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
 
                         if (session.tags.isNotEmpty()) {
                             Spacer(modifier = Modifier.size(16.dp))
-                            Row {
+                            FlowRow(crossAxisSpacing = 8.dp) {
                                 session.tags.forEach { tag ->
                                     Chip(tag)
                                 }

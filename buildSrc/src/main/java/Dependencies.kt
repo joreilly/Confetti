@@ -80,6 +80,7 @@ object Compose {
     const val splashScreen = "androidx.core:core-splashscreen:1.0.0"
 
     const val accompanistAdaptive =  "com.google.accompanist:accompanist-adaptive:${Versions.accompanist}"
+    const val accompanistFlowLayout =  "com.google.accompanist:accompanist-flowlayout:${Versions.accompanist}"
 }
 
 object Koin {

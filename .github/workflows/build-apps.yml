@@ -1,0 +1,25 @@
+name: Build Apps
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'androidApp/**'
+      - 'shared/**'
+      - ".github/workflows/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - run: ./gradlew :androidApp:assembleRelease
+      - uses: actions/upload-artifact@v3
+        with:
+          name: androidApp-release.apk
+          path: androidApp/build/outputs/apk/release/androidApp-release.apk
+

@@ -313,13 +313,14 @@ class DataStore {
                 .setKind(KIND_CONFIG)
                 .newKey(THE_CONFIG)
         )
+            .set("name", name.toValue())
             .set("timeZone", timeZone.toValue())
             .build()
     }
 
     private fun Entity.toConfig(): DConfig {
         return DConfig(
-            name = getString("name"),
+            name = getString("name") ?: "",
             timeZone = getString("timeZone")
         )
     }

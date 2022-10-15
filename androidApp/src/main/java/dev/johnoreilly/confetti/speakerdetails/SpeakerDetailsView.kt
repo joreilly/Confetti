@@ -35,7 +35,7 @@ fun SpeakerDetailsRoute(onBackClick: () -> Unit, viewModel: SpeakerDetailsViewMo
 fun SpeakerDetailsView(speaker: SpeakerDetails?, popBack: () -> Unit) {
     val scrollState = rememberScrollState()
 
-    ConfettiGradientBackground {
+    //ConfettiGradientBackground {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -94,7 +94,7 @@ fun SpeakerDetailsView(speaker: SpeakerDetails?, popBack: () -> Unit) {
                         }
                     }
                 }
-            }
+            //}
         }
     }
 }

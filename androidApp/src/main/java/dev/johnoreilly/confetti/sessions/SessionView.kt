@@ -112,7 +112,7 @@ fun SessionListContent(
     onRefresh: () -> Unit
 ) {
 
-    ConfettiGradientBackground {
+    //ConfettiGradientBackground {
         Scaffold(
             topBar = {
                 ConfettiTopAppBar(
@@ -161,7 +161,7 @@ fun SessionListContent(
                 }
             }
         }
-    }
+    //}
 }
 
 
@@ -178,11 +178,10 @@ fun SessionView(
             sessionSelected(session.id)
         })
     }
-    Column(modifier) {
+    Column(modifier.padding(16.dp)) {
 
         Row(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -191,8 +190,9 @@ fun SessionView(
             Text(timeString, fontWeight = FontWeight.Bold)
         }
 
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column {
 
+            Spacer(modifier = Modifier.size(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = session.title, style = TextStyle(fontSize = 18.sp))
             }
@@ -202,7 +202,8 @@ fun SessionView(
                     modifier = Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically
                 ) {
                     val sessionSpeakerLocationText = getSessionSpeakerLocation(session)
-                    Text(sessionSpeakerLocationText, style = TextStyle(fontSize = 14.sp))
+                    Text(sessionSpeakerLocationText,
+                        style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -214,7 +215,7 @@ fun getSessionSpeakerLocation(session: SessionDetails): String {
         session.speakers.joinToString(", ") { it.name } + " / "
     else
         ""
-    text += "${session.room?.name} / ${getLanguageInEmoji(session.language)}"
+    text += " (${session.room?.name})" // / ${getLanguageInEmoji(session.language)}"
     return text
 }
 

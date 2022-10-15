@@ -35,17 +35,11 @@ fun SessionDetailsRoute(onBackClick: () -> Unit, viewModel: SessionDetailsViewMo
 fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
     val scrollState = rememberScrollState()
 
-    ConfettiGradientBackground {
+    //ConfettiGradientBackground {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            modifier = Modifier.padding(PaddingValues(start = 16.dp, end = 16.dp)),
-                            text = session?.title ?: "",
-                            maxLines = 1, overflow = TextOverflow.Ellipsis
-                        )
-                    },
+                    title = {},
                     navigationIcon = {
                         IconButton(onClick = { popBack() }) {
                             Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -63,36 +57,38 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
                 session?.let { session ->
                     Column(
                         modifier = Modifier.fillMaxWidth()
-                            .padding(16.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
                             .verticalScroll(state = scrollState)
                     ) {
 
-                        Text(
-                            text = session.title,
-                            style = TextStyle(color = Color.Blue, fontSize = 22.sp)
-                        )
+                        Text(text = session.title,
+                            color = Color.Blue,
+                            style = MaterialTheme.typography.titleLarge)
 
                         Spacer(modifier = Modifier.size(16.dp))
-                        Text(text = session.description ?: "", style = TextStyle(fontSize = 16.sp))
+                        Text(text = session.description ?: "",
+                            style = MaterialTheme.typography.bodyMedium)
 
-                        Spacer(modifier = Modifier.size(16.dp))
-                        Row {
-                            session.tags.forEach { tag ->
-                                //Text(tag)
-                                Chip(tag)
+                        if (session.tags.isNotEmpty()) {
+                            Spacer(modifier = Modifier.size(16.dp))
+                            Row {
+                                session.tags.forEach { tag ->
+                                    Chip(tag)
+                                }
                             }
                         }
 
                         Spacer(modifier = Modifier.size(16.dp))
                         session.speakers.forEach { speaker ->
-                            Text(speaker.name, fontWeight = FontWeight.Bold)
+                            Text(speaker.name, style = MaterialTheme.typography.titleMedium)
                             Spacer(modifier = Modifier.size(8.dp))
-                            Text(speaker.bio ?: "")
+                            Text(speaker.bio ?: "", style = MaterialTheme.typography.bodyMedium)
+                            Spacer(modifier = Modifier.size(12.dp))
                         }
                     }
                 }
             }
-        }
+        //}
     }
 }
 

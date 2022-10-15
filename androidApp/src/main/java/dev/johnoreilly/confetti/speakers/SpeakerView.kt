@@ -39,7 +39,7 @@ fun SpeakersRoute(navigateToSpeaker: (String) -> Unit, viewModel: ConfettiViewMo
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SpeakerListView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) -> Unit) {
-    ConfettiGradientBackground {
+    //ConfettiGradientBackground {
         Scaffold(
             topBar = {
                 ConfettiTopAppBar(
@@ -66,11 +66,10 @@ fun SpeakerListView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) 
                 }
             }
         }
-    }
+    //}
 }
 
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun SpeakerView(speaker: SpeakerDetails, navigateToSpeaker: (String) -> Unit) {
     Row(modifier = Modifier

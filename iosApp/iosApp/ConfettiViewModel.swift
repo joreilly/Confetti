@@ -97,7 +97,7 @@ class ConfettiViewModel: ObservableObject {
         if (session.speakers.count > 0) {
             text = session.speakers.map { $0.name }.joined(separator: ",")
         }
-        text += "\(session.room?.name ?? "") / \(getFlag(session: session))"
+        text += " (\(session.room?.name ?? ""))"  // \(getFlag(session: session))"
         return text
     }
 

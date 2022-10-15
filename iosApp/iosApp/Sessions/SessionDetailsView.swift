@@ -7,33 +7,41 @@ struct SessionDetailsView: View {
     var body: some View {
         
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(session.title).font(.title).foregroundColor(.blue)
-                Divider()
+                Spacer()
                 
-                Text(session.sessionDescription() ?? "")
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(alignment: .center) {
-                        ForEach(session.tags, id: \.self) { tag in
-                            Text(tag)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal)
-                                .background(.blue)
-                                .foregroundColor(.white)
-                                .background(Capsule().stroke())
-                                .clipShape(Capsule())
+                Text(session.sessionDescription() ?? "").font(.body)
+                                
+                if session.tags.count > 0 {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(alignment: .center) {
+                            ForEach(session.tags, id: \.self) { tag in
+                                Text(tag)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal)
+                                    .background(.blue)
+                                    .foregroundColor(.white)
+                                    .background(Capsule().stroke())
+                                    .clipShape(Capsule())
+                            }
                         }
+                        .padding(.vertical)
                     }
-                    .padding(.vertical)
                 }
                 
+                Spacer()
                 ForEach(session.speakers, id: \.self) { speaker in
                     Text(speaker.name).bold()
-                    Text(speaker.bio ?? "")
+                    Text(speaker.bio ?? "").font(.body)
+                    Spacer()
                 }
                 Spacer()
             }
             .padding()
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .scrollContentBackground(.hidden)
+        .background(Color(0xF0F0F0))
     }
 }

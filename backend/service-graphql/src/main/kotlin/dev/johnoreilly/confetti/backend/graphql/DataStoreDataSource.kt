@@ -10,7 +10,10 @@ class DataStoreDataSource(private val conf: String) : DataSource {
     private val _config: Configuration by lazy {
         val dconfig = datastore.readConfig(conf)
 
-        Configuration(timezone = dconfig.timeZone)
+        Configuration(
+            name = dconfig.name,
+            timezone = dconfig.timeZone
+        )
     }
 
     private val _rooms by lazy {

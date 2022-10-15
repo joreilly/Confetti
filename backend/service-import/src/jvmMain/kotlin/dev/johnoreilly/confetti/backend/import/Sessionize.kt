@@ -8,9 +8,9 @@ object Sessionize {
     private val droidConLondon2022 = "https://sessionize.com/api/v2/qi0g29hw/view/All"
 
     fun importDroidConLondon2022() {
-        import("droidconlondon2022", droidConLondon2022)
+        import("droidconlondon2022", "droidcon London", droidConLondon2022)
     }
-    private fun import(conf: String, url: String) {
+    private fun import(conf: String, confName: String, url: String) {
         val data = getJsonUrl(url)
 
         val sessions = data.asMap["sessions"].asList.map {
@@ -62,6 +62,7 @@ object Sessionize {
             speakers = speakers,
             partnerGroups = emptyList(),
             config = DConfig(
+                confName,
                 timeZone = "Europe/London"
             ),
             venues = listOf(

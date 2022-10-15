@@ -146,6 +146,7 @@ object GraphQLSummit {
             speakers = speakers,
             partnerGroups = emptyList(),
             config = DConfig(
+                name = "GraphQL Summit",
                 timeZone = "America/Los_Angeles"
             ),
             venues = listOf(

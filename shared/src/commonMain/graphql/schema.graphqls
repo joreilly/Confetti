@@ -4,6 +4,8 @@ This field can be changed without warning
 directive @requiresOptIn (feature: String!) on FIELD_DEFINITION
 
 type Configuration {
+  name: String!
+
   timezone: String!
 }
 

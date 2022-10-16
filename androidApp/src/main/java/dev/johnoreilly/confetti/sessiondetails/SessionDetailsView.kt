@@ -58,7 +58,7 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
                     ) {
 
                         Text(text = session.title,
-                            color = Color.Blue,
+                            color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.titleLarge)
 
                         Spacer(modifier = Modifier.size(16.dp))

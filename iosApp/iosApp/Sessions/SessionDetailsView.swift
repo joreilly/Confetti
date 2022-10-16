@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIFlowLayout
 import ConfettiKit
 
 struct SessionDetailsView: View {
@@ -14,19 +15,16 @@ struct SessionDetailsView: View {
                 Text(session.sessionDescription() ?? "").font(.body)
                                 
                 if session.tags.count > 0 {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack(alignment: .center) {
-                            ForEach(session.tags, id: \.self) { tag in
-                                Text(tag)
-                                    .padding(.vertical, 10)
-                                    .padding(.horizontal)
-                                    .background(.blue)
-                                    .foregroundColor(.white)
-                                    .background(Capsule().stroke())
-                                    .clipShape(Capsule())
-                            }
-                        }
-                        .padding(.vertical)
+                    FlowLayout(mode: .scrollable,
+                               items: session.tags,
+                               itemSpacing: 4) {
+                        Text($0)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal)
+                            .background(.blue)
+                            .foregroundColor(.white)
+                            .background(Capsule().stroke())
+                            .clipShape(Capsule())
                     }
                 }
                 

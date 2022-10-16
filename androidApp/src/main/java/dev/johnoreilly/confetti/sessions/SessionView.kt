@@ -31,11 +31,9 @@ import com.google.accompanist.adaptive.TwoPane
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
-import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailView
-import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.ConfettiTabRow
 import kotlinx.coroutines.launch
@@ -108,65 +106,63 @@ fun SessionListContent(
     onRefresh: suspend (() -> Unit)
 ) {
 
-    //ConfettiGradientBackground {
-        Scaffold(
-            topBar = {
-                ConfettiTopAppBar(
-                    titleRes = R.string.sessions,
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent
-                    )
+    Scaffold(
+        topBar = {
+            ConfettiTopAppBar(
+                title = if (uiState is SessionsUiState.Success) uiState.conferenceName else "",
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
                 )
-            },
-            containerColor = Color.Transparent,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0)
-        ) { padding ->
-            Column(modifier = Modifier.padding(padding)) {
+            )
+        },
+        containerColor = Color.Transparent,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+    ) { padding ->
+        Column(modifier = Modifier.padding(padding)) {
 
-                when (uiState) {
-                    SessionsUiState.Loading ->
-                        Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
-                            CircularProgressIndicator()
+            when (uiState) {
+                SessionsUiState.Loading ->
+                    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                        CircularProgressIndicator()
+                    }
+
+                is SessionsUiState.Success -> {
+                    val refreshScope = rememberCoroutineScope()
+                    var refreshing by remember { mutableStateOf(false) }
+                    fun refresh() {
+                        refreshScope.launch {
+                            refreshing = true
+                            onRefresh()
+                            refreshing = false
                         }
+                    }
+                    val state = rememberPullRefreshState(refreshing, ::refresh)
 
-                    is SessionsUiState.Success -> {
-                        val refreshScope = rememberCoroutineScope()
-                        var refreshing by remember { mutableStateOf(false) }
-                        fun refresh() {
-                            refreshScope.launch {
-                                refreshing = true
-                                onRefresh()
-                                refreshing = false
+                    Column {
+                        ConfettiTabRow(selectedTabIndex = uiState.selectedDateIndex) {
+                            uiState.confDates.forEachIndexed { index, date ->
+                                ConfettiTab(
+                                    selected = index == uiState.selectedDateIndex,
+                                    onClick = {
+                                        switchTab(index)
+                                    },
+                                    text = { Text(text = date.toString()) }
+                                )
                             }
                         }
-                        val state = rememberPullRefreshState(refreshing, ::refresh)
-
-                        Column {
-                            ConfettiTabRow(selectedTabIndex = uiState.selectedDateIndex) {
-                                uiState.confDates.forEachIndexed { index, date ->
-                                    ConfettiTab(
-                                        selected = index == uiState.selectedDateIndex,
-                                        onClick = {
-                                            switchTab(index)
-                                        },
-                                        text = { Text(text = date.toString()) }
-                                    )
+                        Box(Modifier.pullRefresh(state).clipToBounds()) {
+                            LazyColumn {
+                                items(uiState.sessions) { session ->
+                                    SessionView(session, sessionSelected, timeFormatter)
                                 }
                             }
-                            Box(Modifier.pullRefresh(state).clipToBounds()) {
-                                LazyColumn {
-                                    items(uiState.sessions) { session ->
-                                        SessionView(session, sessionSelected, timeFormatter)
-                                    }
-                                }
-                                PullRefreshIndicator(refreshing, state, Modifier.align(Alignment.TopCenter))
-                            }
+                            PullRefreshIndicator(refreshing, state, Modifier.align(Alignment.TopCenter))
                         }
                     }
                 }
             }
         }
-    //}
+    }
 }
 
 

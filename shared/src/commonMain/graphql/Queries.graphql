@@ -14,6 +14,7 @@ query GetEverything($first: Int! = 10, $after: String = null) {
         ...RoomDetails
     }
     config {
+        name
         timezone
     }
 }

@@ -17,15 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
 import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
 import org.koin.androidx.compose.getViewModel
 
@@ -39,34 +38,32 @@ fun SpeakersRoute(navigateToSpeaker: (String) -> Unit, viewModel: ConfettiViewMo
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SpeakerListView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) -> Unit) {
-    //ConfettiGradientBackground {
-        Scaffold(
-            topBar = {
-                ConfettiTopAppBar(
-                    titleRes = R.string.speakers,
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent
-                    )
+    Scaffold(
+        topBar = {
+            ConfettiTopAppBar(
+                title = stringResource(R.string.speakers),
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
                 )
-            },
-            containerColor = Color.Transparent,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0)
-        ) { innerPadding ->
-            Column(modifier = Modifier.padding(innerPadding)) {
-                if (speakers.isNotEmpty()) {
-                    LazyColumn {
-                        items(speakers) { speaker ->
-                            SpeakerView(speaker, navigateToSpeaker)
-                        }
+            )
+        },
+        containerColor = Color.Transparent,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            if (speakers.isNotEmpty()) {
+                LazyColumn {
+                    items(speakers) { speaker ->
+                        SpeakerView(speaker, navigateToSpeaker)
                     }
-                } else {
-                    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
-                        CircularProgressIndicator()
-                    }
+                }
+            } else {
+                Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                    CircularProgressIndicator()
                 }
             }
         }
-    //}
+    }
 }
 
 

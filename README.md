@@ -1,6 +1,13 @@
 # Confetti 🎊
 
-KMM GraphQL project to allow viewing of conference information. Includes Jetpack Compose Android and SwiftUI iOS clients (that consume shared Apollo GraphQL based Kotlin Multiplatform code) along with GraphQL backend implementation.
+KMM GraphQL project to allow viewing of conference information. Includes:
+
+
+- SwiftUI iOS client
+- Jetpack Compose Android client
+- [Apollo GraphQL](https://github.com/apollographql/apollo-kotlin) based Kotlin Multiplatform shared code
+- GraphQL backend
+
 
 Related posts:
 * [Swift/Kotlin ViewModel alignment in a Kotlin Multiplatform project](https://johnoreilly.dev/posts/swift-kotlin-viewmodel-kmm-comparison/)

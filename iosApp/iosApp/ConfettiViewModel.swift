@@ -11,7 +11,7 @@ extension RoomDetails: Identifiable { }
 
 enum SessionsUiState {
     case loading
-    case success([Kotlinx_datetimeLocalDate], Int, [SessionDetails])
+    case success(conferenceName: String, confDates: [Kotlinx_datetimeLocalDate], selectedDateIndex: Int, sessions: [SessionDetails])
 }
 
 @MainActor
@@ -41,16 +41,17 @@ class ConfettiViewModel: ObservableObject {
 
 
         Task {
+            let conferenceNameAsyncSequence = asyncStream(for: repository.conferenceNameNative)
             let sessionsMapAsyncSequence = asyncStream(for: repository.sessionsMapNative)
             
-            for try await (sessionsMap, selectedDateIndex)
-                    in combineLatest(sessionsMapAsyncSequence, $selectedDateIndex.values) {
+            for try await (conferenceName, sessionsMap, selectedDateIndex)
+                    in combineLatest(conferenceNameAsyncSequence, sessionsMapAsyncSequence, $selectedDateIndex.values) {
                 let confDates = sessionsMap.map { $0.key }.sorted { e1, e2 in
                     e2.compareTo(other: e1) > 0
                 }
                 let selectedDate = confDates[selectedDateIndex]
                 let sessions = sessionsMap[selectedDate] ?? []
-                self.uiState = SessionsUiState.success(confDates, selectedDateIndex, sessions)
+                self.uiState = SessionsUiState.success(conferenceName: conferenceName, confDates: confDates, selectedDateIndex: selectedDateIndex, sessions: sessions)
             }
         }
     }

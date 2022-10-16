@@ -13,13 +13,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.RoomDetails
-import dev.johnoreilly.confetti.ui.component.ConfettiGradientBackground
 import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
 import org.koin.androidx.compose.getViewModel
 
@@ -33,33 +33,31 @@ fun RoomsRoute(viewModel: ConfettiViewModel = getViewModel()) {
 
 @Composable
 fun RoomListView(rooms: List<RoomDetails>) {
-    ConfettiGradientBackground {
-        Scaffold(
-            topBar = {
-                ConfettiTopAppBar(
-                    titleRes = R.string.rooms,
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent
-                    )
+    Scaffold(
+        topBar = {
+            ConfettiTopAppBar(
+                title = stringResource(R.string.rooms),
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
                 )
-            },
-            containerColor = Color.Transparent,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0)
-        ) { innerPadding ->
-            Column(modifier = Modifier.padding(innerPadding)) {
-                if (rooms.isNotEmpty()) {
-                    LazyColumn {
-                        items(rooms) { room ->
-                            RoomView(room)
-                        }
+            )
+        },
+        containerColor = Color.Transparent,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            if (rooms.isNotEmpty()) {
+                LazyColumn {
+                    items(rooms) { room ->
+                        RoomView(room)
                     }
-                } else {
-                    Box(
-                        modifier = Modifier.fillMaxSize()
-                            .wrapContentSize(Alignment.Center)
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                }
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                ) {
+                    CircularProgressIndicator()
                 }
             }
         }

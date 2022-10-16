@@ -18,13 +18,14 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
 
     val uiState: StateFlow<SessionsUiState> =
         combine(
+            repository.conferenceName,
             repository.sessionsMap,
             selectedDateIndex
-        ) { sessionsMap, selectedDateIndex ->
+        ) { conferenceName, sessionsMap, selectedDateIndex ->
             val confDates = sessionsMap.keys.toList().sorted()
             val selectedDate = confDates[selectedDateIndex]
             val sessions = sessionsMap[selectedDate] ?: emptyList()
-            SessionsUiState.Success(confDates, selectedDateIndex, sessions)
+            SessionsUiState.Success(conferenceName, confDates, selectedDateIndex, sessions)
 
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
@@ -55,6 +56,7 @@ sealed interface SessionsUiState {
     object Loading : SessionsUiState
 
     data class Success(
+        val conferenceName: String,
         val confDates: List<LocalDate>,
         val selectedDateIndex: Int,
         val sessions: List<SessionDetails>

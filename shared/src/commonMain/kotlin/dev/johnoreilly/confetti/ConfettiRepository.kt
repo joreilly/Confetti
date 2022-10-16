@@ -42,6 +42,11 @@ class ConfettiRepository : KoinComponent {
 
     private val everything = MutableStateFlow<EverythingResult>(EverythingLoading)
 
+    val conferenceName: Flow<String>
+        get() {
+            return everything.filterIsInstance<EverythingSuccess>().map { it.data.config.name }
+        }
+
     val sessions: Flow<List<SessionDetails>>
         get() {
             return everything.filterIsInstance<EverythingSuccess>().map {

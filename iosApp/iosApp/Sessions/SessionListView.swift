@@ -4,15 +4,13 @@ import ConfettiKit
 struct SessionListView: View {
     @ObservedObject var viewModel: ConfettiViewModel
 
-    let gradient = Gradient(colors: [Color(0xFFEBFB), Color(0xFFEDE6)])
-    
     var body: some View {
         NavigationView {
             VStack {
                 Spacer().frame(height: 16)
 
                 switch viewModel.uiState {
-                case .success(let confDates, _, let sessions):
+                case .success(_, let confDates, _, let sessions):
                     Picker(selection: $viewModel.selectedDateIndex, label: Text("Date")) {
                         ForEach(0..<confDates.count, id: \.self) { i in
                             Text("\(confDates[i])").tag(i)
@@ -40,15 +38,15 @@ struct SessionListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Sessions").font(.largeTitle.bold())
+                    if case  .success(let conferenceName, _, _, _) = viewModel.uiState {
+                        Text(conferenceName).font(.largeTitle.bold())
+                    } else {
+                        Text("")
+                    }
                 }
             }
             .scrollContentBackground(.hidden)
             .background(Color(0xF6F6F6))
-//            .background {
-//                LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom)
-//                    .edgesIgnoringSafeArea(.vertical)
-//            }
             .refreshable {
                 await viewModel.refresh()
             }

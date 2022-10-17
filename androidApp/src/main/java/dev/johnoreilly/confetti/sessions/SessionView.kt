@@ -212,8 +212,8 @@ fun SessionView(
 }
 
 fun getSessionSpeakerLocation(session: SessionDetails): String {
-    var text = if (session.speakers.size > 0)
-        session.speakers.joinToString(", ") { it.name } + " / "
+    var text = if (session.speakers.isNotEmpty())
+        session.speakers.joinToString(", ") { it.speakerDetails.name }
     else
         ""
     text += " (${session.room?.name})" // / ${getLanguageInEmoji(session.language)}"

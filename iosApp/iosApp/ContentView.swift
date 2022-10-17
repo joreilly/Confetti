@@ -14,7 +14,7 @@ struct ContentView: View {
         TabView {
             SessionListView(viewModel: viewModel)
                 .tabItem {
-                    Label("Sessions", systemImage: "film")
+                    Label("Schedule", systemImage: "calendar")
                 }
             SpeakerListView(viewModel: viewModel)
                 .tabItem {

@@ -33,8 +33,7 @@ fragment SessionDetails on Session {
     description
     language
     speakers {
-      name
-      bio
+      ...SpeakerDetails
     }
   	room {
       name
@@ -47,6 +46,8 @@ fragment SpeakerDetails on Speaker {
     name
     photoUrl
     company
+    companyLogoUrl
+    city
     bio
     socials {
         name

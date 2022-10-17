@@ -17,22 +17,14 @@ struct SpeakerDetailsView: View {
                     ProgressView()
                 }
                 .frame(width: 240, height: 240)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
 
+                Spacer().frame(height: 16)
                 Text(speaker.bio ?? "").font(.body)
                 Spacer()
                 
-                VStack {
-                    ForEach(speaker.socials, id: \.self) { social in
-                        HStack {
-                            Text("\(social.name): ")
-                            Button(action: {
-                                guard let url = URL(string: social.link) else { return }
-                                UIApplication.shared.open(url)
-                               }) {
-                                Text(social.link)
-                            }
-                        }
-                    }
+                HStack {
+                    SessionSpeakerSocialInfo(speaker: speaker)
                 }
             }
             .padding()

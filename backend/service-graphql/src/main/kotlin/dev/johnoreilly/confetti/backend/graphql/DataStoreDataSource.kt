@@ -36,7 +36,8 @@ class DataStoreDataSource(private val conf: String) : DataSource {
                 longitude = it.longitude,
                 address = it.address,
                 imageUrl = it.imageUrl,
-                descriptions = it.description
+                descriptions = it.description,
+                floorPlanUrl = it.floorPlanUrl,
             )
         }
     }

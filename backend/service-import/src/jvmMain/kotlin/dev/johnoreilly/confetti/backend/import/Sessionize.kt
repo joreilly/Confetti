@@ -86,7 +86,8 @@ object Sessionize {
                     ),
                     latitude = 51.5342463,
                     longitude = -0.1068864,
-                    imageUrl = "https://london.droidcon.com/wp-content/uploads/sites/3/2022/07/Venue2-1.png"
+                    imageUrl = "https://london.droidcon.com/wp-content/uploads/sites/3/2022/07/Venue2-1.png",
+                    floorPlanUrl = null
                 )
             )
         )

@@ -30,6 +30,7 @@ class DVenue(
   val longitude: Double?,
   val description: Map<String, String>,
   val imageUrl: String?,
+  val floorPlanUrl: String?,
 )
 
 class DSpeaker(

@@ -30,9 +30,7 @@ struct SessionDetailsView: View {
                 
                 Spacer()
                 ForEach(session.speakers, id: \.self) { speaker in
-                    Text(speaker.name).bold()
-                    Text(speaker.bio ?? "").font(.body)
-                    Spacer()
+                    SessionSpeakerInfo(speaker: speaker.speakerDetails)
                 }
                 Spacer()
             }

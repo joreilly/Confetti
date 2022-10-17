@@ -1,9 +1,11 @@
 package dev.johnoreilly.confetti.ui
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.PlayArrow
@@ -63,9 +65,9 @@ class ConfettiAppState(
         TopLevelDestination(
             route = SessionsDestination.route,
             destination = SessionsDestination.destination,
-            selectedIcon = Icons.Filled.PlayArrow,
-            unselectedIcon =Icons.Outlined.PlayArrow,
-            iconTextId = R.string.sessions
+            selectedIcon = Icons.Filled.CalendarMonth,
+            unselectedIcon =Icons.Outlined.CalendarMonth,
+            iconTextId = R.string.schedule
         ),
         TopLevelDestination(
             route = SpeakersDestination.route,

@@ -23,6 +23,10 @@ import org.koin.core.component.inject
 // needed for iOS client as "description" is reserved
 fun SessionDetails.sessionDescription() = this.description
 
+fun SpeakerDetails.getFullNameAndCompany(): String {
+    return name + if (company.isNullOrBlank()) "" else ", " + this.company
+}
+
 fun SessionDetails.isBreak() = this.type == "break"
 
 class ConfettiRepository : KoinComponent {
@@ -40,16 +44,16 @@ class ConfettiRepository : KoinComponent {
     private class EverythingError(val throwable: Throwable) : EverythingResult
     private object EverythingLoading : EverythingResult
 
-    private val everything = MutableStateFlow<EverythingResult>(EverythingLoading)
+    private val conferenceData = MutableStateFlow<EverythingResult>(EverythingLoading)
 
     val conferenceName: Flow<String>
         get() {
-            return everything.filterIsInstance<EverythingSuccess>().map { it.data.config.name }
+            return conferenceData.filterIsInstance<EverythingSuccess>().map { it.data.config.name }
         }
 
     val sessions: Flow<List<SessionDetails>>
         get() {
-            return everything.filterIsInstance<EverythingSuccess>().map {
+            return conferenceData.filterIsInstance<EverythingSuccess>().map {
                 it.data.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }
             }
         }
@@ -60,12 +64,12 @@ class ConfettiRepository : KoinComponent {
 
     val speakers: Flow<List<SpeakerDetails>>
         get() {
-            return everything.filterIsInstance<EverythingSuccess>().map { it.data.speakers.map { it.speakerDetails } }
+            return conferenceData.filterIsInstance<EverythingSuccess>().map { it.data.speakers.map { it.speakerDetails } }
         }
 
     val rooms: Flow<List<RoomDetails>>
         get() {
-            return everything.filterIsInstance<EverythingSuccess>().map { it.data.rooms.map { it.roomDetails } }
+            return conferenceData.filterIsInstance<EverythingSuccess>().map { it.data.rooms.map { it.roomDetails } }
         }
 
     init {
@@ -76,7 +80,7 @@ class ConfettiRepository : KoinComponent {
 
     private val currentData: GetEverythingQuery.Data
         get() {
-            val everything = everything.value as? EverythingSuccess
+            val everything = conferenceData.value as? EverythingSuccess
             check(everything != null) {
                 "Cannot call getSessionTime before we fetch the timeZone"
             }
@@ -108,7 +112,7 @@ class ConfettiRepository : KoinComponent {
             .catch {
                 emit(EverythingError(it))
             }.collect {
-                everything.value = it
+                conferenceData.value = it
             }
     }
 }

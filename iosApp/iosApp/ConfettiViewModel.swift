@@ -96,7 +96,7 @@ class ConfettiViewModel: ObservableObject {
     func getSessionSpeakerLocation(session: SessionDetails) -> String {
         var text = ""
         if (session.speakers.count > 0) {
-            text = session.speakers.map { $0.name }.joined(separator: ",")
+            text = session.speakers.map { $0.speakerDetails.name }.joined(separator: ",")
         }
         text += " (\(session.room?.name ?? ""))"  // \(getFlag(session: session))"
         return text

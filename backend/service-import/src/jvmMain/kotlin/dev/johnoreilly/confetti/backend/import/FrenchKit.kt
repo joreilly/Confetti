@@ -78,7 +78,8 @@ object FrenchKit {
                     ),
                     latitude = null,
                     longitude = null,
-                    imageUrl = null
+                    imageUrl = null,
+                    floorPlanUrl = null,
                 )
             )
         )

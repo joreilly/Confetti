@@ -152,6 +152,9 @@ data class Partner(
     val url: String,
 )
 
+/**
+ * @property floorPlanUrl the url to an image containing the floor plan
+ */
 data class Venue(
     val id: String,
     val name: String,
@@ -159,6 +162,7 @@ data class Venue(
     val longitude: Double?,
     val address: String? = null,
     val imageUrl: String?,
+    val floorPlanUrl: String?,
     private val descriptions: Map<String, String>
 ) {
     @Deprecated("use latitude and longitude instead")

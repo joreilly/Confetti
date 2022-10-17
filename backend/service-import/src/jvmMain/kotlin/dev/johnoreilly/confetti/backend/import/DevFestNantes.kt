@@ -218,7 +218,8 @@ object DevFestNantes {
                     ),
                     latitude = 47.21308725112951,
                     longitude = -1.542622837466317,
-                    imageUrl = "https://devfest.gdgnantes.com/static/6328df241501c6e31393e568e5c68d7e/efc43/amphi.webp"
+                    imageUrl = "https://devfest.gdgnantes.com/static/6328df241501c6e31393e568e5c68d7e/efc43/amphi.webp",
+                    floorPlanUrl = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/plan-cite-blanc.png"
                 )
             )
         )

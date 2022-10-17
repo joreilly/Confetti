@@ -160,7 +160,8 @@ object GraphQLSummit {
                     ),
                     latitude = 32.7241602,
                     longitude = -117.2017836,
-                    imageUrl = "https://images.cvent.com/beaf1dadc454450491db967b09a87f12/pix/67e5acbb935349fdb54897c74ee1d91a!_!0f5b7f31e3b929969df9edd8f4f09481.png?f=webp"
+                    imageUrl = "https://images.cvent.com/beaf1dadc454450491db967b09a87f12/pix/67e5acbb935349fdb54897c74ee1d91a!_!0f5b7f31e3b929969df9edd8f4f09481.png?f=webp",
+                    floorPlanUrl = null,
                 )
             )
         )

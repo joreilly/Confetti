@@ -157,7 +157,8 @@ class DataStore {
             latitude = getDoubleOrNull("latitude"),
             longitude = getDoubleOrNull("longitude"),
             description = (Json.parseToJsonElement(getString("description")).toAny() as Map<String, String>),
-            imageUrl = getStringOrNull("imageUrl")
+            imageUrl = getStringOrNull("imageUrl"),
+            floorPlanUrl = getStringOrNull("floorPlanUrl"),
         )
     }
 
@@ -242,6 +243,7 @@ class DataStore {
             .set("longitude", longitude.toValue())
             .set("description", description.toJsonElement().toString().toValue(true))
             .set("imageUrl", imageUrl.toValue())
+            .set("floorPlanUrl", floorPlanUrl.toValue())
             .build()
     }
 

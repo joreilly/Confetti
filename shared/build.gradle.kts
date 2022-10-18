@@ -127,8 +127,9 @@ dependencies {
 }
 
 kmmbridge {
+    frameworkName.set("ConfettiKit")
     githubReleaseArtifacts()
     githubReleaseVersions()
     spm()
-    versionPrefix.set("0.1")
+    versionPrefix.set("0.7")
 }

@@ -124,6 +124,8 @@ type Venue {
 
   descriptionFr: String!
 
+  floorPlanUrl: String
+
   id: String!
 
   imageUrl: String

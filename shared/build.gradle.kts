@@ -3,7 +3,7 @@ plugins {
     id("com.android.library")
     id("com.apollographql.apollo3")
     id("com.rickclephas.kmp.nativecoroutines")
-    id("io.github.luca992.multiplatform-swiftpackage") version "2.0.5-arm64"
+    id("co.touchlab.faktory.kmmbridge") version "0.2.6"
 }
 
 version = "1.0"
@@ -126,10 +126,9 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }
 
-multiplatformSwiftPackage {
-    packageName("ConfettiKit")
-    swiftToolsVersion("5.3")
-    targetPlatforms {
-        iOS { v("14") }
-    }
+kmmbridge {
+    githubReleaseArtifacts()
+    githubReleaseVersions()
+    spm()
+    versionPrefix.set("0.1")
 }

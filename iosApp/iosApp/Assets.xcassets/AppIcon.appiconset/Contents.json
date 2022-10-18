@@ -31,11 +31,13 @@
       "size" : "40x40"
     },
     {
+      "filename" : "ios.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "Rectangle.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"

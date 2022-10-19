@@ -84,9 +84,12 @@ object DevFestNantes {
         val partners = getJsonGithubFile("data/partners.json")
 
         val roomIds = mutableSetOf<String>()
-        var sessions = listYamls("data/sessions").map { session ->
+        var sessions = listYamls("data/sessions").mapNotNull { session ->
             val talk = Yaml.default.parseToYamlNode(getGithubFile(session)).toAny().asMap
 
+            if (talk.get("cancelled") == "true") {
+                return@mapNotNull null
+            }
             val slot = slots.first { it.get("key") == talk.get("slot") }
             val localDateTime = slot.startTime()
             val roomId = talk.get("room").asString

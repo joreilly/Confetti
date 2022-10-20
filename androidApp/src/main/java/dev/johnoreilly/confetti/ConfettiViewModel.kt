@@ -30,6 +30,12 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
 
+    init {
+        repository.setConference("droidconlondon2022")
+        //repository.setConference("devfestnantes")
+    }
+
+
     fun switchTab(newIndex: Int) {
         selectedDateIndex.value = newIndex
     }

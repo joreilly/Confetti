@@ -28,6 +28,9 @@ class ConfettiViewModel: ObservableObject {
     
     
     init() {
+        repository.setConference(conference: "droidconlondon2022")
+        //repository.setConference(conference: "devfestnantes")
+        
         Task {
             do {
                 let stream = asyncStream(for: repository.enabledLanguagesNative)

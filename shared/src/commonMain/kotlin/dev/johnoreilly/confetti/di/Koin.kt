@@ -1,10 +1,5 @@
 package dev.johnoreilly.confetti.di
 
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
-import com.apollographql.apollo3.cache.normalized.normalizedCache
-import com.apollographql.apollo3.network.http.LoggingInterceptor
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import org.koin.core.context.startKoin
@@ -25,17 +20,6 @@ fun initKoin() = initKoin() {}
 
 fun commonModule() = module {
     single { ConfettiRepository() }
-    single { createApolloClient(get()) }
     single { AppSettings(get()) }
 }
 
-fun createApolloClient(sqlNormalizedCacheFactory: NormalizedCacheFactory): ApolloClient {
-    val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)
-        .chain(sqlNormalizedCacheFactory)
-
-    return ApolloClient.Builder()
-        .serverUrl("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql?conference=droidconlondon2022")
-        //.serverUrl("http://10.0.2.2:8080/graphql?conference=graphqlsummit2022")
-        .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)
-        .build()
-}

@@ -1,9 +1,9 @@
 // swift-tools-version:5.3
 import PackageDescription
 
-let remoteKotlinUrl = "https://api.github.com/repos/joreilly/Confetti/releases/assets/81463697.zip"
-let remoteKotlinChecksum = "2d1f36969da514955f6547f67c9a9889a00b6a1cc24702ac4c17374a8f0ac5ba"
-let packageName = "shared"
+let remoteKotlinUrl = "https://api.github.com/repos/joreilly/Confetti/releases/assets/81812486.zip"
+let remoteKotlinChecksum = "5edc28cfe7ee4c1deb542819725bcf61f6dfbe87b42753c6bea6afbc545019c4"
+let packageName = "ConfettiKit"
 
 let package = Package(
     name: packageName,

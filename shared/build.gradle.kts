@@ -3,7 +3,7 @@ plugins {
     id("com.android.library")
     id("com.apollographql.apollo3")
     id("com.rickclephas.kmp.nativecoroutines")
-    id("co.touchlab.faktory.kmmbridge") version "0.2.6"
+    id("co.touchlab.faktory.kmmbridge") version "0.3.1"
 }
 
 version = "1.0"

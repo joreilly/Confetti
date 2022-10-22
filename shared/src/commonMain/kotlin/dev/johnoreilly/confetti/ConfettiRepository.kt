@@ -2,12 +2,11 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.*
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
-import com.apollographql.apollo3.cache.normalized.fetchPolicy
-import com.apollographql.apollo3.cache.normalized.normalizedCache
+import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
+import dev.johnoreilly.confetti.di.getDatabaseName
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -37,7 +36,6 @@ class ConfettiRepository : KoinComponent {
     private val coroutineScope: CoroutineScope = MainScope()
 
     private var apolloClient: ApolloClient? = null
-    private val sqlNormalizedCacheFactory: NormalizedCacheFactory by inject()
     private val appSettings: AppSettings by inject()
     private val dateTimeFormatter: DateTimeFormatter by inject()
 
@@ -76,9 +74,24 @@ class ConfettiRepository : KoinComponent {
             return conferenceData.filterIsInstance<EverythingSuccess>().map { it.data.rooms.map { it.roomDetails } }
         }
 
+    init {
+        val conference = appSettings.getConference()
+        if (conference.isNotEmpty()) {
+            setConference(conference)
+        }
+    }
+
+    fun getConference(): String {
+        return appSettings.getConference()
+    }
+
     fun setConference(conference: String) {
+        appSettings.setConference(conference)
+
+        conferenceData.value = EverythingLoading
+
         apolloClient?.close()
-        apolloClient = createApolloClient(conference, sqlNormalizedCacheFactory)
+        apolloClient = createApolloClient(conference)
 
         coroutineScope.launch {
             refresh(networkOnly = false)
@@ -126,7 +139,8 @@ class ConfettiRepository : KoinComponent {
     }
 
 
-    fun createApolloClient(conference: String, sqlNormalizedCacheFactory: NormalizedCacheFactory): ApolloClient {
+    fun createApolloClient(conference: String): ApolloClient {
+        val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory(getDatabaseName(conference))
         val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)
             .chain(sqlNormalizedCacheFactory)
 
@@ -136,5 +150,4 @@ class ConfettiRepository : KoinComponent {
             .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)
             .build()
     }
-
 }

@@ -9,6 +9,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -30,7 +32,6 @@ import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailView
@@ -45,6 +46,7 @@ fun SessionsRoute(
     isExpandedScreen: Boolean,
     displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
+    onSwitchConferenceSelected:  () -> Unit,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -69,6 +71,7 @@ fun SessionsRoute(
                             session = viewModel.getSession(sessionId)
                         }
                     },
+                    onSwitchConferenceSelected,
                     timeFormatter,
                     { viewModel.refresh() }
                 )
@@ -91,6 +94,7 @@ fun SessionsRoute(
                 viewModel.switchTab((it))
             },
             navigateToSession,
+            onSwitchConferenceSelected,
             timeFormatter,
             { viewModel.refresh() }
         )
@@ -102,17 +106,36 @@ fun SessionListContent(
     uiState: SessionsUiState,
     switchTab: (Int) -> Unit,
     sessionSelected: (sessionId: String) -> Unit,
+    onSwitchConferenceSelected:  () -> Unit,
     timeFormatter: (SessionDetails) -> String,
     onRefresh: suspend (() -> Unit)
 ) {
+    var showMenu by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            ConfettiTopAppBar(
-                title = if (uiState is SessionsUiState.Success) uiState.conferenceName else "",
+            CenterAlignedTopAppBar(
+                title = { Text(if (uiState is SessionsUiState.Success) uiState.conferenceName else "",) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent
-                )
+                ),
+                actions = {
+                    IconButton(onClick = { showMenu = !showMenu }) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "menu")
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Switch Conference") },
+                            onClick = {
+                                showMenu = false
+                                onSwitchConferenceSelected()
+                            }
+                        )
+                    }
+                }
             )
         },
         containerColor = Color.Transparent,

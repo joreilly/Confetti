@@ -11,8 +11,13 @@ object SessionsDestination : ConfettiNavigationDestination {
     override val destination = "sessions_destination"
 }
 
-fun NavGraphBuilder.sessionsGraph(isExpandedScreen: Boolean, displayFeatures: List<DisplayFeature>, navigateToSession: (String) -> Unit) {
+fun NavGraphBuilder.sessionsGraph(
+    isExpandedScreen: Boolean,
+    displayFeatures: List<DisplayFeature>,
+    navigateToSession: (String) -> Unit,
+    onSwitchConferenceSelected: () -> Unit,
+) {
     composable(route = SessionsDestination.route) {
-        SessionsRoute(isExpandedScreen, displayFeatures, navigateToSession)
+        SessionsRoute(isExpandedScreen, displayFeatures, navigateToSession, onSwitchConferenceSelected)
     }
 }

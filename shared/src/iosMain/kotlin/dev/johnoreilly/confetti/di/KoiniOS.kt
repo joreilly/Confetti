@@ -14,3 +14,5 @@ actual fun platformModule() = module {
     single<NormalizedCacheFactory> { SqlNormalizedCacheFactory("confetti.db") }
     single<DateTimeFormatter> { IosDateTimeFormatter() }
 }
+
+actual fun getDatabaseName(conference: String) = "$conference.db"

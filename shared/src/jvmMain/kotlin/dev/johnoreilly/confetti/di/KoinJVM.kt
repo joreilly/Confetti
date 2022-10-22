@@ -1,7 +1,5 @@
 package dev.johnoreilly.confetti.di
 
-import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
-import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.PreferencesSettings
 import dev.johnoreilly.confetti.utils.DateTimeFormatter
@@ -11,6 +9,7 @@ import java.util.prefs.Preferences
 
 actual fun platformModule() = module {
     single<ObservableSettings> { PreferencesSettings(Preferences.userRoot()) }
-    single<NormalizedCacheFactory> { SqlNormalizedCacheFactory("jdbc:sqlite:confetti.db") }
     single<DateTimeFormatter> { JvmDateTimeFormatter() }
 }
+
+actual fun getDatabaseName(conference: String) = "jdbc:sqlite:$conference.db"

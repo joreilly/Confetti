@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.window.layout.DisplayFeature
+import dev.johnoreilly.confetti.conferences.navigation.ConferencesDestination
+import dev.johnoreilly.confetti.conferences.navigation.conferencesGraph
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.rooms.navigation.SessionsDestination
@@ -19,7 +21,7 @@ fun ConfettiNavHost(
     navController: NavHostController,
     isExpandedScreen: Boolean,
     displayFeatures: List<DisplayFeature>,
-    onNavigateToDestination: (ConfettiNavigationDestination, String) -> Unit = { _, _ -> },
+    onNavigateToDestination: (ConfettiNavigationDestination, String?) -> Unit = { _, _ -> },
     onBackClick: () -> Unit = {},
     modifier: Modifier = Modifier,
     startDestination: String = SessionsDestination.route
@@ -29,13 +31,26 @@ fun ConfettiNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
+
+        conferencesGraph { conference ->
+            onNavigateToDestination(
+                SessionsDestination, null
+            )
+        }
+
         sessionsGraph(isExpandedScreen, displayFeatures,
             navigateToSession = {
                 onNavigateToDestination(
                     SessionDetailsDestination,
                     SessionDetailsDestination.createNavigationRoute(it)
                 )
-            })
+            },
+            onSwitchConferenceSelected = {
+                onNavigateToDestination(
+                    ConferencesDestination, null
+                )
+            }
+        )
         sessionDetailsGraph(onBackClick)
 
         speakersGraph(

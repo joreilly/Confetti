@@ -23,3 +23,4 @@ fun commonModule() = module {
     single { AppSettings(get()) }
 }
 
+expect fun getDatabaseName(conference: String): String

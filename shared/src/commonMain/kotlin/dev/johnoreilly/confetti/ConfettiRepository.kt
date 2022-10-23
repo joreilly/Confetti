@@ -25,11 +25,14 @@ import org.koin.core.component.inject
 // needed for iOS client as "description" is reserved
 fun SessionDetails.sessionDescription() = this.description
 
+fun SessionDetails.isBreak() = this.type == "break"
+
 fun SpeakerDetails.getFullNameAndCompany(): String {
     return name + if (company.isNullOrBlank()) "" else ", " + this.company
 }
 
-fun SessionDetails.isBreak() = this.type == "break"
+
+data class Conference(val id: String, val name: String)
 
 class ConfettiRepository : KoinComponent {
     @NativeCoroutineScope
@@ -40,6 +43,12 @@ class ConfettiRepository : KoinComponent {
     private val dateTimeFormatter: DateTimeFormatter by inject()
 
     val enabledLanguages = appSettings.enabledLanguages
+
+    // TODO query this from backend
+    val conferenceList = listOf(
+        Conference("devfestnantes", "DevFest Nantes 2022"),
+        Conference("droidconlondon2022", "Droidcon London 2022"),
+    )
 
     private sealed interface EverythingResult
     private class EverythingSuccess(val data: GetEverythingQuery.Data) : EverythingResult
@@ -74,30 +83,6 @@ class ConfettiRepository : KoinComponent {
             return conferenceData.filterIsInstance<EverythingSuccess>().map { it.data.rooms.map { it.roomDetails } }
         }
 
-    init {
-        val conference = appSettings.getConference()
-        if (conference.isNotEmpty()) {
-            setConference(conference)
-        }
-    }
-
-    fun getConference(): String {
-        return appSettings.getConference()
-    }
-
-    fun setConference(conference: String) {
-        appSettings.setConference(conference)
-
-        conferenceData.value = EverythingLoading
-
-        apolloClient?.close()
-        apolloClient = createApolloClient(conference)
-
-        coroutineScope.launch {
-            refresh(networkOnly = false)
-        }
-    }
-
     private val currentData: GetEverythingQuery.Data
         get() {
             val everything = conferenceData.value as? EverythingSuccess
@@ -106,6 +91,30 @@ class ConfettiRepository : KoinComponent {
             }
             return everything.data
         }
+
+
+    init {
+        val conference = appSettings.getConference()
+        if (conference.isNotEmpty()) {
+            setConference(conference)
+        }
+    }
+
+
+    fun getConference(): String {
+        return appSettings.getConference()
+    }
+
+    fun setConference(conference: String) {
+        appSettings.setConference(conference)
+
+        apolloClient?.close()
+        apolloClient = createApolloClient(conference)
+
+        coroutineScope.launch {
+            refresh(networkOnly = false)
+        }
+    }
 
     fun getSessionTime(session: SessionDetails): String {
         val timeZone = TimeZone.of(currentData.config.timezone)

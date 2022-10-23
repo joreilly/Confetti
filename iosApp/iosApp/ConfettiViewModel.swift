@@ -17,6 +17,7 @@ enum SessionsUiState {
 @MainActor
 class ConfettiViewModel: ObservableObject {
     let repository = ConfettiRepository()
+    @Published public var conferenceList: [Conference] = []
     @Published public var speakers: [SpeakerDetails] = []
     @Published public var rooms: [RoomDetails] = []
     
@@ -28,8 +29,7 @@ class ConfettiViewModel: ObservableObject {
     
     
     init() {
-        repository.setConference(conference: "droidconlondon2022")
-        //repository.setConference(conference: "devfestnantes")
+        conferenceList = repository.conferenceList
         
         Task {
             do {
@@ -58,6 +58,11 @@ class ConfettiViewModel: ObservableObject {
             }
         }
     }
+    
+    func setConference(conference: String) {
+        repository.setConference(conference: conference)
+    }
+
 
     func toggleLanguageChecked(language: String) {
         let checked = enabledLanguages.contains(language) ? false : true

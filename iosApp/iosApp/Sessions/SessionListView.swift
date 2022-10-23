@@ -51,6 +51,7 @@ struct SessionListView: View {
                 await viewModel.refresh()
             }
         }
+        
     }
 }
 

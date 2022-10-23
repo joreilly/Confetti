@@ -7,18 +7,11 @@ import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
 
 
-data class Conference(val id: String, val name: String)
 
 class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel() {
     val enabledLanguages: Flow<Set<String>> = repository.enabledLanguages
 
-    // TODO query this from backend
-    val conferenceList = listOf(
-        Conference("devfestnantes", "DevFest Nantes 2022"),
-        Conference("droidconlondon2022", "Droidcon London 2022"),
-    )
-
-
+    val conferenceList = repository.conferenceList
     val speakers = repository.speakers
     val rooms = repository.rooms
 

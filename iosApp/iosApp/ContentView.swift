@@ -11,6 +11,25 @@ struct ContentView: View {
     }
     
     var body: some View {
+        NavigationView {
+            List(viewModel.conferenceList, id: \.self) { conference in
+                NavigationLink(destination: ConferenceView(viewModel: viewModel, conference: conference.id).navigationBarBackButtonHidden(true)) {
+                    Text(conference.name)
+                }
+                
+            }
+            .navigationTitle("Choose conference")
+            .navigationBarBackButtonHidden(true)
+        }
+    }
+}
+
+
+struct ConferenceView: View {
+    @ObservedObject var viewModel: ConfettiViewModel
+    let conference: String
+
+    var body: some View {
         TabView {
             SessionListView(viewModel: viewModel)
                 .tabItem {
@@ -20,11 +39,9 @@ struct ContentView: View {
                 .tabItem {
                     Label("Speakers", systemImage: "person")
                 }
-//            RoomListView(viewModel: viewModel)
-//                .tabItem {
-//                    Label("Rooms", systemImage: "location")
-//                }
-
+        }
+        .onAppear {
+            viewModel.setConference(conference: conference)
         }
     }
 }

@@ -46,6 +46,9 @@ class ConfettiRepository : KoinComponent {
 
     // TODO query this from backend
     val conferenceList = listOf(
+        Conference("droidconsf", "Droidcon San Francisco 2022"),
+        Conference("frenchkit2022", "FrenchKit 2022"),
+        Conference("graphqlsummit2022", "GraphQL Summit 2022"),
         Conference("devfestnantes", "DevFest Nantes 2022"),
         Conference("droidconlondon2022", "Droidcon London 2022"),
     )

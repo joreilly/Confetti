@@ -7,7 +7,6 @@ import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
 import dev.johnoreilly.confetti.di.getDatabaseName
-import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateTimeFormatter
@@ -53,47 +52,25 @@ class ConfettiRepository : KoinComponent {
         Conference("droidconlondon2022", "Droidcon London 2022"),
     )
 
-    private sealed interface EverythingResult
-    private class EverythingSuccess(val data: GetEverythingQuery.Data) : EverythingResult
-    private class EverythingError(val throwable: Throwable) : EverythingResult
-    private object EverythingLoading : EverythingResult
+    private val conferenceData = MutableStateFlow<GetConferenceDataQuery.Data?>(null)
 
-    private val conferenceData = MutableStateFlow<EverythingResult>(EverythingLoading)
+    val conferenceName = conferenceData.filterNotNull().map { it.config.name }
 
-    val conferenceName: Flow<String>
-        get() {
-            return conferenceData.filterIsInstance<EverythingSuccess>().map { it.data.config.name }
-        }
-
-    val sessions: Flow<List<SessionDetails>>
-        get() {
-            return conferenceData.filterIsInstance<EverythingSuccess>().map {
-                it.data.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }
-            }
-        }
-
-    val sessionsMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
-        it.groupBy { it.startInstant.toLocalDateTime(TimeZone.of(currentData.config.timezone)).date }
+    val sessions = conferenceData.filterNotNull().map {
+        it.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }
     }
 
-    val speakers: Flow<List<SpeakerDetails>>
-        get() {
-            return conferenceData.filterIsInstance<EverythingSuccess>().map { it.data.speakers.map { it.speakerDetails } }
-        }
+    val sessionsMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
+        it.groupBy { it.startInstant.toLocalDateTime(TimeZone.of(conferenceData.value?.config?.timezone ?: "")).date }
+    }
 
-    val rooms: Flow<List<RoomDetails>>
-        get() {
-            return conferenceData.filterIsInstance<EverythingSuccess>().map { it.data.rooms.map { it.roomDetails } }
-        }
+    val speakers = conferenceData.filterNotNull().map {
+        it.speakers.map { it.speakerDetails }
+    }
 
-    private val currentData: GetEverythingQuery.Data
-        get() {
-            val everything = conferenceData.value as? EverythingSuccess
-            check(everything != null) {
-                "Cannot call getSessionTime before we fetch the timeZone"
-            }
-            return everything.data
-        }
+    val rooms = conferenceData.filterNotNull().map {
+        it.rooms.map { it.roomDetails }
+    }
 
 
     init {
@@ -103,12 +80,12 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-
     fun getConference(): String {
         return appSettings.getConference()
     }
 
     fun setConference(conference: String) {
+        conferenceData.value = null
         appSettings.setConference(conference)
 
         apolloClient?.close()
@@ -120,8 +97,10 @@ class ConfettiRepository : KoinComponent {
     }
 
     fun getSessionTime(session: SessionDetails): String {
-        val timeZone = TimeZone.of(currentData.config.timezone)
-        return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
+        return conferenceData.value?.let {
+            val timeZone = TimeZone.of(it.config.timezone)
+            return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
+        } ?: ""
     }
 
     suspend fun getSession(sessionId: String): SessionDetails? {
@@ -138,18 +117,17 @@ class ConfettiRepository : KoinComponent {
 
         // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
         apolloClient?.let {
-            it.query(GetEverythingQuery(first = Optional.present(100)))
+            it.query(GetConferenceDataQuery(first = Optional.present(100)))
                 .fetchPolicy(fetchPolicy)
                 .toFlow()
-                .map { EverythingSuccess(it.dataAssertNoErrors) as EverythingResult }
                 .catch {
-                    emit(EverythingError(it))
+                    // this can be valid scenario of say offline and we get data from cache initially
+                    // but can't connect to network.  TODO should we surface this somewhere?
                 }.collect {
-                    conferenceData.value = it
+                    conferenceData.value = it.data
                 }
         }
     }
-
 
     fun createApolloClient(conference: String): ApolloClient {
         val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory(getDatabaseName(conference))

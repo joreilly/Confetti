@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -40,6 +41,8 @@ class ConfettiRepository : KoinComponent {
     private var apolloClient: ApolloClient? = null
     private val appSettings: AppSettings by inject()
     private val dateTimeFormatter: DateTimeFormatter by inject()
+
+    private var refreshJob: Job? = null
 
     val enabledLanguages = appSettings.enabledLanguages
 
@@ -85,13 +88,14 @@ class ConfettiRepository : KoinComponent {
     }
 
     fun setConference(conference: String) {
+        refreshJob?.cancel()
         conferenceData.value = null
         appSettings.setConference(conference)
 
         apolloClient?.close()
         apolloClient = createApolloClient(conference)
 
-        coroutineScope.launch {
+        refreshJob = coroutineScope.launch {
             refresh(networkOnly = false)
         }
     }

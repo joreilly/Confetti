@@ -211,7 +211,7 @@ fun SessionView(
         ) {
 
             val timeString = tiemFormatter(session)
-            Text(timeString, fontWeight = FontWeight.Bold)
+            Text(timeString, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
         }
 
         Column {

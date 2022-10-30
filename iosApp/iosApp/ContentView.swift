@@ -10,10 +10,29 @@ struct ContentView: View {
         UITabBar.appearance().backgroundColor = UIColor.white
     }
     
+    
+    var body: some View {
+        if (viewModel.savedConference.isEmpty) {
+            ConferenceListView(viewModel: viewModel) {
+                viewModel.setConference(conference: "")
+            }
+        } else {
+            ConferenceView(viewModel: viewModel, conference: viewModel.savedConference) {
+                viewModel.setConference(conference: "")
+            }
+        }
+    }
+}
+
+
+struct ConferenceListView: View {
+    @ObservedObject var viewModel: ConfettiViewModel
+    let showConferenceList: () -> Void
+    
     var body: some View {
         NavigationView {
             List(viewModel.conferenceList, id: \.self) { conference in
-                NavigationLink(destination: ConferenceView(viewModel: viewModel, conference: conference.id).navigationBarBackButtonHidden(true)) {
+                NavigationLink(destination: ConferenceView(viewModel: viewModel, conference: conference.id, showConferenceList: showConferenceList).navigationBarBackButtonHidden(true)) {
                     Text(conference.name)
                 }
                 
@@ -28,10 +47,11 @@ struct ContentView: View {
 struct ConferenceView: View {
     @ObservedObject var viewModel: ConfettiViewModel
     let conference: String
+    let showConferenceList: () -> Void
 
     var body: some View {
         TabView {
-            SessionListView(viewModel: viewModel)
+            SessionListView(viewModel: viewModel, showConferenceList: showConferenceList)
                 .tabItem {
                     Label("Schedule", systemImage: "calendar")
                 }

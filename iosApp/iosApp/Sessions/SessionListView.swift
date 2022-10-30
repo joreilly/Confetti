@@ -3,7 +3,8 @@ import ConfettiKit
 
 struct SessionListView: View {
     @ObservedObject var viewModel: ConfettiViewModel
-
+    let showConferenceList: () -> Void
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -45,6 +46,12 @@ struct SessionListView: View {
                     }
                 }
             }
+            .navigationBarItems(
+                  trailing: Button(action: {
+                      showConferenceList()
+                  }, label: {
+                      Text("Switch")
+                  }))
             .scrollContentBackground(.hidden)
             .background(Color(0xF6F6F6))
             .refreshable {

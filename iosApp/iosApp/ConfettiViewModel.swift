@@ -17,6 +17,7 @@ enum SessionsUiState {
 @MainActor
 class ConfettiViewModel: ObservableObject {
     let repository = ConfettiRepository()
+    @Published public var savedConference: String = ""
     @Published public var conferenceList: [Conference] = []
     @Published public var speakers: [SpeakerDetails] = []
     @Published public var rooms: [RoomDetails] = []
@@ -30,7 +31,9 @@ class ConfettiViewModel: ObservableObject {
     
     init() {
         conferenceList = repository.conferenceList
-        
+        savedConference = repository.getConference()
+        print(savedConference)
+
         Task {
             do {
                 let stream = asyncStream(for: repository.enabledLanguagesNative)
@@ -61,6 +64,7 @@ class ConfettiViewModel: ObservableObject {
     
     func setConference(conference: String) {
         repository.setConference(conference: conference)
+        savedConference = conference
     }
 
 

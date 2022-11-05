@@ -7,10 +7,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
 
 
-
 class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel() {
-    val enabledLanguages: Flow<Set<String>> = repository.enabledLanguages
-
     val conferenceList = repository.conferenceList
     val speakers = repository.speakers
     val rooms = repository.rooms
@@ -26,7 +23,9 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
             val confDates = sessionsMap.keys.toList().sorted()
             val selectedDate = confDates[selectedDateIndex]
             val sessions = sessionsMap[selectedDate] ?: emptyList()
-            SessionsUiState.Success(conferenceName, confDates, selectedDateIndex, sessions)
+            val sessionsByStartTime = groupSessionsByStartTime(sessions)
+
+            SessionsUiState.Success(conferenceName, confDates, selectedDateIndex, sessionsByStartTime)
 
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
@@ -47,12 +46,22 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
         return repository.getSession(sessionId)
     }
 
-    fun getSessionTime(session: SessionDetails): String {
-        return repository.getSessionTime(session)
-    }
-
     suspend fun refresh() {
         repository.refresh()
+    }
+
+
+    private fun groupSessionsByStartTime(sessions: List<SessionDetails>): Map<String, List<SessionDetails>> {
+        return sessions.map { session ->
+            val sessionTime = repository.getSessionTime(session)
+            sessionTime to session
+        }
+        .filter { pair -> pair.first.isNotEmpty() }
+        .groupBy(
+            keySelector = { it.first }
+        ) {
+            it.second
+        }
     }
 
 }
@@ -64,6 +73,6 @@ sealed interface SessionsUiState {
         val conferenceName: String,
         val confDates: List<LocalDate>,
         val selectedDateIndex: Int,
-        val sessions: List<SessionDetails>
+        val sessionsByStartTime: Map<String, List<SessionDetails>>
     ) : SessionsUiState
 }

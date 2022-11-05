@@ -1,6 +1,6 @@
 @file:OptIn(
     ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalLifecycleComposeApi::class
+    ExperimentalLifecycleComposeApi::class, ExperimentalFoundationApi::class
 )
 
 package dev.johnoreilly.confetti.sessions
@@ -54,10 +54,6 @@ fun SessionsRoute(
 
     var session by remember { mutableStateOf<SessionDetails?>(null) }
 
-    val timeFormatter: (SessionDetails) -> String = {
-        viewModel.getSessionTime(it)
-    }
-
     // TODO probably move most of this in to another composable
     if (isExpandedScreen) {
         TwoPane(
@@ -72,7 +68,6 @@ fun SessionsRoute(
                         }
                     },
                     onSwitchConferenceSelected,
-                    timeFormatter,
                     { viewModel.refresh() }
                 )
             },
@@ -95,7 +90,6 @@ fun SessionsRoute(
             },
             navigateToSession,
             onSwitchConferenceSelected,
-            timeFormatter,
             { viewModel.refresh() }
         )
     }
@@ -107,7 +101,6 @@ fun SessionListContent(
     switchTab: (Int) -> Unit,
     sessionSelected: (sessionId: String) -> Unit,
     onSwitchConferenceSelected:  () -> Unit,
-    timeFormatter: (SessionDetails) -> String,
     onRefresh: suspend (() -> Unit)
 ) {
     var showMenu by remember { mutableStateOf(false) }
@@ -115,7 +108,7 @@ fun SessionListContent(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(if (uiState is SessionsUiState.Success) uiState.conferenceName else "",) },
+                title = { Text(if (uiState is SessionsUiState.Success) uiState.conferenceName else "") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent
                 ),
@@ -175,8 +168,14 @@ fun SessionListContent(
                         }
                         Box(Modifier.pullRefresh(state).clipToBounds()) {
                             LazyColumn {
-                                items(uiState.sessions) { session ->
-                                    SessionView(session, sessionSelected, timeFormatter)
+                                uiState.sessionsByStartTime.forEach {
+                                    item {
+                                        Text(it.key, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                                    }
+
+                                    items(it.value) { session ->
+                                        SessionView(session, sessionSelected)
+                                    }
                                 }
                             }
                             PullRefreshIndicator(refreshing, state, Modifier.align(Alignment.TopCenter))
@@ -192,8 +191,7 @@ fun SessionListContent(
 @Composable
 fun SessionView(
     session: SessionDetails,
-    sessionSelected: (sessionId: String) -> Unit,
-    tiemFormatter: (SessionDetails) -> String
+    sessionSelected: (sessionId: String) -> Unit
 ) {
 
     var modifier = Modifier.fillMaxSize()
@@ -202,33 +200,18 @@ fun SessionView(
             sessionSelected(session.id)
         })
     }
-    Column(modifier.padding(16.dp)) {
-
-        Row(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            val timeString = tiemFormatter(session)
-            Text(timeString, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+    Column(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = session.title, style = TextStyle(fontSize = 18.sp))
         }
 
-        Column {
-
-            Spacer(modifier = Modifier.size(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = session.title, style = TextStyle(fontSize = 18.sp))
-            }
-
-            session.room?.let {
-                Row(
-                    modifier = Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val sessionSpeakerLocationText = getSessionSpeakerLocation(session)
-                    Text(sessionSpeakerLocationText,
-                        style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold)
-                }
+        session.room?.let {
+            Row(
+                modifier = Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically
+            ) {
+                val sessionSpeakerLocationText = getSessionSpeakerLocation(session)
+                Text(sessionSpeakerLocationText,
+                    style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold)
             }
         }
     }

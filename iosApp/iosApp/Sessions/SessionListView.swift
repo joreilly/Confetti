@@ -11,7 +11,7 @@ struct SessionListView: View {
                 Spacer().frame(height: 16)
 
                 switch viewModel.uiState {
-                case .success(_, let confDates, _, let sessions):
+                case .success(_, let confDates, _, let sessionsByStartTime):
                     Picker(selection: $viewModel.selectedDateIndex, label: Text("Date")) {
                         ForEach(0..<confDates.count, id: \.self) { i in
                             Text("\(confDates[i])").tag(i)
@@ -19,18 +19,23 @@ struct SessionListView: View {
                     }
                     .pickerStyle(.segmented)
 
-                    List(sessions) { session in
-                        VStack {
-                            if (!session.isBreak()) {
-                                NavigationLink(destination: SessionDetailsView(session: session)) {
-                                    SessionView(viewModel: viewModel, session: session)
+                    List {
+                        ForEach(sessionsByStartTime.keys.sorted(), id: \.self) {key in
+                            Section(header: Text(key)) {
+                                let sessions = sessionsByStartTime[key] ?? []
+                                ForEach(sessions, id: \.self) { session in
+                                    VStack {
+                                        if (!session.isBreak()) {
+                                            NavigationLink(destination: SessionDetailsView(session: session)) {
+                                                SessionView(viewModel: viewModel, session: session)
+                                            }
+                                        } else {
+                                            SessionView(viewModel: viewModel, session: session)
+                                        }
+                                    }
                                 }
-                            } else {
-                                SessionView(viewModel: viewModel, session: session)
                             }
                         }
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
                     }
                 case .loading:
                     ProgressView()
@@ -69,8 +74,6 @@ struct SessionView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(viewModel.getSessionTime(session: session)).bold()
-            Spacer()
             Text(session.title)
             if session.room != nil {
                 Spacer().frame(height: 8)

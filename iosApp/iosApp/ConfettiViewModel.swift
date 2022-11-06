@@ -11,7 +11,7 @@ extension RoomDetails: Identifiable { }
 
 enum SessionsUiState {
     case loading
-    case success(conferenceName: String, confDates: [Kotlinx_datetimeLocalDate], selectedDateIndex: Int, sessions: [SessionDetails])
+    case success(conferenceName: String, confDates: [Kotlinx_datetimeLocalDate], selectedDateIndex: Int, sessionsByStartTime: [String: [SessionDetails]])
 }
 
 @MainActor
@@ -57,7 +57,12 @@ class ConfettiViewModel: ObservableObject {
                 }
                 let selectedDate = confDates[selectedDateIndex]
                 let sessions = sessionsMap[selectedDate] ?? []
-                self.uiState = SessionsUiState.success(conferenceName: conferenceName, confDates: confDates, selectedDateIndex: selectedDateIndex, sessions: sessions)
+                
+                let sessionsByStartTime = Dictionary(grouping: sessions) { (session) -> String in
+                    return repository.getSessionTime(session: session)
+                }
+                
+                self.uiState = SessionsUiState.success(conferenceName: conferenceName, confDates: confDates, selectedDateIndex: selectedDateIndex, sessionsByStartTime: sessionsByStartTime)
             }
         }
     }

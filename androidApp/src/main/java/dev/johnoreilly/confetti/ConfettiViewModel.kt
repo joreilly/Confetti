@@ -23,7 +23,7 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
             val confDates = sessionsMap.keys.toList().sorted()
             val selectedDate = confDates[selectedDateIndex]
             val sessions = sessionsMap[selectedDate] ?: emptyList()
-            val sessionsByStartTime = groupSessionsByStartTime(sessions)
+            val sessionsByStartTime = sessions.groupBy { repository.getSessionTime(it) }
 
             SessionsUiState.Success(conferenceName, confDates, selectedDateIndex, sessionsByStartTime)
 
@@ -49,21 +49,6 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
     suspend fun refresh() {
         repository.refresh()
     }
-
-
-    private fun groupSessionsByStartTime(sessions: List<SessionDetails>): Map<String, List<SessionDetails>> {
-        return sessions.map { session ->
-            val sessionTime = repository.getSessionTime(session)
-            sessionTime to session
-        }
-        .filter { pair -> pair.first.isNotEmpty() }
-        .groupBy(
-            keySelector = { it.first }
-        ) {
-            it.second
-        }
-    }
-
 }
 
 sealed interface SessionsUiState {

@@ -94,17 +94,17 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
 
 
 @Composable
-fun Chip(name: String = "Chip") {
+fun Chip(name: String) {
     Surface(
         modifier = Modifier.padding(end = 10.dp),
         shadowElevation = 8.dp,
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.secondaryContainer
     ) {
         Text(
             text = name,
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.padding(10.dp)
         )
     }

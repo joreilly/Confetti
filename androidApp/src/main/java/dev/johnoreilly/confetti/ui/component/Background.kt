@@ -147,7 +147,7 @@ fun BackgroundDefault() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme")
 @Composable
 fun BackgroundDynamic() {
-    ConfettiTheme(dynamicColor = true) {
+    ConfettiTheme(disableDynamicTheming = false) {
         ConfettiBackground(Modifier.size(100.dp), content = {})
     }
 }
@@ -174,7 +174,7 @@ fun GradientBackgroundDefault() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme")
 @Composable
 fun GradientBackgroundDynamic() {
-    ConfettiTheme(dynamicColor = true) {
+    ConfettiTheme(disableDynamicTheming = false) {
         ConfettiGradientBackground(Modifier.size(100.dp), content = {})
     }
 }

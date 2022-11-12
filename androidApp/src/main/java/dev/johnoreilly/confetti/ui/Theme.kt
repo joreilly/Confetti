@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.ui
 
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -172,44 +173,35 @@ val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
 @Composable
 fun ConfettiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
     androidTheme: Boolean = false,
+    disableDynamicTheming: Boolean = false,
     content: @Composable() () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                val context = LocalContext.current
-                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-            } else {
-                if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
-            }
-        }
-        androidTheme -> if (darkTheme) DarkAndroidColorScheme else LightAndroidColorScheme
-        else -> if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
+
+    val colorScheme = if (androidTheme) {
+        if (darkTheme) DarkAndroidColorScheme else LightAndroidColorScheme
+    } else if (!disableDynamicTheming && supportsDynamicTheming()) {
+        val context = LocalContext.current
+        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    } else {
+        if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
     }
 
     val defaultGradientColors = GradientColors()
-    val gradientColors = when {
-        dynamicColor -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                defaultGradientColors
-            } else {
-                if (darkTheme) defaultGradientColors else LightDefaultGradientColors
-            }
-        }
-        androidTheme -> defaultGradientColors
-        else -> if (darkTheme) defaultGradientColors else LightDefaultGradientColors
+    val gradientColors = if (androidTheme || (!disableDynamicTheming && supportsDynamicTheming())) {
+        defaultGradientColors
+    } else {
+        if (darkTheme) defaultGradientColors else LightDefaultGradientColors
     }
 
     val defaultBackgroundTheme = BackgroundTheme(
         color = colorScheme.surface,
         tonalElevation = 2.dp
     )
-    val backgroundTheme = when {
-        dynamicColor -> defaultBackgroundTheme
-        androidTheme -> if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme
-        else -> defaultBackgroundTheme
+    val backgroundTheme = if (androidTheme) {
+        if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme
+    } else {
+        defaultBackgroundTheme
     }
 
     CompositionLocalProvider(
@@ -223,3 +215,6 @@ fun ConfettiTheme(
         )
     }
 }
+
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
+private fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

@@ -53,7 +53,7 @@ fun ConfettiNavHost(
         )
         sessionDetailsGraph(onBackClick)
 
-        speakersGraph(
+        speakersGraph(isExpandedScreen,
             navigateToSpeaker = {
                 onNavigateToDestination(
                     SpeakerDetailsDestination,

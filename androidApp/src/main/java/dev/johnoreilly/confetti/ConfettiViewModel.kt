@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
@@ -18,14 +19,15 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
         combine(
             repository.conferenceName,
             repository.sessionsMap,
+            repository.rooms,
             selectedDateIndex
-        ) { conferenceName, sessionsMap, selectedDateIndex ->
+        ) { conferenceName, sessionsMap, rooms, selectedDateIndex ->
             val confDates = sessionsMap.keys.toList().sorted()
             val selectedDate = confDates[selectedDateIndex]
             val sessions = sessionsMap[selectedDate] ?: emptyList()
             val sessionsByStartTime = sessions.groupBy { repository.getSessionTime(it) }
 
-            SessionsUiState.Success(conferenceName, confDates, selectedDateIndex, sessionsByStartTime)
+            SessionsUiState.Success(conferenceName, confDates, selectedDateIndex, sessionsByStartTime, rooms)
 
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
@@ -58,6 +60,7 @@ sealed interface SessionsUiState {
         val conferenceName: String,
         val confDates: List<LocalDate>,
         val selectedDateIndex: Int,
-        val sessionsByStartTime: Map<String, List<SessionDetails>>
+        val sessionsByStartTime: Map<String, List<SessionDetails>>,
+        val rooms: List<RoomDetails>
     ) : SessionsUiState
 }

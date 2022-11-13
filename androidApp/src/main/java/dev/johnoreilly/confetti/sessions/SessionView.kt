@@ -1,7 +1,4 @@
-@file:OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalLifecycleComposeApi::class, ExperimentalFoundationApi::class
-)
+@file:OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 
 package dev.johnoreilly.confetti.sessions
 
@@ -23,18 +20,18 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
-import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
-import com.google.accompanist.adaptive.TwoPane
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.SessionsUiState
+import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.isBreak
-import dev.johnoreilly.confetti.sessiondetails.SessionDetailView
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.ConfettiTabRow
 import kotlinx.coroutines.launch
@@ -46,41 +43,22 @@ fun SessionsRoute(
     isExpandedScreen: Boolean,
     displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
-    onSwitchConferenceSelected:  () -> Unit,
+    onSwitchConferenceSelected: () -> Unit,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    var session by remember { mutableStateOf<SessionDetails?>(null) }
 
     // TODO probably move most of this in to another composable
     if (isExpandedScreen) {
-        TwoPane(
-            first = {
-                SessionListContent(uiState,
-                    switchTab = {
-                        viewModel.switchTab(it)
-                    },
-                    sessionSelected = { sessionId ->
-                        coroutineScope.launch {
-                            session = viewModel.getSession(sessionId)
-                        }
-                    },
-                    onSwitchConferenceSelected,
-                    { viewModel.refresh() }
-                )
+
+        SessionGridContent(
+            uiState,
+            switchTab = {
+                viewModel.switchTab((it))
             },
-            second = {
-                SessionDetailView(session, {})
-            },
-            strategy = { density, layoutDirection, layoutCoordinates ->
-                HorizontalTwoPaneStrategy(
-                    splitFraction = 0.25f
-                ).calculateSplitResult(density, layoutDirection, layoutCoordinates)
-            },
-            displayFeatures = displayFeatures,
-            modifier = Modifier.padding(8.dp)
+            navigateToSession,
+            onSwitchConferenceSelected,
+            { viewModel.refresh() }
         )
     } else {
         SessionListContent(
@@ -95,12 +73,155 @@ fun SessionsRoute(
     }
 }
 
+
+@Composable
+fun SessionGridContent(
+    uiState: SessionsUiState,
+    switchTab: (Int) -> Unit,
+    sessionSelected: (sessionId: String) -> Unit,
+    onSwitchConferenceSelected: () -> Unit,
+    onRefresh: suspend (() -> Unit)
+) {
+    var showMenu by remember { mutableStateOf(false) }
+
+    if (uiState is SessionsUiState.Success) {
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = { Text(uiState.conferenceName, fontSize = 40.sp) },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
+                    actions = {
+                        IconButton(onClick = { showMenu = !showMenu }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "menu")
+                        }
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Switch Conference") },
+                                onClick = {
+                                    showMenu = false
+                                    onSwitchConferenceSelected()
+                                }
+                            )
+                        }
+                    }
+                )
+            },
+            containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        ) { padding ->
+            BoxWithConstraints(Modifier.padding(padding)) {
+
+                val rooms = uiState.rooms
+                val sessionsByStartTime = uiState.sessionsByStartTime
+                val timeInfoWidth = 80.dp
+                val sessionInfoWidth = (maxWidth - timeInfoWidth - 16.dp) / rooms.size
+
+
+                Column {
+                    Row(
+                        modifier = Modifier.padding(
+                            start = timeInfoWidth,
+                            top = 16.dp,
+                            bottom = 16.dp
+                        )
+                    ) {
+                        rooms.forEach { room ->
+                            Text(
+                                modifier = Modifier.width(sessionInfoWidth),
+                                textAlign = TextAlign.Center,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                text = room.name
+                            )
+                        }
+                    }
+
+                    LazyColumn(modifier = Modifier.fillMaxWidth().padding(end = 16.dp)) {
+                        sessionsByStartTime.forEach {
+                            item {
+                                SessionGridRow(it, rooms, sessionInfoWidth, timeInfoWidth, sessionSelected)
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+}
+
+
+@Composable
+fun SessionGridRow(
+    sessionByTimeList: Map.Entry<String, List<SessionDetails>>,
+    rooms: List<RoomDetails>,
+    sessionInfoWidth: Dp,
+    timeInfoWidth: Dp,
+    sessionSelected: (sessionId: String) -> Unit
+) {
+    Row {
+        Text(
+            sessionByTimeList.key,
+            modifier = Modifier.width(timeInfoWidth).padding(16.dp),
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.primary
+        )
+
+        val sessionList = rooms.mapNotNull { room ->
+            sessionByTimeList.value.find { it.room?.name == room.name }
+        }
+
+        sessionList.forEach { session ->
+            Surface(
+                modifier = Modifier
+                    .width(sessionInfoWidth)
+                    .height(180.dp)
+                    .padding(bottom = 16.dp)
+                    .border(BorderStroke(1.dp, MaterialTheme.colorScheme.primary)),
+                color = MaterialTheme.colorScheme.secondaryContainer
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp).clickable(onClick = {
+                        sessionSelected(session.id)
+                    })
+                    ,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = session.title,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                    Spacer(Modifier.height(16.dp))
+
+                    session.speakers.forEach { speaker ->
+                        Text(
+                            text = speaker.speakerDetails.name,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+
 @Composable
 fun SessionListContent(
     uiState: SessionsUiState,
     switchTab: (Int) -> Unit,
     sessionSelected: (sessionId: String) -> Unit,
-    onSwitchConferenceSelected:  () -> Unit,
+    onSwitchConferenceSelected: () -> Unit,
     onRefresh: suspend (() -> Unit)
 ) {
     var showMenu by remember { mutableStateOf(false) }
@@ -152,6 +273,7 @@ fun SessionListContent(
                             refreshing = false
                         }
                     }
+
                     val state = rememberPullRefreshState(refreshing, ::refresh)
 
                     Column {
@@ -170,7 +292,12 @@ fun SessionListContent(
                             LazyColumn {
                                 uiState.sessionsByStartTime.forEach {
                                     item {
-                                        Text(it.key, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                                        Text(
+                                            it.key,
+                                            modifier = Modifier.padding(16.dp),
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
                                     }
 
                                     items(it.value) { session ->
@@ -178,7 +305,11 @@ fun SessionListContent(
                                     }
                                 }
                             }
-                            PullRefreshIndicator(refreshing, state, Modifier.align(Alignment.TopCenter))
+                            PullRefreshIndicator(
+                                refreshing,
+                                state,
+                                Modifier.align(Alignment.TopCenter)
+                            )
                         }
                     }
                 }
@@ -207,11 +338,14 @@ fun SessionView(
 
         session.room?.let {
             Row(
-                modifier = Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.padding(top = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 val sessionSpeakerLocationText = getSessionSpeakerLocation(session)
-                Text(sessionSpeakerLocationText,
-                    style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold)
+                Text(
+                    sessionSpeakerLocationText,
+                    style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold
+                )
             }
         }
     }

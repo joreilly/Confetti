@@ -1,27 +1,15 @@
-@file:OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalLifecycleComposeApi::class)
 
 package dev.johnoreilly.confetti.sessions
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.*
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -29,12 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.isBreak
-import dev.johnoreilly.confetti.ui.component.ConfettiTab
-import dev.johnoreilly.confetti.ui.component.ConfettiTabRow
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 
@@ -48,24 +31,16 @@ fun SessionsRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    // TODO probably move most of this in to another composable
     if (isExpandedScreen) {
-
-        SessionGridContent(
+        SessionListGridView(
             uiState,
-            switchTab = {
-                viewModel.switchTab((it))
-            },
             navigateToSession,
             onSwitchConferenceSelected,
             { viewModel.refresh() }
         )
     } else {
-        SessionListContent(
+        SessionListView(
             uiState,
-            switchTab = {
-                viewModel.switchTab((it))
-            },
             navigateToSession,
             onSwitchConferenceSelected,
             { viewModel.refresh() }
@@ -73,250 +48,6 @@ fun SessionsRoute(
     }
 }
 
-
-@Composable
-fun SessionGridContent(
-    uiState: SessionsUiState,
-    switchTab: (Int) -> Unit,
-    sessionSelected: (sessionId: String) -> Unit,
-    onSwitchConferenceSelected: () -> Unit,
-    onRefresh: suspend (() -> Unit)
-) {
-    var showMenu by remember { mutableStateOf(false) }
-
-    if (uiState is SessionsUiState.Success) {
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text(uiState.conferenceName, fontSize = 40.sp) },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent
-                    ),
-                    actions = {
-                        IconButton(onClick = { showMenu = !showMenu }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "menu")
-                        }
-                        DropdownMenu(
-                            expanded = showMenu,
-                            onDismissRequest = { showMenu = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("Switch Conference") },
-                                onClick = {
-                                    showMenu = false
-                                    onSwitchConferenceSelected()
-                                }
-                            )
-                        }
-                    }
-                )
-            },
-            containerColor = Color.Transparent,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0)
-        ) { padding ->
-            BoxWithConstraints(Modifier.padding(padding)) {
-
-                val rooms = uiState.rooms
-                val sessionsByStartTime = uiState.sessionsByStartTime
-                val timeInfoWidth = 80.dp
-                val sessionInfoWidth = (maxWidth - timeInfoWidth - 16.dp) / rooms.size
-
-
-                Column {
-                    Row(
-                        modifier = Modifier.padding(
-                            start = timeInfoWidth,
-                            top = 16.dp,
-                            bottom = 16.dp
-                        )
-                    ) {
-                        rooms.forEach { room ->
-                            Text(
-                                modifier = Modifier.width(sessionInfoWidth),
-                                textAlign = TextAlign.Center,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold,
-                                text = room.name
-                            )
-                        }
-                    }
-
-                    LazyColumn(modifier = Modifier.fillMaxWidth().padding(end = 16.dp)) {
-                        sessionsByStartTime.forEach {
-                            item {
-                                SessionGridRow(it, rooms, sessionInfoWidth, timeInfoWidth, sessionSelected)
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-
-    }
-}
-
-
-@Composable
-fun SessionGridRow(
-    sessionByTimeList: Map.Entry<String, List<SessionDetails>>,
-    rooms: List<RoomDetails>,
-    sessionInfoWidth: Dp,
-    timeInfoWidth: Dp,
-    sessionSelected: (sessionId: String) -> Unit
-) {
-    Row {
-        Text(
-            sessionByTimeList.key,
-            modifier = Modifier.width(timeInfoWidth).padding(16.dp),
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        val sessionList = rooms.mapNotNull { room ->
-            sessionByTimeList.value.find { it.room?.name == room.name }
-        }
-
-        sessionList.forEach { session ->
-            Surface(
-                modifier = Modifier
-                    .width(sessionInfoWidth)
-                    .height(180.dp)
-                    .padding(bottom = 16.dp)
-                    .border(BorderStroke(1.dp, MaterialTheme.colorScheme.primary)),
-                color = MaterialTheme.colorScheme.secondaryContainer
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp).clickable(onClick = {
-                        sessionSelected(session.id)
-                    })
-                    ,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = session.title,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                    Spacer(Modifier.height(16.dp))
-
-                    session.speakers.forEach { speaker ->
-                        Text(
-                            text = speaker.speakerDetails.name,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-
-                }
-            }
-        }
-    }
-}
-
-
-@Composable
-fun SessionListContent(
-    uiState: SessionsUiState,
-    switchTab: (Int) -> Unit,
-    sessionSelected: (sessionId: String) -> Unit,
-    onSwitchConferenceSelected: () -> Unit,
-    onRefresh: suspend (() -> Unit)
-) {
-    var showMenu by remember { mutableStateOf(false) }
-
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(if (uiState is SessionsUiState.Success) uiState.conferenceName else "") },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent
-                ),
-                actions = {
-                    IconButton(onClick = { showMenu = !showMenu }) {
-                        Icon(Icons.Default.MoreVert, contentDescription = "menu")
-                    }
-                    DropdownMenu(
-                        expanded = showMenu,
-                        onDismissRequest = { showMenu = false }
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Switch Conference") },
-                            onClick = {
-                                showMenu = false
-                                onSwitchConferenceSelected()
-                            }
-                        )
-                    }
-                }
-            )
-        },
-        containerColor = Color.Transparent,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
-
-            when (uiState) {
-                SessionsUiState.Loading ->
-                    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
-                        CircularProgressIndicator()
-                    }
-
-                is SessionsUiState.Success -> {
-                    val refreshScope = rememberCoroutineScope()
-                    var refreshing by remember { mutableStateOf(false) }
-                    fun refresh() {
-                        refreshScope.launch {
-                            refreshing = true
-                            onRefresh()
-                            refreshing = false
-                        }
-                    }
-
-                    val state = rememberPullRefreshState(refreshing, ::refresh)
-
-                    Column {
-                        ConfettiTabRow(selectedTabIndex = uiState.selectedDateIndex) {
-                            uiState.confDates.forEachIndexed { index, date ->
-                                ConfettiTab(
-                                    selected = index == uiState.selectedDateIndex,
-                                    onClick = {
-                                        switchTab(index)
-                                    },
-                                    text = { Text(text = date.toString()) }
-                                )
-                            }
-                        }
-                        Box(Modifier.pullRefresh(state).clipToBounds()) {
-                            LazyColumn {
-                                uiState.sessionsByStartTime.forEach {
-                                    item {
-                                        Text(
-                                            it.key,
-                                            modifier = Modifier.padding(16.dp),
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.primary
-                                        )
-                                    }
-
-                                    items(it.value) { session ->
-                                        SessionView(session, sessionSelected)
-                                    }
-                                }
-                            }
-                            PullRefreshIndicator(
-                                refreshing,
-                                state,
-                                Modifier.align(Alignment.TopCenter)
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 
 
 @Composable

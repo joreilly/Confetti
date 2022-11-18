@@ -5,12 +5,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -51,35 +47,7 @@ fun ConfettiTab(
     )
 }
 
-/**
- * Confetti tab row. Wraps Material 3 [TabRow].
- *
- * @param selectedTabIndex The index of the currently selected tab.
- * @param modifier Modifier to be applied to the tab row.
- * @param tabs The tabs inside this tab row. Typically this will be multiple [NiaTab]s. Each element
- * inside this lambda will be measured and placed evenly across the row, each taking up equal space.
- */
-@Composable
-fun ConfettiTabRow(
-    selectedTabIndex: Int,
-    modifier: Modifier = Modifier,
-    tabs: @Composable () -> Unit
-) {
-    TabRow(
-        selectedTabIndex = selectedTabIndex,
-        modifier = modifier,
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onSurface,
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
-                height = 2.dp,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        tabs = tabs
-    )
-}
+
 
 object NiaTabDefaults {
     val TabTopPadding = 7.dp

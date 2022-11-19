@@ -10,7 +10,7 @@ object Versions {
     const val compose = "1.3.0"
     const val composeCompiler = "1.3.2"
     const val navCompose = "2.5.2"
-    const val accompanist = "0.27.0"
+    const val accompanist = "0.27.1"
     const val composeMaterial3 = "1.0.0"
     const val activityCompose = "1.6.1"
     const val lifecycle = "2.6.0-alpha03"
@@ -81,8 +81,10 @@ object Compose {
     const val material3WindowSizeClass = "androidx.compose.material3:material3-window-size-class:${Versions.composeMaterial3}"
     const val splashScreen = "androidx.core:core-splashscreen:1.0.0"
 
-    const val accompanistAdaptive =  "com.google.accompanist:accompanist-adaptive:${Versions.accompanist}"
-    const val accompanistFlowLayout =  "com.google.accompanist:accompanist-flowlayout:${Versions.accompanist}"
+    const val accompanistAdaptive = "com.google.accompanist:accompanist-adaptive:${Versions.accompanist}"
+    const val accompanistFlowLayout = "com.google.accompanist:accompanist-flowlayout:${Versions.accompanist}"
+    const val accompanistPager = "com.google.accompanist:accompanist-pager:${Versions.accompanist}"
+    const val accompanistPagerIndicator = "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanist}"
 }
 
 object Koin {

@@ -76,6 +76,8 @@ dependencies {
 
         implementation(accompanistAdaptive)
         implementation(accompanistFlowLayout)
+        implementation(accompanistPager)
+        implementation(accompanistPagerIndicator)
     }
 
     with (Koin) {

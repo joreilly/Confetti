@@ -67,7 +67,7 @@ fun SessionListGridView(
                 val rooms = uiState.rooms
                 // TODO add tab bar for different dates (or show all days in same grid?)
                 val sessionsByStartTime = uiState.sessionsByStartTimeList[0]
-                val timeInfoWidth = 80.dp
+                val timeInfoWidth = 90.dp
                 val sessionInfoWidth = (maxWidth - timeInfoWidth - 16.dp) / rooms.size
 
 

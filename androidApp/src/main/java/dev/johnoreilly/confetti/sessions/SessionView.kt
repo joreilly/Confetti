@@ -64,12 +64,12 @@ fun SessionView(
     }
     Column(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = session.title, style = TextStyle(fontSize = 18.sp))
+            Text(text = session.title, style = TextStyle(fontSize = 16.sp))
         }
 
         session.room?.let {
             Row(
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 val sessionSpeakerLocationText = getSessionSpeakerLocation(session)

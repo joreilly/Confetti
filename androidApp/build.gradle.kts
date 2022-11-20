@@ -41,6 +41,7 @@ android {
             signingConfig = signingConfigs.getByName("confetti")
         }
     }
+    namespace = "dev.johnoreilly.confetti"
 }
 
 

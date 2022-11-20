@@ -71,7 +71,9 @@ fun SessionListView(
 
             when (uiState) {
                 SessionsUiState.Loading ->
-                    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)) {
                         CircularProgressIndicator()
                     }
 
@@ -98,16 +100,21 @@ fun SessionListView(
                         ) { page ->
 
                             val sessions = uiState.sessionsByStartTimeList[page]
-                            Box(Modifier.pullRefresh(state).clipToBounds()) {
+                            Box(
+                                Modifier
+                                    .pullRefresh(state)
+                                    .clipToBounds()) {
                                 LazyColumn {
                                     sessions.forEach {
                                         item {
-                                            Text(
-                                                it.key,
-                                                modifier = Modifier.padding(16.dp),
-                                                fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colorScheme.primary
-                                            )
+                                            Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)) {
+                                                Text(
+                                                    it.key,
+                                                    fontWeight = FontWeight.Bold,
+                                                    color = MaterialTheme.colorScheme.primary
+                                                )
+                                                Divider()
+                                            }
                                         }
 
                                         items(it.value) { session ->

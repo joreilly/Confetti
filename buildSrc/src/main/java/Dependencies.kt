@@ -1,16 +1,16 @@
 
 object Versions {
     const val kotlinVersion = "1.7.20"
-    const val apollo = "3.7.0"
+    const val apollo = "3.7.1"
 
     const val kotlinCoroutines = "1.6.4"
     const val kmpNativeCoroutines = "0.13.1"
     const val kotlinxDateTime = "0.4.0"
 
-    const val compose = "1.3.0"
+    const val compose = "1.3.1"
     const val composeCompiler = "1.3.2"
     const val navCompose = "2.5.2"
-    const val accompanist = "0.27.1"
+    const val accompanist = "0.28.0"
     const val composeMaterial3 = "1.0.0"
     const val activityCompose = "1.6.1"
     const val lifecycle = "2.6.0-alpha03"

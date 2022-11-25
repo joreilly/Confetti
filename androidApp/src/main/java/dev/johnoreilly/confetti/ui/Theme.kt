@@ -138,16 +138,6 @@ val DarkAndroidColorScheme = darkColorScheme(
     outline = GreenGray60
 )
 
-/**
- * Light default gradient colors
- */
-val LightDefaultGradientColors = GradientColors(
-    primary = Purple95,
-    secondary = Orange95,
-    tertiary = Blue95,
-    neutral = DarkPurpleGray95
-)
-
 
 /**
  * Light Android background theme
@@ -187,13 +177,6 @@ fun ConfettiTheme(
         if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
     }
 
-    val defaultGradientColors = GradientColors()
-    val gradientColors = if (androidTheme || (!disableDynamicTheming && supportsDynamicTheming())) {
-        defaultGradientColors
-    } else {
-        if (darkTheme) defaultGradientColors else LightDefaultGradientColors
-    }
-
     val defaultBackgroundTheme = BackgroundTheme(
         color = colorScheme.surface,
         tonalElevation = 2.dp
@@ -205,7 +188,6 @@ fun ConfettiTheme(
     }
 
     CompositionLocalProvider(
-        LocalGradientColors provides gradientColors,
         LocalBackgroundTheme provides backgroundTheme
     ) {
         MaterialTheme(

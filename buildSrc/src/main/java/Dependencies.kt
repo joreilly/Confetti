@@ -17,8 +17,8 @@ object Versions {
 
     const val multiplatformSettings = "1.0.0-alpha01"
     const val koinCore = "3.2.2"
-    const val koinAndroid = "3.2.2"
-    const val koinAndroidCompose = "3.2.2"
+    const val koinAndroid = "3.3.0"
+    const val koinAndroidCompose = "3.3.0"
     const val junit = "4.13"
 }
 

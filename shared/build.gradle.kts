@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("com.apollographql.apollo3")
+    id("com.google.devtools.ksp")
     id("com.rickclephas.kmp.nativecoroutines")
     id("co.touchlab.faktory.kmmbridge") version "0.3.1"
 }
@@ -54,12 +55,6 @@ kotlin {
             }
         }
         val androidMain by getting
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(Deps.junit)
-            }
-        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -133,4 +128,20 @@ kmmbridge {
     githubReleaseVersions()
     spm()
     versionPrefix.set("0.7")
+}
+
+allprojects {
+    afterEvaluate {
+        // temp fix until sqllight includes https://github.com/cashapp/sqldelight/pull/3671
+        project.extensions.findByType<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension>()?.let { kmpExt ->
+            kmpExt.targets
+                .filterIsInstance<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>()
+                .flatMap { it.binaries }
+                .forEach { it.linkerOpts("-lsqlite3") }
+        }
+    }
+}
+
+kotlin.sourceSets.all {
+    languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
 }

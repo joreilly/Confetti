@@ -2,15 +2,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-        }
         gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.android.tools.build:gradle:8.0.0-alpha09")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}")
         classpath("com.apollographql.apollo3:apollo-gradle-plugin:${Versions.apollo}")
+        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.8.0-RC-1.0.8")
         classpath("com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin:${Versions.kmpNativeCoroutines}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${Versions.kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlinVersion}")
@@ -23,6 +21,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven("https://androidx.dev/storage/compose-compiler/repository")
     }
 }
 

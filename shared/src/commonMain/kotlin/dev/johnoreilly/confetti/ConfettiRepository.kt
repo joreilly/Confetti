@@ -6,6 +6,8 @@ import com.apollographql.apollo3.cache.normalized.*
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import dev.johnoreilly.confetti.di.getDatabaseName
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -36,7 +38,7 @@ data class Conference(val id: String, val name: String)
 
 class ConfettiRepository : KoinComponent {
     @NativeCoroutineScope
-    private val coroutineScope: CoroutineScope = MainScope()
+    val coroutineScope: CoroutineScope = MainScope()
 
     private var apolloClient: ApolloClient? = null
     private val appSettings: AppSettings by inject()
@@ -44,6 +46,7 @@ class ConfettiRepository : KoinComponent {
 
     private var refreshJob: Job? = null
 
+    @NativeCoroutines
     val enabledLanguages = appSettings.enabledLanguages
 
     // TODO query this from backend
@@ -57,20 +60,24 @@ class ConfettiRepository : KoinComponent {
 
     private val conferenceData = MutableStateFlow<GetConferenceDataQuery.Data?>(null)
 
+    @NativeCoroutines
     val conferenceName = conferenceData.filterNotNull().map { it.config.name }
 
     val sessions = conferenceData.filterNotNull().map {
         it.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }
     }
 
+    @NativeCoroutines
     val sessionsMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
         it.groupBy { it.startInstant.toLocalDateTime(TimeZone.of(conferenceData.value?.config?.timezone ?: "")).date }
     }
 
+    @NativeCoroutines
     val speakers = conferenceData.filterNotNull().map {
         it.speakers.map { it.speakerDetails }
     }
 
+    @NativeCoroutines
     val rooms = conferenceData.filterNotNull().map {
         it.rooms.map { it.roomDetails }
     }
@@ -116,6 +123,7 @@ class ConfettiRepository : KoinComponent {
         appSettings.updateEnableLanguageSetting(language, checked)
     }
 
+    @NativeCoroutines
     suspend fun refresh(networkOnly: Boolean = true) {
         val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
 

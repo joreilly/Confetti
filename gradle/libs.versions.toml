@@ -63,6 +63,7 @@ okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
 xoxo = "net.mbonnin.xoxo:xoxo:0.2"
+desugar = "com.android.tools:desugar_jdk_libs:2.0.0"
 
 [plugins]
 android-application = { id = "com.android.application", version = "8.0.0-alpha09" }

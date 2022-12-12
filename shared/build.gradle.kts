@@ -117,7 +117,7 @@ apollo {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring(libs.desugar)
 }
 
 kmmbridge {

@@ -29,15 +29,11 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.datetime)
 
-                api(libs.multiplatform.settings)
-                api(libs.multiplatform.settings.coroutines)
-
+                api(libs.bundles.multiplatform.settings)
                 api(libs.koin.core)
 
                 api(libs.apollo.runtime)
-                implementation(libs.apollo.normalized.cache.`in`.memory)
-                implementation(libs.apollo.normalized.cache.sqlite)
-                implementation(libs.apollo.adapters)
+                implementation(libs.bundles.apollo)
             }
         }
         val commonTest by getting {

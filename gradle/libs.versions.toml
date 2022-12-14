@@ -65,8 +65,12 @@ splash-screen = "androidx.core:core-splashscreen:1.0.0"
 xoxo = "net.mbonnin.xoxo:xoxo:0.2"
 desugar = "com.android.tools:desugar_jdk_libs:2.0.0"
 
+[bundles]
+multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]
+apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite", "apollo-adapters"]
+
 [plugins]
-android-application = { id = "com.android.application", version = "8.0.0-alpha09" }
+android-application = { id = "com.android.application", version = "7.4.0-rc01" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 appengine = { id = "com.google.cloud.tools.appengine", version = "2.4.5" }
 kmmbridge = { id = "co.touchlab.faktory.kmmbridge", version = "0.3.1" }

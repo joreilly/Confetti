@@ -9,17 +9,17 @@ plugins {
 }
 
 dependencies {
-  implementation(Deps.graphqlKotlinSpringServer)
-  implementation(Kotlinx.dateTime)
-  implementation(Kotlinx.serialization)
-  implementation(Deps.bareGraphQL)
+  implementation(libs.graphql.kotlin.spring.server)
+  implementation(libs.kotlinx.datetime)
+  implementation(libs.kotlinx.serialization)
+  implementation(libs.bare.graphQL)
   implementation(project(":backend:datastore"))
-  implementation(Deps.okhttp)
-  implementation(Kotlin.reflect)
-  implementation(Deps.xoxo)
-  implementation(Apollo.tooling)
+  implementation(libs.okhttp)
+  implementation(libs.reflect)
+  implementation(libs.xoxo)
+  implementation(libs.apollo.tooling)
 
-  testImplementation(Deps.junit)
+  testImplementation(libs.junit)
 }
 
 appengine {

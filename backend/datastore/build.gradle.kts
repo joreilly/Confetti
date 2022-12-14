@@ -8,14 +8,14 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation(Kotlinx.dateTime)
+        implementation(libs.kotlinx.datetime)
       }
     }
     val jvmMain by getting {
       dependencies {
-        implementation("com.google.cloud:google-cloud-datastore:2.11.0")
-        implementation(Deps.bareGraphQL)
-        implementation(Kotlinx.serialization)
+        implementation(libs.google.cloud.datastore)
+        implementation(libs.bare.graphQL)
+        implementation(libs.kotlinx.serialization)
       }
     }
   }

@@ -36,7 +36,7 @@ class ConfettiViewModel: ObservableObject {
 
         Task {
             do {
-                let stream = asyncStream(for: repository.enabledLanguagesNative)
+                let stream = asyncSequence(for: repository.enabledLanguages)
                 for try await data in stream {
                     self.enabledLanguages = data
                 }
@@ -47,8 +47,8 @@ class ConfettiViewModel: ObservableObject {
 
 
         Task {
-            let conferenceNameAsyncSequence = asyncStream(for: repository.conferenceNameNative)
-            let sessionsMapAsyncSequence = asyncStream(for: repository.sessionsMapNative)
+            let conferenceNameAsyncSequence = asyncSequence(for: repository.conferenceName)
+            let sessionsMapAsyncSequence = asyncSequence(for: repository.sessionsMap)
             
             for try await (conferenceName, sessionsMap, selectedDateIndex)
                     in combineLatest(conferenceNameAsyncSequence, sessionsMapAsyncSequence, $selectedDateIndex.values) {
@@ -81,7 +81,7 @@ class ConfettiViewModel: ObservableObject {
     
     func observeSpeakers() async {
         do {
-            let stream = asyncStream(for: repository.speakersNative)
+            let stream = asyncSequence(for: repository.speakers)
             for try await data in stream {
                 self.speakers = data
             }
@@ -94,7 +94,7 @@ class ConfettiViewModel: ObservableObject {
     
     func observeRooms() async {
         do {
-            let stream = asyncStream(for: repository.roomsNative)
+            let stream = asyncSequence(for: repository.rooms)
             for try await data in stream {
                 self.rooms = data
             }
@@ -126,7 +126,7 @@ class ConfettiViewModel: ObservableObject {
     
     func refresh() async {
         do {
-            try await asyncFunction(for: repository.refreshNative(networkOnly: true))
+            try await asyncFunction(for: repository.refresh(networkOnly: true))
         } catch {
             print("Failed with error: \(error)")
         }

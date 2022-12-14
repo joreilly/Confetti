@@ -2,8 +2,9 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("com.apollographql.apollo3")
+    id("com.google.devtools.ksp")
     id("com.rickclephas.kmp.nativecoroutines")
-    id("co.touchlab.faktory.kmmbridge") version "0.3.1"
+    id("co.touchlab.faktory.kmmbridge")
 }
 
 version = "1.0"
@@ -11,7 +12,7 @@ version = "1.0"
 kotlin {
     android()
     jvm()
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -25,26 +26,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Kotlinx) {
-                    implementation(coroutinesCore)
-                    api(dateTime)
-                }
+                implementation(libs.kotlinx.coroutines.core)
+                api(libs.kotlinx.datetime)
 
-                api(Deps.multiplatformSettings)
-                api(Deps.multiplatformSettingsCoroutines)
+                api(libs.bundles.multiplatform.settings)
+                api(libs.koin.core)
 
-                // koin
-                with(Koin) {
-                    api(core)
-                }
-
-                // apollo
-                with(Apollo) {
-                    api(apolloRuntime)
-                    implementation(apolloNormalizedCacheInMemory)
-                    implementation(apolloNormalizedCacheSqlite)
-                    implementation(adapters)
-                }
+                api(libs.apollo.runtime)
+                implementation(libs.bundles.apollo)
             }
         }
         val commonTest by getting {
@@ -54,12 +43,6 @@ kotlin {
             }
         }
         val androidMain by getting
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(Deps.junit)
-            }
-        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -82,18 +65,18 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 // hack to allow use of MainScope() in shared code used by JVM console app
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:${Versions.kotlinCoroutines}")
+                implementation(libs.kotlinx.coroutines.swing)
             }
         }
     }
 }
 
 android {
-    compileSdk = 31
+    compileSdk = AndroidSdk.compile
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 21
-        targetSdk = 31
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.target
     }
 
     compileOptions {
@@ -103,28 +86,34 @@ android {
 }
 
 apollo {
-    packageName.set("dev.johnoreilly.confetti")
-    codegenModels.set("operationBased")
-    generateSchema.set(true)
-    mapScalar("Instant", "kotlinx.datetime.Instant", "com.apollographql.apollo3.adapter.KotlinxInstantAdapter")
+    service("service") {
+        packageName.set("dev.johnoreilly.confetti")
+        codegenModels.set("operationBased")
+        generateSchema.set(true)
+        mapScalar(
+            "Instant",
+            "kotlinx.datetime.Instant",
+            "com.apollographql.apollo3.adapter.KotlinxInstantAdapter"
+        )
 
-    introspection {
-        endpointUrl.set("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql")
-        //endpointUrl.set("http://localhost:8080/graphql")
-        schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
-    }
-    val apolloKey = System.getenv("APOLLO_KEY")
-    if (apolloKey.isNullOrBlank().not()) {
-        registry {
-            key.set(apolloKey)
-            graph.set("Confetti")
+        introspection {
+            endpointUrl.set("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql")
+            //endpointUrl.set("http://localhost:8080/graphql")
             schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+        }
+        val apolloKey = System.getenv("APOLLO_KEY")
+        if (apolloKey.isNullOrBlank().not()) {
+            registry {
+                key.set(apolloKey)
+                graph.set("Confetti")
+                schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+            }
         }
     }
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring(libs.desugar)
 }
 
 kmmbridge {
@@ -133,4 +122,21 @@ kmmbridge {
     githubReleaseVersions()
     spm()
     versionPrefix.set("0.7")
+}
+
+allprojects {
+    afterEvaluate {
+        // temp fix until sqllight includes https://github.com/cashapp/sqldelight/pull/3671
+        project.extensions.findByType<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension>()
+            ?.let { kmpExt ->
+                kmpExt.targets
+                    .filterIsInstance<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>()
+                    .flatMap { it.binaries }
+                    .forEach { it.linkerOpts("-lsqlite3") }
+            }
+    }
+}
+
+kotlin.sourceSets.all {
+    languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
 }

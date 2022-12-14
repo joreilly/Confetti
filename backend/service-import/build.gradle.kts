@@ -11,14 +11,14 @@ kotlin {
   sourceSets {
     val jvmMain by getting {
       dependencies {
-        implementation(Deps.okhttp)
-        implementation(Deps.xoxo)
-        implementation(Deps.ktorCio)
-        implementation(Deps.ktorStatusPages)
-        implementation(Kotlinx.dateTime)
-        implementation(Deps.kaml)
-        implementation(Deps.bareGraphQL)
-        implementation(Kotlinx.serialization)
+        implementation(libs.okhttp)
+        implementation(libs.xoxo)
+        implementation(libs.ktor.cio)
+        implementation(libs.ktor.status.pages)
+        implementation(libs.kotlinx.datetime)
+        implementation(libs.kaml)
+        implementation(libs.bare.graphQL)
+        implementation(libs.kotlinx.serialization)
 
         implementation(project(":backend:datastore"))
       }
@@ -26,7 +26,7 @@ kotlin {
 
     val jvmTest by getting {
       dependencies {
-        implementation(Deps.junit)
+        implementation(libs.junit)
       }
     }
   }

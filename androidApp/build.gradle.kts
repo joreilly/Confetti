@@ -28,7 +28,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     buildTypes {
@@ -63,33 +63,28 @@ kotlin {
 dependencies {
     implementation(project(":shared"))
 
-    with (Compose) {
-        implementation(compiler)
-        implementation(ui)
-        implementation(uiGraphics)
-        implementation(uiTooling)
-        implementation(foundationLayout)
-        implementation(material)
-        implementation(materialIconsCore)
-        implementation(materialIconsExtended)
-        implementation(navigation)
-        implementation(coilCompose)
+    implementation(libs.compose.compiler)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.foundation.layout)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.navigation)
+    implementation(libs.coil.compose)
 
-        implementation(activityCompose)
-        implementation(lifecycleRuntimeCompose)
-        implementation(material3)
-        implementation(material3WindowSizeClass)
-        implementation(splashScreen)
+    implementation(libs.activity.compose)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.material3.core)
+    implementation(libs.material3.window.size)
+    implementation(libs.splash.screen)
 
-        implementation(accompanistAdaptive)
-        implementation(accompanistFlowLayout)
-        implementation(accompanistPager)
-        implementation(accompanistPagerIndicator)
-    }
-
-    with (Koin) {
-        implementation(core)
-        implementation(android)
-        implementation(compose)
-    }
+    implementation(libs.accompanist.adaptive)
+    implementation(libs.accompanist.flow.layout)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicator)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
 }

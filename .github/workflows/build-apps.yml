@@ -17,9 +17,9 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
-      - run: ./gradlew :androidApp:assembleRelease
+      - run: ./gradlew :androidApp:assembleGithubRelease
       - uses: actions/upload-artifact@v3
         with:
-          name: androidApp-release.apk
-          path: androidApp/build/outputs/apk/release/androidApp-release.apk
+          name: androidApp-githubRelease.apk
+          path: androidApp/build/outputs/apk/release/androidApp-githubRelease.apk
 

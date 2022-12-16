@@ -1,0 +1,113 @@
+fastlane_version "2.68.0"
+
+default_platform :android
+
+platform :android do
+
+    versionNum = 1
+
+
+    before_all do
+    end
+
+    desc "Runs all the tests"
+    lane :test do
+        gradle(task: "test")
+    end
+
+
+    desc "Deploy app to play store alpha channel"
+    lane :deployAlpha do |options|
+
+        gradle(task: 'clean')
+        gradle(
+              task: ":androidApp:bundleRelease",
+              properties: {
+                  'versionNum' => versionNum
+              }
+        )
+
+        supply(
+            package_name: "dev.johnoreilly.confetti",
+            track: "alpha",
+            aab: "androidApp/build/outputs/bundle/release/androidApp-release.aab",
+            skip_upload_apk: true,
+            skip_upload_metadata: true,
+            skip_upload_images: true,
+            skip_upload_screenshots: true
+        )
+    end
+
+
+    lane :deployInternalTest do |options|
+
+        gradle(task: 'clean')
+        gradle(
+              task: ":androidApp:bundleRelease",
+              properties: {
+                  'versionNum' => versionNum
+              }
+       )
+
+        supply(
+            package_name: "dev.johnoreilly.confetti",
+            track: "internal",
+            aab: "androidApp/build/outputs/bundle/release/androidApp-release.aab",
+            skip_upload_apk: true,
+            skip_upload_metadata: true,
+            skip_upload_images: true,
+            skip_upload_screenshots: true
+        )
+    end
+
+
+    lane :buildApp do |options|
+        gradle(task: 'clean')
+        gradle(
+              task: ":androidApp:bundleRelease",
+              properties: {
+                  'versionNum' => versionNum
+              }
+        )
+    end
+
+    lane :buildAppApk do |options|
+        gradle(task: 'clean')
+        gradle(
+              task: ":androidApp:assembleRelease",
+              properties: {
+                  'versionNum' => versionNum
+              }
+        )
+    end
+
+
+    desc "Promote app from alpha to production in Play Store"
+    lane :promoteAppToProd do |options|
+
+        supply(
+            package_name: "dev.johnoreilly.confetti",
+            track: "internal",
+            track_promote_to: "production",
+            skip_upload_apk: true,
+            skip_upload_metadata: true,
+            skip_upload_images: true,
+            skip_upload_screenshots: true,
+            version_code: 1001086
+        )
+    end
+
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end

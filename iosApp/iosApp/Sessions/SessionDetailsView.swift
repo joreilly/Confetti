@@ -37,7 +37,6 @@ struct SessionDetailsView: View {
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .scrollContentBackground(.hidden)
         .background(Color(0xF0F0F0))
     }
 }

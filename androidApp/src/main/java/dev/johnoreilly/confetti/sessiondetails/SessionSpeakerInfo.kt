@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.getFullNameAndCompany
 import dev.johnoreilly.confetti.ui.component.SocialIcon
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.fullNameAndCompany
 
 @Composable
 fun SessionSpeakerInfo(
@@ -41,7 +41,7 @@ fun SessionSpeakerInfo(
 
             Column(Modifier.padding(horizontal = 8.dp)) {
                 Text(
-                    text = speaker.getFullNameAndCompany(),
+                    text = speaker.fullNameAndCompany(),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )

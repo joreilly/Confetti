@@ -2,19 +2,16 @@ import SwiftUI
 import ConfettiKit
 
 struct SpeakerListView: View {
-    @ObservedObject var viewModel: ConfettiViewModel
-
+    var speakerList: [SpeakerDetails]
+    
     var body: some View {
         NavigationView {
-            List(viewModel.speakers) { speaker in
+            List(speakerList) { speaker in
                 NavigationLink(destination: SpeakerDetailsView(speaker: speaker)) {
                     SpeakerView(speaker: speaker)
                 }
             }
             .navigationTitle("Speakers")
-            .task {
-                await viewModel.observeSpeakers()
-            }
         }
     }
 }

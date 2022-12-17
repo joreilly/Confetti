@@ -1,54 +1,50 @@
 import SwiftUI
 import ConfettiKit
+import KMMViewModelCore
+import KMMViewModelSwiftUI
 
 struct SessionListView: View {
-    @ObservedObject var viewModel: ConfettiViewModel
+    var sessionUiState: SessionsUiStateSuccess
     let showConferenceList: () -> Void
+    let refresh: () async -> Void
+    @State var selectedDateIndex: Int = 0
     
+        
     var body: some View {
         NavigationView {
             VStack {
                 Spacer().frame(height: 16)
 
-                switch viewModel.uiState {
-                case .success(_, let confDates, _, let sessionsByStartTime):
-                    Picker(selection: $viewModel.selectedDateIndex, label: Text("Date")) {
-                        ForEach(0..<confDates.count, id: \.self) { i in
-                            Text("\(confDates[i])").tag(i)
-                        }
+                Picker(selection: $selectedDateIndex, label: Text("Date")) {
+                    ForEach(0..<sessionUiState.confDates.count, id: \.self) { i in
+                        Text("\(sessionUiState.confDates[i])").tag(i)
                     }
-                    .pickerStyle(.segmented)
+                }
+                .pickerStyle(.segmented)
 
-                    List {
-                        ForEach(sessionsByStartTime.keys.sorted(), id: \.self) {key in
-                            Section(header: Text(key)) {
-                                let sessions = sessionsByStartTime[key] ?? []
-                                ForEach(sessions, id: \.self) { session in
-                                    VStack {
-                                        if (!session.isBreak()) {
-                                            NavigationLink(destination: SessionDetailsView(session: session)) {
-                                                SessionView(viewModel: viewModel, session: session)
-                                            }
-                                        } else {
-                                            SessionView(viewModel: viewModel, session: session)
+                List {
+                    ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
+                        Section(header: Text(key)) {
+                            let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
+                            ForEach(sessions, id: \.self) { session in
+                                VStack {
+                                    if (!session.isBreak()) {
+                                        NavigationLink(destination: SessionDetailsView(session: session)) {
+                                            SessionView(session: session)
                                         }
+                                    } else {
+                                        SessionView(session: session)
                                     }
                                 }
                             }
                         }
                     }
-                case .loading:
-                    ProgressView()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    if case  .success(let conferenceName, _, _, _) = viewModel.uiState {
-                        Text(conferenceName).font(.largeTitle.bold())
-                    } else {
-                        Text("")
-                    }
+                    Text(sessionUiState.conferenceName).font(.largeTitle.bold())
                 }
             }
             .navigationBarItems(
@@ -59,24 +55,22 @@ struct SessionListView: View {
                   }))
             .background(Color(0xF6F6F6))
             .refreshable {
-                await viewModel.refresh()
+                await refresh()
             }
         }
-        
     }
 }
 
 
 struct SessionView: View {
-    @ObservedObject var viewModel: ConfettiViewModel
     var session: SessionDetails
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(session.title)
             if session.room != nil {
                 Spacer().frame(height: 8)
-                Text(viewModel.getSessionSpeakerLocation(session: session)).font(.system(size: 14)).bold()
+                Text(session.sessionSpeakerLocation()).font(.system(size: 14)).bold()
             }
             Spacer()
         }

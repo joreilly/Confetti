@@ -1,23 +1,24 @@
 import SwiftUI
 import Combine
 import ConfettiKit
+import KMMViewModelCore
+import KMMViewModelSwiftUI
 
 
 struct ContentView: View {
-    @StateObject var viewModel = ConfettiViewModel()
+    @StateViewModel var viewModel = ConfettiViewModel()
 
     init() {
         UITabBar.appearance().backgroundColor = UIColor.white
     }
-    
-    
+        
     var body: some View {
-        if (viewModel.savedConference.isEmpty) {
-            ConferenceListView(viewModel: viewModel) {
+        if (viewModel.savedConferenceValue.isEmpty) {
+            ConferenceListView(viewModel: $viewModel) {
                 viewModel.setConference(conference: "")
             }
         } else {
-            ConferenceView(viewModel: viewModel, conference: viewModel.savedConference) {
+            ConferenceView(viewModel: $viewModel, conference: viewModel.savedConferenceValue) {
                 viewModel.setConference(conference: "")
             }
         }
@@ -26,16 +27,21 @@ struct ContentView: View {
 
 
 struct ConferenceListView: View {
-    @ObservedObject var viewModel: ConfettiViewModel
+    @ObservedViewModel var viewModel: ConfettiViewModel
     let showConferenceList: () -> Void
+    
+    init(viewModel: ObservableViewModel<ConfettiViewModel>.Projection, showConferenceList: @escaping () -> Void) {
+        self._viewModel = ObservedViewModel(viewModel)
+        self.showConferenceList = showConferenceList
+    }
     
     var body: some View {
         NavigationView {
             List(viewModel.conferenceList, id: \.self) { conference in
-                NavigationLink(destination: ConferenceView(viewModel: viewModel, conference: conference.id, showConferenceList: showConferenceList).navigationBarBackButtonHidden(true)) {
+                NavigationLink(destination: ConferenceView(viewModel: $viewModel, conference: conference.id, showConferenceList: showConferenceList).navigationBarBackButtonHidden(true)) {
                     Text(conference.name)
                 }
-                
+
             }
             .navigationTitle("Choose conference")
             .navigationBarBackButtonHidden(true)
@@ -45,20 +51,41 @@ struct ConferenceListView: View {
 
 
 struct ConferenceView: View {
-    @ObservedObject var viewModel: ConfettiViewModel
+    @ObservedViewModel var viewModel: ConfettiViewModel
     let conference: String
     let showConferenceList: () -> Void
+    
+    
+    init(viewModel: ObservableViewModel<ConfettiViewModel>.Projection, conference: String, showConferenceList: @escaping () -> Void) {
+        self._viewModel = ObservedViewModel(viewModel)
+        self.conference = conference
+        self.showConferenceList = showConferenceList
+    }
 
     var body: some View {
-        TabView {
-            SessionListView(viewModel: viewModel, showConferenceList: showConferenceList)
-                .tabItem {
-                    Label("Schedule", systemImage: "calendar")
+        VStack {
+            switch viewModel.uiStateValue {
+            case let uiState as SessionsUiStateSuccess:
+                
+                TabView {
+                    SessionListView(sessionUiState: uiState, showConferenceList: showConferenceList, refresh: {
+                        do {
+                            try await viewModel.refresh()
+                        } catch {
+                            print("Failed with error: \(error)")
+                        }
+                    })
+                        .tabItem {
+                            Label("Schedule", systemImage: "calendar")
+                        }
+                    SpeakerListView(speakerList: uiState.speakers)
+                        .tabItem {
+                            Label("Speakers", systemImage: "person")
+                        }
                 }
-            SpeakerListView(viewModel: viewModel)
-                .tabItem {
-                    Label("Speakers", systemImage: "person")
-                }
+            default:
+                ProgressView()
+            }
         }
         .onAppear {
             viewModel.setConference(conference: conference)
@@ -66,68 +93,9 @@ struct ConferenceView: View {
     }
 }
 
+extension SessionDetails: Identifiable { }
+extension SpeakerDetails: Identifiable { }
 
-
-
-// TODO need to figure out how we want to generally handle languages
-//            .toolbar {
-//                ToolbarItem(placement: .automatic) {
-//                    LanguageMenu(viewModel: viewModel)
-//                }
-//            }
-
-
-
-
-struct LanguageMenu: View {
-    @ObservedObject var viewModel: ConfettiViewModel
-
-    @State var languages: [String] = ["French", "English"]
-    @State var selections: [String] = []
-
-    
-    var body: some View {
-        Menu {
-            ForEach(self.languages, id: \.self) { language in
-                Button(action: {
-                    viewModel.toggleLanguageChecked(language: language)
-                }) {
-                    HStack {
-                        Label {
-                            Text(language)
-                        } icon: {
-                            if (viewModel.enabledLanguages.contains(language)) {
-                                Image(systemName: "checkmark")
-                            }
-                        }
-                    }
-                }
-            }
-        } label: {
-            Text("Filter")
-        }
-    }
-}
-
-
-
-struct RoomListView: View {
-    @ObservedObject var viewModel: ConfettiViewModel
-
-    var body: some View {
-        NavigationView {
-            List(viewModel.rooms) { room in
-                VStack(alignment: .leading) {
-                    Text(room.name).font(.headline)
-                }
-            }
-            .navigationTitle("Rooms")
-            .task {
-                await viewModel.observeRooms()
-            }
-        }
-    }
-}
 
 extension Color {
   init(_ hex: UInt, alpha: Double = 1) {

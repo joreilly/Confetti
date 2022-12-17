@@ -1,6 +1,14 @@
 {
   "pins" : [
     {
+      "identity" : "kmm-viewmodel",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rickclephas/KMM-ViewModel.git",
+      "state" : {
+        "revision" : "f85d590ed8b74e101f025f03e7ea13751af8a0e8"
+      }
+    },
+    {
       "identity" : "kmp-nativecoroutines",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rickclephas/KMP-NativeCoroutines.git",

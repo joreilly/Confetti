@@ -29,6 +29,8 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.datetime)
 
+                implementation(libs.kmm.viewmodel)
+
                 api(libs.bundles.multiplatform.settings)
                 api(libs.koin.core)
 
@@ -42,7 +44,11 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.lifecycle.viewmodel.ktx)
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting

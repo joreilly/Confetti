@@ -1,6 +1,39 @@
+import java.io.FileInputStream
+import java.util.*
+
+
 plugins {
     id("com.android.application")
     kotlin("android")
+}
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+try {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+catch(e: Exception) {
+}
+
+val versionMajor = 1
+val versionMinor = 0
+
+val versionNum: String? by project
+
+fun versionCode(): Int {
+    versionNum?.let {
+        val code: Int = (versionMajor * 1000000) + (versionMinor * 1000) + it.toInt()
+        println("versionCode is set to $code")
+        return code
+    } ?: return 1
+}
+
+fun versionName(): String {
+    versionNum?.let {
+        val name = "${versionMajor}.${versionMinor}.${versionNum}"
+        println("versionName is set to $name")
+        return name
+    } ?: return "1.0"
 }
 
 android {
@@ -10,8 +43,8 @@ android {
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.target
 
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = versionCode()
+        versionName = versionName()
     }
 
     signingConfigs {
@@ -20,6 +53,13 @@ android {
             keyPassword = "confetti"
             storeFile = file("confetti.keystore")
             storePassword = "confetti"
+        }
+        create("release") {
+            storeFile = file("/Users/joreilly/dev/keystore/galwaybus_android.jks")
+            keyAlias = keystoreProperties["keyAlias"] as String?
+            keyPassword = keystoreProperties["keyPassword"] as String?
+            storePassword = keystoreProperties["storePassword"] as String?
+            isV2SigningEnabled = true
         }
     }
 
@@ -35,13 +75,14 @@ android {
         getByName("release") {
             isShrinkResources = true
             isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
+        }
+        create("githubRelease") {
+            isShrinkResources = true
+            isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
-            setProguardFiles(
-                listOf(
-                    getDefaultProguardFile("proguard-android.txt"),
-                    "proguard-rules.pro",
-                ),
-            )
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
         }
         getByName("debug") {
             signingConfig = signingConfigs.getByName("confetti")

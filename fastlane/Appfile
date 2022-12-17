@@ -1,0 +1,2 @@
+json_key_file "api-7766993617350370117-734745-0ad3ebc14f84.json" # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name "dev.johnoreilly.confetti"

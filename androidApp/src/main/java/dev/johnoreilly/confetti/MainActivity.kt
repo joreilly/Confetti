@@ -15,6 +15,8 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dev.johnoreilly.confetti.conferences.ConferencesRoute
 import dev.johnoreilly.confetti.ui.ConfettiApp
+import dev.johnoreilly.confetti.ui.ConfettiTheme
+import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 import org.koin.android.ext.android.inject
 
 
@@ -37,9 +39,13 @@ class MainActivity : ComponentActivity() {
             }
 
             if (showLandingScreen) {
-                ConferencesRoute(navigateToConference = { conference ->
-                    showLandingScreen = false
-                })
+                ConfettiTheme {
+                    ConfettiBackground {
+                        ConferencesRoute(navigateToConference = { _ ->
+                            showLandingScreen = false
+                        })
+                    }
+                }
             } else {
                 ConfettiApp(windowSizeClass, displayFeatures)
             }

@@ -83,6 +83,8 @@ android {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
+
+            matchingFallbacks += listOf("release")
         }
         getByName("debug") {
             signingConfig = signingConfigs.getByName("confetti")

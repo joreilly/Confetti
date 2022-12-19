@@ -18,6 +18,7 @@ import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
+import dev.johnoreilly.confetti.sessionSpeakerLocation
 import org.koin.androidx.compose.getViewModel
 
 
@@ -72,32 +73,11 @@ fun SessionView(
                 modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val sessionSpeakerLocationText = getSessionSpeakerLocation(session)
                 Text(
-                    sessionSpeakerLocationText,
+                    session.sessionSpeakerLocation(),
                     style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold
                 )
             }
         }
     }
 }
-
-fun getSessionSpeakerLocation(session: SessionDetails): String {
-    var text = if (session.speakers.isNotEmpty())
-        session.speakers.joinToString(", ") { it.speakerDetails.name }
-    else
-        ""
-    text += " (${session.room?.name})" // / ${getLanguageInEmoji(session.language)}"
-    return text
-}
-
-fun getLanguageInEmoji(language: String?): String {
-    // TODO need to figure out how we want to generally handle languages
-    return when (language) {
-        "en-US" -> "\uD83C\uDDEC\uD83C\uDDE7"
-        "fr-FR" -> "\uD83C\uDDEB\uD83C\uDDF7"
-        else -> ""
-    }
-}
-
-

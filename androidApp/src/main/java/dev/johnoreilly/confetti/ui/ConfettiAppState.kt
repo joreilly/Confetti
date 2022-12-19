@@ -19,7 +19,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
-import dev.johnoreilly.confetti.sessions.navigation.RoomsDestination
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.navigation.TopLevelDestination
@@ -76,14 +75,7 @@ class ConfettiAppState(
             unselectedIcon =Icons.Outlined.Person,
             iconTextId = R.string.speakers
         ),
-//        TopLevelDestination(
-//            route = RoomsDestination.route,
-//            destination = RoomsDestination.destination,
-//            selectedIcon = Icons.Filled.LocationOn,
-//            unselectedIcon =Icons.Outlined.LocationOn,
-//            iconTextId = R.string.rooms
-//        ),
-        )
+    )
 
 
     /**

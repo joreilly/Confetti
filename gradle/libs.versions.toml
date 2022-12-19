@@ -1,12 +1,14 @@
 [versions]
 accompanist = "0.28.0"
 activity-compose = "1.6.1"
+androidx-lifecycle = "2.5.1"
 apollo = "3.7.2"
 compose = "1.4.0-alpha03"
 compose-compiler = "1.4.0-dev-k1.8.0-RC-4c1865595ed"
 compose-material-3 = "1.0.0"
 junit = "4.13"
 kmp-nativecoroutines = "1.0.0-ALPHA-2"
+kmm-viewmodel = "1.0.0-ALPHA-2-kotlin-1.8.0-RC"
 koin-android = "3.3.1"
 koin-android-compose = "3.4.0"
 koin-core = "3.3.0"
@@ -23,6 +25,7 @@ accompanist-flow-layout = { module = "com.google.accompanist:accompanist-flowlay
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pager-indicator = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo3:apollo-normalized-cache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo3:apollo-normalized-cache-sqlite" }
@@ -48,6 +51,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-and
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
+kmm-viewmodel = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmm-viewmodel" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"

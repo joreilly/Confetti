@@ -22,9 +22,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
-import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
+import dev.johnoreilly.confetti.SessionsUiState
 import kotlinx.coroutines.launch
 
 @Composable

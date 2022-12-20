@@ -5,8 +5,6 @@ package dev.johnoreilly.confetti.wear.sessiondetails
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -16,62 +14,71 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.items
+import com.google.android.horologist.compose.layout.ScalingLazyColumn
+import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SessionDetailsRoute(
+    columnState: ScalingLazyColumnState,
     onBackClick: () -> Unit,
     viewModel: SessionDetailsViewModel = getViewModel()
 ) {
     val session by viewModel.session.collectAsStateWithLifecycle()
-    SessionDetailView(session, onBackClick)
+    SessionDetailView(session, columnState, onBackClick)
 }
 
 @Composable
-fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
-    val scrollState = rememberScrollState()
+fun SessionDetailView(
+    session: SessionDetails?,
+    columnState: ScalingLazyColumnState,
+    popBack: () -> Unit
+) {
     val context = LocalContext.current
 
-    Column(modifier = Modifier) {
+    ScalingLazyColumn(columnState = columnState) {
         session?.let { session ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .verticalScroll(state = scrollState)
-            ) {
+            item {
+                Row(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(horizontal = 24.dp)
+                ) {
+                    Text(
+                        text = session.title,
+                        style = MaterialTheme.typography.button,
+                        color = MaterialTheme.colors.onSurfaceVariant
+                    )
+                }
+            }
 
-                Text(
-                    text = session.title,
-                    color = MaterialTheme.colors.primary,
-                    style = MaterialTheme.typography.title1
-                )
+            if (session.description != null) {
+                item {
+                    Text(
+                        text = session.description!!,
+                        style = MaterialTheme.typography.body2
+                    )
+                }
+            }
 
-                Spacer(modifier = Modifier.size(16.dp))
-                Text(
-                    text = session.description ?: "",
-                    style = MaterialTheme.typography.body2
-                )
-
-                if (session.tags.isNotEmpty()) {
-                    Spacer(modifier = Modifier.size(16.dp))
+//            if (session.tags.isNotEmpty()) {
+//                Spacer(modifier = Modifier.size(16.dp))
 //                    FlowRow(crossAxisSpacing = 8.dp) {
 //                        session.tags.forEach { tag ->
 //                            Chip(tag)
 //                        }
 //                    }
-                }
+//            }
 
-                Spacer(modifier = Modifier.size(16.dp))
-                session.speakers.forEach { speaker ->
-                    SessionSpeakerInfo(speaker = speaker.speakerDetails,
-                        onSocialLinkClick = { socialItem, speakerDetails ->
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.link))
-                            context.startActivity(intent)
-                        }
-                    )
-                }
+            items(session.speakers) { speaker ->
+                SessionSpeakerInfo(speaker = speaker.speakerDetails,
+                    onSocialLinkClick = { socialItem, speakerDetails ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.link))
+                        context.startActivity(intent)
+                    }
+                )
             }
         }
     }

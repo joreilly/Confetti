@@ -6,9 +6,9 @@ import android.net.Uri
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
-import com.google.android.horologist.compose.navscaffold.composable
 import androidx.navigation.navArgument
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsRoute
 
@@ -31,12 +31,12 @@ object SessionDetailsDestination : ConfettiNavigationDestination {
 
 
 fun NavGraphBuilder.sessionDetailsGraph(onBackClick: () -> Unit) {
-    composable(
+    scrollable(
         route = SessionDetailsDestination.route,
         arguments = listOf(
             navArgument(SessionDetailsDestination.sessionIdArg) { type = NavType.StringType }
         )
     ) {
-        SessionDetailsRoute(onBackClick)
+        SessionDetailsRoute(it.columnState, onBackClick)
     }
 }

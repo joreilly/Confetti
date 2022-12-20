@@ -5,10 +5,7 @@
 
 package dev.johnoreilly.confetti.wear.sessions
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.PositionIndicator
@@ -37,7 +34,6 @@ fun SessionListView(
 
         is SessionsUiState.Success -> {
             PagerScreen(
-                modifier = Modifier.fillMaxWidth(),
                 count = uiState.confDates.size,
             ) { page ->
                 val columnState = ScalingLazyColumnDefaults.belowTimeText().create()
@@ -62,7 +58,6 @@ private fun DaySessionList(
 ) {
     ScalingLazyColumn(
         columnState = columnState,
-        modifier = Modifier.fillMaxSize()
     ) {
         sessions.forEach {
             item {

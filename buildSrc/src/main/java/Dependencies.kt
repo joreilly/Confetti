@@ -6,5 +6,11 @@ object AndroidSdk {
     const val target = compile
 }
 
+object WearSdk {
+    const val min = 25
+    const val compile = 33
+    const val target = 30
+}
+
 
 

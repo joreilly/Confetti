@@ -9,11 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.items
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.layout.scrollAway
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import com.google.android.horologist.compose.tools.WearPreviewDevices
 import com.google.android.horologist.compose.tools.WearPreviewFontSizes
@@ -29,12 +33,18 @@ fun ConferencesRoute(
     viewModel: ConfettiViewModel = getViewModel()
 ) {
     val conferenceList = viewModel.conferenceList
-    ConferencesView(conferenceList = conferenceList,
-        columnState = columnState,
-        navigateToConference = { conference ->
-            viewModel.setConference(conference)
-            navigateToConference(conference)
-        })
+    Scaffold(
+        timeText = { TimeText(modifier = Modifier.scrollAway(columnState)) },
+        positionIndicator = { PositionIndicator(columnState.state) }
+    ) {
+        ConferencesView(conferenceList = conferenceList,
+            columnState = columnState,
+            navigateToConference = { conference ->
+                viewModel.setConference(conference)
+                navigateToConference(conference)
+            }
+        )
+    }
 }
 
 @Composable

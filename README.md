@@ -5,6 +5,7 @@ KMM GraphQL project to allow viewing of conference information. Includes:
 
 - SwiftUI iOS client
 - Jetpack Compose Android client
+- Compose for Wear OS client - contributed by https://github.com/yschimke
 - [Apollo GraphQL](https://github.com/apollographql/apollo-kotlin) based Kotlin Multiplatform shared code
 - GraphQL backend
 

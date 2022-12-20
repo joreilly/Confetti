@@ -29,14 +29,12 @@ fun ConferencesRoute(
     viewModel: ConfettiViewModel = getViewModel()
 ) {
     val conferenceList = viewModel.conferenceList
-    ConferencesView(
-        conferenceList = conferenceList,
+    ConferencesView(conferenceList = conferenceList,
         columnState = columnState,
         navigateToConference = { conference ->
             viewModel.setConference(conference)
             navigateToConference(conference)
-        }
-    )
+        })
 }
 
 @Composable
@@ -47,10 +45,8 @@ fun ConferencesView(
     modifier: Modifier = Modifier
 ) {
     ScalingLazyColumn(
-        modifier = modifier.fillMaxSize(),
-        columnState = columnState
-    )
-    {
+        modifier = modifier.fillMaxSize(), columnState = columnState
+    ) {
         item {
             ListHeader {
                 Text("Conferences", style = MaterialTheme.typography.title1)

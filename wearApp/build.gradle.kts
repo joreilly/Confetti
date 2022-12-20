@@ -113,7 +113,7 @@ dependencies {
     implementation(project(":shared"))
 
     implementation(libs.coil.compose)
-
+    implementation(libs.compose.ui.tooling)
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.splash.screen)
@@ -125,4 +125,5 @@ dependencies {
     implementation("androidx.wear.compose:compose-material:1.2.0-alpha01")
     implementation("androidx.wear.compose:compose-navigation:1.2.0-alpha01")
     implementation("com.google.android.horologist:horologist-compose-layout:0.2.5")
+    implementation("com.google.android.horologist:horologist-compose-tools:0.2.5")
 }

@@ -26,9 +26,11 @@ fun ConfettiApp() {
     }
 
     WearNavScaffold(startDestination = SessionsDestination.route, navController = navController) {
-        conferencesGraph(navigateToConference = { conference ->
-            onNavigateToDestination(SessionsDestination)
-        })
+        conferencesGraph(
+            navigateToConference = {
+                onNavigateToDestination(SessionsDestination)
+            }
+        )
 
         sessionsGraph(
             navigateToSession = {

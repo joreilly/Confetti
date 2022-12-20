@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+
 package dev.johnoreilly.confetti.wear
 
 import android.os.Bundle
@@ -7,6 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
@@ -26,9 +30,12 @@ class MainActivity : ComponentActivity() {
 
             ConfettiTheme {
                 if (showLandingScreen) {
-                    ConferencesRoute(navigateToConference = { conference ->
-                        showLandingScreen = false
-                    })
+                    ConferencesRoute(
+                        columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+                        navigateToConference = {
+                            showLandingScreen = false
+                        }
+                    )
                 } else {
                     ConfettiApp()
                 }

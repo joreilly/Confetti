@@ -1,7 +1,11 @@
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
@@ -41,7 +45,12 @@ fun ConfettiTheme(
     content: @Composable() () -> Unit
 ) {
     MaterialTheme(
-        colors = ColorScheme,
-        content = content
-    )
+        colors = ColorScheme
+    ) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background)) {
+            content()
+        }
+    }
 }

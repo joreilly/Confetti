@@ -4,6 +4,7 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import com.rickclephas.kmm.viewmodel.*
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
@@ -15,7 +16,7 @@ open class ConfettiViewModel: KMMViewModel(), KoinComponent {
 
     val conferenceList = repository.conferenceList
 
-    @NativeCoroutines
+    @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> =
         combine(
             repository.conferenceName,
@@ -41,7 +42,7 @@ open class ConfettiViewModel: KMMViewModel(), KoinComponent {
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
 
-    @NativeCoroutines
+    @NativeCoroutinesState
     val savedConference = MutableStateFlow(viewModelScope, repository.getConference())
 
     fun setConference(conference: String) {

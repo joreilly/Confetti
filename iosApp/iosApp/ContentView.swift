@@ -13,12 +13,12 @@ struct ContentView: View {
     }
         
     var body: some View {
-        if (viewModel.savedConferenceValue.isEmpty) {
+        if (viewModel.savedConference.isEmpty) {
             ConferenceListView(viewModel: $viewModel) {
                 viewModel.setConference(conference: "")
             }
         } else {
-            ConferenceView(viewModel: $viewModel, conference: viewModel.savedConferenceValue) {
+            ConferenceView(viewModel: $viewModel, conference: viewModel.savedConference) {
                 viewModel.setConference(conference: "")
             }
         }
@@ -64,7 +64,7 @@ struct ConferenceView: View {
 
     var body: some View {
         VStack {
-            switch viewModel.uiStateValue {
+            switch viewModel.uiState {
             case let uiState as SessionsUiStateSuccess:
                 
                 TabView {

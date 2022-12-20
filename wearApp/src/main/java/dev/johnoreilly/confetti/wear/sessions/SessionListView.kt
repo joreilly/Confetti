@@ -1,24 +1,29 @@
-@file:OptIn(ExperimentalPagerApi::class)
+@file:OptIn(
+    ExperimentalPagerApi::class, ExperimentalPagerApi::class,
+    ExperimentalHorologistComposeLayoutApi::class
+)
 
 package dev.johnoreilly.confetti.wear.sessions
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.CircularProgressIndicator
-import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.ListHeader
+import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.material.items
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
+import com.google.android.horologist.compose.layout.ScalingLazyColumn
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import com.google.android.horologist.compose.pager.PagerScreen
+import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.SessionsUiState
-import kotlinx.coroutines.launch
 
 @Composable
 fun SessionListView(
@@ -27,70 +32,48 @@ fun SessionListView(
     onSwitchConferenceSelected: () -> Unit,
     onRefresh: suspend (() -> Unit)
 ) {
-    var showMenu by remember { mutableStateOf(false) }
-
-    val pagerState = rememberPagerState()
-
     when (uiState) {
-        SessionsUiState.Loading ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
-            ) {
-                CircularProgressIndicator()
-            }
+        SessionsUiState.Loading -> CircularProgressIndicator()
 
         is SessionsUiState.Success -> {
-            val refreshScope = rememberCoroutineScope()
-            var refreshing by remember { mutableStateOf(false) }
-            fun refresh() {
-                refreshScope.launch {
-                    refreshing = true
-                    onRefresh()
-                    refreshing = false
-                }
-            }
+            PagerScreen(
+                modifier = Modifier.fillMaxWidth(),
+                count = uiState.confDates.size,
+            ) { page ->
+                val columnState = ScalingLazyColumnDefaults.belowTimeText().create()
 
-            Column {
-                HorizontalPager(
-                    count = uiState.confDates.size,
-                    state = pagerState,
-                ) { page ->
-
+                Scaffold(
+                    timeText = { TimeText() },
+                    positionIndicator = { PositionIndicator(columnState.state) }
+                ) {
                     val sessions = uiState.sessionsByStartTimeList[page]
-                    Box(
-                        Modifier
-                            .clipToBounds()
-                    ) {
-                        LazyColumn {
-                            sessions.forEach {
-                                item {
-                                    Column(
-                                        Modifier.padding(
-                                            start = 16.dp,
-                                            end = 16.dp,
-                                            top = 16.dp,
-                                            bottom = 8.dp
-                                        )
-                                    ) {
-                                        Text(
-                                            it.key,
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colors.primary
-                                        )
-                                    }
-                                }
-
-                                items(it.value) { session ->
-                                    SessionView(session, sessionSelected)
-                                }
-                            }
-                        }
-                    }
+                    DaySessionList(sessions, sessionSelected, columnState)
                 }
             }
         }
     }
+}
 
+@Composable
+private fun DaySessionList(
+    sessions: Map<String, List<SessionDetails>>,
+    sessionSelected: (sessionId: String) -> Unit,
+    columnState: ScalingLazyColumnState
+) {
+    ScalingLazyColumn(
+        columnState = columnState,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        sessions.forEach {
+            item {
+                ListHeader {
+                    Text(it.key)
+                }
+            }
+
+            items(it.value) { session ->
+                SessionView(session, sessionSelected)
+            }
+        }
+    }
 }

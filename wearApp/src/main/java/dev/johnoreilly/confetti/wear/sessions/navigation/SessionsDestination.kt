@@ -4,6 +4,7 @@ package dev.johnoreilly.confetti.wear.sessions.navigation
 
 import androidx.navigation.NavGraphBuilder
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import com.google.android.horologist.compose.navscaffold.NavScaffoldViewModel
 import com.google.android.horologist.compose.navscaffold.composable
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
@@ -18,6 +19,9 @@ fun NavGraphBuilder.sessionsGraph(
     onSwitchConferenceSelected: () -> Unit,
 ) {
     composable(route = SessionsDestination.route) {
+        // Defer scaffold to each page of the pager
+        it.timeTextMode = NavScaffoldViewModel.TimeTextMode.Off
+
         SessionsRoute(navigateToSession, onSwitchConferenceSelected)
     }
 }

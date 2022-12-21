@@ -3,7 +3,6 @@ package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
 import dev.johnoreilly.confetti.wear.conferences.navigation.conferencesGraph

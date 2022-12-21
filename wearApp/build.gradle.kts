@@ -126,4 +126,6 @@ dependencies {
     implementation("androidx.wear.compose:compose-navigation:1.2.0-alpha01")
     implementation("com.google.android.horologist:horologist-compose-layout:0.2.5")
     implementation("com.google.android.horologist:horologist-compose-tools:0.2.5")
+    implementation("com.google.android.horologist:horologist-tiles:0.2.5")
+    implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1")
 }

@@ -128,4 +128,5 @@ dependencies {
     implementation("com.google.android.horologist:horologist-compose-tools:0.2.5")
     implementation("com.google.android.horologist:horologist-tiles:0.2.5")
     implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1")
+    implementation("com.google.android.horologist:horologist-tiles:0.2.5")
 }

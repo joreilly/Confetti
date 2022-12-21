@@ -2,7 +2,7 @@ package dev.johnoreilly.confetti.wear.ui
 
 
 import androidx.compose.runtime.Composable
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import androidx.navigation.NavHostController
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
 import dev.johnoreilly.confetti.wear.conferences.navigation.conferencesGraph
@@ -14,9 +14,7 @@ import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.wear.sessions.navigation.sessionsGraph
 
 @Composable
-fun ConfettiApp() {
-    val navController = rememberSwipeDismissableNavController()
-
+fun ConfettiApp(navController: NavHostController) {
     fun onNavigateToDestination(destination: ConfettiNavigationDestination, route: String? = null) {
         navController.navigate(route ?: destination.route)
     }

@@ -15,6 +15,6 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 11
-    - run: ./gradlew :androidApp:assembleDebug
+    - run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug
 
 

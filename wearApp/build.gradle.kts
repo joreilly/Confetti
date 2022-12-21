@@ -122,9 +122,10 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
 
-    implementation("androidx.wear.compose:compose-material:1.2.0-alpha01")
-    implementation("androidx.wear.compose:compose-navigation:1.2.0-alpha01")
-    implementation("com.google.android.horologist:horologist-compose-layout:0.2.5")
-    implementation("com.google.android.horologist:horologist-compose-tools:0.2.5")
-    implementation("com.google.android.horologist:horologist-tiles:0.2.5")
+    implementation(libs.wear.compose.material)
+    implementation(libs.wear.compose.navigation)
+    implementation(libs.horologist.compose.layout)
+    implementation(libs.horologist.compose.tools)
+    implementation(libs.horologist.tiles)
+    implementation(libs.wear.complications.data)
 }

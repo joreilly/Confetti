@@ -1,12 +1,8 @@
 package dev.johnoreilly.confetti.wear.ui
 
-import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.toArgb
 import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
 
@@ -14,7 +10,6 @@ import androidx.wear.compose.material.MaterialTheme
 /**
  * Dark Android theme color scheme
  */
-@VisibleForTesting
 val ColorScheme = Colors(
     primary = Green80,
     onPrimary = Green20,
@@ -38,3 +33,11 @@ fun ConfettiTheme(
 ) {
     MaterialTheme(colors = ColorScheme, content = content)
 }
+
+fun Colors.toTileColors(): androidx.wear.tiles.material.Colors =
+    androidx.wear.tiles.material.Colors(
+        primary.toArgb(),
+        onPrimary.toArgb(),
+        surface.toArgb(),
+        onSurface.toArgb()
+    )

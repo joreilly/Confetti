@@ -19,11 +19,11 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.scrollAway
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
-import com.google.android.horologist.compose.tools.WearPreviewDevices
-import com.google.android.horologist.compose.tools.WearPreviewFontSizes
 import dev.johnoreilly.confetti.Conference
 import dev.johnoreilly.confetti.wear.ConfettiViewModel
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
+import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -87,7 +87,8 @@ private fun ConferencesViewPreview() {
                 Conference("3", "DevFest Ukraine 2023"),
             ),
             navigateToConference = {},
-            columnState = ScalingLazyColumnDefaults.belowTimeText().create()
+            columnState = ScalingLazyColumnDefaults.
+                belowTimeText().create()
         )
     }
 }

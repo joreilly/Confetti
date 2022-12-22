@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ListHeader
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
@@ -59,7 +58,7 @@ fun ConferencesView(
     ) {
         item {
             ListHeader {
-                Text("Conferences", style = MaterialTheme.typography.title1)
+                Text("Conferences")
             }
         }
         items(conferenceList) { conference ->
@@ -77,7 +76,7 @@ fun ConferencesView(
 @WearPreviewDevices
 @WearPreviewFontSizes
 @Composable
-private fun ConferencesViewPreview() {
+fun ConferencesViewPreview() {
     ConfettiTheme {
         ConferencesView(
             conferenceList = listOf(

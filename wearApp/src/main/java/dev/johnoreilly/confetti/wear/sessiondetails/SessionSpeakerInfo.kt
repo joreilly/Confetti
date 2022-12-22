@@ -2,7 +2,7 @@ package dev.johnoreilly.confetti.wear.sessiondetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -40,7 +40,9 @@ fun SessionSpeakerInfo(
                 contentDescription = speaker.name,
             )
 
-            Column(Modifier.padding(horizontal = 8.dp)) {
+            Spacer(modifier = Modifier.size(4.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = speaker.fullNameAndCompany(),
                     style = MaterialTheme.typography.body1,

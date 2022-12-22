@@ -5,6 +5,8 @@
 
 package dev.johnoreilly.confetti.wear.sessions
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.CircularProgressIndicator
@@ -23,6 +25,13 @@ import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistC
 import com.google.android.horologist.compose.pager.PagerScreen
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.SessionsUiState
+import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
+import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
+import kotlinx.datetime.toKotlinInstant
+import kotlinx.datetime.toKotlinLocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @Composable
 fun SessionListView(
@@ -72,5 +81,45 @@ private fun DaySessionList(
                 SessionView(session, sessionSelected)
             }
         }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@WearPreviewDevices
+@WearPreviewFontSizes
+@Composable
+fun SessionListViewPreview() {
+    val sessionTime = LocalDateTime.of(2022, 12, 25, 12, 30)
+    val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
+
+    ConfettiTheme {
+        SessionListView(
+            uiState = SessionsUiState.Success(
+                "WearableCon 2022",
+                confDates = listOf(sessionTime.toLocalDate().toKotlinLocalDate()),
+                rooms = listOf(),
+                sessionsByStartTimeList = listOf(
+                    mapOf(
+                        "12:30" to listOf(
+                            SessionDetails(
+                                "1",
+                                "Wear it's at",
+                                "Talk",
+                                startInstant,
+                                startInstant,
+                                "Be aWear of what's coming",
+                                "en",
+                                listOf(),
+                                SessionDetails.Room("Main Hall"),
+                                listOf()
+                            )
+                        )
+                    )
+                )
+            ),
+            onRefresh = {},
+            sessionSelected = {},
+            onSwitchConferenceSelected = {}
+        )
     }
 }

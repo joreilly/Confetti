@@ -1,6 +1,12 @@
 package dev.johnoreilly.confetti.backend.import
 
-import dev.johnoreilly.confetti.backend.datastore.*
+import dev.johnoreilly.confetti.backend.datastore.ConferenceId
+import dev.johnoreilly.confetti.backend.datastore.DConfig
+import dev.johnoreilly.confetti.backend.datastore.DRoom
+import dev.johnoreilly.confetti.backend.datastore.DSession
+import dev.johnoreilly.confetti.backend.datastore.DSpeaker
+import dev.johnoreilly.confetti.backend.datastore.DVenue
+import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
@@ -11,15 +17,11 @@ import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
 import net.mbonnin.bare.graphql.toAny
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.executeAsync
-import okio.Buffer
-import okio.BufferedSink
 
 object GraphQLSummit {
     private val okHttpClient = OkHttpClient.Builder()
@@ -45,13 +47,17 @@ object GraphQLSummit {
             )
             .post(body.toRequestBody("application/json".toMediaType()))
             .build()
-        val response = okHttpClient.newCall(request).executeAsync().also {
+
+        val response = okHttpClient.newCall(request).executeAsync()
+
+        return response.use {
             check(it.isSuccessful) {
                 "Cannot get $url: ${it.body.string()}"
             }
-        }
-        return withContext(Dispatchers.IO) {
-            response.body.string()
+
+            withContext(Dispatchers.IO) {
+                response.body.string()
+            }
         }
     }
 

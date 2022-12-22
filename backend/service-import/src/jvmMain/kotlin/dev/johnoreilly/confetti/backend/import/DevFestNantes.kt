@@ -33,12 +33,14 @@ object DevFestNantes {
         val request = Request(url.toHttpUrl())
         val response = okHttpClient.newCall(request).executeAsync()
 
-        check(response.isSuccessful) {
-            "Cannot get $url: ${response.body.string()}"
-        }
+        return response.use {
+            check(response.isSuccessful) {
+                "Cannot get $url: ${response.body.string()}"
+            }
 
-        return withContext(Dispatchers.IO) {
-            response.body.string()
+            withContext(Dispatchers.IO) {
+                response.body.string()
+            }
         }
     }
 

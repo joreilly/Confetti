@@ -16,13 +16,17 @@ private val okHttpClient = OkHttpClient.Builder()
 suspend fun getUrl(url: String): String {
     val request = Request(url.toHttpUrl())
 
-    val response = okHttpClient.newCall(request).executeAsync().also {
+    val response = okHttpClient.newCall(request).executeAsync()
+
+    return response.use {
         check(it.isSuccessful) {
             "Cannot get $url: ${it.body.string()}"
         }
-    }
 
-    return withContext(Dispatchers.IO) { response.body.string() }
+        withContext(Dispatchers.IO) {
+            response.body.string()
+        }
+    }
 }
 
 suspend fun getJsonUrl(url: String) = Json.parseToJsonElement(getUrl(url)).toAny()

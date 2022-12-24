@@ -55,7 +55,9 @@ android {
             storePassword = "confetti"
         }
         create("release") {
-            storeFile = file("/Users/joreilly/dev/keystore/galwaybus_android.jks")
+            (keystoreProperties["keyPath"] as String?)?.let {
+                storeFile = file(it)
+            }
             keyAlias = keystoreProperties["keyAlias"] as String?
             keyPassword = keystoreProperties["keyPassword"] as String?
             storePassword = keystoreProperties["storePassword"] as String?

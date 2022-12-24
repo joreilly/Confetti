@@ -19,3 +19,7 @@ apollo.key.unused
 !**/.idea/icon.png
 !**/.idea/runConfigurations
 !**/.idea/scopes
+
+keystore.properties
+api-*.json
+*.db

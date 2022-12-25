@@ -20,7 +20,6 @@ import kotlin.time.Duration.Companion.minutes
 private val timeZone = "Europe/Paris"
 
 private val okHttpClient = OkHttpClient.Builder()
-    .fastFallback(true)
     .build()
 
 private val baseUrl = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/"

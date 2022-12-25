@@ -18,8 +18,6 @@ actual fun platformModule() = module {
     single<DateTimeFormatter> { AndroidDateTimeFormatter() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
-            // Happy eyeballs
-            .fastFallback(true)
             .apply {
                 // TODO enable based on debug flag
                 eventListenerFactory(LoggingEventListener.Factory())

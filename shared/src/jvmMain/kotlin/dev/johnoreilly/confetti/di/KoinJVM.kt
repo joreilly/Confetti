@@ -15,8 +15,6 @@ actual fun platformModule() = module {
     single<DateTimeFormatter> { JvmDateTimeFormatter() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
-            // Happy eyeballs
-            .fastFallback(true)
             .build()
     }
     factory {

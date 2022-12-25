@@ -25,7 +25,6 @@ import okhttp3.executeAsync
 
 object GraphQLSummit {
     private val okHttpClient = OkHttpClient.Builder()
-        .fastFallback(true)
         .build()
 
     private suspend fun getUrl(url: String, body: String): String {

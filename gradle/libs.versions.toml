@@ -65,9 +65,9 @@ material3-core = { module = "androidx.compose.material3:material3", version.ref 
 material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material-3" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
-okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.10"
-okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.10"
-okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10"
+okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
+okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
+okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
 xoxo = "net.mbonnin.xoxo:xoxo:0.2"

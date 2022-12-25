@@ -10,7 +10,6 @@ import okhttp3.Request
 import okhttp3.executeAsync
 
 private val okHttpClient = OkHttpClient.Builder()
-    .fastFallback(true)
     .build()
 
 suspend fun getUrl(url: String): String {

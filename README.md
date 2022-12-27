@@ -12,6 +12,8 @@ KMM GraphQL project to allow viewing of conference information. Includes:
 
 Related posts:
 * [Swift/Kotlin ViewModel alignment in a Kotlin Multiplatform project](https://johnoreilly.dev/posts/swift-kotlin-viewmodel-kmm-comparison/)
+* [Using KMM-ViewModel library to share VM between iOS and Android](https://johnoreilly.dev/posts/kmm-viewmodel/)
+
 
 
 ### Building

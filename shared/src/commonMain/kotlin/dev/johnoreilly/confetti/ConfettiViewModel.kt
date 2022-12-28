@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti
 
-import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import com.rickclephas.kmm.viewmodel.*

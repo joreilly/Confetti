@@ -5,126 +5,38 @@ import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.cache.normalized.*
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
-import dev.johnoreilly.confetti.di.getDatabaseName
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.utils.DateTimeFormatter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toLocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class ConfettiRepository : KoinComponent {
-    val coroutineScope: CoroutineScope = MainScope()
+expect fun getDatabaseName(conference: String): String
 
-    private var apolloClient: ApolloClient? = null
-    private val appSettings: AppSettings by inject()
-    private val dateTimeFormatter: DateTimeFormatter by inject()
 
-    private var refreshJob: Job? = null
+internal class ConfettiRepository  {
+    val conferenceName = "droidconlondon2022"
 
-    // TODO query this from backend
-    val conferenceList = listOf(
-        Conference("droidconsf", "Droidcon San Francisco 2022"),
-        Conference("frenchkit2022", "FrenchKit 2022"),
-        Conference("graphqlsummit2022", "GraphQL Summit 2022"),
-        Conference("devfestnantes", "DevFest Nantes 2022"),
-        Conference("droidconlondon2022", "Droidcon London 2022"),
-    )
+    private val apolloClient: ApolloClient = createApolloClient(conferenceName)
 
-    private val conferenceData = MutableStateFlow<GetConferenceDataQuery.Data?>(null)
-
-    val conferenceName = conferenceData.filterNotNull().map { it.config.name }
-
-    val sessions = conferenceData.filterNotNull().map {
-        it.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }
+    val sessions = apolloClient.query(GetSessionsQuery()).watch().map {
+        it.dataAssertNoErrors.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }
     }
 
-    val sessionsMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
-        it.groupBy { it.startInstant.toLocalDateTime(TimeZone.of(conferenceData.value?.config?.timezone ?: "")).date }
-    }
-
-    val speakers = conferenceData.filterNotNull().map {
-        it.speakers.map { it.speakerDetails }
-    }
-
-    val rooms = conferenceData.filterNotNull().map {
-        it.rooms.map { it.roomDetails }
+    val sessionsByDateMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
+        it.groupBy { it.startInstant.toLocalDateTime(currentSystemDefault()).date }
     }
 
 
-    init {
-        val conference = appSettings.getConference()
-        if (conference.isNotEmpty()) {
-            setConference(conference)
-        }
-    }
-
-    fun getConference(): String {
-        return appSettings.getConference()
-    }
-
-    fun setConference(conference: String) {
-        refreshJob?.cancel()
-        conferenceData.value = null
-        appSettings.setConference(conference)
-
-        apolloClient?.close()
-        apolloClient = createApolloClient(conference)
-
-        refreshJob = coroutineScope.launch {
-            refresh(networkOnly = false)
-        }
-    }
-
-    fun getSessionTime(session: SessionDetails): String {
-        return conferenceData.value?.let {
-            val timeZone = TimeZone.of(it.config.timezone)
-            return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
-        } ?: ""
-    }
-
-    suspend fun getSession(sessionId: String): SessionDetails? {
-        val response = apolloClient?.query(GetSessionQuery(sessionId))?.execute()
-        return response?.data?.session?.sessionDetails
-    }
-
-    fun updateEnableLanguageSetting(language: String, checked: Boolean) {
-        appSettings.updateEnableLanguageSetting(language, checked)
-    }
-
-    suspend fun refresh(networkOnly: Boolean = true) {
-        val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
-
-        // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
-        apolloClient?.let {
-            it.query(GetConferenceDataQuery(first = Optional.present(100)))
-                .fetchPolicy(fetchPolicy)
-                .toFlow()
-                .catch {
-                    // this can be valid scenario of say offline and we get data from cache initially
-                    // but can't connect to network.  TODO should we surface this somewhere?
-                }.collect {
-                    println("got data, conf name = ${it.data?.config?.name}")
-                    conferenceData.value = it.data
-                }
-        }
-    }
 
     private fun createApolloClient(conference: String): ApolloClient {
-        val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory(getDatabaseName(conference))
         val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)
-            .chain(sqlNormalizedCacheFactory)
+            .chain(SqlNormalizedCacheFactory(getDatabaseName(conference)))
 
         return ApolloClient.Builder()
             .serverUrl("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql?conference=$conference")
-            //.serverUrl("http://10.0.2.2:8080/graphql?conference=graphqlsummit2022")
             .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)
             .build()
     }
+
 }

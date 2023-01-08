@@ -1,94 +1,74 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class,
+    ExperimentalPagerApi::class
+)
+@file:Suppress("FunctionName")
+
 package dev.johnoreilly.confetti.ui
 
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.consumedWindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.NavigationRailItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.window.layout.DisplayFeature
-import dev.johnoreilly.confetti.navigation.ConfettiNavHost
-import dev.johnoreilly.confetti.navigation.TopLevelDestination
-import dev.johnoreilly.confetti.ui.component.ConfettiBackground
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
+import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.SessionsUiState
+import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.sessionSpeakerLocation
+import dev.johnoreilly.confetti.ui.component.ConfettiTab
+import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalLayoutApi::class,
-)
+
 @Composable
-fun ConfettiApp(
-    windowSizeClass: WindowSizeClass,
-    displayFeatures: List<DisplayFeature>,
-    appState: ConfettiAppState = rememberConfettiAppState(windowSizeClass, displayFeatures)
-) {
-    ConfettiTheme {
-        ConfettiBackground {
-            Scaffold(
-                containerColor = Color.Transparent,
-                contentColor = MaterialTheme.colorScheme.onBackground,
-                contentWindowInsets = WindowInsets(0, 0, 0, 0),
-                bottomBar = {
-                    if (appState.shouldShowBottomBar) {
-                        ConfettiBottomBar(
-                            destinations = appState.topLevelDestinations,
-                            onNavigateToDestination = appState::navigate,
-                            currentDestination = appState.currentDestination
-                        )
-                    }
-                }
-            ) { padding ->
-                Row(
-                    Modifier
+fun ConfettiApp(viewModel: ConfettiViewModel = getViewModel()) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SessionListScreen(uiState)
+}
+
+
+@Composable
+fun SessionListScreen(uiState: SessionsUiState) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(if (uiState is SessionsUiState.Success) uiState.conferenceName else "") },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
+                )
+            )
+        },
+        containerColor = Color.Transparent,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+    ) { padding ->
+        Column(modifier = Modifier.padding(padding)) {
+
+            when (uiState) {
+                SessionsUiState.Loading ->
+                    Box(modifier = Modifier
                         .fillMaxSize()
-                        .windowInsetsPadding(
-                            WindowInsets.safeDrawing.only(
-                                WindowInsetsSides.Horizontal
-                            )
-                        )
-                ) {
-                    if (appState.shouldShowNavRail) {
-                        ConfettiNavRail(
-                            destinations = appState.topLevelDestinations,
-                            onNavigateToDestination = appState::navigate,
-                            currentDestination = appState.currentDestination,
-                            modifier = Modifier.safeDrawingPadding()
-                        )
+                        .wrapContentSize(Alignment.Center)) {
+                        CircularProgressIndicator()
                     }
 
-                    ConfettiNavHost(
-                        navController = appState.navController,
-                        isExpandedScreen = appState.isExpandedScreen,
-                        displayFeatures = appState.displayFeatures,
-                        onBackClick = appState::onBackClick,
-                        onNavigateToDestination = appState::navigate,
-                        modifier = Modifier
-                            .padding(padding)
-                            .consumedWindowInsets(padding)
-                    )
+                is SessionsUiState.Success -> {
+                    SessionListView(uiState)
                 }
             }
         }
@@ -97,74 +77,71 @@ fun ConfettiApp(
 
 
 @Composable
-private fun ConfettiNavRail(
-    destinations: List<TopLevelDestination>,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?,
-    modifier: Modifier = Modifier,
-) {
+fun SessionListView(uiState: SessionsUiState.Success) {
+    val pagerState = rememberPagerState()
 
-    NavigationRail(
-        modifier = modifier,
-        containerColor = Color.Transparent,
-        contentColor = ConfettiNavigationDefaults.navigationContentColor(),
-    ) {
-        destinations.forEach { destination ->
-            val selected =
-                currentDestination?.hierarchy?.any { it.route == destination.route } == true
-            NavigationRailItem(
-                selected = selected,
-                onClick = { onNavigateToDestination(destination) },
-                icon = {
-                    val icon = if (selected) {
-                        destination.selectedIcon
-                    } else {
-                        destination.unselectedIcon
+    Column {
+        SessionListTabRow(pagerState, uiState)
+
+        HorizontalPager(
+            count = uiState.confDates.size,
+            state = pagerState,
+        ) { page ->
+
+            val sessions = uiState.sessionsByStartTimeList[page]
+            LazyColumn {
+                sessions.forEach {
+                    item {
+                        Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                            Text(
+                                it.key,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Divider()
+                        }
                     }
-                    Icon(icon, contentDescription = stringResource(destination.iconTextId))
+
+                    items(it.value) { session ->
+                        SessionView(session)
+                    }
                 }
-            )
+            }
         }
     }
 }
-
 
 @Composable
-private fun ConfettiBottomBar(
-    destinations: List<TopLevelDestination>,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?
-) {
-    NavigationBar(
-        contentColor = ConfettiNavigationDefaults.navigationContentColor(),
-        tonalElevation = 0.dp,
+fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) {
+    TabRow(
+        selectedTabIndex = pagerState.currentPage,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+            )
+        }
     ) {
-        destinations.forEach { destination ->
-            val selected =
-                currentDestination?.hierarchy?.any { it.route == destination.route } == true
-            NavigationBarItem(
-                selected = selected,
-                onClick = { onNavigateToDestination(destination) },
-                icon = {
-                    val icon = if (selected) {
-                        destination.selectedIcon
-                    } else {
-                        destination.unselectedIcon
+        uiState.confDates.forEachIndexed { index, date ->
+            val coroutineScope = rememberCoroutineScope()
+
+            ConfettiTab(
+                selected = pagerState.currentPage == index,
+                onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
                     }
-                    Icon(icon, contentDescription = stringResource(destination.iconTextId))
                 },
-                label = { Text(stringResource(destination.iconTextId)) }
+                text = { Text(text = date.toString()) }
             )
         }
     }
+
 }
 
-object ConfettiNavigationDefaults {
-    @Composable
-    fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
-    @Composable
-    fun navigationSelectedItemColor() = MaterialTheme.colorScheme.onPrimaryContainer
-    @Composable
-    fun navigationIndicatorColor() = MaterialTheme.colorScheme.primaryContainer
+@Composable
+fun SessionView(session: SessionDetails) {
+    ListItem(
+        headlineText = { Text(session.title) },
+        supportingText = { Text(session.sessionSpeakerLocation(), fontWeight = FontWeight.Bold) }
+    )
 }
-

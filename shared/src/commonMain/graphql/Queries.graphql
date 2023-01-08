@@ -1,4 +1,4 @@
-query GetConferenceData($first: Int! = 10, $after: String = null) {
+query GetSessions($first: Int! = 100, $after: String = null) {
     sessions(first: $first, after: $after) {
         nodes {
             ...SessionDetails
@@ -7,58 +7,19 @@ query GetConferenceData($first: Int! = 10, $after: String = null) {
             endCursor
         }
     }
-    speakers {
-        ...SpeakerDetails
-    }
-    rooms {
-        ...RoomDetails
-    }
-    config {
-        name
-        timezone
-    }
 }
 
-query GetSession($id: String!){
-	session(id: $id) {
-	    ...SessionDetails
-	}
-}
 
 fragment SessionDetails on Session {
     id
     title
     type
-    startInstant,endInstant
+    startInstant
     description
-    language
     speakers {
-      ...SpeakerDetails
+      name
     }
   	room {
       name
     }
-    tags
 }
-
-fragment SpeakerDetails on Speaker {
-    id
-    name
-    photoUrl
-    company
-    companyLogoUrl
-    city
-    bio
-    socials {
-        name
-        link
-        icon
-    }
-}
-
-fragment RoomDetails on Room {
-    id
-    name
-    capacity
-}
-

@@ -13,9 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import dev.johnoreilly.confetti.ui.component.BackgroundTheme
-import dev.johnoreilly.confetti.ui.component.LocalBackgroundTheme
 
 
 /**
@@ -139,32 +136,12 @@ val DarkAndroidColorScheme = darkColorScheme(
 )
 
 
-/**
- * Light Android background theme
- */
-val LightAndroidBackgroundTheme = BackgroundTheme(color = DarkGreenGray95)
 
-/**
- * Dark Android background theme
- */
-val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
-
-/**
- * Confetti theme.
- *
- * The order of precedence for the color scheme is: Dynamic color > Android theme > Default theme.
- * Dark theme is independent as all the aforementioned color schemes have light and dark versions.
- * The default theme color scheme is used by default.
- *
- * @param darkTheme Whether the theme should use a dark color scheme (follows system by default).
- * @param dynamicColor Whether the theme should use a dynamic color scheme (Android 12+ only).
- * @param androidTheme Whether the theme should use the Android theme color scheme.
- */
 @Composable
 fun ConfettiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     androidTheme: Boolean = false,
-    disableDynamicTheming: Boolean = false,
+    disableDynamicTheming: Boolean = true,
     content: @Composable() () -> Unit
 ) {
 
@@ -177,19 +154,7 @@ fun ConfettiTheme(
         if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
     }
 
-    val defaultBackgroundTheme = BackgroundTheme(
-        color = colorScheme.surface,
-        tonalElevation = 2.dp
-    )
-    val backgroundTheme = if (androidTheme) {
-        if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme
-    } else {
-        defaultBackgroundTheme
-    }
-
-    CompositionLocalProvider(
-        LocalBackgroundTheme provides backgroundTheme
-    ) {
+    CompositionLocalProvider {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = ConfettiTypography,

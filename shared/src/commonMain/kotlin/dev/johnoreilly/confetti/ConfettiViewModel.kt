@@ -1,56 +1,35 @@
 package dev.johnoreilly.confetti
 
-import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import com.rickclephas.kmm.viewmodel.*
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
-import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 
-open class ConfettiViewModel: KMMViewModel(), KoinComponent {
-    private val repository: ConfettiRepository by inject()
+expect val dateTimeFormatter: DateTimeFormatter
 
-    val conferenceList = repository.conferenceList
-
-    @NativeCoroutinesState
-    val uiState: StateFlow<SessionsUiState> =
-        combine(
-            repository.conferenceName,
-            repository.sessionsMap,
-            repository.speakers,
-            repository.rooms
-        ) { conferenceName, sessionsMap, speakers, rooms,  ->
-            val confDates = sessionsMap.keys.toList().sorted()
-
-            val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
-            confDates.forEach { confDate ->
-                val sessions = sessionsMap[confDate] ?: emptyList()
-                val sessionsByStartTime = sessions.groupBy { repository.getSessionTime(it) }
-                sessionsByStartTimeList.add(sessionsByStartTime)
-            }
-            SessionsUiState.Success(conferenceName, confDates, sessionsByStartTimeList,
-                speakers, rooms)
-
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
-
-
-    val speakers = repository.speakers
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
-
+class ConfettiViewModel: KMMViewModel() {
+    private val repository = ConfettiRepository()
 
     @NativeCoroutinesState
-    val savedConference = MutableStateFlow(viewModelScope, repository.getConference())
+    val uiState: StateFlow<SessionsUiState> = repository.sessionsByDateMap.map {
+        val confDates = it.keys.toList().sorted()
 
-    fun setConference(conference: String) {
-        repository.setConference(conference)
-        savedConference.value = conference
-    }
+        val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
+        confDates.forEach { confDate ->
+            val sessions = it[confDate] ?: emptyList()
+            val sessionsByStartTime = sessions.groupBy { getSessionTime(it) }
+            sessionsByStartTimeList.add(sessionsByStartTime)
+        }
 
-    suspend fun refresh()  {
-        repository.refresh(networkOnly = true)
+        SessionsUiState.Success(repository.conferenceName, confDates, sessionsByStartTimeList)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
+
+    private fun getSessionTime(session: SessionDetails): String {
+        return dateTimeFormatter.format(session.startInstant, currentSystemDefault(), "HH:mm")
     }
 }
 
@@ -60,8 +39,6 @@ sealed interface SessionsUiState {
     data class Success(
         val conferenceName: String,
         val confDates: List<LocalDate>,
-        val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,
-        val speakers: List<SpeakerDetails>,
-        val rooms: List<RoomDetails>
+        val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>
     ) : SessionsUiState
 }

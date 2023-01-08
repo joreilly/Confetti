@@ -1,0 +1,55 @@
+<templateSet group="aaConfetti">
+  <template name="confCreateApolllo" value="private val apolloClient: ApolloClient = createApolloClient(conferenceName)&#10;&#10;&#10;private fun createApolloClient(conference: String): ApolloClient {&#10;    val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)&#10;        .chain(SqlNormalizedCacheFactory(getDatabaseName(conference)))&#10;&#10;    return ApolloClient.Builder()&#10;        .serverUrl(&quot;https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql?conference=$conference&quot;)&#10;        .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)&#10;        .build()&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confConfName" value="val conferenceName = &quot;droidconlondon2022&quot;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confSessions" value="val sessions = apolloClient.query(GetSessionsQuery()).watch().map {&#10;    it.dataAssertNoErrors.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }&#10;}&#10;&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confExpectDatabbaseName" value="expect fun getDatabaseName(conference: String): String&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confSessionsMap" value="val sessionsByDateMap: Flow&lt;Map&lt;LocalDate, List&lt;SessionDetails&gt;&gt;&gt; = sessions.map {&#10;    it.groupBy { it.startInstant.toLocalDateTime(currentSystemDefault()).date }&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confExpectDateFormatter" value="expect val dateTimeFormatter: DateTimeFormatter&#10;&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confSessionState" value="sealed interface SessionsUiState {&#10;    object Loading : SessionsUiState&#10;&#10;    data class Success(&#10;        val conferenceName: String,&#10;        val confDates: List&lt;LocalDate&gt;,&#10;        val sessionsByStartTimeList: List&lt;Map&lt;String, List&lt;SessionDetails&gt;&gt;&gt;&#10;    ) : SessionsUiState&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confGraphqlQuery" value="query GetSessions($first: Int! = 100, $after: String = null) {&#10;    sessions(first: $first, after: $after) {&#10;        nodes {&#10;            ...SessionDetails&#10;        }&#10;        pageInfo {&#10;            endCursor&#10;        }&#10;    }&#10;}&#10;&#10;&#10;fragment SessionDetails on Session {&#10;    id&#10;    title&#10;    type&#10;    startInstant&#10;    description&#10;    speakers {&#10;      id&#10;      name&#10;    }&#10;  &#9;room {&#10;      name&#10;    }&#10;    tags&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="CMAKE" value="false" />
+      <option name="GROOVY" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JAVA_CODE" value="false" />
+      <option name="JSON" value="false" />
+      <option name="KOTLIN" value="false" />
+      <option name="OTHER" value="true" />
+      <option name="Properties" value="false" />
+      <option name="SHELL_SCRIPT" value="false" />
+      <option name="XML" value="false" />
+      <option name="XML_ATTRIBUTE" value="false" />
+      <option name="c" value="false" />
+      <option name="cpp" value="false" />
+      <option name="objc" value="false" />
+    </context>
+  </template>
+</templateSet>

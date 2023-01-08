@@ -5,107 +5,85 @@ import KMMViewModelCore
 import KMMViewModelSwiftUI
 
 
+
+
 struct ContentView: View {
-    @StateViewModel var viewModel = ConfettiViewModel()
-
-    init() {
-        UITabBar.appearance().backgroundColor = UIColor.white
-    }
-        
-    var body: some View {
-        if (viewModel.savedConference.isEmpty) {
-            ConferenceListView(viewModel: $viewModel) {
-                viewModel.setConference(conference: "")
-            }
-        } else {
-            ConferenceView(viewModel: $viewModel, conference: viewModel.savedConference) {
-                viewModel.setConference(conference: "")
-            }
-        }
-    }
-}
-
-
-struct ConferenceListView: View {
-    @ObservedViewModel var viewModel: ConfettiViewModel
-    let showConferenceList: () -> Void
-    
-    init(viewModel: ObservableViewModel<ConfettiViewModel>.Projection, showConferenceList: @escaping () -> Void) {
-        self._viewModel = ObservedViewModel(viewModel)
-        self.showConferenceList = showConferenceList
-    }
     
     var body: some View {
-        NavigationView {
-            List(viewModel.conferenceList, id: \.self) { conference in
-                NavigationLink(destination: ConferenceView(viewModel: $viewModel, conference: conference.id, showConferenceList: showConferenceList).navigationBarBackButtonHidden(true)) {
-                    Text(conference.name)
-                }
-
-            }
-            .navigationTitle("Choose conference")
-            .navigationBarBackButtonHidden(true)
-        }
+        ConferenceView()
     }
 }
 
 
 struct ConferenceView: View {
-    @ObservedViewModel var viewModel: ConfettiViewModel
-    let conference: String
-    let showConferenceList: () -> Void
+    @StateViewModel var viewModel = ConfettiViewModel()
     
     
-    init(viewModel: ObservableViewModel<ConfettiViewModel>.Projection, conference: String, showConferenceList: @escaping () -> Void) {
-        self._viewModel = ObservedViewModel(viewModel)
-        self.conference = conference
-        self.showConferenceList = showConferenceList
-    }
-
     var body: some View {
         VStack {
             switch viewModel.uiState {
             case let uiState as SessionsUiStateSuccess:
-                
-                TabView {
-                    SessionListView(sessionUiState: uiState, showConferenceList: showConferenceList, refresh: {
-                        do {
-                            try await viewModel.refresh()
-                        } catch {
-                            print("Failed with error: \(error)")
-                        }
-                    })
-                        .tabItem {
-                            Label("Schedule", systemImage: "calendar")
-                        }
-                    SpeakerListView(speakerList: uiState.speakers)
-                        .tabItem {
-                            Label("Speakers", systemImage: "person")
-                        }
-                }
+                SessionListView(sessionUiState: uiState)
             default:
                 ProgressView()
             }
         }
-        .onAppear {
-            viewModel.setConference(conference: conference)
+    }
+}
+
+
+struct SessionListView: View {
+    var sessionUiState: SessionsUiStateSuccess
+    @State var selectedDateIndex: Int = 0
+    
+        
+    var body: some View {
+        NavigationView {
+            VStack {
+                Spacer().frame(height: 16)
+
+                Picker(selection: $selectedDateIndex, label: Text("Date")) {
+                    ForEach(0..<sessionUiState.confDates.count, id: \.self) { i in
+                        Text("\(sessionUiState.confDates[i])").tag(i)
+                    }
+                }
+                .pickerStyle(.segmented)
+
+                List {
+                    ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
+                        
+                        Section(header: Text(key).foregroundColor(Color("Title"))) {
+                            let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
+                            ForEach(sessions, id: \.self) { session in
+                                SessionView(session: session)
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(sessionUiState.conferenceName)
+                }
+            }
         }
     }
 }
 
-extension SessionDetails: Identifiable { }
-extension SpeakerDetails: Identifiable { }
 
-
-extension Color {
-  init(_ hex: UInt, alpha: Double = 1) {
-    self.init(
-      .sRGB,
-      red: Double((hex >> 16) & 0xFF) / 255,
-      green: Double((hex >> 8) & 0xFF) / 255,
-      blue: Double(hex & 0xFF) / 255,
-      opacity: alpha
-    )
-  }
+struct SessionView: View {
+    var session: SessionDetails
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(session.title)
+            Text(session.sessionSpeakerLocation()).font(.system(size: 14)).bold()
+        }
+    }
 }
+
+
+
+
 

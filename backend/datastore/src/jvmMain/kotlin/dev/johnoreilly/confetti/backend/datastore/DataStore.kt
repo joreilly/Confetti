@@ -40,13 +40,24 @@ class DataStore {
             it.put(partnerGroups.toEntity(conf))
             it.put(config.toEntity(conf))
             it.deleteAll(conf, KIND_VENUE)
-            it.put(*venues.map { it.toEntity(conf) }.toTypedArray())
-            it.deleteAll(conf, KIND_SESSION)
-            it.put(*sessions.map { it.toEntity(conf) }.toTypedArray())
+            it.write(venues.map { it.toEntity(conf) })
             it.deleteAll(conf, KIND_ROOM)
-            it.put(*rooms.map { it.toEntity(conf) }.toTypedArray())
+            it.write(rooms.map { it.toEntity(conf) })
             it.deleteAll(conf, KIND_SPEAKER)
-            it.put(*speakers.map { it.toEntity(conf) }.toTypedArray())
+            it.deleteAll(conf, KIND_SESSION)
+        }
+
+        // This is written outside a transaction because a transaction cannot write more than 500 entities at once
+        datastore.write(sessions.map { it.toEntity(conf) })
+        datastore.write(speakers.map { it.toEntity(conf) })
+    }
+
+    /**
+     * DataStore cannot write more than 500 entities in a single call
+     */
+    private fun DatastoreReaderWriter.write(entities: List<Entity>) {
+        entities.chunked(500).forEach {
+            put(*it.toTypedArray())
         }
     }
 

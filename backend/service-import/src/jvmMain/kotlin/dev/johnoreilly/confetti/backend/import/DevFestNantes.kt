@@ -199,12 +199,12 @@ object DevFestNantes {
         }
 
         val config = DConfig(
+            id = ConferenceId.DevFestNantes2022.id,
             name = "DevFest Nantes",
             timeZone = timeZone
         )
 
         return DataStore().write(
-            conf = "devfestnantes",
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,

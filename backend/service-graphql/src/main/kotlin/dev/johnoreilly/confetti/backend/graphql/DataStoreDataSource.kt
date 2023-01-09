@@ -4,16 +4,18 @@ import dev.johnoreilly.confetti.backend.datastore.*
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 
+fun DConfig.toConference(): Conference {
+    return Conference(
+        id = id,
+        name = name,
+        timezone = timeZone
+    )
+}
 class DataStoreDataSource(private val conf: String) : DataSource {
     private val datastore = DataStore()
 
-    private val _config: Configuration by lazy {
-        val dconfig = datastore.readConfig(conf)
-
-        Configuration(
-            name = dconfig.name,
-            timezone = dconfig.timeZone
-        )
+    private val _config: Conference by lazy {
+        datastore.readConfig(conf).toConference()
     }
 
     private val _rooms by lazy {
@@ -49,7 +51,7 @@ class DataStoreDataSource(private val conf: String) : DataSource {
         return _rooms
     }
 
-    override fun configuration(): Configuration {
+    override fun conference(): Conference {
         return _config
     }
     override fun sessions(first: Int, after: String?): SessionConnection {

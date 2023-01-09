@@ -28,7 +28,6 @@ class DataStore {
     }
 
     fun write(
-        conf: String,
         sessions: List<DSession>,
         rooms: List<DRoom>,
         speakers: List<DSpeaker>,
@@ -36,6 +35,7 @@ class DataStore {
         venues: List<DVenue>,
         config: DConfig
     ) {
+        val conf = config.id
         datastore.runInTransaction {
             it.put(partnerGroups.toEntity(conf))
             it.put(config.toEntity(conf))
@@ -140,6 +140,22 @@ class DataStore {
                 .addAncestor(PathElement.of(KIND_CONF, conf))
                 .newKey(THE_CONFIG)
         ).toConfig()
+    }
+
+
+    fun readConfigs(): List<DConfig> {
+        log("readConfig")
+        val query: EntityQuery? = Query.newEntityQueryBuilder()
+            .setKind(KIND_CONFIG)
+            .build()
+        val result = datastore.run(query)
+
+        val items = mutableListOf<DConfig>()
+        result.forEach {
+            items.add(it.toConfig())
+        }
+
+        return items
     }
 
     fun readSession(conf: String, id: String): DSession {
@@ -333,7 +349,8 @@ class DataStore {
 
     private fun Entity.toConfig(): DConfig {
         return DConfig(
-            name = getString("name") ?: "",
+            id = key.ancestors.single { it.kind == KIND_CONF }.name,
+            name = getStringOrNull("name") ?: "",
             timeZone = getString("timeZone")
         )
     }

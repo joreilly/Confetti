@@ -13,7 +13,7 @@ import kotlinx.datetime.LocalDate
 
 
 class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel() {
-    val conferenceList = repository.conferenceList
+    val conferenceList = repository.conferenceList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     val rooms = repository.rooms
 
     val uiState: StateFlow<SessionsUiState> =

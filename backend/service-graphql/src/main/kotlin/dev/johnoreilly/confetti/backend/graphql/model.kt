@@ -3,10 +3,12 @@ package dev.johnoreilly.confetti.backend.graphql
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import com.expediagroup.graphql.server.operations.Query
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.SOURCE_KEY
+import dev.johnoreilly.confetti.backend.datastore.DataStore
 import graphql.introspection.Introspection
 import graphql.schema.DataFetchingEnvironment
 import kotlinx.datetime.Instant
 import org.springframework.stereotype.Component
+import dev.johnoreilly.confetti.backend.datastore.ConferenceId as Conference1
 
 @GraphQLDirective(
     name = "requiresOptIn",
@@ -49,8 +51,14 @@ class RootQuery : Query {
             ?: error("Cannot find id '$id' in ${nodes.size} nodes")
     }
 
-    fun config(dfe: DataFetchingEnvironment): Configuration {
-        return dfe.source().configuration()
+    fun config(dfe: DataFetchingEnvironment): Conference {
+        return dfe.source().conference()
+    }
+
+    fun conferences(): List<Conference> {
+        return DataStore().readConfigs().map {
+            it.toConference()
+        }
     }
 }
 
@@ -186,7 +194,8 @@ data class Venue(
     }
 }
 
-data class Configuration(
+data class Conference(
+    val id: String,
     val name: String,
     val timezone: String,
 )

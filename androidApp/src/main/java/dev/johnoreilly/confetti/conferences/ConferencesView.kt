@@ -16,23 +16,28 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.Conference
 import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ConferencesRoute(
     navigateToConference: (String) -> Unit,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
-    val conferenceList = viewModel.conferenceList
+    val conferenceList by viewModel.conferenceList.collectAsStateWithLifecycle()
     ConferencesView(conferenceList) { conference ->
         viewModel.setConference(conference)
         navigateToConference(conference)
@@ -40,7 +45,7 @@ fun ConferencesRoute(
 }
 
 @Composable
-fun ConferencesView(conferenceList: List<Conference>, navigateToConference: (String) -> Unit) {
+fun ConferencesView(conferenceList: List<GetConferencesQuery.Conference>, navigateToConference: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,10 +82,10 @@ private fun ConferencesViewPreview() {
         ConfettiBackground {
             ConferencesView(
                 conferenceList = listOf(
-                    Conference("0", "Droidcon San Francisco 2022"),
-                    Conference("1", "FrenchKit 2022"),
-                    Conference("2", "Droidcon London 2022"),
-                    Conference("3", "DevFest Ukraine 2023"),
+                    GetConferencesQuery.Conference("0", "Droidcon San Francisco 2022"),
+                    GetConferencesQuery.Conference("1", "FrenchKit 2022"),
+                    GetConferencesQuery.Conference("2", "Droidcon London 2022"),
+                    GetConferencesQuery.Conference("3", "DevFest Ukraine 2023"),
                 ),
                 navigateToConference = {}
             )

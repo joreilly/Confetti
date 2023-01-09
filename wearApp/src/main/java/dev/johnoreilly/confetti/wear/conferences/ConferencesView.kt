@@ -5,7 +5,10 @@ package dev.johnoreilly.confetti.wear.conferences
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.PositionIndicator
@@ -19,19 +22,22 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.scrollAway
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.Conference
+import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.wear.ConfettiViewModel
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ConferencesRoute(
     navigateToConference: (String) -> Unit,
     columnState: ScalingLazyColumnState,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
-    val conferenceList = viewModel.conferenceList
+    val conferenceList by viewModel.conferenceList.collectAsStateWithLifecycle()
+
     Scaffold(
         timeText = { TimeText(modifier = Modifier.scrollAway(columnState)) },
         positionIndicator = { PositionIndicator(columnState.state) }
@@ -48,7 +54,7 @@ fun ConferencesRoute(
 
 @Composable
 fun ConferencesView(
-    conferenceList: List<Conference>,
+    conferenceList: List<GetConferencesQuery.Conference>,
     navigateToConference: (String) -> Unit,
     columnState: ScalingLazyColumnState,
     modifier: Modifier = Modifier
@@ -80,10 +86,10 @@ fun ConferencesViewPreview() {
     ConfettiTheme {
         ConferencesView(
             conferenceList = listOf(
-                Conference("0", "Droidcon San Francisco 2022"),
-                Conference("1", "FrenchKit 2022"),
-                Conference("2", "Droidcon London 2022"),
-                Conference("3", "DevFest Ukraine 2023"),
+                GetConferencesQuery.Conference("0", "Droidcon San Francisco 2022"),
+                GetConferencesQuery.Conference("1", "FrenchKit 2022"),
+                GetConferencesQuery.Conference("2", "Droidcon London 2022"),
+                GetConferencesQuery.Conference("3", "DevFest Ukraine 2023"),
             ),
             navigateToConference = {},
             columnState = ScalingLazyColumnDefaults.

@@ -1,11 +1,6 @@
 package dev.johnoreilly.confetti.backend.import
 
-import com.charleskorn.kaml.YamlList
-import com.charleskorn.kaml.YamlMap
-import com.charleskorn.kaml.YamlNode
-import com.charleskorn.kaml.YamlNull
-import com.charleskorn.kaml.YamlScalar
-import com.charleskorn.kaml.YamlTaggedNode
+import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.datastore.DConfig
 import dev.johnoreilly.confetti.backend.datastore.DRoom
 import dev.johnoreilly.confetti.backend.datastore.DSession
@@ -13,20 +8,16 @@ import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.UtcOffset
 import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import xoxo.XmlElement
 import xoxo.toXmlDocument
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 object Fosdem {
@@ -115,12 +106,12 @@ object Fosdem {
         }
 
         val config = DConfig(
+            id = ConferenceId.Fosdem2023.id,
             name = "Fosdem 2023",
             timeZone = timeZone
         )
 
         return DataStore().write(
-            conf = "fosdem2023",
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakersMap.values.toList(),

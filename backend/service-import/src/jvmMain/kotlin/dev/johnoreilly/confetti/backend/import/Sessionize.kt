@@ -8,7 +8,7 @@ object Sessionize {
     private val droidConLondon2022 = "https://sessionize.com/api/v2/qi0g29hw/view/All"
 
     fun importDroidConLondon2022() {
-        import("droidconlondon2022", "droidcon London", droidConLondon2022)
+        import(ConferenceId.DroidConLondon2022.id, "droidcon London", droidConLondon2022)
     }
     private fun import(conf: String, confName: String, url: String) {
         val data = getJsonUrl(url)
@@ -66,13 +66,13 @@ object Sessionize {
             )
         }
         DataStore().write(
-            conf = conf,
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,
             partnerGroups = emptyList(),
             config = DConfig(
-                confName,
+                id = conf,
+                name = confName,
                 timeZone = "Europe/London"
             ),
             venues = listOf(

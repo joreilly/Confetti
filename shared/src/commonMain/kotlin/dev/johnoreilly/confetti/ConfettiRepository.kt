@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import okio.use
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -28,14 +29,15 @@ class ConfettiRepository : KoinComponent {
 
     private var refreshJob: Job? = null
 
-    // TODO query this from backend
-    val conferenceList = listOf(
-        Conference("droidconsf", "Droidcon San Francisco 2022"),
-        Conference("frenchkit2022", "FrenchKit 2022"),
-        Conference("graphqlsummit2022", "GraphQL Summit 2022"),
-        Conference("devfestnantes", "DevFest Nantes 2022"),
-        Conference("droidconlondon2022", "Droidcon London 2022"),
-    )
+    val conferenceList: Flow<List<GetConferencesQuery.Conference>> = createApolloClient("all", false).use {
+        it.query(GetConferencesQuery()).fetchPolicy(FetchPolicy.CacheAndNetwork).toFlow()
+            .mapNotNull {
+                println(it)
+                it.data?.conferences
+            }.catch {
+            // do nothing
+        }
+    }
 
     private val conferenceData = MutableStateFlow<GetConferenceDataQuery.Data?>(null)
 
@@ -46,7 +48,13 @@ class ConfettiRepository : KoinComponent {
     }
 
     val sessionsMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
-        it.groupBy { it.startInstant.toLocalDateTime(TimeZone.of(conferenceData.value?.config?.timezone ?: "")).date }
+        it.groupBy {
+            it.startInstant.toLocalDateTime(
+                TimeZone.of(
+                    conferenceData.value?.config?.timezone ?: ""
+                )
+            ).date
+        }
     }
 
     val speakers = conferenceData.filterNotNull().map {
@@ -116,7 +124,7 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    private fun createApolloClient(conference: String): ApolloClient {
+    private fun createApolloClient(conference: String, writeToCacheAsynchronously: Boolean = true): ApolloClient {
         val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory(getDatabaseName(conference))
         val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)
             .chain(sqlNormalizedCacheFactory)
@@ -124,7 +132,7 @@ class ConfettiRepository : KoinComponent {
         return ApolloClient.Builder()
             .serverUrl("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql?conference=$conference")
             //.serverUrl("http://10.0.2.2:8080/graphql?conference=graphqlsummit2022")
-            .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)
+            .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = writeToCacheAsynchronously)
             .build()
     }
 }

@@ -1,13 +1,15 @@
-"""
-This field can be changed without warning
-"""
-directive @requiresOptIn (feature: String!) on FIELD_DEFINITION
+type Conference {
+  id: String!
 
-type Configuration {
   name: String!
 
   timezone: String!
 }
+
+"""
+A type representing a formatted kotlinx.datetime.Instant
+"""
+scalar Instant
 
 type PageInfo {
   endCursor: String
@@ -28,7 +30,9 @@ type PartnerGroup {
 }
 
 type Query {
-  config: Configuration!
+  conferences: [Conference!]!
+
+  config: Conference!
 
   partnerGroups: [PartnerGroup!]!
 
@@ -36,7 +40,7 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions(after: String, first: Int): SessionConnection!
+  sessions(first: Int, after: String): SessionConnection!
 
   speakers: [Speaker!]!
 
@@ -58,7 +62,7 @@ type Session {
 
   description: String
 
-  endInstant: Instant! @requiresOptIn(feature: "experimental")
+  endInstant: Instant!
 
   feedbackId: String
 
@@ -66,19 +70,19 @@ type Session {
 
   language: String
 
-  room: Room
-
-  rooms: [Room!]!
-
-  speakers: [Speaker!]!
-
-  startInstant: Instant! @requiresOptIn(feature: "experimental")
+  startInstant: Instant!
 
   tags: [String!]!
 
   title: String!
 
   type: String!
+
+  room: Room @deprecated(reason: "use rooms instead")
+
+  rooms: [Room!]!
+
+  speakers: [Speaker!]!
 }
 
 type SessionConnection {
@@ -90,7 +94,7 @@ type SessionConnection {
 type Social {
   icon: String
 
-  link: String!
+  link: String! @deprecated(reason: "use url instead, replace with url")
 
   name: String!
 
@@ -118,11 +122,9 @@ type Speaker {
 type Venue {
   address: String
 
-  coordinates: String
+  coordinates: String @deprecated(reason: "use latitude and longitude instead")
 
-  description(language: String): String!
-
-  descriptionFr: String!
+  descriptionFr: String! @deprecated(reason: "description(language: \"fr\") instead")
 
   floorPlanUrl: String
 
@@ -135,9 +137,10 @@ type Venue {
   longitude: Float
 
   name: String!
+
+  description(language: String): String!
 }
 
-"""
-A type representing a formatted kotlinx.datetime.Instant
-"""
-scalar Instant
+schema {
+  query: Query
+}

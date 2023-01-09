@@ -13,6 +13,7 @@ import org.koin.core.component.inject
 open class ConfettiViewModel: KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
 
+    @NativeCoroutinesState
     val conferenceList = repository.conferenceList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     @NativeCoroutinesState

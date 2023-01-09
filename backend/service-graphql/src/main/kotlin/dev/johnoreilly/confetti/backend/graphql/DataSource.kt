@@ -6,5 +6,5 @@ interface DataSource {
   fun speakers(): List<Speaker>
   fun venues(): List<Venue>
   fun partnerGroups(): List<PartnerGroup>
-  fun configuration(): Configuration
+  fun conference(): Conference
 }

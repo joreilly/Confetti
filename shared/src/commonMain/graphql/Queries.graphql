@@ -25,6 +25,13 @@ query GetSession($id: String!){
 	}
 }
 
+query GetConferences{
+    conferences {
+        id
+        name
+    }
+}
+
 fragment SessionDetails on Session {
     id
     title

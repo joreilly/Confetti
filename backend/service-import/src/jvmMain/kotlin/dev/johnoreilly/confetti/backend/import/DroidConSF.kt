@@ -73,8 +73,8 @@ object DroidConSF {
 
         val dataStore = DataStore()
 
+        val conference = ConferenceId.DroidConSF2022
         dataStore.write(
-            conf = CONF,
             sessions = items.mapIndexed { index, item ->
                 DSession(
                     id = index.toString(),
@@ -113,6 +113,7 @@ object DroidConSF {
             },
             partnerGroups = emptyList(),
             config = DConfig(
+                id = conference.id,
                 name = "droidcon SF",
                 timeZone = TIMEZONE
             ),
@@ -120,6 +121,5 @@ object DroidConSF {
         )
     }
 
-    private const val CONF = "droidconsf"
     private const val TIMEZONE = "America/Los_Angeles"
 }

@@ -2,13 +2,9 @@ package dev.johnoreilly.confetti.backend.import
 
 import dev.johnoreilly.confetti.backend.datastore.*
 import kotlinx.datetime.LocalDateTime
-import kotlinx.serialization.json.Json
 import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
-import net.mbonnin.bare.graphql.toAny
-import okhttp3.OkHttpClient
-import okhttp3.Request
 
 object FrenchKit {
 
@@ -58,12 +54,12 @@ object FrenchKit {
             )
         }
         DataStore().write(
-            conf = "frenchkit2022",
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,
             partnerGroups = emptyList(),
             config = DConfig(
+                id = ConferenceId.FrenchKit2022.id,
                 name = "FrenchKit",
                 timeZone = "Europe/Paris"
             ),

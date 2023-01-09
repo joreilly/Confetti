@@ -61,6 +61,7 @@ data class DPartner(
 )
 
 data class DConfig(
+  val id: String,
   val name: String,
   val timeZone: String,
 )

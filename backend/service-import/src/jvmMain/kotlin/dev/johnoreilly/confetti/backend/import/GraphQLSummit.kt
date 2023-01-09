@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti.backend.import
 
 import dev.johnoreilly.confetti.backend.datastore.*
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
@@ -15,9 +14,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
-import okio.Buffer
 import okio.BufferedSink
-import java.time.ZoneId
 
 object GraphQLSummit {
     private val okHttpClient = OkHttpClient()
@@ -140,12 +137,12 @@ object GraphQLSummit {
             }
 
         DataStore().write(
-            conf = "graphqlsummit2022",
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,
             partnerGroups = emptyList(),
             config = DConfig(
+                id = ConferenceId.GraphQLSummit2022.id,
                 name = "GraphQL Summit",
                 timeZone = "America/Los_Angeles"
             ),

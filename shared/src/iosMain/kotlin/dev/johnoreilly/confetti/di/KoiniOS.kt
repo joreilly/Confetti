@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.di
 
+import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.russhwolf.settings.NSUserDefaultsSettings
@@ -13,6 +14,9 @@ actual fun platformModule() = module {
     single<ObservableSettings> { NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults) }
     single<NormalizedCacheFactory> { SqlNormalizedCacheFactory("confetti.db") }
     single<DateTimeFormatter> { IosDateTimeFormatter() }
+    factory {
+        ApolloClient.Builder()
+    }
 }
 
 actual fun getDatabaseName(conference: String) = "$conference.db"

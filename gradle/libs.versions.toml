@@ -32,7 +32,8 @@ apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo3:apollo-no
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime" }
 apollo-tooling = { module = "com.apollographql.apollo3:apollo-tooling", version.ref = "apollo" }
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
-coil-compose = "io.coil-kt:coil-compose:2.0.0"
+coil-base = "io.coil-kt:coil-base:2.2.2"
+coil-compose = "io.coil-kt:coil-compose:2.2.2"
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
@@ -64,7 +65,9 @@ material3-core = { module = "androidx.compose.material3:material3", version.ref 
 material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material-3" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
-okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
+okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.10"
+okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.10"
+okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10"
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
 xoxo = "net.mbonnin.xoxo:xoxo:0.2"

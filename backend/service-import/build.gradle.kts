@@ -12,6 +12,7 @@ kotlin {
     val jvmMain by getting {
       dependencies {
         implementation(libs.okhttp)
+        implementation(libs.okhttp.coroutines)
         implementation(libs.xoxo)
         implementation(libs.ktor.cio)
         implementation(libs.ktor.status.pages)

@@ -12,17 +12,12 @@ import io.ktor.server.routing.*
 import kotlin.system.exitProcess
 
 @Suppress("UNUSED_PARAMETER")
-fun main(args: Array<String>) {
-    val confToUpdate = System.getenv("CONF_TO_UPDATE")
-    if (!confToUpdate.isNullOrBlank()) {
-        update(confToUpdate)
-        exitProcess(0)
-    }
-
+suspend fun main(args: Array<String>) {
     println("""
         - update a conference: curl -X POST http://localhost:8080/update/droidconsf
         - update the days of a conference: curl -X POST http://localhost:8080/update-days
     """.trimIndent())
+
     embeddedServer(CIO, port = 8080) {
         install(StatusPages) {
             exception<Throwable> { call, cause ->
@@ -43,7 +38,7 @@ fun main(args: Array<String>) {
     }.start(wait = true)
 }
 
-private fun update(conf: String?) {
+private suspend fun update(conf: String?) {
     when (ConferenceId.from(conf)) {
         ConferenceId.DroidConSF2022 -> DroidConSF.import()
         ConferenceId.DevFestNantes2022 -> DevFestNantes.import()

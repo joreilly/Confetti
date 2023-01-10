@@ -17,7 +17,7 @@ object FrenchKit {
         }
     }
 
-    fun import() {
+    suspend fun import() {
         val schedule = getJsonUrl("https://frenchkit.fr/schedule/schedule-14.json")
         val speakersJson = getJsonUrl("https://frenchkit.fr/speakers/speakers-8.json")
 

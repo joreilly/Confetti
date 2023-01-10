@@ -7,10 +7,10 @@ import net.mbonnin.bare.graphql.*
 object Sessionize {
     private val droidConLondon2022 = "https://sessionize.com/api/v2/qi0g29hw/view/All"
 
-    fun importDroidConLondon2022() {
+    suspend fun importDroidConLondon2022() {
         import(ConferenceId.DroidConLondon2022.id, "droidcon London", droidConLondon2022)
     }
-    private fun import(conf: String, confName: String, url: String) {
+    private suspend fun import(conf: String, confName: String, url: String) {
         val data = getJsonUrl(url)
 
         val categories = data.asMap["categories"].asList.map { it.asMap }

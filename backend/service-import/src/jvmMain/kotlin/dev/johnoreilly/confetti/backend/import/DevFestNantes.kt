@@ -2,46 +2,55 @@ package dev.johnoreilly.confetti.backend.import
 
 import com.charleskorn.kaml.*
 import dev.johnoreilly.confetti.backend.datastore.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.*
 import kotlinx.serialization.json.Json
 import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
 import net.mbonnin.bare.graphql.toAny
+import okhttp3.executeAsync
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 private val timeZone = "Europe/Paris"
-private val okHttpClient = OkHttpClient()
+
+private val okHttpClient = OkHttpClient.Builder()
+    .fastFallback(true)
+    .build()
+
 private val baseUrl = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/"
 private val json = Json {
     ignoreUnknownKeys = true
 }
 
 object DevFestNantes {
-    private fun getUrl(url: String): String {
-        return Request.Builder()
-            .url(url)
-            .build()
-            .let {
-                okHttpClient.newCall(it).execute().also {
-                    check(it.isSuccessful) {
-                        "Cannot get $url: ${it.body?.string()}"
-                    }
-                }
-            }.body!!.string()
+    private suspend fun getUrl(url: String): String {
+        val request = Request(url.toHttpUrl())
+        val response = okHttpClient.newCall(request).executeAsync()
+
+        check(response.isSuccessful) {
+            "Cannot get $url: ${response.body.string()}"
+        }
+
+        return withContext(Dispatchers.IO) {
+            response.body.string()
+        }
     }
 
-    private fun getGithubFile(name: String): String {
+    private suspend fun getGithubFile(name: String): String {
         return getUrl("$baseUrl$name")
     }
 
-    private fun getJsonUrl(url: String) = Json.parseToJsonElement(getUrl(url)).toAny()
-    private fun getJsonGithubFile(name: String) = Json.parseToJsonElement(getGithubFile(name)).toAny()
+    private suspend fun getJsonUrl(url: String) = Json.parseToJsonElement(getUrl(url)).toAny()
+    private suspend fun getJsonGithubFile(name: String) =
+        Json.parseToJsonElement(getGithubFile(name)).toAny()
 
-    private fun getFiles(ref: String): List<Map<String, Any?>> {
+    private suspend fun getFiles(ref: String): List<Map<String, Any?>> {
         return getJsonUrl("https://api.github.com/repos/GDG-Nantes/Devfest2022/git/trees/$ref")
             .asMap
             .get("tree")
@@ -51,7 +60,7 @@ object DevFestNantes {
 
     private val sessionIdsWithoutRoom = mutableSetOf<String>()
 
-    private fun listFiles(path: String): List<String> {
+    private suspend fun listFiles(path: String): List<String> {
         var files: List<Map<String, Any?>> = getFiles("master")
 
         path.split("/").forEach { comp ->
@@ -63,7 +72,8 @@ object DevFestNantes {
             .map { "$path/$it" }
     }
 
-    private fun listYamls(path: String): List<String> = listFiles(path).filter { it.endsWith(".yml") }
+    private suspend fun listYamls(path: String): List<String> =
+        listFiles(path).filter { it.endsWith(".yml") }
 
     private fun Map<String, Any?>.startTime(): LocalDateTime {
         val day = if (get("key").asString.startsWith("day-1")) {
@@ -77,7 +87,7 @@ object DevFestNantes {
 
     private val UNKNOWN_END = LocalDateTime(0, 1, 1, 0, 0)
 
-    internal fun import() {
+    internal suspend fun import() {
         val slots = getJsonGithubFile("data/slots.json").asMap.get("slots").asList.map { it.asMap }
         val categories =
             getJsonGithubFile("data/categories.json").asMap.get("categories").asList.map { it.asMap }
@@ -113,7 +123,8 @@ object DevFestNantes {
                 },
                 speakers = talk.get("speakers").asList.map { it.asString },
                 tags = talk.get("tags").asList.mapNotNull { tagId ->
-                    categories.firstOrNull { it.get("id") == tagId.asString }?.get("label")?.asString
+                    categories.firstOrNull { it.get("id") == tagId.asString }
+                        ?.get("label")?.asString
                 },
                 start = localDateTime,
                 // The YAMLs do not have an end time
@@ -160,7 +171,8 @@ object DevFestNantes {
                     val image = allImages.firstOrNull { it.substringBeforeLast(".") == id }
                     DPartner(
                         name = title,
-                        logoUrl = (image?.let { "$baseUrl/src/images/partners/$it" }) ?: error("No partner image for $id"),
+                        logoUrl = (image?.let { "$baseUrl/src/images/partners/$it" })
+                            ?: error("No partner image for $id"),
                         url = it.get("website")?.asString ?: ""
                     )
                 }
@@ -311,7 +323,8 @@ object DevFestNantes {
 
                 type == "break" -> {
                     sessionIdsWithoutRoom.add(id)
-                    val notForCodelab = it.get("display")?.asMap?.containsKey("notForCodelab") ?: false
+                    val notForCodelab =
+                        it.get("display")?.asMap?.containsKey("notForCodelab") ?: false
                     DSession(
                         id = id,
                         title = "Break",

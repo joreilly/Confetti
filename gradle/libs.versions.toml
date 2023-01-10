@@ -44,7 +44,8 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.11.0"
-graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:5.5.0"
+graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:6.3.3"
+graphql-java = "com.graphql-java:graphql-java:20.0"
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.47.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }

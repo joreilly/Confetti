@@ -30,132 +30,139 @@ import kotlin.reflect.KType
 
 @SpringBootApplication
 class DefaultApplication {
-  @Bean
-  fun customHooks(): SchemaGeneratorHooks = CustomSchemaGeneratorHooks()
+    @Bean
+    fun customHooks(): SchemaGeneratorHooks = CustomSchemaGeneratorHooks()
 
-  @Bean
-  fun schema(
-    query: Query,
-    schemaConfig: SchemaGeneratorConfig
-  ): GraphQLSchema {
-    val schema = toSchema(
-      config = schemaConfig,
-      queries = listOf(TopLevelObject(query, RootQuery::class)),
-      mutations = emptyList(),
-      subscriptions = emptyList()
-    )
-
-    val key = javaClass.classLoader.getResourceAsStream("apollo.key")?.use {
-      it.source().buffer().readUtf8().trim()
-    }
-
-    if (key != null) {
-      val graph = key.split(":").getOrNull(1)
-      if (graph == null) {
-        println("Cannot determine graph. Make sure to use a graph key")
-      } else {
-        println("Enabling Apollo reporting for graph $graph")
-        SchemaUploader.uploadSchema(
-          key = key,
-          sdl = schema.print(),
-          graph = graph,
-          variant = "current"
+    @Bean
+    fun schema(
+        query: Query,
+        schemaConfig: SchemaGeneratorConfig
+    ): GraphQLSchema {
+        val schema = toSchema(
+            config = schemaConfig,
+            queries = listOf(TopLevelObject(query, RootQuery::class)),
+            mutations = emptyList(),
+            subscriptions = emptyList()
         )
-      }
-    } else {
-      println("Skipping Apollo reporting")
-    }
 
-    return schema
-  }
-
-  private fun GraphQLSchema.print(): String {
-    return SchemaPrinter(
-      SchemaPrinter.Options.defaultOptions()
-        .includeIntrospectionTypes(false)
-        .includeScalarTypes(true)
-        .includeSchemaDefinition(false)
-        .includeSchemaElement {
-          when (it) {
-            is GraphQLDirective -> !setOf("include", "skip", "specifiedBy", "deprecated").contains(
-              it.name
-            )
-            else -> true
-          }
+        val key = javaClass.classLoader.getResourceAsStream("apollo.key.unused")?.use {
+            it.source().buffer().readUtf8().trim()
         }
-        .includeDirectiveDefinitions(true)
-    ).print(this)
-  }
 
-  @Bean
-  fun springGraphQLContextFactory(): SpringGraphQLContextFactory<SpringGraphQLContext> = object: SpringGraphQLContextFactory<SpringGraphQLContext>() {
-    override suspend fun generateContext(request: ServerRequest): SpringGraphQLContext? {
-      return null
+        if (key != null) {
+            val graph = key.split(":").getOrNull(1)
+            if (graph == null) {
+                println("Cannot determine graph. Make sure to use a graph key")
+            } else {
+                println("Enabling Apollo reporting for graph $graph")
+                SchemaUploader.uploadSchema(
+                    key = key,
+                    sdl = schema.print(),
+                    graph = graph,
+                    variant = "current"
+                )
+            }
+        } else {
+            println("Skipping Apollo reporting")
+        }
+
+        return schema
     }
 
-    override suspend fun generateContextMap(request: ServerRequest): Map<*, Any>? {
-      val conf = request.queryParam("conference").orElse("devfestnantes")
-      val source = DataStoreDataSource(conf)
+    private fun GraphQLSchema.print(): String {
+        return SchemaPrinter(
+            SchemaPrinter.Options.defaultOptions()
+                .includeIntrospectionTypes(false)
+                .includeScalarTypes(true)
+                .includeSchemaDefinition(false)
+                .includeSchemaElement {
+                    when (it) {
+                        is GraphQLDirective -> !setOf(
+                            "include",
+                            "skip",
+                            "specifiedBy",
+                            "deprecated"
+                        ).contains(
+                            it.name
+                        )
 
-      return mapOf(SOURCE_KEY to source)
+                        else -> true
+                    }
+                }
+                .includeDirectiveDefinitions(true)
+        ).print(this)
     }
-  }
 
-  @Bean
-  fun corsWebFilter(): CorsWebFilter {
-    val corsConfig = CorsConfiguration().apply {
-      addAllowedOrigin("*")
-      addAllowedMethod("*")
-      addAllowedHeader("*")
+    @Bean
+    fun springGraphQLContextFactory(): SpringGraphQLContextFactory<SpringGraphQLContext> =
+        object : SpringGraphQLContextFactory<SpringGraphQLContext>() {
+            override suspend fun generateContext(request: ServerRequest): SpringGraphQLContext? {
+                return null
+            }
+
+            override suspend fun generateContextMap(request: ServerRequest): Map<*, Any> {
+                val conf = request.queryParam("conference").orElse("devfestnantes")
+                val source = DataStoreDataSource(conf)
+
+                return mapOf(SOURCE_KEY to source)
+            }
+        }
+
+    @Bean
+    fun corsWebFilter(): CorsWebFilter {
+        val corsConfig = CorsConfiguration().apply {
+            addAllowedOrigin("*")
+            addAllowedMethod("*")
+            addAllowedHeader("*")
+        }
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", corsConfig)
+        return CorsWebFilter(source)
     }
 
-    val source = UrlBasedCorsConfigurationSource()
-    source.registerCorsConfiguration("/**", corsConfig)
-    return CorsWebFilter(source)
-  }
-
-  companion object {
-    val SOURCE_KEY = "conf"
-  }
+    companion object {
+        val SOURCE_KEY = "conf"
+    }
 }
 
 fun runServer(): ConfigurableApplicationContext {
-  return runApplication<DefaultApplication>()
+    return runApplication<DefaultApplication>()
 }
 
 class CustomSchemaGeneratorHooks : SchemaGeneratorHooks {
-  override fun willGenerateGraphQLType(type: KType): GraphQLType? =
-    when (type.classifier as? KClass<*>) {
-      Instant::class -> graphqlInstantType
-      else -> null
-    }
+    override fun willGenerateGraphQLType(type: KType): GraphQLType? =
+        when (type.classifier as? KClass<*>) {
+            Instant::class -> graphqlInstantType
+            else -> null
+        }
 }
 
 val graphqlInstantType = GraphQLScalarType.newScalar()
-  .name("Instant")
-  .description("A type representing a formatted kotlinx.datetime.Instant")
-  .coercing(InstantCoercing)
-  .build()
+    .name("Instant")
+    .description("A type representing a formatted kotlinx.datetime.Instant")
+    .coercing(InstantCoercing)
+    .build()
 
 object InstantCoercing : Coercing<Instant, String> {
-  override fun parseValue(input: Any): Instant = runCatching {
-    Instant.parse(serialize(input))
-  }.getOrElse {
-    throw CoercingParseValueException("Expected valid Instant but was $input")
-  }
-
-  override fun parseLiteral(input: Any): Instant {
-    val str = (input as? StringValue)?.value
-    return runCatching {
-      Instant.parse(str!!)
+    override fun parseValue(input: Any): Instant = runCatching {
+        Instant.parse(serialize(input))
     }.getOrElse {
-      throw CoercingParseLiteralException("Expected valid Instant literal but was $str")
+        throw CoercingParseValueException("Expected valid Instant but was $input")
     }
-  }
 
-  override fun serialize(dataFetcherResult: Any): String = runCatching {
-    dataFetcherResult.toString()
-  }.getOrElse {
-    throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
-  }
+    override fun parseLiteral(input: Any): Instant {
+        val str = (input as? StringValue)?.value
+        return runCatching {
+            Instant.parse(str!!)
+        }.getOrElse {
+            throw CoercingParseLiteralException("Expected valid Instant literal but was $str")
+        }
+    }
+
+    override fun serialize(dataFetcherResult: Any): String = runCatching {
+        dataFetcherResult.toString()
+    }.getOrElse {
+        throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
+    }
 }

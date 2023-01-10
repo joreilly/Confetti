@@ -3,12 +3,14 @@ package dev.johnoreilly.confetti.backend.graphql
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import com.expediagroup.graphql.server.operations.Query
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.SOURCE_KEY
+import dev.johnoreilly.confetti.backend.datastore.DDirection
+import dev.johnoreilly.confetti.backend.datastore.DOrderBy
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import graphql.introspection.Introspection
 import graphql.schema.DataFetchingEnvironment
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import org.springframework.stereotype.Component
-import dev.johnoreilly.confetti.backend.datastore.ConferenceId as Conference1
 
 @GraphQLDirective(
     name = "requiresOptIn",
@@ -23,7 +25,11 @@ class RootQuery : Query {
         return dfe.source().rooms()
     }
 
-    fun sessions(dfe: DataFetchingEnvironment, first: Int? = 10, after: String? = null): SessionConnection {
+    fun sessions(
+        dfe: DataFetchingEnvironment,
+        first: Int? = 10,
+        after: String? = null
+    ): SessionConnection {
         return dfe.source().sessions(first ?: 10, after)
     }
 
@@ -55,11 +61,36 @@ class RootQuery : Query {
         return dfe.source().conference()
     }
 
-    fun conferences(): List<Conference> {
-        return DataStore().readConfigs().map {
+    fun conferences(orderBy: ConferenceOrderBy? = null): List<Conference> {
+        val orderBy =
+            orderBy ?: ConferenceOrderBy(ConferenceField.DAYS, OrderByDirection.DESCENDING)
+        return DataStore().readConfigs(
+            DOrderBy(orderBy.field.value, orderBy.direction.toDDirection())
+        ).map {
             it.toConference()
         }
     }
+
+    private fun OrderByDirection.toDDirection(): DDirection {
+        return when (this) {
+            OrderByDirection.ASCENDING -> DDirection.ASCENDING
+            OrderByDirection.DESCENDING -> DDirection.DESCENDING
+        }
+    }
+}
+
+class ConferenceOrderBy(
+    val field: ConferenceField,
+    val direction: OrderByDirection
+)
+
+enum class OrderByDirection {
+    ASCENDING,
+    DESCENDING
+}
+
+enum class ConferenceField(val value: String) {
+    DAYS("days"),
 }
 
 private fun DataFetchingEnvironment.source(): DataSource {
@@ -173,7 +204,10 @@ data class Venue(
     val floorPlanUrl: String?,
     private val descriptions: Map<String, String>
 ) {
-    @Deprecated("use latitude and longitude instead")
+    @Deprecated(
+        "use latitude and " +
+            "longitude instead"
+    )
     val coordinates: String?
         get() {
             return if (latitude != null && longitude != null) {
@@ -198,4 +232,5 @@ data class Conference(
     val id: String,
     val name: String,
     val timezone: String,
+    val days: List<LocalDate>
 )

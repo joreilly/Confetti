@@ -14,6 +14,7 @@ import graphql.language.StringValue
 import graphql.schema.*
 import graphql.schema.idl.SchemaPrinter
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import okio.buffer
 import okio.source
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -48,6 +49,8 @@ class DefaultApplication {
         val key = javaClass.classLoader.getResourceAsStream("apollo.key.unused")?.use {
             it.source().buffer().readUtf8().trim()
         }
+
+        println(schema.print())
 
         if (key != null) {
             val graph = key.split(":").getOrNull(1)
@@ -134,15 +137,23 @@ class CustomSchemaGeneratorHooks : SchemaGeneratorHooks {
     override fun willGenerateGraphQLType(type: KType): GraphQLType? =
         when (type.classifier as? KClass<*>) {
             Instant::class -> graphqlInstantType
+            LocalDate::class -> graphqlLocalDateType
             else -> null
         }
 }
 
-val graphqlInstantType = GraphQLScalarType.newScalar()
+val graphqlInstantType: GraphQLScalarType = GraphQLScalarType.newScalar()
     .name("Instant")
     .description("A type representing a formatted kotlinx.datetime.Instant")
     .coercing(InstantCoercing)
     .build()
+
+val graphqlLocalDateType = GraphQLScalarType.newScalar()
+    .name("LocalDate")
+    .description("A type representing a formatted kotlinx.datetime.LocalDate")
+    .coercing(LocalDateCoercing)
+    .build()!!
+
 
 object InstantCoercing : Coercing<Instant, String> {
     override fun parseValue(input: Any): Instant = runCatching {
@@ -157,6 +168,29 @@ object InstantCoercing : Coercing<Instant, String> {
             Instant.parse(str!!)
         }.getOrElse {
             throw CoercingParseLiteralException("Expected valid Instant literal but was $str")
+        }
+    }
+
+    override fun serialize(dataFetcherResult: Any): String = runCatching {
+        dataFetcherResult.toString()
+    }.getOrElse {
+        throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
+    }
+}
+
+object LocalDateCoercing : Coercing<LocalDate, String> {
+    override fun parseValue(input: Any): LocalDate = runCatching {
+        LocalDate.parse(serialize(input))
+    }.getOrElse {
+        throw CoercingParseValueException("Expected valid LocalDate but was $input")
+    }
+
+    override fun parseLiteral(input: Any): LocalDate {
+        val str = (input as? StringValue)?.value
+        return runCatching {
+            LocalDate.parse(str!!)
+        }.getOrElse {
+            throw CoercingParseLiteralException("Expected valid LocalDate literal but was $str")
         }
     }
 

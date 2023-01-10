@@ -28,6 +28,7 @@ query GetSession($id: String!){
 query GetConferences{
     conferences {
         id
+        days
         name
     }
 }

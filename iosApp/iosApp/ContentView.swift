@@ -40,6 +40,7 @@ struct ConferenceListView: View {
             List(viewModel.conferenceList, id: \.self) { conference in
                 NavigationLink(destination: ConferenceView(viewModel: $viewModel, conference: conference.id, showConferenceList: showConferenceList).navigationBarBackButtonHidden(true)) {
                     Text(conference.name)
+                    Text(" (\(conference.days[0]))")
                 }
 
             }

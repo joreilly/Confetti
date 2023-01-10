@@ -1,3 +1,8 @@
+"""
+This field can be changed without warning
+"""
+directive @requiresOptIn (feature: String!) on FIELD_DEFINITION
+
 type Conference {
   id: String!
 
@@ -5,11 +10,6 @@ type Conference {
 
   timezone: String!
 }
-
-"""
-A type representing a formatted kotlinx.datetime.Instant
-"""
-scalar Instant
 
 type PageInfo {
   endCursor: String
@@ -40,7 +40,7 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions(first: Int, after: String): SessionConnection!
+  sessions(after: String, first: Int): SessionConnection!
 
   speakers: [Speaker!]!
 
@@ -62,7 +62,7 @@ type Session {
 
   description: String
 
-  endInstant: Instant!
+  endInstant: Instant! @requiresOptIn(feature: "experimental")
 
   feedbackId: String
 
@@ -70,19 +70,19 @@ type Session {
 
   language: String
 
-  startInstant: Instant!
+  room: Room
+
+  rooms: [Room!]!
+
+  speakers: [Speaker!]!
+
+  startInstant: Instant! @requiresOptIn(feature: "experimental")
 
   tags: [String!]!
 
   title: String!
 
   type: String!
-
-  room: Room @deprecated(reason: "use rooms instead")
-
-  rooms: [Room!]!
-
-  speakers: [Speaker!]!
 }
 
 type SessionConnection {
@@ -94,7 +94,7 @@ type SessionConnection {
 type Social {
   icon: String
 
-  link: String! @deprecated(reason: "use url instead, replace with url")
+  link: String!
 
   name: String!
 
@@ -122,9 +122,11 @@ type Speaker {
 type Venue {
   address: String
 
-  coordinates: String @deprecated(reason: "use latitude and longitude instead")
+  coordinates: String
 
-  descriptionFr: String! @deprecated(reason: "description(language: \"fr\") instead")
+  description(language: String): String!
+
+  descriptionFr: String!
 
   floorPlanUrl: String
 
@@ -137,10 +139,9 @@ type Venue {
   longitude: Float
 
   name: String!
-
-  description(language: String): String!
 }
 
-schema {
-  query: Query
-}
+"""
+A type representing a formatted kotlinx.datetime.Instant
+"""
+scalar Instant

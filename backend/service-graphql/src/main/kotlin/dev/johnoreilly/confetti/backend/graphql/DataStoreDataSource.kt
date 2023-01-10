@@ -8,7 +8,8 @@ fun DConfig.toConference(): Conference {
     return Conference(
         id = id,
         name = name,
-        timezone = timeZone
+        timezone = timeZone,
+        days = days,
     )
 }
 class DataStoreDataSource(private val conf: String) : DataSource {

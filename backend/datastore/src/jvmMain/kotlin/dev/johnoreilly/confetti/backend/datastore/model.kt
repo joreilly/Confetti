@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.backend.datastore
 
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
 data class DSession(
@@ -64,6 +65,7 @@ data class DConfig(
   val id: String,
   val name: String,
   val timeZone: String,
+  val days: List<LocalDate> = emptyList()
 )
 
 /**
@@ -73,3 +75,13 @@ class DPage<T>(
   val items: List<T>,
   val nextPageCursor: String?,
 )
+
+class DOrderBy(
+  val field: String,
+  val direction: DDirection
+)
+
+enum class DDirection {
+  ASCENDING,
+  DESCENDING
+}

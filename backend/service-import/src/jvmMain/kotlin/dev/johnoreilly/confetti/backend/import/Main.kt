@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.backend.import
 
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
+import dev.johnoreilly.confetti.backend.datastore.DataStore
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
@@ -18,6 +19,10 @@ fun main(args: Array<String>) {
         exitProcess(0)
     }
 
+    println("""
+        - update a conference: curl -X POST http://localhost:8080/update/droidconsf
+        - update the days of a conference: curl -X POST http://localhost:8080/update-days
+    """.trimIndent())
     embeddedServer(CIO, port = 8080) {
         install(StatusPages) {
             exception<Throwable> { call, cause ->
@@ -30,8 +35,8 @@ fun main(args: Array<String>) {
                 update(call.parameters["conf"])
                 call.respond(HttpStatusCode.OK)
             }
-            post("/update/droidconsf") {
-                DroidConSF.import()
+            post("/update-days") {
+                DataStore().updateDays()
                 call.respond(HttpStatusCode.OK)
             }
         }
@@ -49,3 +54,4 @@ private fun update(conf: String?) {
         else -> error("")
     }
 }
+

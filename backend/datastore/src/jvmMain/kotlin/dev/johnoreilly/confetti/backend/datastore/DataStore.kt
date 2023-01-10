@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.backend.datastore
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.datastore.*
 import com.google.datastore.v1.QueryResultBatch
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
 import net.mbonnin.bare.graphql.*
@@ -16,7 +17,8 @@ class DataStore {
         }
 
     init {
-        val serviceAccountKeyFile = File("/Users/mbonnin/git/Confetti/backend/service_account_key.json")
+        val serviceAccountKeyFile =
+            File("/Users/mbonnin/git/Confetti/backend/service_account_key.json")
         datastore = if (serviceAccountKeyFile.exists()) {
             val credentials = serviceAccountKeyFile.inputStream().use {
                 GoogleCredentials.fromStream(it)
@@ -38,6 +40,9 @@ class DataStore {
         val conf = config.id
         datastore.runInTransaction {
             it.put(partnerGroups.toEntity(conf))
+            val config = config.copy(
+                days = sessions.map { it.start.date }.toSet().toList()
+            )
             it.put(config.toEntity(conf))
             it.deleteAll(conf, KIND_VENUE)
             it.write(venues.map { it.toEntity(conf) })
@@ -111,7 +116,7 @@ class DataStore {
         }
 
         log("moreResults=${result.moreResults} cursor=${result.cursorAfter.toUrlSafe()}")
-        val nextPageCursor = when(result.moreResults) {
+        val nextPageCursor = when (result.moreResults) {
             QueryResultBatch.MoreResultsType.NO_MORE_RESULTS -> null
             else -> result.cursorAfter.toUrlSafe()
         }
@@ -143,10 +148,11 @@ class DataStore {
     }
 
 
-    fun readConfigs(): List<DConfig> {
+    fun readConfigs(orderBy: DOrderBy): List<DConfig> {
         log("readConfig")
         val query: EntityQuery? = Query.newEntityQueryBuilder()
             .setKind(KIND_CONFIG)
+            .setOrderBy(StructuredQuery.OrderBy(orderBy.field, orderBy.direction.toDirection()))
             .build()
         val result = datastore.run(query)
 
@@ -156,6 +162,11 @@ class DataStore {
         }
 
         return items
+    }
+
+    private fun DDirection.toDirection(): StructuredQuery.OrderBy.Direction = when(this) {
+        DDirection.ASCENDING -> StructuredQuery.OrderBy.Direction.ASCENDING
+        DDirection.DESCENDING -> StructuredQuery.OrderBy.Direction.DESCENDING
     }
 
     fun readSession(conf: String, id: String): DSession {
@@ -183,7 +194,8 @@ class DataStore {
             address = getStringOrNull("address"),
             latitude = getDoubleOrNull("latitude"),
             longitude = getDoubleOrNull("longitude"),
-            description = (Json.parseToJsonElement(getString("description")).toAny() as Map<String, String>),
+            description = (Json.parseToJsonElement(getString("description"))
+                .toAny() as Map<String, String>),
             imageUrl = getStringOrNull("imageUrl"),
             floorPlanUrl = getStringOrNull("floorPlanUrl"),
         )
@@ -280,7 +292,10 @@ class DataStore {
                 .setKind(KIND_PARTNERGROUPS)
                 .newKey(THE_PARTNERGROUPS)
         )
-            .set(THE_PARTNERGROUPS, map { it.toMap() }.toJsonElement().toString().toValue(excludeFromIndex = true))
+            .set(
+                THE_PARTNERGROUPS,
+                map { it.toMap() }.toJsonElement().toString().toValue(excludeFromIndex = true)
+            )
             .build()
     }
 
@@ -296,7 +311,10 @@ class DataStore {
             .set("photoUrl", photoUrl.toValue())
             .set("companyLogoUrl", companyLogoUrl.toValue())
             .set("city", city.toValue())
-            .set("links", links.map { it.toMap().toJsonElement().toString() }.toValue(excludeFromIndex = true))
+            .set(
+                "links",
+                links.map { it.toMap().toJsonElement().toString() }.toValue(excludeFromIndex = true)
+            )
             .build()
     }
 
@@ -314,6 +332,7 @@ class DataStore {
             "logoUrl" to this.logoUrl
         )
     }
+
     private fun Map<String, Any?>.toPartner(): DPartner {
         return DPartner(
             name = get("name").asString,
@@ -344,6 +363,7 @@ class DataStore {
         )
             .set("name", name.toValue())
             .set("timeZone", timeZone.toValue())
+            .set("days", days.map { it.toString() }.toValue())
             .build()
     }
 
@@ -351,7 +371,8 @@ class DataStore {
         return DConfig(
             id = key.ancestors.single { it.kind == KIND_CONF }.name,
             name = getStringOrNull("name") ?: "",
-            timeZone = getString("timeZone")
+            timeZone = getString("timeZone"),
+            days = getList<StringValue>("days").map { LocalDate.parse(it.get()) }
         )
     }
 
@@ -417,15 +438,44 @@ class DataStore {
         return items
     }
 
+    fun updateDays() {
+        ConferenceId.values().forEach { conferenceId ->
+            val entity = datastore.get(
+                keyFactory
+                    .setKind(KIND_CONFIG)
+                    .addAncestor(PathElement.of(KIND_CONF, conferenceId.id))
+                    .newKey(THE_CONFIG)
+            )
+
+            datastore.put(Entity.newBuilder(entity).set(
+                "days", when (conferenceId) {
+                    ConferenceId.DroidConSF2022 -> listOf("2022-06-02", "2022-06-03")
+                    ConferenceId.DevFestNantes2022 -> listOf("2022-10-20", "2022-10-21")
+                    ConferenceId.FrenchKit2022 -> listOf("2022-09-29", "2022-09-30")
+                    ConferenceId.GraphQLSummit2022 -> listOf("2022-10-04", "2022-10-05")
+                    ConferenceId.DroidConLondon2022 -> listOf("2022-10-27", "2022-10-28")
+                    ConferenceId.Fosdem2023 -> listOf("2023-02-04", "2023-02-05")
+                }.map { StringValue(it) }
+            ).build())
+        }
+    }
+
     companion object {
         private fun Any?.toValue(excludeFromIndex: Boolean = false): Value<*> {
             return when (this) {
-                is String -> StringValue.newBuilder(this).setExcludeFromIndexes(excludeFromIndex).build()
-                is Int -> LongValue.newBuilder(this.toLong()).setExcludeFromIndexes(excludeFromIndex).build()
-                is Double -> DoubleValue.newBuilder(this).setExcludeFromIndexes(excludeFromIndex).build()
+                is String -> StringValue.newBuilder(this).setExcludeFromIndexes(excludeFromIndex)
+                    .build()
+
+                is Int -> LongValue.newBuilder(this.toLong())
+                    .setExcludeFromIndexes(excludeFromIndex).build()
+
+                is Double -> DoubleValue.newBuilder(this).setExcludeFromIndexes(excludeFromIndex)
+                    .build()
+
                 is List<*> -> ListValue.newBuilder().apply {
                     this@toValue.forEach { addValue(it.toValue(excludeFromIndex)) }
                 }.build()
+
                 null -> NullValue.newBuilder().setExcludeFromIndexes(excludeFromIndex).build()
                 else -> error("unsupported value: $this")
             }

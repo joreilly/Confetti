@@ -64,10 +64,10 @@ fun ConferencesView(conferenceList: List<GetConferencesQuery.Conference>, naviga
                             navigateToConference(conference.id)
                         })
                         .padding(16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                        .fillMaxWidth()
                 ) {
-                    Text(conference.name, style = MaterialTheme.typography.bodyLarge)
+                    Text(conference.name, modifier = Modifier.weight(1.0f), style = MaterialTheme.typography.bodyLarge)
+                    Text(conference.days[0].toString(), style = MaterialTheme.typography.bodyLarge)
                 }
             }
         }
@@ -82,10 +82,10 @@ private fun ConferencesViewPreview() {
         ConfettiBackground {
             ConferencesView(
                 conferenceList = listOf(
-                    GetConferencesQuery.Conference("0", "Droidcon San Francisco 2022"),
-                    GetConferencesQuery.Conference("1", "FrenchKit 2022"),
-                    GetConferencesQuery.Conference("2", "Droidcon London 2022"),
-                    GetConferencesQuery.Conference("3", "DevFest Ukraine 2023"),
+                    GetConferencesQuery.Conference("0", emptyList(), "Droidcon San Francisco 2022"),
+                    GetConferencesQuery.Conference("1", emptyList(), "FrenchKit 2022"),
+                    GetConferencesQuery.Conference("2", emptyList(), "Droidcon London 2022"),
+                    GetConferencesQuery.Conference("3", emptyList(), "DevFest Ukraine 2023"),
                 ),
                 navigateToConference = {}
             )

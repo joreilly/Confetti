@@ -86,10 +86,10 @@ fun ConferencesViewPreview() {
     ConfettiTheme {
         ConferencesView(
             conferenceList = listOf(
-                GetConferencesQuery.Conference("0", "Droidcon San Francisco 2022"),
-                GetConferencesQuery.Conference("1", "FrenchKit 2022"),
-                GetConferencesQuery.Conference("2", "Droidcon London 2022"),
-                GetConferencesQuery.Conference("3", "DevFest Ukraine 2023"),
+                GetConferencesQuery.Conference("0", emptyList(), "Droidcon San Francisco 2022"),
+                GetConferencesQuery.Conference("1", emptyList(), "FrenchKit 2022"),
+                GetConferencesQuery.Conference("2", emptyList(), "Droidcon London 2022"),
+                GetConferencesQuery.Conference("3", emptyList(), "DevFest Ukraine 2023"),
             ),
             navigateToConference = {},
             columnState = ScalingLazyColumnDefaults.

@@ -1,4 +1,6 @@
 type Conference {
+  days: [LocalDate!]!
+
   id: String!
 
   name: String!
@@ -6,10 +8,31 @@ type Conference {
   timezone: String!
 }
 
+enum ConferenceField {
+  DAYS
+}
+
+input ConferenceOrderByInput {
+  direction: OrderByDirection!
+
+  field: ConferenceField!
+}
+
 """
 A type representing a formatted kotlinx.datetime.Instant
 """
 scalar Instant
+
+"""
+A type representing a formatted kotlinx.datetime.LocalDate
+"""
+scalar LocalDate
+
+enum OrderByDirection {
+  ASCENDING
+
+  DESCENDING
+}
 
 type PageInfo {
   endCursor: String
@@ -30,7 +53,7 @@ type PartnerGroup {
 }
 
 type Query {
-  conferences: [Conference!]!
+  conferences(orderBy: ConferenceOrderByInput): [Conference!]!
 
   config: Conference!
 

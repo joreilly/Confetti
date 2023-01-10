@@ -102,6 +102,12 @@ apollo {
             "com.apollographql.apollo3.adapter.KotlinxInstantAdapter"
         )
 
+        mapScalar(
+            "LocalDate",
+            "kotlinx.datetime.LocalDate",
+            "com.apollographql.apollo3.adapter.KotlinxLocalDateAdapter"
+        )
+
         introspection {
             endpointUrl.set("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql")
             //endpointUrl.set("http://localhost:8080/graphql")

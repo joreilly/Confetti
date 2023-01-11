@@ -24,7 +24,7 @@ struct SessionListView: View {
 
                 List {
                     ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
-                        Section(header: Text(key)) {
+                        Section(header: Text(key).foregroundColor(Color("Title"))) {
                             let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
                             ForEach(sessions, id: \.self) { session in
                                 VStack {

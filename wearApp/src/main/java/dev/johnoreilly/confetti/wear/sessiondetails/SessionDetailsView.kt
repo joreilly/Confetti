@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
 
 package dev.johnoreilly.confetti.wear.sessiondetails
 
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text

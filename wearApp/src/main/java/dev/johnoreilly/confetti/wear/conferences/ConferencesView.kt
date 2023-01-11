@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ListHeader
@@ -21,7 +20,6 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.scrollAway
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
-import dev.johnoreilly.confetti.Conference
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.wear.ConfettiViewModel
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -29,7 +27,6 @@ import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ConferencesRoute(
     navigateToConference: (String) -> Unit,

@@ -39,8 +39,11 @@ struct ConferenceListView: View {
         NavigationView {
             List(viewModel.conferenceList, id: \.self) { conference in
                 NavigationLink(destination: ConferenceView(viewModel: $viewModel, conference: conference.id, showConferenceList: showConferenceList).navigationBarBackButtonHidden(true)) {
-                    Text(conference.name)
-                    Text(" (\(conference.days[0]))")
+                    HStack {
+                        Text(conference.name)
+                        Spacer()
+                        Text("\(conference.days[0])")
+                    }
                 }
 
             }

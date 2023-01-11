@@ -18,6 +18,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import okio.use
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import org.koin.core.component.inject
 
 class ConfettiRepository : KoinComponent {
@@ -129,7 +130,7 @@ class ConfettiRepository : KoinComponent {
         val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)
             .chain(sqlNormalizedCacheFactory)
 
-        return ApolloClient.Builder()
+        return get<ApolloClient.Builder>()
             .serverUrl("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql?conference=$conference")
             //.serverUrl("http://10.0.2.2:8080/graphql?conference=graphqlsummit2022")
             .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = writeToCacheAsynchronously)

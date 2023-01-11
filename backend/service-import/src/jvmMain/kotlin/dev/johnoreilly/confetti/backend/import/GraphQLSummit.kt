@@ -1,6 +1,14 @@
 package dev.johnoreilly.confetti.backend.import
 
-import dev.johnoreilly.confetti.backend.datastore.*
+import dev.johnoreilly.confetti.backend.datastore.ConferenceId
+import dev.johnoreilly.confetti.backend.datastore.DConfig
+import dev.johnoreilly.confetti.backend.datastore.DRoom
+import dev.johnoreilly.confetti.backend.datastore.DSession
+import dev.johnoreilly.confetti.backend.datastore.DSpeaker
+import dev.johnoreilly.confetti.backend.datastore.DVenue
+import dev.johnoreilly.confetti.backend.datastore.DataStore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -9,51 +17,50 @@ import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
 import net.mbonnin.bare.graphql.toAny
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
-import okio.BufferedSink
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.executeAsync
 
 object GraphQLSummit {
-    private val okHttpClient = OkHttpClient()
+    private val okHttpClient = OkHttpClient.Builder()
+        .build()
 
-    private fun getUrl(url: String, body: String): String {
-        return Request.Builder()
+    private suspend fun getUrl(url: String, body: String): String {
+        val request = Request.Builder()
             .url(url)
             .header(
                 "x-cvent-csrf",
                 "4d7e148fa2023d86fcf2a5e64536ec540af5e676ce5fcd7c902f8848f04ec90b756d54fa3ae8b40f213f5f8a0802fe6c84c9928bba3e1c164a661e81a032bb70"
             )
-            .header("sec-ch-ua", "\"Google Chrome\";v=\"105\", \"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"105\"")
+            .header(
+                "sec-ch-ua",
+                "\"Google Chrome\";v=\"105\", \"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"105\""
+            )
             .header("sec-ch-ua-mobile", "?0")
             .header("sec-ch-ua-platform", "\"macOS\"")
             .header(
                 "cookie",
                 "cvt_cookielocale=%5B%7B%22eventId%22%3A%229cabb0aa-eb3c-4bfd-bf74-3dcc4c82c066%22%2C%22locale%22%3A%22en-US%22%7D%5D; engage-auth=8f04c60759e743aa41129b7e5d57fd6c; cvt_id=CA1.84fdd5c51dbb66d3398c731bc93cfcefb3e10f06e921cd4b00f47682a4a299af; cvt_cookieconsent=[%229cabb0aa-eb3c-4bfd-bf74-3dcc4c82c066%22]; CSNSearchDeviceId=d3c22eab-fe8a-4fc8-92ed-ab527e6e41c4; CSNSearchSessionId=8eaffe3a-ce36-4bca-a432-389756952221; _adssid=7aefa298-f879-376e-fcad-2b94a0531d19; CSNSearchRFPSessionId=1773c929-ca22-3422-eb39-26bfdcf4e870; s_cc=true; s_sq=%5B%5BB%5D%5D; _dd_s="
             )
-            .post(object : RequestBody() {
-                override fun contentType(): MediaType? {
-                    return "application/json".toMediaType()
-                }
-
-                override fun writeTo(sink: BufferedSink) {
-                    sink.writeUtf8(body)
-                }
-
-            })
+            .post(body.toRequestBody("application/json".toMediaType()))
             .build()
-            .let {
-                okHttpClient.newCall(it).execute().also {
-                    check(it.isSuccessful) {
-                        "Cannot get $url: ${it.body?.string()}"
-                    }
-                }
-            }.body!!.string()
+
+        val response = okHttpClient.newCall(request).executeAsync()
+
+        return response.use {
+            check(it.isSuccessful) {
+                "Cannot get $url: ${it.body.string()}"
+            }
+
+            withContext(Dispatchers.IO) {
+                response.body.string()
+            }
+        }
     }
 
-    private fun getJsonUrl(url: String, body: String) = Json.parseToJsonElement(getUrl(url, body)).toAny()
+    private suspend fun getJsonUrl(url: String, body: String) = Json.parseToJsonElement(getUrl(url, body)).toAny()
 
     private val sessionsBody =
         "{\"operationName\":\"SEARCH_SESSIONS\",\"variables\":{\"criteria\":{\"pageCriteria\":{\"limit\":20},\"timeframes\":[{\"start\":\"2022-10-04T22:00:00.000Z\",\"end\":\"2022-10-06T22:00:00.000Z\"}],\"categories\":[],\"admissionItemId\":\"c928fe6c-0a45-460a-9da6-9fa4fa1d9149\",\"useDisplayInAttendeeHub\":true,\"locale\":\"en-US\",\"exhibitorTranslationsFlag\":false}},\"query\":\"fragment BaseSession on Session {\\n  id\\n  name\\n  code\\n  start\\n  end\\n  description\\n  enrolled\\n  included\\n  featured\\n \\n  openForRegistration\\n  category {\\n    id\\n    name\\n    code\\n    __typename\\n  }\\n  location {\\n    id\\n    name\\n    code\\n    __typename\\n  }\\n  __typename\\n}\\n\\nquery SEARCH_SESSIONS(\$criteria: SearchSessionCriteria) {\\n  searchSessions(criteria: \$criteria) {\\n    pagination {\\n      currentToken\\n      nextToken\\n      previousToken\\n      limit\\n      totalCount\\n      __typename\\n    }\\n    data {\\n      ...BaseSession\\n      admissionItems\\n      upgrade\\n      openForAttendeeHub\\n      recommended\\n      exhibitors {\\n        id\\n        name\\n        description\\n        profileLogoId\\n        profileLogoUrl\\n        hidden\\n        featured\\n        eventSponsor\\n        sponsorshipLevelId\\n        __typename\\n      }\\n      webcast {\\n        id\\n        sessionId\\n        eventId\\n        format\\n        playerType\\n        player {\\n          id\\n          videoId\\n          videoUrl\\n          password\\n          playerTypeProvider\\n          stream {\\n            id\\n            status\\n            __typename\\n          }\\n          duration\\n          simuliveOffset\\n          __typename\\n        }\\n        links {\\n          recording {\\n            href\\n            __typename\\n          }\\n          __typename\\n        }\\n        __typename\\n      }\\n      __typename\\n    }\\n    __typename\\n  }\\n}\\n\"}"
@@ -69,7 +76,7 @@ object GraphQLSummit {
         }
     }
 
-    fun import() {
+    suspend fun import() {
         val data = getJsonUrl("https://web.cvent.com/hub/graphqlv2", sessionsBody)
 
         val rooms = mutableListOf<DRoom>()

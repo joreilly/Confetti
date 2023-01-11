@@ -68,7 +68,7 @@ object DroidConSF {
             }.toList()
     }
 
-    fun import() {
+    suspend fun import() {
         val items = items()
 
         val dataStore = DataStore()

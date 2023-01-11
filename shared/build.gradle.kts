@@ -11,7 +11,7 @@ version = "1.0"
 
 kotlin {
     android()
-    //jvm()
+    jvm()
 
     listOf(
         iosX64(),
@@ -47,6 +47,11 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.androidx.lifecycle.viewmodel.ktx)
+                implementation(libs.okhttp)
+                implementation(libs.okhttp.coroutines)
+                implementation(libs.okhttp.logging.interceptor)
+                implementation(libs.coil.base)
+                implementation(libs.koin.android)
             }
         }
         val iosX64Main by getting
@@ -68,12 +73,14 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
 
-//        val jvmMain by getting {
-//            dependencies {
-//                // hack to allow use of MainScope() in shared code used by JVM console app
-//                implementation(libs.kotlinx.coroutines.swing)
-//            }
-//        }
+        val jvmMain by getting {
+            dependencies {
+                // hack to allow use of MainScope() in shared code used by JVM console app
+                implementation(libs.kotlinx.coroutines.swing)
+                implementation(libs.okhttp)
+                implementation(libs.okhttp.coroutines)
+            }
+        }
     }
 }
 

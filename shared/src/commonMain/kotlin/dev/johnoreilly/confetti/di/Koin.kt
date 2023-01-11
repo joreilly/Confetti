@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.di
 
+import com.apollographql.apollo3.ApolloClient
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.ConfettiViewModel

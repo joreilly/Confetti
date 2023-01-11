@@ -1,3 +1,8 @@
+"""
+This field can be changed without warning
+"""
+directive @requiresOptIn (feature: String!) on FIELD_DEFINITION
+
 type Conference {
   days: [LocalDate!]!
 
@@ -6,32 +11,6 @@ type Conference {
   name: String!
 
   timezone: String!
-}
-
-enum ConferenceField {
-  DAYS
-}
-
-input ConferenceOrderByInput {
-  direction: OrderByDirection!
-
-  field: ConferenceField!
-}
-
-"""
-A type representing a formatted kotlinx.datetime.Instant
-"""
-scalar Instant
-
-"""
-A type representing a formatted kotlinx.datetime.LocalDate
-"""
-scalar LocalDate
-
-enum OrderByDirection {
-  ASCENDING
-
-  DESCENDING
 }
 
 type PageInfo {
@@ -63,7 +42,7 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions(first: Int, after: String): SessionConnection!
+  sessions(after: String, first: Int): SessionConnection!
 
   speakers: [Speaker!]!
 
@@ -85,7 +64,7 @@ type Session {
 
   description: String
 
-  endInstant: Instant!
+  endInstant: Instant! @requiresOptIn(feature: "experimental")
 
   feedbackId: String
 
@@ -93,19 +72,19 @@ type Session {
 
   language: String
 
-  startInstant: Instant!
+  room: Room @deprecated(reason: "use rooms instead")
+
+  rooms: [Room!]!
+
+  speakers: [Speaker!]!
+
+  startInstant: Instant! @requiresOptIn(feature: "experimental")
 
   tags: [String!]!
 
   title: String!
 
   type: String!
-
-  room: Room @deprecated(reason: "use rooms instead")
-
-  rooms: [Room!]!
-
-  speakers: [Speaker!]!
 }
 
 type SessionConnection {
@@ -147,6 +126,8 @@ type Venue {
 
   coordinates: String @deprecated(reason: "use latitude and longitude instead")
 
+  description(language: String): String!
+
   descriptionFr: String! @deprecated(reason: "description(language: \"fr\") instead")
 
   floorPlanUrl: String
@@ -160,10 +141,30 @@ type Venue {
   longitude: Float
 
   name: String!
-
-  description(language: String): String!
 }
 
-schema {
-  query: Query
+enum ConferenceField {
+  DAYS
+}
+
+enum OrderByDirection {
+  ASCENDING
+
+  DESCENDING
+}
+
+"""
+A type representing a formatted kotlinx.datetime.Instant
+"""
+scalar Instant
+
+"""
+A type representing a formatted kotlinx.datetime.LocalDate
+"""
+scalar LocalDate
+
+input ConferenceOrderByInput {
+  direction: OrderByDirection!
+
+  field: ConferenceField!
 }

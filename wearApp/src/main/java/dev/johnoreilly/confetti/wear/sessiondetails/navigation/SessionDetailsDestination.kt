@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear.sessiondetails.navigation
 
 import android.net.Uri
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -26,6 +27,11 @@ object SessionDetailsDestination : ConfettiNavigationDestination {
 
     fun fromNavArgs(entry: NavBackStackEntry): String {
         val encodedId = entry.arguments?.getString(sessionIdArg)!!
+        return Uri.decode(encodedId)
+    }
+
+    fun fromNavArgs(savedStateHandle: SavedStateHandle): String {
+        val encodedId: String = savedStateHandle[sessionIdArg]!!
         return Uri.decode(encodedId)
     }
 }

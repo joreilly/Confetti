@@ -11,20 +11,21 @@ import androidx.wear.compose.material.TitleCard
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.wear.ConfettiViewModel
+import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SessionsRoute(
+    date: LocalDate,
     navigateToSession: (String) -> Unit,
-    navigateToSettings: () -> Unit,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SessionListView(
+        date = date,
         uiState = uiState,
         sessionSelected = navigateToSession,
-        onSettingsClick = navigateToSettings
     )
 }
 

@@ -15,8 +15,7 @@ class SessionDetailsViewModel(
     savedStateHandle: SavedStateHandle,
     repository: ConfettiRepository
 ) : ViewModel() {
-
-    private val sessionId: String? = savedStateHandle[SessionDetailsDestination.sessionIdArg]
+    private val sessionId: String = SessionDetailsDestination.fromNavArgs(savedStateHandle)
 
     val session: StateFlow<SessionDetails?> = repository.sessions.map {
         it.first { it.id == sessionId }

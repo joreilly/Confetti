@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toKotlinLocalDate
 
 class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel() {
     val conferenceList = repository.conferenceList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -63,5 +64,28 @@ sealed interface SessionsUiState {
         val confDates: List<LocalDate>,
         val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,
         val rooms: List<RoomDetails>
-    ) : SessionsUiState
+    ) : SessionsUiState {
+        fun currentSessions(): List<Pair<String, List<SessionDetails>>>? {
+            val today = java.time.LocalDate.now().toKotlinLocalDate()
+
+            val indexInDays = confDates.indexOf(today)
+            return if (indexInDays != -1) {
+                // TODO filter the right session times
+                sessionsByStartTimeList[indexInDays].entries.take(2).map {
+                    it.toPair()
+                }
+            } else  {
+                null
+            }
+        }
+
+        val today: LocalDate?
+            get() = java.time.LocalDate.now().toKotlinLocalDate().let {
+                if (confDates.contains(it)) {
+                    it
+                } else  {
+                    null
+                }
+            }
+    }
 }

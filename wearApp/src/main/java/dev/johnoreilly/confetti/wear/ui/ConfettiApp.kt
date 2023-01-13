@@ -5,6 +5,8 @@ import androidx.navigation.NavHostController
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
 import dev.johnoreilly.confetti.wear.conferences.navigation.conferencesGraph
+import dev.johnoreilly.confetti.wear.home.navigation.HomeDestination
+import dev.johnoreilly.confetti.wear.home.navigation.homeGraph
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.rooms.navigation.roomsGraph
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
@@ -24,10 +26,28 @@ fun ConfettiApp(navController: NavHostController) {
         navController.popBackStack()
     }
 
-    WearNavScaffold(startDestination = SessionsDestination.route, navController = navController) {
+    WearNavScaffold(startDestination = HomeDestination.route, navController = navController) {
         conferencesGraph(
             navigateToConference = {
                 onNavigateToDestination(SessionsDestination)
+            }
+        )
+
+        homeGraph(
+            navigateToSession = {
+                onNavigateToDestination(
+                    SessionDetailsDestination,
+                    SessionDetailsDestination.createNavigationRoute(it)
+                )
+            },
+            navigateToSettings = {
+                onNavigateToDestination(SettingsDestination)
+            },
+            navigateToDay = {
+                onNavigateToDestination(
+                    SessionsDestination,
+                    SessionsDestination.createNavigationRoute(it)
+                )
             }
         )
 
@@ -38,9 +58,6 @@ fun ConfettiApp(navController: NavHostController) {
                     SessionDetailsDestination.createNavigationRoute(it)
                 )
             },
-            navigateToSettings = {
-                onNavigateToDestination(SettingsDestination)
-            }
         )
 
         sessionDetailsGraph(::onBackClick)

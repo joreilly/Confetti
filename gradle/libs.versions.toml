@@ -2,7 +2,7 @@
 accompanist = "0.28.0"
 activity-compose = "1.6.1"
 androidx-lifecycle = "2.5.1"
-apollo = "3.7.2"
+apollo = "3.7.4"
 compose = "1.4.0-alpha04"
 compose-compiler = "1.4.0-dev-k1.8.0-RC-4c1865595ed"
 compose-material-3 = "1.0.0"
@@ -86,7 +86,7 @@ multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coro
 apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite", "apollo-adapters"]
 
 [plugins]
-android-application = { id = "com.android.application", version = "7.4.0-rc03" }
+android-application = { id = "com.android.application", version = "7.4.0" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 appengine = { id = "com.google.cloud.tools.appengine", version = "2.4.5" }
 kmmbridge = { id = "co.touchlab.faktory.kmmbridge", version = "0.3.1" }

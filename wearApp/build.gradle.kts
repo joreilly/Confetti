@@ -125,6 +125,8 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.splash.screen)
     implementation(libs.compose.navigation)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)
@@ -134,6 +136,8 @@ dependencies {
     implementation(libs.wear.compose.navigation)
     implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.compose.tools)
+    implementation(libs.horologist.composables)
+    implementation(libs.horologist.base.ui)
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
 }

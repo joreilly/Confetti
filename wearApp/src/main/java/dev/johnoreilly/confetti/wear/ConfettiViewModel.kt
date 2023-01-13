@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 
-
 class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel() {
     val conferenceList = repository.conferenceList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     val rooms = repository.rooms
@@ -37,6 +36,10 @@ class ConfettiViewModel(private val repository: ConfettiRepository): ViewModel()
 
     fun setConference(conference: String) {
         repository.setConference(conference)
+    }
+
+    fun clearConference() {
+        setConference("")
     }
 
     fun onLanguageChecked(language: String, checked: Boolean) {

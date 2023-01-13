@@ -7,9 +7,13 @@ package dev.johnoreilly.confetti.wear.sessions
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.CircularProgressIndicator
+import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
@@ -37,8 +41,7 @@ import java.time.ZoneOffset
 fun SessionListView(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
-    onSwitchConferenceSelected: () -> Unit,
-    onRefresh: suspend (() -> Unit)
+    onSettingsClick: () -> Unit,
 ) {
     when (uiState) {
         SessionsUiState.Loading -> CircularProgressIndicator()
@@ -54,7 +57,7 @@ fun SessionListView(
                     positionIndicator = { PositionIndicator(columnState.state) }
                 ) {
                     val sessions = uiState.sessionsByStartTimeList[page]
-                    DaySessionList(sessions, sessionSelected, columnState)
+                    DaySessionList(sessions, sessionSelected, onSettingsClick, columnState)
                 }
             }
         }
@@ -65,6 +68,7 @@ fun SessionListView(
 private fun DaySessionList(
     sessions: Map<String, List<SessionDetails>>,
     sessionSelected: (sessionId: String) -> Unit,
+    onSettingsClick: () -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     ScalingLazyColumn(
@@ -79,6 +83,12 @@ private fun DaySessionList(
 
             items(it.value) { session ->
                 SessionView(session, sessionSelected)
+            }
+        }
+
+        item {
+            Button(onClick = onSettingsClick) {
+                Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
             }
         }
     }
@@ -117,9 +127,8 @@ fun SessionListViewPreview() {
                     )
                 )
             ),
-            onRefresh = {},
             sessionSelected = {},
-            onSwitchConferenceSelected = {}
+            onSettingsClick = {}
         )
     }
 }

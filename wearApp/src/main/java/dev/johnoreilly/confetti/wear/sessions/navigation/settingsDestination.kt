@@ -16,12 +16,12 @@ object SessionsDestination : ConfettiNavigationDestination {
 
 fun NavGraphBuilder.sessionsGraph(
     navigateToSession: (String) -> Unit,
-    onSwitchConferenceSelected: () -> Unit,
+    navigateToSettings: () -> Unit,
 ) {
     composable(route = SessionsDestination.route) {
         // Defer scaffold to each page of the pager
         it.timeTextMode = NavScaffoldViewModel.TimeTextMode.Off
 
-        SessionsRoute(navigateToSession, onSwitchConferenceSelected)
+        SessionsRoute(navigateToSession, navigateToSettings)
     }
 }

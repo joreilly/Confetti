@@ -7,7 +7,7 @@ object AndroidSdk {
 }
 
 object WearSdk {
-    const val min = 25
+    const val min = 26
     const val compile = 33
     const val target = 30
 }

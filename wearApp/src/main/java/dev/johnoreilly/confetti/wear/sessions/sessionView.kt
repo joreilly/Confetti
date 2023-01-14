@@ -8,9 +8,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
+import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
-import dev.johnoreilly.confetti.wear.ConfettiViewModel
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 

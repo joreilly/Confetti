@@ -22,16 +22,18 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.wear.SessionsUiState
 import dev.johnoreilly.confetti.wear.sessions.SessionView
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
+import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -59,7 +61,7 @@ private fun HomeList(
     onSettingsClick: () -> Unit,
     columnState: ScalingLazyColumnState
 ) {
-    val sessions = uiState.currentSessions()
+    val sessions = uiState.currentSessions(uiState.now)
 
     // Monday
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
@@ -72,7 +74,7 @@ private fun HomeList(
                 item {
                     ListHeader {
                         if (index == 0) {
-                            Text("a\n" + time)
+                            Text("${dayFormatter.format(uiState.now.toJavaLocalDateTime())}\n$time")
                         } else {
                             Text(time)
                         }
@@ -124,6 +126,7 @@ fun HomeListViewPreview() {
     ConfettiTheme {
         HomeListView(
             uiState = SessionsUiState.Success(
+                now = sessionTime.toKotlinLocalDateTime(),
                 "WearableCon 2022",
                 confDates = listOf(sessionTime.toLocalDate().toKotlinLocalDate()),
                 rooms = listOf(),
@@ -144,7 +147,8 @@ fun HomeListViewPreview() {
                             )
                         )
                     )
-                )
+                ),
+                speakers = listOf()
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             sessionSelected = {},

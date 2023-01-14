@@ -60,7 +60,7 @@ fun ConfettiApp(navController: NavHostController) {
             },
         )
 
-        sessionDetailsGraph(::onBackClick)
+        sessionDetailsGraph()
 
         roomsGraph()
 

@@ -23,7 +23,6 @@ import dev.johnoreilly.confetti.fullNameAndCompany
 fun SessionSpeakerInfo(
     modifier: Modifier = Modifier,
     speaker: SpeakerDetails,
-    onSocialLinkClick: (SpeakerDetails.Social, SpeakerDetails) -> Unit
 ) {
     Column(modifier = modifier) {
         Row {
@@ -47,19 +46,6 @@ fun SessionSpeakerInfo(
                     text = speaker.fullNameAndCompany(),
                     style = MaterialTheme.typography.body1,
                 )
-
-//                Row(
-//                    Modifier.padding(top = 8.dp),
-//                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-//                ) {
-//                    speaker.socials.forEach { socialsItem ->
-//                        SocialIcon(
-//                            modifier = Modifier.size(24.dp),
-//                            socialItem = socialsItem,
-//                            onClick = { onSocialLinkClick(socialsItem, speaker) }
-//                        )
-//                    }
-//                }
             }
         }
     }

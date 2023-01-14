@@ -2,16 +2,14 @@
 
 package dev.johnoreilly.confetti.wear.sessiondetails
 
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.wear.compose.material.ListHeader
+import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.items
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
@@ -19,9 +17,13 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.utils.AndroidDateTimeFormatter
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
+import dev.johnoreilly.confetti.wear.ui.previews.WearSmallRoundDevicePreview
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toKotlinInstant
 import org.koin.androidx.compose.getViewModel
 import java.time.LocalDateTime
@@ -30,59 +32,91 @@ import java.time.ZoneOffset
 @Composable
 fun SessionDetailsRoute(
     columnState: ScalingLazyColumnState,
-    onBackClick: () -> Unit,
     viewModel: SessionDetailsViewModel = getViewModel()
 ) {
     val session by viewModel.session.collectAsStateWithLifecycle()
-    SessionDetailView(session, columnState, onBackClick)
+    val timeZone = remember { viewModel.timeZone }
+    SessionDetailView(
+        session = session,
+        columnState = columnState,
+        formatter = { viewModel.formatter.format(it, timeZone, "eeee HH:mm")})
 }
 
 @Composable
 fun SessionDetailView(
     session: SessionDetails?,
     columnState: ScalingLazyColumnState,
-    popBack: () -> Unit
+    formatter: (Instant) -> String
 ) {
-    val context = LocalContext.current
+    val description = session.descriptionParagraphs()
 
     ScalingLazyColumn(columnState = columnState) {
         session?.let { session ->
             item {
-                ListHeader {
+                Row(
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                ) {
                     Text(
                         text = session.title,
+                        color = MaterialTheme.colors.onSurfaceVariant,
+                        style = MaterialTheme.typography.button
                     )
                 }
             }
 
-            session.description?.let {
-                item {
-                    Text(text = it)
+            item {
+                val time = remember(session) {
+                    formatter(session.startInstant)
                 }
+                Text(time)
             }
 
-//            if (session.tags.isNotEmpty()) {
-//                Spacer(modifier = Modifier.size(16.dp))
-//                    FlowRow(crossAxisSpacing = 8.dp) {
-//                        session.tags.forEach { tag ->
-//                            Chip(tag)
-//                        }
-//                    }
-//            }
+            items(description) {
+                Text(text = it)
+            }
 
             items(session.speakers) { speaker ->
-                SessionSpeakerInfo(speaker = speaker.speakerDetails,
-                    onSocialLinkClick = { socialItem, _ ->
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.link))
-                        context.startActivity(intent)
-                    }
-                )
+                SessionSpeakerInfo(speaker = speaker.speakerDetails)
             }
         }
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+private fun SessionDetails?.descriptionParagraphs(): List<String> {
+    return this?.description
+        ?.replace("<p>", "")
+        ?.replace("</p>", "\n")
+        ?.replace("<a href=\".+\">(.+)</a>".toRegex(), "$1")
+        ?.split("\n+".toRegex())
+        .orEmpty()
+}
+
+@WearSmallRoundDevicePreview
+@Composable
+fun SessionDetailsLongText() {
+    val sessionTime = LocalDateTime.of(2022, 12, 25, 12, 30)
+    val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
+
+    ConfettiTheme {
+        SessionDetailView(
+            session = SessionDetails(
+                "1",
+                "This is a really long talk title that seems to go forever.",
+                "Talk",
+                startInstant,
+                startInstant,
+                "Be aWear of what's coming, don't walk, run to attend this session.",
+                "en",
+                listOf(),
+                SessionDetails.Room("Main Hall"),
+                listOf()
+            ),
+            columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            formatter = { AndroidDateTimeFormatter().format(it, TimeZone.UTC, "eeee HH:mm") }
+        )
+    }
+}
+
 @WearPreviewDevices
 @WearPreviewFontSizes
 @Composable
@@ -104,8 +138,8 @@ fun SessionDetailsViewPreview() {
                 SessionDetails.Room("Main Hall"),
                 listOf()
             ),
-            popBack = {},
-            columnState = ScalingLazyColumnDefaults.belowTimeText().create()
+            columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            formatter = { AndroidDateTimeFormatter().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
 }

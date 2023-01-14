@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
-import dev.johnoreilly.confetti.wear.ConfettiViewModel
+import dev.johnoreilly.confetti.ConfettiViewModel
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 

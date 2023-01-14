@@ -1,9 +1,10 @@
 package dev.johnoreilly.confetti.utils
 
-import android.annotation.SuppressLint
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaInstant
+import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.ZoneId
 
 class AndroidDateTimeFormatter: DateTimeFormatter {
@@ -11,4 +12,6 @@ class AndroidDateTimeFormatter: DateTimeFormatter {
         val formatter = java.time.format.DateTimeFormatter.ofPattern(format)
         return formatter.withZone(ZoneId.of(timeZone.id)).format(instant.toJavaInstant())
     }
+
+    override fun now(): LocalDateTime = java.time.LocalDateTime.now().toKotlinLocalDateTime()
 }

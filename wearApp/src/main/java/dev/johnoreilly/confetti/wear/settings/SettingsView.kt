@@ -5,7 +5,7 @@ package dev.johnoreilly.confetti.wear.settings
 import androidx.compose.runtime.Composable
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
-import dev.johnoreilly.confetti.wear.ConfettiViewModel
+import dev.johnoreilly.confetti.ConfettiViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable

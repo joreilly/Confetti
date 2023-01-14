@@ -1,7 +1,4 @@
-@file:OptIn(
-    ExperimentalPagerApi::class, ExperimentalPagerApi::class,
-    ExperimentalHorologistComposeLayoutApi::class
-)
+@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
 
 package dev.johnoreilly.confetti.wear.sessions
 
@@ -11,13 +8,12 @@ import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.items
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.wear.SessionsUiState
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -25,6 +21,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
+import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -90,6 +87,7 @@ fun SessionListViewPreview() {
         SessionListView(
             date = date,
             uiState = SessionsUiState.Success(
+                now = sessionTime.toKotlinLocalDateTime(),
                 "WearableCon 2022",
                 confDates = listOf(date),
                 rooms = listOf(),
@@ -110,7 +108,8 @@ fun SessionListViewPreview() {
                             )
                         )
                     )
-                )
+                ),
+                speakers = listOf()
             ),
             sessionSelected = {},
         )

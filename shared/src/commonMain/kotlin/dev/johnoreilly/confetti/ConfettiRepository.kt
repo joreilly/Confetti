@@ -2,8 +2,10 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
-import com.apollographql.apollo3.cache.normalized.*
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.fetchPolicy
+import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import dev.johnoreilly.confetti.di.getDatabaseName
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -11,7 +13,12 @@ import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -41,6 +48,10 @@ class ConfettiRepository : KoinComponent {
     }
 
     private val conferenceData = MutableStateFlow<GetConferenceDataQuery.Data?>(null)
+
+    val timeZone = conferenceData.value?.config?.timezone?.let {
+        TimeZone.of(it)
+    } ?: TimeZone.currentSystemDefault()
 
     val conferenceName = conferenceData.filterNotNull().map { it.config.name }
 
@@ -92,10 +103,7 @@ class ConfettiRepository : KoinComponent {
     }
 
     fun getSessionTime(session: SessionDetails): String {
-        return conferenceData.value?.let {
-            val timeZone = TimeZone.of(it.config.timezone)
-            return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
-        } ?: ""
+        return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
     }
 
     suspend fun getSession(sessionId: String): SessionDetails? {

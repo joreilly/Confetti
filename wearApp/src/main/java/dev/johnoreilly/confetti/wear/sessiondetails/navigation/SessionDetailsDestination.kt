@@ -36,7 +36,7 @@ object SessionDetailsDestination : ConfettiNavigationDestination {
     }
 }
 
-fun NavGraphBuilder.sessionDetailsGraph(onBackClick: () -> Unit) {
+fun NavGraphBuilder.sessionDetailsGraph() {
     scrollable(
         route = SessionDetailsDestination.route,
         arguments = listOf(
@@ -48,6 +48,6 @@ fun NavGraphBuilder.sessionDetailsGraph(onBackClick: () -> Unit) {
             }
         )
     ) {
-        SessionDetailsRoute(it.columnState, onBackClick)
+        SessionDetailsRoute(it.columnState)
     }
 }

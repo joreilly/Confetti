@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { ConfettiViewModel() }
-    viewModel { SessionDetailsViewModel(get(), get()) }
+    viewModel { SessionDetailsViewModel(get(), get(), get()) }
 }

@@ -4,11 +4,14 @@ package dev.johnoreilly.confetti.wear.conferences
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
@@ -64,14 +67,23 @@ fun ConferencesView(
                 Text("Conferences")
             }
         }
-        items(conferenceList) { conference ->
-            Chip(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(conference.name) },
-                onClick = {
-                    navigateToConference(conference.id)
-                },
-            )
+
+        if (conferenceList.isEmpty()) {
+            item {
+                CircularProgressIndicator(modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center))
+            }
+        } else {
+            items(conferenceList) { conference ->
+                Chip(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(conference.name) },
+                    onClick = {
+                        navigateToConference(conference.id)
+                    },
+                )
+            }
         }
     }
 }

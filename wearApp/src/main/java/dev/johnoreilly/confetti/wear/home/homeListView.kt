@@ -5,10 +5,14 @@
 
 package dev.johnoreilly.confetti.wear.home
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Icon
@@ -47,7 +51,11 @@ fun HomeListView(
     columnState: ScalingLazyColumnState
 ) {
     when (uiState) {
-        SessionsUiState.Loading -> CircularProgressIndicator()
+        SessionsUiState.Loading -> {
+            CircularProgressIndicator(modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center))
+        }
 
         is SessionsUiState.Success -> HomeList(uiState, sessionSelected, daySelected, onSettingsClick, columnState)
     }

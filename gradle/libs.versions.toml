@@ -16,7 +16,7 @@ kotlin = "1.8.0"
 kotlin-coroutines = "1.6.4"
 kotlinx-datetime = "0.4.0"
 lifecycle = "2.6.0-alpha03"
-multiplatform-settings = "1.0.0-alpha01"
+multiplatform-settings = "1.0.0"
 nav-compose = "2.5.2"
 
 [libraries]

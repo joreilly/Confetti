@@ -20,8 +20,8 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.scrollAway
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.GetConferencesQuery
-import dev.johnoreilly.confetti.wear.ConfettiViewModel
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes

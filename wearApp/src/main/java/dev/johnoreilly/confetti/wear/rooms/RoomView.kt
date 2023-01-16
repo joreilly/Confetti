@@ -19,24 +19,23 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
-import dev.johnoreilly.confetti.wear.ConfettiViewModel
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.previews.WearSmallRoundDevicePreview
 import org.koin.androidx.compose.getViewModel
 
-
 @Composable
 fun RoomsRoute(
     columnState: ScalingLazyColumnState,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
-    val rooms by viewModel.rooms.collectAsState(null)
-    RoomListView(rooms, columnState)
+    val uiState by viewModel.uiState.collectAsState(null)
+    RoomListView((uiState as? SessionsUiState.Success)?.rooms, columnState)
 }
-
 
 @Composable
 fun RoomListView(

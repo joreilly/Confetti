@@ -82,14 +82,8 @@ fun SessionDetailView(
     }
 }
 
-private fun SessionDetails?.descriptionParagraphs(): List<String> {
-    return this?.description
-        ?.replace("<p>", "")
-        ?.replace("</p>", "\n")
-        ?.replace("<a href=\".+\">(.+)</a>".toRegex(), "$1")
-        ?.split("\n+".toRegex())
-        .orEmpty()
-}
+private fun SessionDetails?.descriptionParagraphs(): List<String> =
+    this?.description?.split("\n+".toRegex()).orEmpty()
 
 @WearSmallRoundDevicePreview
 @Composable

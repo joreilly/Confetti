@@ -80,7 +80,7 @@ object Fosdem {
                     DSession(
                         id = id,
                         title = event.textOf("title") ?: error("no title for $id"),
-                        description = event.textOf("abstract"),
+                        description = event.textOf("abstract").stripHtml(),
                         language =  "en-US", // language is not set
                         speakers = speakers.map { it.id },
                         tags = listOf(event.textOf("track").asString),
@@ -130,5 +130,13 @@ object Fosdem {
                 )
             )
         )
+    }
+
+    // See https://github.com/joreilly/Confetti/issues/199
+    private fun String?.stripHtml(): String {
+        return this?.replace("<p>", "")
+            ?.replace("</p>", "\n")
+            ?.replace("<a href=\".+\">(.+)</a>".toRegex(), "$1")
+            .orEmpty()
     }
 }

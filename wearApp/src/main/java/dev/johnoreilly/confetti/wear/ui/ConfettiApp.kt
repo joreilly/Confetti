@@ -29,7 +29,7 @@ fun ConfettiApp(navController: NavHostController) {
     WearNavScaffold(startDestination = HomeDestination.route, navController = navController) {
         conferencesGraph(
             navigateToConference = {
-                onNavigateToDestination(SessionsDestination)
+                onNavigateToDestination(HomeDestination)
             }
         )
 

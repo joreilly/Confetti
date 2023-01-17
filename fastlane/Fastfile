@@ -4,7 +4,8 @@ default_platform :android
 
 platform :android do
 
-    versionNum = 4
+    versionNum = 10
+    wearVersionNum = 11
 
 
     before_all do
@@ -40,7 +41,6 @@ platform :android do
 
 
     lane :deployInternalTest do |options|
-
         gradle(task: 'clean')
         gradle(
               task: ":androidApp:bundleRelease",
@@ -48,11 +48,20 @@ platform :android do
                   'versionNum' => versionNum
               }
        )
+        gradle(
+              task: ":wearApp:bundleRelease",
+              properties: {
+                  'versionNum' => wearVersionNum
+              }
+        )
 
         supply(
             package_name: "dev.johnoreilly.confetti",
             track: "internal",
-            aab: "androidApp/build/outputs/bundle/release/androidApp-release.aab",
+            aab_paths: [
+                "androidApp/build/outputs/bundle/release/androidApp-release.aab",
+                "wearApp/build/outputs/bundle/release/wearApp-release.aab"
+            ],
             skip_upload_apk: true,
             skip_upload_metadata: true,
             skip_upload_images: true,
@@ -67,6 +76,16 @@ platform :android do
               task: ":androidApp:bundleRelease",
               properties: {
                   'versionNum' => versionNum
+              }
+        )
+    end
+
+    lane :buildWearApp do |options|
+        gradle(task: 'clean')
+        gradle(
+              task: ":wearApp:bundleRelease",
+              properties: {
+                  'versionNum' => wearVersionNum
               }
         )
     end

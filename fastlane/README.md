@@ -47,6 +47,14 @@ Deploy app to play store alpha channel
 
 
 
+### android buildWearApp
+
+```sh
+[bundle exec] fastlane android buildWearApp
+```
+
+
+
 ### android buildAppApk
 
 ```sh

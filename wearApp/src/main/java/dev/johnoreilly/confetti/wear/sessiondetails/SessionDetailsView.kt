@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.MaterialTheme
@@ -54,12 +56,13 @@ fun SessionDetailView(
         session?.let { session ->
             item {
                 Row(
-                    modifier = Modifier.padding(horizontal = 20.dp)
+                    modifier = Modifier.padding(horizontal = 20.dp).fillMaxWidth()
                 ) {
                     Text(
                         text = session.title,
-                        color = MaterialTheme.colors.onSurfaceVariant,
-                        style = MaterialTheme.typography.button
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colors.primary,
+                        style = MaterialTheme.typography.title3
                     )
                 }
             }

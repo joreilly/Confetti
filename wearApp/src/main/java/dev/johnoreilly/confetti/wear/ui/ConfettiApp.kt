@@ -8,7 +8,6 @@ import dev.johnoreilly.confetti.wear.conferences.navigation.conferencesGraph
 import dev.johnoreilly.confetti.wear.home.navigation.HomeDestination
 import dev.johnoreilly.confetti.wear.home.navigation.homeGraph
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.wear.rooms.navigation.roomsGraph
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
@@ -61,8 +60,6 @@ fun ConfettiApp(navController: NavHostController) {
         )
 
         sessionDetailsGraph()
-
-        roomsGraph()
 
         settingsGraph(
             onSwitchConferenceSelected = {

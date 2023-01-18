@@ -116,11 +116,14 @@ data class PageInfo(
 /**
  * @property language an [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US
  * @property type one of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format
+ * @property shortDescription a shorter version of description for use when real estate is scarce like watches for an example.
+ * This field might have the same value as description if a shortDescription is not available
  */
 data class Session(
     val id: String,
     val title: String,
     val description: String?,
+    val shortDescription: String?,
     val language: String?,
     private val speakerIds: Set<String>,
     val tags: List<String>,

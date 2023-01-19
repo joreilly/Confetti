@@ -66,11 +66,7 @@ fun getApiKey(): String {
     }
   }
 
-  error("""
-        DeepAI API key not found. Add it to either:
-        - DEEPAI_API_KEY environment variable
-        - deepai.key file
-      """.trimIndent())
+  return "Placeholder (use DEEPAI_API_KEY or deepai.key to replace)"
 }
 
 val generateApiKey = tasks.register("generateApiKey", GenerateApiKey::class.java) {

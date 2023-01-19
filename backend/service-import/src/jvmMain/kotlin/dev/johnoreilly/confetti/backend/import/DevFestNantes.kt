@@ -133,7 +133,8 @@ object DevFestNantes {
                 complexity = talk.get("complexity")?.asString,
                 feedbackId = talk.get("openfeedbackId")?.asString,
                 rooms = listOf(roomId),
-                type = talk.get("talkType")?.asString ?: "talk"
+                type = talk.get("talkType")?.asString ?: "talk",
+                shortDescription = null
             )
         } + slotSessions(slots)
 
@@ -265,6 +266,7 @@ object DevFestNantes {
                         type = "break",
                         complexity = null,
                         feedbackId = null,
+                        shortDescription = null,
                     )
                 }
 
@@ -283,6 +285,7 @@ object DevFestNantes {
                         type = "party",
                         complexity = null,
                         feedbackId = null,
+                        shortDescription = null,
                     )
                 }
 
@@ -301,6 +304,7 @@ object DevFestNantes {
                         type = "opening",
                         complexity = null,
                         feedbackId = null,
+                        shortDescription = null,
                     )
                 }
 
@@ -318,7 +322,7 @@ object DevFestNantes {
                         type = "keynote",
                         complexity = null,
                         feedbackId = null,
-
+                        shortDescription = null,
                         )
                 }
 
@@ -339,7 +343,7 @@ object DevFestNantes {
                         type = "break",
                         complexity = null,
                         feedbackId = null,
-
+                        shortDescription = null,
                         )
                 }
 
@@ -358,6 +362,7 @@ object DevFestNantes {
                         type = "lunch",
                         complexity = null,
                         feedbackId = null,
+                        shortDescription = null,
                     )
                 }
 

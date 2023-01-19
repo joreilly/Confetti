@@ -10,6 +10,7 @@ object Sessionize {
     suspend fun importDroidConLondon2022() {
         import(ConferenceId.DroidConLondon2022.id, "droidcon London", droidConLondon2022)
     }
+
     private suspend fun import(conf: String, confName: String, url: String) {
         val data = getJsonUrl(url)
 
@@ -34,11 +35,12 @@ object Sessionize {
                 end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
                 complexity = null,
                 feedbackId = null,
-                tags = it.get("categoryItems").asList.mapNotNull {categoryId ->
+                tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
                     categories.get(categoryId)?.asString
                 },
                 rooms = listOf(it.get("roomId").toString()),
-                speakers = it.get("speakers").asList.map { it.asString }
+                speakers = it.get("speakers").asList.map { it.asString },
+                shortDescription = null,
             )
         }
 

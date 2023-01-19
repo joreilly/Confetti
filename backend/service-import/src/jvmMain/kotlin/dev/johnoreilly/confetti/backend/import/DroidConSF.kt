@@ -88,7 +88,8 @@ object DroidConSF {
                     rooms = listOf(item.room),
                     speakers = item.speakers.map { it.id },
                     complexity = null,
-                    feedbackId = null
+                    feedbackId = null,
+                    shortDescription = null,
                 )
             },
             rooms = items.map {

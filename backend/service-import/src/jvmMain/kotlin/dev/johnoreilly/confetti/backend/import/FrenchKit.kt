@@ -9,7 +9,7 @@ import net.mbonnin.bare.graphql.asString
 object FrenchKit {
 
 
-    private fun String.toRoom() : String{
+    private fun String.toRoom(): String {
         return if (this.isBlank()) {
             "all"
         } else {
@@ -30,13 +30,15 @@ object FrenchKit {
                 title = it.get("title").asString,
                 description = it.get("summary")?.asString,
                 language = "en-US",
-                start = it.get("fromTime").asString.replace(" ", "T").let { LocalDateTime.parse(it) },
+                start = it.get("fromTime").asString.replace(" ", "T")
+                    .let { LocalDateTime.parse(it) },
                 end = it.get("toTime").asString.replace(" ", "T").let { LocalDateTime.parse(it) },
                 complexity = null,
                 feedbackId = null,
                 tags = emptyList(),
                 rooms = listOf(it.get("room").asString.toRoom()),
-                speakers = it.get("speakers").asList.map { it.asMap.get("id").asString }
+                speakers = it.get("speakers").asList.map { it.asMap.get("id").asString },
+                shortDescription = null,
             )
         }
 

@@ -47,53 +47,60 @@ object Fosdem {
         }
 
         val speakersMap = mutableMapOf<String, DSpeaker>()
-        val sessions = schedule.root.childElements.filter { day -> day.name == "day" }.flatMap { day ->
-            val date = LocalDate.parse(day.attributes.get("date")!!.asString)
+        val sessions =
+            schedule.root.childElements.filter { day -> day.name == "day" }.flatMap { day ->
+                val date = LocalDate.parse(day.attributes.get("date")!!.asString)
 
-            day.childElements.filter { room -> room.name == "room" }.flatMap { room ->
-                val roomName = room.attributes.get("name").asString
+                day.childElements.filter { room -> room.name == "room" }.flatMap { room ->
+                    val roomName = room.attributes.get("name").asString
 
-                room.childElements.filter { it.name == "event" }.map { event ->
-                    val id = event.attributes.get("id").asString
+                    room.childElements.filter { it.name == "event" }.map { event ->
+                        val id = event.attributes.get("id").asString
 
-                    val start = date.atTime(LocalTime.parse(event.textOf("start")!!))
-                    val end = start.toInstant(timeZone = TimeZone.of(timeZone)) + event.textOf("duration")!!.let {
-                        (it.substring(0, 2).toInt() * 60 + it.substring(3, 5).toInt()).minutes
-                    }
-                    val persons = event.childElements.singleOrNull {it.name == "persons" }?.childElements ?: emptyList()
+                        val start = date.atTime(LocalTime.parse(event.textOf("start")!!))
+                        val end =
+                            start.toInstant(timeZone = TimeZone.of(timeZone)) + event.textOf("duration")!!
+                                .let {
+                                    (it.substring(0, 2).toInt() * 60 + it.substring(3, 5)
+                                        .toInt()).minutes
+                                }
+                        val persons =
+                            event.childElements.singleOrNull { it.name == "persons" }?.childElements
+                                ?: emptyList()
 
-                    val speakers = persons.map {
-                        DSpeaker(
-                            id = it.attributes.get("id").asString,
-                            name = it.textContent,
-                            bio = null,
-                            company = null,
-                            links = emptyList(),
-                            companyLogoUrl = null,
-                            city = null,
-                            photoUrl = null,
+                        val speakers = persons.map {
+                            DSpeaker(
+                                id = it.attributes.get("id").asString,
+                                name = it.textContent,
+                                bio = null,
+                                company = null,
+                                links = emptyList(),
+                                companyLogoUrl = null,
+                                city = null,
+                                photoUrl = null,
+                            )
+                        }
+
+                        speakersMap.putAll(speakers.associateBy { it.id })
+
+                        DSession(
+                            id = id,
+                            title = event.textOf("title") ?: error("no title for $id"),
+                            description = event.textOf("abstract").stripHtml(),
+                            language = "en-US", // language is not set
+                            speakers = speakers.map { it.id },
+                            tags = listOf(event.textOf("track").asString),
+                            start = start,
+                            end = end.toLocalDateTime(TimeZone.of(timeZone)),
+                            complexity = null,
+                            feedbackId = null,
+                            rooms = listOf(roomName),
+                            type = "talk",
+                            shortDescription = null,
                         )
                     }
-
-                    speakersMap.putAll(speakers.associateBy { it.id })
-
-                    DSession(
-                        id = id,
-                        title = event.textOf("title") ?: error("no title for $id"),
-                        description = event.textOf("abstract").stripHtml(),
-                        language =  "en-US", // language is not set
-                        speakers = speakers.map { it.id },
-                        tags = listOf(event.textOf("track").asString),
-                        start = start,
-                        end = end.toLocalDateTime(TimeZone.of(timeZone)),
-                        complexity = null,
-                        feedbackId = null,
-                        rooms = listOf(roomName),
-                        type = "talk"
-                    )
                 }
             }
-        }
 
 
         val roomIds = sessions.flatMap { it.rooms }.toSet()

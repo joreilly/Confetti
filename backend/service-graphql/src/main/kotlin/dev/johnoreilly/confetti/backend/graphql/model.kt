@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.backend.graphql
 
+import com.expediagroup.graphql.generator.annotations.GraphQLDescription
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import com.expediagroup.graphql.server.operations.Query
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.SOURCE_KEY
@@ -114,13 +115,15 @@ data class PageInfo(
 )
 
 /**
- * @property language an [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US
- * @property type one of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format
  */
 data class Session(
     val id: String,
     val title: String,
     val description: String?,
+    @GraphQLDescription("""A shorter version of description for use when real estate is scarce like watches for an example.
+This field might have the same value as description if a shortDescription is not available""")
+    val shortDescription: String?,
+    @GraphQLDescription("""An [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US""")
     val language: String?,
     private val speakerIds: Set<String>,
     val tags: List<String>,
@@ -131,6 +134,7 @@ data class Session(
     private val roomIds: Set<String>,
     val complexity: String?,
     val feedbackId: String?,
+    @GraphQLDescription("""One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format""")
     val type: String,
 ) {
     fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {

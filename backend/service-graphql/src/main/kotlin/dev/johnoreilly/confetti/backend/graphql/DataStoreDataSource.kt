@@ -73,6 +73,7 @@ class DataStoreDataSource(private val conf: String) : DataSource {
             id = id,
             title = title,
             description = description,
+            shortDescription = shortDescription ?: description,
             language = language,
             speakerIds = speakers.toSet(),
             tags = tags,

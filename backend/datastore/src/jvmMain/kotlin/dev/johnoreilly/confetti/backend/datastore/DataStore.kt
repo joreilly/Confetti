@@ -164,7 +164,7 @@ class DataStore {
         return items
     }
 
-    private fun DDirection.toDirection(): StructuredQuery.OrderBy.Direction = when(this) {
+    private fun DDirection.toDirection(): StructuredQuery.OrderBy.Direction = when (this) {
         DDirection.ASCENDING -> StructuredQuery.OrderBy.Direction.ASCENDING
         DDirection.DESCENDING -> StructuredQuery.OrderBy.Direction.DESCENDING
     }
@@ -229,6 +229,7 @@ class DataStore {
             type = getString("type"),
             title = getString("title"),
             description = getStringOrNull("description"),
+            shortDescription = getString("shortDescription"),
             language = getStringOrNull("language"),
             start = getString("start").toLocalDateTime(),
             end = getString("end").toLocalDateTime(),
@@ -457,6 +458,45 @@ class DataStore {
                     ConferenceId.Fosdem2023 -> listOf("2023-02-04", "2023-02-05")
                 }.map { StringValue(it) }
             ).build())
+        }
+    }
+
+    fun updateSessions(block: (Entity) -> Entity?) {
+        var count = 0
+        val queryBuilder = Query.newEntityQueryBuilder()
+            .setKind(KIND_SESSION)
+            .setFilter(
+                StructuredQuery.PropertyFilter.hasAncestor(
+                    keyFactory.setKind(KIND_CONF).newKey(ConferenceId.DroidConLondon2022.id)
+                )
+            )
+            .setLimit(100)
+
+        while (true) {
+            val result = datastore.run(queryBuilder.build())
+            result.forEach {
+                block(it)?.let { datastore.put(it) }
+                count++
+                if (count >= 100) {
+                    return
+                }
+            }
+
+            when (result.moreResults) {
+                QueryResultBatch.MoreResultsType.MORE_RESULTS_TYPE_UNSPECIFIED -> TODO()
+                QueryResultBatch.MoreResultsType.NOT_FINISHED -> queryBuilder.setStartCursor(result.cursorAfter)
+                QueryResultBatch.MoreResultsType.MORE_RESULTS_AFTER_LIMIT -> queryBuilder.setStartCursor(
+                    result.cursorAfter
+                )
+
+                QueryResultBatch.MoreResultsType.MORE_RESULTS_AFTER_CURSOR -> queryBuilder.setStartCursor(
+                    result.cursorAfter
+                )
+
+                QueryResultBatch.MoreResultsType.NO_MORE_RESULTS -> break
+                QueryResultBatch.MoreResultsType.UNRECOGNIZED -> TODO()
+                null -> TODO()
+            }
         }
     }
 

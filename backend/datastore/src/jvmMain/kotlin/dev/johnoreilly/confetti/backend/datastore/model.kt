@@ -8,6 +8,7 @@ data class DSession(
   val type: String,
   val title: String,
   val description: String?,
+  val shortDescription: String?,
   val language: String?,
   val start: LocalDateTime,
   val end: LocalDateTime,

@@ -13,7 +13,7 @@ kotlin {
     }
     val jvmMain by getting {
       dependencies {
-        implementation(libs.google.cloud.datastore)
+        api(libs.google.cloud.datastore)
         implementation(libs.bare.graphQL)
         implementation(libs.kotlinx.serialization)
       }

@@ -76,6 +76,8 @@ type Session {
 
   rooms: [Room!]!
 
+  shortDescription: String
+
   speakers: [Speaker!]!
 
   startInstant: Instant! @requiresOptIn(feature: "experimental")

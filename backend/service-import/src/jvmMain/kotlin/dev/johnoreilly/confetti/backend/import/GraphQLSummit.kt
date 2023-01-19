@@ -60,7 +60,8 @@ object GraphQLSummit {
         }
     }
 
-    private suspend fun getJsonUrl(url: String, body: String) = Json.parseToJsonElement(getUrl(url, body)).toAny()
+    private suspend fun getJsonUrl(url: String, body: String) =
+        Json.parseToJsonElement(getUrl(url, body)).toAny()
 
     private val sessionsBody =
         "{\"operationName\":\"SEARCH_SESSIONS\",\"variables\":{\"criteria\":{\"pageCriteria\":{\"limit\":20},\"timeframes\":[{\"start\":\"2022-10-04T22:00:00.000Z\",\"end\":\"2022-10-06T22:00:00.000Z\"}],\"categories\":[],\"admissionItemId\":\"c928fe6c-0a45-460a-9da6-9fa4fa1d9149\",\"useDisplayInAttendeeHub\":true,\"locale\":\"en-US\",\"exhibitorTranslationsFlag\":false}},\"query\":\"fragment BaseSession on Session {\\n  id\\n  name\\n  code\\n  start\\n  end\\n  description\\n  enrolled\\n  included\\n  featured\\n \\n  openForRegistration\\n  category {\\n    id\\n    name\\n    code\\n    __typename\\n  }\\n  location {\\n    id\\n    name\\n    code\\n    __typename\\n  }\\n  __typename\\n}\\n\\nquery SEARCH_SESSIONS(\$criteria: SearchSessionCriteria) {\\n  searchSessions(criteria: \$criteria) {\\n    pagination {\\n      currentToken\\n      nextToken\\n      previousToken\\n      limit\\n      totalCount\\n      __typename\\n    }\\n    data {\\n      ...BaseSession\\n      admissionItems\\n      upgrade\\n      openForAttendeeHub\\n      recommended\\n      exhibitors {\\n        id\\n        name\\n        description\\n        profileLogoId\\n        profileLogoUrl\\n        hidden\\n        featured\\n        eventSponsor\\n        sponsorshipLevelId\\n        __typename\\n      }\\n      webcast {\\n        id\\n        sessionId\\n        eventId\\n        format\\n        playerType\\n        player {\\n          id\\n          videoId\\n          videoUrl\\n          password\\n          playerTypeProvider\\n          stream {\\n            id\\n            status\\n            __typename\\n          }\\n          duration\\n          simuliveOffset\\n          __typename\\n        }\\n        links {\\n          recording {\\n            href\\n            __typename\\n          }\\n          __typename\\n        }\\n        __typename\\n      }\\n      __typename\\n    }\\n    __typename\\n  }\\n}\\n\"}"
@@ -95,7 +96,10 @@ object GraphQLSummit {
 
                 val details = getJsonUrl(
                     "https://web.cvent.com/hub/graphqlv2",
-                    sessionsDetails.replace("24942c4f-547e-4f9e-9377-d931ae1b70d1", it.get("id").asString)
+                    sessionsDetails.replace(
+                        "24942c4f-547e-4f9e-9377-d931ae1b70d1",
+                        it.get("id").asString
+                    )
                 ).asMap.get("data").asMap.get("sessionDetail").asMap
 
                 val roomId = it.get("location").asMap.get("id").asString
@@ -139,7 +143,8 @@ object GraphQLSummit {
                     feedbackId = null,
                     tags = emptyList(),
                     rooms = listOf(roomId),
-                    speakers = thisSpeakers.map { it.id }
+                    speakers = thisSpeakers.map { it.id },
+                    shortDescription = null,
                 )
             }
 

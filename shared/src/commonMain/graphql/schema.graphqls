@@ -70,12 +70,19 @@ type Session {
 
   id: String!
 
+  """
+  An [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US
+  """
   language: String
 
   room: Room @deprecated(reason: "use rooms instead")
 
   rooms: [Room!]!
 
+  """
+  A shorter version of description for use when real estate is scarce like watches for an example.
+  This field might have the same value as description if a shortDescription is not available
+  """
   shortDescription: String
 
   speakers: [Speaker!]!
@@ -86,6 +93,9 @@ type Session {
 
   title: String!
 
+  """
+  One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format
+  """
   type: String!
 }
 

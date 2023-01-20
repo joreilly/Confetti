@@ -229,7 +229,7 @@ class DataStore {
             type = getString("type"),
             title = getString("title"),
             description = getStringOrNull("description"),
-            shortDescription = getString("shortDescription"),
+            shortDescription = getStringOrNull("shortDescription"),
             language = getStringOrNull("language"),
             start = getString("start").toLocalDateTime(),
             end = getString("end").toLocalDateTime(),

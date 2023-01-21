@@ -1,5 +1,7 @@
 # Confetti 🎊
 
+![kotlin-version](https://img.shields.io/badge/kotlin-1.8.0-orange)
+
 KMM GraphQL project to allow viewing of conference information. Includes:
 
 

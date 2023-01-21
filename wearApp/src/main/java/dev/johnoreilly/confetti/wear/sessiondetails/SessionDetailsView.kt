@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -19,7 +18,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.utils.AndroidDateTimeFormatter
+import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -109,7 +108,7 @@ fun SessionDetailsLongText() {
                 listOf()
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
-            formatter = { AndroidDateTimeFormatter().format(it, TimeZone.UTC, "eeee HH:mm") }
+            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
 }
@@ -136,7 +135,7 @@ fun SessionDetailsViewPreview() {
                 listOf()
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
-            formatter = { AndroidDateTimeFormatter().format(it, TimeZone.UTC, "eeee HH:mm") }
+            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
 }

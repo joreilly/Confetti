@@ -9,7 +9,6 @@ import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import dev.johnoreilly.confetti.di.getDatabaseName
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -33,7 +32,6 @@ class ConfettiRepository : KoinComponent {
 
     private var apolloClient: ApolloClient? = null
     private val appSettings: AppSettings by inject()
-    private val dateTimeFormatter: DateTimeFormatter by inject()
 
     private var refreshJob: Job? = null
 
@@ -100,10 +98,6 @@ class ConfettiRepository : KoinComponent {
         refreshJob = coroutineScope.launch {
             refresh(networkOnly = false)
         }
-    }
-
-    fun getSessionTime(session: SessionDetails): String {
-        return dateTimeFormatter.format(session.startInstant, timeZone, "HH:mm")
     }
 
     suspend fun getSession(sessionId: String): SessionDetails? {

@@ -6,8 +6,8 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.SharedPreferencesSettings
-import dev.johnoreilly.confetti.utils.AndroidDateTimeFormatter
-import dev.johnoreilly.confetti.utils.DateTimeFormatter
+import dev.johnoreilly.confetti.utils.AndroidDateService
+import dev.johnoreilly.confetti.utils.DateService
 import okhttp3.OkHttpClient
 import okhttp3.logging.LoggingEventListener
 import org.koin.android.ext.koin.androidContext
@@ -15,7 +15,7 @@ import org.koin.dsl.module
 
 actual fun platformModule() = module {
     single<ObservableSettings> { createObservableSettings(get()) }
-    single<DateTimeFormatter> { AndroidDateTimeFormatter() }
+    single<DateService> { AndroidDateService() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .apply {

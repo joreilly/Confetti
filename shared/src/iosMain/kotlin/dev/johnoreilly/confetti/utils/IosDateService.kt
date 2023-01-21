@@ -8,7 +8,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.toNSTimeZone
 import platform.Foundation.*
 
-class IosDateTimeFormatter: DateTimeFormatter {
+class IosDateService: DateService {
     private val nsDateFormatter = NSDateFormatter()
 
     override fun format(instant: Instant, timeZone: TimeZone, format: String): String {

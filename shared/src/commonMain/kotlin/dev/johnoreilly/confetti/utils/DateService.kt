@@ -4,7 +4,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 
-interface DateTimeFormatter {
+interface DateService {
     fun format(instant: Instant, timeZone: TimeZone, format: String): String
 
     fun now(): LocalDateTime

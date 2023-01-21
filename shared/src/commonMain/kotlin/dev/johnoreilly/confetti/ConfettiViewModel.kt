@@ -7,7 +7,7 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.utils.DateTimeFormatter
+import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -19,7 +19,7 @@ import org.koin.core.component.inject
 open class ConfettiViewModel: KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
 
-    private val dateLogic: DateTimeFormatter by inject()
+    private val dateService: DateService by inject()
 
     @NativeCoroutinesState
     val conferenceList = repository.conferenceList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -37,10 +37,10 @@ open class ConfettiViewModel: KMMViewModel(), KoinComponent {
             val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
             confDates.forEach { confDate ->
                 val sessions = sessionsMap[confDate] ?: emptyList()
-                val sessionsByStartTime = sessions.groupBy { repository.getSessionTime(it) }
+                val sessionsByStartTime = sessions.groupBy { getSessionTime(it) }
                 sessionsByStartTimeList.add(sessionsByStartTime)
             }
-            SessionsUiState.Success(dateLogic.now(), conferenceName, confDates, sessionsByStartTimeList,
+            SessionsUiState.Success(dateService.now(), conferenceName, confDates, sessionsByStartTimeList,
                 speakers, rooms)
 
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
@@ -65,6 +65,11 @@ open class ConfettiViewModel: KMMViewModel(), KoinComponent {
     suspend fun refresh()  {
         repository.refresh(networkOnly = true)
     }
+
+    fun getSessionTime(session: SessionDetails): String {
+        return dateService.format(session.startInstant, repository.timeZone, "HH:mm")
+    }
+
 }
 
 sealed interface SessionsUiState {

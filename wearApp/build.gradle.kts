@@ -150,6 +150,7 @@ dependencies {
     implementation(libs.wear.complications.data)
 
     if (file("google-services.json").exists()) {
+        implementation(libs.google.services)
         implementation(libs.firebase.analytics)
         implementation(libs.firebase.crashlytics)
         implementation(libs.firebase.performance)

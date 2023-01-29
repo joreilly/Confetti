@@ -18,6 +18,6 @@ class SpeakerDetailsViewModel(
     private val speakerId: String? = savedStateHandle[SpeakerDetailsDestination.speakerIdArg]
 
     val speaker: StateFlow<SpeakerDetails?> = repository.speakers.map {
-        it.first { it.id == speakerId }
+        it.firstOrNull { it.id == speakerId }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 }

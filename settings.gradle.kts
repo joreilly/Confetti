@@ -24,6 +24,7 @@ pluginManagement {
 
 rootProject.name = "Confetti"
 include(":androidApp")
+include(":androidBenchmark")
 include(":shared")
 include(":backend")
 include(":backend:service-graphql")

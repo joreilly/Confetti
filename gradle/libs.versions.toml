@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.28.0"
-activity-compose = "1.6.1"
+activity-compose = "1.7.0-alpha04"
 androidx-lifecycle = "2.5.1"
 apollo = "3.7.4"
 compose = "1.4.0-alpha04"

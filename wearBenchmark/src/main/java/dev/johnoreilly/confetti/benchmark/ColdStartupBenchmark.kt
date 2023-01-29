@@ -20,5 +20,6 @@ class ColdStartupBenchmark {
         startupMode = StartupMode.COLD
     ) {
         startActivityAndWait()
+        Thread.sleep(2000)
     }
 }

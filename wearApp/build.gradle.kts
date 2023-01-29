@@ -140,6 +140,7 @@ dependencies {
     implementation(libs.compose.navigation)
     implementation(libs.compose.material.icons.core)
     implementation(libs.compose.material.icons.extended)
+    implementation(libs.activity.compose)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)

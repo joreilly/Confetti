@@ -10,6 +10,8 @@ plugins {
     alias(libs.plugins.spring.boot).apply(false)
     alias(libs.plugins.appengine).apply(false)
     alias(libs.plugins.kmmbridge).apply(false)
+    alias(libs.plugins.google.services).apply(false)
+    alias(libs.plugins.firebase.crashlytics).apply(false)
 }
 
 tasks.register("clean", Delete::class) {

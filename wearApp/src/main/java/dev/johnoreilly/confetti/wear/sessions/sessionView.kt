@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+
 package dev.johnoreilly.confetti.wear.sessions
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +10,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
+import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
@@ -18,6 +22,7 @@ import org.koin.androidx.compose.getViewModel
 fun SessionsRoute(
     date: LocalDate,
     navigateToSession: (String) -> Unit,
+    columnState: ScalingLazyColumnState,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -26,6 +31,7 @@ fun SessionsRoute(
         date = date,
         uiState = uiState,
         sessionSelected = navigateToSession,
+        columnState = columnState
     )
 }
 

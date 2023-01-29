@@ -2,6 +2,9 @@
 
 package dev.johnoreilly.confetti.wear.conferences
 
+import androidx.activity.compose.ReportDrawn
+import androidx.activity.compose.ReportDrawnAfter
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
@@ -59,6 +62,10 @@ fun ConferencesView(
     columnState: ScalingLazyColumnState,
     modifier: Modifier = Modifier
 ) {
+    ReportDrawnWhen {
+        conferenceList.isNotEmpty()
+    }
+
     ScalingLazyColumn(
         modifier = modifier.fillMaxSize(), columnState = columnState
     ) {

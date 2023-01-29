@@ -2,6 +2,8 @@
 
 package dev.johnoreilly.confetti.wear.sessions
 
+import androidx.activity.compose.ReportDrawn
+import androidx.activity.compose.ReportDrawnAfter
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.wear.compose.material.CircularProgressIndicator
@@ -37,6 +39,8 @@ fun SessionListView(
         SessionsUiState.Loading -> CircularProgressIndicator()
 
         is SessionsUiState.Success -> {
+            ReportDrawn()
+
             val sessions = uiState.sessionsByStartTimeList[uiState.confDates.indexOf(date)]
             DaySessionList(date, sessions, sessionSelected, columnState)
         }

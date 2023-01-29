@@ -45,7 +45,11 @@ compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+firebase-analytics = "com.google.firebase:firebase-analytics-ktx:21.2.0"
+firebase-crashlytics = "com.google.firebase:firebase-crashlytics-ktx:18.3.3"
+firebase-performance = "com.google.firebase:firebase-perf-ktx:20.3.1"
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.11.0"
+google-services = "com.google.gms:google-services:4.3.15"
 graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:6.3.3"
 graphql-java = "com.graphql-java:graphql-java:20.0"
 junit = "junit:junit:4.13.2"
@@ -73,13 +77,13 @@ reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotli
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
 xoxo = "net.mbonnin.xoxo:xoxo:0.2"
 desugar = "com.android.tools:desugar_jdk_libs:2.0.0"
-wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha02"
-wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha02"
-horologist-base-ui = "com.google.android.horologist:horologist-base-ui:0.2.7"
-horologist-compose-layout = "com.google.android.horologist:horologist-compose-layout:0.2.7"
-horologist-compose-tools = "com.google.android.horologist:horologist-compose-tools:0.2.7"
-horologist-composables = "com.google.android.horologist:horologist-composables:0.2.7"
-horologist-tiles = "com.google.android.horologist:horologist-tiles:0.2.7"
+wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha03"
+wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha03"
+horologist-base-ui = "com.google.android.horologist:horologist-base-ui:0.3.0"
+horologist-compose-layout = "com.google.android.horologist:horologist-compose-layout:0.3.0"
+horologist-compose-tools = "com.google.android.horologist:horologist-compose-tools:0.3.0"
+horologist-composables = "com.google.android.horologist:horologist-composables:0.3.0"
+horologist-tiles = "com.google.android.horologist:horologist-tiles:0.3.0"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1"
@@ -92,6 +96,8 @@ apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite",
 android-application = { id = "com.android.application", version = "7.4.0" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 appengine = { id = "com.google.cloud.tools.appengine", version = "2.4.5" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }
+google-services = { id = "com.google.gms.google-services", version = "4.3.15" }
 kmmbridge = { id = "co.touchlab.faktory.kmmbridge", version = "0.3.1" }
 kmp-nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "kmp-nativecoroutines" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

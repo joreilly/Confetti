@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.items
+import androidx.wear.compose.foundation.lazy.items
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
@@ -31,13 +31,12 @@ fun SessionListView(
     date: LocalDate,
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
+    columnState: ScalingLazyColumnState
 ) {
     when (uiState) {
         SessionsUiState.Loading -> CircularProgressIndicator()
 
         is SessionsUiState.Success -> {
-            val columnState = ScalingLazyColumnDefaults.belowTimeText().create()
-
             val sessions = uiState.sessionsByStartTimeList[uiState.confDates.indexOf(date)]
             DaySessionList(date, sessions, sessionSelected, columnState)
         }
@@ -112,6 +111,7 @@ fun SessionListViewPreview() {
                 speakers = listOf()
             ),
             sessionSelected = {},
+            columnState = ScalingLazyColumnDefaults.belowTimeText().create()
         )
     }
 }

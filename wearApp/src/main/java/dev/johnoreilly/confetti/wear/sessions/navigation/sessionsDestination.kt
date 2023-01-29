@@ -38,6 +38,10 @@ fun NavGraphBuilder.sessionsGraph(
     ) {
         val date = SessionsDestination.fromNavArgs(it.backStackEntry)
 
-        SessionsRoute(date = date, navigateToSession = navigateToSession)
+        SessionsRoute(
+            date = date,
+            navigateToSession = navigateToSession,
+            columnState = it.columnState
+        )
     }
 }

@@ -18,7 +18,7 @@ import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.items
+import androidx.wear.compose.foundation.lazy.items
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
 import com.google.android.horologist.base.ui.components.StandardChip

@@ -93,6 +93,8 @@ apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite",
 android-application = { id = "com.android.application", version = "7.4.0" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 appengine = { id = "com.google.cloud.tools.appengine", version = "2.4.5" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }
+google-services = { id = "com.google.gms.google-services", version = "4.3.15" }
 kmmbridge = { id = "co.touchlab.faktory.kmmbridge", version = "0.3.1" }
 kmp-nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "kmp-nativecoroutines" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

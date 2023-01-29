@@ -5,7 +5,7 @@ import java.util.*
 plugins {
     id("com.android.application")
     kotlin("android")
-    if (File("google-services.json").exists()) {
+    if (File("androidApp/google-services.json").exists()) {
         id("com.google.gms.google-services")
         id("com.google.firebase.crashlytics")
     }

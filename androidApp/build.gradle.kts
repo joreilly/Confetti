@@ -99,6 +99,13 @@ android {
 
             matchingFallbacks += listOf("release")
         }
+        create("benchmark") {
+            isShrinkResources = true
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("confetti")
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-benchmark.pro"))
+            matchingFallbacks.addAll(listOf("release", "debug"))
+        }
         getByName("debug") {
             signingConfig = signingConfigs.getByName("confetti")
         }

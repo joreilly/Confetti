@@ -44,6 +44,9 @@ compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+firebase-analytics = "com.google.firebase:firebase-analytics-ktx:21.2.0"
+firebase-crashlytics = "com.google.firebase:firebase-crashlytics-ktx:18.3.3"
+firebase-performance = "com.google.firebase:firebase-perf-ktx:20.3.1"
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.11.0"
 graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:6.3.3"
 graphql-java = "com.graphql-java:graphql-java:20.0"

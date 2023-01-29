@@ -5,6 +5,10 @@ import java.util.*
 plugins {
     id("com.android.application")
     kotlin("android")
+    if (File("google-services.json").exists()) {
+        id("com.google.gms.google-services")
+        id("com.google.firebase.crashlytics")
+    }
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -141,4 +145,10 @@ dependencies {
     implementation(libs.koin.compose)
 
     implementation(libs.kmm.viewmodel)
+
+    if (file("google-services.json").exists()) {
+        implementation(libs.firebase.analytics)
+        implementation(libs.firebase.crashlytics)
+        implementation(libs.firebase.performance)
+    }
 }

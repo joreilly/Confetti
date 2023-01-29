@@ -87,6 +87,13 @@ android {
             signingConfig = signingConfigs.getByName("release")
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
         }
+        create("benchmark") {
+            isShrinkResources = true
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("confetti")
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-benchmark.pro"))
+            matchingFallbacks.addAll(listOf("release", "debug"))
+        }
         create("githubRelease") {
             isShrinkResources = true
             isMinifyEnabled = true

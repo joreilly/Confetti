@@ -3,6 +3,9 @@ package dev.johnoreilly.confetti.wear
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.crashlytics.ktx.setCustomKeys
+import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.wear.di.appModule
 import org.koin.android.ext.android.get
@@ -15,6 +18,10 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
+
+        Firebase.crashlytics.setCustomKeys {
+            key("appName", "wearApp")
+        }
 
         initKoin {
             androidLogger()

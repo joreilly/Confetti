@@ -157,10 +157,10 @@ dependencies {
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
 
+    implementation(libs.google.services)
+    implementation(libs.firebase.crashlytics)
     if (file("google-services.json").exists()) {
-        implementation(libs.google.services)
         implementation(libs.firebase.analytics)
-        implementation(libs.firebase.crashlytics)
         implementation(libs.firebase.performance)
     }
 }

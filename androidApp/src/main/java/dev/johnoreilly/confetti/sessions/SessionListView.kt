@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.sessions
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -35,7 +36,7 @@ fun SessionListView(
     onRefresh: suspend (() -> Unit)
 ) {
     var showMenu by remember { mutableStateOf(false) }
-
+    val refreshScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
 
     Scaffold(
@@ -51,13 +52,23 @@ fun SessionListView(
                     }
                     DropdownMenu(
                         expanded = showMenu,
-                        onDismissRequest = { showMenu = false }
+                        onDismissRequest = { showMenu = false },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.background)
                     ) {
                         DropdownMenuItem(
                             text = { Text("Switch Conference") },
                             onClick = {
                                 showMenu = false
                                 onSwitchConferenceSelected()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Refresh") },
+                            onClick = {
+                                showMenu = false
+                                refreshScope.launch {
+                                    onRefresh()
+                                }
                             }
                         )
                     }
@@ -78,7 +89,6 @@ fun SessionListView(
                     }
 
                 is SessionsUiState.Success -> {
-                    val refreshScope = rememberCoroutineScope()
                     var refreshing by remember { mutableStateOf(false) }
                     fun refresh() {
                         refreshScope.launch {

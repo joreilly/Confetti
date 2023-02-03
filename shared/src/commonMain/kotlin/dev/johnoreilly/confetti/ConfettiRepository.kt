@@ -114,7 +114,7 @@ class ConfettiRepository : KoinComponent {
 
         // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
         apolloClient?.let {
-            it.query(GetConferenceDataQuery(first = Optional.present(100)))
+            it.query(GetConferenceDataQuery())
                 .fetchPolicy(fetchPolicy)
                 .toFlow()
                 .catch {

@@ -1,5 +1,4 @@
 @file:OptIn(
-    ExperimentalPagerApi::class, ExperimentalPagerApi::class,
     ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistBaseUiApi::class
 )
 
@@ -19,7 +18,6 @@ import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.foundation.lazy.items
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
 import com.google.android.horologist.base.ui.components.StandardChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn

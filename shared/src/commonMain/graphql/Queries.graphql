@@ -1,4 +1,4 @@
-query GetConferenceData($first: Int! = 10, $after: String = null) {
+query GetConferenceData($first: Int! = 1000, $after: String = null) {
     sessions(first: $first, after: $after) {
         nodes {
             ...SessionDetails

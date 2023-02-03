@@ -29,8 +29,6 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.datetime)
 
-                implementation(libs.kmm.viewmodel)
-
                 api(libs.bundles.multiplatform.settings)
                 api(libs.koin.core)
 
@@ -71,6 +69,15 @@ kotlin {
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
+        }
+
+        val mobileMain by creating {
+            dependsOn(commonMain)
+            androidMain.dependsOn(this)
+            iosMain.dependsOn(this)
+            dependencies {
+                implementation(libs.kmm.viewmodel)
+            }
         }
 
         val jvmMain by getting {

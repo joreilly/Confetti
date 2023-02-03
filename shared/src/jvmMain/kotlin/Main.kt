@@ -14,8 +14,7 @@ suspend fun main() {
     println("Sessions")
     repo.sessions.collect { sessions ->
         sessions.forEach { session ->
-            val startTimeString = repo.getSessionTime(session)
-            println("${session.startInstant} $startTimeString ${session.title}")
+            println("${session.startInstant} ${session.title}")
         }
     }
 }

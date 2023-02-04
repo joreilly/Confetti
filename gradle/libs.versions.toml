@@ -3,7 +3,7 @@ accompanist = "0.28.0"
 activity-compose = "1.7.0-alpha04"
 androidx-lifecycle = "2.5.1"
 apollo = "3.7.4"
-compose = "1.4.0-alpha04"
+compose = "1.4.0-alpha05"
 compose-compiler = "1.4.0-dev-k1.8.0-RC-4c1865595ed"
 compose-material-3 = "1.0.0"
 junit = "4.13"
@@ -45,6 +45,9 @@ compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
 firebase-analytics = "com.google.firebase:firebase-analytics-ktx:21.2.0"
 firebase-crashlytics = "com.google.firebase:firebase-crashlytics-ktx:18.3.3"
 firebase-performance = "com.google.firebase:firebase-perf-ktx:20.3.1"
@@ -84,6 +87,8 @@ horologist-compose-layout = "com.google.android.horologist:horologist-compose-la
 horologist-compose-tools = "com.google.android.horologist:horologist-compose-tools:0.3.1"
 horologist-composables = "com.google.android.horologist:horologist-composables:0.3.1"
 horologist-tiles = "com.google.android.horologist:horologist-tiles:0.3.1"
+test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"
+test-runner = "androidx.test:runner:1.5.2"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1"

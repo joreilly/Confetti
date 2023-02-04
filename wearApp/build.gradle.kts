@@ -51,6 +51,8 @@ android {
         versionName = "1.0"
         versionCode = versionCode()
         versionName = versionName()
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -123,7 +125,6 @@ android {
 kotlin {
     sourceSets.all {
         languageSettings {
-            optIn("androidx.compose.material.ExperimentalMaterialApi")
             optIn("kotlin.RequiresOptIn")
         }
     }
@@ -163,4 +164,11 @@ dependencies {
         implementation(libs.firebase.analytics)
         implementation(libs.firebase.performance)
     }
+
+    debugImplementation(libs.compose.ui.manifest)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.fastlane.screengrab)
+    androidTestImplementation(libs.test.junit.ktx)
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.compose.ui.test.junit4)
 }

@@ -3,9 +3,6 @@ package dev.johnoreilly.confetti
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 
-// needed for iOS client as "description" is reserved
-fun SessionDetails.sessionDescription() = this.description
-
 fun SessionDetails.isBreak() = this.type == "break"
 
 fun SessionDetails.sessionSpeakerLocation(): String {

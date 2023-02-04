@@ -38,7 +38,7 @@ fragment SessionDetails on Session {
     title
     type
     startInstant,endInstant
-    description
+    sessionDescription: description
     language
     speakers {
       ...SpeakerDetails

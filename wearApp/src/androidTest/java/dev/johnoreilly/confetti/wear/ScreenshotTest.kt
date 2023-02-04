@@ -56,7 +56,7 @@ class ScreenshotTest {
         type = "talk",
         startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant(),
         endInstant = sessionTime.plusHours(1).toInstant(ZoneOffset.UTC).toKotlinInstant(),
-        description = "Welcoming participants to the Kotlin DevRoom @ FOSDEM 2023 - We're back in person!",
+        sessionDescription = "Welcoming participants to the Kotlin DevRoom @ FOSDEM 2023 - We're back in person!",
         language = "en-US",
         speakers = listOf(
             Speaker(

@@ -17,6 +17,28 @@ platform :android do
     end
 
 
+    lane :wearScreenshots do
+        build_android_app(
+            task: 'wearApp:assemble',
+            build_type: 'Debug'
+        )
+        build_android_app(
+            task: 'wearApp:assemble',
+            build_type: 'AndroidTest'
+        )
+        capture_android_screenshots(
+            locales: ["en-US"],
+            clear_previous_screenshots: true,
+            app_apk_path: "./wearApp/build/intermediates/apk/debug/wearApp-debug.apk",
+            tests_apk_path: "./wearApp/build/outputs/apk/androidTest/debug/wearApp-debug-androidTest.apk",
+            device_type: "wear",
+            skip_open_summary: true,
+            use_tests_in_classes: "dev.johnoreilly.confetti.wear.ScreenshotTest"
+        )
+        git_add(path: "./fastlane/metadata")
+    end
+
+
     desc "Deploy app to play store alpha channel"
     lane :deployAlpha do |options|
 

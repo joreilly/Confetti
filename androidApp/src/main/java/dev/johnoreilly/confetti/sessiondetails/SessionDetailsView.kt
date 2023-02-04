@@ -64,7 +64,7 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
                         style = MaterialTheme.typography.titleLarge)
 
                     Spacer(modifier = Modifier.size(16.dp))
-                    Text(text = session.description ?: "",
+                    Text(text = session.sessionDescription ?: "",
                         style = MaterialTheme.typography.bodyMedium)
 
                     if (session.tags.isNotEmpty()) {

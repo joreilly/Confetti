@@ -85,7 +85,7 @@ fun SessionDetailView(
 }
 
 private fun SessionDetails?.descriptionParagraphs(): List<String> =
-    this?.description?.split("\n+".toRegex()).orEmpty()
+    this?.sessionDescription?.split("\n+".toRegex()).orEmpty()
 
 @WearSmallRoundDevicePreview
 @Composable

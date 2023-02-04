@@ -12,7 +12,7 @@ struct SessionDetailsView: View {
                 Text(session.title).font(.title).foregroundColor(.blue)
                 Spacer()
                 
-                Text(session.sessionDescription() ?? "").font(.body)
+                Text(session.sessionDescription ?? "").font(.body)
                                 
                 if session.tags.count > 0 {
                     FlowLayout(mode: .scrollable,

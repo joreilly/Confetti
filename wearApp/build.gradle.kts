@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import java.io.FileInputStream
 import java.util.*
 
@@ -13,10 +15,8 @@ plugins {
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
-try {
+if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-}
-catch(e: Exception) {
 }
 
 val versionMajor = 1
@@ -65,7 +65,7 @@ android {
             keyAlias = keystoreProperties["keyAlias"] as String?
             keyPassword = keystoreProperties["keyPassword"] as String?
             storePassword = keystoreProperties["storePassword"] as String?
-            isV2SigningEnabled = true
+            enableV2Signing = true
         }
     }
 

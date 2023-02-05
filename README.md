@@ -2,6 +2,14 @@
 
 ![kotlin-version](https://img.shields.io/badge/kotlin-1.8.0-orange)
 
+[<img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+     alt="Get it on Google Play Store"
+     height="80">](https://play.google.com/store/apps/details?id=dev.johnoreilly.confetti)
+[<img src="https://developer.apple.com/news/images/download-on-the-app-store-badge.png"
+     alt="Get it on App Store"
+   height="80">](https://apps.apple.com/us/app/confetti/id1660211390)
+
+
 KMM GraphQL project to allow viewing of conference information. Includes:
 
 

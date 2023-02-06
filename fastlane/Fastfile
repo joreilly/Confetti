@@ -4,8 +4,8 @@ default_platform :android
 
 platform :android do
 
-    versionNum = 22
-    wearVersionNum = 23
+    versionNum = 27
+    wearVersionNum = 28
 
 
     before_all do
@@ -15,7 +15,6 @@ platform :android do
     lane :test do
         gradle(task: "test")
     end
-
 
     lane :wearScreenshots do
         build_android_app(
@@ -29,7 +28,7 @@ platform :android do
         capture_android_screenshots(
             locales: ["en-US"],
             clear_previous_screenshots: true,
-            app_apk_path: "./wearApp/build/intermediates/apk/debug/wearApp-debug.apk",
+            app_apk_path: "./wearApp/build/outputs/apk/debug/wearApp-debug.apk",
             tests_apk_path: "./wearApp/build/outputs/apk/androidTest/debug/wearApp-debug-androidTest.apk",
             device_type: "wear",
             skip_open_summary: true,

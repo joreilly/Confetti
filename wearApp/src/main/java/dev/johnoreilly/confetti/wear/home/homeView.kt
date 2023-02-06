@@ -4,10 +4,12 @@ package dev.johnoreilly.confetti.wear.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.ConfettiViewModel
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 
@@ -19,6 +21,7 @@ fun HomeRoute(
     columnState: ScalingLazyColumnState,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
+    val refreshScope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeListView(
@@ -26,6 +29,11 @@ fun HomeRoute(
         sessionSelected = navigateToSession,
         daySelected = navigateToDay,
         onSettingsClick = navigateToSettings,
+        onRefreshClick = {
+            refreshScope.launch {
+                viewModel.refresh()
+            }
+        },
         columnState = columnState,
     )
 }

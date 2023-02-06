@@ -34,14 +34,14 @@ fun SessionsRoute(
             uiState,
             navigateToSession,
             onSwitchConferenceSelected,
-            { viewModel.refresh() }
+            viewModel::refresh
         )
     } else {
         SessionListView(
             uiState,
             navigateToSession,
             onSwitchConferenceSelected,
-            { viewModel.refresh() }
+            viewModel::refresh
         )
     }
 }

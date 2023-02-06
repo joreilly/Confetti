@@ -7,6 +7,7 @@ package dev.johnoreilly.confetti.wear.home
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -46,6 +47,7 @@ fun HomeListView(
     sessionSelected: (sessionId: String) -> Unit,
     daySelected: (sessionId: LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
+    onRefreshClick: () -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     when (uiState) {
@@ -55,7 +57,8 @@ fun HomeListView(
                 .wrapContentSize(Alignment.Center))
         }
 
-        is SessionsUiState.Success -> HomeList(uiState, sessionSelected, daySelected, onSettingsClick, columnState)
+        is SessionsUiState.Success -> HomeList(uiState, sessionSelected, daySelected,
+                                            onSettingsClick, onRefreshClick, columnState)
     }
 }
 
@@ -65,6 +68,7 @@ private fun HomeList(
     sessionSelected: (sessionId: String) -> Unit,
     daySelected: (sessionId: LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
+    onRefreshClick: () -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     val sessions = uiState.currentSessions(uiState.now)
@@ -119,6 +123,13 @@ private fun HomeList(
                 Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
             }
         }
+
+        item {
+            Button(onClick = onRefreshClick) {
+                Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
+            }
+        }
+
     }
 }
 
@@ -159,6 +170,7 @@ fun HomeListViewPreview() {
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             sessionSelected = {},
             onSettingsClick = {},
+            onRefreshClick = {},
             daySelected = {}
         )
     }

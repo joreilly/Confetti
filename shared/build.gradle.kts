@@ -61,6 +61,10 @@ kotlin {
                 implementation(libs.okhttp.logging.interceptor)
                 implementation(libs.coil.base)
                 implementation(libs.koin.android)
+
+                implementation(libs.google.services)
+                implementation(libs.firebase.analytics)
+                implementation(libs.compose.navigation)
             }
         }
 

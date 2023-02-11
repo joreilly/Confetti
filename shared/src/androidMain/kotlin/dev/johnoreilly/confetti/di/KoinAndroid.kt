@@ -6,6 +6,10 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.SharedPreferencesSettings
+import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
+import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
+import dev.johnoreilly.confetti.shared.BuildConfig
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.utils.DateService
 import okhttp3.OkHttpClient
@@ -31,6 +35,13 @@ actual fun platformModule() = module {
         ImageLoader.Builder(androidContext())
             .okHttpClient { get() }
             .build()
+    }
+    single<AnalyticsLogger> {
+        if (BuildConfig.DEBUG) {
+            AndroidLoggingAnalyticsLogger
+        } else {
+            FirebaseAnalyticsLogger
+        }
     }
 }
 

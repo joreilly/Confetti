@@ -13,14 +13,13 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.Surface
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -30,6 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.navigation.ConfettiNavHost
 import dev.johnoreilly.confetti.navigation.TopLevelDestination
@@ -41,9 +42,10 @@ import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 )
 @Composable
 fun ConfettiApp(
+    navController: NavHostController = rememberNavController(),
     windowSizeClass: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    appState: ConfettiAppState = rememberConfettiAppState(windowSizeClass, displayFeatures)
+    appState: ConfettiAppState = rememberConfettiAppState(windowSizeClass, displayFeatures, navController)
 ) {
     ConfettiTheme {
         ConfettiBackground {

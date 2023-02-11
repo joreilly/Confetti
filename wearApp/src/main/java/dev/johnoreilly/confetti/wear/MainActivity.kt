@@ -15,6 +15,8 @@ import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
@@ -23,6 +25,7 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     private val repository: ConfettiRepository by inject()
+    private val analyticsLogger: AnalyticsLogger by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +55,12 @@ class MainActivity : ComponentActivity() {
 
                 if (sessionId != null && !showLandingScreen) {
                     navController.navigate(SessionDetailsDestination.createNavigationRoute(sessionId))
+                }
+            }
+
+            LaunchedEffect(Unit) {
+                navController.currentBackStackEntryFlow.collect { navEntry ->
+                    analyticsLogger.logNavigationEvent(repository.getConference(), navEntry)
                 }
             }
         }

@@ -160,8 +160,8 @@ dependencies {
 
     implementation(libs.google.services)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
     if (file("google-services.json").exists()) {
-        implementation(libs.firebase.analytics)
         implementation(libs.firebase.performance)
     }
 

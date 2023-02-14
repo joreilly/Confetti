@@ -140,7 +140,8 @@ class ScreenshotTest {
         SessionDetailView(
             session = sessionDetails,
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
-            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
+            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") },
+            timezone = session?.second
         )
     }
 

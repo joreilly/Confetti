@@ -10,7 +10,9 @@ import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
 import com.google.android.horologist.tiles.SuspendingTileService
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import dev.johnoreilly.confetti.sessionsMap
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
@@ -32,7 +34,7 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
     private suspend fun tileState(): CurrentSessionsData {
         val today = LocalDate.now().toKotlinLocalDate()
-        val todaysSessions = repository.sessionsMap.first()[today].orEmpty()
+        val todaysSessions = repository.conferenceDataFlow().first()?.sessionsMap?.get(today).orEmpty()
 
         val now = Instant.now().toKotlinInstant()
 
@@ -65,12 +67,14 @@ class CurrentSessionsTileService : SuspendingTileService() {
     override fun onTileEnterEvent(requestParams: EventBuilders.TileEnterEvent) {
         super.onTileEnterEvent(requestParams)
 
-        analyticsLogger.logEvent(TileAnalyticsEvent(TileAnalyticsEvent.Type.Enter, repository.getConference()))
+        val conference = runBlocking { repository.getConference() }
+        analyticsLogger.logEvent(TileAnalyticsEvent(TileAnalyticsEvent.Type.Enter, conference))
     }
 
     override fun onTileLeaveEvent(requestParams: EventBuilders.TileLeaveEvent) {
         super.onTileLeaveEvent(requestParams)
 
-        analyticsLogger.logEvent(TileAnalyticsEvent(TileAnalyticsEvent.Type.Leave, repository.getConference()))
+        val conference = runBlocking { repository.getConference() }
+        analyticsLogger.logEvent(TileAnalyticsEvent(TileAnalyticsEvent.Type.Leave, conference))
     }
 }

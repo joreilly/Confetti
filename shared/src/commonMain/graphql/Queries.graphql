@@ -14,6 +14,7 @@ query GetConferenceData($first: Int! = 1000, $after: String = null) {
         ...RoomDetails
     }
     config {
+        id,
         name
         timezone
     }

@@ -4,16 +4,19 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.PreferencesSettings
+import com.russhwolf.settings.coroutines.FlowSettings
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.JvmDateService
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import java.util.prefs.Preferences
+import com.russhwolf.settings.coroutines.toFlowSettings
 
 actual fun platformModule() = module {
     single<ObservableSettings> { PreferencesSettings(Preferences.userRoot()) }
+    single { get<ObservableSettings>().toFlowSettings() }
     single<DateService> { JvmDateService() }
-    single<OkHttpClient> {
+    single {
         OkHttpClient.Builder()
             .build()
     }

@@ -9,14 +9,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.wear.sessions.navigation.ConferenceDateKey
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun HomeRoute(
-    navigateToSession: (String) -> Unit,
-    navigateToDay: (LocalDate) -> Unit,
+    navigateToSession: (SessionDetailsKey) -> Unit,
+    navigateToDay: (ConferenceDateKey) -> Unit,
     navigateToSettings: () -> Unit,
     columnState: ScalingLazyColumnState,
     viewModel: ConfettiViewModel = getViewModel()
@@ -26,7 +29,7 @@ fun HomeRoute(
 
     HomeListView(
         uiState = uiState,
-        sessionSelected = navigateToSession,
+        sessionSelected = { navigateToSession(it) },
         daySelected = navigateToDay,
         onSettingsClick = navigateToSettings,
         onRefreshClick = {

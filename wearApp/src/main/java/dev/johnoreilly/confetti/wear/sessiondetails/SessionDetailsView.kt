@@ -36,18 +36,18 @@ fun SessionDetailsRoute(
     viewModel: SessionDetailsViewModel = getViewModel()
 ) {
     val session by viewModel.session.collectAsStateWithLifecycle()
-    val timeZone = remember { viewModel.timeZone }
+    val timezone = session?.second
     SessionDetailView(
-        session = session,
+        session = session?.first,
         columnState = columnState,
-        formatter = { viewModel.formatter.format(it, timeZone, "eeee HH:mm")})
+        formatter = { viewModel.formatter.format(it, timezone!!, "eeee HH:mm") })
 }
 
 @Composable
 fun SessionDetailView(
     session: SessionDetails?,
     columnState: ScalingLazyColumnState,
-    formatter: (Instant) -> String
+    formatter: (Instant) -> String,
 ) {
     val description = session.descriptionParagraphs()
 
@@ -55,7 +55,9 @@ fun SessionDetailView(
         session?.let { session ->
             item {
                 Row(
-                    modifier = Modifier.padding(horizontal = 20.dp).fillMaxWidth()
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
+                        .fillMaxWidth()
                 ) {
                     Text(
                         text = session.title,
@@ -108,7 +110,7 @@ fun SessionDetailsLongText() {
                 listOf()
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
-            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
+            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") },
         )
     }
 }
@@ -135,7 +137,7 @@ fun SessionDetailsViewPreview() {
                 listOf()
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
-            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
+            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") },
         )
     }
 }

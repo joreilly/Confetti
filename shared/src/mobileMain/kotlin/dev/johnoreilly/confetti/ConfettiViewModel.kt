@@ -1,7 +1,7 @@
 package dev.johnoreilly.confetti
 
 import com.rickclephas.kmm.viewmodel.KMMViewModel
-import com.rickclephas.kmm.viewmodel.MutableStateFlow
+import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmm.viewmodel.stateIn
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import dev.johnoreilly.confetti.fragment.RoomDetails
@@ -10,9 +10,11 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -26,56 +28,64 @@ open class ConfettiViewModel: KMMViewModel(), KoinComponent {
 
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> =
-        combine(
-            repository.conferenceName,
-            repository.sessionsMap,
-            repository.speakers,
-            repository.rooms
-        ) { conferenceName, sessionsMap, speakers, rooms,  ->
-            val confDates = sessionsMap.keys.toList().sorted()
+        repository.conferenceDataFlow().map {
+            if (it == null) {
+                SessionsUiState.Loading
+            } else {
+                val conferenceName = it.config.name
+                val sessionsMap = it.sessionsMap
+                val speakers = it.speakers.map { it.speakerDetails }
+                val rooms = it.rooms.map { it.roomDetails }
+                val timezone = it.timeZone
 
-            val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
-            confDates.forEach { confDate ->
-                val sessions = sessionsMap[confDate] ?: emptyList()
-                val sessionsByStartTime = sessions.groupBy { getSessionTime(it) }
-                sessionsByStartTimeList.add(sessionsByStartTime)
+                val confDates = sessionsMap.keys.toList().sorted()
+
+                val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
+                confDates.forEach { confDate ->
+                    val sessions = sessionsMap[confDate] ?: emptyList()
+                    val sessionsByStartTime = sessions.groupBy { getSessionTime(it, timezone) }
+                    sessionsByStartTimeList.add(sessionsByStartTime)
+                }
+                SessionsUiState.Success(
+                    conference = it.config.id,
+                    now = dateService.now(),
+                    conferenceName = conferenceName,
+                    confDates = confDates,
+                    sessionsByStartTimeList = sessionsByStartTimeList,
+                    speakers = speakers,
+                    rooms = rooms
+                )
             }
-            SessionsUiState.Success(dateService.now(), conferenceName, confDates, sessionsByStartTimeList,
-                speakers, rooms)
 
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
 
-
-    val speakers = repository.speakers
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
-
-
     @NativeCoroutinesState
-    val savedConference = MutableStateFlow(viewModelScope, repository.getConference())
+    val savedConference = repository.conferenceFlow()
 
-    fun setConference(conference: String) {
-        repository.setConference(conference)
-        savedConference.value = conference
+    fun setConference(conference: String?) {
+        viewModelScope.coroutineScope.launch {
+            repository.setConference(conference)
+        }
     }
 
     fun clearConference() {
-        setConference("")
+        setConference(null)
     }
 
     suspend fun refresh()  {
-        repository.refresh(networkOnly = true)
+        repository.refresh()
     }
 
-    fun getSessionTime(session: SessionDetails): String {
-        return dateService.format(session.startInstant, repository.timeZone, "HH:mm")
+    fun getSessionTime(session: SessionDetails, timezone: TimeZone): String {
+        return dateService.format(session.startInstant, timezone, "HH:mm")
     }
-
 }
 
 sealed interface SessionsUiState {
     object Loading : SessionsUiState
 
     data class Success(
+        val conference: String,
         val now: LocalDateTime,
         val conferenceName: String,
         val confDates: List<LocalDate>,

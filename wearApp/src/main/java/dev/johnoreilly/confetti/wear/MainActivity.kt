@@ -18,7 +18,9 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
+import dev.johnoreilly.confetti.wear.home.navigation.HomeDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import org.koin.android.ext.android.inject
@@ -31,36 +33,38 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            var showLandingScreen by remember {
-                mutableStateOf(repository.getConference().isEmpty())
-            }
-
             val navController = rememberSwipeDismissableNavController()
 
             ConfettiTheme {
-                if (showLandingScreen) {
-                    ConferencesRoute(
-                        columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
-                        navigateToConference = {
-                            showLandingScreen = false
-                        }
-                    )
-                } else {
-                    ConfettiApp(navController)
-                }
+                ConfettiApp(navController)
             }
 
             LaunchedEffect(Unit) {
+                val conference = intent.getAndRemoveKey("conference")
                 val sessionId = intent.getAndRemoveKey("session")
 
-                if (sessionId != null && !showLandingScreen) {
-                    navController.navigate(SessionDetailsDestination.createNavigationRoute(sessionId))
+                if (conference != null && sessionId != null) {
+                    navController.navigate(
+                        SessionDetailsDestination.createNavigationRoute(
+                            SessionDetailsKey(conference, sessionId)
+                        )
+                    )
+                } else {
+                    if (intent.action == Intent.ACTION_MAIN) {
+                        val selectedConference = repository.getConference()
+
+                        if (selectedConference != null) {
+                            navController.navigate(
+                                HomeDestination.createNavigationRoute(selectedConference)
+                            )
+                        }
+                    }
                 }
             }
 
             LaunchedEffect(Unit) {
                 navController.currentBackStackEntryFlow.collect { navEntry ->
-                    analyticsLogger.logNavigationEvent(repository.getConference(), navEntry)
+                    analyticsLogger.logNavigationEvent(navEntry)
                 }
             }
         }

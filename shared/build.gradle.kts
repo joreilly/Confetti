@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.rickclephas.kmp.nativecoroutines")
     id("co.touchlab.faktory.kmmbridge")
+    id("com.squareup.wire")
 }
 
 version = "1.0"
@@ -36,6 +37,8 @@ kotlin {
     sourceSets {
 
         val commonMain by getting {
+            kotlin.srcDir("$buildDir/generated/source/wire")
+
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.datetime)
@@ -44,7 +47,7 @@ kotlin {
                 api(libs.koin.core)
 
                 api(libs.apollo.runtime)
-                implementation(libs.bundles.apollo)
+                api(libs.bundles.apollo)
             }
         }
         val commonTest by getting {
@@ -65,6 +68,10 @@ kotlin {
                 implementation(libs.google.services)
                 implementation(libs.firebase.analytics)
                 implementation(libs.compose.navigation)
+
+                api(libs.multiplatform.settings.datastore)
+                api(libs.androidx.datastore)
+                api(libs.androidx.datastore.preferences)
             }
         }
 
@@ -159,4 +166,8 @@ allprojects {
 
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+}
+
+wire {
+    kotlin {}
 }

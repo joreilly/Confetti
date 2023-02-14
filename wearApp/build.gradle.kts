@@ -158,6 +158,8 @@ dependencies {
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
 
+    implementation(libs.apollo.runtime)
+
     implementation(libs.google.services)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)

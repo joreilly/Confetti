@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.di
 
+import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import org.koin.core.context.startKoin
@@ -19,8 +20,9 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
 fun initKoin() = initKoin() {}
 
 fun commonModule() = module {
-    single { ConfettiRepository() }
+    single { ConfettiRepository(get()) }
     single { AppSettings(get()) }
+    single { ApolloClientCache() }
 }
 
 expect fun getDatabaseName(conference: String): String

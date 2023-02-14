@@ -25,7 +25,7 @@ fun ConfettiApp(navController: NavHostController) {
         navController.popBackStack()
     }
 
-    WearNavScaffold(startDestination = HomeDestination.route, navController = navController) {
+    WearNavScaffold(startDestination = ConferencesDestination.route, navController = navController) {
         conferencesGraph(
             navigateToConference = {
                 onNavigateToDestination(HomeDestination)

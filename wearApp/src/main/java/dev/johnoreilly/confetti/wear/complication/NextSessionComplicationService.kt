@@ -10,6 +10,7 @@ import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
 import com.google.android.horologist.tiles.complication.DataComplicationService
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.sessionsMap
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
@@ -25,7 +26,7 @@ class NextSessionComplicationService :
 
     override suspend fun data(request: ComplicationRequest): NextSessionComplicationData {
         val today = LocalDate.now().toKotlinLocalDate()
-        val todaysSessions = repository.sessionsMap.first()[today].orEmpty()
+        val todaysSessions = repository.conferenceDataFlow().first()?.sessionsMap?.get(today).orEmpty()
 
         val now = Instant.now().toKotlinInstant()
 

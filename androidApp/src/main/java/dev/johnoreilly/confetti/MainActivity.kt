@@ -41,21 +41,7 @@ class MainActivity : ComponentActivity() {
             val windowSizeClass = calculateWindowSizeClass(this)
             val displayFeatures = calculateDisplayFeatures(this)
 
-            var showLandingScreen by remember {
-                mutableStateOf(repository.getConference().isEmpty())
-            }
-
-            if (showLandingScreen) {
-                ConfettiTheme {
-                    ConfettiBackground {
-                        ConferencesRoute(navigateToConference = { _ ->
-                            showLandingScreen = false
-                        })
-                    }
-                }
-            } else {
-                ConfettiApp(navController, windowSizeClass, displayFeatures)
-            }
+            ConfettiApp(navController, windowSizeClass, displayFeatures)
 
             LaunchedEffect(Unit) {
                 navController.currentBackStackEntryFlow.collect { navEntry ->

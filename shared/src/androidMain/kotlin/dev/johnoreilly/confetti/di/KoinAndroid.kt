@@ -1,12 +1,17 @@
+@file:OptIn(ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class)
+
 package dev.johnoreilly.confetti.di
 
 import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import coil.ImageLoader
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
-import com.russhwolf.settings.ObservableSettings
-import com.russhwolf.settings.SharedPreferencesSettings
-import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import com.russhwolf.settings.ExperimentalSettingsApi
+import com.russhwolf.settings.ExperimentalSettingsImplementation
+import com.russhwolf.settings.coroutines.FlowSettings
+import com.russhwolf.settings.coroutines.toBlockingObservableSettings
+import com.russhwolf.settings.datastore.DataStoreSettings
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
 import dev.johnoreilly.confetti.shared.BuildConfig
@@ -18,9 +23,8 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
-    single<ObservableSettings> { createObservableSettings(get()) }
     single<DateService> { AndroidDateService() }
-    single<OkHttpClient> {
+    single {
         OkHttpClient.Builder()
             .apply {
                 // TODO enable based on debug flag
@@ -28,26 +32,32 @@ actual fun platformModule() = module {
             }
             .build()
     }
-    factory {
-        ApolloClient.Builder().okHttpClient(get())
-    }
+    factory { ApolloClient.Builder().okHttpClient(get()) }
     single {
         ImageLoader.Builder(androidContext())
             .okHttpClient { get() }
             .build()
     }
-    single<AnalyticsLogger> {
+    single {
         if (BuildConfig.DEBUG) {
             AndroidLoggingAnalyticsLogger
         } else {
             FirebaseAnalyticsLogger
         }
     }
+    single { androidContext().settingsStore }
+    single<FlowSettings> { DataStoreSettings(get()) }
+    single {
+        get<FlowSettings>().toBlockingObservableSettings()
+//        SharedPreferencesSettings(
+//            get<Context>().getSharedPreferences(
+//                "AppSettings",
+//                Context.MODE_PRIVATE
+//            )
+//        )
+    }
 }
 
-
-private fun createObservableSettings(context: Context): ObservableSettings {
-    return SharedPreferencesSettings(context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE))
-}
+val Context.settingsStore by preferencesDataStore("settings")
 
 actual fun getDatabaseName(conference: String) = "$conference.db"

@@ -4,12 +4,13 @@ import androidx.navigation.NavBackStackEntry
 
 object NavigationHelper {
     @Suppress("DEPRECATION")
-    fun AnalyticsLogger.logNavigationEvent(conference: String, navEntry: NavBackStackEntry) {
+    fun AnalyticsLogger.logNavigationEvent(navEntry: NavBackStackEntry) {
         if (this == AnalyticsLogger.None) return
 
         val arguments = navEntry.arguments
+        val navArguments = navEntry.destination.arguments
         val loggingArguments: Map<String, String> = buildMap {
-            navEntry.destination.arguments.keys.forEach {
+            navArguments.keys.forEach {
                 val value = arguments?.get(it)
 
                 if (value != null) {
@@ -20,7 +21,7 @@ object NavigationHelper {
 
         logEvent(
             AnalyticsEvent.Navigation(
-                conference,
+                navArguments["conference"] as? String,
                 navEntry.destination.route ?: "none",
                 loggingArguments
             )

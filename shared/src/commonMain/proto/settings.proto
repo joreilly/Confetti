@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.google.android.horologist.mediasample.domain.proto;
+
+option java_package = "dev.johnoreilly.confetti.proto";
+option java_outer_classname = "SettingsProto";
+
+message Settings {
+  int64 updated_at = 1;
+  string conference = 2;
+}

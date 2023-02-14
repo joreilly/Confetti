@@ -27,7 +27,10 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.sessions.SessionView
+import dev.johnoreilly.confetti.wear.sessions.navigation.ConferenceDateKey
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -44,8 +47,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun HomeListView(
     uiState: SessionsUiState,
-    sessionSelected: (sessionId: String) -> Unit,
-    daySelected: (sessionId: LocalDate) -> Unit,
+    sessionSelected: (sessionId: SessionDetailsKey) -> Unit,
+    daySelected: (date: ConferenceDateKey) -> Unit,
     onSettingsClick: () -> Unit,
     onRefreshClick: () -> Unit,
     columnState: ScalingLazyColumnState
@@ -65,8 +68,8 @@ fun HomeListView(
 @Composable
 private fun HomeList(
     uiState: SessionsUiState.Success,
-    sessionSelected: (sessionId: String) -> Unit,
-    daySelected: (sessionId: LocalDate) -> Unit,
+    sessionSelected: (SessionDetailsKey) -> Unit,
+    daySelected: (date: ConferenceDateKey) -> Unit,
     onSettingsClick: () -> Unit,
     onRefreshClick: () -> Unit,
     columnState: ScalingLazyColumnState
@@ -92,7 +95,7 @@ private fun HomeList(
                 }
 
                 items(sessions) { session ->
-                    SessionView(session, sessionSelected)
+                    SessionView(uiState.conference, session, sessionSelected)
                 }
             }
         } else {
@@ -114,7 +117,7 @@ private fun HomeList(
             val date = uiState.confDates[it]
             StandardChip(
                 label = dayFormatter.format(date.toJavaLocalDate()),
-                onClick = { daySelected(date) }
+                onClick = { daySelected(ConferenceDateKey(uiState.conference, date)) }
             )
         }
 
@@ -143,8 +146,9 @@ fun HomeListViewPreview() {
     ConfettiTheme {
         HomeListView(
             uiState = SessionsUiState.Success(
+                conference = "wearablecon2022",
                 now = sessionTime.toKotlinLocalDateTime(),
-                "WearableCon 2022",
+                conferenceName = "WearableCon 2022",
                 confDates = listOf(sessionTime.toLocalDate().toKotlinLocalDate()),
                 rooms = listOf(),
                 sessionsByStartTimeList = listOf(

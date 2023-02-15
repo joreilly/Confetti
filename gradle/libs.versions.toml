@@ -5,7 +5,7 @@ androidx-lifecycle = "2.6.1"
 androidx-datastore = "1.1.0-alpha04"
 apollo = "4.0.0-alpha.2"
 compose = "1.5.0-rc01"
-compose-multiplatform = "1.4.3"
+compose-multiplatform = "1.5.0-beta01"
 compose-compiler = "1.5.1"
 compose-material-3 = "1.1.1"
 decompose = "2.1.0-alpha-05"
@@ -17,6 +17,7 @@ kmp-nativecoroutines = "1.0.0-ALPHA-13"
 kmm-viewmodel = "1.0.0-ALPHA-12"
 koin-android = "3.4.3"
 koin-android-compose = "3.4.6"
+koin-compose-multiplatform = "1.0.4"
 koin-core = "3.4.3"
 kotlin = "1.9.0"
 ksp-plugin = "1.9.0-1.0.12"
@@ -115,6 +116,7 @@ kaml = "com.charleskorn.kaml:kaml:0.54.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
 koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin-android" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }
+koin-compose-multiplatform = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose-multiplatform" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin-core" }

@@ -1,26 +1,20 @@
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,20 +29,11 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.api.ApolloResponse
-import com.apollographql.apollo3.api.DefaultFakeResolver
-import com.apollographql.apollo3.api.FakeResolverContext
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.benasher44.uuid.uuid4
-import com.seiko.imageloader.rememberAsyncImagePainter
-import com.seiko.imageloader.rememberImagePainter
 import dev.johnoreilly.confetti.ConfettiRepository
-import dev.johnoreilly.confetti.GetSessionsQuery
+import dev.johnoreilly.confetti.dev.johnoreilly.confetti.ui.SessionDetailViewSharedWrapper
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.fullNameAndCompany
-import dev.johnoreilly.confetti.schema.__Schema
 import dev.johnoreilly.confetti.sessionSpeakerLocation
 import dev.johnoreilly.confetti.utils.JvmDateService
 import io.github.aakira.napier.DebugAntilog
@@ -74,7 +59,6 @@ fun main() = application {
     val windowState = rememberWindowState()
 
     LaunchedEffect(key1 = this) {
-        // Initialize Logging.
         Napier.base(DebugAntilog())
     }
 
@@ -83,7 +67,11 @@ fun main() = application {
         state = windowState,
         title = "Confetti"
     ) {
-        MaterialTheme {
+        val colorScheme = lightColorScheme(
+            primary = Color(0xFF8C4190)
+        )
+
+        MaterialTheme(colorScheme = colorScheme) {
             MainLayout()
         }
     }
@@ -95,7 +83,7 @@ fun MainLayout() {
     val currentSession: MutableState<SessionDetails?> = remember { mutableStateOf(null) }
 
     val sessionList = remember { mutableStateOf<List<SessionDetails>?>(emptyList()) }
-    val conference = "androidmakers2023"
+    val conference = "droidconberlin2023"
 
     LaunchedEffect(conference) {
         val conferenceData = repository.conferenceData(conference, FetchPolicy.CacheFirst)
@@ -110,7 +98,9 @@ fun MainLayout() {
                 }
             }
         }
-        SessionDetailView(currentSession.value)
+        Column(Modifier.padding(vertical = 16.dp)) {
+            SessionDetailViewSharedWrapper(currentSession.value) {}
+        }
     }
 }
 
@@ -146,8 +136,8 @@ fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetai
             val sessionTime = getSessionTime(session, currentSystemDefault())
             Text(
                 sessionTime,
-                color = MaterialTheme.colors.primary,
-                style = MaterialTheme.typography.body2
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.bodyMedium
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -169,83 +159,6 @@ fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetai
     }
 }
 
-
-@Composable
-fun SessionDetailView(session: SessionDetails?) {
-    val scrollState = rememberScrollState()
-    Column {
-        session?.let { session ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .verticalScroll(state = scrollState)
-            ) {
-
-                Text(
-                    text = session.title,
-                    color = MaterialTheme.colors.primary,
-                    style = MaterialTheme.typography.h4
-                )
-
-                Spacer(modifier = Modifier.size(16.dp))
-                Text(
-                    text = session.sessionDescription ?: "",
-                    style = MaterialTheme.typography.body2
-                )
-
-
-                Spacer(modifier = Modifier.size(16.dp))
-                session.speakers.forEach { speaker ->
-                    SessionSpeakerInfo(speaker = speaker.speakerDetails)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun SessionSpeakerInfo(
-    modifier: Modifier = Modifier,
-    speaker: SpeakerDetails
-) {
-    Column(modifier.padding(top = 16.dp)) {
-        Row {
-            speaker.photoUrl?.let {
-                Image(
-                    painter = rememberImagePainter(it),
-                    modifier = Modifier.size(64.dp)
-                        .clip(CircleShape),
-                    contentDescription = speaker.name
-                )
-            }
-
-            Column(Modifier.padding(horizontal = 8.dp)) {
-                Text(
-                    text = speaker.fullNameAndCompany(),
-                    style = MaterialTheme.typography.body2,
-                    fontWeight = FontWeight.Bold
-                )
-
-                speaker.city?.let { city ->
-                    Text(
-                        text = city,
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-
-                speaker.bio?.let { bio ->
-                    Text(
-                        modifier = Modifier.padding(top = 12.dp),
-                        text = bio,
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-
-            }
-        }
-    }
-}
 
 private fun getSessionTime(session: SessionDetails, timeZone: TimeZone): String {
     return dateService.format(session.startsAt, timeZone, "MMM dd, HH:mm")

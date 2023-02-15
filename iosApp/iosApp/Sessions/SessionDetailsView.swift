@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftUIFlowLayout
 import ConfettiKit
 
+
 struct SessionDetailsView: View {
     private let component: SessionDetailsComponent
 
@@ -19,10 +20,31 @@ struct SessionDetailsView: View {
             case is SessionDetailsUiState.Loading: ProgressView()
             case is SessionDetailsUiState.Error: ErrorView()
             case let state as SessionDetailsUiState.Success:
-                SessionDetailsContentView(component: component, session: state.sessionDetails)
+                //SessionDetailsContentView(component: component, session: state.sessionDetails)
+                SessionDetailsContentViewShared(component: component, session: state.sessionDetails)
             default: EmptyView()
             }
         }.navigationBarTitle("Session", displayMode: .inline)
+    }
+}
+
+
+// This version is using Compose for iOS....
+private struct SessionDetailsContentViewShared: UIViewControllerRepresentable {
+    let component: SessionDetailsComponent
+    let session: SessionDetails
+    @Environment(\.openURL) var openURL
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        return SharedViewControllersKt.SessionDetailsViewController(session: session, socialLinkClicked: { urlString in
+            print(urlString)
+            if let url = URL(string: urlString) {
+                openURL(url)
+            }
+        })
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
     }
 }
 

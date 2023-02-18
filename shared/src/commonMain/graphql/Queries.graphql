@@ -3,9 +3,6 @@ query GetSessions($first: Int! = 100, $after: String = null) {
         nodes {
             ...SessionDetails
         }
-        pageInfo {
-            endCursor
-        }
     }
 }
 
@@ -17,9 +14,10 @@ fragment SessionDetails on Session {
     startInstant
     description
     speakers {
+      id
       name
     }
-  	room {
+  	rooms {
       name
     }
 }

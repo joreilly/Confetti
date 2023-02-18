@@ -1,40 +1,30 @@
 <templateSet group="aaConfetti">
-  <template name="confCreateApolllo" value="private val apolloClient: ApolloClient = createApolloClient(conferenceName)&#10;&#10;&#10;private fun createApolloClient(conference: String): ApolloClient {&#10;    val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)&#10;        .chain(SqlNormalizedCacheFactory(getDatabaseName(conference)))&#10;&#10;    return ApolloClient.Builder()&#10;        .serverUrl(&quot;https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql?conference=$conference&quot;)&#10;        .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = true)&#10;        .build()&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+  <template name="confCreateApolllo" value="private val apolloClient = ApolloClient.Builder()&#10;    .serverUrl(&quot;http://10.0.2.2:8080/graphql?conference=$conferenceName&quot;)&#10;    .normalizedCache(MemoryCacheFactory(10 * 1024 * 1024).chain(SqlNormalizedCacheFactory(getDatabaseName(conferenceName))))&#10;    .build()&#10;" description="" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="KOTLIN" value="true" />
     </context>
   </template>
-  <template name="confConfName" value="val conferenceName = &quot;droidconlondon2022&quot;" description="" toReformat="false" toShortenFQNames="true">
+  <template name="confConfName" value="val conferenceName = &quot;kotlinconf2023&quot;" description="" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="KOTLIN" value="true" />
     </context>
   </template>
-  <template name="confSessions" value="val sessions = apolloClient.query(GetSessionsQuery()).watch().map {&#10;    it.dataAssertNoErrors.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }&#10;}&#10;&#10;" description="" toReformat="false" toShortenFQNames="true">
+  <template name="confSessionsFlow" value="// Gets list of sessions from backend and then observe the cache for any changes&#10;val sessions = apolloClient.query(GetSessionsQuery()).watch().map {&#10;    it.dataAssertNoErrors.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }&#10;}&#10;&#10;" description="" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="KOTLIN" value="true" />
     </context>
   </template>
-  <template name="confExpectDatabbaseName" value="expect fun getDatabaseName(conference: String): String&#10;" description="" toReformat="false" toShortenFQNames="true">
+  <template name="confSessionsMap" value="// Group sessions by date&#10;val sessionsByDateMap: Flow&lt;Map&lt;LocalDate, List&lt;SessionDetails&gt;&gt;&gt; = sessions.map {&#10;    it.groupBy { it.startInstant.toLocalDateTime(currentSystemDefault()).date }&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="KOTLIN" value="true" />
     </context>
   </template>
-  <template name="confSessionsMap" value="val sessionsByDateMap: Flow&lt;Map&lt;LocalDate, List&lt;SessionDetails&gt;&gt;&gt; = sessions.map {&#10;    it.groupBy { it.startInstant.toLocalDateTime(currentSystemDefault()).date }&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+  <template name="confSessionUIState" value="sealed interface SessionsUiState {&#10;    object Loading : SessionsUiState&#10;&#10;    data class Success(&#10;        val conferenceName: String,&#10;        val confDates: List&lt;LocalDate&gt;,&#10;        val sessionsByStartTimeList: List&lt;Map&lt;String, List&lt;SessionDetails&gt;&gt;&gt;&#10;    ) : SessionsUiState&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="KOTLIN" value="true" />
     </context>
   </template>
-  <template name="confExpectDateFormatter" value="expect val dateTimeFormatter: DateTimeFormatter&#10;&#10;" description="" toReformat="false" toShortenFQNames="true">
-    <context>
-      <option name="KOTLIN" value="true" />
-    </context>
-  </template>
-  <template name="confSessionState" value="sealed interface SessionsUiState {&#10;    object Loading : SessionsUiState&#10;&#10;    data class Success(&#10;        val conferenceName: String,&#10;        val confDates: List&lt;LocalDate&gt;,&#10;        val sessionsByStartTimeList: List&lt;Map&lt;String, List&lt;SessionDetails&gt;&gt;&gt;&#10;    ) : SessionsUiState&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
-    <context>
-      <option name="KOTLIN" value="true" />
-    </context>
-  </template>
-  <template name="confGraphqlQuery" value="query GetSessions($first: Int! = 100, $after: String = null) {&#10;    sessions(first: $first, after: $after) {&#10;        nodes {&#10;            ...SessionDetails&#10;        }&#10;        pageInfo {&#10;            endCursor&#10;        }&#10;    }&#10;}&#10;&#10;&#10;fragment SessionDetails on Session {&#10;    id&#10;    title&#10;    type&#10;    startInstant&#10;    description&#10;    speakers {&#10;      id&#10;      name&#10;    }&#10;  &#9;room {&#10;      name&#10;    }&#10;    tags&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+  <template name="confGraphqlQuery" value="query GetSessions($first: Int! = 100, $after: String = null) {&#10;    sessions(first: $first, after: $after) {&#10;        nodes {&#10;            ...SessionDetails&#10;        }&#10;    }&#10;}&#10;&#10;&#10;fragment SessionDetails on Session {&#10;    id&#10;    title&#10;    type&#10;    startInstant&#10;    description&#10;    speakers {&#10;      id&#10;      name&#10;    }&#10;  &#9;rooms {&#10;      name&#10;    }&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="CMAKE" value="false" />
       <option name="GROOVY" value="false" />
@@ -50,6 +40,71 @@
       <option name="c" value="false" />
       <option name="cpp" value="false" />
       <option name="objc" value="false" />
+    </context>
+  </template>
+  <template name="confViewModel" value="class ConfettiViewModel: KMMViewModel() {&#10;    private val repository = ConfettiRepository()&#10;    &#10;    $END$&#10;}" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confCreateUIState" value="@NativeCoroutinesState&#10;val uiState: StateFlow&lt;SessionsUiState&gt; = repository.sessionsByDateMap.map { sessionsByDateMap -&gt;&#10;&#10;    val confDates = sessionsByDateMap.keys.toList().sorted()&#10;    val sessionsByStartTimeList = groupSessionsByStartTime(confDates, sessionsByDateMap)&#10;    SessionsUiState.Success(repository.conferenceName, confDates, sessionsByStartTimeList)&#10;&#10;}.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confSessionView" value="@Composable&#10;fun SessionView(session: SessionDetails) {&#10;    ListItem(&#10;        headlineText = { Text(session.title) },&#10;        supportingText = { Text(session.sessionSpeakerInfo(), fontWeight = FontWeight.Bold) }&#10;    )&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confSessionListView" value="@Composable&#10;fun SessionListView(uiState: SessionsUiState.Success) {&#10;    val sessionsMap = uiState.sessionsByStartTimeList[0]&#10;    LazyColumn {&#10;        sessionsMap.forEach { sessions -&gt;&#10;            items(sessions.value) { session -&gt;&#10;                SessionView(session)&#10;            }&#10;        }&#10;    }&#10;}" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confGroupByStartTime" value="private fun groupSessionsByStartTime(confDates: List&lt;LocalDate&gt;, sessionsByDateMap: Map&lt;LocalDate, List&lt;SessionDetails&gt;&gt;): MutableList&lt;Map&lt;String, List&lt;SessionDetails&gt;&gt;&gt; {&#10;    val sessionsByStartTimeList = mutableListOf&lt;Map&lt;String, List&lt;SessionDetails&gt;&gt;&gt;()&#10;    confDates.forEach { confDate -&gt;&#10;        val sessions = sessionsByDateMap[confDate] ?: emptyList()&#10;        val sessionsByStartTime = sessions.groupBy {&#10;            dateTimeFormatter.format(it.startInstant, currentSystemDefault(), &quot;HH:mm&quot;)&#10;        }&#10;        sessionsByStartTimeList.add(sessionsByStartTime)&#10;    }&#10;    return sessionsByStartTimeList&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confMain" value="suspend fun main() {&#10;    val repo = ConfettiRepository()&#10;&#10;    repo.sessions.collect { sessions -&gt;&#10;        sessions.forEach { session -&gt;&#10;            println(&quot;${session.startInstant}  ${session.title}&quot;)&#10;        }&#10;    }&#10;}" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confSessionListScreen" value="@Composable&#10;fun SessionListScreen(viewModel: ConfettiViewModel = getViewModel()) {&#10;    val uiState by viewModel.uiState.collectAsStateWithLifecycle()&#10;&#10;    when (val state = uiState) {&#10;        SessionsUiState.Loading -&gt;&#10;            Column(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {&#10;                CircularProgressIndicator()&#10;            }&#10;&#10;        is SessionsUiState.Success -&gt; {&#10;            SessionListView(state)&#10;        }&#10;    }&#10;}" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confActivity" value="class MainActivity : ComponentActivity() {&#10;&#10;    override fun onCreate(savedInstanceState: Bundle?) {&#10;        super.onCreate(savedInstanceState)&#10;&#10;        setContent {&#10;            ConfettiTheme {&#10;                SessionListScreen()&#10;            }&#10;        }&#10;    }&#10;}" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confHorizontalPager" value="HorizontalPager(count = uiState.confDates.size, state = pagerState,&#10;) { page -&gt;&#10;&#10;}" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confPagerState" value="val pagerState = rememberPagerState()" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confScaffold" value="Scaffold(&#10;    topBar = { CenterAlignedTopAppBar(title = { Text(uiState.conferenceName) }) }&#10;) {&#10;    Column(Modifier.padding(it)) {&#10;    &#10;    }&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confTabRow" value="SessionListTabRow(pagerState, uiState)" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
+    </context>
+  </template>
+  <template name="confSessionTimeView" value="item {&#10;    Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {&#10;        Text(sessions.key, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)&#10;        Divider()&#10;    }&#10;}&#10;" description="" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="KOTLIN" value="true" />
     </context>
   </template>
 </templateSet>

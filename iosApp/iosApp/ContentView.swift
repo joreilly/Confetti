@@ -7,17 +7,23 @@ import KMMViewModelSwiftUI
 
 
 
+
+
+
+
+
+
+
 struct ContentView: View {
     
     var body: some View {
-        ConferenceView()
+        SessionListScreen()
     }
 }
 
 
-struct ConferenceView: View {
+struct SessionListScreen: View {
     @StateViewModel var viewModel = ConfettiViewModel()
-    
     
     var body: some View {
         VStack {
@@ -36,19 +42,19 @@ struct SessionListView: View {
     var sessionUiState: SessionsUiStateSuccess
     @State var selectedDateIndex: Int = 0
     
-        
+    
     var body: some View {
         NavigationView {
             VStack {
                 Spacer().frame(height: 16)
-
+                
                 Picker(selection: $selectedDateIndex, label: Text("Date")) {
                     ForEach(0..<sessionUiState.confDates.count, id: \.self) { i in
                         Text("\(sessionUiState.confDates[i])").tag(i)
                     }
                 }
                 .pickerStyle(.segmented)
-
+                
                 List {
                     ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
                         
@@ -78,10 +84,21 @@ struct SessionView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(session.title)
-            Text(session.sessionSpeakerLocation()).font(.system(size: 14)).bold()
+            Text(session.sessionSpeakerInfo()).font(.system(size: 14)).bold()
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

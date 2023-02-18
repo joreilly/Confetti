@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.navigation
+package dev.johnoreilly.confetti.wear.navigation
 
 /**
  * Interface for describing the Confetti navigation destinations

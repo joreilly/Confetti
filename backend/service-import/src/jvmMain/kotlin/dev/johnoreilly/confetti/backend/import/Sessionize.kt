@@ -6,11 +6,15 @@ import net.mbonnin.bare.graphql.*
 
 object Sessionize {
     private val droidConLondon2022 = "https://sessionize.com/api/v2/qi0g29hw/view/All"
+    private val kotlinConf2023 = "https://sessionize.com/api/v2/rje6khfn/view/All"
 
     suspend fun importDroidConLondon2022() {
         import(ConferenceId.DroidConLondon2022.id, "droidcon London", droidConLondon2022)
     }
 
+    suspend fun importKotlinConf2023() {
+        import(ConferenceId.KotlinConf2023.id, "KotlinConf 2023", kotlinConf2023)
+    }
     private suspend fun import(conf: String, confName: String, url: String) {
         val data = getJsonUrl(url)
 
@@ -24,7 +28,13 @@ object Sessionize {
             }.toMap()
         val sessions = data.asMap["sessions"].asList.map {
             it.asMap
-        }.map {
+        }.mapNotNull {
+            if (it.get("startsAt") == null || it.get("endsAt") == null){
+                /**
+                 * Guard against sessions that are not scheduled.
+                 */
+                return@mapNotNull null
+            }
             DSession(
                 id = it.get("id").asString,
                 type = if (it.get("isServiceSession").cast()) "service" else "talk",

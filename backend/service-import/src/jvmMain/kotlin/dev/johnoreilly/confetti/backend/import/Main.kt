@@ -82,7 +82,8 @@ private suspend fun update(conf: String?) {
         ConferenceId.GraphQLSummit2022 -> GraphQLSummit.import()
         ConferenceId.DroidConLondon2022 -> Sessionize.importDroidConLondon2022()
         ConferenceId.Fosdem2023 -> Fosdem.import()
-        else -> error("")
+        ConferenceId.KotlinConf2023 -> Sessionize.importKotlinConf2023()
+        null -> error("")
     }
 }
 

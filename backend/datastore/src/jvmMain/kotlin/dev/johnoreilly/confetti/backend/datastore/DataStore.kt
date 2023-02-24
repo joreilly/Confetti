@@ -456,6 +456,7 @@ class DataStore {
                     ConferenceId.GraphQLSummit2022 -> listOf("2022-10-04", "2022-10-05")
                     ConferenceId.DroidConLondon2022 -> listOf("2022-10-27", "2022-10-28")
                     ConferenceId.Fosdem2023 -> listOf("2023-02-04", "2023-02-05")
+                    ConferenceId.KotlinConf2023 -> listOf("2023-04-12", "2023-04-14")
                 }.map { StringValue(it) }
             ).build())
         }

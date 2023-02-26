@@ -1,6 +1,6 @@
 # Confetti 🎊
 
-![kotlin-version](https://img.shields.io/badge/kotlin-1.8.0-orange)
+![kotlin-version](https://img.shields.io/badge/kotlin-1.8.20-orange)
 
 [<img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
      alt="Get it on Google Play Store"

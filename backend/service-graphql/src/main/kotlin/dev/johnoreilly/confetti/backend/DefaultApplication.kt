@@ -6,10 +6,12 @@ import com.expediagroup.graphql.generator.TopLevelObject
 import com.expediagroup.graphql.generator.hooks.SchemaGeneratorHooks
 import com.expediagroup.graphql.generator.toSchema
 import com.expediagroup.graphql.server.operations.Query
-import com.expediagroup.graphql.server.spring.execution.SpringGraphQLContext
+import com.expediagroup.graphql.server.spring.execution.DefaultSpringGraphQLContextFactory
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLContextFactory
+import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootQuery
+import graphql.GraphQLContext
 import graphql.language.StringValue
 import graphql.schema.*
 import graphql.schema.idl.SchemaPrinter
@@ -21,10 +23,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
+import org.springframework.stereotype.Component
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import org.springframework.web.reactive.function.server.ServerRequest
+import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 
@@ -97,21 +101,6 @@ class DefaultApplication {
     }
 
     @Bean
-    fun springGraphQLContextFactory(): SpringGraphQLContextFactory<SpringGraphQLContext> =
-        object : SpringGraphQLContextFactory<SpringGraphQLContext>() {
-            override suspend fun generateContext(request: ServerRequest): SpringGraphQLContext? {
-                return null
-            }
-
-            override suspend fun generateContextMap(request: ServerRequest): Map<*, Any> {
-                val conf = request.queryParam("conference").orElse("devfestnantes")
-                val source = DataStoreDataSource(conf)
-
-                return mapOf(SOURCE_KEY to source)
-            }
-        }
-
-    @Bean
     fun corsWebFilter(): CorsWebFilter {
         val corsConfig = CorsConfiguration().apply {
             addAllowedOrigin("*")
@@ -126,6 +115,25 @@ class DefaultApplication {
 
     companion object {
         val SOURCE_KEY = "conf"
+    }
+}
+
+@Component
+class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
+    override suspend fun generateContext(request: ServerRequest): GraphQLContext {
+        var conf = request.queryParam("conference").getOrNull()
+        if (conf == null) {
+            conf = request.headers().firstHeader("conference")
+        }
+        if (conf == null) {
+            conf = ConferenceId.KotlinConf2023.id
+        }
+        val source = DataStoreDataSource(conf)
+
+        return super.generateContext(request).put(
+            DefaultApplication.SOURCE_KEY, source
+        )
+
     }
 }
 

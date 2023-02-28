@@ -1,7 +1,8 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  kotlin("jvm")
+  id("org.jetbrains.kotlin.jvm")
   id("org.jetbrains.kotlin.plugin.spring")
   id("org.jetbrains.kotlin.plugin.serialization")
   id("org.springframework.boot")
@@ -20,6 +21,10 @@ dependencies {
   implementation(libs.apollo.tooling)
 
   testImplementation(libs.junit)
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+  kotlinOptions.jvmTarget = "17"
 }
 
 appengine {

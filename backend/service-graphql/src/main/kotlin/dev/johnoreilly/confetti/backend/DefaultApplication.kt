@@ -1,6 +1,8 @@
 package dev.johnoreilly.confetti.backend
 
 import com.apollographql.apollo3.tooling.SchemaUploader
+import com.expediagroup.graphql.apq.cache.DefaultAutomaticPersistedQueriesCache
+import com.expediagroup.graphql.apq.provider.AutomaticPersistedQueriesProvider
 import com.expediagroup.graphql.generator.SchemaGeneratorConfig
 import com.expediagroup.graphql.generator.TopLevelObject
 import com.expediagroup.graphql.generator.hooks.SchemaGeneratorHooks
@@ -11,9 +13,13 @@ import com.expediagroup.graphql.server.spring.execution.SpringGraphQLContextFact
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootQuery
+import graphql.GraphQL
 import graphql.GraphQLContext
 import graphql.language.StringValue
 import graphql.schema.*
+import graphql.schema.idl.RuntimeWiring
+import graphql.schema.idl.SchemaGenerator
+import graphql.schema.idl.SchemaParser
 import graphql.schema.idl.SchemaPrinter
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -111,6 +117,17 @@ class DefaultApplication {
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", corsConfig)
         return CorsWebFilter(source)
+    }
+
+    @Bean
+    fun graphql(graphQLSchema: GraphQLSchema): GraphQL {
+        val automaticPersistedQueryProvider =
+            AutomaticPersistedQueriesProvider(DefaultAutomaticPersistedQueriesCache())
+
+        return GraphQL
+            .newGraphQL(graphQLSchema)
+            .preparsedDocumentProvider(automaticPersistedQueryProvider)
+            .build()
     }
 
     companion object {

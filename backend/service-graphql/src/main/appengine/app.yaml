@@ -1,5 +1,5 @@
 service: graphql
-runtime: java11
+runtime: java17
 instance_class: F2
 
 entrypoint: java -Xmx64m -jar service-graphql.jar

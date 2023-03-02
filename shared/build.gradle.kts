@@ -97,12 +97,13 @@ apollo {
     service("service") {
         packageName.set("dev.johnoreilly.confetti")
         mapScalar(
-            "Instant",
-            "kotlinx.datetime.Instant",
-            "com.apollographql.apollo3.adapter.KotlinxInstantAdapter"
+            "LocalDateTime",
+            "kotlinx.datetime.LocalDateTime",
+            "com.apollographql.apollo3.adapter.KotlinxLocalDateTimeAdapter"
         )
         introspection {
-            endpointUrl.set("http://localhost:8080/graphql")
+            //endpointUrl.set("http://localhost:8080/graphql")
+            endpointUrl.set("https://kotlinconfetti.ew.r.appspot.com/graphql")
             schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
         }
     }

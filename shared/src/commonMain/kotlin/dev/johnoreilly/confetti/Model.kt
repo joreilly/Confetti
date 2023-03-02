@@ -7,7 +7,7 @@ fun SessionDetails.sessionSpeakerInfo(): String {
         speakers.joinToString(", ") { it.name }
     else
         ""
-    text += " (${rooms.joinToString { it.name }}})"
+    text += " (${room})"
     return text
 }
 

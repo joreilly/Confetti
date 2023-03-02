@@ -7,6 +7,7 @@ import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
+import kotlinx.datetime.toInstant
 
 
 sealed interface SessionsUiState {
@@ -37,7 +38,7 @@ class ConfettiViewModel: KMMViewModel() {
         confDates.forEach { confDate ->
             val sessions = sessionsByDateMap[confDate] ?: emptyList()
             val sessionsByStartTime = sessions.groupBy {
-                dateTimeFormatter.format(it.startInstant, currentSystemDefault(), "HH:mm")
+                dateTimeFormatter.format(it.start.toInstant(currentSystemDefault()), currentSystemDefault(), "HH:mm")
             }
             sessionsByStartTimeList.add(sessionsByStartTime)
         }

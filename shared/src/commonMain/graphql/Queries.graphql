@@ -1,23 +1,21 @@
-query GetSessions($first: Int! = 100, $after: String = null) {
-    sessions(first: $first, after: $after) {
-        nodes {
-            ...SessionDetails
-        }
+query GetSessions {
+    sessions {
+        ...SessionDetails
     }
 }
 
 
-fragment SessionDetails on Session {
+fragment SessionDetails on GraphQLSession {
     id
     title
     type
-    startInstant
+    start
     description
     speakers {
       id
       name
     }
-  	rooms {
+  	room {
       name
     }
 }

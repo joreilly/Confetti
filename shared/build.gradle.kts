@@ -9,6 +9,10 @@ plugins {
 
 version = "1.0"
 
+dependencies {
+    implementation(platform(libs.firebase.bom))
+}
+
 kotlin {
     android()
     jvm()

@@ -37,7 +37,7 @@ fun versionName(): String {
 }
 
 android {
-    compileSdk = WearSdk.compile
+    compileSdk = 33
     defaultConfig {
         applicationId = "dev.johnoreilly.confetti"
         minSdk = WearSdk.min
@@ -89,23 +89,10 @@ android {
             signingConfig = signingConfigs.getByName("release")
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
         }
-        create("benchmark") {
-            isShrinkResources = true
-            isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("confetti")
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-benchmark.pro"))
-            matchingFallbacks.addAll(listOf("release", "debug"))
-        }
         create("githubRelease") {
             isShrinkResources = true
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
-            setProguardFiles(
-                listOf(
-                    getDefaultProguardFile("proguard-android.txt"),
-                    "proguard-rules.pro",
-                ),
-            )
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
 
             matchingFallbacks += listOf("release")
@@ -114,6 +101,13 @@ android {
             signingConfig = signingConfigs.getByName("confetti")
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+
     namespace = "dev.johnoreilly.confetti"
 }
 

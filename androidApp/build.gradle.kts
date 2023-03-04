@@ -37,7 +37,7 @@ fun versionName(): String {
 }
 
 android {
-    compileSdk = AndroidSdk.compile
+    compileSdk = 33
     defaultConfig {
         applicationId = "dev.johnoreilly.confetti"
         minSdk = AndroidSdk.min
@@ -99,6 +99,12 @@ android {
             signingConfig = signingConfigs.getByName("confetti")
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     namespace = "dev.johnoreilly.confetti"
 }
 
@@ -106,7 +112,9 @@ android {
 kotlin {
     sourceSets.all {
         languageSettings {
-            optIn("androidx.compose.material.ExperimentalMaterialApi")
+            optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+            optIn("androidx.compose.foundation.ExperimentalFoundationApi")
+
             optIn("kotlin.RequiresOptIn")
         }
     }
@@ -134,8 +142,6 @@ dependencies {
 
     implementation(libs.accompanist.adaptive)
     implementation(libs.accompanist.flow.layout)
-    implementation(libs.accompanist.pager)
-    implementation(libs.accompanist.pager.indicator)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)

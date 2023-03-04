@@ -1,8 +1,9 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.settings
 
 import androidx.compose.runtime.Composable
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.ConfettiViewModel

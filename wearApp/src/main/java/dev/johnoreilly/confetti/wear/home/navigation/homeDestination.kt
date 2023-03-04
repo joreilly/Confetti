@@ -1,10 +1,11 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.home.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavGraphBuilder
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.wear.home.HomeRoute

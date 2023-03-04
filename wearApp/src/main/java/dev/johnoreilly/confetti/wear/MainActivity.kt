@@ -30,7 +30,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private fun Intent.getAndRemoveKey(key: String): String? =
-    getStringExtra(key).also {
-        removeExtra(key)
-    }

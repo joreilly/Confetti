@@ -14,8 +14,6 @@
 		1A70920B294E666E00DAF22F /* KMMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70920A294E666E00DAF22F /* KMMViewModel.swift */; };
 		1AE9649829463EE40080CE1F /* KMPNativeCoroutinesAsync in Frameworks */ = {isa = PBXBuildFile; productRef = 1AE9649729463EE40080CE1F /* KMPNativeCoroutinesAsync */; };
 		1AE9649A29463EE40080CE1F /* KMPNativeCoroutinesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 1AE9649929463EE40080CE1F /* KMPNativeCoroutinesCore */; };
-		1AEAB76C28FBF52D00B06D90 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1AEAB76B28FBF52D00B06D90 /* SwiftUIFlowLayout */; };
-		1AF3DECF28E79A4500A2EA02 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 1AF3DECE28E79A4500A2EA02 /* AsyncAlgorithms */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -48,9 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AEAB76C28FBF52D00B06D90 /* SwiftUIFlowLayout in Frameworks */,
 				1A709209294E65D000DAF22F /* KMMViewModelSwiftUI in Frameworks */,
-				1AF3DECF28E79A4500A2EA02 /* AsyncAlgorithms in Frameworks */,
 				1AE9649A29463EE40080CE1F /* KMPNativeCoroutinesCore in Frameworks */,
 				1AE9649829463EE40080CE1F /* KMPNativeCoroutinesAsync in Frameworks */,
 				1A709207294E65D000DAF22F /* KMMViewModelCore in Frameworks */,
@@ -124,8 +120,6 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
-				1AF3DECE28E79A4500A2EA02 /* AsyncAlgorithms */,
-				1AEAB76B28FBF52D00B06D90 /* SwiftUIFlowLayout */,
 				1AE9649729463EE40080CE1F /* KMPNativeCoroutinesAsync */,
 				1AE9649929463EE40080CE1F /* KMPNativeCoroutinesCore */,
 				1A709206294E65D000DAF22F /* KMMViewModelCore */,
@@ -160,8 +154,6 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
-				1AF3DECD28E79A4500A2EA02 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
-				1AEAB76A28FBF52D00B06D90 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
 				1AE9649629463EE40080CE1F /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */,
 				1A709205294E65D000DAF22F /* XCRemoteSwiftPackageReference "KMM-ViewModel" */,
 			);
@@ -444,22 +436,6 @@
 				version = "1.0.0-ALPHA-2";
 			};
 		};
-		1AEAB76A28FBF52D00B06D90 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/globulus/swiftui-flow-layout";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		1AF3DECD28E79A4500A2EA02 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-async-algorithms";
-			requirement = {
-				kind = exactVersion;
-				version = 0.0.3;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -482,16 +458,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1AE9649629463EE40080CE1F /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */;
 			productName = KMPNativeCoroutinesCore;
-		};
-		1AEAB76B28FBF52D00B06D90 /* SwiftUIFlowLayout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1AEAB76A28FBF52D00B06D90 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
-			productName = SwiftUIFlowLayout;
-		};
-		1AF3DECE28E79A4500A2EA02 /* AsyncAlgorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1AF3DECD28E79A4500A2EA02 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
-			productName = AsyncAlgorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,15 +1,17 @@
 package dev.johnoreilly.confetti.utils
 
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toNSTimeZone
 import platform.Foundation.*
 
 class IosDateTimeFormatter: DateTimeFormatter {
     private val nsDateFormatter = NSDateFormatter()
 
-    override fun format(instant: Instant, timeZone: TimeZone, format: String): String {
-        val date = NSDate.dateWithTimeIntervalSince1970(instant.epochSeconds.toDouble())
+    override fun format(localDateTime: LocalDateTime, timeZone: TimeZone, format: String): String {
+        val date = NSDate.dateWithTimeIntervalSince1970(localDateTime.toInstant(timeZone).epochSeconds.toDouble())
 
         return getFormatter(format, timeZone = timeZone).stringFromDate(date)
     }

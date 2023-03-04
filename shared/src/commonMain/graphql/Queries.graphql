@@ -5,17 +5,17 @@ query GetSessions {
 }
 
 
-fragment SessionDetails on GraphQLSession {
+fragment SessionDetails on Session {
     id
     title
     type
     start
     description
+    room {
+        name
+    }
     speakers {
       id
-      name
-    }
-  	room {
       name
     }
 }

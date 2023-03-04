@@ -1,0 +1,42 @@
+"""
+A type representing a formatted kotlinx.datetime.LocalDateTime
+"""
+scalar LocalDateTime
+
+type Query {
+  sessions: [Session!]!
+}
+
+type Room {
+  id: ID!
+
+  name: String!
+}
+
+type Session {
+  description: String
+
+  end: LocalDateTime!
+
+  id: ID!
+
+  start: LocalDateTime!
+
+  title: String!
+
+  type: String!
+
+  room: Room!
+
+  speakers: [Speaker!]!
+}
+
+type Speaker {
+  id: ID!
+
+  name: String!
+}
+
+schema {
+  query: Query
+}

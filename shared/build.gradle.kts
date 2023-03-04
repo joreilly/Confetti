@@ -81,6 +81,8 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     namespace = "dev.johnoreilly.confetti.shared"
 }
@@ -102,10 +104,17 @@ apollo {
             "com.apollographql.apollo3.adapter.KotlinxLocalDateTimeAdapter"
         )
         introspection {
-            //endpointUrl.set("http://localhost:8080/graphql")
-            endpointUrl.set("https://kotlinconfetti.ew.r.appspot.com/graphql")
+            endpointUrl.set("http://localhost:8080/graphql")
             schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
         }
     }
 }
 
+tasks.create("runJvmMain", JavaExec::class.java) {
+    val jars = files().apply {
+        from(configurations.getByName("jvmRuntimeClasspath"))
+        from(tasks.named("jvmJar"))
+    }
+    this.setClasspath(jars)
+    this.mainClass.set("dev.johnoreilly.confetti.MainKt")
+}

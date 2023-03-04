@@ -20,10 +20,6 @@ fun ConfettiApp(navController: NavHostController) {
         navController.navigate(route ?: destination.route)
     }
 
-    fun onBackClick() {
-        navController.popBackStack()
-    }
-
     WearNavScaffold(startDestination = HomeDestination.route, navController = navController) {
         homeGraph(
             navigateToDay = {

@@ -3,12 +3,9 @@ package dev.johnoreilly.confetti
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import com.rickclephas.kmm.viewmodel.*
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
-import dev.johnoreilly.confetti.utils.DateTimeFormatter
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
-import kotlinx.datetime.toInstant
-
 
 sealed interface SessionsUiState {
     object Loading : SessionsUiState
@@ -25,24 +22,22 @@ class ConfettiViewModel: KMMViewModel() {
     private val repository = ConfettiRepository()
 
     @NativeCoroutinesState
-    val uiState: StateFlow<SessionsUiState> = repository.sessionsByDateMap.map { sessionsByDateMap ->
+    val uiState: StateFlow<SessionsUiState> = repository.sessions.map { sessions ->
 
+        // Group sessions by date
+        val sessionsByDateMap = sessions.groupBy { it.start.date }
         val confDates = sessionsByDateMap.keys.toList().sorted()
-        val sessionsByStartTimeList = groupSessionsByStartTime(confDates, sessionsByDateMap)
-        SessionsUiState.Success(repository.conferenceName, confDates, sessionsByStartTimeList)
 
+        // Create list for each date with sessions grouped by start time
+        val sessionsByStartTime = sessionsByDateMap.map { (_, sessions) ->
+            sessions.groupBy {
+                dateTimeFormatter.format(it.start, currentSystemDefault(), "HH:mm")
+            }
+        }
+
+        SessionsUiState.Success(repository.conferenceName, confDates, sessionsByStartTime)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
 
-    private fun groupSessionsByStartTime(confDates: List<LocalDate>, sessionsByDateMap: Map<LocalDate, List<SessionDetails>>): MutableList<Map<String, List<SessionDetails>>> {
-        val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
-        confDates.forEach { confDate ->
-            val sessions = sessionsByDateMap[confDate] ?: emptyList()
-            val sessionsByStartTime = sessions.groupBy {
-                dateTimeFormatter.format(it.start.toInstant(currentSystemDefault()), currentSystemDefault(), "HH:mm")
-            }
-            sessionsByStartTimeList.add(sessionsByStartTime)
-        }
-        return sessionsByStartTimeList
-    }
-
 }
+
+

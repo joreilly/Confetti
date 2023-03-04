@@ -61,6 +61,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-and
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test"}
 kmm-viewmodel = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmm-viewmodel" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
@@ -91,6 +92,7 @@ test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"
 test-runner = "androidx.test:runner:1.5.2"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
+
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1"
 
 [bundles]

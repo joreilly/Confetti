@@ -21,6 +21,7 @@ import dev.johnoreilly.confetti.conferences.ConferencesRoute
 import dev.johnoreilly.confetti.ui.ConfettiApp
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
 
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
             val displayFeatures = calculateDisplayFeatures(this)
 
             var showLandingScreen by remember {
-                mutableStateOf(repository.getConference().isEmpty())
+                mutableStateOf(runBlocking { repository.getConference().isEmpty() })
             }
 
             if (showLandingScreen) {

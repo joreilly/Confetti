@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.di
 
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailsViewModel
 import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsViewModel
@@ -10,5 +11,9 @@ val appModule = module {
     viewModel { ConfettiViewModel() }
     viewModel { SessionDetailsViewModel(get(), get()) }
     viewModel { SpeakerDetailsViewModel(get(), get()) }
-
+    single {
+        // Assume an online first strategy for Mobile
+        // But use Cache for initial results
+        FetchPolicy.CacheAndNetwork
+    }
 }

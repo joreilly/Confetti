@@ -44,7 +44,7 @@ kotlin {
                 api(libs.koin.core)
 
                 api(libs.apollo.runtime)
-                implementation(libs.bundles.apollo)
+                api(libs.bundles.apollo)
             }
         }
         val commonTest by getting {

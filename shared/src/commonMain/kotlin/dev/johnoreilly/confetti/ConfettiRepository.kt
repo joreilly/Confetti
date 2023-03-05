@@ -1,13 +1,8 @@
 package dev.johnoreilly.confetti
 
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.api.Optional
+import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
-import com.apollographql.apollo3.cache.normalized.normalizedCache
-import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
-import dev.johnoreilly.confetti.di.getDatabaseName
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -15,34 +10,36 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import okio.use
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 import org.koin.core.component.inject
 
-class ConfettiRepository : KoinComponent {
+class ConfettiRepository(
+    private val defaultFetchPolicy: FetchPolicy
+) : KoinComponent {
     val coroutineScope: CoroutineScope = MainScope()
 
-    private var apolloClient: ApolloClient? = null
     private val appSettings: AppSettings by inject()
+
+    private val apolloClientCache: ApolloClientCache by inject()
 
     private var refreshJob: Job? = null
 
-    val conferenceList: Flow<List<GetConferencesQuery.Conference>> = createApolloClient("all", false).use {
-        it.query(GetConferencesQuery()).fetchPolicy(FetchPolicy.CacheAndNetwork).toFlow()
-            .mapNotNull {
-                println(it)
+    val conferenceList: Flow<List<GetConferencesQuery.Conference>> = flow {
+        val client = apolloClientCache.getClient("all")
+
+        emitAll(client.query(GetConferencesQuery()).fetchPolicy(defaultFetchPolicy)
+            .toFlow().mapNotNull {
                 it.data?.conferences
-            }.catch {
-            // do nothing
-        }
+            })
     }
 
     private val conferenceData = MutableStateFlow<GetConferenceDataQuery.Data?>(null)
@@ -92,18 +89,17 @@ class ConfettiRepository : KoinComponent {
         conferenceData.value = null
         appSettings.setConference(conference)
 
-        apolloClient?.close()
-        apolloClient = createApolloClient(conference)
-
         refreshJob = coroutineScope.launch {
             refresh(networkOnly = false)
         }
     }
 
     suspend fun getSession(sessionId: String): SessionDetails? {
-        val response = apolloClient?.query(GetSessionQuery(sessionId))?.execute()
+        val response = getCurrentConferenceClient()?.query(GetSessionQuery(sessionId))?.execute()
         return response?.data?.session?.sessionDetails
     }
+
+    private suspend fun getCurrentConferenceClient() = apolloClientCache.getClient(appSettings.getConference())
 
     fun updateEnableLanguageSetting(language: String, checked: Boolean) {
         appSettings.updateEnableLanguageSetting(language, checked)
@@ -113,7 +109,7 @@ class ConfettiRepository : KoinComponent {
         val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
 
         // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
-        apolloClient?.let {
+        getCurrentConferenceClient()?.let {
             it.query(GetConferenceDataQuery())
                 .fetchPolicy(fetchPolicy)
                 .toFlow()
@@ -127,15 +123,7 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    private fun createApolloClient(conference: String, writeToCacheAsynchronously: Boolean = true): ApolloClient {
-        val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory(getDatabaseName(conference))
-        val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)
-            .chain(sqlNormalizedCacheFactory)
-
-        return get<ApolloClient.Builder>()
-            .serverUrl("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql?conference=$conference")
-            //.serverUrl("http://10.0.2.2:8080/graphql?conference=graphqlsummit2022")
-            .normalizedCache(memoryFirstThenSqlCacheFactory, writeToCacheAsynchronously = writeToCacheAsynchronously)
-            .build()
+    suspend fun sessionDetails(conference: String, sessionId: String): Flow<ApolloResponse<GetSessionQuery.Data>> {
+        return apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).toFlow()
     }
 }

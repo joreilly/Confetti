@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
 import kotlinx.datetime.LocalDate
 
@@ -28,7 +29,7 @@ object SessionsDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.sessionsGraph(
-    navigateToSession: (String) -> Unit,
+    navigateToSession: (SessionDetailsKey) -> Unit,
 ) {
     scrollable(
         route = SessionsDestination.route,

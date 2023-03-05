@@ -32,3 +32,9 @@ include(":backend:datastore")
 include(":backend:service-import")
 include(":wearApp")
 include(":wearBenchmark")
+
+val javaVersion = System.getProperty("java.version")?.split(".")?.firstOrNull()?.toInt() ?: Int.MAX_VALUE
+
+check (javaVersion >= 17) {
+    "This project needs to be run with Java 17 or higher (found: $javaVersion)."
+}

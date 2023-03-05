@@ -36,6 +36,8 @@ kotlin {
     sourceSets {
 
         val commonMain by getting {
+            kotlin.srcDir("$buildDir/generated/source/wire")
+
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.datetime)
@@ -65,6 +67,10 @@ kotlin {
                 implementation(libs.google.services)
                 implementation(libs.firebase.analytics)
                 implementation(libs.compose.navigation)
+
+                api(libs.multiplatform.settings.datastore)
+                api(libs.androidx.datastore)
+                api(libs.androidx.datastore.preferences)
             }
         }
 

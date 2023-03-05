@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti
 
 import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.MutableStateFlow
+import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmm.viewmodel.stateIn
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import dev.johnoreilly.confetti.fragment.RoomDetails
@@ -11,18 +12,24 @@ import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-open class ConfettiViewModel: KMMViewModel(), KoinComponent {
+open class ConfettiViewModel : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
 
     private val dateService: DateService by inject()
 
     @NativeCoroutinesState
-    val conferenceList = repository.conferenceList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    val conferenceList = repository.conferenceList.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        emptyList()
+    )
 
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> =
@@ -31,7 +38,7 @@ open class ConfettiViewModel: KMMViewModel(), KoinComponent {
             repository.sessionsMap,
             repository.speakers,
             repository.rooms
-        ) { conferenceName, sessionsMap, speakers, rooms,  ->
+        ) { conferenceName, sessionsMap, speakers, rooms ->
             val confDates = sessionsMap.keys.toList().sorted()
 
             val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
@@ -40,8 +47,10 @@ open class ConfettiViewModel: KMMViewModel(), KoinComponent {
                 val sessionsByStartTime = sessions.groupBy { getSessionTime(it) }
                 sessionsByStartTimeList.add(sessionsByStartTime)
             }
-            SessionsUiState.Success(dateService.now(), conferenceName, confDates, sessionsByStartTimeList,
-                speakers, rooms)
+            SessionsUiState.Success(
+                dateService.now(), conferenceName, confDates, sessionsByStartTimeList,
+                speakers, rooms
+            )
 
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
 
@@ -51,18 +60,25 @@ open class ConfettiViewModel: KMMViewModel(), KoinComponent {
 
 
     @NativeCoroutinesState
-    val savedConference = MutableStateFlow(viewModelScope, repository.getConference())
+    val savedConference = MutableStateFlow(viewModelScope,
+        runBlocking {
+            // TODO refactor to avoid needing this so early
+            repository.getConference()
+        }
+    )
 
     fun setConference(conference: String) {
-        repository.setConference(conference)
-        savedConference.value = conference
+        viewModelScope.coroutineScope.launch {
+            repository.setConference(conference)
+            savedConference.value = conference
+        }
     }
 
     fun clearConference() {
         setConference("")
     }
 
-    suspend fun refresh()  {
+    suspend fun refresh() {
         repository.refresh(networkOnly = true)
     }
 
@@ -91,7 +107,7 @@ sealed interface SessionsUiState {
                 sessionsByStartTimeList[indexInDays].entries.take(2).map {
                     it.toPair()
                 }
-            } else  {
+            } else {
                 null
             }
         }

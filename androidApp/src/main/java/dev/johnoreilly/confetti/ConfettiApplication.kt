@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.crashlytics.ktx.setCustomKeys
 import com.google.firebase.ktx.Firebase

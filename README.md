@@ -38,3 +38,8 @@ Requires XCode 14 or later for iOS client.
 ![Screenshot_20221113_151115](https://user-images.githubusercontent.com/6302/201531906-42a1176e-720e-43bf-a4d3-07f8ee35bebb.png)
 
 <img width="453" alt="Screenshot 2023-01-18 at 18 52 58" src="https://user-images.githubusercontent.com/6302/213269228-50154ff5-a1c1-4da6-be26-1c4a1bf20337.png">
+
+### API
+
+The API is available at https://confetti-app.dev/graphiql
+You can query the list of conferences with `conferences.id` and chose what conference to query by passing a `"conference"` HTTP header 

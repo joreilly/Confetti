@@ -9,7 +9,6 @@ import dev.johnoreilly.confetti.wear.home.navigation.HomeDestination
 import dev.johnoreilly.confetti.wear.home.navigation.homeGraph
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.wear.sessions.navigation.sessionsGraph

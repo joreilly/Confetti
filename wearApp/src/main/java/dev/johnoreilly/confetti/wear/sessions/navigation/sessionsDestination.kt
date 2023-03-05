@@ -2,29 +2,42 @@
 
 package dev.johnoreilly.confetti.wear.sessions.navigation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import com.google.android.horologist.compose.navscaffold.scrollable
+import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toLocalDate
 
 object SessionsDestination : ConfettiNavigationDestination {
     const val dateArg = "date"
-    override val route = "sessions_route/{${dateArg}}"
+    const val conferenceArg = "conference"
+    override val route = "sessions_route/{$conferenceArg}/{${dateArg}}"
     override val destination = "sessions_destination"
 
-    fun createNavigationRoute(date: LocalDate): String {
-        return "sessions_route/$date"
+    fun createNavigationRoute(date: ConferenceDayKey): String {
+        return "sessions_route/${date.conference}/${date.date}"
     }
 
-    fun fromNavArgs(entry: NavBackStackEntry): LocalDate {
+    fun fromNavArgs(entry: NavBackStackEntry): ConferenceDayKey {
+        val arguments = entry.arguments!!
         val dateString = entry.arguments?.getString(dateArg)!!
-        return LocalDate.parse(dateString)
+        return ConferenceDayKey(arguments.getString(SessionDetailsDestination.conferenceArg)!!, LocalDate.parse(dateString))
+    }
+
+    fun fromNavArgs(savedStateHandle: SavedStateHandle): ConferenceDayKey {
+        return ConferenceDayKey(
+            savedStateHandle[SessionsDestination.conferenceArg]!!,
+            savedStateHandle.get<String>(SessionsDestination.dateArg)!!.toLocalDate()
+        )
     }
 }
 

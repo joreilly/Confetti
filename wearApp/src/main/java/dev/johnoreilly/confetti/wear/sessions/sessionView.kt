@@ -15,13 +15,13 @@ import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistC
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
-import kotlinx.datetime.LocalDate
+import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SessionsRoute(
-    date: LocalDate,
+    date: ConferenceDayKey,
     navigateToSession: (SessionDetailsKey) -> Unit,
     columnState: ScalingLazyColumnState,
     viewModel: ConfettiViewModel = getViewModel()

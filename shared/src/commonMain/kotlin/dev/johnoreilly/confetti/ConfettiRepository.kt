@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -74,17 +75,21 @@ class ConfettiRepository(
 
 
     init {
-        val conference = appSettings.getConference()
-        if (conference.isNotEmpty()) {
-            setConference(conference)
+        // TODO refactor to avoid needing this so early
+        runBlocking {
+            val conference = appSettings.getConference()
+
+            if (conference.isNotEmpty()) {
+                setConference(conference)
+            }
         }
     }
 
-    fun getConference(): String {
+    suspend fun getConference(): String {
         return appSettings.getConference()
     }
 
-    fun setConference(conference: String) {
+    suspend fun setConference(conference: String) {
         refreshJob?.cancel()
         conferenceData.value = null
         appSettings.setConference(conference)
@@ -101,7 +106,7 @@ class ConfettiRepository(
 
     private suspend fun getCurrentConferenceClient() = apolloClientCache.getClient(appSettings.getConference())
 
-    fun updateEnableLanguageSetting(language: String, checked: Boolean) {
+    suspend fun updateEnableLanguageSetting(language: String, checked: Boolean) {
         appSettings.updateEnableLanguageSetting(language, checked)
     }
 

@@ -22,6 +22,7 @@ import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDes
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var showLandingScreen by remember {
-                mutableStateOf(repository.getConference().isEmpty())
+                mutableStateOf(runBlocking { repository.getConference().isEmpty() })
             }
 
             val navController = rememberSwipeDismissableNavController()

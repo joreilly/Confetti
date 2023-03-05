@@ -7,6 +7,7 @@ import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistC
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.wear.home.HomeRoute
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import kotlinx.datetime.LocalDate
 
 object HomeDestination : ConfettiNavigationDestination {
@@ -15,7 +16,7 @@ object HomeDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.homeGraph(
-    navigateToSession: (String) -> Unit,
+    navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (LocalDate) -> Unit,
     navigateToSettings: () -> Unit,
 ) {

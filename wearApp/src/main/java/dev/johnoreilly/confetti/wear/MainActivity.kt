@@ -19,8 +19,10 @@ import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
@@ -32,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var showLandingScreen by remember {
-                mutableStateOf(repository.getConference().isEmpty())
+                mutableStateOf(runBlocking { repository.getConference().isEmpty() })
             }
 
             val navController = rememberSwipeDismissableNavController()
@@ -53,14 +55,21 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 val sessionId = intent.getAndRemoveKey("session")
 
+                val conference = repository.getConference()
+
                 if (sessionId != null && !showLandingScreen) {
-                    navController.navigate(SessionDetailsDestination.createNavigationRoute(sessionId))
+                    navController.navigate(
+                        SessionDetailsDestination.createNavigationRoute(
+                            SessionDetailsKey(conference, sessionId)
+                        )
+                    )
                 }
             }
 
             LaunchedEffect(Unit) {
                 navController.currentBackStackEntryFlow.collect { navEntry ->
-                    analyticsLogger.logNavigationEvent(repository.getConference(), navEntry)
+                    val conference = repository.getConference()
+                    analyticsLogger.logNavigationEvent(conference, navEntry)
                 }
             }
         }

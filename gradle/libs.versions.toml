@@ -2,6 +2,7 @@
 accompanist = "0.28.0"
 activity-compose = "1.7.0-beta01"
 androidx-lifecycle = "2.5.1"
+androidx-datastore = "1.1.0-alpha01"
 apollo = "3.7.4"
 compose = "1.4.0-beta01"
 compose-compiler = "1.4.3-dev-k1.8.20-Beta-15b4f4328eb"
@@ -26,6 +27,8 @@ accompanist-pager = { module = "com.google.accompanist:accompanist-pager", versi
 accompanist-pager-indicator = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.1.1"
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo3:apollo-normalized-cache" }
@@ -75,6 +78,7 @@ material3-core = { module = "androidx.compose.material3:material3", version.ref 
 material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material-3" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
+multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
 okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
@@ -85,10 +89,11 @@ desugar = "com.android.tools:desugar_jdk_libs:2.0.2"
 wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha04"
 wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha04"
 horologist-base-ui = "com.google.android.horologist:horologist-base-ui:0.3.1"
-horologist-compose-layout = "com.google.android.horologist:horologist-compose-layout:0.3.3"
-horologist-compose-tools = "com.google.android.horologist:horologist-compose-tools:0.3.3"
-horologist-composables = "com.google.android.horologist:horologist-composables:0.3.3"
-horologist-tiles = "com.google.android.horologist:horologist-tiles:0.3.3"
+horologist-compose-layout = "com.google.android.horologist:horologist-compose-layout:0.3.4"
+horologist-compose-tools = "com.google.android.horologist:horologist-compose-tools:0.3.4"
+horologist-composables = "com.google.android.horologist:horologist-composables:0.3.4"
+horologist-datalayer = "com.google.android.horologist:horologist-datalayer:0.3.4"
+horologist-tiles = "com.google.android.horologist:horologist-tiles:0.3.4"
 test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"
 test-runner = "androidx.test:runner:1.5.2"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
@@ -100,7 +105,7 @@ multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coro
 apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite", "apollo-adapters"]
 
 [plugins]
-android-application = { id = "com.android.application", version = "7.4.0" }
+android-application = { id = "com.android.application", version = "7.4.1" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 appengine = { id = "com.google.cloud.tools.appengine", version = "2.4.5" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }

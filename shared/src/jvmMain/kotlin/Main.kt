@@ -1,5 +1,7 @@
+package dev.johnoreilly.confetti
+
 import dev.johnoreilly.confetti.di.initKoin
-import dev.johnoreilly.confetti.ConfettiRepository
+import kotlinx.coroutines.flow.first
 
 suspend fun main() {
     val koin = initKoin().koin
@@ -7,9 +9,8 @@ suspend fun main() {
     repo.setConference("droidconlondon2022")
 
     println("Sessions")
-    repo.sessions.collect { sessions ->
-        sessions.forEach { session ->
-            println("${session.startInstant} ${session.title}")
-        }
+    val sessions = repo.sessions.first()
+    sessions.forEach { session ->
+        println("${session.startInstant} ${session.title}")
     }
 }

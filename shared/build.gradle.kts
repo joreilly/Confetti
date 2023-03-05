@@ -48,7 +48,7 @@ kotlin {
                 api(libs.koin.core)
 
                 api(libs.apollo.runtime)
-                implementation(libs.bundles.apollo)
+                api(libs.bundles.apollo)
             }
         }
         val commonTest by getting {
@@ -69,6 +69,10 @@ kotlin {
                 implementation(libs.google.services)
                 implementation(libs.firebase.analytics)
                 implementation(libs.compose.navigation)
+
+                api(libs.multiplatform.settings.datastore)
+                api(libs.androidx.datastore)
+                api(libs.androidx.datastore.preferences)
             }
         }
 

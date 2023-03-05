@@ -1,25 +1,12 @@
 package dev.johnoreilly.confetti
 
 import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.ObservableSettings
-import com.russhwolf.settings.coroutines.getStringOrNullFlow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.russhwolf.settings.coroutines.FlowSettings
 
 @OptIn(ExperimentalSettingsApi::class)
-class AppSettings(val settings: ObservableSettings) {
+class AppSettings(val settings: FlowSettings) {
 
-    val enabledLanguages: Flow<Set<String>> =
-        settings.getStringOrNullFlow(ENABLED_LANGUAGES_SETTING).map { getEnabledLanguagesSetFromString(it) }
-
-    init {
-        if (settings.getString(ENABLED_LANGUAGES_SETTING, "").isEmpty()) {
-            settings.putString(ENABLED_LANGUAGES_SETTING, "en-US")
-        }
-    }
-
-
-    fun updateEnableLanguageSetting(language: String, checked: Boolean) {
+    suspend fun updateEnableLanguageSetting(language: String, checked: Boolean) {
         val currentEnabledLanguagesString = settings.getStringOrNull(ENABLED_LANGUAGES_SETTING)
         val currentEnabledLanguagesSet = getEnabledLanguagesSetFromString(currentEnabledLanguagesString)
 
@@ -31,11 +18,11 @@ class AppSettings(val settings: ObservableSettings) {
         settings.putString(ENABLED_LANGUAGES_SETTING, newEnabledLanguagesString.joinToString(separator = ","))
     }
 
-    fun getConference(): String {
+    suspend fun getConference(): String {
         return settings.getString(CONFERENCE_SETTING, "")
     }
 
-    fun setConference(conference: String) {
+    suspend fun setConference(conference: String) {
         settings.putString(CONFERENCE_SETTING, conference)
     }
 

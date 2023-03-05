@@ -1,11 +1,17 @@
+@file:OptIn(ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class)
+
 package dev.johnoreilly.confetti.di
 
 import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import coil.ImageLoader
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
-import com.russhwolf.settings.ObservableSettings
-import com.russhwolf.settings.SharedPreferencesSettings
+import com.russhwolf.settings.ExperimentalSettingsApi
+import com.russhwolf.settings.ExperimentalSettingsImplementation
+import com.russhwolf.settings.coroutines.FlowSettings
+import com.russhwolf.settings.coroutines.toBlockingObservableSettings
+import com.russhwolf.settings.datastore.DataStoreSettings
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
@@ -18,7 +24,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
-    single<ObservableSettings> { createObservableSettings(get()) }
     single<DateService> { AndroidDateService() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
@@ -43,11 +48,13 @@ actual fun platformModule() = module {
             FirebaseAnalyticsLogger
         }
     }
+    single { androidContext().settingsStore }
+    single<FlowSettings> { DataStoreSettings(get()) }
+    single {
+        get<FlowSettings>().toBlockingObservableSettings()
+    }
 }
 
-
-private fun createObservableSettings(context: Context): ObservableSettings {
-    return SharedPreferencesSettings(context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE))
-}
+val Context.settingsStore by preferencesDataStore("settings")
 
 actual fun getDatabaseName(conference: String) = "$conference.db"

@@ -2,13 +2,9 @@ package dev.johnoreilly.confetti.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material3.windowsizeclass.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -22,7 +18,7 @@ import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.navigation.TopLevelDestination
-import dev.johnoreilly.confetti.rooms.navigation.SessionsDestination
+import dev.johnoreilly.confetti.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.speakers.navigation.SpeakersDestination
 
 @Composable
@@ -65,14 +61,14 @@ class ConfettiAppState(
             route = SessionsDestination.route,
             destination = SessionsDestination.destination,
             selectedIcon = Icons.Filled.CalendarMonth,
-            unselectedIcon =Icons.Outlined.CalendarMonth,
+            unselectedIcon = Icons.Outlined.CalendarMonth,
             iconTextId = R.string.schedule
         ),
         TopLevelDestination(
             route = SpeakersDestination.route,
             destination = SpeakersDestination.destination,
             selectedIcon = Icons.Filled.Person,
-            unselectedIcon =Icons.Outlined.Person,
+            unselectedIcon = Icons.Outlined.Person,
             iconTextId = R.string.speakers
         ),
     )

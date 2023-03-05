@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.rooms.navigation
+package dev.johnoreilly.confetti.sessions.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

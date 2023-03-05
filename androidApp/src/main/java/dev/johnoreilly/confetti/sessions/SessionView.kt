@@ -33,8 +33,7 @@ fun SessionsRoute(
         SessionListGridView(
             uiState,
             navigateToSession,
-            onSwitchConferenceSelected,
-            viewModel::refresh
+            onSwitchConferenceSelected
         )
     } else {
         SessionListView(

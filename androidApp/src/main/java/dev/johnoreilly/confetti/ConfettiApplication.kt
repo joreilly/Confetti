@@ -18,8 +18,10 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
 
-        Firebase.crashlytics.setCustomKeys {
-            key("appName", "androidApp")
+        if (!BuildConfig.DEBUG) {
+            Firebase.crashlytics.setCustomKeys {
+                key("appName", "androidApp")
+            }
         }
 
         initKoin {

@@ -131,6 +131,10 @@ kotlin {
 }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
+}
+
+dependencies {
     implementation(project(":shared"))
 
     implementation(libs.coil.compose)

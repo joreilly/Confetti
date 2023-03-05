@@ -153,6 +153,7 @@ dependencies {
 
     implementation(libs.kmm.viewmodel)
 
+    implementation(platform(libs.firebase.bom))
     implementation(libs.google.services)
     implementation(libs.firebase.crashlytics)
     if (file("google-services.json").exists()) {

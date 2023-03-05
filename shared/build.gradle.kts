@@ -36,8 +36,6 @@ kotlin {
     sourceSets {
 
         val commonMain by getting {
-            kotlin.srcDir("$buildDir/generated/source/wire")
-
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.datetime)

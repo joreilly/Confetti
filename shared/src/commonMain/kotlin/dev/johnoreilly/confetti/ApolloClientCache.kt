@@ -31,8 +31,9 @@ class ApolloClientCache : KoinComponent {
             .chain(sqlNormalizedCacheFactory)
 
         return get<ApolloClient.Builder>()
-            .serverUrl("https://graphql-dot-confetti-349319.uw.r.appspot.com/graphql?conference=$conference")
-            //.serverUrl("http://10.0.2.2:8080/graphql?conference=graphqlsummit2022")
+            .serverUrl("https://confetti-app.dev/graphql")
+            .addHttpHeader("conference", conference)
+            .autoPersistedQueries()
             .normalizedCache(
                 memoryFirstThenSqlCacheFactory,
                 writeToCacheAsynchronously = writeToCacheAsynchronously

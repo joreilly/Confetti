@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.di
 
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -21,6 +22,9 @@ actual fun platformModule() = module {
     single<DateService> { IosDateService() }
     factory {
         ApolloClient.Builder()
+    }
+    single {
+        FetchPolicy.CacheAndNetwork
     }
 }
 

@@ -8,9 +8,12 @@ import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -22,9 +25,13 @@ class SessionDetailsViewModel(
     val formatter: DateService
 ) : ViewModel() {
     val timeZone: TimeZone = repository.timeZone
-    private val sessionId: String = SessionDetailsDestination.fromNavArgs(savedStateHandle)
+    private val sessionId: SessionDetailsKey =
+        SessionDetailsDestination.fromNavArgs(savedStateHandle)
 
-    val session: StateFlow<SessionDetails?> = repository.sessions.map {
-        it.first { it.id == sessionId }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    val session: StateFlow<SessionDetails?> = flow {
+        val resultsFlow = repository.sessionDetails(sessionId.conference, sessionId.sessionId)
+
+        emitAll(resultsFlow.map {  it.data?.session?.sessionDetails })
+    }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 }

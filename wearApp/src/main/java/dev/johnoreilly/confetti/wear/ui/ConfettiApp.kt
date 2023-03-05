@@ -9,6 +9,7 @@ import dev.johnoreilly.confetti.wear.home.navigation.HomeDestination
 import dev.johnoreilly.confetti.wear.home.navigation.homeGraph
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
+import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.wear.sessions.navigation.sessionsGraph
@@ -16,7 +17,9 @@ import dev.johnoreilly.confetti.wear.settings.navigation.SettingsDestination
 import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
 
 @Composable
-fun ConfettiApp(navController: NavHostController) {
+fun ConfettiApp(
+    navController: NavHostController
+) {
     fun onNavigateToDestination(destination: ConfettiNavigationDestination, route: String? = null) {
         navController.navigate(route ?: destination.route)
     }

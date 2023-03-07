@@ -5,10 +5,10 @@ package dev.johnoreilly.confetti.wear.home.navigation
 import androidx.navigation.NavGraphBuilder
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import com.google.android.horologist.compose.navscaffold.scrollable
+import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.home.HomeRoute
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsKey
-import kotlinx.datetime.LocalDate
 
 object HomeDestination : ConfettiNavigationDestination {
     override val route = "home_route"
@@ -17,7 +17,7 @@ object HomeDestination : ConfettiNavigationDestination {
 
 fun NavGraphBuilder.homeGraph(
     navigateToSession: (SessionDetailsKey) -> Unit,
-    navigateToDay: (LocalDate) -> Unit,
+    navigateToDay: (ConferenceDayKey) -> Unit,
     navigateToSettings: () -> Unit,
 ) {
     scrollable(route = HomeDestination.route) {

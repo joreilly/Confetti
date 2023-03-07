@@ -3,7 +3,6 @@
 package dev.johnoreilly.confetti.wear.sessions
 
 import androidx.activity.compose.ReportDrawn
-import androidx.activity.compose.ReportDrawnAfter
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.wear.compose.material.CircularProgressIndicator
@@ -16,10 +15,10 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
@@ -30,7 +29,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun SessionListView(
-    date: LocalDate,
+    date: ConferenceDayKey,
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
     columnState: ScalingLazyColumnState
@@ -41,7 +40,7 @@ fun SessionListView(
         is SessionsUiState.Success -> {
             ReportDrawn()
 
-            val sessions = uiState.sessionsByStartTimeList[uiState.confDates.indexOf(date)]
+            val sessions = uiState.sessionsByStartTimeList[uiState.confDates.indexOf(date.date)]
             DaySessionList(date, sessions, sessionSelected, columnState)
         }
     }
@@ -49,7 +48,7 @@ fun SessionListView(
 
 @Composable
 private fun DaySessionList(
-    date: LocalDate,
+    date: ConferenceDayKey,
     sessions: Map<String, List<SessionDetails>>,
     sessionSelected: (sessionId: String) -> Unit,
     columnState: ScalingLazyColumnState
@@ -64,7 +63,7 @@ private fun DaySessionList(
             item {
                 ListHeader {
                     if (index == 0) {
-                        Text("${dayFormatter.format(date.toJavaLocalDate())} $time")
+                        Text("${dayFormatter.format(date.date.toJavaLocalDate())} $time")
                     } else {
                         Text(time)
                     }
@@ -88,7 +87,7 @@ fun SessionListViewPreview() {
     ConfettiTheme {
         val date = sessionTime.toLocalDate().toKotlinLocalDate()
         SessionListView(
-            date = date,
+            date = ConferenceDayKey("wearconf", date),
             uiState = SessionsUiState.Success(
                 now = sessionTime.toKotlinLocalDateTime(),
                 "WearableCon 2022",

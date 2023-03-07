@@ -128,7 +128,12 @@ class ConfettiRepository(
         }
     }
 
-    suspend fun sessionDetails(conference: String, sessionId: String): Flow<ApolloResponse<GetSessionQuery.Data>> {
-        return apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).toFlow()
-    }
+    suspend fun sessionDetails(
+        conference: String,
+        sessionId: String
+    ): Flow<ApolloResponse<GetSessionQuery.Data>> =
+        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).toFlow()
+
+    suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
+        apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
 }

@@ -2,8 +2,6 @@
 
 package dev.johnoreilly.confetti.wear.conferences
 
-import androidx.activity.compose.ReportDrawn
-import androidx.activity.compose.ReportDrawnAfter
 import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +24,6 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.scrollAway
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
-import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
@@ -37,7 +34,7 @@ import org.koin.androidx.compose.getViewModel
 fun ConferencesRoute(
     navigateToConference: (String) -> Unit,
     columnState: ScalingLazyColumnState,
-    viewModel: ConfettiViewModel = getViewModel()
+    viewModel: ConferencesViewModel = getViewModel()
 ) {
     val conferenceList by viewModel.conferenceList.collectAsStateWithLifecycle()
 

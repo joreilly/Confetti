@@ -12,6 +12,7 @@ import com.google.android.horologist.tiles.complication.DataTemplates.shortText
 import com.google.android.horologist.tiles.complication.TypedComplicationTemplate
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.type.Session
 import kotlinx.datetime.toKotlinInstant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -33,7 +34,8 @@ class NextSessionTemplate(context: Context) :
                 "en",
                 listOf(),
                 SessionDetails.Room("Main Hall"),
-                listOf()
+                listOf(),
+                Session.type.name
             ),
             launchIntent = null
         )

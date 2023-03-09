@@ -111,6 +111,8 @@ apollo {
     service("service") {
         packageName.set("dev.johnoreilly.confetti")
         codegenModels.set("operationBased")
+        generateDataBuilders.set(true)
+        generateFragmentImplementations.set(true)
         generateSchema.set(true)
         mapScalar(
             "Instant",

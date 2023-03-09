@@ -18,6 +18,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
@@ -105,7 +106,8 @@ fun SessionDetailsLongText() {
                 "en",
                 listOf(),
                 SessionDetails.Room("Main Hall"),
-                listOf()
+                listOf(),
+                Session.type.name
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
@@ -132,7 +134,8 @@ fun SessionDetailsViewPreview() {
                 "en",
                 listOf(),
                 SessionDetails.Room("Main Hall"),
-                listOf()
+                listOf(),
+                Session.type.name
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }

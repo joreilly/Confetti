@@ -5,18 +5,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.lifecycle.lifecycleScope
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
@@ -33,18 +32,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberSwipeDismissableNavController()
 
-            val startingConference = remember {
-                // TODO refactor to avoid needing this so early
-                runBlocking {
-                    startingConferenceAsync.await()
-                }
-            }
-
             ConfettiTheme {
-                ConfettiApp(
-                    startingConference,
-                    navController
-                )
+                ConfettiApp(navController)
             }
 
             LaunchedEffect(Unit) {
@@ -57,6 +46,15 @@ class MainActivity : ComponentActivity() {
                             SessionDetailsKey(conference, sessionId)
                         )
                     )
+                } else if (startingConferenceAsync.await().isNotEmpty()) {
+                    val conference = startingConferenceAsync.await()
+
+                    val route = ConferenceHomeDestination.createNavigationRoute(conference)
+                    navController.navigate(route) {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
 

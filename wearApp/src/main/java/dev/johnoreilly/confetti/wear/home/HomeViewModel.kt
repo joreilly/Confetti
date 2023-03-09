@@ -7,7 +7,7 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.utils.DateService
-import dev.johnoreilly.confetti.wear.home.navigation.HomeDestination
+import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll
@@ -30,7 +30,7 @@ class HomeViewModel(
     }
 
     private val conference: String =
-        HomeDestination.fromNavArgs(savedStateHandle)
+        ConferenceHomeDestination.fromNavArgs(savedStateHandle)
 
     fun getSessionTime(session: SessionDetails): String {
         return dateService.format(session.startInstant, repository.timeZone, "HH:mm")

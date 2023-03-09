@@ -16,13 +16,13 @@ import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 
-object HomeDestination : ConfettiNavigationDestination {
+object ConferenceHomeDestination : ConfettiNavigationDestination {
     const val conferenceArg = "conference"
-    override val route = "home_route/{${conferenceArg}}"
-    override val destination = "home_destination"
+    override val route = "conference_route/{${conferenceArg}}"
+    override val destination = "conference_destination"
 
     fun createNavigationRoute(conference: String): String {
-        return "home_route/${conference}"
+        return "conference_route/${conference}"
     }
 
     fun fromNavArgs(entry: NavBackStackEntry): String {
@@ -35,22 +35,20 @@ object HomeDestination : ConfettiNavigationDestination {
     }
 }
 
-fun NavGraphBuilder.homeGraph(
-    startingConference: String,
+fun NavGraphBuilder.conferenceHomeGraph(
     navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (ConferenceDayKey) -> Unit,
     navigateToSettings: () -> Unit,
 ) {
     scrollable(
-        route = HomeDestination.route,
+        route = ConferenceHomeDestination.route,
         arguments = listOf(
-            navArgument(HomeDestination.conferenceArg) {
+            navArgument(ConferenceHomeDestination.conferenceArg) {
                 type = NavType.StringType
-                defaultValue = startingConference
             }
         ),
     ) {
-        val conference = HomeDestination.fromNavArgs(it.backStackEntry)
+        val conference = ConferenceHomeDestination.fromNavArgs(it.backStackEntry)
 
         HomeRoute(
             conference = conference,

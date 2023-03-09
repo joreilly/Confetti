@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
-
 package dev.johnoreilly.confetti.wear
 
 import android.content.Intent
@@ -7,21 +5,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.lifecycleScope
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
@@ -32,32 +26,32 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent {
-            var showLandingScreen by remember {
-                mutableStateOf(runBlocking { repository.getConference().isEmpty() })
-            }
+        val startingConferenceAsync = lifecycleScope.async {
+            repository.getConference()
+        }
 
+        setContent {
             val navController = rememberSwipeDismissableNavController()
 
-            ConfettiTheme {
-                if (showLandingScreen) {
-                    ConferencesRoute(
-                        columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
-                        navigateToConference = {
-                            showLandingScreen = false
-                        }
-                    )
-                } else {
-                    ConfettiApp(navController)
+            val startingConference = remember {
+                // TODO refactor to avoid needing this so early
+                runBlocking {
+                    startingConferenceAsync.await()
                 }
             }
 
+            ConfettiTheme {
+                ConfettiApp(
+                    startingConference,
+                    navController
+                )
+            }
+
             LaunchedEffect(Unit) {
+                val conference = intent.getAndRemoveKey("conference")
                 val sessionId = intent.getAndRemoveKey("session")
 
-                val conference = repository.getConference()
-
-                if (sessionId != null && !showLandingScreen) {
+                if (sessionId != null && conference != null) {
                     navController.navigate(
                         SessionDetailsDestination.createNavigationRoute(
                             SessionDetailsKey(conference, sessionId)

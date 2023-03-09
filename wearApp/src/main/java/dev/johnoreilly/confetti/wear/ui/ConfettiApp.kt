@@ -17,6 +17,7 @@ import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
 
 @Composable
 fun ConfettiApp(
+    startingConference: String,
     navController: NavHostController
 ) {
     fun onNavigateToDestination(destination: ConfettiNavigationDestination, route: String? = null) {
@@ -27,7 +28,15 @@ fun ConfettiApp(
         navController.popBackStack()
     }
 
-    WearNavScaffold(startDestination = HomeDestination.route, navController = navController) {
+    val startDestination = if (startingConference.isEmpty())
+        ConferencesDestination.route
+    else
+        HomeDestination.route
+
+    WearNavScaffold(
+        startDestination = startDestination,
+        navController = navController
+    ) {
         conferencesGraph(
             navigateToConference = {
                 onNavigateToDestination(HomeDestination)
@@ -35,6 +44,7 @@ fun ConfettiApp(
         )
 
         homeGraph(
+            startingConference,
             navigateToSession = {
                 onNavigateToDestination(
                     SessionDetailsDestination,

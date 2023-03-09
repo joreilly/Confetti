@@ -25,6 +25,7 @@ import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.MainActivity
 import dev.johnoreilly.confetti.wear.ui.ColorScheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
@@ -171,7 +172,8 @@ fun CurrentSessionsTilePreview() {
                     "en",
                     listOf(),
                     SessionDetails.Room("Main Hall"),
-                    listOf()
+                    listOf(),
+                    Session.type.name
                 )
             )
         )

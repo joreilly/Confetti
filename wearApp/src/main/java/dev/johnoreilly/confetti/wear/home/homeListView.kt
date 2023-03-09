@@ -27,6 +27,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.sessions.SessionView
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
@@ -160,7 +161,8 @@ fun HomeListViewPreview() {
                                 "en",
                                 listOf(),
                                 SessionDetails.Room("Main Hall"),
-                                listOf()
+                                listOf(),
+                                Session.type.name
                             )
                         )
                     )

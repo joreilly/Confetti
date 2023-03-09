@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.wear.di
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.wear.conferences.ConferencesViewModel
+import dev.johnoreilly.confetti.wear.home.HomeViewModel
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewModel
 import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -13,6 +14,7 @@ val appModule = module {
     viewModel { SessionDetailsViewModel(get(), get(), get()) }
     viewModel { ConferencesViewModel(get()) }
     viewModel { SessionsViewModel(get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
     single {
         // Assume an offline first strategy for Wear
         // Eventually use the mobile to drive updates

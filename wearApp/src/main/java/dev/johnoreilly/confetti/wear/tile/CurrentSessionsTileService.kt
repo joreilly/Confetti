@@ -32,6 +32,7 @@ class CurrentSessionsTileService : SuspendingTileService() {
     }
 
     private suspend fun tileState(): CurrentSessionsData {
+        val conference = repository.getConference()
         val today = LocalDate.now().toKotlinLocalDate()
         val todaysSessions = repository.sessionsMap.first()[today].orEmpty()
 
@@ -42,6 +43,7 @@ class CurrentSessionsTileService : SuspendingTileService() {
             .minOrNull()
 
         return CurrentSessionsData(
+            conference,
             nextSessionTime?.toLocalDateTime(TimeZone.currentSystemDefault()),
             todaysSessions.filter { it.startInstant == nextSessionTime }
         )

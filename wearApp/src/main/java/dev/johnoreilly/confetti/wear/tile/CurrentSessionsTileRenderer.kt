@@ -52,20 +52,29 @@ class CurrentSessionsTileRenderer(context: Context) :
             timeLabel(state)
         )
         .setContent(
-            sessionsList(state.sessions, deviceParameters)
+            sessionsList(state, state.sessions, deviceParameters)
         )
         .setPrimaryChipContent(
-            CompactChip.Builder(context, "Browse", browseClickable(), deviceParameters)
+            CompactChip.Builder(
+                context,
+                "Browse",
+                browseClickable(state.conference),
+                deviceParameters
+            )
                 .setChipColors(ChipColors.primaryChipColors(theme))
                 .build()
         )
         .build()
 
-    fun sessionsList(sessions: List<SessionDetails>, deviceParameters: DeviceParameters) =
+    fun sessionsList(
+        state: CurrentSessionsData,
+        sessions: List<SessionDetails>,
+        deviceParameters: DeviceParameters
+    ) =
         MultiSlotLayout.Builder()
             .apply {
                 sessions.take(3).forEach {
-                    addSlotContent(sessionChip(it, deviceParameters))
+                    addSlotContent(sessionChip(state, it, deviceParameters))
                 }
             }
             .build()
@@ -80,16 +89,20 @@ class CurrentSessionsTileRenderer(context: Context) :
         .build()
 
     private fun sessionChip(
+        state: CurrentSessionsData,
         sessionDetails: SessionDetails,
         deviceParameters: DeviceParameters
     ): LayoutElementBuilders.LayoutElement =
-        Chip.Builder(context, sessionClickable(sessionDetails), deviceParameters)
+        Chip.Builder(context, sessionClickable(state.conference, sessionDetails), deviceParameters)
             .setChipColors(ChipColors.secondaryChipColors(theme))
             .setPrimaryLabelContent(sessionDetails.title)
             .setSecondaryLabelContent(sessionDetails.room?.name ?: "No Room")
             .build()
 
-    private fun sessionClickable(sessionDetails: SessionDetails): Clickable =
+    private fun sessionClickable(
+        conference: String,
+        sessionDetails: SessionDetails
+    ): Clickable =
         Clickable.Builder()
             .setOnClick(
                 LaunchAction.Builder()
@@ -102,13 +115,20 @@ class CurrentSessionsTileRenderer(context: Context) :
                                     .setValue(sessionDetails.id)
                                     .build()
                             )
+                            .addKeyToExtraMapping(
+                                "conference", AndroidStringExtra.Builder()
+                                    .setValue(conference)
+                                    .build()
+                            )
                             .build()
                     )
                     .build()
             )
             .build()
 
-    private fun browseClickable(): Clickable =
+    private fun browseClickable(
+        conference: String
+    ): Clickable =
         Clickable.Builder()
             .setOnClick(
                 LaunchAction.Builder()
@@ -116,6 +136,11 @@ class CurrentSessionsTileRenderer(context: Context) :
                         AndroidActivity.Builder()
                             .setClassName(MainActivity::class.java.name)
                             .setPackageName(context.packageName)
+                            .addKeyToExtraMapping(
+                                "conference", AndroidStringExtra.Builder()
+                                    .setValue(conference)
+                                    .build()
+                            )
                             .build()
                     )
                     .build()
@@ -133,6 +158,7 @@ fun CurrentSessionsTilePreview() {
     val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
     val tileState = remember {
         CurrentSessionsData(
+            "wearconf",
             sessionTime.toKotlinLocalDateTime(),
             listOf(
                 SessionDetails(

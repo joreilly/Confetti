@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti
 
+import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
@@ -100,7 +101,7 @@ class ConfettiRepository(
     }
 
     suspend fun getSession(sessionId: String): SessionDetails? {
-        val response = getCurrentConferenceClient()?.query(GetSessionQuery(sessionId))?.execute()
+        val response = getCurrentConferenceClient().query(GetSessionQuery(sessionId))?.execute()
         return response?.data?.session?.sessionDetails
     }
 
@@ -114,7 +115,7 @@ class ConfettiRepository(
         val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
 
         // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
-        getCurrentConferenceClient()?.let {
+        getCurrentConferenceClient().let {
             it.query(GetConferenceDataQuery())
                 .fetchPolicy(fetchPolicy)
                 .toFlow()
@@ -136,4 +137,8 @@ class ConfettiRepository(
 
     suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
+
+    suspend fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
+        return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
+    }
 }

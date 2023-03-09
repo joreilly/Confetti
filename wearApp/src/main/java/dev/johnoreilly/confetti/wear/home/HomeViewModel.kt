@@ -9,7 +9,6 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll
@@ -40,15 +39,17 @@ class HomeViewModel(
         return dateService.format(session.startInstant, repository.timeZone, "HH:mm")
     }
 
-    val uiState: StateFlow<HomeUiState> = if (conference.isNotEmpty()) {
-        conferenceDataFlow()
+    val uiState: StateFlow<HomeUiState> = conferenceDataFlow()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), HomeUiState.Loading)
-    } else {
-        MutableStateFlow(HomeUiState.NoneSelected)
-    }
 
     private fun conferenceDataFlow() = flow<HomeUiState> {
-        val data = repository.conferenceHomeData(conference).toFlow()
+        val actualConference = if (conference.isEmpty()) {
+            repository.getConference()
+        } else {
+            conference
+        }
+
+        val data = repository.conferenceHomeData(actualConference).toFlow()
 
         val results = data.map {
             val conferenceData = it.dataAssertNoErrors
@@ -76,7 +77,7 @@ class HomeViewModel(
                 sessionsByStartTimeList.add(sessionsByStartTime)
             }
             HomeUiState.Success(
-                conference, dateService.now(), conference, confDates, sessionsByStartTimeList,
+                actualConference, dateService.now(), conference, confDates, sessionsByStartTimeList,
                 speakers, rooms
             )
         }

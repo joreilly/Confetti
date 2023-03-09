@@ -121,6 +121,11 @@ class CurrentSessionsTileRenderer(context: Context) :
                                     .setValue(conference)
                                     .build()
                             )
+                            .addKeyToExtraMapping(
+                                "tile", AndroidStringExtra.Builder()
+                                    .setValue("session")
+                                    .build()
+                            )
                             .build()
                     )
                     .build()
@@ -140,6 +145,11 @@ class CurrentSessionsTileRenderer(context: Context) :
                             .addKeyToExtraMapping(
                                 "conference", AndroidStringExtra.Builder()
                                     .setValue(conference)
+                                    .build()
+                            )
+                            .addKeyToExtraMapping(
+                                "tile", AndroidStringExtra.Builder()
+                                    .setValue("browse")
                                     .build()
                             )
                             .build()

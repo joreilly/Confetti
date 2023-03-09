@@ -20,16 +20,27 @@ fun ConfettiApp(
     navController: NavHostController
 ) {
     fun onNavigateToDestination(destination: ConfettiNavigationDestination, route: String? = null) {
-        navController.navigate(route ?: destination.route)
+        if (destination is ConferenceHomeDestination) {
+            navController.navigate(route ?: destination.route) {
+                popUpTo(navController.graph.id) {
+                    inclusive = true
+                }
+            }
+        } else {
+            navController.navigate(route ?: destination.route)
+        }
     }
 
     WearNavScaffold(
-        startDestination = ConferencesDestination.route,
+        startDestination = ConferenceHomeDestination.route,
         navController = navController
     ) {
         conferencesGraph(
             navigateToConference = {
-                onNavigateToDestination(ConferenceHomeDestination)
+                onNavigateToDestination(
+                    ConferenceHomeDestination,
+                    ConferenceHomeDestination.createNavigationRoute(it)
+                )
             }
         )
 
@@ -47,6 +58,12 @@ fun ConfettiApp(
                 onNavigateToDestination(
                     SessionsDestination,
                     SessionsDestination.createNavigationRoute(it)
+                )
+            },
+            navigateToConferenceList = {
+                onNavigateToDestination(
+                    ConferencesDestination,
+                    ConferencesDestination.route
                 )
             }
         )

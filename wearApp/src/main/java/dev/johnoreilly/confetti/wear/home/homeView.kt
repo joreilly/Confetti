@@ -3,7 +3,6 @@
 package dev.johnoreilly.confetti.wear.home
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
@@ -13,27 +12,32 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun HomeRoute(
-    conference: String,
     navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (ConferenceDayKey) -> Unit,
     navigateToSettings: () -> Unit,
+    navigateToConferenceList: () -> Unit,
     columnState: ScalingLazyColumnState,
     viewModel: HomeViewModel = getViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
 
     HomeListView(
         uiState = uiState,
         sessionSelected = {
-            navigateToSession(SessionDetailsKey(conference, it))
+            if (uiState is HomeUiState.Success) {
+                navigateToSession(SessionDetailsKey(uiState.conference, it))
+            }
         },
-        daySelected = { navigateToDay(ConferenceDayKey(conference, it)) },
+        daySelected = {
+            if (uiState is HomeUiState.Success) {
+                navigateToDay(ConferenceDayKey(uiState.conference, it))
+            }
+        },
         onSettingsClick = navigateToSettings,
         onRefreshClick = {
             viewModel.refresh()
         },
         columnState = columnState,
+        navigateToConferenceList = navigateToConferenceList
     )
 }
-
-

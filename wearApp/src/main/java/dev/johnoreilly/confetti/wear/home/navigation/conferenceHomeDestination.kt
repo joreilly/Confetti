@@ -13,8 +13,6 @@ import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.home.HomeRoute
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
-import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 
 object ConferenceHomeDestination : ConfettiNavigationDestination {
     const val conferenceArg = "conference"
@@ -27,11 +25,12 @@ object ConferenceHomeDestination : ConfettiNavigationDestination {
 
     fun fromNavArgs(entry: NavBackStackEntry): String {
         val arguments = entry.arguments!!
-        return arguments.getString(SessionDetailsDestination.conferenceArg)!!
+        return arguments.getString(conferenceArg)!!
     }
 
     fun fromNavArgs(savedStateHandle: SavedStateHandle): String {
-        return savedStateHandle[SessionsDestination.conferenceArg]!!
+        val conference: String = savedStateHandle[conferenceArg]!!
+        return conference
     }
 }
 
@@ -39,23 +38,23 @@ fun NavGraphBuilder.conferenceHomeGraph(
     navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (ConferenceDayKey) -> Unit,
     navigateToSettings: () -> Unit,
+    navigateToConferenceList: () -> Unit
 ) {
     scrollable(
         route = ConferenceHomeDestination.route,
         arguments = listOf(
             navArgument(ConferenceHomeDestination.conferenceArg) {
                 type = NavType.StringType
+                defaultValue = ""
             }
         ),
     ) {
-        val conference = ConferenceHomeDestination.fromNavArgs(it.backStackEntry)
-
         HomeRoute(
-            conference = conference,
             navigateToSession = navigateToSession,
             navigateToDay = navigateToDay,
             navigateToSettings = navigateToSettings,
-            columnState = it.columnState
+            columnState = it.columnState,
+            navigateToConferenceList = navigateToConferenceList
         )
     }
 }

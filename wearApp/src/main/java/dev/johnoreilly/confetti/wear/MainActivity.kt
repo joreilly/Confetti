@@ -11,7 +11,6 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -37,23 +36,16 @@ class MainActivity : ComponentActivity() {
             }
 
             LaunchedEffect(Unit) {
-                val conference = intent.getAndRemoveKey("conference")
-                val sessionId = intent.getAndRemoveKey("session")
+                if (intent.getAndRemoveKey("tile") == "session") {
+                    val conference = intent.getAndRemoveKey("conference")
+                    val sessionId = intent.getAndRemoveKey("session")
 
-                if (sessionId != null && conference != null) {
-                    navController.navigate(
-                        SessionDetailsDestination.createNavigationRoute(
-                            SessionDetailsKey(conference, sessionId)
+                    if (conference != null && sessionId != null) {
+                        navController.navigate(
+                            SessionDetailsDestination.createNavigationRoute(
+                                SessionDetailsKey(conference, sessionId)
+                            )
                         )
-                    )
-                } else if (startingConferenceAsync.await().isNotEmpty()) {
-                    val conference = startingConferenceAsync.await()
-
-                    val route = ConferenceHomeDestination.createNavigationRoute(conference)
-                    navController.navigate(route) {
-                        popUpTo(navController.graph.id) {
-                            inclusive = true
-                        }
                     }
                 }
             }

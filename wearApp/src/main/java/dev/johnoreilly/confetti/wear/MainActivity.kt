@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
-
 package dev.johnoreilly.confetti.wear
 
 import android.content.Intent
@@ -10,7 +8,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.lifecycle.lifecycleScope
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
@@ -37,6 +34,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberSwipeDismissableNavController()
 
             val startingConference = remember {
+                // TODO refactor to avoid needing this so early
                 runBlocking {
                     startingConferenceAsync.await()
                 }

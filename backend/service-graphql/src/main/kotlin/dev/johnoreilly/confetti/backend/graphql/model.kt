@@ -88,11 +88,13 @@ internal fun OrderByDirection.toDDirection(): DDirection {
     }
 }
 
+class LocalDateTimeFilter(
+    val before: LocalDateTime? = null,
+    val after: LocalDateTime? = null,
+)
 class SessionFilter(
-    val startsBefore: LocalDateTime? = null,
-    val startsAfter: LocalDateTime? = null,
-    val endsBefore: LocalDateTime? = null,
-    val endsAfter: LocalDateTime? = null,
+    val startsAt: LocalDateTimeFilter? = null,
+    val endsAt: LocalDateTimeFilter? = null,
 )
 
 class SessionOrderBy(

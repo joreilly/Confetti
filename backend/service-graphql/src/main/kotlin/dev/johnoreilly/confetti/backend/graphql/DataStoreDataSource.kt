@@ -65,16 +65,16 @@ class DataStoreDataSource(private val conf: String) : DataSource {
             limit = first,
             cursor = after,
             filters = buildList {
-                filter?.startsBefore?.let {
+                filter?.startsAt?.before?.let {
                     add(DFilter("start", DComparatorLe, it.toString()))
                 }
-                filter?.startsAfter?.let {
+                filter?.startsAt?.after?.let {
                     add(DFilter("start", DComparatorGe, it.toString()))
                 }
-                filter?.endsBefore?.let {
+                filter?.endsAt?.before?.let {
                     add(DFilter("end", DComparatorLe, it.toString()))
                 }
-                filter?.endsAfter?.let {
+                filter?.endsAt?.after?.let {
                     add(DFilter("end", DComparatorLe, it.toString()))
                 }
             },

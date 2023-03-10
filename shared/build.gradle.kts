@@ -170,3 +170,12 @@ allprojects {
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
 }
+
+tasks.create("runJvmMain", JavaExec::class.java) {
+    val jars = files().apply {
+        from(configurations.getByName("jvmRuntimeClasspath"))
+        from(tasks.named("jvmJar"))
+    }
+    this.setClasspath(jars)
+    this.mainClass.set("dev.johnoreilly.confetti.MainKt")
+}

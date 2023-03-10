@@ -1,4 +1,4 @@
-name: Android CI
+name: Android, Wear and JVM CI
 
 on: pull_request
 
@@ -15,6 +15,6 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 17
-    - run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug
+    - run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug :shared:runJvmMain
 
 

@@ -40,4 +40,10 @@ class ApolloClientCache : KoinComponent {
             )
             .build()
     }
+
+    fun close() {
+        _clients.values.forEach {
+            it.close()
+        }
+    }
 }

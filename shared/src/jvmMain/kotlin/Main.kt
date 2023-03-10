@@ -2,10 +2,14 @@ package dev.johnoreilly.confetti
 
 import dev.johnoreilly.confetti.di.initKoin
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
-suspend fun main() {
+@Suppress("UNUSED_PARAMETER")
+fun main(args: Array<String>) = runBlocking {
     val koin = initKoin().koin
     val repo = koin.get<ConfettiRepository>()
+    val clientCache = koin.get<ApolloClientCache>()
+
     repo.setConference("droidconlondon2022")
 
     println("Sessions")
@@ -13,4 +17,5 @@ suspend fun main() {
     sessions.forEach { session ->
         println("${session.startInstant} ${session.title}")
     }
+    clientCache.close()
 }

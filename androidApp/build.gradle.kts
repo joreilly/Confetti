@@ -145,8 +145,6 @@ dependencies {
 
     implementation(libs.accompanist.adaptive)
     implementation(libs.accompanist.flow.layout)
-    implementation(libs.accompanist.pager)
-    implementation(libs.accompanist.pager.indicator)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)

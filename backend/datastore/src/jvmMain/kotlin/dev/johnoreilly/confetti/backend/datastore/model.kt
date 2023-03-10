@@ -82,6 +82,18 @@ class DOrderBy(
   val direction: DDirection
 )
 
+sealed interface DComparator
+
+object DComparatorEq: DComparator
+object DComparatorGe: DComparator
+object DComparatorLe: DComparator
+
+class DFilter(
+  val field: String,
+  val comparator: DComparator,
+  val value: Any,
+)
+
 enum class DDirection {
   ASCENDING,
   DESCENDING

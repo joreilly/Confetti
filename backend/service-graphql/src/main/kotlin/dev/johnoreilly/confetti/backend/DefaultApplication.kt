@@ -31,6 +31,7 @@ import graphql.schema.*
 import graphql.schema.idl.SchemaPrinter
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import okio.buffer
 import okio.source
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -252,6 +253,7 @@ class CustomSchemaGeneratorHooks : SchemaGeneratorHooks {
         when (type.classifier as? KClass<*>) {
             Instant::class -> graphqlInstantType
             LocalDate::class -> graphqlLocalDateType
+            LocalDateTime::class -> graphqlLocalDateTimeType
             else -> null
         }
 }
@@ -268,6 +270,11 @@ val graphqlLocalDateType = GraphQLScalarType.newScalar()
     .coercing(LocalDateCoercing)
     .build()!!
 
+val graphqlLocalDateTimeType = GraphQLScalarType.newScalar()
+    .name("LocalDateTime")
+    .description("A type representing a formatted kotlinx.datetime.LocalDateTime")
+    .coercing(LocalDateTimeCoercing)
+    .build()!!
 
 object InstantCoercing : Coercing<Instant, String> {
     override fun parseValue(input: Any): Instant = runCatching {
@@ -305,6 +312,29 @@ object LocalDateCoercing : Coercing<LocalDate, String> {
             LocalDate.parse(str!!)
         }.getOrElse {
             throw CoercingParseLiteralException("Expected valid LocalDate literal but was $str")
+        }
+    }
+
+    override fun serialize(dataFetcherResult: Any): String = runCatching {
+        dataFetcherResult.toString()
+    }.getOrElse {
+        throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
+    }
+}
+
+object LocalDateTimeCoercing : Coercing<LocalDateTime, String> {
+    override fun parseValue(input: Any): LocalDateTime = runCatching {
+        LocalDateTime.parse(serialize(input))
+    }.getOrElse {
+        throw CoercingParseValueException("Expected valid LocalDateTime but was $input")
+    }
+
+    override fun parseLiteral(input: Any): LocalDateTime {
+        val str = (input as? StringValue)?.value
+        return runCatching {
+            LocalDateTime.parse(str!!)
+        }.getOrElse {
+            throw CoercingParseLiteralException("Expected valid LocalDateTime literal but was $str")
         }
     }
 

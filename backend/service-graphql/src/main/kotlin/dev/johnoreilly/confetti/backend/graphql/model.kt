@@ -11,6 +11,7 @@ import graphql.introspection.Introspection
 import graphql.schema.DataFetchingEnvironment
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import org.springframework.stereotype.Component
 
 @GraphQLDirective(
@@ -29,9 +30,16 @@ class RootQuery : Query {
     fun sessions(
         dfe: DataFetchingEnvironment,
         first: Int? = 10,
-        after: String? = null
+        after: String? = null,
+        filter: SessionFilter? = null,
+        orderBy: SessionOrderBy? = SessionOrderBy(field = SessionField.STARTS_AT, direction = OrderByDirection.ASCENDING)
     ): SessionConnection {
-        return dfe.source().sessions(first ?: 10, after)
+        return dfe.source().sessions(
+            first ?: 10,
+            after,
+            filter,
+            orderBy
+        )
     }
 
     fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
@@ -51,7 +59,7 @@ class RootQuery : Query {
     }
 
     fun session(dfe: DataFetchingEnvironment, id: String): Session {
-        val nodes = dfe.source().sessions(100, after = null)
+        val nodes = dfe.source().sessions(100, after = null, null, null)
             .nodes
 
         return nodes.firstOrNull { it.id == id }
@@ -71,13 +79,29 @@ class RootQuery : Query {
             it.toConference()
         }
     }
+}
 
-    private fun OrderByDirection.toDDirection(): DDirection {
-        return when (this) {
-            OrderByDirection.ASCENDING -> DDirection.ASCENDING
-            OrderByDirection.DESCENDING -> DDirection.DESCENDING
-        }
+internal fun OrderByDirection.toDDirection(): DDirection {
+    return when (this) {
+        OrderByDirection.ASCENDING -> DDirection.ASCENDING
+        OrderByDirection.DESCENDING -> DDirection.DESCENDING
     }
+}
+
+class SessionFilter(
+    val startsBefore: LocalDateTime? = null,
+    val startsAfter: LocalDateTime? = null,
+    val endsBefore: LocalDateTime? = null,
+    val endsAfter: LocalDateTime? = null,
+)
+
+class SessionOrderBy(
+    val field: SessionField,
+    val direction: OrderByDirection
+)
+
+enum class SessionField(val value: String) {
+    STARTS_AT("start"),
 }
 
 class ConferenceOrderBy(
@@ -127,10 +151,12 @@ This field might have the same value as description if a shortDescription is not
     val language: String?,
     private val speakerIds: Set<String>,
     val tags: List<String>,
-    @RequiresOptIn("experimental")
+    @Deprecated("use startsAt instead")
     val startInstant: Instant,
-    @RequiresOptIn("experimental")
+    @Deprecated("use endsAt instead")
     val endInstant: Instant,
+    val startsAt: LocalDateTime,
+    val endsAt: LocalDateTime,
     private val roomIds: Set<String>,
     val complexity: String?,
     val feedbackId: String?,

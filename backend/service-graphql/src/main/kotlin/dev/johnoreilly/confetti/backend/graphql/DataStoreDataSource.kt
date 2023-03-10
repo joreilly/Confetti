@@ -29,7 +29,6 @@ class DataStoreDataSource(private val conf: String) : DataSource {
         }
     }
 
-
     private val _venues: List<Venue> by lazy {
         datastore.readVenues(conf).map {
             Venue(
@@ -55,11 +54,31 @@ class DataStoreDataSource(private val conf: String) : DataSource {
     override fun conference(): Conference {
         return _config
     }
-    override fun sessions(first: Int, after: String?): SessionConnection {
+    override fun sessions(
+        first: Int,
+        after: String?,
+        filter: SessionFilter?,
+        orderBy: SessionOrderBy?
+    ): SessionConnection {
         val page = datastore.readSessions(
             conf = conf,
             limit = first,
-            cursor = after
+            cursor = after,
+            filters = buildList {
+                filter?.startsBefore?.let {
+                    add(DFilter("start", DComparatorLe, it.toString()))
+                }
+                filter?.startsAfter?.let {
+                    add(DFilter("start", DComparatorGe, it.toString()))
+                }
+                filter?.endsBefore?.let {
+                    add(DFilter("end", DComparatorLe, it.toString()))
+                }
+                filter?.endsAfter?.let {
+                    add(DFilter("end", DComparatorLe, it.toString()))
+                }
+            },
+            orderBy = orderBy?.let { DOrderBy(field = it.field.value, direction = it.direction.toDDirection()) }
         )
 
         return SessionConnection(
@@ -79,6 +98,8 @@ class DataStoreDataSource(private val conf: String) : DataSource {
             tags = tags,
             startInstant = start.toInstant(TimeZone.of(_config.timezone)),
             endInstant = end.toInstant(TimeZone.of(_config.timezone)),
+            startsAt = start,
+            endsAt = end,
             roomIds = rooms.toSet(),
             complexity = complexity,
             feedbackId = feedbackId,

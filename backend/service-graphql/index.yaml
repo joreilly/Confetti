@@ -1,0 +1,11 @@
+indexes:
+
+  - kind: Session
+    ancestor: yes
+    properties:
+      - name: start
+
+  - kind: Session
+    ancestor: yes
+    properties:
+      - name: end

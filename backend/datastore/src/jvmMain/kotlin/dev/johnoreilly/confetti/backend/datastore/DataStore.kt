@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.backend.datastore
 
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.datastore.*
+import com.google.datastore.v1.PropertyFilter
 import com.google.datastore.v1.QueryResultBatch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDateTime
@@ -92,8 +93,50 @@ class DataStore {
         }
     }
 
-    fun readSessions(conf: String, limit: Int, cursor: String?): DPage<DSession> {
+    private fun eq(field: String, value: Any): StructuredQuery.PropertyFilter {
+        return when(value) {
+            is String -> StructuredQuery.PropertyFilter.eq(field, value)
+            is Long -> StructuredQuery.PropertyFilter.eq(field, value)
+            else -> TODO("$value")
+        }
+    }
+
+    private fun ge(field: String, value: Any): StructuredQuery.PropertyFilter {
+        return when(value) {
+            is String -> StructuredQuery.PropertyFilter.ge(field, value)
+            is Long -> StructuredQuery.PropertyFilter.ge(field, value)
+            else -> TODO("$value")
+        }
+    }
+
+    private fun le(field: String, value: Any): StructuredQuery.PropertyFilter {
+        return when(value) {
+            is String -> StructuredQuery.PropertyFilter.le(field, value)
+            is Long -> StructuredQuery.PropertyFilter.le(field, value)
+            else -> TODO("$value")
+        }
+    }
+
+    private fun and(filters: List<StructuredQuery.PropertyFilter>): StructuredQuery.Filter {
+        if (filters.size == 1) {
+            return filters.get(0)
+        } else {
+            return StructuredQuery.CompositeFilter.and(filters.get(0), *filters.drop(1).toTypedArray())
+        }
+    }
+    fun readSessions(conf: String, limit: Int, cursor: String?, filters: List<DFilter>, orderBy: DOrderBy?): DPage<DSession> {
         log("readSessions limit=$limit")
+
+        val dFilters = filters.map {
+            when (it.comparator) {
+                DComparatorEq -> eq(it.field, it.value)
+                DComparatorGe -> ge(it.field, it.value)
+                DComparatorLe -> le(it.field, it.value)
+            }
+        } + StructuredQuery.PropertyFilter.hasAncestor(
+            keyFactory.setKind(KIND_CONF).newKey(conf)
+        )
+
         val query: EntityQuery? = Query.newEntityQueryBuilder()
             .setKind(KIND_SESSION)
             .setLimit(limit)
@@ -102,11 +145,12 @@ class DataStore {
                     setStartCursor(Cursor.fromUrlSafe(cursor))
                 }
             }
-            .setFilter(
-                StructuredQuery.PropertyFilter.hasAncestor(
-                    keyFactory.setKind(KIND_CONF).newKey(conf)
-                )
-            )
+            .setFilter(and(dFilters))
+            .apply {
+                if (orderBy != null){
+                    setOrderBy(StructuredQuery.OrderBy(orderBy.field, orderBy.direction.toDirection()))
+                }
+            }
             .build()
         val result = datastore.run(query)
 

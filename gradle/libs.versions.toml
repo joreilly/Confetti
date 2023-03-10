@@ -1,10 +1,10 @@
 [versions]
-accompanist = "0.28.0"
-activity-compose = "1.7.0-beta01"
+accompanist = "0.29.2-rc"
+activity-compose = "1.7.0-rc01"
 androidx-lifecycle = "2.5.1"
 androidx-datastore = "1.1.0-alpha01"
 apollo = "3.7.4"
-compose = "1.4.0-beta01"
+compose = "1.4.0-rc01"
 compose-compiler = "1.4.3-dev-k1.8.20-Beta-15b4f4328eb"
 compose-material-3 = "1.0.1"
 junit = "4.13"
@@ -16,15 +16,13 @@ koin-core = "3.3.2"
 kotlin = "1.8.20-Beta"
 kotlin-coroutines = "1.6.4"
 kotlinx-datetime = "0.4.0"
-lifecycle = "2.6.0-beta01"
+lifecycle = "2.6.0"
 multiplatform-settings = "1.0.0"
 nav-compose = "2.5.3"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
 accompanist-flow-layout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
-accompanist-pager-indicator = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.1.1"
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }

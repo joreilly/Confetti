@@ -13,51 +13,48 @@ import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.home.HomeRoute
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
-import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 
-object HomeDestination : ConfettiNavigationDestination {
+object ConferenceHomeDestination : ConfettiNavigationDestination {
     const val conferenceArg = "conference"
-    override val route = "home_route/{${conferenceArg}}"
-    override val destination = "home_destination"
+    override val route = "conference_route/{${conferenceArg}}"
+    override val destination = "conference_destination"
 
     fun createNavigationRoute(conference: String): String {
-        return "home_route/${conference}"
+        return "conference_route/${conference}"
     }
 
     fun fromNavArgs(entry: NavBackStackEntry): String {
         val arguments = entry.arguments!!
-        return arguments.getString(SessionDetailsDestination.conferenceArg)!!
+        return arguments.getString(conferenceArg)!!
     }
 
     fun fromNavArgs(savedStateHandle: SavedStateHandle): String {
-        return savedStateHandle[SessionsDestination.conferenceArg]!!
+        val conference: String = savedStateHandle[conferenceArg]!!
+        return conference
     }
 }
 
-fun NavGraphBuilder.homeGraph(
-    startingConference: String,
+fun NavGraphBuilder.conferenceHomeGraph(
     navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (ConferenceDayKey) -> Unit,
     navigateToSettings: () -> Unit,
+    navigateToConferenceList: () -> Unit
 ) {
     scrollable(
-        route = HomeDestination.route,
+        route = ConferenceHomeDestination.route,
         arguments = listOf(
-            navArgument(HomeDestination.conferenceArg) {
+            navArgument(ConferenceHomeDestination.conferenceArg) {
                 type = NavType.StringType
-                defaultValue = startingConference
+                defaultValue = ""
             }
         ),
     ) {
-        val conference = HomeDestination.fromNavArgs(it.backStackEntry)
-
         HomeRoute(
-            conference = conference,
             navigateToSession = navigateToSession,
             navigateToDay = navigateToDay,
             navigateToSettings = navigateToSettings,
-            columnState = it.columnState
+            columnState = it.columnState,
+            navigateToConferenceList = navigateToConferenceList
         )
     }
 }

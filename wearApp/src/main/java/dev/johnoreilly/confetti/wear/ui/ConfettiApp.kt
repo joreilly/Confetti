@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
 import dev.johnoreilly.confetti.wear.conferences.navigation.conferencesGraph
-import dev.johnoreilly.confetti.wear.home.navigation.HomeDestination
-import dev.johnoreilly.confetti.wear.home.navigation.homeGraph
+import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
+import dev.johnoreilly.confetti.wear.home.navigation.conferenceHomeGraph
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.sessionDetailsGraph
@@ -17,34 +17,34 @@ import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
 
 @Composable
 fun ConfettiApp(
-    startingConference: String,
     navController: NavHostController
 ) {
     fun onNavigateToDestination(destination: ConfettiNavigationDestination, route: String? = null) {
-        navController.navigate(route ?: destination.route)
+        if (destination is ConferenceHomeDestination) {
+            navController.navigate(route ?: destination.route) {
+                popUpTo(navController.graph.id) {
+                    inclusive = true
+                }
+            }
+        } else {
+            navController.navigate(route ?: destination.route)
+        }
     }
-
-    fun onBackClick() {
-        navController.popBackStack()
-    }
-
-    val startDestination = if (startingConference.isEmpty())
-        ConferencesDestination.route
-    else
-        HomeDestination.route
 
     WearNavScaffold(
-        startDestination = startDestination,
+        startDestination = ConferenceHomeDestination.route,
         navController = navController
     ) {
         conferencesGraph(
             navigateToConference = {
-                onNavigateToDestination(HomeDestination)
+                onNavigateToDestination(
+                    ConferenceHomeDestination,
+                    ConferenceHomeDestination.createNavigationRoute(it)
+                )
             }
         )
 
-        homeGraph(
-            startingConference,
+        conferenceHomeGraph(
             navigateToSession = {
                 onNavigateToDestination(
                     SessionDetailsDestination,
@@ -58,6 +58,12 @@ fun ConfettiApp(
                 onNavigateToDestination(
                     SessionsDestination,
                     SessionsDestination.createNavigationRoute(it)
+                )
+            },
+            navigateToConferenceList = {
+                onNavigateToDestination(
+                    ConferencesDestination,
+                    ConferencesDestination.route
                 )
             }
         )

@@ -98,18 +98,5 @@ sealed interface SessionsUiState {
         val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,
         val speakers: List<SpeakerDetails>,
         val rooms: List<RoomDetails>
-    ) : SessionsUiState {
-
-        fun currentSessions(now: LocalDateTime): List<Pair<String, List<SessionDetails>>>? {
-            val indexInDays = confDates.indexOf(now.date)
-            return if (indexInDays != -1) {
-                // TODO filter the right session times
-                sessionsByStartTimeList[indexInDays].entries.take(2).map {
-                    it.toPair()
-                }
-            } else {
-                null
-            }
-        }
-    }
+    ) : SessionsUiState
 }

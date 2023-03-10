@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,28 +45,35 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun HomeListView(
-    uiState: SessionsUiState,
+    uiState: HomeUiState,
     sessionSelected: (sessionId: String) -> Unit,
     daySelected: (sessionId: LocalDate) -> Unit,
+    navigateToConferenceList: () -> Unit,
     onSettingsClick: () -> Unit,
     onRefreshClick: () -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     when (uiState) {
-        SessionsUiState.Loading -> {
+        HomeUiState.Loading -> {
             CircularProgressIndicator(modifier = Modifier
                 .fillMaxSize()
                 .wrapContentSize(Alignment.Center))
         }
 
-        is SessionsUiState.Success -> HomeList(uiState, sessionSelected, daySelected,
+        is HomeUiState.Success -> HomeList(uiState, sessionSelected, daySelected,
                                             onSettingsClick, onRefreshClick, columnState)
+
+        is HomeUiState.NoneSelected -> {
+            SideEffect {
+                navigateToConferenceList()
+            }
+        }
     }
 }
 
 @Composable
 private fun HomeList(
-    uiState: SessionsUiState.Success,
+    uiState: HomeUiState.Success,
     sessionSelected: (sessionId: String) -> Unit,
     daySelected: (sessionId: LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
@@ -143,7 +151,8 @@ fun HomeListViewPreview() {
 
     ConfettiTheme {
         HomeListView(
-            uiState = SessionsUiState.Success(
+            uiState = HomeUiState.Success(
+                conference = "wearcon",
                 now = sessionTime.toKotlinLocalDateTime(),
                 "WearableCon 2022",
                 confDates = listOf(sessionTime.toLocalDate().toKotlinLocalDate()),
@@ -173,7 +182,8 @@ fun HomeListViewPreview() {
             sessionSelected = {},
             onSettingsClick = {},
             onRefreshClick = {},
-            daySelected = {}
+            daySelected = {},
+            navigateToConferenceList = {}
         )
     }
 }

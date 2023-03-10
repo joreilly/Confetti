@@ -457,6 +457,7 @@ class DataStore {
                     ConferenceId.DroidConLondon2022 -> listOf("2022-10-27", "2022-10-28")
                     ConferenceId.Fosdem2023 -> listOf("2023-02-04", "2023-02-05")
                     ConferenceId.KotlinConf2023 -> listOf("2023-04-12", "2023-04-14")
+                    else -> error("Cannot update days for $conferenceId")
                 }.map { StringValue(it) }
             ).build())
         }

@@ -10,26 +10,29 @@ import kotlinx.serialization.json.Json
 import net.mbonnin.bare.graphql.*
 import java.io.File
 
+
+internal fun initDatastore(): Datastore {
+    val serviceAccountKeyFile =
+        File("/Users/mbonnin/git/Confetti/backend/service_account_key.json")
+    val datastore = if (serviceAccountKeyFile.exists()) {
+        val credentials = serviceAccountKeyFile.inputStream().use {
+            GoogleCredentials.fromStream(it)
+        }
+        DatastoreOptions.newBuilder().setCredentials(credentials).build().service
+    } else {
+        DatastoreOptions.getDefaultInstance().service
+    }
+
+    return datastore
+}
+
 class DataStore {
-    private val datastore: Datastore
+    private val datastore: Datastore = initDatastore()
+
     private val keyFactory: KeyFactory
         get() {
             return datastore.newKeyFactory()
         }
-
-    init {
-        val serviceAccountKeyFile =
-            File("/Users/mbonnin/git/Confetti/backend/service_account_key.json")
-        datastore = if (serviceAccountKeyFile.exists()) {
-            val credentials = serviceAccountKeyFile.inputStream().use {
-                GoogleCredentials.fromStream(it)
-            }
-            DatastoreOptions.newBuilder().setCredentials(credentials).build().service
-        } else {
-            DatastoreOptions.getDefaultInstance().service
-        }
-    }
-
     fun write(
         sessions: List<DSession>,
         rooms: List<DRoom>,
@@ -580,15 +583,15 @@ class DataStore {
         }
 
 
-        private const val KIND_SESSION = "Session"
-        private const val KIND_CONF = "Conf"
-        private const val KIND_CONFIG = "Config"
-        private const val KIND_ROOM = "Room"
-        private const val KIND_SPEAKER = "Speaker"
-        private const val KIND_PARTNERGROUPS = "Partners"
-        private const val KIND_VENUE = "Venue"
+        internal const val KIND_SESSION = "Session"
+        internal const val KIND_CONF = "Conf"
+        internal const val KIND_CONFIG = "Config"
+        internal const val KIND_ROOM = "Room"
+        internal const val KIND_SPEAKER = "Speaker"
+        internal const val KIND_PARTNERGROUPS = "Partners"
+        internal const val KIND_VENUE = "Venue"
 
-        private const val THE_CONFIG = "config"
-        private const val THE_PARTNERGROUPS = "partnerGroups"
+        internal const val THE_CONFIG = "config"
+        internal const val THE_PARTNERGROUPS = "partnerGroups"
     }
 }

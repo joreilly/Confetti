@@ -7,7 +7,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToLog
+import androidx.compose.ui.test.printToString
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeSource
@@ -21,6 +24,7 @@ import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails.Speaker
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
@@ -98,11 +102,17 @@ class ScreenshotTest {
             )
         ),
         room = SessionDetails.Room(name = "UB5.230"),
-        tags = listOf("Kotlin")
+        tags = listOf("Kotlin"),
+        __typename = ""
     )
 
     @Test
-    fun conferences() = screenshot("a_conferences") {
+    fun conferences() = screenshot(
+        screenshotName = "a_conferences",
+        checks = {
+            composeTestRule.onNodeWithText("Fosdem 2023").assertIsDisplayed()
+        }
+    ) {
         ConferencesView(
             conferenceList = listOf(
                 GetConferencesQuery.Conference("0", emptyList(), "Fosdem 2023"),
@@ -116,9 +126,14 @@ class ScreenshotTest {
 
     @Test
     fun sessionList() {
-        screenshot("b_session_list") {
+        screenshot(
+            screenshotName = "b_session_list",
+            checks = {
+                composeTestRule.onNodeWithText("Wednesday 9:30").assertIsDisplayed()
+            }
+        ) {
             SessionListView(
-                date = date,
+                date = ConferenceDayKey("fosdem", date),
                 uiState = SessionsUiState.Success(
                     now = sessionTime.toKotlinLocalDateTime(),
                     "Fosdem 2023",
@@ -136,7 +151,12 @@ class ScreenshotTest {
     }
 
     @Test
-    fun sessionDetails() = screenshot("c_session_details") {
+    fun sessionDetails() = screenshot(
+        screenshotName = "c_session_details",
+        checks = {
+            composeTestRule.onNodeWithText("Wednesday 09:30").assertIsDisplayed()
+        }
+    ) {
         SessionDetailView(
             session = sessionDetails,
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
@@ -145,11 +165,15 @@ class ScreenshotTest {
     }
 
     @Test
-    fun tilePreview() = screenshot("d_tile", showScaffold = false) {
+    fun tilePreview() = screenshot(
+        screenshotName = "d_tile",
+        showScaffold = false,
+    ) {
         val context = LocalContext.current
 
         val tileState = remember {
             CurrentSessionsData(
+                "kotlinconf",
                 sessionTime.toKotlinLocalDateTime(),
                 listOf(
                     sessionDetails
@@ -164,6 +188,7 @@ class ScreenshotTest {
     private fun screenshot(
         screenshotName: String,
         showScaffold: Boolean = true,
+        checks: () -> Unit = {},
         block: @Composable () -> Unit
     ) {
         composeTestRule.setContent {
@@ -181,6 +206,8 @@ class ScreenshotTest {
         }
 
         composeTestRule.onRoot().assertIsDisplayed()
+
+        checks()
 
         val context = InstrumentationRegistry.getInstrumentation().context
         val isScreenRound = context.resources.configuration.isScreenRound

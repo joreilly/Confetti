@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistBaseUiApi::class,
+    ExperimentalHorologistComposablesApi::class
+)
 
 package dev.johnoreilly.confetti.wear.conferences
 
@@ -16,6 +18,10 @@ import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
+import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
+import com.google.android.horologist.base.ui.components.StandardChip
+import com.google.android.horologist.composables.ExperimentalHorologistComposablesApi
+import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
@@ -66,20 +72,18 @@ fun ConferencesView(
 
         when (uiState) {
             is ConferencesUiState.Loading -> {
-                item {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center)
+                items(5) {
+                    PlaceholderChip(
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             }
 
             is ConferencesUiState.Success -> {
                 items(uiState.conferences) { conference ->
-                    Chip(
+                    StandardChip(
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text(conference.name) },
+                        label = conference.name,
                         onClick = {
                             navigateToConference(conference.id)
                         },

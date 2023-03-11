@@ -36,19 +36,20 @@ fun ConfettiTheme(
     val defaultTypography = MaterialTheme.typography
     @Suppress("DEPRECATION")
     val typography = remember {
+        val platformStyle = PlatformTextStyle(includeFontPadding = false)
         defaultTypography.copy(
-            display1 = defaultTypography.display1.copy(platformStyle = PlatformTextStyle(false)),
-            display2 = defaultTypography.display2.copy(platformStyle = PlatformTextStyle(false)),
-            display3 = defaultTypography.display3.copy(platformStyle = PlatformTextStyle(false)),
-            title1 = defaultTypography.title1.copy(platformStyle = PlatformTextStyle(false)),
-            title2 = defaultTypography.title2.copy(platformStyle = PlatformTextStyle(false)),
-            title3 = defaultTypography.title3.copy(platformStyle = PlatformTextStyle(false)),
-            body1 = defaultTypography.body1.copy(platformStyle = PlatformTextStyle(false)),
-            body2 = defaultTypography.body2.copy(platformStyle = PlatformTextStyle(false)),
-            button = defaultTypography.button.copy(platformStyle = PlatformTextStyle(false)),
-            caption1 = defaultTypography.caption1.copy(platformStyle = PlatformTextStyle(false)),
-            caption2 = defaultTypography.caption2.copy(platformStyle = PlatformTextStyle(false)),
-            caption3 = defaultTypography.caption3.copy(platformStyle = PlatformTextStyle(false)),
+            display1 = defaultTypography.display1.copy(platformStyle = platformStyle),
+            display2 = defaultTypography.display2.copy(platformStyle = platformStyle),
+            display3 = defaultTypography.display3.copy(platformStyle = platformStyle),
+            title1 = defaultTypography.title1.copy(platformStyle = platformStyle),
+            title2 = defaultTypography.title2.copy(platformStyle = platformStyle),
+            title3 = defaultTypography.title3.copy(platformStyle = platformStyle),
+            body1 = defaultTypography.body1.copy(platformStyle = platformStyle),
+            body2 = defaultTypography.body2.copy(platformStyle = platformStyle),
+            button = defaultTypography.button.copy(platformStyle = platformStyle),
+            caption1 = defaultTypography.caption1.copy(platformStyle = platformStyle),
+            caption2 = defaultTypography.caption2.copy(platformStyle = platformStyle),
+            caption3 = defaultTypography.caption3.copy(platformStyle = platformStyle),
         )
     }
     MaterialTheme(colors = ColorScheme, content = content, typography = typography)

@@ -1,8 +1,8 @@
 package dev.johnoreilly.confetti.backend.datastore
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.datastore.*
-import com.google.datastore.v1.PropertyFilter
 import com.google.datastore.v1.QueryResultBatch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDateTime
@@ -11,14 +11,32 @@ import net.mbonnin.bare.graphql.*
 import java.io.File
 
 
-internal fun initDatastore(): Datastore {
-    val serviceAccountKeyFile =
-        File("/Users/mbonnin/git/Confetti/backend/service_account_key.json")
-    val datastore = if (serviceAccountKeyFile.exists()) {
-        val credentials = serviceAccountKeyFile.inputStream().use {
+internal fun locateFile(name: String): File? {
+    var dir: File? = File(".")
+    while (dir != null) {
+        val candidate = dir.resolve("Confetti/backend/$name")
+        if (candidate.exists()) {
+            return candidate
+        }
+
+        dir = dir.parentFile
+    }
+    return null
+}
+
+fun credentials(name: String): GoogleCredentials? {
+    return locateFile(name)?.let {
+        it.inputStream().use {
             GoogleCredentials.fromStream(it)
         }
-        DatastoreOptions.newBuilder().setCredentials(credentials).build().service
+    }
+}
+
+internal fun initDatastore(): Datastore {
+    val localCredentials = credentials("gcp_service_account_key.json")
+
+    val datastore = if (localCredentials != null) {
+        DatastoreOptions.newBuilder().setCredentials(localCredentials).build().service
     } else {
         DatastoreOptions.getDefaultInstance().service
     }
@@ -33,6 +51,63 @@ class DataStore {
         get() {
             return datastore.newKeyFactory()
         }
+
+
+    private fun readBookmarksEntity(uid: String, conference: String): Entity? {
+        val key = keyFactory.addAncestor(PathElement.of(KIND_USER, uid))
+            .setKind(KIND_BOOKMARKS)
+            .newKey(conference)
+
+        return try {
+            datastore.get(key)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun readBookmarks(uid: String, conference: String): Set<String> {
+        return readBookmarksEntity(uid, conference)?.names.orEmpty()
+    }
+
+    fun addBookmark(uid: String, conference: String, sessionId: String) {
+        var entityBuilder: Entity.Builder? = readBookmarksEntity(uid, conference)?.let {
+            Entity.newBuilder(it)
+        }
+        if (entityBuilder == null) {
+            val key = keyFactory.addAncestor(PathElement.of(KIND_USER, uid))
+                .setKind(KIND_BOOKMARKS)
+                .newKey(conference)
+
+            entityBuilder = Entity.newBuilder(key)!!
+        }
+        entityBuilder.set(sessionId, BooleanValue.of(true))
+        datastore.runInTransaction {
+            it.put(entityBuilder.build())
+        }
+    }
+
+    fun removeBookmark(uid: String, conference: String, sessionId: String): Boolean {
+        val entity = readBookmarksEntity(uid, conference)
+
+        if (entity == null) {
+            return false
+        }
+
+        if (!entity.contains(sessionId)) {
+            return false
+        }
+
+        datastore.runInTransaction {
+            it.put(
+                Entity.newBuilder(entity)
+                    .remove(sessionId)
+                    .build()
+            )
+        }
+
+        return true
+    }
+
     fun write(
         sessions: List<DSession>,
         rooms: List<DRoom>,
@@ -97,7 +172,7 @@ class DataStore {
     }
 
     private fun eq(field: String, value: Any): StructuredQuery.PropertyFilter {
-        return when(value) {
+        return when (value) {
             is String -> StructuredQuery.PropertyFilter.eq(field, value)
             is Long -> StructuredQuery.PropertyFilter.eq(field, value)
             else -> TODO("$value")
@@ -105,7 +180,7 @@ class DataStore {
     }
 
     private fun ge(field: String, value: Any): StructuredQuery.PropertyFilter {
-        return when(value) {
+        return when (value) {
             is String -> StructuredQuery.PropertyFilter.ge(field, value)
             is Long -> StructuredQuery.PropertyFilter.ge(field, value)
             else -> TODO("$value")
@@ -113,7 +188,7 @@ class DataStore {
     }
 
     private fun le(field: String, value: Any): StructuredQuery.PropertyFilter {
-        return when(value) {
+        return when (value) {
             is String -> StructuredQuery.PropertyFilter.le(field, value)
             is Long -> StructuredQuery.PropertyFilter.le(field, value)
             else -> TODO("$value")
@@ -124,10 +199,20 @@ class DataStore {
         if (filters.size == 1) {
             return filters.get(0)
         } else {
-            return StructuredQuery.CompositeFilter.and(filters.get(0), *filters.drop(1).toTypedArray())
+            return StructuredQuery.CompositeFilter.and(
+                filters.get(0),
+                *filters.drop(1).toTypedArray()
+            )
         }
     }
-    fun readSessions(conf: String, limit: Int, cursor: String?, filters: List<DFilter>, orderBy: DOrderBy?): DPage<DSession> {
+
+    fun readSessions(
+        conf: String,
+        limit: Int,
+        cursor: String?,
+        filters: List<DFilter>,
+        orderBy: DOrderBy?
+    ): DPage<DSession> {
         log("readSessions limit=$limit")
 
         val dFilters = filters.map {
@@ -150,8 +235,13 @@ class DataStore {
             }
             .setFilter(and(dFilters))
             .apply {
-                if (orderBy != null){
-                    setOrderBy(StructuredQuery.OrderBy(orderBy.field, orderBy.direction.toDirection()))
+                if (orderBy != null) {
+                    setOrderBy(
+                        StructuredQuery.OrderBy(
+                            orderBy.field,
+                            orderBy.direction.toDirection()
+                        )
+                    )
                 }
             }
             .build()
@@ -585,10 +675,12 @@ class DataStore {
 
         internal const val KIND_SESSION = "Session"
         internal const val KIND_CONF = "Conf"
+        internal const val KIND_USER = "User"
         internal const val KIND_CONFIG = "Config"
         internal const val KIND_ROOM = "Room"
         internal const val KIND_SPEAKER = "Speaker"
         internal const val KIND_PARTNERGROUPS = "Partners"
+        internal const val KIND_BOOKMARKS = "Bookmarks"
         internal const val KIND_VENUE = "Venue"
 
         internal const val THE_CONFIG = "config"

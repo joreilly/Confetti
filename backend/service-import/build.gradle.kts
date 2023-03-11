@@ -119,7 +119,7 @@ appengine {
     setArtifact(fatJar.flatMap { it.archiveFile })
   }
   tools {
-    setServiceAccountKeyFile(file("../service_account_key.json"))
+    setServiceAccountKeyFile(file("../gcp_service_account_key.json"))
   }
   deploy {
     projectId = "confetti-349319"

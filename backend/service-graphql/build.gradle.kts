@@ -21,7 +21,7 @@ dependencies {
   implementation(libs.reflect)
   implementation(libs.xoxo)
   implementation(libs.apollo.tooling)
-  implementation(libs.federation.jvm)
+  implementation(libs.firebase.admin)
 
   testImplementation(libs.junit)
 }
@@ -38,7 +38,7 @@ appengine {
     setArtifact(tasks.named("bootJar").flatMap { (it as Jar).archiveFile })
   }
   tools {
-    setServiceAccountKeyFile(file("../service_account_key.json"))
+    setServiceAccountKeyFile(file("../gcp_service_account_key.json"))
   }
   deploy {
     projectId = "confetti-349319"

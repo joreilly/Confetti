@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.backend
 
 import Trace
+import com.apollographql.apollo3.tooling.RegisterOperations
 import com.apollographql.apollo3.tooling.SchemaUploader
 import com.expediagroup.graphql.apq.cache.DefaultAutomaticPersistedQueriesCache
 import com.expediagroup.graphql.apq.provider.AutomaticPersistedQueriesProvider
@@ -20,14 +21,12 @@ import com.expediagroup.graphql.server.types.GraphQLServerRequest
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.MapType
 import com.fasterxml.jackson.databind.type.TypeFactory
-import com.squareup.wire.ofEpochSecond
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootQuery
 import graphql.GraphQL
 import graphql.GraphQLContext
 import graphql.execution.AsyncSerialExecutionStrategy
-import graphql.execution.instrumentation.tracing.TracingInstrumentation
 import graphql.language.StringValue
 import graphql.schema.*
 import graphql.schema.idl.SchemaPrinter
@@ -43,7 +42,6 @@ import kotlinx.datetime.LocalDateTime
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asNumber
 import net.mbonnin.bare.graphql.asString
-import net.mbonnin.bare.graphql.toJsonElement
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -62,7 +60,6 @@ import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
 import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.reactive.function.server.json
-import java.util.Base64
 import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
@@ -73,6 +70,7 @@ class DefaultApplication {
     private val apolloKey = javaClass.classLoader.getResourceAsStream("apollo.key")?.use {
         it.source().buffer().readUtf8().trim()
     }
+
 
     @Bean
     fun customHooks(): SchemaGeneratorHooks = CustomSchemaGeneratorHooks()
@@ -183,12 +181,20 @@ class DefaultApplication {
             }
         }
     }
+
     private fun trace(tracing: Any) {
         if (apolloKey == null) {
             return
         }
 
-        println(tracing.toJsonElement().toString())
+        val methods = RegisterOperations::class.java.getDeclaredMethods()
+
+        methods.forEach {
+            println(it)
+        }
+        methods.singleOrNull { it.name == "normalize" }
+            ?.invoke(null)
+
         val root = tracing.asMap
         val trace = Trace(
             start_time = root.get("startTime")?.asString?.let { java.time.Instant.parse(it) },
@@ -196,9 +202,7 @@ class DefaultApplication {
             duration_ns = root.get("duration")?.asNumber?.toLong() ?: 0,
             client_name = "confetti",
             client_version = "1",
-            root = root.get("execution")
-        )
-        //val bytes = Base64.getDecoder().decode(tracing)
+        ).encode()
 
         Request.Builder()
             .post(trace.toRequestBody("application/protobuf".toMediaType()))
@@ -218,6 +222,7 @@ class DefaultApplication {
             }
 
     }
+
     @Bean
     fun graphQLRoutes2(
         config: GraphQLConfigurationProperties,
@@ -232,9 +237,7 @@ class DefaultApplication {
             if (graphQLResponse != null) {
 
                 if (graphQLResponse is GraphQLResponse<*>) {
-                    val tracing = graphQLResponse.extensions?.get("tracing") as? Any
-                    //val ftv1 = graphQLResponse.extensions?.get("ftv1") as? String
-
+                    val tracing = graphQLResponse.extensions?.get("tracing")
                     if (tracing != null) {
                         if (!channel.trySend(tracing).isSuccess) {
                             println("Cannot send trace: buffer full")
@@ -244,7 +247,8 @@ class DefaultApplication {
                 ok().json().apply {
                     if (graphQLResponse is GraphQLResponse<*>) {
                         if (graphQLResponse.errors.orEmpty().any {
-                                it.message.lowercase().contains("PersistedQueryNotFound".lowercase())
+                                it.message.lowercase()
+                                    .contains("PersistedQueryNotFound".lowercase())
                             }) {
                             header("Cache-Control", "no-store")
                         }
@@ -267,17 +271,25 @@ class DefaultApplication {
         return isUpgrade and isWebSocket
     }
 
-    private fun requestContainsHeader(headers: ServerRequest.Headers, headerName: String, headerValue: String): Boolean =
+    private fun requestContainsHeader(
+        headers: ServerRequest.Headers,
+        headerName: String,
+        headerValue: String
+    ): Boolean =
         headers.header(headerName).map { it.lowercase() }.contains(headerValue.lowercase())
 
     companion object {
-        val SOURCE_KEY = "conf"
+        val KEY_UID = "uid"
+        val KEY_SOURCE = "conf"
+        val KEY_REQUEST = "request"
     }
 }
 
 
-class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper): SpringGraphQLRequestParser(objectMapper) {
-    private val mapTypeReference: MapType = TypeFactory.defaultInstance().constructMapType(HashMap::class.java, String::class.java, Any::class.java)
+class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
+    SpringGraphQLRequestParser(objectMapper) {
+    private val mapTypeReference: MapType = TypeFactory.defaultInstance()
+        .constructMapType(HashMap::class.java, String::class.java, Any::class.java)
 
     override suspend fun parseRequest(serverRequest: ServerRequest): GraphQLServerRequest? {
         val graphqlRequest = super.parseRequest(serverRequest)
@@ -292,7 +304,11 @@ class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper): Spri
             val graphQLExtensions: Map<String, Any>? = extensions?.let {
                 objectMapper.readValue(it, mapTypeReference)
             }
-            return GraphQLRequest(operationName = operationName, variables = graphQLVariables, extensions = graphQLExtensions)
+            return GraphQLRequest(
+                operationName = operationName,
+                variables = graphQLVariables,
+                extensions = graphQLExtensions
+            )
         }
 
         return graphqlRequest
@@ -309,11 +325,17 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
         if (conf == null) {
             conf = ConferenceId.KotlinConf2023.id
         }
-        val source = DataStoreDataSource(conf)
 
-        return super.generateContext(request).put(
-            DefaultApplication.SOURCE_KEY, source
-        )
+        val uid = request.queryParam("authorization").getOrNull()
+            ?.substring("bearer_".length)
+            ?.firebaseUid()
+
+        val source = DataStoreDataSource(conf, uid)
+
+        return super.generateContext(request)
+            .put(DefaultApplication.KEY_SOURCE, source)
+            .put(DefaultApplication.KEY_REQUEST, request)
+            .put(DefaultApplication.KEY_UID, uid)
 
     }
 }

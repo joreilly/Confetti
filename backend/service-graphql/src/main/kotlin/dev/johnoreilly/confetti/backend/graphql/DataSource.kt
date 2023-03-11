@@ -7,4 +7,8 @@ interface DataSource {
   fun venues(): List<Venue>
   fun partnerGroups(): List<PartnerGroup>
   fun conference(): Conference
+  fun bookmarks(): Set<String>
+
+  fun addBookmark(sessionId: String)
+  fun removeBookmark(sessionId: String): Boolean
 }

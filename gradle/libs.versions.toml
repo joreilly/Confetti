@@ -108,7 +108,7 @@ apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 appengine = { id = "com.google.cloud.tools.appengine", version = "2.4.5" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }
 google-services = { id = "com.google.gms.google-services", version = "4.3.15" }
-kmmbridge = { id = "co.touchlab.faktory.kmmbridge", version = "0.3.1" }
+kmmbridge = { id = "co.touchlab.faktory.kmmbridge", version = "0.3.6" }
 kmp-nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "kmp-nativecoroutines" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

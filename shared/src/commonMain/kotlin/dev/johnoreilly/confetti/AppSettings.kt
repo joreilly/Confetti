@@ -2,24 +2,33 @@ package dev.johnoreilly.confetti
 
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
+import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalSettingsApi::class)
 class AppSettings(val settings: FlowSettings) {
 
     suspend fun updateEnableLanguageSetting(language: String, checked: Boolean) {
         val currentEnabledLanguagesString = settings.getStringOrNull(ENABLED_LANGUAGES_SETTING)
-        val currentEnabledLanguagesSet = getEnabledLanguagesSetFromString(currentEnabledLanguagesString)
+        val currentEnabledLanguagesSet =
+            getEnabledLanguagesSetFromString(currentEnabledLanguagesString)
 
         val newEnabledLanguagesString = if (checked) {
             currentEnabledLanguagesSet.plus(language)
         } else {
             currentEnabledLanguagesSet.minus(language)
         }
-        settings.putString(ENABLED_LANGUAGES_SETTING, newEnabledLanguagesString.joinToString(separator = ","))
+        settings.putString(
+            ENABLED_LANGUAGES_SETTING,
+            newEnabledLanguagesString.joinToString(separator = ",")
+        )
     }
 
     suspend fun getConference(): String {
         return settings.getString(CONFERENCE_SETTING, "")
+    }
+
+    fun getConferenceFlow(): Flow<String> {
+        return settings.getStringFlow(CONFERENCE_SETTING, "")
     }
 
     suspend fun setConference(conference: String) {

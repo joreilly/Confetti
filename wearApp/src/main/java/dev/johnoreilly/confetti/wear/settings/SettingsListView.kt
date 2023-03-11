@@ -5,9 +5,9 @@
 
 package dev.johnoreilly.confetti.wear.settings
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
@@ -26,6 +26,7 @@ fun SettingsListView(
     columnState: ScalingLazyColumnState
 ) {
     ScalingLazyColumn(
+        modifier = Modifier.fillMaxSize(),
         columnState = columnState,
     ) {
         item {
@@ -40,7 +41,6 @@ fun SettingsListView(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @WearPreviewDevices
 @WearPreviewFontSizes
 @Composable

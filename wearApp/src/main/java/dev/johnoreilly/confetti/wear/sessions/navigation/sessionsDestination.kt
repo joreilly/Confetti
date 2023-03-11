@@ -30,13 +30,16 @@ object SessionsDestination : ConfettiNavigationDestination {
     fun fromNavArgs(entry: NavBackStackEntry): ConferenceDayKey {
         val arguments = entry.arguments!!
         val dateString = entry.arguments?.getString(dateArg)!!
-        return ConferenceDayKey(arguments.getString(SessionDetailsDestination.conferenceArg)!!, LocalDate.parse(dateString))
+        return ConferenceDayKey(
+            arguments.getString(SessionDetailsDestination.conferenceArg)!!,
+            LocalDate.parse(dateString)
+        )
     }
 
     fun fromNavArgs(savedStateHandle: SavedStateHandle): ConferenceDayKey {
         return ConferenceDayKey(
-            savedStateHandle[SessionsDestination.conferenceArg]!!,
-            savedStateHandle.get<String>(SessionsDestination.dateArg)!!.toLocalDate()
+            savedStateHandle[conferenceArg]!!,
+            savedStateHandle.get<String>(dateArg)!!.toLocalDate()
         )
     }
 }
@@ -50,10 +53,7 @@ fun NavGraphBuilder.sessionsGraph(
             navArgument(SessionsDestination.dateArg) { type = NavType.StringType }
         ),
     ) {
-        val date = SessionsDestination.fromNavArgs(it.backStackEntry)
-
         SessionsRoute(
-            date = date,
             navigateToSession = navigateToSession,
             columnState = it.columnState
         )

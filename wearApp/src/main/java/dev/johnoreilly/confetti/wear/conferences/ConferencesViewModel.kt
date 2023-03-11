@@ -2,7 +2,10 @@ package dev.johnoreilly.confetti.wear.conferences
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.workDataOf
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.work.RefreshWorker
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -21,6 +24,14 @@ class ConferencesViewModel(
     )
 
     fun setConference(conference: String) {
+        OneTimeWorkRequestBuilder<RefreshWorker>()
+            .setInputData(
+                workDataOf(
+                    RefreshWorker.ConferenceKey to conference
+                )
+            )
+            .build()
+
         viewModelScope.launch {
             repository.setConference(conference)
         }

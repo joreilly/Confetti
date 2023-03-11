@@ -10,7 +10,7 @@ compose-material-3 = "1.0.1"
 junit = "4.13"
 kmp-nativecoroutines = "1.0.0-ALPHA-3"
 kmm-viewmodel = "1.0.0-ALPHA-3"
-koin-android = "3.3.2"
+koin-android = "3.3.3"
 koin-android-compose = "3.4.1"
 koin-core = "3.3.2"
 kotlin = "1.8.20-Beta"
@@ -19,6 +19,8 @@ kotlinx-datetime = "0.4.0"
 lifecycle = "2.6.0"
 multiplatform-settings = "1.0.0"
 nav-compose = "2.5.3"
+okio = "3.3.0"
+work-runtime-ktx = "2.8.0"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
@@ -28,6 +30,7 @@ androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.1.1"
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo3:apollo-normalized-cache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo3:apollo-normalized-cache-sqlite" }
@@ -60,6 +63,7 @@ graphql-java = "com.graphql-java:graphql-java:20.0"
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.47.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
+koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin-android" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
@@ -80,6 +84,7 @@ multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-setti
 okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
 xoxo = "net.mbonnin.xoxo:xoxo:0.2"

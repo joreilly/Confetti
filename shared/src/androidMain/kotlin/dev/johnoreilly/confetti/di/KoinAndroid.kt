@@ -18,9 +18,11 @@ import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
 import dev.johnoreilly.confetti.shared.BuildConfig
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.utils.DateService
+import dev.johnoreilly.confetti.work.RefreshWorker
 import okhttp3.OkHttpClient
 import okhttp3.logging.LoggingEventListener
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
@@ -53,6 +55,7 @@ actual fun platformModule() = module {
     single {
         get<FlowSettings>().toBlockingObservableSettings()
     }
+    worker { RefreshWorker(get(), get(), get(), get(), get()) }
 }
 
 val Context.settingsStore by preferencesDataStore("settings")

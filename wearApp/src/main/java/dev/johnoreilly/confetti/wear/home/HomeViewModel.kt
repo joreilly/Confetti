@@ -3,10 +3,14 @@ package dev.johnoreilly.confetti.wear.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.workDataOf
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
+import dev.johnoreilly.confetti.work.RefreshWorker
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,16 +18,21 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 class HomeViewModel(
     savedStateHandle: SavedStateHandle,
     private val repository: ConfettiRepository,
 ) : ViewModel() {
     fun refresh() {
-        viewModelScope.launch {
-            repository.refresh(networkOnly = true)
-        }
+        // TODO show UI while refreshing
+        OneTimeWorkRequestBuilder<RefreshWorker>()
+            .setInputData(
+                workDataOf(
+                    RefreshWorker.ConferenceKey to conference
+                )
+            )
+            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+            .build()
     }
 
     private val conference: String =

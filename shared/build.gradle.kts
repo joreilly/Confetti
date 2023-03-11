@@ -59,16 +59,20 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(libs.androidx.lifecycle.viewmodel.ktx)
+                api(libs.androidx.lifecycle.viewmodel.ktx)
                 implementation(libs.okhttp)
                 implementation(libs.okhttp.coroutines)
                 implementation(libs.okhttp.logging.interceptor)
-                implementation(libs.coil.base)
-                implementation(libs.koin.android)
+                api(libs.coil.base)
+                api(libs.koin.android)
+                api(libs.koin.workmanager)
+                implementation(libs.okio)
 
                 implementation(libs.google.services)
                 implementation(libs.firebase.analytics)
                 implementation(libs.compose.navigation)
+
+                api(libs.androidx.work.runtime.ktx)
 
                 api(libs.multiplatform.settings.datastore)
                 api(libs.androidx.datastore)

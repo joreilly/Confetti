@@ -2,77 +2,101 @@
 
 package dev.johnoreilly.confetti.wear.sessions
 
-import androidx.activity.compose.ReportDrawn
+import androidx.activity.compose.ReportDrawnWhen
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.wear.compose.material.CircularProgressIndicator
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
-import androidx.wear.compose.foundation.lazy.items
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
-import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
-import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
 import kotlinx.datetime.toKotlinLocalDateTime
+import org.koin.androidx.compose.getViewModel
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun SessionListView(
-    date: ConferenceDayKey,
-    uiState: SessionsUiState,
-    sessionSelected: (sessionId: String) -> Unit,
-    columnState: ScalingLazyColumnState
+fun SessionsRoute(
+    navigateToSession: (SessionDetailsKey) -> Unit,
+    columnState: ScalingLazyColumnState,
+    viewModel: SessionsViewModel = getViewModel()
 ) {
-    when (uiState) {
-        SessionsUiState.Loading -> CircularProgressIndicator()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        is SessionsUiState.Success -> {
-            ReportDrawn()
-
-            val sessions = uiState.sessionsByStartTimeList[uiState.confDates.indexOf(date.date)]
-            DaySessionList(date, sessions, sessionSelected, columnState)
-        }
+    ReportDrawnWhen {
+        uiState is SessionsUiState.Success
     }
+
+    SessionListView(
+        uiState = uiState,
+        sessionSelected = {
+            navigateToSession(it)
+        },
+        columnState = columnState
+    )
 }
 
 @Composable
-private fun DaySessionList(
-    date: ConferenceDayKey,
-    sessions: Map<String, List<SessionDetails>>,
-    sessionSelected: (sessionId: String) -> Unit,
+fun SessionListView(
+    uiState: SessionsUiState,
+    sessionSelected: (SessionDetailsKey) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
-    // Monday
-    val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
+    val dayFormatter = remember { DateTimeFormatter.ofPattern("eeee H:mm") }
+    val timeFormatter = remember { DateTimeFormatter.ofPattern("H:mm") }
 
     ScalingLazyColumn(
+        modifier = Modifier.fillMaxSize(),
         columnState = columnState,
     ) {
-        sessions.entries.forEachIndexed { index, (time, sessions) ->
-            item {
-                ListHeader {
-                    if (index == 0) {
-                        Text("${dayFormatter.format(date.date.toJavaLocalDate())} $time")
-                    } else {
-                        Text(time)
+        when (uiState) {
+            is SessionsUiState.Success -> {
+                val sessions = uiState.sessionsByTime
+
+                sessions.forEachIndexed { index, sessionsAtTime ->
+                    item {
+                        ListHeader {
+                            val time = sessionsAtTime.time.toJavaLocalDateTime()
+                            if (index == 0) {
+                                Text(dayFormatter.format(time))
+                            } else {
+                                Text(timeFormatter.format(time))
+                            }
+                        }
+                    }
+
+                    items(sessionsAtTime.sessions) { session ->
+                        SessionCard(session) {
+                            sessionSelected(
+                                SessionDetailsKey(
+                                    conference = uiState.conferenceDay.conference,
+                                    sessionId = it
+                                )
+                            )
+                        }
                     }
                 }
             }
 
-            items(sessions) { session ->
-                SessionView(session, sessionSelected)
+            else -> {
+                // TODO
             }
         }
     }
@@ -88,15 +112,12 @@ fun SessionListViewPreview() {
     ConfettiTheme {
         val date = sessionTime.toLocalDate().toKotlinLocalDate()
         SessionListView(
-            date = ConferenceDayKey("wearconf", date),
             uiState = SessionsUiState.Success(
-                now = sessionTime.toKotlinLocalDateTime(),
-                "WearableCon 2022",
-                confDates = listOf(date),
-                rooms = listOf(),
-                sessionsByStartTimeList = listOf(
-                    mapOf(
-                        "12:30" to listOf(
+                ConferenceDayKey("wearconf", date),
+                sessionsByTime = listOf(
+                    SessionsUiState.SessionAtTime(
+                        sessionTime.toKotlinLocalDateTime(),
+                        listOf(
                             SessionDetails(
                                 "1",
                                 "Wear it's at",
@@ -112,8 +133,7 @@ fun SessionListViewPreview() {
                             )
                         )
                     )
-                ),
-                speakers = listOf()
+                )
             ),
             sessionSelected = {},
             columnState = ScalingLazyColumnDefaults.belowTimeText().create()

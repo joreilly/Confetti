@@ -14,7 +14,7 @@ val appModule = module {
     viewModel { SessionDetailsViewModel(get(), get(), get()) }
     viewModel { ConferencesViewModel(get()) }
     viewModel { SessionsViewModel(get(), get()) }
-    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get()) }
     single {
         // Assume an offline first strategy for Wear
         // Eventually use the mobile to drive updates

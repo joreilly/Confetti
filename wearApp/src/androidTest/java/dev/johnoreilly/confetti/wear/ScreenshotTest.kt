@@ -9,8 +9,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.printToLog
-import androidx.compose.ui.test.printToString
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeSource
@@ -20,15 +18,18 @@ import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistC
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
 import dev.johnoreilly.confetti.GetConferencesQuery
-import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails.Speaker
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.AndroidDateService
+import dev.johnoreilly.confetti.wear.conferences.ConferencesUiState
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
+import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsUiState
 import dev.johnoreilly.confetti.wear.sessions.SessionListView
+import dev.johnoreilly.confetti.wear.sessions.SessionsUiState
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsTileRenderer
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -51,7 +52,6 @@ class ScreenshotTest {
     val composeTestRule = createAndroidComposeRule<androidx.activity.ComponentActivity>()
 
     val sessionTime = LocalDateTime.of(2023, 1, 4, 9, 30)
-    val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
     val date = sessionTime.toLocalDate().toKotlinLocalDate()
 
     val sessionDetails = SessionDetails(
@@ -114,10 +114,12 @@ class ScreenshotTest {
         }
     ) {
         ConferencesView(
-            conferenceList = listOf(
-                GetConferencesQuery.Conference("0", emptyList(), "Fosdem 2023"),
-                GetConferencesQuery.Conference("1", emptyList(), "Droidcon London 2022"),
-                GetConferencesQuery.Conference("2", emptyList(), "DevFest Ukraine 2023"),
+            uiState = ConferencesUiState.Success(
+                listOf(
+                    GetConferencesQuery.Conference("0", emptyList(), "Fosdem 2023"),
+                    GetConferencesQuery.Conference("1", emptyList(), "Droidcon London 2022"),
+                    GetConferencesQuery.Conference("2", emptyList(), "DevFest Ukraine 2023"),
+                )
             ),
             navigateToConference = {},
             columnState = ScalingLazyColumnDefaults.belowTimeText().create()
@@ -133,16 +135,14 @@ class ScreenshotTest {
             }
         ) {
             SessionListView(
-                date = ConferenceDayKey("fosdem", date),
                 uiState = SessionsUiState.Success(
-                    now = sessionTime.toKotlinLocalDateTime(),
-                    "Fosdem 2023",
-                    confDates = listOf(date),
-                    rooms = listOf(),
-                    sessionsByStartTimeList = listOf(
-                        mapOf("9:30" to listOf(sessionDetails))
+                    ConferenceDayKey("fosdem", date),
+                    sessionsByTime = listOf(
+                        SessionsUiState.SessionAtTime(
+                            sessionTime.toKotlinLocalDateTime(),
+                            listOf(sessionDetails)
+                        )
                     ),
-                    speakers = listOf()
                 ),
                 sessionSelected = {},
                 columnState = ScalingLazyColumnDefaults.belowTimeText().create()
@@ -158,7 +158,10 @@ class ScreenshotTest {
         }
     ) {
         SessionDetailView(
-            session = sessionDetails,
+            uiState = SessionDetailsUiState.Success(
+                SessionDetailsKey("fosdem", "14997"),
+                sessionDetails
+            ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )

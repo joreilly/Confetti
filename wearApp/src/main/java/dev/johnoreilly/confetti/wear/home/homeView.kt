@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
@@ -21,6 +22,12 @@ fun HomeRoute(
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
 
+    SideEffect {
+        if (uiState is HomeUiState.NoneSelected) {
+            navigateToConferenceList()
+        }
+    }
+
     HomeListView(
         uiState = uiState,
         sessionSelected = {
@@ -38,6 +45,5 @@ fun HomeRoute(
             viewModel.refresh()
         },
         columnState = columnState,
-        navigateToConferenceList = navigateToConferenceList
     )
 }

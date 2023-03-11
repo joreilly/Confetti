@@ -90,6 +90,10 @@ class ConfettiRepository(
         return appSettings.getConference()
     }
 
+    fun getConferenceFlow(): Flow<String> {
+        return appSettings.getConferenceFlow()
+    }
+
     suspend fun setConference(conference: String) {
         refreshJob?.cancel()
         conferenceData.value = null
@@ -100,16 +104,8 @@ class ConfettiRepository(
         }
     }
 
-    suspend fun getSession(sessionId: String): SessionDetails? {
-        val response = getCurrentConferenceClient().query(GetSessionQuery(sessionId))?.execute()
-        return response?.data?.session?.sessionDetails
-    }
-
-    private suspend fun getCurrentConferenceClient() = apolloClientCache.getClient(appSettings.getConference())
-
-    suspend fun updateEnableLanguageSetting(language: String, checked: Boolean) {
-        appSettings.updateEnableLanguageSetting(language, checked)
-    }
+    private suspend fun getCurrentConferenceClient() =
+        apolloClientCache.getClient(appSettings.getConference())
 
     suspend fun refresh(networkOnly: Boolean = true) {
         val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork

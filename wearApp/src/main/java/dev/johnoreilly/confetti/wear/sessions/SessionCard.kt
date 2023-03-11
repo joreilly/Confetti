@@ -4,42 +4,16 @@ package dev.johnoreilly.confetti.wear.sessions
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
-import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
-import dev.johnoreilly.confetti.navigation.ConferenceDayKey
-import dev.johnoreilly.confetti.navigation.SessionDetailsKey
-import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SessionsRoute(
-    date: ConferenceDayKey,
-    navigateToSession: (SessionDetailsKey) -> Unit,
-    columnState: ScalingLazyColumnState,
-    viewModel: ConfettiViewModel = getViewModel()
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    SessionListView(
-        date = date,
-        uiState = uiState,
-        sessionSelected = {
-            navigateToSession(SessionDetailsKey(viewModel.savedConference.value, it))
-        },
-        columnState = columnState
-    )
-}
-
-@Composable
-fun SessionView(
+fun SessionCard(
     session: SessionDetails,
     sessionSelected: (sessionId: String) -> Unit,
 ) {

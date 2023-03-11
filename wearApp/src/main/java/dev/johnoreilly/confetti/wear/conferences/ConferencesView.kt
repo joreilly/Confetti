@@ -15,14 +15,10 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.ListHeader
-import androidx.wear.compose.material.PositionIndicator
-import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.TimeText
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.scrollAway
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -36,31 +32,27 @@ fun ConferencesRoute(
     columnState: ScalingLazyColumnState,
     viewModel: ConferencesViewModel = getViewModel()
 ) {
-    val conferenceList by viewModel.conferenceList.collectAsStateWithLifecycle()
+    val uiState by viewModel.conferenceList.collectAsStateWithLifecycle()
 
-    Scaffold(
-        timeText = { TimeText(modifier = Modifier.scrollAway(columnState)) },
-        positionIndicator = { PositionIndicator(columnState.state) }
-    ) {
-        ConferencesView(conferenceList = conferenceList,
-            columnState = columnState,
-            navigateToConference = { conference ->
-                viewModel.setConference(conference)
-                navigateToConference(conference)
-            }
-        )
-    }
+    ConferencesView(
+        uiState = uiState,
+        columnState = columnState,
+        navigateToConference = { conference ->
+            viewModel.setConference(conference)
+            navigateToConference(conference)
+        }
+    )
 }
 
 @Composable
 fun ConferencesView(
-    conferenceList: List<GetConferencesQuery.Conference>,
+    uiState: ConferencesUiState,
     navigateToConference: (String) -> Unit,
     columnState: ScalingLazyColumnState,
     modifier: Modifier = Modifier
 ) {
     ReportDrawnWhen {
-        conferenceList.isNotEmpty()
+        uiState !is ConferencesUiState.Loading
     }
 
     ScalingLazyColumn(
@@ -72,21 +64,31 @@ fun ConferencesView(
             }
         }
 
-        if (conferenceList.isEmpty()) {
-            item {
-                CircularProgressIndicator(modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center))
+        when (uiState) {
+            is ConferencesUiState.Loading -> {
+                item {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center)
+                    )
+                }
             }
-        } else {
-            items(conferenceList) { conference ->
-                Chip(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(conference.name) },
-                    onClick = {
-                        navigateToConference(conference.id)
-                    },
-                )
+
+            is ConferencesUiState.Success -> {
+                items(uiState.conferences) { conference ->
+                    Chip(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(conference.name) },
+                        onClick = {
+                            navigateToConference(conference.id)
+                        },
+                    )
+                }
+            }
+
+            else -> {
+                // TODO
             }
         }
     }
@@ -98,15 +100,16 @@ fun ConferencesView(
 fun ConferencesViewPreview() {
     ConfettiTheme {
         ConferencesView(
-            conferenceList = listOf(
-                GetConferencesQuery.Conference("0", emptyList(), "Droidcon San Francisco 2022"),
-                GetConferencesQuery.Conference("1", emptyList(), "FrenchKit 2022"),
-                GetConferencesQuery.Conference("2", emptyList(), "Droidcon London 2022"),
-                GetConferencesQuery.Conference("3", emptyList(), "DevFest Ukraine 2023"),
+            uiState = ConferencesUiState.Success(
+                listOf(
+                    GetConferencesQuery.Conference("0", emptyList(), "Droidcon San Francisco 2022"),
+                    GetConferencesQuery.Conference("1", emptyList(), "FrenchKit 2022"),
+                    GetConferencesQuery.Conference("2", emptyList(), "Droidcon London 2022"),
+                    GetConferencesQuery.Conference("3", emptyList(), "DevFest Ukraine 2023"),
+                )
             ),
             navigateToConference = {},
-            columnState = ScalingLazyColumnDefaults.
-                belowTimeText().create()
+            columnState = ScalingLazyColumnDefaults.belowTimeText().create()
         )
     }
 }

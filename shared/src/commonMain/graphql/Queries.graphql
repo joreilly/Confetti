@@ -17,6 +17,7 @@ query GetConferenceData($first: Int! = 1000, $after: String = null) {
         id
         name
         timezone
+        days
     }
 }
 
@@ -35,9 +36,9 @@ query GetSessions($first: Int! = 1000, $after: String = null) {
 }
 
 query GetSession($id: String!){
-	session(id: $id) {
-	    ...SessionDetails
-	}
+    session(id: $id) {
+        ...SessionDetails
+    }
 }
 
 query GetConferences{
@@ -56,10 +57,10 @@ fragment SessionDetails on Session {
     sessionDescription: description
     language
     speakers {
-      ...SpeakerDetails
+        ...SpeakerDetails
     }
-  	room {
-      name
+    room {
+        name
     }
     tags
 }

@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.kmmbridge).apply(false)
     alias(libs.plugins.google.services).apply(false)
     alias(libs.plugins.firebase.crashlytics).apply(false)
+    alias(libs.plugins.wire).apply(false)
 }
 
 tasks.register("clean", Delete::class) {

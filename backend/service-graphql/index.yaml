@@ -8,4 +8,10 @@ indexes:
   - kind: Session
     ancestor: yes
     properties:
+      - name: start
+        direction: desc
+
+  - kind: Session
+    ancestor: yes
+    properties:
       - name: end

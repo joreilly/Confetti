@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.backend
 
+import Trace
 import com.apollographql.apollo3.tooling.SchemaUploader
 import com.expediagroup.graphql.apq.cache.DefaultAutomaticPersistedQueriesCache
 import com.expediagroup.graphql.apq.provider.AutomaticPersistedQueriesProvider
@@ -10,47 +11,58 @@ import com.expediagroup.graphql.generator.toSchema
 import com.expediagroup.graphql.server.execution.GraphQLRequestParser
 import com.expediagroup.graphql.server.operations.Query
 import com.expediagroup.graphql.server.spring.GraphQLConfigurationProperties
-import com.expediagroup.graphql.server.spring.GraphQLSchemaConfiguration
 import com.expediagroup.graphql.server.spring.execution.DefaultSpringGraphQLContextFactory
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLRequestParser
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLServer
 import com.expediagroup.graphql.server.types.GraphQLRequest
 import com.expediagroup.graphql.server.types.GraphQLResponse
 import com.expediagroup.graphql.server.types.GraphQLServerRequest
-import com.expediagroup.graphql.server.types.GraphQLServerResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.MapType
 import com.fasterxml.jackson.databind.type.TypeFactory
+import com.squareup.wire.ofEpochSecond
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootQuery
 import graphql.GraphQL
 import graphql.GraphQLContext
+import graphql.execution.AsyncSerialExecutionStrategy
+import graphql.execution.instrumentation.tracing.TracingInstrumentation
 import graphql.language.StringValue
 import graphql.schema.*
 import graphql.schema.idl.SchemaPrinter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import net.mbonnin.bare.graphql.asMap
+import net.mbonnin.bare.graphql.asNumber
+import net.mbonnin.bare.graphql.asString
+import net.mbonnin.bare.graphql.toJsonElement
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import okio.buffer
 import okio.source
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Import
 import org.springframework.context.annotation.Primary
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Component
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.reactive.CorsWebFilter
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
 import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.reactive.function.server.json
+import java.util.Base64
 import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
@@ -58,12 +70,16 @@ import kotlin.reflect.KType
 
 @SpringBootApplication
 class DefaultApplication {
+    private val apolloKey = javaClass.classLoader.getResourceAsStream("apollo.key")?.use {
+        it.source().buffer().readUtf8().trim()
+    }
+
     @Bean
     fun customHooks(): SchemaGeneratorHooks = CustomSchemaGeneratorHooks()
 
     @Bean
     @Primary
-    fun schema2(
+    fun schema(
         query: Query,
         schemaConfig: SchemaGeneratorConfig
     ): GraphQLSchema {
@@ -74,20 +90,16 @@ class DefaultApplication {
             subscriptions = emptyList()
         )
 
-        val key = javaClass.classLoader.getResourceAsStream("apollo.key.unused")?.use {
-            it.source().buffer().readUtf8().trim()
-        }
-
         //println(schema.print())
 
-        if (key != null) {
-            val graph = key.split(":").getOrNull(1)
+        if (apolloKey != null) {
+            val graph = apolloKey.split(":").getOrNull(1)
             if (graph == null) {
                 println("Cannot determine graph. Make sure to use a graph key")
             } else {
                 println("Enabling Apollo reporting for graph $graph")
                 SchemaUploader.uploadSchema(
-                    key = key,
+                    key = apolloKey,
                     sdl = schema.print(),
                     graph = graph,
                     variant = "current"
@@ -152,9 +164,60 @@ class DefaultApplication {
         return GraphQL
             .newGraphQL(graphQLSchema)
             .preparsedDocumentProvider(automaticPersistedQueryProvider)
+            //.instrumentation(FederatedTracingInstrumentation())
+            //.instrumentation(TracingInstrumentation())
+            .instrumentation(ApolloUsageReportingImplementation())
+            .queryExecutionStrategy(AsyncSerialExecutionStrategy())
             .build()
     }
 
+    private val channel = Channel<Any>(512, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    private val reportingClient = OkHttpClient()
+
+    init {
+        val tracingScope = CoroutineScope(SupervisorJob() + Dispatchers.IO.limitedParallelism(32))
+        tracingScope.launch {
+            val ftv1 = channel.receive()
+            launch {
+                trace(ftv1)
+            }
+        }
+    }
+    private fun trace(tracing: Any) {
+        if (apolloKey == null) {
+            return
+        }
+
+        println(tracing.toJsonElement().toString())
+        val root = tracing.asMap
+        val trace = Trace(
+            start_time = root.get("startTime")?.asString?.let { java.time.Instant.parse(it) },
+            end_time = root.get("endTime")?.asString?.let { java.time.Instant.parse(it) },
+            duration_ns = root.get("duration")?.asNumber?.toLong() ?: 0,
+            client_name = "confetti",
+            client_version = "1",
+            root = root.get("execution")
+        )
+        //val bytes = Base64.getDecoder().decode(tracing)
+
+        Request.Builder()
+            .post(trace.toRequestBody("application/protobuf".toMediaType()))
+            .addHeader("X-Api-Key", apolloKey)
+            .url("https://usage-reporting.api.apollographql.com/api/ingress/traces")
+            .build()
+            .let {
+                reportingClient.newCall(it).execute()
+            }.let {
+                it.use {
+                    if (!it.isSuccessful) {
+                        println("Cannot send trace: ${it.body.string()}")
+                    } else {
+                        println("Trace sent: ${it.body.string()}")
+                    }
+                }
+            }
+
+    }
     @Bean
     fun graphQLRoutes2(
         config: GraphQLConfigurationProperties,
@@ -167,6 +230,17 @@ class DefaultApplication {
         (isEndpointRequest and isNotWebSocketRequest).invoke { serverRequest ->
             val graphQLResponse = graphQLServer.execute(serverRequest)
             if (graphQLResponse != null) {
+
+                if (graphQLResponse is GraphQLResponse<*>) {
+                    val tracing = graphQLResponse.extensions?.get("tracing") as? Any
+                    //val ftv1 = graphQLResponse.extensions?.get("ftv1") as? String
+
+                    if (tracing != null) {
+                        if (!channel.trySend(tracing).isSuccess) {
+                            println("Cannot send trace: buffer full")
+                        }
+                    }
+                }
                 ok().json().apply {
                     if (graphQLResponse is GraphQLResponse<*>) {
                         if (graphQLResponse.errors.orEmpty().any {

@@ -49,6 +49,7 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
+federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.0"
 firebase-bom = "com.google.firebase:firebase-bom:31.2.2"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module ="com.google.firebase:firebase-crashlytics-ktx" }
@@ -97,6 +98,7 @@ test-runner = "androidx.test:runner:1.5.2"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1"
+wire-runtime = "com.squareup.wire:wire-runtime:4.5.2"
 
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]
@@ -115,3 +117,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "1.8.20-Beta-1.0.9" }
 spring-boot = { id = "org.springframework.boot", version = "3.0.3" }
+wire = { id = "com.squareup.wire", version = "4.5.2"}

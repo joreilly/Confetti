@@ -29,27 +29,27 @@ val ColorScheme = Colors(
 /**
  * Confetti theme.
  */
+@Suppress("DEPRECATION")
 @Composable
 fun ConfettiTheme(
     content: @Composable () -> Unit
 ) {
-    val defaultTypography = MaterialTheme.typography
-    @Suppress("DEPRECATION")
-    val typography = remember {
+    val material = MaterialTheme.typography
+    val typography = remember(material) {
         val platformStyle = PlatformTextStyle(includeFontPadding = false)
-        defaultTypography.copy(
-            display1 = defaultTypography.display1.copy(platformStyle = platformStyle),
-            display2 = defaultTypography.display2.copy(platformStyle = platformStyle),
-            display3 = defaultTypography.display3.copy(platformStyle = platformStyle),
-            title1 = defaultTypography.title1.copy(platformStyle = platformStyle),
-            title2 = defaultTypography.title2.copy(platformStyle = platformStyle),
-            title3 = defaultTypography.title3.copy(platformStyle = platformStyle),
-            body1 = defaultTypography.body1.copy(platformStyle = platformStyle),
-            body2 = defaultTypography.body2.copy(platformStyle = platformStyle),
-            button = defaultTypography.button.copy(platformStyle = platformStyle),
-            caption1 = defaultTypography.caption1.copy(platformStyle = platformStyle),
-            caption2 = defaultTypography.caption2.copy(platformStyle = platformStyle),
-            caption3 = defaultTypography.caption3.copy(platformStyle = platformStyle),
+        material.copy(
+            display1 = material.display1.copy(platformStyle = platformStyle),
+            display2 = material.display2.copy(platformStyle = platformStyle),
+            display3 = material.display3.copy(platformStyle = platformStyle),
+            title1 = material.title1.copy(platformStyle = platformStyle),
+            title2 = material.title2.copy(platformStyle = platformStyle),
+            title3 = material.title3.copy(platformStyle = platformStyle),
+            body1 = material.body1.copy(platformStyle = platformStyle),
+            body2 = material.body2.copy(platformStyle = platformStyle),
+            button = material.button.copy(platformStyle = platformStyle),
+            caption1 = material.caption1.copy(platformStyle = platformStyle),
+            caption2 = material.caption2.copy(platformStyle = platformStyle),
+            caption3 = material.caption3.copy(platformStyle = platformStyle),
         )
     }
     MaterialTheme(colors = ColorScheme, content = content, typography = typography)

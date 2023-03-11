@@ -1,8 +1,3 @@
-"""
-This field can be changed without warning
-"""
-directive @requiresOptIn (feature: String!) on FIELD_DEFINITION
-
 type Conference {
   days: [LocalDate!]!
 
@@ -42,7 +37,7 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions(after: String, first: Int): SessionConnection!
+  sessions(after: String, filter: SessionFilterInput, first: Int, orderBy: SessionOrderByInput): SessionConnection!
 
   speakers: [Speaker!]!
 
@@ -64,7 +59,9 @@ type Session {
 
   description: String
 
-  endInstant: Instant! @requiresOptIn(feature: "experimental")
+  endInstant: Instant! @deprecated(reason: "use endsAt instead")
+
+  endsAt: LocalDateTime!
 
   feedbackId: String
 
@@ -87,7 +84,9 @@ type Session {
 
   speakers: [Speaker!]!
 
-  startInstant: Instant! @requiresOptIn(feature: "experimental")
+  startInstant: Instant! @deprecated(reason: "use startsAt instead")
+
+  startsAt: LocalDateTime!
 
   tags: [String!]!
 
@@ -165,6 +164,10 @@ enum OrderByDirection {
   DESCENDING
 }
 
+enum SessionField {
+  STARTS_AT
+}
+
 """
 A type representing a formatted kotlinx.datetime.Instant
 """
@@ -175,8 +178,31 @@ A type representing a formatted kotlinx.datetime.LocalDate
 """
 scalar LocalDate
 
+"""
+A type representing a formatted kotlinx.datetime.LocalDateTime
+"""
+scalar LocalDateTime
+
 input ConferenceOrderByInput {
   direction: OrderByDirection!
 
   field: ConferenceField!
+}
+
+input LocalDateTimeFilterInput {
+  after: LocalDateTime
+
+  before: LocalDateTime
+}
+
+input SessionFilterInput {
+  endsAt: LocalDateTimeFilterInput
+
+  startsAt: LocalDateTimeFilterInput
+}
+
+input SessionOrderByInput {
+  direction: OrderByDirection!
+
+  field: SessionField!
 }

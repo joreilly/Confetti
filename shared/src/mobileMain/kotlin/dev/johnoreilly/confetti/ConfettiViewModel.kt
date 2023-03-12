@@ -16,14 +16,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-open class ConfettiViewModel : KMMViewModel(), KoinComponent {
-    private val repository: ConfettiRepository by inject()
-
-    private val dateService: DateService by inject()
-
+class ConfettiViewModel(
+    private val repository: ConfettiRepository,
+    private val dateService: DateService,
+    private val conferenceRefresher: ConferenceRefresh,
+) : KMMViewModel() {
     @NativeCoroutinesState
     val conferenceList = repository.conferenceList.stateIn(
         viewModelScope,
@@ -72,6 +70,7 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
             repository.setConference(conference)
             savedConference.value = conference
         }
+        conferenceRefresher.refresh(conference)
     }
 
     fun clearConference() {
@@ -79,13 +78,12 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
     }
 
     suspend fun refresh() {
-        repository.refresh(networkOnly = true)
+        conferenceRefresher.refresh(repository.getConference())
     }
 
     fun getSessionTime(session: SessionDetails): String {
         return dateService.format(session.startInstant, repository.timeZone, "HH:mm")
     }
-
 }
 
 sealed interface SessionsUiState {

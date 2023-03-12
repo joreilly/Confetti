@@ -17,10 +17,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
     savedStateHandle: SavedStateHandle,
@@ -28,18 +30,24 @@ class HomeViewModel(
     private val workManager: WorkManager
 ) : ViewModel() {
 
-    private val conference: String =
+    private val conferenceParam: String =
         ConferenceHomeDestination.fromNavArgs(savedStateHandle)
 
     val uiState: StateFlow<HomeUiState> = conferenceDataFlow()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), HomeUiState.Loading)
 
     fun refresh() {
-        workManager.enqueueUniqueWork(
-            RefreshWorker.WorkRefresh(conference),
-            ExistingWorkPolicy.KEEP,
-            RefreshWorker.oneOff(conference)
-        )
+        viewModelScope.launch {
+            val conference = conferenceIdFlow().first()
+
+            if (conference.isNotEmpty()) {
+                workManager.enqueueUniqueWork(
+                    RefreshWorker.WorkRefresh(conference),
+                    ExistingWorkPolicy.KEEP,
+                    RefreshWorker.oneOff(conference)
+                )
+            }
+        }
     }
 
     private fun conferenceDataFlow(): Flow<HomeUiState> =
@@ -74,10 +82,10 @@ class HomeViewModel(
         )
     }
 
-    private fun conferenceIdFlow(): Flow<String> = if (conference.isEmpty()) {
+    private fun conferenceIdFlow(): Flow<String> = if (conferenceParam.isEmpty()) {
         repository.getConferenceFlow()
     } else {
-        flowOf(conference)
+        flowOf(conferenceParam)
     }
 }
 

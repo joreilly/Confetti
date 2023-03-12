@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -71,13 +70,12 @@ class ConfettiRepository(
     }
 
 
-    init {
-        // TODO refactor to avoid needing this so early
-        runBlocking {
+    suspend fun initOnce() {
+        if (conferenceData.value == null) {
             val conference = appSettings.getConference()
 
             if (conference.isNotEmpty()) {
-                setConference(conference)
+                refresh(networkOnly = false)
             }
         }
     }

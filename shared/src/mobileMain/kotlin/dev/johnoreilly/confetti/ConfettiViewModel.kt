@@ -16,12 +16,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class ConfettiViewModel(
-    private val repository: ConfettiRepository,
-    private val dateService: DateService,
-    private val conferenceRefresher: ConferenceRefresh,
-) : KMMViewModel() {
+open class ConfettiViewModel : KMMViewModel(), KoinComponent {
+    private val repository: ConfettiRepository by inject()
+
+    private val dateService: DateService by inject()
+
+    private val conferenceRefresher: ConferenceRefresh by inject()
+
     @NativeCoroutinesState
     val conferenceList = repository.conferenceList.stateIn(
         viewModelScope,

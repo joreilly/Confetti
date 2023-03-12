@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { ConfettiViewModel(get(), get(), get()) }
+    viewModel { ConfettiViewModel() }
     viewModel { SessionDetailsViewModel(get(), get(), get()) }
     viewModel { ConferencesViewModel(get(), get(), get()) }
     viewModel { SessionsViewModel(get(), get()) }

@@ -6,9 +6,10 @@ import KMMViewModelSwiftUI
 
 
 struct ContentView: View {
-    @StateViewModel var viewModel = ConfettiViewModel()
+    @ObservedViewModel var viewModel: ConfettiViewModel
 
-    init() {
+    init(viewModel: ObservableViewModel<ConfettiViewModel>.Projection) {
+        self._viewModel = ObservedViewModel(viewModel)
         UITabBar.appearance().backgroundColor = UIColor.white
     }
         

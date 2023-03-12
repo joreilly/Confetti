@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.type.MapType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
+import dev.johnoreilly.confetti.backend.graphql.RootMutation
 import dev.johnoreilly.confetti.backend.graphql.RootQuery
 import graphql.GraphQL
 import graphql.GraphQLContext
@@ -84,11 +85,11 @@ class DefaultApplication {
         val schema = toSchema(
             config = schemaConfig,
             queries = listOf(TopLevelObject(query, RootQuery::class)),
-            mutations = emptyList(),
+            mutations = listOf(TopLevelObject(RootMutation(), RootMutation::class)),
             subscriptions = emptyList()
         )
 
-        //println(schema.print())
+        println(schema.print())
 
         if (apolloKey != null) {
             val graph = apolloKey.split(":").getOrNull(1)
@@ -335,7 +336,11 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
         return super.generateContext(request)
             .put(DefaultApplication.KEY_SOURCE, source)
             .put(DefaultApplication.KEY_REQUEST, request)
-            .put(DefaultApplication.KEY_UID, uid)
+            .apply {
+                if (uid != null) {
+                    put(DefaultApplication.KEY_UID, uid)
+                }
+            }
 
     }
 }

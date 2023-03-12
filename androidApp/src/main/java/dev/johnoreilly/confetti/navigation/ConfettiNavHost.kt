@@ -5,14 +5,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.window.layout.DisplayFeature
+import dev.johnoreilly.confetti.account.navigation.SignInDestination
+import dev.johnoreilly.confetti.account.navigation.signInGraph
 import dev.johnoreilly.confetti.conferences.navigation.ConferencesDestination
 import dev.johnoreilly.confetti.conferences.navigation.conferencesGraph
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.sessions.navigation.sessionsGraph
-import dev.johnoreilly.confetti.spakerdetails.navigation.SpeakerDetailsDestination
-import dev.johnoreilly.confetti.spakerdetails.navigation.speakerDetailsGraph
+import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsDestination
+import dev.johnoreilly.confetti.speakerdetails.navigation.speakerDetailsGraph
 import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
 
 @Composable
@@ -44,6 +46,12 @@ fun ConfettiNavHost(
                     SessionDetailsDestination.createNavigationRoute(it)
                 )
             },
+            navigateToSignIn = {
+                onNavigateToDestination(
+                    SignInDestination,
+                    SignInDestination.route
+                )
+            },
             onSwitchConferenceSelected = {
                 onNavigateToDestination(
                     ConferencesDestination, null
@@ -61,5 +69,6 @@ fun ConfettiNavHost(
             }
         )
         speakerDetailsGraph(onBackClick)
+        signInGraph(onBackClick)
     }
 }

@@ -24,6 +24,6 @@ fun String.firebaseUid(): String? {
         FirebaseAuth.getInstance().verifyIdToken(this).uid
     } catch (e: Exception) {
         e.printStackTrace()
-        null
+        throw e
     }
 }

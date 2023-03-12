@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.profile.AccountIcon
+import dev.johnoreilly.confetti.account.AccountIcon
 
 @Composable
 fun SessionListGridView(
@@ -37,7 +37,10 @@ fun SessionListGridView(
                         containerColor = Color.Transparent
                     ),
                     actions = {
-                        AccountIcon(onSwitchConferenceSelected)
+                        AccountIcon(
+                            onSwitchConference = {},
+                            onSignIn = {}
+                        )
                     }
                 )
             },

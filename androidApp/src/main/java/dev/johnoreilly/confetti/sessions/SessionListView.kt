@@ -39,8 +39,10 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.profile.AccountIcon
+import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
@@ -50,10 +52,12 @@ import kotlinx.coroutines.launch
 fun SessionListView(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
+    onSignIn: ()-> Unit,
     onSwitchConferenceSelected: () -> Unit,
     onRefresh: suspend (() -> Unit)
 ) {
-    var showMenu by remember { mutableStateOf(false) }
     val refreshScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
 
@@ -66,7 +70,8 @@ fun SessionListView(
                 ),
                 actions = {
                     AccountIcon(
-                        onSwitchConferenceSelected
+                        onSwitchConference = onSwitchConferenceSelected,
+                        onSignIn = onSignIn
                     )
                 }
             )
@@ -124,7 +129,7 @@ fun SessionListView(
                                         }
 
                                         items(it.value) { session ->
-                                            SessionView(session, sessionSelected)
+                                            SessionView(session, sessionSelected, uiState.bookmarks.contains(session.id), addBookmark, removeBookmark)
                                         }
                                     }
                                 }

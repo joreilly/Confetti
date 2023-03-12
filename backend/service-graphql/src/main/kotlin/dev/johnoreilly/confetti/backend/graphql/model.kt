@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.backend.graphql
 
 import com.expediagroup.graphql.generator.annotations.GraphQLDescription
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
+import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_SOURCE
 import dev.johnoreilly.confetti.backend.datastore.DDirection
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component
 annotation class RequiresOptIn(val feature: String)
 
 @Component
-class RootMutation : Query {
+class RootMutation : Mutation {
     fun addBookmark(dfe: DataFetchingEnvironment, sessionId: String): Boolean {
         dfe.source().addBookmark(sessionId)
         return true

@@ -169,4 +169,5 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.play.services.auth)
 }

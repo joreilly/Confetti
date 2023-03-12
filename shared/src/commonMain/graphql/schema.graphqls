@@ -1,11 +1,13 @@
 type Conference {
   days: [LocalDate!]!
-
   id: String!
-
   name: String!
-
   timezone: String!
+}
+
+type Mutation {
+  addBookmark(sessionId: String!): Boolean!
+  removeBookmark(sessionId: String!): Boolean!
 }
 
 type PageInfo {
@@ -14,143 +16,92 @@ type PageInfo {
 
 type Partner {
   logoUrl: String!
-
   name: String!
-
   url: String!
 }
 
 type PartnerGroup {
   partners: [Partner!]!
-
   title: String!
 }
 
 type Query {
+  bookmarks: [String!]!
   conferences(orderBy: ConferenceOrderByInput): [Conference!]!
-
   config: Conference!
-
   partnerGroups: [PartnerGroup!]!
-
   rooms: [Room!]!
-
   session(id: String!): Session!
-
   sessions(after: String, filter: SessionFilterInput, first: Int, orderBy: SessionOrderByInput): SessionConnection!
-
   speakers: [Speaker!]!
-
   venue(id: String!): Venue!
-
   venues: [Venue!]!
 }
 
 type Room {
   capacity: Int
-
   id: String!
-
   name: String!
 }
 
 type Session {
   complexity: String
-
   description: String
-
-  endInstant: Instant! @deprecated(reason: "use endsAt instead")
-
+  endInstant: Instant! @deprecated(reason : "use endsAt instead")
   endsAt: LocalDateTime!
-
   feedbackId: String
-
   id: String!
-
-  """
-  An [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US
-  """
+  "An [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US"
   language: String
-
-  room: Room @deprecated(reason: "use rooms instead")
-
+  room: Room @deprecated(reason : "use rooms instead")
   rooms: [Room!]!
-
   """
   A shorter version of description for use when real estate is scarce like watches for an example.
   This field might have the same value as description if a shortDescription is not available
   """
   shortDescription: String
-
   speakers: [Speaker!]!
-
-  startInstant: Instant! @deprecated(reason: "use startsAt instead")
-
+  startInstant: Instant! @deprecated(reason : "use startsAt instead")
   startsAt: LocalDateTime!
-
   tags: [String!]!
-
   title: String!
-
-  """
-  One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format
-  """
+  "One of \"break\", \"lunch\", \"party\", \"keynote\", \"talk\" or any other conference-specific format"
   type: String!
 }
 
 type SessionConnection {
   nodes: [Session!]!
-
   pageInfo: PageInfo!
 }
 
 type Social {
   icon: String
-
-  link: String! @deprecated(reason: "use url instead, replace with url")
-
+  link: String! @deprecated(reason : "use url instead, replace with url")
   name: String!
-
   url: String!
 }
 
 type Speaker {
   bio: String
-
   city: String
-
   company: String
-
   companyLogoUrl: String
-
   id: String!
-
   name: String!
-
   photoUrl: String
-
   socials: [Social!]!
 }
 
 type Venue {
   address: String
-
-  coordinates: String @deprecated(reason: "use latitude and longitude instead")
-
+  coordinates: String @deprecated(reason : "use latitude and longitude instead")
   description(language: String): String!
-
-  descriptionFr: String! @deprecated(reason: "description(language: \"fr\") instead")
-
+  descriptionFr: String! @deprecated(reason : "description(language: \"fr\") instead")
   floorPlanUrl: String
-
   id: String!
-
   imageUrl: String
-
   latitude: Float
-
   longitude: Float
-
   name: String!
 }
 
@@ -160,7 +111,6 @@ enum ConferenceField {
 
 enum OrderByDirection {
   ASCENDING
-
   DESCENDING
 }
 
@@ -168,41 +118,31 @@ enum SessionField {
   STARTS_AT
 }
 
-"""
-A type representing a formatted kotlinx.datetime.Instant
-"""
+"A type representing a formatted kotlinx.datetime.Instant"
 scalar Instant
 
-"""
-A type representing a formatted kotlinx.datetime.LocalDate
-"""
+"A type representing a formatted kotlinx.datetime.LocalDate"
 scalar LocalDate
 
-"""
-A type representing a formatted kotlinx.datetime.LocalDateTime
-"""
+"A type representing a formatted kotlinx.datetime.LocalDateTime"
 scalar LocalDateTime
 
 input ConferenceOrderByInput {
   direction: OrderByDirection!
-
   field: ConferenceField!
 }
 
 input LocalDateTimeFilterInput {
   after: LocalDateTime
-
   before: LocalDateTime
 }
 
 input SessionFilterInput {
   endsAt: LocalDateTimeFilterInput
-
   startsAt: LocalDateTimeFilterInput
 }
 
 input SessionOrderByInput {
   direction: OrderByDirection!
-
   field: SessionField!
 }

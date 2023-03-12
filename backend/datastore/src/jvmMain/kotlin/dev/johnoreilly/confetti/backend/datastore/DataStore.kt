@@ -1,18 +1,38 @@
 package dev.johnoreilly.confetti.backend.datastore
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.auth.oauth2.GoogleCredentials
-import com.google.cloud.datastore.*
+import com.google.cloud.datastore.BooleanValue
+import com.google.cloud.datastore.Cursor
+import com.google.cloud.datastore.Datastore
+import com.google.cloud.datastore.DatastoreOptions
+import com.google.cloud.datastore.DatastoreReaderWriter
+import com.google.cloud.datastore.DoubleValue
+import com.google.cloud.datastore.Entity
+import com.google.cloud.datastore.EntityQuery
+import com.google.cloud.datastore.Key
+import com.google.cloud.datastore.KeyFactory
+import com.google.cloud.datastore.ListValue
+import com.google.cloud.datastore.LongValue
+import com.google.cloud.datastore.NullValue
+import com.google.cloud.datastore.PathElement
+import com.google.cloud.datastore.Query
+import com.google.cloud.datastore.StringValue
+import com.google.cloud.datastore.StructuredQuery
+import com.google.cloud.datastore.Value
 import com.google.datastore.v1.QueryResultBatch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
-import net.mbonnin.bare.graphql.*
+import net.mbonnin.bare.graphql.asList
+import net.mbonnin.bare.graphql.asMap
+import net.mbonnin.bare.graphql.asString
+import net.mbonnin.bare.graphql.toAny
+import net.mbonnin.bare.graphql.toJsonElement
 import java.io.File
 
 
 internal fun locateFile(name: String): File? {
-    var dir: File? = File(".")
+    var dir: File? = File(".").absoluteFile
     while (dir != null) {
         val candidate = dir.resolve("Confetti/backend/$name")
         if (candidate.exists()) {

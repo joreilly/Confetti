@@ -15,9 +15,10 @@ fun NavGraphBuilder.sessionsGraph(
     isExpandedScreen: Boolean,
     displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
+    navigateToSignIn: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
 ) {
     composable(route = SessionsDestination.route) {
-        SessionsRoute(isExpandedScreen, displayFeatures, navigateToSession, onSwitchConferenceSelected)
+        SessionsRoute(isExpandedScreen, displayFeatures, navigateToSession, navigateToSignIn, onSwitchConferenceSelected)
     }
 }

@@ -3,7 +3,10 @@ package dev.johnoreilly.confetti
 import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
+import com.apollographql.apollo3.cache.normalized.refetchPolicy
+import com.apollographql.apollo3.cache.normalized.watch
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -16,6 +19,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
@@ -34,6 +38,51 @@ class ConfettiRepository(
     private val apolloClientCache: ApolloClientCache by inject()
 
     private var refreshJob: Job? = null
+
+    val bookmarks: Flow<List<String>> = flow {
+        getCurrentConferenceClient()
+            .query(GetBookmarksQuery())
+            .fetchPolicy(FetchPolicy.NetworkFirst)
+            .refetchPolicy(FetchPolicy.CacheOnly)
+            .watch()
+            .onEach { println("got bookmark ${it.data}") }
+            .mapNotNull { it.data?.bookmarks }
+            .let {
+                emitAll(it)
+            }
+    }
+
+    fun addBookmark(sessionId: String) {
+        coroutineScope.launch {
+            try {
+                val client = getCurrentConferenceClient()
+                val operation = AddBookmarkMutation(sessionId)
+                client.mutation(operation).execute()
+                val data = client.apolloStore.readOperation(GetBookmarksQuery()).let {
+                    it.copy(bookmarks = (it.bookmarks + sessionId).distinct())
+                }
+                client.apolloStore.writeOperation(GetBookmarksQuery(), data)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun removeBookmark(sessionId: String) {
+        coroutineScope.launch {
+            try {
+                val client = getCurrentConferenceClient()
+                val operation = RemoveBookmarkMutation(sessionId)
+                client.mutation(operation).execute()
+                val data = client.apolloStore.readOperation(GetBookmarksQuery()).let {
+                    it.copy(bookmarks = (it.bookmarks - sessionId).distinct())
+                }
+                client.apolloStore.writeOperation(GetBookmarksQuery(), data)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
     val conferenceList: Flow<List<GetConferencesQuery.Conference>> = flow {
         val client = apolloClientCache.getClient("all")

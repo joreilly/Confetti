@@ -25,16 +25,16 @@
 		<nav class="navbar navbar-default navbar-fixed-top templatemo-nav" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<button class="navbar-toggle">
 						<span class="icon icon-bar"></span>
 						<span class="icon icon-bar"></span>
 						<span class="icon icon-bar"></span>
 					</button>
 					<a href="#" class="navbar-brand">Confetti 🎊</a>
 				</div>
-				<div class="collapse navbar-collapse">
+				<div class="">
 					<ul class="nav navbar-nav navbar-right text-uppercase">
-						<li><a href="https://github.com/joreilly/Confetti"><i class="fa fa-github"></i> Github</a></li>
+						<li><a href="https://github.com/joreilly/Confetti" target="_blank"><i class="fa fa-github"></i> Github</a></li>
 					</ul>
 				</div>
 			</div>
@@ -78,7 +78,7 @@
 				</div>
 			</div>
 		</section>
-		
+
 
 		<script src="assets/js/jquery.js"></script>
 		<script src="assets/js/bootstrap.min.js"></script>
@@ -88,17 +88,6 @@
 			$(window).load(function () {
 				$('.preloader').fadeOut(1000);
 			});
-
-			$(function () {
-				new WOW().init();
-				$('.templatemo-nav').singlePageNav({
-					offset: 70
-				});
-
-				$('.navbar-collapse a').click(function () {
-					$(".navbar-collapse").collapse('hide');
-				});
-			})
 		</script>
 	</body>
 

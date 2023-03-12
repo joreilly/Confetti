@@ -4,6 +4,7 @@ package dev.johnoreilly.confetti.di
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.work.WorkManager
 import coil.ImageLoader
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
@@ -56,6 +57,7 @@ actual fun platformModule() = module {
         get<FlowSettings>().toBlockingObservableSettings()
     }
     worker { RefreshWorker(get(), get(), get(), get(), get()) }
+    single { WorkManager.getInstance(androidContext()) }
 }
 
 val Context.settingsStore by preferencesDataStore("settings")

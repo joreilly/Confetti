@@ -3,8 +3,17 @@
 package dev.johnoreilly.confetti.work
 
 import android.content.Context
+import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ForegroundInfo
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.request.CachePolicy
@@ -18,8 +27,9 @@ import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.GetConferencesQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
+import java.time.Duration
 
 class RefreshWorker(
     private val appContext: Context,
@@ -28,13 +38,14 @@ class RefreshWorker(
     private val apolloClientCache: ApolloClientCache,
     private val imageLoader: ImageLoader
 ) : CoroutineWorker(appContext, workerParams) {
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = try {
         val conference =
-            workerParams.inputData.getString(ConferenceKey) ?: confettiRepository.getConference()
+            workerParams.inputData.getString(ConferenceKey)
+                ?: confettiRepository.getConference()
         val fetchConferences = workerParams.inputData.getBoolean(FetchConferencesKey, false)
         val fetchImages = workerParams.inputData.getBoolean(FetchImagesKey, false)
 
-        coroutineScope {
+        supervisorScope {
             if (fetchConferences) {
                 launch {
                     fetchConferencesList()
@@ -48,8 +59,15 @@ class RefreshWorker(
             }
         }
 
-        return Result.success()
+        Result.success()
+    } catch (e: Exception) {
+        Result.failure()
     }
+
+    override suspend fun getForegroundInfo(): ForegroundInfo = ForegroundInfo(
+        WorkNotificationId,
+        createNotification(appContext, id)
+    )
 
     private suspend fun fetchConference(conference: String, fetchImages: Boolean) {
         val client = apolloClientCache.getClient(conference)
@@ -70,14 +88,16 @@ class RefreshWorker(
         val dispatcher = Dispatchers.IO.limitedParallelism(3)
         val cache = imageLoader.diskCache!!
 
-        images.forEach { url ->
-            if (cache[url] == null) {
-                val request = ImageRequest.Builder(appContext)
-                    .data(url)
-                    .memoryCachePolicy(CachePolicy.DISABLED)
-                    .dispatcher(dispatcher)
-                    .build()
-                imageLoader.execute(request)
+        supervisorScope {
+            images.forEach { url ->
+                if (cache[url] == null) {
+                    val request = ImageRequest.Builder(appContext)
+                        .data(url)
+                        .memoryCachePolicy(CachePolicy.DISABLED)
+                        .dispatcher(dispatcher)
+                        .build()
+                    imageLoader.execute(request)
+                }
             }
         }
     }
@@ -100,8 +120,39 @@ class RefreshWorker(
     }
 
     companion object {
+        fun WorkRefresh(conference: String): String = "refresh-$conference"
+        val WorkDaily: String = "daily"
+        val WorkNotificationId = 101
+        val WorkChannelId = "refresh"
         val ConferenceKey = "conference"
         val FetchConferencesKey = "fetchConferences"
         val FetchImagesKey = "fetchImages"
+
+        fun oneOff(conference: String): OneTimeWorkRequest =
+            OneTimeWorkRequestBuilder<RefreshWorker>()
+                .setInputData(
+                    workDataOf(
+                        ConferenceKey to conference
+                    )
+                )
+                .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                .build()
+
+        fun dailyRefresh(): PeriodicWorkRequest =
+            PeriodicWorkRequestBuilder<RefreshWorker>(Duration.ofDays(1))
+                .setInputData(
+                    workDataOf(
+                        FetchConferencesKey to true,
+                        FetchImagesKey to true
+                    )
+                )
+                .setConstraints(
+                    Constraints.Builder()
+                        .setRequiresCharging(true)
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .setRequiresDeviceIdle(true)
+                        .build()
+                )
+                .build()
     }
 }

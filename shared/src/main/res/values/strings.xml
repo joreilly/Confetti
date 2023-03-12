@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="work_cancel_text">Cancel Refresh</string>
+    <string name="work_channel_name">Background Work</string>
+    <string name="work_title">Conference Refresh</string>
+</resources>

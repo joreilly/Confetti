@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalSettingsApi::class)
+
 package dev.johnoreilly.confetti.di
 
+import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository

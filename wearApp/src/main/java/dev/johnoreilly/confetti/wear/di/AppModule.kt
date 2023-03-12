@@ -12,9 +12,9 @@ import org.koin.dsl.module
 val appModule = module {
     viewModel { ConfettiViewModel() }
     viewModel { SessionDetailsViewModel(get(), get(), get()) }
-    viewModel { ConferencesViewModel(get()) }
+    viewModel { ConferencesViewModel(get(), get()) }
     viewModel { SessionsViewModel(get(), get()) }
-    viewModel { HomeViewModel(get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
     single {
         // Assume an offline first strategy for Wear
         // Eventually use the mobile to drive updates

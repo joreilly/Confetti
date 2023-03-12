@@ -143,13 +143,15 @@ class ConfettiRepository(
         return appSettings.getConferenceFlow()
     }
 
-    suspend fun setConference(conference: String) {
+    suspend fun setConference(conference: String, refresh: Boolean = true) {
         refreshJob?.cancel()
         conferenceData.value = null
         appSettings.setConference(conference)
 
-        refreshJob = coroutineScope.launch {
-            refresh(networkOnly = false)
+        if (refresh) {
+            refreshJob = coroutineScope.launch {
+                refresh(networkOnly = false)
+            }
         }
     }
 

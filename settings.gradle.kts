@@ -30,6 +30,7 @@ include(":backend")
 include(":backend:service-graphql")
 include(":backend:datastore")
 include(":backend:service-import")
+include(":landing-page")
 include(":wearApp")
 include(":wearBenchmark")
 

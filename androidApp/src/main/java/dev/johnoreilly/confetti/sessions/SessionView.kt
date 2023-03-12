@@ -16,10 +16,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessionSpeakerLocation
 import dev.johnoreilly.confetti.ui.Blue80
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 
@@ -93,17 +95,21 @@ fun SessionView(
         }
 
 
-        if (isBookmarked) {
-            Icon(
-                imageVector = Icons.Outlined.Bookmark,
-                contentDescription = "remove bookmark",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { removeBookmark(session.id) }.padding(8.dp))
-        } else {
-            Icon(
-                imageVector = Icons.Outlined.BookmarkAdd,
-                contentDescription = "add bookmark",
-                modifier = Modifier.clickable { addBookmark(session.id) }.padding(8.dp))
+        val authentication = get<Authentication>()
+        val user by remember { mutableStateOf(authentication.currentUser()) }
+        if (user != null) {
+            if (isBookmarked) {
+                Icon(
+                    imageVector = Icons.Outlined.Bookmark,
+                    contentDescription = "remove bookmark",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable { removeBookmark(session.id) }.padding(8.dp))
+            } else {
+                Icon(
+                    imageVector = Icons.Outlined.BookmarkAdd,
+                    contentDescription = "add bookmark",
+                    modifier = Modifier.clickable { addBookmark(session.id) }.padding(8.dp))
+            }
         }
     }
 }

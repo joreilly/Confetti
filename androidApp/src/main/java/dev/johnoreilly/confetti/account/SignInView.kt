@@ -29,6 +29,7 @@ fun SignInRoute(onBackClick: () -> Unit) {
                 onBackClick()
             },
             onAuthError = {
+                it.printStackTrace()
                 error = "Something went wrong"
             }
         )

@@ -4,6 +4,7 @@
         <domain includeSubdomains="true">localhost</domain>
         <!-- 10.0.2.2 is localhost in the emulator -->
         <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">2a01:e34:ec49:a800:1434:5963:3e34:4fa0</domain>
     </domain-config>
     <debug-overrides>
         <trust-anchors>

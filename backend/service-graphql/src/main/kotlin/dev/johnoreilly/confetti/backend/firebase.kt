@@ -6,21 +6,18 @@ import com.google.firebase.auth.FirebaseAuth
 import dev.johnoreilly.confetti.backend.datastore.googleCredentials
 
 
-val localCredentials = googleCredentials("firebase_service_account_key.json")
+private val lock = Object()
 private var _isInitialized = false
+
 fun String.firebaseUid(): String? {
     if (this == "testToken") {
         return "testUser"
     }
 
-    synchronized(_isInitialized) {
+    synchronized(lock) {
         if (!_isInitialized) {
-            if (localCredentials != null) {
-                val options = FirebaseOptions.builder().setCredentials(localCredentials).build()
-                FirebaseApp.initializeApp(options)
-            } else {
-                FirebaseApp.initializeApp()
-            }
+            val options = FirebaseOptions.builder().setCredentials(googleCredentials("firebase_service_account_key.json")).build()
+            FirebaseApp.initializeApp(options)
             _isInitialized = true
         }
     }

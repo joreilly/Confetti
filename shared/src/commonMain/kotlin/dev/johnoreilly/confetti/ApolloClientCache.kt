@@ -4,6 +4,7 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.http.HttpRequest
 import com.apollographql.apollo3.api.http.HttpResponse
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.network.http.HttpInterceptor
@@ -70,5 +71,14 @@ class ApolloClientCache : KoinComponent {
         _clients.values.forEach {
             it.close()
         }
+        _clients.clear()
+    }
+
+    fun clear() {
+        _clients.values.forEach {
+            it.apolloStore.clearAll()
+            it.close()
+        }
+        _clients.clear()
     }
 }

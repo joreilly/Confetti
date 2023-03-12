@@ -12,17 +12,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import dev.johnoreilly.confetti.ApolloClientCache
 import org.koin.androidx.compose.get
 
 @Composable
 fun AccountIcon(
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
+    onSignOut: () -> Unit
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
     val authentication = get<Authentication>()
     var user by remember { mutableStateOf(authentication.currentUser()) }
+    val apolloClientCache = get<ApolloClientCache>()
 
     IconButton(onClick = { showMenu = !showMenu }) {
         when {
@@ -53,6 +56,8 @@ fun AccountIcon(
             DropdownMenuItem(
                 text = { Text("Sign out") },
                 onClick = {
+                    onSignOut()
+                    apolloClientCache.clear()
                     authentication.signOut()
                     user = null
                     showMenu = false

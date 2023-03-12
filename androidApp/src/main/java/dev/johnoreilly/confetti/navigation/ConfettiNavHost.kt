@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.window.layout.DisplayFeature
+import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.account.navigation.SignInDestination
 import dev.johnoreilly.confetti.account.navigation.signInGraph
 import dev.johnoreilly.confetti.conferences.navigation.ConferencesDestination
@@ -16,6 +17,7 @@ import dev.johnoreilly.confetti.sessions.navigation.sessionsGraph
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsDestination
 import dev.johnoreilly.confetti.speakerdetails.navigation.speakerDetailsGraph
 import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
+import org.koin.androidx.compose.get
 
 @Composable
 fun ConfettiNavHost(
@@ -50,6 +52,11 @@ fun ConfettiNavHost(
                 onNavigateToDestination(
                     SignInDestination,
                     SignInDestination.route
+                )
+            },
+            onSignOut = {
+                onNavigateToDestination(
+                    ConferencesDestination, null
                 )
             },
             onSwitchConferenceSelected = {

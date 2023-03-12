@@ -26,6 +26,8 @@ import dev.johnoreilly.confetti.account.AccountIcon
 fun SessionListGridView(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit
 ) {
     if (uiState is SessionsUiState.Success) {
@@ -39,7 +41,8 @@ fun SessionListGridView(
                     actions = {
                         AccountIcon(
                             onSwitchConference = {},
-                            onSignIn = {}
+                            onSignIn = onSignIn,
+                            onSignOut = onSignOut
                         )
                     }
                 )

@@ -16,9 +16,17 @@ fun NavGraphBuilder.sessionsGraph(
     displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
     navigateToSignIn: () -> Unit,
+    onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
 ) {
     composable(route = SessionsDestination.route) {
-        SessionsRoute(isExpandedScreen, displayFeatures, navigateToSession, navigateToSignIn, onSwitchConferenceSelected)
+        SessionsRoute(
+            isExpandedScreen,
+            displayFeatures,
+            navigateToSession,
+            navigateToSignIn,
+            onSignOut,
+            onSwitchConferenceSelected
+        )
     }
 }

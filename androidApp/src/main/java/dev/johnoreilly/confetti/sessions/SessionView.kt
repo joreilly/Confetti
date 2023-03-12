@@ -29,6 +29,7 @@ fun SessionsRoute(
     displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
     navigateToSignin: () -> Unit,
+    onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
@@ -38,6 +39,8 @@ fun SessionsRoute(
         SessionListGridView(
             uiState,
             navigateToSession,
+            navigateToSignin,
+            onSignOut,
             onSwitchConferenceSelected
         )
     } else {
@@ -47,6 +50,7 @@ fun SessionsRoute(
             { viewModel.addBookmark(it) },
             { viewModel.removeBookmark(it) },
             navigateToSignin,
+            onSignOut,
             onSwitchConferenceSelected,
             viewModel::refresh
         )

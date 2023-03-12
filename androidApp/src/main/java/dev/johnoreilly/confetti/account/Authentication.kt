@@ -43,10 +43,9 @@ suspend fun FirebaseUser.idToken(forceRefresh: Boolean): String = suspendCorouti
         }
 }
 class Authentication {
-    suspend fun idToken(forceRefresh: Boolean = false): String {
-        return Firebase.auth.currentUser?.idToken(forceRefresh) ?: "signedout"
+    suspend fun idToken(forceRefresh: Boolean = false): String? {
+        return Firebase.auth.currentUser?.idToken(forceRefresh)
     }
-
 
     fun currentUser(): User? {
         return Firebase.auth.currentUser?.toUser()

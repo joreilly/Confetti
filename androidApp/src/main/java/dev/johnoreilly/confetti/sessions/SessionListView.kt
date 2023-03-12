@@ -54,7 +54,8 @@ fun SessionListView(
     sessionSelected: (sessionId: String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
-    onSignIn: ()-> Unit,
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
     onRefresh: suspend (() -> Unit)
 ) {
@@ -71,7 +72,8 @@ fun SessionListView(
                 actions = {
                     AccountIcon(
                         onSwitchConference = onSwitchConferenceSelected,
-                        onSignIn = onSignIn
+                        onSignIn = onSignIn,
+                        onSignOut = onSignOut,
                     )
                 }
             )
@@ -83,9 +85,11 @@ fun SessionListView(
 
             when (uiState) {
                 SessionsUiState.Loading ->
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(Alignment.Center)) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center)
+                    ) {
                         CircularProgressIndicator()
                     }
 
@@ -114,11 +118,19 @@ fun SessionListView(
                             Box(
                                 Modifier
                                     .pullRefresh(state)
-                                    .clipToBounds()) {
+                                    .clipToBounds()
+                            ) {
                                 LazyColumn {
                                     sessions.forEach {
                                         item {
-                                            Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)) {
+                                            Column(
+                                                Modifier.padding(
+                                                    start = 16.dp,
+                                                    end = 16.dp,
+                                                    top = 16.dp,
+                                                    bottom = 8.dp
+                                                )
+                                            ) {
                                                 Text(
                                                     it.key,
                                                     fontWeight = FontWeight.Bold,
@@ -129,7 +141,13 @@ fun SessionListView(
                                         }
 
                                         items(it.value) { session ->
-                                            SessionView(session, sessionSelected, uiState.bookmarks.contains(session.id), addBookmark, removeBookmark)
+                                            SessionView(
+                                                session,
+                                                sessionSelected,
+                                                uiState.bookmarks.contains(session.id),
+                                                addBookmark,
+                                                removeBookmark
+                                            )
                                         }
                                     }
                                 }

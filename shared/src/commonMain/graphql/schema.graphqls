@@ -8,6 +8,12 @@ type Conference {
   timezone: String!
 }
 
+type Mutation {
+  addBookmark(sessionId: String!): Boolean!
+
+  removeBookmark(sessionId: String!): Boolean!
+}
+
 type PageInfo {
   endCursor: String
 }
@@ -27,6 +33,8 @@ type PartnerGroup {
 }
 
 type Query {
+  bookmarks: [String!]!
+
   conferences(orderBy: ConferenceOrderByInput): [Conference!]!
 
   config: Conference!

@@ -17,3 +17,12 @@ plugins {
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
+
+tasks.register("setupGoogleServices") {
+    doLast {
+        if (System.getenv("CI")?.isNotEmpty() == true) {
+            println("setting up google services...")
+            file("service_account_key.json").writeText(System.getenv("GOOGLE_SERVICES_JSON"))
+        }
+    }
+}

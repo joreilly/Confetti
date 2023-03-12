@@ -56,8 +56,10 @@ compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", versio
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
 firebase-bom = "com.google.firebase:firebase-bom:31.2.2"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
-firebase-crashlytics = { module ="com.google.firebase:firebase-crashlytics-ktx" }
-firebase-performance = { module ="com.google.firebase:firebase-perf-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
+google-cloud-bom = "com.google.cloud:libraries-bom:26.9.0"
+google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.11.0"
 google-services = "com.google.gms:google-services:4.3.15"
 graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.0-alpha.3"
@@ -69,7 +71,7 @@ koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", versio
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test"}
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 kmm-viewmodel = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmm-viewmodel" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }

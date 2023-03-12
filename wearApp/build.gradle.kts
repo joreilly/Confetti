@@ -152,6 +152,9 @@ dependencies {
     implementation(libs.koin.compose)
 
     implementation(libs.kmm.viewmodel)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.koin.android)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     implementation(libs.wear.compose.material)
     implementation(libs.wear.compose.navigation)

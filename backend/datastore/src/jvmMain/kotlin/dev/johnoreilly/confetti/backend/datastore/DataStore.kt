@@ -28,40 +28,16 @@ import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
 import net.mbonnin.bare.graphql.toAny
 import net.mbonnin.bare.graphql.toJsonElement
-import java.io.File
 
 
-internal fun locateFile(name: String): File? {
-    var dir: File? = File(".").absoluteFile
-    while (dir != null) {
-        val candidate = dir.resolve("Confetti/backend/$name")
-        if (candidate.exists()) {
-            return candidate
-        }
-
-        dir = dir.parentFile
-    }
-    return null
-}
-
-fun credentials(name: String): GoogleCredentials? {
-    return locateFile(name)?.let {
-        it.inputStream().use {
-            GoogleCredentials.fromStream(it)
-        }
-    }
+fun googleCredentials(name: String): GoogleCredentials {
+    return GoogleCredentials::class.java.classLoader.getResourceAsStream(name)?.use {
+        GoogleCredentials.fromStream(it)
+    } ?: error("no credentials found for $name")
 }
 
 internal fun initDatastore(): Datastore {
-    val localCredentials = credentials("gcp_service_account_key.json")
-
-    val datastore = if (localCredentials != null) {
-        DatastoreOptions.newBuilder().setCredentials(localCredentials).build().service
-    } else {
-        DatastoreOptions.getDefaultInstance().service
-    }
-
-    return datastore
+    return DatastoreOptions.newBuilder().setCredentials( googleCredentials("gcp_service_account_key.json")).build().service
 }
 
 class DataStore {

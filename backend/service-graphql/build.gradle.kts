@@ -38,7 +38,7 @@ appengine {
     setArtifact(tasks.named("bootJar").flatMap { (it as Jar).archiveFile })
   }
   tools {
-    setServiceAccountKeyFile(file("../gcp_service_account_key.json"))
+    setServiceAccountKeyFile(gcpServiceAccountFile())
   }
   deploy {
     projectId = "confetti-349319"

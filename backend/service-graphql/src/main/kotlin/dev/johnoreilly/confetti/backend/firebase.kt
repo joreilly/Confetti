@@ -3,10 +3,10 @@ package dev.johnoreilly.confetti.backend
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
-import dev.johnoreilly.confetti.backend.datastore.credentials
+import dev.johnoreilly.confetti.backend.datastore.googleCredentials
 
 
-val localCredentials = credentials("firebase_service_account_key.json")
+val localCredentials = googleCredentials("firebase_service_account_key.json")
 private var _isInitialized = false
 fun String.firebaseUid(): String? {
     synchronized(_isInitialized) {
@@ -17,6 +17,7 @@ fun String.firebaseUid(): String? {
             } else {
                 FirebaseApp.initializeApp()
             }
+            _isInitialized = true
         }
     }
 

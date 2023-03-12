@@ -26,7 +26,7 @@ type PartnerGroup {
 }
 
 type Query {
-  bookmarks: [String!]!
+  bookmarks: [String!]
   conferences(orderBy: ConferenceOrderByInput): [Conference!]!
   config: Conference!
   partnerGroups: [PartnerGroup!]!

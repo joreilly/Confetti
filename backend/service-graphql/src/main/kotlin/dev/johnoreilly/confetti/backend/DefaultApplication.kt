@@ -72,7 +72,6 @@ class DefaultApplication {
         it.source().buffer().readUtf8().trim()
     }
 
-
     @Bean
     fun customHooks(): SchemaGeneratorHooks = CustomSchemaGeneratorHooks()
 
@@ -327,7 +326,7 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
             conf = ConferenceId.KotlinConf2023.id
         }
 
-        val uid = request.queryParam("authorization").getOrNull()
+        val uid = request.headers().firstHeader("authorization")
             ?.substring("bearer_".length)
             ?.firebaseUid()
 

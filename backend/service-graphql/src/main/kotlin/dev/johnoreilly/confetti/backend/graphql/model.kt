@@ -5,6 +5,7 @@ import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_SOURCE
+import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_UID
 import dev.johnoreilly.confetti.backend.datastore.DDirection
 import dev.johnoreilly.confetti.backend.datastore.DOrderBy
 import dev.johnoreilly.confetti.backend.datastore.DataStore
@@ -83,7 +84,10 @@ class RootQuery : Query {
         return dfe.source().conference()
     }
 
-    fun bookmarks(dfe: DataFetchingEnvironment): List<String> {
+    fun bookmarks(dfe: DataFetchingEnvironment): List<String>? {
+        if (dfe.uid() == null) {
+            return null
+        }
         return dfe.source().bookmarks().toList()
     }
 
@@ -139,6 +143,9 @@ enum class ConferenceField(val value: String) {
     DAYS("days"),
 }
 
+fun DataFetchingEnvironment.uid(): String? {
+    return graphQlContext.get(KEY_UID)
+}
 private fun DataFetchingEnvironment.source(): DataSource {
     return graphQlContext.get(KEY_SOURCE)
 }

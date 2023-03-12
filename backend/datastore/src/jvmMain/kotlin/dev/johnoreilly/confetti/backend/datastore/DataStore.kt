@@ -37,7 +37,8 @@ fun googleCredentials(name: String): GoogleCredentials {
 }
 
 internal fun initDatastore(): Datastore {
-    return DatastoreOptions.newBuilder().setCredentials( googleCredentials("gcp_service_account_key.json")).build().service
+    return DatastoreOptions.newBuilder()
+        .setCredentials(googleCredentials("gcp_service_account_key.json")).build().service
 }
 
 class DataStore {
@@ -65,7 +66,7 @@ class DataStore {
         return readBookmarksEntity(uid, conference)?.names.orEmpty()
     }
 
-    fun addBookmark(uid: String, conference: String, sessionId: String) {
+    fun addBookmark(uid: String, conference: String, sessionId: String): Set<String> {
         var entityBuilder: Entity.Builder? = readBookmarksEntity(uid, conference)?.let {
             Entity.newBuilder(it)
         }
@@ -77,31 +78,33 @@ class DataStore {
             entityBuilder = Entity.newBuilder(key)!!
         }
         entityBuilder.set(sessionId, BooleanValue.of(true))
+        val newEntity = entityBuilder.build()
         datastore.runInTransaction {
-            it.put(entityBuilder.build())
+            it.put(newEntity)
         }
+
+        return newEntity.names
     }
 
-    fun removeBookmark(uid: String, conference: String, sessionId: String): Boolean {
+    fun removeBookmark(uid: String, conference: String, sessionId: String): Set<String> {
         val entity = readBookmarksEntity(uid, conference)
 
         if (entity == null) {
-            return false
+            return emptySet()
         }
 
         if (!entity.contains(sessionId)) {
-            return false
+            return emptySet()
         }
 
+        val newEntity = Entity.newBuilder(entity)
+            .remove(sessionId)
+            .build()
         datastore.runInTransaction {
-            it.put(
-                Entity.newBuilder(entity)
-                    .remove(sessionId)
-                    .build()
-            )
+            it.put(newEntity)
         }
 
-        return true
+        return newEntity.names
     }
 
     fun write(

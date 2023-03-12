@@ -18,7 +18,6 @@ fun Project.uploadLandingPage() {
 
     val bucketName = "confetti-landing-page"
 
-
     println("uploading landing page...")
     val base = file("public")
     base.walk().filter { it.isFile }

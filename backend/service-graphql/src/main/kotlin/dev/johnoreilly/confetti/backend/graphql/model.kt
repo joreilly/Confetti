@@ -25,13 +25,12 @@ annotation class RequiresOptIn(val feature: String)
 
 @Component
 class RootMutation : Mutation {
-    fun addBookmark(dfe: DataFetchingEnvironment, sessionId: String): Boolean {
-        dfe.source().addBookmark(sessionId)
-        return true
+    fun addBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
+        return Bookmarks(dfe.source().addBookmark(sessionId).toList())
     }
 
-    fun removeBookmark(dfe: DataFetchingEnvironment, sessionId: String): Boolean {
-        return dfe.source().removeBookmark(sessionId)
+    fun removeBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
+        return Bookmarks(dfe.source().removeBookmark(sessionId).toList())
     }
 }
 
@@ -84,11 +83,11 @@ class RootQuery : Query {
         return dfe.source().conference()
     }
 
-    fun bookmarks(dfe: DataFetchingEnvironment): List<String>? {
+    fun bookmarks(dfe: DataFetchingEnvironment): Bookmarks? {
         if (dfe.uid() == null) {
             return null
         }
-        return dfe.source().bookmarks().toList()
+        return Bookmarks(dfe.source().bookmarks().toList())
     }
 
     fun conferences(orderBy: ConferenceOrderBy? = null): List<Conference> {
@@ -100,8 +99,10 @@ class RootQuery : Query {
             it.toConference()
         }
     }
+}
 
-
+class Bookmarks(val sessionIds: List<String>) {
+    val id = "Bookmarks"
 }
 
 internal fun OrderByDirection.toDDirection(): DDirection {

@@ -91,15 +91,15 @@ fun SessionView(
 
         if (isBookmarked) {
             Icon(
-                imageVector = Icons.Outlined.BookmarkAdd,
-                contentDescription = "add bookmark",
-                modifier = Modifier.clickable { removeBookmark(session.id) })
-        } else {
-            Icon(
                 imageVector = Icons.Outlined.Bookmark,
                 contentDescription = "remove bookmark",
-                tint = Blue80,
-                modifier = Modifier.clickable { addBookmark(session.id) })
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable { removeBookmark(session.id) }.padding(8.dp))
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.BookmarkAdd,
+                contentDescription = "add bookmark",
+                modifier = Modifier.clickable { addBookmark(session.id) }.padding(8.dp))
         }
     }
 }

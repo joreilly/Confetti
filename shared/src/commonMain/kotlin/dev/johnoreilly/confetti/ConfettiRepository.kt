@@ -2,12 +2,16 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.api.ApolloResponse
+import com.apollographql.apollo3.api.Mutation
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
+import com.apollographql.apollo3.cache.normalized.optimisticUpdates
 import com.apollographql.apollo3.cache.normalized.refetchPolicy
 import com.apollographql.apollo3.cache.normalized.watch
+import com.apollographql.apollo3.exception.ApolloException
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.type.buildBookmarks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -45,41 +49,53 @@ class ConfettiRepository(
             .fetchPolicy(FetchPolicy.NetworkFirst)
             .refetchPolicy(FetchPolicy.CacheOnly)
             .watch()
-            .onEach { println("got bookmark ${it.data}") }
-            .mapNotNull { it.data?.bookmarks }
+            .onEach { println("got bookmarks ${it.data}") }
+            .map { it.data?.bookmarks?.sessionIds.orEmpty() }
             .let {
                 emitAll(it)
             }
     }
 
-    fun addBookmark(sessionId: String) {
+    private fun <D: Mutation.Data> modifyBookmarks(mutation: Mutation<D>, data: (sessionIds: List<String>, id: String) -> D ) {
         coroutineScope.launch {
             try {
                 val client = getCurrentConferenceClient()
-                val operation = AddBookmarkMutation(sessionId)
-                client.mutation(operation).execute()
-                val data = client.apolloStore.readOperation(GetBookmarksQuery()).let {
-                    it.copy(bookmarks = (it.bookmarks + sessionId).distinct())
+                val optimisticData  = try {
+                    val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
+                    data(bookmarks!!.sessionIds, bookmarks.id)
+                } catch (e: ApolloException) {
+                    null
                 }
-                client.apolloStore.writeOperation(GetBookmarksQuery(), data)
+                client.mutation(mutation)
+                    .apply {
+                        if (optimisticData != null) {
+                            optimisticUpdates(optimisticData)
+                        }
+                    }
+                    .execute()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+    fun addBookmark(sessionId: String) {
+        modifyBookmarks(AddBookmarkMutation(sessionId)) { sessionIds, id ->
+            AddBookmarkMutation.Data {
+                addBookmark = buildBookmarks {
+                    this.id = id
+                    this.sessionIds = sessionIds + sessionId
+                }
+            }
+        }
+    }
 
     fun removeBookmark(sessionId: String) {
-        coroutineScope.launch {
-            try {
-                val client = getCurrentConferenceClient()
-                val operation = RemoveBookmarkMutation(sessionId)
-                client.mutation(operation).execute()
-                val data = client.apolloStore.readOperation(GetBookmarksQuery()).let {
-                    it.copy(bookmarks = (it.bookmarks - sessionId).distinct())
+        modifyBookmarks(RemoveBookmarkMutation(sessionId)) {sessionIds, id ->
+            RemoveBookmarkMutation.Data {
+                removeBookmark = buildBookmarks {
+                    this.id = id
+                    this.sessionIds = sessionIds - sessionId
                 }
-                client.apolloStore.writeOperation(GetBookmarksQuery(), data)
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
     }

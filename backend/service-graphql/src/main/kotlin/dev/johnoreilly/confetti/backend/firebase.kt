@@ -9,6 +9,10 @@ import dev.johnoreilly.confetti.backend.datastore.googleCredentials
 val localCredentials = googleCredentials("firebase_service_account_key.json")
 private var _isInitialized = false
 fun String.firebaseUid(): String? {
+    if (this == "testToken") {
+        return "testUser"
+    }
+
     synchronized(_isInitialized) {
         if (!_isInitialized) {
             if (localCredentials != null) {

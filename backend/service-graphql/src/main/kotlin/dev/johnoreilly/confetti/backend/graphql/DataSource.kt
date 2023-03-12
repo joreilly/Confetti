@@ -9,6 +9,6 @@ interface DataSource {
   fun conference(): Conference
   fun bookmarks(): Set<String>
 
-  fun addBookmark(sessionId: String)
-  fun removeBookmark(sessionId: String): Boolean
+  fun addBookmark(sessionId: String): Set<String>
+  fun removeBookmark(sessionId: String): Set<String>
 }

@@ -62,17 +62,17 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
         return datastore.readBookmarks(uid, conf)
     }
 
-    override fun addBookmark(sessionId: String) {
+    override fun addBookmark(sessionId: String): Set<String> {
         if (uid == null) {
-            return
+            return emptySet()
         }
 
-        datastore.addBookmark(uid, conf, sessionId)
+        return datastore.addBookmark(uid, conf, sessionId)
     }
 
-    override fun removeBookmark(sessionId: String): Boolean {
+    override fun removeBookmark(sessionId: String): Set<String> {
         if (uid == null) {
-            return false
+            return emptySet()
         }
 
         return datastore.removeBookmark(uid, conf, sessionId)

@@ -10,6 +10,8 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
+import dev.johnoreilly.confetti.ConferenceRefresh
+import dev.johnoreilly.confetti.JobConferenceRefresh
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.IosDateService
 import org.koin.dsl.module
@@ -20,6 +22,7 @@ actual fun platformModule() = module {
     single { get<ObservableSettings>().toFlowSettings() }
     single<NormalizedCacheFactory> { SqlNormalizedCacheFactory("confetti.db") }
     single<DateService> { IosDateService() }
+    single<ConferenceRefresh> { JobConferenceRefresh(get()) }
     factory {
         ApolloClient.Builder()
     }

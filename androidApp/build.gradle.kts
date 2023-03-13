@@ -160,6 +160,7 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+    implementation(libs.androidx.work.runtime.ktx)
 
     implementation(libs.kmm.viewmodel)
 

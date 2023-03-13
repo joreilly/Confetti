@@ -104,7 +104,6 @@ fun SessionListView(
                     }
 
                     val state = rememberPullRefreshState(refreshing, ::refresh)
-
                     Column {
 
                         SessionListTabRow(pagerState, uiState)

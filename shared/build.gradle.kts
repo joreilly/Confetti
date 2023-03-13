@@ -57,7 +57,18 @@ kotlin {
             }
         }
 
+        val mobileMain by getting {
+            dependencies {
+                implementation(libs.kmm.viewmodel)
+            }
+        }
+
+        val iosMain by getting {
+            dependsOn(mobileMain)
+        }
+
         val androidMain by getting {
+            dependsOn(mobileMain)
             dependencies {
                 api(libs.androidx.lifecycle.viewmodel.ktx)
                 implementation(libs.okhttp)
@@ -77,12 +88,6 @@ kotlin {
                 api(libs.multiplatform.settings.datastore)
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
-            }
-        }
-
-        val mobileMain by getting {
-            dependencies {
-                implementation(libs.kmm.viewmodel)
             }
         }
 

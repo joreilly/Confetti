@@ -1,3 +1,9 @@
+type Bookmarks {
+  id: String!
+
+  sessionIds: [String!]!
+}
+
 type Conference {
   days: [LocalDate!]!
 
@@ -6,6 +12,12 @@ type Conference {
   name: String!
 
   timezone: String!
+}
+
+type Mutation {
+  addBookmark(sessionId: String!): Bookmarks!
+
+  removeBookmark(sessionId: String!): Bookmarks!
 }
 
 type PageInfo {
@@ -27,6 +39,8 @@ type PartnerGroup {
 }
 
 type Query {
+  bookmarks: Bookmarks
+
   conferences(orderBy: ConferenceOrderByInput): [Conference!]!
 
   config: Conference!

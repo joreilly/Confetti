@@ -17,7 +17,7 @@ class JobConferenceRefresh(
 
         if (conference.isNotEmpty()) {
             refreshJob = coroutineScope.launch {
-                confettiRepository.refresh(networkOnly = false)
+                confettiRepository.refresh(conference, networkOnly = false)
             }
         }
     }

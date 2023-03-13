@@ -33,12 +33,6 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
         emptyList()
     )
 
-    init {
-        viewModelScope.coroutineScope.launch {
-            repository.initOnce()
-        }
-    }
-
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> =
         combine(

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloCall
@@ -6,15 +8,18 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -39,7 +44,15 @@ class ConfettiRepository(
             })
     }
 
-    private val conferenceData = MutableStateFlow<GetConferenceDataQuery.Data?>(null)
+    private val conferenceData = getConferenceFlow().flatMapLatest {
+        if (it.isEmpty()) {
+            flowOf(null)
+        } else {
+            apolloClientCache.getClient(it).query(GetConferenceDataQuery()).toFlow().map {
+                it.data
+            }
+        }
+    }.stateIn(coroutineScope, SharingStarted.Eagerly, null)
 
     val timeZone = conferenceData.value?.config?.timezone?.let {
         TimeZone.of(it)
@@ -69,17 +82,6 @@ class ConfettiRepository(
         it.rooms.map { it.roomDetails }
     }
 
-
-    suspend fun initOnce() {
-        if (conferenceData.value == null) {
-            val conference = appSettings.getConference()
-
-            if (conference.isNotEmpty()) {
-                refresh(networkOnly = false)
-            }
-        }
-    }
-
     suspend fun getConference(): String {
         return appSettings.getConference()
     }
@@ -89,29 +91,17 @@ class ConfettiRepository(
     }
 
     suspend fun setConference(conference: String) {
-        conferenceData.value = null
         appSettings.setConference(conference)
     }
 
-    private suspend fun getCurrentConferenceClient() =
-        apolloClientCache.getClient(appSettings.getConference())
-
-    suspend fun refresh(networkOnly: Boolean = true) {
+    suspend fun refresh(conference: String, networkOnly: Boolean = true) {
         val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
 
         // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
-        getCurrentConferenceClient().let {
-            it.query(GetConferenceDataQuery())
-                .fetchPolicy(fetchPolicy)
-                .toFlow()
-                .catch {
-                    // this can be valid scenario of say offline and we get data from cache initially
-                    // but can't connect to network.  TODO should we surface this somewhere?
-                }.collect {
-                    println("got data, conf name = ${it.data?.config?.name}")
-                    conferenceData.value = it.data
-                }
-        }
+        apolloClientCache.getClient(conference)
+            .query(GetConferenceDataQuery())
+            .fetchPolicy(fetchPolicy)
+            .execute()
     }
 
     suspend fun sessionDetails(

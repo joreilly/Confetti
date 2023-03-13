@@ -12,6 +12,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
@@ -23,6 +25,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import okio.IOException
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -38,21 +41,30 @@ class ConfettiRepository(
     val conferenceList: Flow<List<GetConferencesQuery.Conference>> = flow {
         val client = apolloClientCache.getClient("all")
 
-        emitAll(client.query(GetConferencesQuery()).fetchPolicy(defaultFetchPolicy)
-            .toFlow().mapNotNull {
+        emitAll(client.query(GetConferencesQuery())
+            .fetchPolicy(defaultFetchPolicy)
+            .toFlow()
+            .catch {
+                // handle network failures by swallowing the error
+            }
+            .mapNotNull {
                 it.data?.conferences
             })
     }
 
-    private val conferenceData = getConferenceFlow().flatMapLatest {
-        if (it.isEmpty()) {
-            flowOf(null)
-        } else {
-            apolloClientCache.getClient(it).query(GetConferenceDataQuery()).toFlow().map {
-                it.data
+    private val conferenceData: StateFlow<GetConferenceDataQuery.Data?> =
+        getConferenceFlow().flatMapLatest {
+            if (it.isEmpty()) {
+                flowOf(null)
+            } else {
+                apolloClientCache.getClient(it).query(GetConferenceDataQuery()).toFlow().map {
+                    it.data
+                }.catch {
+                    // TODO log errors
+                    emit(null)
+                }
             }
-        }
-    }.stateIn(coroutineScope, SharingStarted.Eagerly, null)
+        }.stateIn(coroutineScope, SharingStarted.Eagerly, null)
 
     val timeZone = conferenceData.value?.config?.timezone?.let {
         TimeZone.of(it)

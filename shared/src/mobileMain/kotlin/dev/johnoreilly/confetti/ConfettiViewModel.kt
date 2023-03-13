@@ -58,6 +58,11 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
     val speakers = repository.speakers
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
+
+    @NativeCoroutinesState
+    val savedConference = repository.getConferenceFlow()
+        .stateIn(viewModelScope, started = SharingStarted.Lazily, "")
+
     fun setConference(conference: String) {
         viewModelScope.coroutineScope.launch {
             repository.setConference(conference)

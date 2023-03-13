@@ -6,7 +6,6 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,8 +15,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -32,8 +29,6 @@ class ConfettiRepository(
     private val appSettings: AppSettings by inject()
 
     private val apolloClientCache: ApolloClientCache by inject()
-
-    private var refreshJob: Job? = null
 
     val conferenceList: Flow<List<GetConferencesQuery.Conference>> = flow {
         val client = apolloClientCache.getClient("all")
@@ -75,13 +70,12 @@ class ConfettiRepository(
     }
 
 
-    init {
-        // TODO refactor to avoid needing this so early
-        runBlocking {
+    suspend fun initOnce() {
+        if (conferenceData.value == null) {
             val conference = appSettings.getConference()
 
             if (conference.isNotEmpty()) {
-                setConference(conference)
+                refresh(networkOnly = false)
             }
         }
     }
@@ -94,16 +88,9 @@ class ConfettiRepository(
         return appSettings.getConferenceFlow()
     }
 
-    suspend fun setConference(conference: String, refresh: Boolean = true) {
-        refreshJob?.cancel()
+    suspend fun setConference(conference: String) {
         conferenceData.value = null
         appSettings.setConference(conference)
-
-        if (refresh) {
-            refreshJob = coroutineScope.launch {
-                refresh(networkOnly = false)
-            }
-        }
     }
 
     private suspend fun getCurrentConferenceClient() =

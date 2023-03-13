@@ -24,12 +24,20 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
 
     private val dateService: DateService by inject()
 
+    private val conferenceRefresher: ConferenceRefresh by inject()
+
     @NativeCoroutinesState
     val conferenceList = repository.conferenceList.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(),
         emptyList()
     )
+
+    init {
+        viewModelScope.coroutineScope.launch {
+            repository.initOnce()
+        }
+    }
 
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> =
@@ -72,6 +80,7 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
             repository.setConference(conference)
             savedConference.value = conference
         }
+        conferenceRefresher.refresh(conference)
     }
 
     fun clearConference() {
@@ -79,13 +88,12 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
     }
 
     suspend fun refresh() {
-        repository.refresh(networkOnly = true)
+        conferenceRefresher.refresh(repository.getConference())
     }
 
     fun getSessionTime(session: SessionDetails): String {
         return dateService.format(session.startInstant, repository.timeZone, "HH:mm")
     }
-
 }
 
 sealed interface SessionsUiState {

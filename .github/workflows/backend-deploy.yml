@@ -1,3 +1,4 @@
+# Deploys to the backend
 name: Backend Deploy
 
 on:
@@ -6,6 +7,11 @@ on:
       - 'main'
     paths:
       - 'backend/**'
+      - 'landing-page'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle/libs.versions.toml'
+      - 'gradle/wrapper/gradle-wrapper.properties'
       - ".github/workflows/**"
 
 # Cancel any current or previous job from the same PR

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloCall
@@ -9,21 +11,24 @@ import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.cache.normalized.optimisticUpdates
 import com.apollographql.apollo3.cache.normalized.refetchPolicy
 import com.apollographql.apollo3.cache.normalized.watch
-import com.apollographql.apollo3.exception.ApolloException
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.buildBookmarks
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -33,29 +38,26 @@ import org.koin.core.component.inject
 class ConfettiRepository(
     private val defaultFetchPolicy: FetchPolicy
 ) : KoinComponent {
+    // TODO move coroutines out of Repository to ViewModel
     val coroutineScope: CoroutineScope = MainScope()
 
     private val appSettings: AppSettings by inject()
 
     private val apolloClientCache: ApolloClientCache by inject()
 
-    val bookmarks: Flow<List<String>> = flow {
-        getCurrentConferenceClient()
+    val bookmarks: Flow<List<String>> = getConferenceFlow().flatMapLatest {
+        apolloClientCache.getClient(it)
             .query(GetBookmarksQuery())
             .fetchPolicy(FetchPolicy.NetworkFirst)
             .refetchPolicy(FetchPolicy.CacheOnly)
             .watch()
             .onEach { println("got bookmarks ${it.data}") }
             .map { it.data?.bookmarks?.sessionIds.orEmpty() }
-            .let {
-                emitAll(it)
-            }
     }
 
-    private fun <D: Mutation.Data> modifyBookmarks(mutation: Mutation<D>, data: (sessionIds: List<String>, id: String) -> D ) {
-        coroutineScope.launch {
+    private suspend fun <D: Mutation.Data> modifyBookmarks(mutation: Mutation<D>, data: (sessionIds: List<String>, id: String) -> D ) {
             try {
-                val client = getCurrentConferenceClient()
+                val client = apolloClientCache.getClient(getConference())
                 val optimisticData  = try {
                     val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
                     data(bookmarks!!.sessionIds, bookmarks.id)
@@ -72,9 +74,9 @@ class ConfettiRepository(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }
     }
-    fun addBookmark(sessionId: String) {
+
+    suspend fun addBookmark(sessionId: String) {
         modifyBookmarks(AddBookmarkMutation(sessionId)) { sessionIds, id ->
             AddBookmarkMutation.Data {
                 addBookmark = buildBookmarks {
@@ -85,7 +87,7 @@ class ConfettiRepository(
         }
     }
 
-    fun removeBookmark(sessionId: String) {
+    suspend fun removeBookmark(sessionId: String) {
         modifyBookmarks(RemoveBookmarkMutation(sessionId)) {sessionIds, id ->
             RemoveBookmarkMutation.Data {
                 removeBookmark = buildBookmarks {
@@ -99,13 +101,30 @@ class ConfettiRepository(
     val conferenceList: Flow<List<GetConferencesQuery.Conference>> = flow {
         val client = apolloClientCache.getClient("all")
 
-        emitAll(client.query(GetConferencesQuery()).fetchPolicy(defaultFetchPolicy)
-            .toFlow().mapNotNull {
+        emitAll(client.query(GetConferencesQuery())
+            .fetchPolicy(defaultFetchPolicy)
+            .toFlow()
+            .catch {
+                // handle network failures by swallowing the error
+            }
+            .mapNotNull {
                 it.data?.conferences
             })
     }
 
-    private val conferenceData = MutableStateFlow<GetConferenceDataQuery.Data?>(null)
+    private val conferenceData: StateFlow<GetConferenceDataQuery.Data?> =
+        getConferenceFlow().flatMapLatest {
+            if (it.isEmpty()) {
+                flowOf(null)
+            } else {
+                apolloClientCache.getClient(it).query(GetConferenceDataQuery()).toFlow().map {
+                    it.data
+                }.catch {
+                    // TODO log errors
+                    emit(null)
+                }
+            }
+        }.stateIn(coroutineScope, SharingStarted.Eagerly, null)
 
     val timeZone = conferenceData.value?.config?.timezone?.let {
         TimeZone.of(it)
@@ -135,17 +154,6 @@ class ConfettiRepository(
         it.rooms.map { it.roomDetails }
     }
 
-
-    suspend fun initOnce() {
-        if (conferenceData.value == null) {
-            val conference = appSettings.getConference()
-
-            if (conference.isNotEmpty()) {
-                refresh(networkOnly = false)
-            }
-        }
-    }
-
     suspend fun getConference(): String {
         return appSettings.getConference()
     }
@@ -155,29 +163,23 @@ class ConfettiRepository(
     }
 
     suspend fun setConference(conference: String) {
-        conferenceData.value = null
         appSettings.setConference(conference)
     }
 
-    private suspend fun getCurrentConferenceClient() =
-        apolloClientCache.getClient(appSettings.getConference())
-
-    suspend fun refresh(networkOnly: Boolean = true) {
+    suspend fun refresh(conference: String, networkOnly: Boolean = true) {
         val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
 
-        // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
-        getCurrentConferenceClient().let {
-            it.query(GetConferenceDataQuery())
+        try {
+            // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
+            apolloClientCache.getClient(conference)
+                .query(GetConferenceDataQuery())
                 .fetchPolicy(fetchPolicy)
-                .toFlow()
-                .catch {
-                    // this can be valid scenario of say offline and we get data from cache initially
-                    // but can't connect to network.  TODO should we surface this somewhere?
-                    it.printStackTrace()
-                }.collect {
-                    println("got data, conf name = ${it.data?.config?.name}")
-                    conferenceData.value = it.data
-                }
+                .execute()
+        } catch (e: Exception) {
+            // this can be valid scenario of say offline and we get data from cache initially
+            // but can't connect to network.
+            // TODO should we surface this somewhere?
+            e.printStackTrace()
         }
     }
 

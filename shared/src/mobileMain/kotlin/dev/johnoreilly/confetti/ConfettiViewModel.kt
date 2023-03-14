@@ -1,7 +1,6 @@
 package dev.johnoreilly.confetti
 
 import com.rickclephas.kmm.viewmodel.KMMViewModel
-import com.rickclephas.kmm.viewmodel.MutableStateFlow
 import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmm.viewmodel.stateIn
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
@@ -25,11 +23,15 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
     private val dateService: DateService by inject()
 
     fun addBookmark(sessionId: String) {
-        repository.addBookmark(sessionId)
+        viewModelScope.coroutineScope.launch {
+            repository.addBookmark(sessionId)
+        }
     }
 
     fun removeBookmark(sessionId: String) {
-        repository.removeBookmark(sessionId)
+        viewModelScope.coroutineScope.launch {
+            repository.removeBookmark(sessionId)
+        }
     }
 
     private val conferenceRefresher: ConferenceRefresh by inject()
@@ -40,12 +42,6 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
         SharingStarted.WhileSubscribed(),
         emptyList()
     )
-
-    init {
-        viewModelScope.coroutineScope.launch {
-            repository.initOnce()
-        }
-    }
 
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> =
@@ -77,19 +73,13 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
 
 
     @NativeCoroutinesState
-    val savedConference = MutableStateFlow(viewModelScope,
-        runBlocking {
-            // TODO refactor to avoid needing this so early
-            repository.getConference()
-        }
-    )
+    val savedConference = repository.getConferenceFlow()
+        .stateIn(viewModelScope, started = SharingStarted.Lazily, "")
 
     fun setConference(conference: String) {
         viewModelScope.coroutineScope.launch {
             repository.setConference(conference)
-            savedConference.value = conference
         }
-        conferenceRefresher.refresh(conference)
     }
 
     fun clearConference() {

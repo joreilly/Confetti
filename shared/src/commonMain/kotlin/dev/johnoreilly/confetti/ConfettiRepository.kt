@@ -59,7 +59,7 @@ class ConfettiRepository(
                 val optimisticData  = try {
                     val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
                     data(bookmarks!!.sessionIds, bookmarks.id)
-                } catch (e: ApolloException) {
+                } catch (e: Exception) {
                     null
                 }
                 client.mutation(mutation)

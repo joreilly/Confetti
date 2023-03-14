@@ -13,23 +13,21 @@ import com.google.android.horologist.tiles.complication.TypedComplicationTemplat
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.Session
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toKotlinInstant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @OptIn(ExperimentalHorologistTilesApi::class)
 class NextSessionTemplate(context: Context) :
     TypedComplicationTemplate<NextSessionComplicationData>(context) {
     override fun previewData(): NextSessionComplicationData {
-        val sessionTime = LocalDateTime.of(2022, 12, 25, 12, 30)
-        val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
+        val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
         return NextSessionComplicationData(
             SessionDetails(
                 "1",
                 "Wear it's at",
                 "Talk",
-                startInstant,
-                startInstant,
+                sessionTime,
+                sessionTime,
                 "Be aWear of what's coming",
                 "en",
                 listOf(),

@@ -37,6 +37,7 @@ apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo3:apollo-normalized-cache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo3:apollo-normalized-cache-sqlite" }
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime" }
+apollo-annotations = { module = "com.apollographql.apollo3:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo3:apollo-tooling", version.ref = "apollo" }
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
 coil-base = "io.coil-kt:coil-base:2.2.2"
@@ -99,6 +100,20 @@ okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
 play-services-auth = "com.google.android.gms:play-services-auth:20.4.1"
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-android-application = "com.android.tools.build:gradle:7.4.1"
+plugin-apollo = "com.apollographql.apollo3:apollo-gradle-plugin:3.7.5"
+plugin-appengine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.5"
+plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
+plugin-google-services = "com.google.gms:google-services:4.3.15"
+plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.6"
+plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin", version.ref = "kmp-nativecoroutines" }
+plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
+plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.20-RC-1.0.9" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.3" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.2" }
+
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
@@ -116,17 +131,3 @@ xoxo = "net.mbonnin.xoxo:xoxo:0.2"
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]
 apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite", "apollo-adapters"]
 
-[plugins]
-android-application = { id = "com.android.application", version = "7.4.1" }
-apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
-appengine = { id = "com.google.cloud.tools.appengine", version = "2.4.5" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.2" }
-google-services = { id = "com.google.gms.google-services", version = "4.3.15" }
-kmmbridge = { id = "co.touchlab.faktory.kmmbridge", version = "0.3.6" }
-kmp-nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "kmp-nativecoroutines" }
-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version = "1.8.20-RC-1.0.9" }
-spring-boot = { id = "org.springframework.boot", version = "3.0.3" }
-wire = { id = "com.squareup.wire", version = "4.5.2" }

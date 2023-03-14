@@ -28,7 +28,7 @@ fun SessionListGridView(
     sessionSelected: (sessionId: String) -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
-    onSwitchConferenceSelected: () -> Unit
+    @Suppress("UNUSED_PARAMETER") onSwitchConferenceSelected: () -> Unit
 ) {
     if (uiState is SessionsUiState.Success) {
         Scaffold(

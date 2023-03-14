@@ -91,7 +91,7 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
     }
 
     fun getSessionTime(session: SessionDetails): String {
-        return dateService.format(session.startInstant, repository.timeZone, "HH:mm")
+        return dateService.format(session.startsAt, repository.timeZone, "HH:mm")
     }
 }
 

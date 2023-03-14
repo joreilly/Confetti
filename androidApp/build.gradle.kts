@@ -10,6 +10,8 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
+configureCompilerOptions()
+
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 if (keystorePropertiesFile.exists()) {
@@ -73,14 +75,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
-
-    kotlinOptions {
-        freeCompilerArgs += listOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
-        )
-    }
-
+    
     buildTypes {
         getByName("release") {
             isShrinkResources = true

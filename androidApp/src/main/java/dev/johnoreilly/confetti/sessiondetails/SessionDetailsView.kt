@@ -79,8 +79,8 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
                     Spacer(modifier = Modifier.size(16.dp))
                     session.speakers.forEach { speaker ->
                         SessionSpeakerInfo(speaker = speaker.speakerDetails,
-                            onSocialLinkClick = { socialItem, speakerDetails ->
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.link))
+                            onSocialLinkClick = { socialItem, _ ->
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.url))
                                 context.startActivity(intent)
                             }
                         )

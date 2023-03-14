@@ -38,11 +38,11 @@ object Fosdem {
                 OkHttpClient().newCall(it)
             }.execute()
 
-        if (!response.isSuccessful || response.body == null) {
+        if (!response.isSuccessful) {
             error("Cannot get fosdem data: ${response.code}")
         }
 
-        val schedule = response.body!!.source().use {
+        val schedule = response.body.source().use {
             it.toXmlDocument()
         }
 

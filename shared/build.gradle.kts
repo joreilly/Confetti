@@ -7,6 +7,8 @@ plugins {
     id("co.touchlab.faktory.kmmbridge")
 }
 
+configureCompilerOptions()
+
 version = "1.0"
 
 dependencies {
@@ -124,9 +126,9 @@ apollo {
         generateFragmentImplementations.set(true)
         generateSchema.set(true)
         mapScalar(
-            "Instant",
-            "kotlinx.datetime.Instant",
-            "com.apollographql.apollo3.adapter.KotlinxInstantAdapter"
+            "LocalDateTime",
+            "kotlinx.datetime.LocalDateTime",
+            "com.apollographql.apollo3.adapter.KotlinxLocalDateTimeAdapter"
         )
 
         mapScalar(

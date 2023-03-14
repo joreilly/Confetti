@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val startingConferenceAsync = lifecycleScope.async {
+        lifecycleScope.async {
             repository.getConference()
         }
 

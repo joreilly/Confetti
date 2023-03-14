@@ -33,33 +33,35 @@ import dev.johnoreilly.confetti.wear.sessions.SessionsUiState
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsTileRenderer
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
 import kotlinx.datetime.toKotlinLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import org.junit.BeforeClass
 import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import kotlin.time.Duration.Companion.hours
 
 class ScreenshotTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<androidx.activity.ComponentActivity>()
 
-    val sessionTime = LocalDateTime.of(2023, 1, 4, 9, 30)
-    val date = sessionTime.toLocalDate().toKotlinLocalDate()
+    val sessionTime = LocalDateTime(2023, 1, 4, 9, 30)
+    val date = sessionTime.date
 
     val sessionDetails = SessionDetails(
         id = "14997",
         title = "Kotlin DevRoom Welcoming Remarks",
         type = "talk",
-        startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant(),
-        endInstant = sessionTime.plusHours(1).toInstant(ZoneOffset.UTC).toKotlinInstant(),
+        startsAt = sessionTime,
+        endsAt = sessionTime.toInstant(TimeZone.UTC).plus(1.hours).toLocalDateTime(TimeZone.UTC),
         sessionDescription = "Welcoming participants to the Kotlin DevRoom @ FOSDEM 2023 - We're back in person!",
         language = "en-US",
         speakers = listOf(
@@ -101,7 +103,7 @@ class ScreenshotTest {
                 )
             )
         ),
-        room = SessionDetails.Room(name = "UB5.230"),
+        rooms = listOf(SessionDetails.Room(name = "UB5.230")),
         tags = listOf("Kotlin"),
         __typename = ""
     )
@@ -139,7 +141,7 @@ class ScreenshotTest {
                     ConferenceDayKey("fosdem", date),
                     sessionsByTime = listOf(
                         SessionsUiState.SessionAtTime(
-                            sessionTime.toKotlinLocalDateTime(),
+                            sessionTime,
                             listOf(sessionDetails)
                         )
                     ),

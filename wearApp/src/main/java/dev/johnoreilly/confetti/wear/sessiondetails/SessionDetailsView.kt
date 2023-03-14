@@ -25,12 +25,10 @@ import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.previews.WearSmallRoundDevicePreview
-import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toKotlinInstant
 import org.koin.androidx.compose.getViewModel
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 @Composable
 fun SessionDetailsRoute(
@@ -49,7 +47,7 @@ fun SessionDetailsRoute(
 fun SessionDetailView(
     uiState: SessionDetailsUiState,
     columnState: ScalingLazyColumnState,
-    formatter: (Instant) -> String
+    formatter: (LocalDateTime) -> String
 ) {
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -77,7 +75,7 @@ fun SessionDetailView(
 
                 item {
                     val time = remember(session) {
-                        formatter(session.startInstant)
+                        formatter(session.startsAt)
                     }
                     Text(time)
                 }
@@ -102,8 +100,7 @@ private fun SessionDetails?.descriptionParagraphs(): List<String> =
 @WearSmallRoundDevicePreview
 @Composable
 fun SessionDetailsLongText() {
-    val sessionTime = LocalDateTime.of(2022, 12, 25, 12, 30)
-    val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
+    val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
 
     ConfettiTheme {
         SessionDetailView(
@@ -113,8 +110,8 @@ fun SessionDetailsLongText() {
                     "1",
                     "This is a really long talk title that seems to go forever.",
                     "Talk",
-                    startInstant,
-                    startInstant,
+                    sessionTime,
+                    sessionTime,
                     "Be aWear of what's coming, don't walk, run to attend this session.",
                     "en",
                     listOf(),
@@ -133,8 +130,7 @@ fun SessionDetailsLongText() {
 @WearPreviewFontSizes
 @Composable
 fun SessionDetailsViewPreview() {
-    val sessionTime = LocalDateTime.of(2022, 12, 25, 12, 30)
-    val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
+    val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
 
     ConfettiTheme {
         SessionDetailView(SessionDetailsUiState.Success(
@@ -143,8 +139,8 @@ fun SessionDetailsViewPreview() {
                 "1",
                 "Wear it's at",
                 "Talk",
-                startInstant,
-                startInstant,
+                sessionTime,
+                sessionTime,
                 "Be aWear of what's coming",
                 "en",
                 listOf(),

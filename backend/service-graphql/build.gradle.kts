@@ -10,6 +10,7 @@ plugins {
   id("com.squareup.wire")
 }
 
+configureCompilerOptions(17)
 
 dependencies {
   implementation(libs.graphql.kotlin.spring.server)
@@ -21,6 +22,7 @@ dependencies {
   implementation(libs.reflect)
   implementation(libs.xoxo)
   implementation(libs.apollo.tooling)
+  implementation(libs.apollo.annotations)
   implementation(libs.firebase.admin)
 
   testImplementation(libs.junit)

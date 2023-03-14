@@ -108,6 +108,7 @@ class ConfettiRepository(
                 // handle network failures by swallowing the error
             }
             .mapNotNull {
+                println("conferences: ${it.data?.conferences}")
                 it.data?.conferences
             })
     }
@@ -133,16 +134,12 @@ class ConfettiRepository(
     val conferenceName = conferenceData.filterNotNull().map { it.config.name }
 
     val sessions = conferenceData.filterNotNull().map {
-        it.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startInstant }
+        it.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startsAt }
     }
 
     val sessionsMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
         it.groupBy {
-            it.startInstant.toLocalDateTime(
-                TimeZone.of(
-                    conferenceData.value?.config?.timezone ?: ""
-                )
-            ).date
+            it.startsAt.date
         }
     }
 

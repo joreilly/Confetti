@@ -5,6 +5,8 @@ plugins {
   id("com.google.cloud.tools.appengine")
 }
 
+configureCompilerOptions(17)
+
 kotlin {
   jvm()
 

@@ -12,7 +12,7 @@ fun DConfig.toConference(): Conference {
         days = days,
     )
 }
-class DataStoreDataSource(private val conf: String) : DataSource {
+class DataStoreDataSource(private val conf: String, private val uid: String? = null) : DataSource {
     private val datastore = DataStore()
 
     private val _config: Conference by lazy {
@@ -54,6 +54,30 @@ class DataStoreDataSource(private val conf: String) : DataSource {
     override fun conference(): Conference {
         return _config
     }
+
+    override fun bookmarks(): Set<String> {
+        if (uid == null) {
+            return emptySet()
+        }
+        return datastore.readBookmarks(uid, conf)
+    }
+
+    override fun addBookmark(sessionId: String): Set<String> {
+        if (uid == null) {
+            return emptySet()
+        }
+
+        return datastore.addBookmark(uid, conf, sessionId)
+    }
+
+    override fun removeBookmark(sessionId: String): Set<String> {
+        if (uid == null) {
+            return emptySet()
+        }
+
+        return datastore.removeBookmark(uid, conf, sessionId)
+    }
+
     override fun sessions(
         first: Int,
         after: String?,

@@ -2,6 +2,9 @@ package dev.johnoreilly.confetti.sessions
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,9 +16,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessionSpeakerLocation
+import dev.johnoreilly.confetti.ui.Blue80
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 
@@ -24,6 +30,8 @@ fun SessionsRoute(
     isExpandedScreen: Boolean,
     displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
+    navigateToSignin: () -> Unit,
+    onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
     viewModel: ConfettiViewModel = getViewModel()
 ) {
@@ -33,13 +41,18 @@ fun SessionsRoute(
         SessionListGridView(
             uiState,
             navigateToSession,
-            onSwitchConferenceSelected,
-            viewModel::refresh
+            navigateToSignin,
+            onSignOut,
+            onSwitchConferenceSelected
         )
     } else {
         SessionListView(
             uiState,
             navigateToSession,
+            { viewModel.addBookmark(it) },
+            { viewModel.removeBookmark(it) },
+            navigateToSignin,
+            onSignOut,
             onSwitchConferenceSelected,
             viewModel::refresh
         )
@@ -47,11 +60,13 @@ fun SessionsRoute(
 }
 
 
-
 @Composable
 fun SessionView(
     session: SessionDetails,
-    sessionSelected: (sessionId: String) -> Unit
+    sessionSelected: (sessionId: String) -> Unit,
+    isBookmarked: Boolean,
+    addBookmark: (String) -> Unit,
+    removeBookmark: (String) -> Unit
 ) {
 
     var modifier = Modifier.fillMaxSize()
@@ -60,20 +75,40 @@ fun SessionView(
             sessionSelected(session.id)
         })
     }
-    Column(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = session.title, style = TextStyle(fontSize = 16.sp))
+    Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Column(modifier = Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(text = session.title, style = TextStyle(fontSize = 16.sp))
+            }
+
+            session.room?.let {
+                Row(
+                    modifier = Modifier.padding(top = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        session.sessionSpeakerLocation(),
+                        style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
 
-        session.room?.let {
-            Row(
-                modifier = Modifier.padding(top = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    session.sessionSpeakerLocation(),
-                    style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold
-                )
+
+        val authentication = get<Authentication>()
+        val user by remember { mutableStateOf(authentication.currentUser()) }
+        if (user != null) {
+            if (isBookmarked) {
+                Icon(
+                    imageVector = Icons.Outlined.Bookmark,
+                    contentDescription = "remove bookmark",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable { removeBookmark(session.id) }.padding(8.dp))
+            } else {
+                Icon(
+                    imageVector = Icons.Outlined.BookmarkAdd,
+                    contentDescription = "add bookmark",
+                    modifier = Modifier.clickable { addBookmark(session.id) }.padding(8.dp))
             }
         }
     }

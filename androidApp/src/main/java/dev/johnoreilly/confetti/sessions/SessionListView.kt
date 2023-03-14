@@ -3,39 +3,62 @@
 package dev.johnoreilly.confetti.sessions
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import dev.johnoreilly.confetti.SessionsUiState
+import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
-import dev.johnoreilly.confetti.SessionsUiState
 import kotlinx.coroutines.launch
+
 
 @Composable
 fun SessionListView(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
     onRefresh: suspend (() -> Unit)
 ) {
-    var showMenu by remember { mutableStateOf(false) }
     val refreshScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
 
@@ -47,31 +70,11 @@ fun SessionListView(
                     containerColor = Color.Transparent
                 ),
                 actions = {
-                    IconButton(onClick = { showMenu = !showMenu }) {
-                        Icon(Icons.Default.MoreVert, contentDescription = "menu")
-                    }
-                    DropdownMenu(
-                        expanded = showMenu,
-                        onDismissRequest = { showMenu = false },
-                        modifier = Modifier.background(MaterialTheme.colorScheme.background)
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Switch Conference") },
-                            onClick = {
-                                showMenu = false
-                                onSwitchConferenceSelected()
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Refresh") },
-                            onClick = {
-                                showMenu = false
-                                refreshScope.launch {
-                                    onRefresh()
-                                }
-                            }
-                        )
-                    }
+                    AccountIcon(
+                        onSwitchConference = onSwitchConferenceSelected,
+                        onSignIn = onSignIn,
+                        onSignOut = onSignOut,
+                    )
                 }
             )
         },
@@ -82,9 +85,11 @@ fun SessionListView(
 
             when (uiState) {
                 SessionsUiState.Loading ->
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(Alignment.Center)) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center)
+                    ) {
                         CircularProgressIndicator()
                     }
 
@@ -99,7 +104,6 @@ fun SessionListView(
                     }
 
                     val state = rememberPullRefreshState(refreshing, ::refresh)
-
                     Column {
 
                         SessionListTabRow(pagerState, uiState)
@@ -113,11 +117,19 @@ fun SessionListView(
                             Box(
                                 Modifier
                                     .pullRefresh(state)
-                                    .clipToBounds()) {
+                                    .clipToBounds()
+                            ) {
                                 LazyColumn {
                                     sessions.forEach {
                                         item {
-                                            Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)) {
+                                            Column(
+                                                Modifier.padding(
+                                                    start = 16.dp,
+                                                    end = 16.dp,
+                                                    top = 16.dp,
+                                                    bottom = 8.dp
+                                                )
+                                            ) {
                                                 Text(
                                                     it.key,
                                                     fontWeight = FontWeight.Bold,
@@ -128,7 +140,13 @@ fun SessionListView(
                                         }
 
                                         items(it.value) { session ->
-                                            SessionView(session, sessionSelected)
+                                            SessionView(
+                                                session,
+                                                sessionSelected,
+                                                uiState.bookmarks.contains(session.id),
+                                                addBookmark,
+                                                removeBookmark
+                                            )
                                         }
                                     }
                                 }

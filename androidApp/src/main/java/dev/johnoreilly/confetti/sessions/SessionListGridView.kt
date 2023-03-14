@@ -7,8 +7,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,16 +20,16 @@ import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.account.AccountIcon
 
 @Composable
 fun SessionListGridView(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
-    onSwitchConferenceSelected: () -> Unit,
-    onRefresh: suspend (() -> Unit)
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit,
+    onSwitchConferenceSelected: () -> Unit
 ) {
-    var showMenu by remember { mutableStateOf(false) }
-
     if (uiState is SessionsUiState.Success) {
         Scaffold(
             topBar = {
@@ -41,21 +39,11 @@ fun SessionListGridView(
                         containerColor = Color.Transparent
                     ),
                     actions = {
-                        IconButton(onClick = { showMenu = !showMenu }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "menu")
-                        }
-                        DropdownMenu(
-                            expanded = showMenu,
-                            onDismissRequest = { showMenu = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("Switch Conference") },
-                                onClick = {
-                                    showMenu = false
-                                    onSwitchConferenceSelected()
-                                }
-                            )
-                        }
+                        AccountIcon(
+                            onSwitchConference = {},
+                            onSignIn = onSignIn,
+                            onSignOut = onSignOut
+                        )
                     }
                 )
             },

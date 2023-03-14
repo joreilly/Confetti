@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.rooms.navigation
+package dev.johnoreilly.confetti.sessions.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -15,9 +15,18 @@ fun NavGraphBuilder.sessionsGraph(
     isExpandedScreen: Boolean,
     displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
+    navigateToSignIn: () -> Unit,
+    onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
 ) {
     composable(route = SessionsDestination.route) {
-        SessionsRoute(isExpandedScreen, displayFeatures, navigateToSession, onSwitchConferenceSelected)
+        SessionsRoute(
+            isExpandedScreen,
+            displayFeatures,
+            navigateToSession,
+            navigateToSignIn,
+            onSignOut,
+            onSwitchConferenceSelected
+        )
     }
 }

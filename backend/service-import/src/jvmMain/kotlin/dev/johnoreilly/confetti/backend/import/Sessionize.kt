@@ -70,8 +70,8 @@ object Sessionize {
             DSpeaker(
                 id = it.get("id").asString,
                 name = it.get("fullName").asString,
-                photoUrl = it.get("profilePicture").asString,
-                bio = it.get("bio").asString,
+                photoUrl = it.get("profilePicture")?.asString,
+                bio = it.get("bio")?.asString,
                 city = null,
                 company = null,
                 companyLogoUrl = null,

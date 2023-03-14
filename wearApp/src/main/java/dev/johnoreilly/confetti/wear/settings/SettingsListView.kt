@@ -1,6 +1,6 @@
 @file:OptIn(
     ExperimentalHorologistComposeLayoutApi::class,
-    ExperimentalHorologistBaseUiApi::class
+    ExperimentalHorologistBaseUiApi::class, ExperimentalHorologistAuthDataApi::class
 )
 
 package dev.johnoreilly.confetti.wear.settings
@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
+import com.google.android.horologist.auth.data.ExperimentalHorologistAuthDataApi
 import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
 import com.google.android.horologist.base.ui.components.StandardChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
@@ -22,7 +23,10 @@ import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 
 @Composable
 fun SettingsListView(
+    uiState: SettingsUiState,
     conferenceCleared: () -> Unit,
+    navigateToGoogleSignIn: () -> Unit,
+    navigateToGoogleSignOut: () -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     ScalingLazyColumn(
@@ -36,7 +40,25 @@ fun SettingsListView(
         }
 
         item {
-            StandardChip(label = "Change Conference", onClick = conferenceCleared)
+            StandardChip(
+                label = "Change Conference",
+                onClick = conferenceCleared,
+                enabled = !((uiState as? SettingsUiState.Success)?.conference.isNullOrBlank())
+            )
+        }
+
+        item {
+            if ((uiState as? SettingsUiState.Success)?.authUser == null) {
+                StandardChip(
+                    label = "Sign In",
+                    onClick = navigateToGoogleSignIn,
+                )
+            } else {
+                StandardChip(
+                    label = "Sign Out",
+                    onClick = navigateToGoogleSignOut,
+                )
+            }
         }
     }
 }
@@ -49,6 +71,9 @@ fun SettingsListViewPreview() {
         SettingsListView(
             conferenceCleared = {},
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            navigateToGoogleSignIn = { },
+            navigateToGoogleSignOut = { },
+            uiState = SettingsUiState.Success(null, "conf")
         )
     }
 }

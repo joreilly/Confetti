@@ -23,11 +23,15 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
     private val dateService: DateService by inject()
 
     fun addBookmark(sessionId: String) {
-        repository.addBookmark(sessionId)
+        viewModelScope.coroutineScope.launch {
+            repository.addBookmark(sessionId)
+        }
     }
 
     fun removeBookmark(sessionId: String) {
-        repository.removeBookmark(sessionId)
+        viewModelScope.coroutineScope.launch {
+            repository.removeBookmark(sessionId)
+        }
     }
 
     private val conferenceRefresher: ConferenceRefresh by inject()

@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -39,29 +38,26 @@ import org.koin.core.component.inject
 class ConfettiRepository(
     private val defaultFetchPolicy: FetchPolicy
 ) : KoinComponent {
+    // TODO move coroutines out of Repository to ViewModel
     val coroutineScope: CoroutineScope = MainScope()
 
     private val appSettings: AppSettings by inject()
 
     private val apolloClientCache: ApolloClientCache by inject()
 
-    val bookmarks: Flow<List<String>> = flow {
-        getCurrentConferenceClient()
+    val bookmarks: Flow<List<String>> = getConferenceFlow().flatMapLatest {
+        apolloClientCache.getClient(it)
             .query(GetBookmarksQuery())
             .fetchPolicy(FetchPolicy.NetworkFirst)
             .refetchPolicy(FetchPolicy.CacheOnly)
             .watch()
             .onEach { println("got bookmarks ${it.data}") }
             .map { it.data?.bookmarks?.sessionIds.orEmpty() }
-            .let {
-                emitAll(it)
-            }
     }
 
-    private fun <D: Mutation.Data> modifyBookmarks(mutation: Mutation<D>, data: (sessionIds: List<String>, id: String) -> D ) {
-        coroutineScope.launch {
+    private suspend fun <D: Mutation.Data> modifyBookmarks(mutation: Mutation<D>, data: (sessionIds: List<String>, id: String) -> D ) {
             try {
-                val client = getCurrentConferenceClient()
+                val client = apolloClientCache.getClient(getConference())
                 val optimisticData  = try {
                     val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
                     data(bookmarks!!.sessionIds, bookmarks.id)
@@ -78,9 +74,9 @@ class ConfettiRepository(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }
     }
-    fun addBookmark(sessionId: String) {
+
+    suspend fun addBookmark(sessionId: String) {
         modifyBookmarks(AddBookmarkMutation(sessionId)) { sessionIds, id ->
             AddBookmarkMutation.Data {
                 addBookmark = buildBookmarks {
@@ -91,7 +87,7 @@ class ConfettiRepository(
         }
     }
 
-    fun removeBookmark(sessionId: String) {
+    suspend fun removeBookmark(sessionId: String) {
         modifyBookmarks(RemoveBookmarkMutation(sessionId)) {sessionIds, id ->
             RemoveBookmarkMutation.Data {
                 removeBookmark = buildBookmarks {

@@ -173,6 +173,7 @@ class ConfettiRepository(
                 .catch {
                     // this can be valid scenario of say offline and we get data from cache initially
                     // but can't connect to network.  TODO should we surface this somewhere?
+                    it.printStackTrace()
                 }.collect {
                     println("got data, conf name = ${it.data?.config?.name}")
                     conferenceData.value = it.data

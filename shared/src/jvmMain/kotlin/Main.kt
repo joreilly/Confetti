@@ -21,5 +21,6 @@ fun main(args: Array<String>) = runBlocking {
     sessions.forEach { session ->
         println("${session.startInstant} ${session.title}")
     }
+    println("done")
     clientCache.close()
 }

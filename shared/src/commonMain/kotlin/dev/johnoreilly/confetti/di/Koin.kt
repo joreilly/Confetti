@@ -30,7 +30,7 @@ fun commonModule() = module {
     single<TokenProvider> {
         object : TokenProvider {
             override suspend fun token(forceRefresh: Boolean): String? {
-                return "signed-out"
+                return null
             }
         }
     }

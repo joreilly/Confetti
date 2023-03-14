@@ -1,6 +1,7 @@
 deepai.key
 xcuserdata
-service_account_key.json
+firebase_service_account_key.json
+gcp_service_account_key.json
 *.iml
 .gradle
 /local.properties

@@ -50,20 +50,30 @@ compose-navigation = { module = "androidx.navigation:navigation-compose", versio
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "compose" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+desugar = "com.android.tools:desugar_jdk_libs:2.0.2"
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
-firebase-bom = "com.google.firebase:firebase-bom:31.2.2"
+federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.0"
+firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.1.1" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-bom = "com.google.firebase:firebase-bom:31.2.3"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 google-cloud-bom = "com.google.cloud:libraries-bom:26.9.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.11.0"
 google-services = "com.google.gms:google-services:4.3.15"
-graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.0-alpha.3"
 graphql-java = "com.graphql-java:graphql-java:20.0"
+graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.0-alpha.3"
+horologist-base-ui = "com.google.android.horologist:horologist-base-ui:0.3.1"
+horologist-composables = "com.google.android.horologist:horologist-composables:0.3.4"
+horologist-compose-layout = "com.google.android.horologist:horologist-compose-layout:0.3.4"
+horologist-compose-tools = "com.google.android.horologist:horologist-compose-tools:0.3.4"
+horologist-datalayer = "com.google.android.horologist:horologist-datalayer:0.3.4"
+horologist-tiles = "com.google.android.horologist:horologist-tiles:0.3.4"
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.47.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
@@ -74,9 +84,9 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 kmm-viewmodel = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmm-viewmodel" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
-kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 ktor-cio = "io.ktor:ktor-server-cio:2.1.0"
 ktor-status-pages = "io.ktor:ktor-server-status-pages:2.1.0"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
@@ -88,24 +98,19 @@ multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-setti
 okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
+play-services-auth = "com.google.android.gms:play-services-auth:20.4.1"
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
-xoxo = "net.mbonnin.xoxo:xoxo:0.2"
-desugar = "com.android.tools:desugar_jdk_libs:2.0.2"
-wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha04"
-wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha04"
-horologist-base-ui = "com.google.android.horologist:horologist-base-ui:0.3.1"
-horologist-compose-layout = "com.google.android.horologist:horologist-compose-layout:0.3.4"
-horologist-compose-tools = "com.google.android.horologist:horologist-compose-tools:0.3.4"
-horologist-composables = "com.google.android.horologist:horologist-composables:0.3.4"
-horologist-datalayer = "com.google.android.horologist:horologist-datalayer:0.3.4"
-horologist-tiles = "com.google.android.horologist:horologist-tiles:0.3.4"
+test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"
 test-runner = "androidx.test:runner:1.5.2"
-test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1"
+wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha04"
+wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha04"
+wire-runtime = "com.squareup.wire:wire-runtime:4.5.2"
+xoxo = "net.mbonnin.xoxo:xoxo:0.2"
 
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]
@@ -124,3 +129,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "1.8.20-RC-1.0.9" }
 spring-boot = { id = "org.springframework.boot", version = "3.0.3" }
+wire = { id = "com.squareup.wire", version = "4.5.2" }

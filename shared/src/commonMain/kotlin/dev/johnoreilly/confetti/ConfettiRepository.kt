@@ -4,9 +4,15 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.api.ApolloResponse
+import com.apollographql.apollo3.api.Mutation
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
+import com.apollographql.apollo3.cache.normalized.optimisticUpdates
+import com.apollographql.apollo3.cache.normalized.refetchPolicy
+import com.apollographql.apollo3.cache.normalized.watch
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.type.buildBookmarks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
@@ -21,6 +27,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -36,6 +44,63 @@ class ConfettiRepository(
     private val appSettings: AppSettings by inject()
 
     private val apolloClientCache: ApolloClientCache by inject()
+
+    val bookmarks: Flow<List<String>> = flow {
+        getCurrentConferenceClient()
+            .query(GetBookmarksQuery())
+            .fetchPolicy(FetchPolicy.NetworkFirst)
+            .refetchPolicy(FetchPolicy.CacheOnly)
+            .watch()
+            .onEach { println("got bookmarks ${it.data}") }
+            .map { it.data?.bookmarks?.sessionIds.orEmpty() }
+            .let {
+                emitAll(it)
+            }
+    }
+
+    private fun <D: Mutation.Data> modifyBookmarks(mutation: Mutation<D>, data: (sessionIds: List<String>, id: String) -> D ) {
+        coroutineScope.launch {
+            try {
+                val client = getCurrentConferenceClient()
+                val optimisticData  = try {
+                    val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
+                    data(bookmarks!!.sessionIds, bookmarks.id)
+                } catch (e: Exception) {
+                    null
+                }
+                client.mutation(mutation)
+                    .apply {
+                        if (optimisticData != null) {
+                            optimisticUpdates(optimisticData)
+                        }
+                    }
+                    .execute()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    fun addBookmark(sessionId: String) {
+        modifyBookmarks(AddBookmarkMutation(sessionId)) { sessionIds, id ->
+            AddBookmarkMutation.Data {
+                addBookmark = buildBookmarks {
+                    this.id = id
+                    this.sessionIds = sessionIds + sessionId
+                }
+            }
+        }
+    }
+
+    fun removeBookmark(sessionId: String) {
+        modifyBookmarks(RemoveBookmarkMutation(sessionId)) {sessionIds, id ->
+            RemoveBookmarkMutation.Data {
+                removeBookmark = buildBookmarks {
+                    this.id = id
+                    this.sessionIds = sessionIds - sessionId
+                }
+            }
+        }
+    }
 
     val conferenceList: Flow<List<GetConferencesQuery.Conference>> = flow {
         val client = apolloClientCache.getClient("all")
@@ -108,11 +173,18 @@ class ConfettiRepository(
     suspend fun refresh(conference: String, networkOnly: Boolean = true) {
         val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
 
-        // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
-        apolloClientCache.getClient(conference)
-            .query(GetConferenceDataQuery())
-            .fetchPolicy(fetchPolicy)
-            .execute()
+        try {
+            // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
+            apolloClientCache.getClient(conference)
+                .query(GetConferenceDataQuery())
+                .fetchPolicy(fetchPolicy)
+                .execute()
+        } catch (e: Exception) {
+            // this can be valid scenario of say offline and we get data from cache initially
+            // but can't connect to network.
+            // TODO should we surface this somewhere?
+            e.printStackTrace()
+        }
     }
 
     suspend fun sessionDetails(

@@ -7,7 +7,9 @@ plugins {
   id("org.jetbrains.kotlin.plugin.serialization")
   id("org.springframework.boot")
   id("com.google.cloud.tools.appengine")
+  id("com.squareup.wire")
 }
+
 
 dependencies {
   implementation(libs.graphql.kotlin.spring.server)
@@ -19,10 +21,14 @@ dependencies {
   implementation(libs.reflect)
   implementation(libs.xoxo)
   implementation(libs.apollo.tooling)
+  implementation(libs.firebase.admin)
 
   testImplementation(libs.junit)
 }
 
+wire {
+  kotlin {}
+}
 tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions.jvmTarget = "17"
 }
@@ -32,7 +38,7 @@ appengine {
     setArtifact(tasks.named("bootJar").flatMap { (it as Jar).archiveFile })
   }
   tools {
-    setServiceAccountKeyFile(file("../service_account_key.json"))
+    setServiceAccountKeyFile(gcpServiceAccountFile())
   }
   deploy {
     projectId = "confetti-349319"

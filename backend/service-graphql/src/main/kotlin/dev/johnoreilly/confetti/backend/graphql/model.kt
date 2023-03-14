@@ -2,8 +2,10 @@ package dev.johnoreilly.confetti.backend.graphql
 
 import com.expediagroup.graphql.generator.annotations.GraphQLDescription
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
+import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
-import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.SOURCE_KEY
+import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_SOURCE
+import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_UID
 import dev.johnoreilly.confetti.backend.datastore.DDirection
 import dev.johnoreilly.confetti.backend.datastore.DOrderBy
 import dev.johnoreilly.confetti.backend.datastore.DataStore
@@ -20,6 +22,17 @@ import org.springframework.stereotype.Component
     locations = [Introspection.DirectiveLocation.FIELD_DEFINITION]
 )
 annotation class RequiresOptIn(val feature: String)
+
+@Component
+class RootMutation : Mutation {
+    fun addBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
+        return Bookmarks(dfe.source().addBookmark(sessionId).toList())
+    }
+
+    fun removeBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
+        return Bookmarks(dfe.source().removeBookmark(sessionId).toList())
+    }
+}
 
 @Component
 class RootQuery : Query {
@@ -70,6 +83,13 @@ class RootQuery : Query {
         return dfe.source().conference()
     }
 
+    fun bookmarks(dfe: DataFetchingEnvironment): Bookmarks? {
+        if (dfe.uid() == null) {
+            return null
+        }
+        return Bookmarks(dfe.source().bookmarks().toList())
+    }
+
     fun conferences(orderBy: ConferenceOrderBy? = null): List<Conference> {
         val orderBy =
             orderBy ?: ConferenceOrderBy(ConferenceField.DAYS, OrderByDirection.DESCENDING)
@@ -79,6 +99,10 @@ class RootQuery : Query {
             it.toConference()
         }
     }
+}
+
+class Bookmarks(val sessionIds: List<String>) {
+    val id = "Bookmarks"
 }
 
 internal fun OrderByDirection.toDDirection(): DDirection {
@@ -120,8 +144,11 @@ enum class ConferenceField(val value: String) {
     DAYS("days"),
 }
 
+fun DataFetchingEnvironment.uid(): String? {
+    return graphQlContext.get(KEY_UID)
+}
 private fun DataFetchingEnvironment.source(): DataSource {
-    return graphQlContext.get(SOURCE_KEY)
+    return graphQlContext.get(KEY_SOURCE)
 }
 
 data class Room(

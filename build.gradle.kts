@@ -12,17 +12,24 @@ plugins {
     alias(libs.plugins.kmmbridge).apply(false)
     alias(libs.plugins.google.services).apply(false)
     alias(libs.plugins.firebase.crashlytics).apply(false)
+    alias(libs.plugins.wire).apply(false)
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
-tasks.register("setupGoogleServices") {
+tasks.register("setupCredentials") {
+    fun File.writeEnv(name:String) {
+        parentFile.mkdirs()
+        writeText(System.getenv(name))
+    }
     doLast {
         if (System.getenv("CI")?.isNotEmpty() == true) {
             println("setting up google services...")
-            file("service_account_key.json").writeText(System.getenv("GOOGLE_SERVICES_JSON"))
+            file("backend/datastore/src/jvmMain/resources/gcp_service_account_key.json").writeEnv("GOOGLE_SERVICES_JSON")
+            file("backend/service-graphql/src/main/resources/firebase_service_account_key.json").writeEnv("FIREBASE_SERVICES_JSON")
+            file("backend/service-graphql/src/main/resources/apollo.key").writeEnv("APOLLO_KEY")
         }
     }
 }

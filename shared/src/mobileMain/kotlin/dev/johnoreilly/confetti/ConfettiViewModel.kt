@@ -22,6 +22,14 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
 
     private val dateService: DateService by inject()
 
+    fun addBookmark(sessionId: String) {
+        repository.addBookmark(sessionId)
+    }
+
+    fun removeBookmark(sessionId: String) {
+        repository.removeBookmark(sessionId)
+    }
+
     private val conferenceRefresher: ConferenceRefresh by inject()
 
     @NativeCoroutinesState
@@ -37,8 +45,9 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
             repository.conferenceName,
             repository.sessionsMap,
             repository.speakers,
-            repository.rooms
-        ) { conferenceName, sessionsMap, speakers, rooms ->
+            repository.rooms,
+            repository.bookmarks
+        ) { conferenceName, sessionsMap, speakers, rooms, bookmarks ->
             val confDates = sessionsMap.keys.toList().sorted()
 
             val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
@@ -49,7 +58,7 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
             }
             SessionsUiState.Success(
                 dateService.now(), conferenceName, confDates, sessionsByStartTimeList,
-                speakers, rooms
+                speakers, rooms, bookmarks.toSet()
             )
 
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
@@ -91,6 +100,7 @@ sealed interface SessionsUiState {
         val confDates: List<LocalDate>,
         val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,
         val speakers: List<SpeakerDetails>,
-        val rooms: List<RoomDetails>
+        val rooms: List<RoomDetails>,
+        val bookmarks: Set<String>,
     ) : SessionsUiState
 }

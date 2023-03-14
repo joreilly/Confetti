@@ -3,14 +3,11 @@
 import java.io.FileInputStream
 import java.util.*
 
-
 plugins {
     id("com.android.application")
     kotlin("android")
-    if (File("androidApp/google-services.json").exists()) {
-        id("com.google.gms.google-services")
-        id("com.google.firebase.crashlytics")
-    }
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -89,13 +86,23 @@ android {
             isShrinkResources = true
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release")
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
+            setProguardFiles(
+                listOf(
+                    getDefaultProguardFile("proguard-android.txt"),
+                    "proguard-rules.pro"
+                )
+            )
         }
         create("githubRelease") {
             isShrinkResources = true
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
+            setProguardFiles(
+                listOf(
+                    getDefaultProguardFile("proguard-android.txt"),
+                    "proguard-rules.pro"
+                )
+            )
 
             matchingFallbacks += listOf("release")
         }
@@ -103,7 +110,12 @@ android {
             isShrinkResources = true
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-benchmark.pro"))
+            setProguardFiles(
+                listOf(
+                    getDefaultProguardFile("proguard-android.txt"),
+                    "proguard-benchmark.pro"
+                )
+            )
             matchingFallbacks.addAll(listOf("release", "debug"))
         }
         getByName("debug") {
@@ -155,8 +167,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.services)
     implementation(libs.firebase.crashlytics)
-    if (file("google-services.json").exists()) {
-        implementation(libs.firebase.analytics)
-        implementation(libs.firebase.performance)
-    }
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.performance)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.play.services.auth)
 }

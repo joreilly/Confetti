@@ -1,3 +1,4 @@
+# Deploys to the backend
 name: Backend Deploy
 
 on:
@@ -6,6 +7,11 @@ on:
       - 'main'
     paths:
       - 'backend/**'
+      - 'landing-page'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle/libs.versions.toml'
+      - 'gradle/wrapper/gradle-wrapper.properties'
       - ".github/workflows/**"
 
 # Cancel any current or previous job from the same PR
@@ -23,11 +29,12 @@ jobs:
       with:
         java-version: 17
     - run: |
-        echo ${{ secrets.APOLLO_KEY }} > backend/service-graphql/src/main/resources/apollo.key
-        ./gradlew :setupGoogleServices
+        ./gradlew :setupCredentials
         ./gradlew appengineDeploy uploadLandingPage
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        FIREBASE_SERVICES_JSON: ${{ secrets.FIREBASE_SERVICES_JSON }}
+        APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
 
 
 

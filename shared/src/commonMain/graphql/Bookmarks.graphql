@@ -1,0 +1,17 @@
+query GetBookmarks {
+    bookmarks {
+        sessionIds
+    }
+}
+
+mutation AddBookmark($sessionId: String!) {
+    addBookmark(sessionId: $sessionId) {
+        sessionIds
+    }
+}
+
+mutation RemoveBookmark($sessionId: String!) {
+    removeBookmark(sessionId: $sessionId) {
+        sessionIds
+    }
+}

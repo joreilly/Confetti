@@ -1,33 +1,110 @@
 package dev.johnoreilly.confetti.backend.datastore
 
 import com.google.auth.oauth2.GoogleCredentials
-import com.google.cloud.datastore.*
-import com.google.datastore.v1.PropertyFilter
+import com.google.cloud.datastore.BooleanValue
+import com.google.cloud.datastore.Cursor
+import com.google.cloud.datastore.Datastore
+import com.google.cloud.datastore.DatastoreOptions
+import com.google.cloud.datastore.DatastoreReaderWriter
+import com.google.cloud.datastore.DoubleValue
+import com.google.cloud.datastore.Entity
+import com.google.cloud.datastore.EntityQuery
+import com.google.cloud.datastore.Key
+import com.google.cloud.datastore.KeyFactory
+import com.google.cloud.datastore.ListValue
+import com.google.cloud.datastore.LongValue
+import com.google.cloud.datastore.NullValue
+import com.google.cloud.datastore.PathElement
+import com.google.cloud.datastore.Query
+import com.google.cloud.datastore.StringValue
+import com.google.cloud.datastore.StructuredQuery
+import com.google.cloud.datastore.Value
 import com.google.datastore.v1.QueryResultBatch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
-import net.mbonnin.bare.graphql.*
-import java.io.File
+import net.mbonnin.bare.graphql.asList
+import net.mbonnin.bare.graphql.asMap
+import net.mbonnin.bare.graphql.asString
+import net.mbonnin.bare.graphql.toAny
+import net.mbonnin.bare.graphql.toJsonElement
+
+
+fun googleCredentials(name: String): GoogleCredentials {
+    return GoogleCredentials::class.java.classLoader.getResourceAsStream(name)?.use {
+        GoogleCredentials.fromStream(it)
+    } ?: error("no credentials found for $name")
+}
+
+internal fun initDatastore(): Datastore {
+    return DatastoreOptions.newBuilder()
+        .setCredentials(googleCredentials("gcp_service_account_key.json")).build().service
+}
 
 class DataStore {
-    private val datastore: Datastore
+    private val datastore: Datastore = initDatastore()
+
     private val keyFactory: KeyFactory
         get() {
             return datastore.newKeyFactory()
         }
 
-    init {
-        val serviceAccountKeyFile =
-            File("/Users/mbonnin/git/Confetti/backend/service_account_key.json")
-        datastore = if (serviceAccountKeyFile.exists()) {
-            val credentials = serviceAccountKeyFile.inputStream().use {
-                GoogleCredentials.fromStream(it)
-            }
-            DatastoreOptions.newBuilder().setCredentials(credentials).build().service
-        } else {
-            DatastoreOptions.getDefaultInstance().service
+
+    private fun readBookmarksEntity(uid: String, conference: String): Entity? {
+        val key = keyFactory.addAncestor(PathElement.of(KIND_USER, uid))
+            .setKind(KIND_BOOKMARKS)
+            .newKey(conference)
+
+        return try {
+            datastore.get(key)
+        } catch (e: Exception) {
+            null
         }
+    }
+
+    fun readBookmarks(uid: String, conference: String): Set<String> {
+        return readBookmarksEntity(uid, conference)?.names.orEmpty()
+    }
+
+    fun addBookmark(uid: String, conference: String, sessionId: String): Set<String> {
+        var entityBuilder: Entity.Builder? = readBookmarksEntity(uid, conference)?.let {
+            Entity.newBuilder(it)
+        }
+        if (entityBuilder == null) {
+            val key = keyFactory.addAncestor(PathElement.of(KIND_USER, uid))
+                .setKind(KIND_BOOKMARKS)
+                .newKey(conference)
+
+            entityBuilder = Entity.newBuilder(key)!!
+        }
+        entityBuilder.set(sessionId, BooleanValue.of(true))
+        val newEntity = entityBuilder.build()
+        datastore.runInTransaction {
+            it.put(newEntity)
+        }
+
+        return newEntity.names
+    }
+
+    fun removeBookmark(uid: String, conference: String, sessionId: String): Set<String> {
+        val entity = readBookmarksEntity(uid, conference)
+
+        if (entity == null) {
+            return emptySet()
+        }
+
+        if (!entity.contains(sessionId)) {
+            return emptySet()
+        }
+
+        val newEntity = Entity.newBuilder(entity)
+            .remove(sessionId)
+            .build()
+        datastore.runInTransaction {
+            it.put(newEntity)
+        }
+
+        return newEntity.names
     }
 
     fun write(
@@ -94,7 +171,7 @@ class DataStore {
     }
 
     private fun eq(field: String, value: Any): StructuredQuery.PropertyFilter {
-        return when(value) {
+        return when (value) {
             is String -> StructuredQuery.PropertyFilter.eq(field, value)
             is Long -> StructuredQuery.PropertyFilter.eq(field, value)
             else -> TODO("$value")
@@ -102,7 +179,7 @@ class DataStore {
     }
 
     private fun ge(field: String, value: Any): StructuredQuery.PropertyFilter {
-        return when(value) {
+        return when (value) {
             is String -> StructuredQuery.PropertyFilter.ge(field, value)
             is Long -> StructuredQuery.PropertyFilter.ge(field, value)
             else -> TODO("$value")
@@ -110,7 +187,7 @@ class DataStore {
     }
 
     private fun le(field: String, value: Any): StructuredQuery.PropertyFilter {
-        return when(value) {
+        return when (value) {
             is String -> StructuredQuery.PropertyFilter.le(field, value)
             is Long -> StructuredQuery.PropertyFilter.le(field, value)
             else -> TODO("$value")
@@ -121,10 +198,20 @@ class DataStore {
         if (filters.size == 1) {
             return filters.get(0)
         } else {
-            return StructuredQuery.CompositeFilter.and(filters.get(0), *filters.drop(1).toTypedArray())
+            return StructuredQuery.CompositeFilter.and(
+                filters.get(0),
+                *filters.drop(1).toTypedArray()
+            )
         }
     }
-    fun readSessions(conf: String, limit: Int, cursor: String?, filters: List<DFilter>, orderBy: DOrderBy?): DPage<DSession> {
+
+    fun readSessions(
+        conf: String,
+        limit: Int,
+        cursor: String?,
+        filters: List<DFilter>,
+        orderBy: DOrderBy?
+    ): DPage<DSession> {
         log("readSessions limit=$limit")
 
         val dFilters = filters.map {
@@ -147,8 +234,13 @@ class DataStore {
             }
             .setFilter(and(dFilters))
             .apply {
-                if (orderBy != null){
-                    setOrderBy(StructuredQuery.OrderBy(orderBy.field, orderBy.direction.toDirection()))
+                if (orderBy != null) {
+                    setOrderBy(
+                        StructuredQuery.OrderBy(
+                            orderBy.field,
+                            orderBy.direction.toDirection()
+                        )
+                    )
                 }
             }
             .build()
@@ -580,15 +672,17 @@ class DataStore {
         }
 
 
-        private const val KIND_SESSION = "Session"
-        private const val KIND_CONF = "Conf"
-        private const val KIND_CONFIG = "Config"
-        private const val KIND_ROOM = "Room"
-        private const val KIND_SPEAKER = "Speaker"
-        private const val KIND_PARTNERGROUPS = "Partners"
-        private const val KIND_VENUE = "Venue"
+        internal const val KIND_SESSION = "Session"
+        internal const val KIND_CONF = "Conf"
+        internal const val KIND_USER = "User"
+        internal const val KIND_CONFIG = "Config"
+        internal const val KIND_ROOM = "Room"
+        internal const val KIND_SPEAKER = "Speaker"
+        internal const val KIND_PARTNERGROUPS = "Partners"
+        internal const val KIND_BOOKMARKS = "Bookmarks"
+        internal const val KIND_VENUE = "Venue"
 
-        private const val THE_CONFIG = "config"
-        private const val THE_PARTNERGROUPS = "partnerGroups"
+        internal const val THE_CONFIG = "config"
+        internal const val THE_PARTNERGROUPS = "partnerGroups"
     }
 }

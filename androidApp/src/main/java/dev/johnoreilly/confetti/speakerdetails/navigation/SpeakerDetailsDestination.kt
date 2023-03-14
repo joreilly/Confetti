@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.spakerdetails.navigation
+package dev.johnoreilly.confetti.speakerdetails.navigation
 
 import android.net.Uri
 import androidx.navigation.NavBackStackEntry

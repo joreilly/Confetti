@@ -3,7 +3,7 @@
     ExperimentalHorologistAuthUiApi::class, ExperimentalHorologistAuthUiApi::class
 )
 
-package dev.johnoreilly.confetti.wear.ui.auth
+package dev.johnoreilly.confetti.wear.auth
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

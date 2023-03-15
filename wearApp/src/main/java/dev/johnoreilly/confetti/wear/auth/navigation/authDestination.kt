@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistAuthUiApi::class)
 
-package dev.johnoreilly.confetti.wear.ui.auth.navigation
+package dev.johnoreilly.confetti.wear.auth.navigation
 
 import androidx.navigation.NavGraphBuilder
 import com.google.android.horologist.auth.ui.ExperimentalHorologistAuthUiApi
@@ -9,8 +9,8 @@ import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistC
 import com.google.android.horologist.compose.navscaffold.composable
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.wear.ui.auth.GoogleSignInPromptScreen
-import dev.johnoreilly.confetti.wear.ui.auth.GoogleSignOutScreen
+import dev.johnoreilly.confetti.wear.auth.GoogleSignInPromptScreen
+import dev.johnoreilly.confetti.wear.auth.GoogleSignOutScreen
 import org.koin.androidx.compose.getViewModel
 
 object SignInPromptDestination : ConfettiNavigationDestination {
@@ -30,7 +30,6 @@ object SignOutDestination : ConfettiNavigationDestination {
 
 fun NavGraphBuilder.authGraph(
     navigateToGoogleSignIn: () -> Unit,
-    navigateHome: () -> Unit,
     navigateUp: () -> Unit,
 ) {
 
@@ -47,7 +46,7 @@ fun NavGraphBuilder.authGraph(
     composable(route = SignInDestination.route) {
         GoogleSignInScreen(
             onAuthCancelled = navigateUp,
-            onAuthSucceed = navigateHome,
+            onAuthSucceed = navigateUp,
             viewModel = getViewModel()
         )
     }

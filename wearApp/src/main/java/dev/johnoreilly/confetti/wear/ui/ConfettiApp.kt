@@ -14,9 +14,9 @@ import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.wear.sessions.navigation.sessionsGraph
 import dev.johnoreilly.confetti.wear.settings.navigation.SettingsDestination
 import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
-import dev.johnoreilly.confetti.wear.ui.auth.navigation.SignInDestination
-import dev.johnoreilly.confetti.wear.ui.auth.navigation.SignOutDestination
-import dev.johnoreilly.confetti.wear.ui.auth.navigation.authGraph
+import dev.johnoreilly.confetti.wear.auth.navigation.SignInDestination
+import dev.johnoreilly.confetti.wear.auth.navigation.SignOutDestination
+import dev.johnoreilly.confetti.wear.auth.navigation.authGraph
 
 @Composable
 fun ConfettiApp(
@@ -93,7 +93,6 @@ fun ConfettiApp(
         authGraph(
             navigateUp = { navController.popBackStack() },
             navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) },
-            navigateHome = { onNavigateToDestination(ConferenceHomeDestination) }
         )
     }
 }

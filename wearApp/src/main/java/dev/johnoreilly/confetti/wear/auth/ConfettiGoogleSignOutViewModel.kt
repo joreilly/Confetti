@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalHorologistAuthDataApi::class)
 
-package dev.johnoreilly.confetti.wear.ui.auth
+package dev.johnoreilly.confetti.wear.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

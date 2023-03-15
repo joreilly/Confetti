@@ -18,7 +18,7 @@ import dev.johnoreilly.confetti.wear.home.HomeViewModel
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewModel
 import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
 import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
-import dev.johnoreilly.confetti.wear.ui.auth.ConfettiGoogleSignOutViewModel
+import dev.johnoreilly.confetti.wear.auth.ConfettiGoogleSignOutViewModel
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

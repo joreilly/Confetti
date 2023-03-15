@@ -17,6 +17,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -34,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
@@ -84,6 +86,26 @@ fun SessionListView(
         Column(modifier = Modifier.padding(padding)) {
 
             when (uiState) {
+                SessionsUiState.Error ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center)
+                    ) {
+                        Column {
+                            val scope = rememberCoroutineScope()
+                            Text(
+                                text = "Oops something went wrong"
+                            )
+                            Button(
+                                onClick = { scope.launch { onRefresh()  }},
+                                modifier = Modifier.align(CenterHorizontally).padding(16.dp)
+                            ) {
+                                Text(text = "Retry")
+                            }
+                        }
+                    }
+
                 SessionsUiState.Loading ->
                     Box(
                         modifier = Modifier

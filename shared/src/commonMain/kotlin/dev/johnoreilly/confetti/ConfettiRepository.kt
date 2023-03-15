@@ -185,8 +185,20 @@ class ConfettiRepository(
     ): Flow<ApolloResponse<GetSessionQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).toFlow()
 
+    suspend fun conferenceData(conference: String): Flow<ApolloResponse<GetConferenceDataQuery.Data>> =
+        apolloClientCache.getClient(conference).query(GetConferenceDataQuery()).toFlow()
+
     suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
+
+    suspend fun bookmarks(conference: String): Flow<List<String>> =
+        apolloClientCache.getClient(conference).query(GetBookmarksQuery())
+            .fetchPolicy(FetchPolicy.NetworkFirst)
+            .refetchPolicy(FetchPolicy.CacheOnly)
+            .toFlow()
+            .map {
+                it.data?.bookmarks?.sessionIds.orEmpty()
+            }
 
     suspend fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
         return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())

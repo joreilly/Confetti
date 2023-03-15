@@ -275,7 +275,7 @@ data class Venue(
             }
         }
 
-    @Deprecated("description(language: \"fr\") instead")
+    @Deprecated("use description(language: \"fr\") instead")
     val descriptionFr: String
         get() {
             return descriptions.get("fr") ?: descriptions.get("en") ?: ""

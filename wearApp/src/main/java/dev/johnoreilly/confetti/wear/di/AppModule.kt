@@ -18,6 +18,7 @@ import dev.johnoreilly.confetti.wear.home.HomeViewModel
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewModel
 import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
 import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
+import dev.johnoreilly.confetti.wear.ui.auth.ConfettiGoogleSignOutViewModel
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -31,6 +32,7 @@ val appModule = module {
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { GoogleSignInViewModel(get(), get<GoogleSignInAuthUserRepository>()) }
     viewModel { SignInPromptViewModel(get()) }
+    viewModel { ConfettiGoogleSignOutViewModel(get()) }
     single { GoogleSignIn.getClient(get<Context>(), GoogleSignInOptions.DEFAULT_SIGN_IN) }
     single { GoogleSignInAuthUserRepository(get(), get()) }
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }

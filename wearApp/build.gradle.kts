@@ -72,10 +72,6 @@ android {
         }
     }
 
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-    }
-
     buildFeatures {
         compose = true
     }
@@ -182,6 +178,4 @@ dependencies {
     androidTestImplementation(libs.test.junit.ktx)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.compose.ui.test.junit4)
-
-    coreLibraryDesugaring(libs.desugar)
 }

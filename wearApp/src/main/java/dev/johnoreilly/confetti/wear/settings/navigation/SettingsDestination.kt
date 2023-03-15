@@ -14,9 +14,16 @@ object SettingsDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.settingsGraph(
-    onSwitchConferenceSelected: () -> Unit
+    onSwitchConferenceSelected: () -> Unit,
+    navigateToGoogleSignIn: () -> Unit,
+    navigateToGoogleSignOut: () -> Unit,
 ) {
     scrollable(route = SettingsDestination.route) {
-        SettingsRoute(it.columnState, onSwitchConferenceSelected)
+        SettingsRoute(
+            it.columnState,
+            onSwitchConferenceSelected,
+            navigateToGoogleSignIn,
+            navigateToGoogleSignOut
+        )
     }
 }

@@ -6,5 +6,8 @@
     <string name="sessions">Sessions</string>
     <string name="speakers">Speakers</string>
     <string name="rooms">Rooms</string>
+    <string name="google_sign_out_success_message">Signed out successfully!</string>
+    <string name="google_sign_in_prompt_message">Sign in to save your session bookmarks.</string>
+    <string name="google_sign_in_prompt_already_signed_in_message">Already signed-in!</string>
 
 </resources>

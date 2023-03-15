@@ -38,8 +38,13 @@ class AppSettings(val settings: FlowSettings) {
     private fun getEnabledLanguagesSetFromString(settingsString: String?) =
         settingsString?.split(",")?.toSet() ?: emptySet()
 
+    suspend fun updateGuestMode(guestMode: Boolean) {
+        settings.putBoolean(GUEST_MODE, guestMode)
+    }
+
     companion object {
         const val ENABLED_LANGUAGES_SETTING = "enabled_languages_2"
         const val CONFERENCE_SETTING = "conference"
+        const val GUEST_MODE = "guest_mode"
     }
 }

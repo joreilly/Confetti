@@ -41,7 +41,7 @@ fun versionName(): String {
 }
 
 android {
-    compileSdk = WearSdk.compile
+    compileSdkPreview = WearSdk.compile
     defaultConfig {
         applicationId = "dev.johnoreilly.confetti"
         minSdk = WearSdk.min
@@ -164,6 +164,12 @@ dependencies {
     implementation(libs.horologist.base.ui)
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
+
+    implementation(libs.horologist.auth.composables)
+    implementation(libs.horologist.auth.ui)
+    implementation(libs.horologist.auth.data)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.play.services.auth)
 
     implementation(libs.google.services)
     implementation(libs.firebase.crashlytics)

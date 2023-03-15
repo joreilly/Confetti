@@ -86,7 +86,7 @@ type Session {
   """
   language: String
 
-  room: Room @deprecated(reason: "use rooms instead")
+  room: Room
 
   rooms: [Room!]!
 

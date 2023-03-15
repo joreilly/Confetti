@@ -68,6 +68,10 @@ android {
         }
     }
 
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+
     buildFeatures {
         compose = true
     }
@@ -166,4 +170,6 @@ dependencies {
     implementation(libs.firebase.performance)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.play.services.auth)
+
+    coreLibraryDesugaring(libs.desugar)
 }

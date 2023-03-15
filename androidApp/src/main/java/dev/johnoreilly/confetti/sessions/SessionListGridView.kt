@@ -1,22 +1,26 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 
 package dev.johnoreilly.confetti.sessions
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -30,6 +34,8 @@ fun SessionListGridView(
     onSignOut: () -> Unit,
     @Suppress("UNUSED_PARAMETER") onSwitchConferenceSelected: () -> Unit
 ) {
+    val pagerState = rememberPagerState()
+
     if (uiState is SessionsUiState.Success) {
         Scaffold(
             topBar = {
@@ -50,38 +56,56 @@ fun SessionListGridView(
             containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { padding ->
-            BoxWithConstraints(Modifier.padding(padding)) {
+            Column(Modifier.padding(padding)) {
+                SessionListTabRow(pagerState, uiState)
 
-                val rooms = uiState.rooms
-                // TODO add tab bar for different dates (or show all days in same grid?)
-                val sessionsByStartTime = uiState.sessionsByStartTimeList[0]
-                val timeInfoWidth = 90.dp
-                val sessionInfoWidth = (maxWidth - timeInfoWidth - 16.dp) / rooms.size
+                HorizontalPager(
+                    pageCount = uiState.confDates.size,
+                    state = pagerState,
+                ) { page ->
 
+                    Row(Modifier.padding(bottom = 60.dp).horizontalScroll(rememberScrollState())) {
+                        val sessionsByStartTime = uiState.sessionsByStartTimeList[page]
 
-                Column {
-                    Row(
-                        modifier = Modifier.padding(
-                            start = timeInfoWidth,
-                            top = 16.dp,
-                            bottom = 16.dp
-                        )
-                    ) {
-                        rooms.forEach { room ->
-                            Text(
-                                modifier = Modifier.width(sessionInfoWidth),
-                                textAlign = TextAlign.Center,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold,
-                                text = room.name
-                            )
+                        val rooms = uiState.rooms.filter { room ->
+                            sessionsByStartTime.values.any { it.any { it.room?.name == room.name } }
                         }
-                    }
 
-                    LazyColumn(modifier = Modifier.fillMaxWidth().padding(end = 16.dp)) {
-                        sessionsByStartTime.forEach {
-                            item {
-                                SessionGridRow(it, rooms, sessionInfoWidth, timeInfoWidth, sessionSelected)
+                        val timeInfoWidth = 90.dp
+                        val sessionInfoWidth = 240.dp
+
+
+                        Column {
+                            Row(
+                                modifier = Modifier.padding(
+                                    start = timeInfoWidth,
+                                    top = 16.dp,
+                                    bottom = 16.dp
+                                )
+                            ) {
+                                rooms.forEach { room ->
+                                    Text(
+                                        modifier = Modifier.width(sessionInfoWidth),
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        text = room.name
+                                    )
+                                }
+                            }
+
+                            LazyColumn(modifier = Modifier.fillMaxWidth().padding(end = 16.dp)) {
+                                sessionsByStartTime.forEach {
+                                    item {
+                                        SessionGridRow(
+                                            it,
+                                            rooms,
+                                            sessionInfoWidth,
+                                            timeInfoWidth,
+                                            sessionSelected
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -139,11 +163,27 @@ fun SessionGridRow(
                     )
                     Spacer(Modifier.height(16.dp))
 
+                    Spacer(modifier = Modifier.weight(1f))
                     session.speakers.forEach { speaker ->
-                        Text(
-                            text = speaker.speakerDetails.name,
-                            color = MaterialTheme.colorScheme.primary
-                        )
+                        Row(Modifier.fillMaxWidth().padding(2.dp),
+                            verticalAlignment = Alignment.CenterVertically)
+                        {
+                            if (speaker.speakerDetails.photoUrl?.isNotEmpty() == true) {
+                                AsyncImage(
+                                    model =speaker.speakerDetails.photoUrl,
+                                    contentDescription = speaker.speakerDetails.name,
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier.size(20.dp).clip(RoundedCornerShape(16.dp))
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = speaker.speakerDetails.name,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     }
 
                 }

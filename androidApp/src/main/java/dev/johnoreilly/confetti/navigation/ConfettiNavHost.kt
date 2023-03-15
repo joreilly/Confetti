@@ -27,53 +27,5 @@ fun ConfettiNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = SessionsDestination.route
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        modifier = modifier,
-    ) {
 
-        conferencesGraph {
-            onNavigateToDestination(
-                SessionsDestination, null
-            )
-        }
-
-        sessionsGraph(isExpandedScreen, displayFeatures,
-            navigateToSession = {
-                onNavigateToDestination(
-                    SessionDetailsDestination,
-                    SessionDetailsDestination.createNavigationRoute(it)
-                )
-            },
-            navigateToSignIn = {
-                onNavigateToDestination(
-                    SignInDestination,
-                    SignInDestination.route
-                )
-            },
-            onSignOut = {
-                onNavigateToDestination(
-                    ConferencesDestination, null
-                )
-            },
-            onSwitchConferenceSelected = {
-                onNavigateToDestination(
-                    ConferencesDestination, null
-                )
-            }
-        )
-        sessionDetailsGraph(onBackClick)
-
-        speakersGraph(isExpandedScreen,
-            navigateToSpeaker = {
-                onNavigateToDestination(
-                    SpeakerDetailsDestination,
-                    SpeakerDetailsDestination.createNavigationRoute(it)
-                )
-            }
-        )
-        speakerDetailsGraph(onBackClick)
-        signInGraph(onBackClick)
-    }
 }

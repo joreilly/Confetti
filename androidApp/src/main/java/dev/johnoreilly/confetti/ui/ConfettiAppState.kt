@@ -25,13 +25,12 @@ import dev.johnoreilly.confetti.speakers.navigation.SpeakersDestination
 fun rememberConfettiAppState(
     windowSizeClass: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController,
 ): ConfettiAppState {
     return remember(navController, windowSizeClass, displayFeatures) {
         ConfettiAppState(navController, windowSizeClass, displayFeatures)
     }
 }
-
 
 @Stable
 class ConfettiAppState(

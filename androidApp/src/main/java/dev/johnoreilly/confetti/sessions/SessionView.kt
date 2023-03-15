@@ -13,6 +13,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.ConfettiViewModel
@@ -20,7 +21,6 @@ import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessionSpeakerLocation
-import dev.johnoreilly.confetti.ui.Blue80
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
@@ -30,18 +30,20 @@ fun SessionsRoute(
     isExpandedScreen: Boolean,
     @Suppress("UNUSED_PARAMETER") displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
-    navigateToSignin: () -> Unit,
+    navigateToSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
-    viewModel: ConfettiViewModel = getViewModel()
+    conference: String,
 ) {
+    val viewModel: ConfettiViewModel = getViewModel()
+    viewModel.setConference(conference)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     if (isExpandedScreen) {
         SessionListGridView(
             uiState,
             navigateToSession,
-            navigateToSignin,
+            navigateToSignIn,
             onSignOut,
             onSwitchConferenceSelected
         )
@@ -51,10 +53,10 @@ fun SessionsRoute(
             navigateToSession,
             { viewModel.addBookmark(it) },
             { viewModel.removeBookmark(it) },
-            navigateToSignin,
+            navigateToSignIn,
             onSignOut,
             onSwitchConferenceSelected,
-            viewModel::refresh
+            viewModel::refresh2
         )
     }
 }

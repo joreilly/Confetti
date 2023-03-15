@@ -31,11 +31,9 @@ import dev.johnoreilly.confetti.wear.ui.ColorScheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.toTileColors
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDateTime
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -165,19 +163,19 @@ class CurrentSessionsTileRenderer(context: Context) :
 fun CurrentSessionsTilePreview() {
     val context = LocalContext.current
 
-    val sessionTime = LocalDateTime.of(2022, 12, 25, 12, 30)
-    val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
+    val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
+
     val tileState = remember {
         CurrentSessionsData(
             "wearconf",
-            sessionTime.toKotlinLocalDateTime(),
+            sessionTime,
             listOf(
                 SessionDetails(
                     "1",
                     "Wear it's at",
                     "Talk",
-                    startInstant,
-                    startInstant,
+                    sessionTime,
+                    sessionTime,
                     "Be aWear of what's coming",
                     "en",
                     listOf(),

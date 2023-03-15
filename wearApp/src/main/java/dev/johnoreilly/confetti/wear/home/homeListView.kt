@@ -37,11 +37,9 @@ import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDate
-import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -145,22 +143,21 @@ fun HomeListView(
 @WearPreviewFontSizes
 @Composable
 fun HomeListViewPreview() {
-    val sessionTime = LocalDateTime.of(2022, 12, 25, 12, 30)
-    val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
+    val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
 
     ConfettiTheme {
         HomeListView(
             uiState = HomeUiState.Success(
                 conference = "wearcon",
                 conferenceName = "WearableCon 2022",
-                confDates = listOf(sessionTime.toLocalDate().toKotlinLocalDate()),
+                confDates = listOf(sessionTime.date),
                 currentSessions = listOf(
                     SessionDetails(
                         "1",
                         "Wear it's at",
                         "Talk",
-                        startInstant,
-                        startInstant,
+                        sessionTime,
+                        sessionTime,
                         "Be aWear of what's coming",
                         "en",
                         listOf(),

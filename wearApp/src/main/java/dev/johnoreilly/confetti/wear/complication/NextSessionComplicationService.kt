@@ -11,11 +11,12 @@ import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
 import com.google.android.horologist.tiles.complication.DataComplicationService
 import dev.johnoreilly.confetti.ConfettiRepository
 import kotlinx.coroutines.flow.first
-import kotlinx.datetime.toKotlinInstant
-import kotlinx.datetime.toKotlinLocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.toJavaZoneId
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
 import org.koin.android.ext.android.inject
-import java.time.Instant
-import java.time.LocalDate
 
 class NextSessionComplicationService :
     DataComplicationService<NextSessionComplicationData, NextSessionTemplate>() {
@@ -24,16 +25,17 @@ class NextSessionComplicationService :
     private val repository: ConfettiRepository by inject()
 
     override suspend fun data(request: ComplicationRequest): NextSessionComplicationData {
-        val today = LocalDate.now().toKotlinLocalDate()
+        val timeZone = repository.timeZone
+        val today = Clock.System.todayIn(timeZone)
         val todaysSessions = repository.sessionsMap.first()[today].orEmpty()
 
-        val now = Instant.now().toKotlinInstant()
+        val now = Clock.System.now().toLocalDateTime(timeZone)
 
-        val nextSessionTime = todaysSessions.map { it.startInstant }
+        val nextSessionTime = todaysSessions.map { it.startsAt }
             .filter { it > now }
             .minOrNull()
 
-        val nextSession = todaysSessions.find { it.startInstant == nextSessionTime }
+        val nextSession = todaysSessions.find { it.startsAt == nextSessionTime }
 
         val launchIntent = if (nextSession != null) {
             val sessionDetailIntent = Intent(

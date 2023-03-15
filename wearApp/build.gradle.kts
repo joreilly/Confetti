@@ -3,7 +3,6 @@
 import java.io.FileInputStream
 import java.util.*
 
-
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -12,6 +11,8 @@ plugins {
         id("com.google.firebase.crashlytics")
     }
 }
+
+configureCompilerOptions()
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
@@ -77,13 +78,6 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-
-    kotlinOptions {
-        freeCompilerArgs += listOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
-        )
     }
 
     buildTypes {

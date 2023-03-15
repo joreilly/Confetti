@@ -28,7 +28,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun SessionsRoute(
     isExpandedScreen: Boolean,
-    displayFeatures: List<DisplayFeature>,
+    @Suppress("UNUSED_PARAMETER") displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
     navigateToSignin: () -> Unit,
     onSignOut: () -> Unit,

@@ -1,6 +1,10 @@
+@file:Suppress("unused")
+@file:OptIn(ApolloExperimental::class)
+
 package dev.johnoreilly.confetti.backend
 
 import Trace
+import com.apollographql.apollo3.annotations.ApolloExperimental
 import com.apollographql.apollo3.tooling.RegisterOperations
 import com.apollographql.apollo3.tooling.SchemaUploader
 import com.expediagroup.graphql.apq.cache.DefaultAutomaticPersistedQueriesCache
@@ -33,6 +37,7 @@ import graphql.schema.*
 import graphql.schema.idl.SchemaPrinter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
@@ -66,6 +71,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KType
 
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @SpringBootApplication
 class DefaultApplication {
     private val apolloKey = javaClass.classLoader.getResourceAsStream("apollo.key")?.use {
@@ -96,6 +102,7 @@ class DefaultApplication {
                 println("Cannot determine graph. Make sure to use a graph key")
             } else {
                 println("Enabling Apollo reporting for graph $graph")
+                @OptIn(ApolloExperimental::class)
                 SchemaUploader.uploadSchema(
                     key = apolloKey,
                     sdl = schema.print(),
@@ -187,7 +194,7 @@ class DefaultApplication {
             return
         }
 
-        val methods = RegisterOperations::class.java.getDeclaredMethods()
+        val methods = RegisterOperations::class.java.declaredMethods
 
         methods.forEach {
             println(it)
@@ -291,13 +298,13 @@ class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
     private val mapTypeReference: MapType = TypeFactory.defaultInstance()
         .constructMapType(HashMap::class.java, String::class.java, Any::class.java)
 
-    override suspend fun parseRequest(serverRequest: ServerRequest): GraphQLServerRequest? {
-        val graphqlRequest = super.parseRequest(serverRequest)
+    override suspend fun parseRequest(request: ServerRequest): GraphQLServerRequest? {
+        val graphqlRequest = super.parseRequest(request)
 
-        if (graphqlRequest == null && serverRequest.method().equals(HttpMethod.GET)) {
-            val extensions = serverRequest.queryParam("extensions").getOrNull()
-            val variables = serverRequest.queryParam("variables").getOrNull()
-            val operationName = serverRequest.queryParam("operationName").getOrNull()
+        if (graphqlRequest == null && request.method().equals(HttpMethod.GET)) {
+            val extensions = request.queryParam("extensions").getOrNull()
+            val variables = request.queryParam("variables").getOrNull()
+            val operationName = request.queryParam("operationName").getOrNull()
             val graphQLVariables: Map<String, Any>? = variables?.let {
                 objectMapper.readValue(it, mapTypeReference)
             }

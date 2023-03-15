@@ -2,6 +2,8 @@ plugins {
   kotlin("multiplatform")
 }
 
+configureCompilerOptions(17)
+
 kotlin {
   jvm()
 

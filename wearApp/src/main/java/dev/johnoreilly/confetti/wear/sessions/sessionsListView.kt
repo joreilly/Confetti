@@ -23,13 +23,9 @@ import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toKotlinInstant
-import kotlinx.datetime.toKotlinLocalDate
-import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.androidx.compose.getViewModel
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -106,24 +102,22 @@ fun SessionListView(
 @WearPreviewFontSizes
 @Composable
 fun SessionListViewPreview() {
-    val sessionTime = LocalDateTime.of(2022, 12, 25, 12, 30)
-    val startInstant = sessionTime.toInstant(ZoneOffset.UTC).toKotlinInstant()
+    val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
 
     ConfettiTheme {
-        val date = sessionTime.toLocalDate().toKotlinLocalDate()
         SessionListView(
             uiState = SessionsUiState.Success(
-                ConferenceDayKey("wearconf", date),
+                ConferenceDayKey("wearconf", sessionTime.date),
                 sessionsByTime = listOf(
                     SessionsUiState.SessionAtTime(
-                        sessionTime.toKotlinLocalDateTime(),
+                        sessionTime,
                         listOf(
                             SessionDetails(
                                 "1",
                                 "Wear it's at",
                                 "Talk",
-                                startInstant,
-                                startInstant,
+                                sessionTime,
+                                sessionTime,
                                 "Be aWear of what's coming",
                                 "en",
                                 listOf(),

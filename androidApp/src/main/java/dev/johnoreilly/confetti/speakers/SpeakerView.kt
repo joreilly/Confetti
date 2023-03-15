@@ -51,7 +51,7 @@ fun SpeakersRoute(
 
 
 @Composable
-fun SpeakerGridView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) -> Unit) {
+fun SpeakerGridView(speakers: List<SpeakerDetails>, @Suppress("UNUSED_PARAMETER") navigateToSpeaker: (String) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier.padding(16.dp),
         columns = GridCells.Adaptive(200.dp),

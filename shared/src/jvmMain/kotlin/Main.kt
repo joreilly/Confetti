@@ -16,7 +16,7 @@ fun main(args: Array<String>) = runBlocking {
     println("Sessions")
     val sessions = repo.sessions.first()
     sessions.forEach { session ->
-        println("${session.startInstant} ${session.title}")
+        println("${session.startsAt} ${session.title}")
     }
     println("done")
     clientCache.close()

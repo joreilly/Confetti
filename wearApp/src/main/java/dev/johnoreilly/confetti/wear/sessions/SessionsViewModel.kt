@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import java.util.TreeMap
 
 class SessionsViewModel(
@@ -41,13 +40,12 @@ class SessionsViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
     private fun buildUiState(data: GetSessionsQuery.Data): SessionsUiState.Success {
-        val timeZone = TimeZone.of(data.config.timezone)
         val sessionList = data.sessions.nodes.map { it.sessionDetails }
         val sessions = sessionList.filter {
-            it.startInstant.toLocalDateTime(timeZone).date == conferenceDay.date
+            it.startsAt.date == conferenceDay.date
         }
         val sessionsByTime =
-            sessions.groupByTo(TreeMap()) { it.startInstant.toLocalDateTime(timeZone) }.map {
+            sessions.groupByTo(TreeMap()) { it.startsAt }.map {
                 SessionsUiState.SessionAtTime(it.key, it.value)
             }
         return SessionsUiState.Success(conferenceDay, sessionsByTime)

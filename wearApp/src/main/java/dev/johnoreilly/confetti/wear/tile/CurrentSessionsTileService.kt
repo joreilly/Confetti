@@ -12,13 +12,10 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toKotlinInstant
-import kotlinx.datetime.toKotlinLocalDate
+import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
 import org.koin.android.ext.android.inject
-import java.time.Instant
-import java.time.LocalDate
 
 class CurrentSessionsTileService : SuspendingTileService() {
     private val renderer = CurrentSessionsTileRenderer(this)
@@ -33,19 +30,19 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
     private suspend fun tileState(): CurrentSessionsData {
         val conference = repository.getConference()
-        val today = LocalDate.now().toKotlinLocalDate()
+        val today = Clock.System.todayIn(repository.timeZone)
         val todaysSessions = repository.sessionsMap.first()[today].orEmpty()
 
-        val now = Instant.now().toKotlinInstant()
+        val now = Clock.System.now().toLocalDateTime(repository.timeZone)
 
-        val nextSessionTime = todaysSessions.map { it.startInstant }
+        val nextSessionTime = todaysSessions.map { it.startsAt }
             .filter { it > now }
             .minOrNull()
 
         return CurrentSessionsData(
             conference,
-            nextSessionTime?.toLocalDateTime(TimeZone.currentSystemDefault()),
-            todaysSessions.filter { it.startInstant == nextSessionTime }
+            nextSessionTime,
+            todaysSessions.filter { it.startsAt == nextSessionTime }
         )
     }
 

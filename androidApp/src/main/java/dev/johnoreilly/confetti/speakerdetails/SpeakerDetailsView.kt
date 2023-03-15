@@ -99,7 +99,7 @@ fun SpeakerDetailsView(speaker: SpeakerDetails?, popBack: () -> Unit) {
                                 modifier = Modifier.size(24.dp),
                                 socialItem = socialsItem,
                                 onClick = {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.link))
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
                                     context.startActivity(intent)
                                 }
                             )

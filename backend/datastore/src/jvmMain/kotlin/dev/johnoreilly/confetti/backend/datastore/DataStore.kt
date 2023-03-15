@@ -118,10 +118,10 @@ class DataStore {
         val conf = config.id
         datastore.runInTransaction {
             it.put(partnerGroups.toEntity(conf))
-            val config = config.copy(
+            val config2 = config.copy(
                 days = sessions.map { it.start.date }.toSet().toList()
             )
-            it.put(config.toEntity(conf))
+            it.put(config2.toEntity(conf))
             it.deleteAll(conf, KIND_VENUE)
             it.write(venues.map { it.toEntity(conf) })
             it.deleteAll(conf, KIND_ROOM)
@@ -324,6 +324,7 @@ class DataStore {
     }
 
     private fun Entity.toVenue(): DVenue {
+        @Suppress("UNCHECKED_CAST")
         return DVenue(
             id = key.name,
             name = getString("name"),

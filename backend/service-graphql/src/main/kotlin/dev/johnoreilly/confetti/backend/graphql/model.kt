@@ -91,10 +91,10 @@ class RootQuery : Query {
     }
 
     fun conferences(orderBy: ConferenceOrderBy? = null): List<Conference> {
-        val orderBy =
+        val orderBy1 =
             orderBy ?: ConferenceOrderBy(ConferenceField.DAYS, OrderByDirection.DESCENDING)
         return DataStore().readConfigs(
-            DOrderBy(orderBy.field.value, orderBy.direction.toDDirection())
+            DOrderBy(orderBy1.field.value, orderBy1.direction.toDDirection())
         ).map {
             it.toConference()
         }
@@ -198,7 +198,6 @@ This field might have the same value as description if a shortDescription is not
         }
     }
 
-    @Deprecated("use rooms instead")
     fun room(dfe: DataFetchingEnvironment): Room? {
         val roomId = roomIds.firstOrNull()
         if (roomId == null) {

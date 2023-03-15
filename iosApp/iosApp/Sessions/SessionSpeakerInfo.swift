@@ -44,7 +44,7 @@ struct SessionSpeakerSocialInfo: View {
     
     var body: some View {
         ForEach(speaker.socials, id: \.self) { socialItem in
-            Link(destination: URL(string: socialItem.link)!) {
+            Link(destination: URL(string: socialItem.url)!) {
                 let name = socialItem.name.lowercased()
                 switch name {
                 case "twitter":

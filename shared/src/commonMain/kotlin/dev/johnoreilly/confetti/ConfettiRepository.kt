@@ -108,7 +108,6 @@ class ConfettiRepository(
                 // handle network failures by swallowing the error
             }
             .mapNotNull {
-                println("conferences: ${it.data?.conferences}")
                 it.data?.conferences
             })
     }

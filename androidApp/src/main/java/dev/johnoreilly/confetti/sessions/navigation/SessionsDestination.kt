@@ -33,7 +33,7 @@ fun NavGraphBuilder.sessionsGraph(
         arguments = listOf(
             navArgument(SessionsDestination.conferenceArg) {
                 type = NavType.StringType
-                defaultValue = "cds"
+                defaultValue = "conference"
             }
         )
     ) { backStackEntry ->

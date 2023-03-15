@@ -103,7 +103,7 @@ class ScreenshotTest {
                 )
             )
         ),
-        rooms = listOf(SessionDetails.Room(name = "UB5.230")),
+        room = SessionDetails.Room(name = "UB5.230"),
         tags = listOf("Kotlin"),
         __typename = ""
     )
@@ -179,7 +179,7 @@ class ScreenshotTest {
         val tileState = remember {
             CurrentSessionsData(
                 "kotlinconf",
-                sessionTime.toKotlinLocalDateTime(),
+                sessionTime,
                 listOf(
                     sessionDetails
                 )

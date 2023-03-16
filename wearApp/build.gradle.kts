@@ -74,6 +74,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
@@ -83,6 +84,25 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+        }
+        managedDevices {
+            devices {
+                create<com.android.build.api.dsl.ManagedVirtualDevice>("squareApi30").apply {
+                    device = "Wear OS Square"
+                    apiLevel = 30
+                    systemImageSource = "android-wear"
+                }
+                create<com.android.build.api.dsl.ManagedVirtualDevice>("roundApi28").apply {
+                    device = "Wear OS Large Round"
+                    apiLevel = 28
+                    systemImageSource = "android-wear"
+                }
+                create<com.android.build.api.dsl.ManagedVirtualDevice>("roundApi30").apply {
+                    device = "Wear OS Large Round"
+                    apiLevel = 30
+                    systemImageSource = "android-wear"
+                }
+            }
         }
     }
 
@@ -104,12 +124,6 @@ android {
             isShrinkResources = true
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
-            setProguardFiles(
-                listOf(
-                    getDefaultProguardFile("proguard-android.txt"),
-                    "proguard-rules.pro",
-                ),
-            )
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
 
             matchingFallbacks += listOf("release")

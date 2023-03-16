@@ -18,6 +18,7 @@ import coil.request.ImageRequest
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
+import dev.johnoreilly.confetti.shared.R.drawable.ic_person_black_24dp
 
 @Composable
 fun SessionSpeakerInfo(
@@ -30,8 +31,8 @@ fun SessionSpeakerInfo(
                 modifier = Modifier
                     .size(32.dp)
                     .clip(CircleShape),
-                placeholder = painterResource(R.drawable.ic_person_black_24dp),
-                error = painterResource(R.drawable.ic_person_black_24dp),
+                placeholder = painterResource(ic_person_black_24dp),
+                error = painterResource(ic_person_black_24dp),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(speaker.photoUrl)
                     .crossfade(true)

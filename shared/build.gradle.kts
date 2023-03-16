@@ -1,3 +1,5 @@
+@file:Suppress("OPT_IN_USAGE")
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -109,7 +111,10 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     compileOptions {

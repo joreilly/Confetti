@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     kotlin("android")
     id("com.android.test")
@@ -30,11 +32,14 @@ android {
     }
 
     targetProjectPath(":wearApp")
+    namespace = "dev.johnoreilly.confetti.benchmark"
     experimentalProperties["android.experimental.self-instrumenting"] = true
+}
 
-    variantFilter {
-        if (buildType.name.contains("release") || buildType.name.contains("debug")) {
-            ignore = true
+androidComponents {
+    beforeVariants {
+        if (it.buildType!!.contains("release") || it.buildType!!.contains("debug")) {
+            it.enable = false
         }
     }
 }

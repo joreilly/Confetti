@@ -30,6 +30,7 @@ android {
     }
 
     targetProjectPath(":androidApp")
+    namespace = "dev.johnoreilly.confetti.benchmark"
     experimentalProperties["android.experimental.self-instrumenting"] = true
 
     variantFilter {

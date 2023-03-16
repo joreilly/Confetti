@@ -12,6 +12,7 @@ import com.google.android.horologist.tiles.complication.DataTemplates.shortText
 import com.google.android.horologist.tiles.complication.TypedComplicationTemplate
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.shared.R.drawable.ic_person_black_24dp
 import dev.johnoreilly.confetti.type.Session
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toKotlinInstant
@@ -49,7 +50,7 @@ class NextSessionTemplate(context: Context) :
         shortText(
             title = data.sessionDetails?.title ?: "None",
             text = data.sessionDetails?.room?.name.orEmpty(),
-            icon = R.drawable.ic_person_black_24dp,
+            icon = ic_person_black_24dp,
             launchIntent = data.launchIntent
         )
 

@@ -12,6 +12,11 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Icon
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.shared.R.drawable.github
+import dev.johnoreilly.confetti.shared.R.drawable.ic_network_facebook
+import dev.johnoreilly.confetti.shared.R.drawable.ic_network_linkedin
+import dev.johnoreilly.confetti.shared.R.drawable.ic_network_twitter
+import dev.johnoreilly.confetti.shared.R.drawable.ic_network_web
 
 @Composable
 fun SocialIcon(
@@ -41,31 +46,31 @@ fun SocialIcon(
     when (socialItem.name.lowercase()) {
         "github" -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.github,
+            resourceId = github,
             contentDescription = "Github",
             onClick = onClick
         )
         "linkedin" -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.ic_network_linkedin,
+            resourceId = ic_network_linkedin,
             contentDescription = "LinkedIn",
             onClick = onClick
         )
         "twitter" -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.ic_network_twitter,
+            resourceId = ic_network_twitter,
             contentDescription = "Twitter",
             onClick = onClick
         )
         "facebook" -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.ic_network_facebook,
+            resourceId = ic_network_facebook,
             contentDescription = "Facebook",
             onClick = onClick
         )
         else -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.ic_network_web,
+            resourceId = ic_network_web,
             contentDescription = "Web",
             onClick = onClick
         )

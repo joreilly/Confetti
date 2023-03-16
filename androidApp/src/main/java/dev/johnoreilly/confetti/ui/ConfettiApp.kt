@@ -75,7 +75,7 @@ fun ConfettiApp(
                 navigateToSession = {
                     appState.navigate(
                         SessionDetailsDestination,
-                        SessionDetailsDestination.createNavigationRoute(it)
+                        SessionDetailsDestination.createNavigationRoute(conference = conference!!, it)
                     )
                 },
                 navigateToSignIn = {
@@ -100,7 +100,7 @@ fun ConfettiApp(
                 navigateToSpeaker = {
                     appState.navigate(
                         SpeakerDetailsDestination,
-                        SpeakerDetailsDestination.createNavigationRoute(it)
+                        SpeakerDetailsDestination.createNavigationRoute(conference = conference!!, it)
                     )
                 }
             )

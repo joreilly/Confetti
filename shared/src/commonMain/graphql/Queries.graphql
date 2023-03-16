@@ -1,4 +1,4 @@
-query GetConferenceData($first: Int! = 10, $after: String = null) {
+query GetConferenceData($first: Int! = 1000, $after: String = null) {
     sessions(first: $first, after: $after) {
         nodes {
             ...SessionDetails
@@ -21,7 +21,7 @@ query GetConferenceData($first: Int! = 10, $after: String = null) {
     }
 }
 
-query GetSessions($first: Int! = 10, $after: String = null) {
+query GetSessions($first: Int! = 1000, $after: String = null) {
     sessions(first: $first, after: $after) {
         nodes {
             ...SessionDetails
@@ -38,6 +38,9 @@ query GetSessions($first: Int! = 10, $after: String = null) {
 query GetSession($id: String!){
     session(id: $id) {
         ...SessionDetails
+    }
+    config {
+        timezone
     }
 }
 

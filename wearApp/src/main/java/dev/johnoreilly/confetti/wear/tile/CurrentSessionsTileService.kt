@@ -6,10 +6,13 @@ import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.ResourceBuilders
 import androidx.wear.tiles.TileBuilders
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
 import com.google.android.horologist.tiles.SuspendingTileService
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import dev.johnoreilly.confetti.toTimeZone
+import dev.johnoreilly.confetti.wear.complication.nextSessionOrNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
@@ -30,19 +33,15 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
     private suspend fun tileState(): CurrentSessionsData {
         val conference = repository.getConference()
-        val today = Clock.System.todayIn(repository.timeZone)
-        val todaysSessions = repository.sessionsMap.first()[today].orEmpty()
+        val data = repository.conferenceData(conference, FetchPolicy.CacheOnly).data
 
-        val now = Clock.System.now().toLocalDateTime(repository.timeZone)
-
-        val nextSessionTime = todaysSessions.map { it.startsAt }
-            .filter { it > now }
-            .minOrNull()
+        val nextSession = data?.sessions?.nodes?.map { it.sessionDetails }
+            ?.nextSessionOrNull(data.config.timezone.toTimeZone())
 
         return CurrentSessionsData(
             conference,
-            nextSessionTime,
-            todaysSessions.filter { it.startsAt == nextSessionTime }
+            nextSession?.startsAt,
+            nextSession?.let { listOf(it) }.orEmpty()
         )
     }
 

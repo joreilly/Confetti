@@ -31,11 +31,7 @@ import kotlinx.datetime.TimeZone
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class ConfettiRepository(
-    private val defaultFetchPolicy: FetchPolicy
-) : KoinComponent {
-    // TODO move coroutines out of Repository to ViewModel
-    val coroutineScope: CoroutineScope = MainScope()
+class ConfettiRepository() : KoinComponent {
 
     private val appSettings: AppSettings by inject()
 
@@ -95,45 +91,6 @@ class ConfettiRepository(
             .tryExecute()
     }
 
-    private val conferenceData: StateFlow<GetConferenceDataQuery.Data?> =
-        getConferenceFlow().flatMapLatest {
-            if (it.isEmpty()) {
-                flowOf(null)
-            } else {
-                apolloClientCache.getClient(it).query(GetConferenceDataQuery()).toFlow().map {
-                    it.data
-                }.catch {
-                    // TODO log errors
-                    emit(null)
-                }
-            }
-        }.stateIn(coroutineScope, SharingStarted.Eagerly, null)
-
-    val timeZone = conferenceData.value?.config?.timezone?.let {
-        TimeZone.of(it)
-    } ?: TimeZone.currentSystemDefault()
-
-    val conferenceName = conferenceData.filterNotNull().map { it.config.name }
-
-    val sessions = conferenceData.filterNotNull().map {
-        it.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startsAt }
-    }
-
-    val sessionsMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
-        it.groupBy {
-            it.startsAt.date
-        }
-    }
-
-    val speakers = conferenceData.filterNotNull().map {
-        it.speakers.map { it.speakerDetails }
-    }
-
-    val rooms = conferenceData.filterNotNull().map {
-        it.rooms.map { it.roomDetails }
-    }
-
-    @Deprecated("Use getConferenceFlow from navigation instead")
     suspend fun getConference(): String {
         return appSettings.getConference()
     }
@@ -171,8 +128,8 @@ class ConfettiRepository(
     suspend fun sessionDetails(
         conference: String,
         sessionId: String
-    ): Flow<ApolloResponse<GetSessionQuery.Data>> =
-        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).toFlow()
+    ): ApolloResponse<GetSessionQuery.Data> =
+        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).tryExecute()
 
     suspend fun conferenceData(
         conference: String,

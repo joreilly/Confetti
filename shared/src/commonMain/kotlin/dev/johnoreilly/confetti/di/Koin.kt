@@ -24,7 +24,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
 fun initKoin() = initKoin() {}
 
 fun commonModule() = module {
-    single { ConfettiRepository(get()) }
+    single { ConfettiRepository() }
     single { AppSettings(get()) }
     single { ApolloClientCache() }
     single<TokenProvider> {

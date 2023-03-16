@@ -38,12 +38,19 @@ fun SessionDetailsRoute(
     viewModel: SessionDetailsViewModel = getViewModel()
 ) {
     val uiState by viewModel.session.collectAsStateWithLifecycle()
-    val timeZone = remember { viewModel.timeZone }
     SessionDetailView(
         uiState = uiState,
         columnState = columnState,
         navigateToSpeaker = navigateToSpeaker,
-        formatter = { viewModel.formatter.format(it, timeZone, "eeee HH:mm") })
+        formatter = {
+
+            viewModel.formatter.format(
+                it,
+                (uiState as SessionDetailsUiState.Success).timeZone,
+                "eeee HH:mm"
+            )
+        }
+    )
 }
 
 @Composable
@@ -125,7 +132,8 @@ fun SessionDetailsLongText() {
                     SessionDetails.Room("Main Hall"),
                     listOf(),
                     Session.type.name
-                )
+                ),
+                timeZone = TimeZone.UTC
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToSpeaker = {},
@@ -155,7 +163,8 @@ fun SessionDetailsViewPreview() {
                 SessionDetails.Room("Main Hall"),
                 listOf(),
                 Session.type.name
-            )
+            ),
+            timeZone = TimeZone.UTC
         ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToSpeaker = {},

@@ -12,12 +12,13 @@ import dev.johnoreilly.confetti.sessiondetails.SessionDetailsRoute
 
 object SessionDetailsDestination : ConfettiNavigationDestination {
     const val sessionIdArg = "sessionId"
-    override val route = "session_details_route/{$sessionIdArg}"
+    const val conferenceArg = "conferenceArg"
+    override val route = "session_details_route/{$conferenceArg}/{$sessionIdArg}"
     override val destination = "person_details_destination"
 
-    fun createNavigationRoute(sessionId: String): String {
+    fun createNavigationRoute(conference: String, sessionId: String): String {
         val encodedId = Uri.encode(sessionId)
-        return "session_details_route/$encodedId"
+        return "session_details_route/$conference/$encodedId"
     }
 
     fun fromNavArgs(entry: NavBackStackEntry): String {
@@ -31,7 +32,8 @@ fun NavGraphBuilder.sessionDetailsGraph(onBackClick: () -> Unit) {
     composable(
         route = SessionDetailsDestination.route,
         arguments = listOf(
-            navArgument(SessionDetailsDestination.sessionIdArg) { type = NavType.StringType }
+            navArgument(SessionDetailsDestination.sessionIdArg) { type = NavType.StringType },
+            navArgument(SessionDetailsDestination.conferenceArg) { type = NavType.StringType }
         )
     ) {
         SessionDetailsRoute(onBackClick)

@@ -20,11 +20,7 @@ val appModule = module {
     viewModel { SessionDetailsViewModel(get(), get()) }
     viewModel { SpeakerDetailsViewModel(get(), get()) }
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
-    single {
-        // Assume an online first strategy for Mobile
-        // But use Cache for initial results
-        FetchPolicy.CacheAndNetwork
-    }
+
     single {
         Authentication()
     }

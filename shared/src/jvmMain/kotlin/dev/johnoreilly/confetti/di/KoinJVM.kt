@@ -26,11 +26,6 @@ actual fun platformModule() = module {
     factory {
         ApolloClient.Builder().okHttpClient(get())
     }
-    single {
-        // Assume an online first strategy for Desktop
-        // But use Cache for initial results
-        FetchPolicy.CacheAndNetwork
-    }
 }
 
 actual fun getDatabaseName(conference: String) = "jdbc:sqlite:$conference.db"

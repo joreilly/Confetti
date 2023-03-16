@@ -14,16 +14,17 @@ import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -84,7 +85,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
         confDates.forEach { confDate ->
             val sessions = sessionsMap[confDate] ?: emptyList()
-            val sessionsByStartTime = sessions.groupBy { getSessionTime(it) }
+            val sessionsByStartTime = sessions.groupBy { getSessionTime(it, sessionsData.config.timezone.toTimeZone()) }
             sessionsByStartTimeList.add(sessionsByStartTime)
         }
         return SessionsUiState.Success(
@@ -119,13 +120,15 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
-    val speakers = repository.speakers
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
-
     fun setConference(conference: String) {
         this.conference = conference
         maybeStart()
     }
+
+    // FIXME: move to a separate ViewModel
+    val speakers = uiState.mapNotNull {
+        (it as? SessionsUiState.Success)?.speakers
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     suspend fun refresh() = refresh(false)
 
@@ -152,8 +155,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         }
     }
 
-    fun getSessionTime(session: SessionDetails): String {
-        return dateService.format(session.startsAt, repository.timeZone, "HH:mm")
+    private fun getSessionTime(session: SessionDetails, timeZone: TimeZone): String {
+        return dateService.format(session.startsAt, timeZone, "HH:mm")
     }
 }
 

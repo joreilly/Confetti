@@ -96,7 +96,10 @@ class RefreshWorker(
                 .build()
 
         fun dailyRefresh(): PeriodicWorkRequest =
-            PeriodicWorkRequestBuilder<RefreshWorker>(Duration.ofDays(1))
+            PeriodicWorkRequestBuilder<RefreshWorker>(
+                Duration.ofMinutes(1)
+            //Duration.ofDays(1)
+            )
                 .setInputData(
                     workDataOf(
                         FetchConferencesKey to true,

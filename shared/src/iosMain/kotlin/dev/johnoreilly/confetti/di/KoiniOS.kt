@@ -25,9 +25,6 @@ actual fun platformModule() = module {
     factory {
         ApolloClient.Builder()
     }
-    single {
-        FetchPolicy.CacheAndNetwork
-    }
 }
 
 actual fun getDatabaseName(conference: String) = "$conference.db"

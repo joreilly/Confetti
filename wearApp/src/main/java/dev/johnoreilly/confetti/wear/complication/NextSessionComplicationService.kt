@@ -7,12 +7,16 @@ import android.content.Intent
 import androidx.core.net.toUri
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
 import com.google.android.horologist.tiles.complication.DataComplicationService
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.toTimeZone
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaZoneId
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
@@ -25,17 +29,15 @@ class NextSessionComplicationService :
     private val repository: ConfettiRepository by inject()
 
     override suspend fun data(request: ComplicationRequest): NextSessionComplicationData {
-        val timeZone = repository.timeZone
-        val today = Clock.System.todayIn(timeZone)
-        val todaysSessions = repository.sessionsMap.first()[today].orEmpty()
+        val conference = repository.getConference()
+        val data = repository.conferenceData(conference, FetchPolicy.CacheOnly).data
 
-        val now = Clock.System.now().toLocalDateTime(timeZone)
-
-        val nextSessionTime = todaysSessions.map { it.startsAt }
-            .filter { it > now }
-            .minOrNull()
-
-        val nextSession = todaysSessions.find { it.startsAt == nextSessionTime }
+        val nextSession =  if (data == null) {
+            null
+        } else {
+            data.sessions.nodes.map { it.sessionDetails }
+                .nextSessionOrNull(data.config.timezone.toTimeZone())
+        }
 
         val launchIntent = if (nextSession != null) {
             val sessionDetailIntent = Intent(
@@ -59,3 +61,14 @@ class NextSessionComplicationService :
     override fun previewData(type: ComplicationType): NextSessionComplicationData =
         renderer.previewData()
 }
+
+fun List<SessionDetails>.nextSessionOrNull(timeZone: TimeZone): SessionDetails?  {
+        val today = Clock.System.todayIn(timeZone)
+        val now = Clock.System.now().toLocalDateTime(timeZone)
+
+        return filter {
+            it.startsAt > now && it.startsAt.date == today
+        }.minByOrNull {
+            it.startsAt
+        }
+    }

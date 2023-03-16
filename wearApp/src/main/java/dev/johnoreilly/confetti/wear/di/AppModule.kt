@@ -37,9 +37,4 @@ val appModule = module {
     single { GoogleSignIn.getClient(get<Context>(), GoogleSignInOptions.DEFAULT_SIGN_IN) }
     single { GoogleSignInAuthUserRepository(get(), get()) }
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
-    single {
-        // Assume an offline first strategy for Wear
-        // Eventually use the mobile to drive updates
-        FetchPolicy.CacheFirst
-    }
 }

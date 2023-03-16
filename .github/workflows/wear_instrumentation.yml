@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: macos-latest
     # TODO change to a test specific label
-    if: contains(github.event.pull_request.labels.*.name, 'enhancement')
+    #if: contains(github.event.pull_request.labels.*.name, 'enhancement')
     timeout-minutes: 50
 
     strategy:

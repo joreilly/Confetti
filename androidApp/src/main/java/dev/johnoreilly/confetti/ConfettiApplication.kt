@@ -24,11 +24,14 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
         super.onCreate()
 
         if (!BuildConfig.DEBUG) {
+            Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
             Firebase.crashlytics.setCustomKeys {
                 key("appName", "androidApp")
             }
+        } else {
+            Firebase.crashlytics.setCrashlyticsCollectionEnabled(false)
         }
-
+        
         initKoin {
             androidLogger()
             androidContext(this@ConfettiApplication)

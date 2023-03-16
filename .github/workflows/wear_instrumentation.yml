@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        api-level: [ 30 ]
+        api-level: [ 28 ]
 
     steps:
     - uses: actions/checkout@v3
@@ -29,6 +29,9 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
+
+    - name: Install pulseaudio
+      run: brew install pulseaudio
 
     - name: AVD cache
       uses: actions/cache@v3
@@ -56,5 +59,3 @@ jobs:
       with:
         api-level: ${{ matrix.api-level }}
         script: ./gradlew :wearApp:connectedCheck
-      env:
-        API_LEVEL: ${{ matrix.api-level }}

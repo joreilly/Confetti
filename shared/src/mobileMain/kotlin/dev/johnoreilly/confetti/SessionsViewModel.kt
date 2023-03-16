@@ -9,21 +9,16 @@ import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateService
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -31,7 +26,7 @@ import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-open class ConfettiViewModel : KMMViewModel(), KoinComponent {
+open class SessionsViewModel : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
 
@@ -51,26 +46,20 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
 
     private val conferenceRefresher: ConferenceRefresh by inject()
 
-    @NativeCoroutinesState
-    val conferenceList = repository.conferenceList.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(),
-        emptyList()
-    )
-
     private fun uiStates(conference: String): Flow<SessionsUiState> = flow {
         val values = combine(
             repository.bookmarks(conference),
             repository.conferenceData(conference),
-        ) { bookmarks, conferenceData ->
-            val sessionsMap = conferenceData.data?.sessions?.nodes?.map { it.sessionDetails }
-                ?.groupBy { it.startsAt.date }
-            val speakers = conferenceData.data?.speakers?.map { it.speakerDetails }
-            val rooms = conferenceData.data?.rooms?.map { it.roomDetails }
+        ) { bookmarks, conferenceResponse ->
 
-            if (sessionsMap == null || speakers == null || rooms == null) {
+            val data = conferenceResponse.data
+            if (data == null) {
                 return@combine SessionsUiState.Error
             }
+            val sessionsMap =
+                data.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
+            val speakers = data.speakers.map { it.speakerDetails }
+            val rooms = data.rooms.map { it.roomDetails }
 
             val confDates = sessionsMap.keys.toList().sorted()
 
@@ -84,6 +73,9 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
                 dateService.now(), conference, confDates, sessionsByStartTimeList,
                 speakers, rooms, bookmarks.toSet()
             )
+        }.catch {
+            it.printStackTrace()
+
         }
 
         emitAll(values)
@@ -92,10 +84,13 @@ open class ConfettiViewModel : KMMViewModel(), KoinComponent {
     private val triggers = Channel<Unit>()
 
     @NativeCoroutinesState
-    val uiState: StateFlow<SessionsUiState> = triggers.consumeAsFlow()
-        .onStart {
-            emit(Unit)
+    val uiState: StateFlow<SessionsUiState> = flow {
+        for (i in triggers) {
+            emit(i)
         }
+    }.onStart {
+        emit(Unit)
+    }
         .flatMapLatest {
             uiStates(conference)
                 .onStart {

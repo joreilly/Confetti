@@ -24,19 +24,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.AppSettings.Companion.CONFERENCE_NOT_SET
-import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.AppViewModel
 import dev.johnoreilly.confetti.account.navigation.SignInDestination
 import dev.johnoreilly.confetti.account.navigation.signInGraph
 import dev.johnoreilly.confetti.conferences.navigation.ConferencesDestination
@@ -49,7 +50,9 @@ import dev.johnoreilly.confetti.sessions.navigation.sessionsGraph
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsDestination
 import dev.johnoreilly.confetti.speakerdetails.navigation.speakerDetailsGraph
 import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 
 @Composable
 fun ConfettiApp(
@@ -63,9 +66,8 @@ fun ConfettiApp(
         navController
     )
 
-    val repository: ConfettiRepository = get()
-    val conference by repository.getConferenceFlow()
-        .collectAsState(initial = null)
+    val viewModel: AppViewModel = getViewModel()
+    val conference by viewModel.conference.collectAsStateWithLifecycle()
 
     if (conference == null) {
         // Reading from the settings
@@ -76,16 +78,19 @@ fun ConfettiApp(
         } else {
             SessionsDestination.route
         }
+        val scope = rememberCoroutineScope()
+
         NavHost(
             navController = navController,
             startDestination = initialRoute,
         ) {
-            conferencesGraph {
-                appState.navigate(
-                    SessionsDestination,
-                    SessionsDestination.createNavigationRoute(it)
-                )
-            }
+            conferencesGraph(
+                navigateToConference = {
+                    scope.launch {
+                        viewModel.setConference(it)
+                    }
+                }
+            )
             sessionsGraph(
                 isExpandedScreen = appState.isExpandedScreen,
                 displayFeatures = displayFeatures,

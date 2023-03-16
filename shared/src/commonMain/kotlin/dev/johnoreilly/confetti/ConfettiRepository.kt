@@ -51,7 +51,6 @@ class ConfettiRepository(
             .fetchPolicy(FetchPolicy.NetworkFirst)
             .refetchPolicy(FetchPolicy.CacheOnly)
             .watch()
-            .onEach { println("got bookmarks ${it.data}") }
             .map { it.data?.bookmarks?.sessionIds.orEmpty() }
     }
 

@@ -8,7 +8,6 @@ import BackgroundTasks
 @main
 struct iOSApp: App {
     @Environment(\.scenePhase) private var phase
-    @StateViewModel var viewModel = ConfettiViewModel()
 
     init() {
         KoinKt.doInitKoin()
@@ -16,7 +15,7 @@ struct iOSApp: App {
     
     var body: some Scene {
 		WindowGroup {
-            ContentView(viewModel: $viewModel)
+            ConfettiApp()
 		}
         .onChange(of: phase) { newPhase in
           switch newPhase {
@@ -25,11 +24,11 @@ struct iOSApp: App {
           }
         }
         .backgroundTask(.appRefresh("refreshData")) {
-            do {
-                try await viewModel.refresh()
-            } catch {
-                print("Failed with error: \(error)")
-            }
+//            do {
+//                try await viewModel.refresh()
+//            } catch {
+//                print("Failed with error: \(error)")
+//            }
         }
     }
 }

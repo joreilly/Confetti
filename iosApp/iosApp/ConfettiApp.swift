@@ -5,48 +5,64 @@ import KMMViewModelCore
 import KMMViewModelSwiftUI
 
 
-struct ContentView: View {
-    @ObservedViewModel var viewModel: ConfettiViewModel
+struct ConfettiApp: View {
 
-    init(viewModel: ObservableViewModel<ConfettiViewModel>.Projection) {
-        self._viewModel = ObservedViewModel(viewModel)
+    @StateViewModel var viewModel = AppViewModel()
+
+    init() {
         UITabBar.appearance().backgroundColor = UIColor.white
     }
         
     var body: some View {
-        if (viewModel.savedConference.isEmpty) {
-            ConferenceListView(viewModel: $viewModel) {
-                viewModel.setConference(conference: "")
-            }
+        if let conference = viewModel.conference, !conference.isEmpty {
+            SessionsView(conference: conference) {
+                Task {
+                    do {
+                        try await viewModel.setConference(conference: "")
+                    }
+                    catch {
+                        print(error)
+                    }
+                }
+             }
         } else {
-            ConferenceView(viewModel: $viewModel, conference: viewModel.savedConference) {
-                viewModel.setConference(conference: "")
-            }
+            ConferencesView{ conference in
+                Task {
+                    do {
+                        try await viewModel.setConference(conference: conference)
+                    }
+                    catch {
+                        print(error)
+                    }
+                }
+             }
         }
     }
 }
 
 
-struct ConferenceListView: View {
-    @ObservedViewModel var viewModel: ConfettiViewModel
-    let showConferenceList: () -> Void
+struct ConferencesView: View {
     
-    init(viewModel: ObservableViewModel<ConfettiViewModel>.Projection, showConferenceList: @escaping () -> Void) {
-        self._viewModel = ObservedViewModel(viewModel)
-        self.showConferenceList = showConferenceList
+    @StateViewModel var viewModel = ConferencesViewModel()
+
+    let navigateToSessions: (String) -> Void
+    
+    init(navigateToSessions: @escaping (String) -> Void) {
+        self.navigateToSessions = navigateToSessions
     }
     
     var body: some View {
         NavigationView {
             List(viewModel.conferenceList, id: \.self) { conference in
-                NavigationLink(destination: ConferenceView(viewModel: $viewModel, conference: conference.id, showConferenceList: showConferenceList).navigationBarBackButtonHidden(true)) {
-                    HStack {
-                        Text(conference.name)
-                        Spacer()
-                        Text("\(conference.days[0])")
+                HStack {
+                    Text(conference.name)
+                    Spacer()
+                    Text("\(conference.days[0])")
+                }.onTapGesture(
+                    perform: {
+                        navigateToSessions(conference.id)
                     }
-                }
-
+                )
             }
             .navigationTitle("Choose conference")
             .navigationBarBackButtonHidden(true)
@@ -55,16 +71,16 @@ struct ConferenceListView: View {
 }
 
 
-struct ConferenceView: View {
-    @ObservedViewModel var viewModel: ConfettiViewModel
+struct SessionsView: View {
+    
+    @StateViewModel var viewModel = SessionsViewModel()
+
     let conference: String
-    let showConferenceList: () -> Void
+    let navigateToConferences: () -> Void
     
-    
-    init(viewModel: ObservableViewModel<ConfettiViewModel>.Projection, conference: String, showConferenceList: @escaping () -> Void) {
-        self._viewModel = ObservedViewModel(viewModel)
+    init(conference: String, navigateToConferences: @escaping () -> Void) {
         self.conference = conference
-        self.showConferenceList = showConferenceList
+        self.navigateToConferences = navigateToConferences
     }
 
     var body: some View {
@@ -73,7 +89,7 @@ struct ConferenceView: View {
             case let uiState as SessionsUiStateSuccess:
                 
                 TabView {
-                    SessionListView(sessionUiState: uiState, showConferenceList: showConferenceList, refresh: {
+                    SessionListView(sessionUiState: uiState, navigateToConferences: navigateToConferences, refresh: {
                         do {
                             try await viewModel.refresh()
                         } catch {
@@ -91,8 +107,7 @@ struct ConferenceView: View {
             default:
                 ProgressView()
             }
-        }
-        .onAppear {
+        }.onAppear {
             viewModel.setConference(conference: conference)
         }
     }

@@ -22,12 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
@@ -38,7 +37,7 @@ import org.koin.androidx.compose.getViewModel
 fun SpeakersRoute(
     isExpandedScreen: Boolean,
     navigateToSpeaker: (String) -> Unit,
-    viewModel: ConfettiViewModel = getViewModel()
+    viewModel: SessionsViewModel = getViewModel()
 ) {
     val speakers by viewModel.speakers.collectAsState(emptyList())
 

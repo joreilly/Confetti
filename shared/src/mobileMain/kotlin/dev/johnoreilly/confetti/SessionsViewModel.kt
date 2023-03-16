@@ -131,7 +131,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
 
     private suspend fun refresh(initial: Boolean) {
         val fetchPolicy = if (initial) {
-            FetchPolicy.CacheFirst
+            FetchPolicy.CacheOnly
         } else {
             FetchPolicy.NetworkOnly
         }
@@ -143,7 +143,6 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
                 repository.conferenceData(conference, fetchPolicy)
             }
 
-            delay(2000)
             refreshDatas.send(
                 RefreshData(
                     bookmarksResponse = bookmarksResponse.await(),

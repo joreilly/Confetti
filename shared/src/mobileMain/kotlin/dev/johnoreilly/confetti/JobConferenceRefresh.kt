@@ -1,24 +1,27 @@
 package dev.johnoreilly.confetti
 
+import dev.johnoreilly.confetti.work.updateCache
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
-class JobConferenceRefresh(
-    private val confettiRepository: ConfettiRepository
-): ConferenceRefresh {
-    val coroutineScope: CoroutineScope = MainScope()
+class JobConferenceRefresh: KoinComponent {
+    private val coroutineScope: CoroutineScope = MainScope()
+
+    private val confettiRepository = get<ConfettiRepository>()
+    private val apolloClientCache = get<ApolloClientCache>()
 
     private var refreshJob: Job? = null
 
-    override fun refresh(conference: String) {
+    fun refresh() {
         refreshJob?.cancel()
+        coroutineScope.launch {
+            updateCache(true, fetchImages = false, conference = confettiRepository.getConferenceFlow().first(), apolloClientCache = apolloClientCache, null)
 
-        if (conference.isNotEmpty()) {
-            refreshJob = coroutineScope.launch {
-                confettiRepository.refresh(conference, networkOnly = false)
-            }
         }
     }
 }

@@ -52,20 +52,28 @@ struct ConferencesView: View {
     }
     
     var body: some View {
-        NavigationView {
-            List(viewModel.conferenceList, id: \.self) { conference in
-                HStack {
-                    Text(conference.name)
-                    Spacer()
-                    Text("\(conference.days[0])")
-                }.onTapGesture(
-                    perform: {
-                        navigateToSessions(conference.id)
-                    }
-                )
+        print("\(viewModel.uiStates)")
+        return NavigationView {
+            switch viewModel.uiStates {
+            case let uiState as ConferencesViewModel.Success:
+                List(uiState.conferences, id: \.self) { conference in
+                    HStack {
+                        Text(conference.name)
+                        Spacer()
+                        Text("\(conference.days[0])")
+                    }.onTapGesture(
+                        perform: {
+                            navigateToSessions(conference.id)
+                        }
+                    )
+                }
+                .navigationTitle("Choose conference")
+                .navigationBarBackButtonHidden(true)
+            case _ as ConferencesViewModel.Error:
+                Text("Something went wrong")
+            default:
+                ProgressView()
             }
-            .navigationTitle("Choose conference")
-            .navigationBarBackButtonHidden(true)
         }
     }
 }

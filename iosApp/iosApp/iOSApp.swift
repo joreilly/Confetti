@@ -24,11 +24,7 @@ struct iOSApp: App {
           }
         }
         .backgroundTask(.appRefresh("refreshData")) {
-//            do {
-//                try await viewModel.refresh()
-//            } catch {
-//                print("Failed with error: \(error)")
-//            }
+            JobConferenceRefresh().refresh()
         }
     }
 }

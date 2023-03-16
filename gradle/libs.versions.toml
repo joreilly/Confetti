@@ -114,7 +114,7 @@ plugin-apollo = "com.apollographql.apollo3:apollo-gradle-plugin:3.7.5"
 plugin-appengine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.5"
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
 plugin-google-services = "com.google.gms:google-services:4.3.15"
-plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.6"
+plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.7"
 plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin", version.ref = "kmp-nativecoroutines" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }

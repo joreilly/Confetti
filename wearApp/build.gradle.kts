@@ -53,7 +53,7 @@ android {
         versionCode = versionCode()
         versionName = versionName()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "dev.johnoreilly.confetti.wear.InstrumentationTestRunner"
     }
 
     signingConfigs {
@@ -78,6 +78,12 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
     }
 
     buildTypes {
@@ -173,9 +179,16 @@ dependencies {
     }
 
     debugImplementation(libs.compose.ui.manifest)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.compose.ui.test.junit4)
+    testImplementation(libs.koin.test)
+
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.fastlane.screengrab)
     androidTestImplementation(libs.test.junit.ktx)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.koin.test)
 }

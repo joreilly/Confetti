@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
@@ -18,43 +19,48 @@ import kotlinx.coroutines.async
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
+    lateinit var navController: NavHostController
     private val repository: ConfettiRepository by inject()
     private val analyticsLogger: AnalyticsLogger by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.async {
-            repository.getConference()
-        }
-
         setContent {
-            val navController = rememberSwipeDismissableNavController()
+            navController = rememberSwipeDismissableNavController()
 
             ConfettiTheme {
                 ConfettiApp(navController)
             }
 
             LaunchedEffect(Unit) {
-                if (intent.getAndRemoveKey("tile") == "session") {
-                    val conference = intent.getAndRemoveKey("conference")
-                    val sessionId = intent.getAndRemoveKey("session")
-
-                    if (conference != null && sessionId != null) {
-                        navController.navigate(
-                            SessionDetailsDestination.createNavigationRoute(
-                                SessionDetailsKey(conference, sessionId)
-                            )
-                        )
-                    }
-                }
+                navigateFromTileLaunch()
             }
 
             LaunchedEffect(Unit) {
-                navController.currentBackStackEntryFlow.collect { navEntry ->
-                    val conference = repository.getConference()
-                    analyticsLogger.logNavigationEvent(conference, navEntry)
-                }
+                logNavigationEvents()
+            }
+        }
+    }
+
+    private suspend fun logNavigationEvents() {
+        navController.currentBackStackEntryFlow.collect { navEntry ->
+            val conference = repository.getConference()
+            analyticsLogger.logNavigationEvent(conference, navEntry)
+        }
+    }
+
+    fun navigateFromTileLaunch() {
+        if (intent.getAndRemoveKey("tile") == "session") {
+            val conference = intent.getAndRemoveKey("conference")
+            val sessionId = intent.getAndRemoveKey("session")
+
+            if (conference != null && sessionId != null) {
+                navController.navigate(
+                    SessionDetailsDestination.createNavigationRoute(
+                        SessionDetailsKey(conference, sessionId)
+                    )
+                )
             }
         }
     }

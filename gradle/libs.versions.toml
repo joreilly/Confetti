@@ -24,6 +24,7 @@ lifecycle-livedata-ktx = "2.6.0"
 multiplatform-settings = "1.0.0"
 nav-compose = "2.5.3"
 okio = "3.3.0"
+robolectric = "4.9.2"
 work-runtime-ktx = "2.8.0"
 
 [libraries]
@@ -123,6 +124,7 @@ plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"

@@ -22,7 +22,6 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.cache.normalized.writeToCacheAsynchronously
 import dev.johnoreilly.confetti.ApolloClientCache
-import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.GetConferencesQuery
 import kotlinx.coroutines.Dispatchers
@@ -34,32 +33,34 @@ import java.time.Duration
 class RefreshWorker(
     private val appContext: Context,
     private val workerParams: WorkerParameters,
-    private val confettiRepository: ConfettiRepository,
     private val apolloClientCache: ApolloClientCache,
     private val imageLoader: ImageLoader
 ) : CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result = try {
-        val conference =
-            workerParams.inputData.getString(ConferenceKey)
-                ?: confettiRepository.getConference()
-        val fetchConferences = workerParams.inputData.getBoolean(FetchConferencesKey, false)
-        val fetchImages = workerParams.inputData.getBoolean(FetchImagesKey, false)
+        val conference = workerParams.inputData.getString(ConferenceKey)
 
-        supervisorScope {
-            if (fetchConferences) {
-                launch {
-                    fetchConferencesList()
+        if (conference == null) {
+            Result.failure()
+        } else {
+            val fetchConferences = workerParams.inputData.getBoolean(FetchConferencesKey, false)
+            val fetchImages = workerParams.inputData.getBoolean(FetchImagesKey, false)
+
+            supervisorScope {
+                if (fetchConferences) {
+                    launch {
+                        fetchConferencesList()
+                    }
+                }
+
+                if (conference.isNotEmpty()) {
+                    launch {
+                        fetchConference(conference, fetchImages)
+                    }
                 }
             }
 
-            if (conference.isNotEmpty()) {
-                launch {
-                    fetchConference(conference, fetchImages)
-                }
-            }
+            Result.success()
         }
-
-        Result.success()
     } catch (e: Exception) {
         Result.failure()
     }

@@ -11,6 +11,8 @@ import org.koin.core.component.get
 open class AppViewModel : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository = get()
 
+    // We're OK to use getConferenceFlow
+    @Suppress("DEPRECATION")
     @NativeCoroutinesState
     val conference: StateFlow<String?> =repository.getConferenceFlow().stateIn(
             viewModelScope,

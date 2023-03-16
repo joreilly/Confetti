@@ -45,6 +45,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.account.AccountIcon
+import dev.johnoreilly.confetti.ui.ErrorView
+import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
@@ -86,34 +88,8 @@ fun SessionListView(
         Column(modifier = Modifier.padding(padding)) {
 
             when (uiState) {
-                SessionsUiState.Error ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center)
-                    ) {
-                        Column {
-                            Text(
-                                text = "Oops something went wrong"
-                            )
-                            Button(
-                                onClick = onRefresh,
-                                modifier = Modifier.align(CenterHorizontally).padding(16.dp)
-                            ) {
-                                Text(text = "Retry")
-                            }
-                        }
-                    }
-
-                SessionsUiState.Loading ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center)
-                    ) {
-                        CircularProgressIndicator()
-                    }
-
+                SessionsUiState.Error -> ErrorView(onRefresh)
+                SessionsUiState.Loading -> LoadingView()
                 is SessionsUiState.Success -> {
                     val state = rememberPullRefreshState(refreshing, onRefresh)
                     Column {

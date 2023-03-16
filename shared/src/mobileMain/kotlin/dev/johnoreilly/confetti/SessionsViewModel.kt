@@ -46,13 +46,13 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
 
     fun addBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            repository.addBookmark(sessionId)
+            repository.addBookmark(conference, sessionId)
         }
     }
 
     fun removeBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            repository.removeBookmark(sessionId)
+            repository.removeBookmark(conference, sessionId)
         }
     }
 
@@ -75,8 +75,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             return SessionsUiState.Error
         }
 
-        val sessionsMap =
-            sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
+        val sessionsMap = sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
         val speakers = sessionsData.speakers.map { it.speakerDetails }
         val rooms = sessionsData.rooms.map { it.roomDetails }
 
@@ -104,7 +103,6 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         val sessionsResponse: ApolloResponse<GetConferenceDataQuery.Data>,
     )
 
-
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> = flow {
         for (i in refreshDatas) {
@@ -121,13 +119,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
-
     val speakers = repository.speakers
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
-
-    @NativeCoroutinesState
-    val savedConference = repository.getConferenceFlow()
-        .stateIn(viewModelScope, started = SharingStarted.Lazily, "")
 
     fun setConference(conference: String) {
         this.conference = conference
@@ -159,7 +152,6 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             )
         }
     }
-
 
     fun getSessionTime(session: SessionDetails): String {
         return dateService.format(session.startsAt, repository.timeZone, "HH:mm")

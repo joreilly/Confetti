@@ -20,9 +20,6 @@ import org.koin.android.ext.android.inject
 
 
 class MainActivity : ComponentActivity() {
-    private val repository: ConfettiRepository by inject()
-    private val analyticsLogger: AnalyticsLogger by inject()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,12 +40,6 @@ class MainActivity : ComponentActivity() {
                         windowSizeClass = windowSizeClass,
                         displayFeatures = displayFeatures,
                     )
-                }
-            }
-
-            LaunchedEffect(Unit) {
-                navController.currentBackStackEntryFlow.collect { navEntry ->
-                    analyticsLogger.logNavigationEvent(repository.getConference(), navEntry)
                 }
             }
         }

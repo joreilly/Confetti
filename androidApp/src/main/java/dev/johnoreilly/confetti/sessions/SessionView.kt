@@ -20,6 +20,7 @@ import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessionSpeakerLocation
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
@@ -37,6 +38,15 @@ fun SessionsRoute(
     val viewModel: SessionsViewModel = getViewModel()
     viewModel.setConference(conference)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var refreshing by remember { mutableStateOf(false) }
+    val refreshScope = rememberCoroutineScope()
+    fun refresh() {
+        refreshScope.launch {
+            refreshing = true
+            viewModel.refresh()
+            refreshing = false
+        }
+    }
 
     if (isExpandedScreen) {
         SessionListGridView(
@@ -49,13 +59,14 @@ fun SessionsRoute(
     } else {
         SessionListView(
             uiState,
+            refreshing,
             navigateToSession,
             { viewModel.addBookmark(it) },
             { viewModel.removeBookmark(it) },
             navigateToSignIn,
             onSignOut,
             onSwitchConferenceSelected,
-            viewModel::refresh2
+            ::refresh
         )
     }
 }
@@ -104,12 +115,16 @@ fun SessionView(
                     imageVector = Icons.Outlined.Bookmark,
                     contentDescription = "remove bookmark",
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable { removeBookmark(session.id) }.padding(8.dp))
+                    modifier = Modifier
+                        .clickable { removeBookmark(session.id) }
+                        .padding(8.dp))
             } else {
                 Icon(
                     imageVector = Icons.Outlined.BookmarkAdd,
                     contentDescription = "add bookmark",
-                    modifier = Modifier.clickable { addBookmark(session.id) }.padding(8.dp))
+                    modifier = Modifier
+                        .clickable { addBookmark(session.id) }
+                        .padding(8.dp))
             }
         }
     }

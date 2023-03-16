@@ -53,15 +53,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun SessionListView(
     uiState: SessionsUiState,
+    refreshing: Boolean,
     sessionSelected: (sessionId: String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
-    onRefresh: suspend (() -> Unit)
+    onRefresh: (() -> Unit)
 ) {
-    val refreshScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
 
     Scaffold(
@@ -93,12 +93,11 @@ fun SessionListView(
                             .wrapContentSize(Alignment.Center)
                     ) {
                         Column {
-                            val scope = rememberCoroutineScope()
                             Text(
                                 text = "Oops something went wrong"
                             )
                             Button(
-                                onClick = { scope.launch { onRefresh()  }},
+                                onClick = onRefresh,
                                 modifier = Modifier.align(CenterHorizontally).padding(16.dp)
                             ) {
                                 Text(text = "Retry")
@@ -116,16 +115,7 @@ fun SessionListView(
                     }
 
                 is SessionsUiState.Success -> {
-                    var refreshing by remember { mutableStateOf(false) }
-                    fun refresh() {
-                        refreshScope.launch {
-                            refreshing = true
-                            onRefresh()
-                            refreshing = false
-                        }
-                    }
-
-                    val state = rememberPullRefreshState(refreshing, ::refresh)
+                    val state = rememberPullRefreshState(refreshing, onRefresh)
                     Column {
 
                         SessionListTabRow(pagerState, uiState)

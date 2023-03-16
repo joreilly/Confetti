@@ -27,11 +27,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -184,20 +182,22 @@ class ConfettiRepository(
     ): Flow<ApolloResponse<GetSessionQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).toFlow()
 
-    suspend fun conferenceData(conference: String): Flow<ApolloResponse<GetConferenceDataQuery.Data>> =
-        apolloClientCache.getClient(conference).query(GetConferenceDataQuery()).toFlow()
+    suspend fun conferenceData(conference: String, fetchPolicy: FetchPolicy): ApolloResponse<GetConferenceDataQuery.Data> =
+        apolloClientCache.getClient(conference).query(GetConferenceDataQuery()).fetchPolicy(fetchPolicy).tryExecute()
+
+    suspend fun bookmarks(conference: String, fetchPolicy: FetchPolicy): ApolloResponse<GetBookmarksQuery.Data> =
+        apolloClientCache.getClient(conference).query(GetBookmarksQuery()).fetchPolicy(fetchPolicy).tryExecute()
 
     suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
 
-    suspend fun bookmarks(conference: String): Flow<List<String>> =
-        apolloClientCache.getClient(conference).query(GetBookmarksQuery())
-            .fetchPolicy(FetchPolicy.NetworkFirst)
-            .refetchPolicy(FetchPolicy.CacheOnly)
-            .toFlow()
-            .map {
-                it.data?.bookmarks?.sessionIds.orEmpty()
-            }
+
+    fun watchBookmarks(conference: String, initialData: GetBookmarksQuery.Data?): Flow<ApolloResponse<GetBookmarksQuery.Data>> = flow {
+        val values = apolloClientCache.getClient(conference).query(GetBookmarksQuery())
+            .watch(initialData)
+
+        emitAll(values)
+    }
 
     suspend fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
         return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())

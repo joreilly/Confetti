@@ -22,9 +22,8 @@ import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-@OptIn(ExperimentalHorologistAuthDataApi::class)
+@OptIn(ExperimentalHorologistAuthDataApi::class, ExperimentalHorologistAuthUiApi::class)
 val appModule = module {
-    viewModel { dev.johnoreilly.confetti.SessionsViewModel() }
     viewModel { SessionDetailsViewModel(get(), get(), get()) }
     viewModel { ConferencesViewModel(get(), get(), get()) }
     viewModel { SessionsViewModel(get(), get()) }

@@ -18,6 +18,10 @@
             android:theme="@android:style/Theme.DeviceDefault">
 
         <meta-data
+                android:name="firebase_crashlytics_collection_enabled"
+                android:value="false" />
+
+        <meta-data
                 android:name="com.google.android.wearable.standalone"
                 android:value="true" />
 

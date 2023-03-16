@@ -25,6 +25,7 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
         super.onCreate()
 
         if (!BuildConfig.DEBUG) {
+            Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
             Firebase.crashlytics.setCustomKeys {
                 key("appName", "wearApp")
             }

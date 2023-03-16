@@ -52,7 +52,6 @@ struct ConferencesView: View {
     }
     
     var body: some View {
-        print("\(viewModel.uiStates)")
         return NavigationView {
             switch viewModel.uiStates {
             case let uiState as ConferencesViewModel.Success:

@@ -3,9 +3,15 @@ package dev.johnoreilly.confetti
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.coroutineScope
+import com.rickclephas.kmm.viewmodel.stateIn
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -19,13 +25,21 @@ open class ConferencesViewModel : KMMViewModel(), KoinComponent {
     object Error : UiState
     class Success(val conferences: List<GetConferencesQuery.Conference>) : UiState
 
-    var job: Job? = null
+    private var job: Job? = null
+
+    private val channel = Channel<UiState>()
+
     init {
         refresh(true)
     }
 
     @NativeCoroutinesState
-    val uiStates: MutableStateFlow<UiState> = MutableStateFlow(Loading)
+    val uiStates: StateFlow<UiState> = flow {
+        for (uiState in channel) {
+            emit(uiState)
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+
 
     fun refresh() = refresh(false)
 
@@ -36,16 +50,16 @@ open class ConferencesViewModel : KMMViewModel(), KoinComponent {
             if (initial) {
                 repository.conferenceList(FetchPolicy.CacheFirst).data?.conferences?.let {
                     hasConferences = true
-                    uiStates.emit(Success(it))
+                    channel.send(Success(it))
                 }
             }
             repository.conferenceList(FetchPolicy.NetworkOnly).data?.conferences?.let {
                 hasConferences = true
-                uiStates.emit(Success(it))
+                channel.send(Success(it))
             }
 
             if (!hasConferences) {
-                uiStates.emit(Error)
+                channel.send(Error)
             }
         }
     }

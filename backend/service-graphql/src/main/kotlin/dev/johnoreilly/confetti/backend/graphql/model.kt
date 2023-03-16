@@ -97,7 +97,7 @@ class RootQuery : Query {
             DOrderBy(orderBy1.field.value, orderBy1.direction.toDDirection())
         ).map {
             it.toConference()
-        }
+        } + TestDataSource().conference()
     }
 }
 

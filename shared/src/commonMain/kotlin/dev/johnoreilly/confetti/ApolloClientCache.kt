@@ -56,7 +56,7 @@ class ApolloClientCache : KoinComponent {
 
         return get<ApolloClient.Builder>()
             .serverUrl("https://confetti-app.dev/graphql")
-            .addHttpHeader("conference", "test")
+            .addHttpHeader("conference", conference)
             .addHttpInterceptor(httpInterceptor)
             .autoPersistedQueries()
             .normalizedCache(

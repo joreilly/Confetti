@@ -7,11 +7,9 @@ import com.rickclephas.kmm.viewmodel.stateIn
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -48,12 +46,12 @@ open class ConferencesViewModel : KMMViewModel(), KoinComponent {
         job = viewModelScope.coroutineScope.launch {
             var hasConferences = false
             if (initial) {
-                repository.conferenceList(FetchPolicy.CacheFirst).data?.conferences?.let {
+                repository.conferences(FetchPolicy.CacheFirst).data?.conferences?.let {
                     hasConferences = true
                     channel.send(Success(it))
                 }
             }
-            repository.conferenceList(FetchPolicy.NetworkOnly).data?.conferences?.let {
+            repository.conferences(FetchPolicy.NetworkOnly).data?.conferences?.let {
                 hasConferences = true
                 channel.send(Success(it))
             }

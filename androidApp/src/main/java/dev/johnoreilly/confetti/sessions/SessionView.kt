@@ -35,7 +35,9 @@ fun SessionsRoute(
     conference: String,
 ) {
     val viewModel: SessionsViewModel = getViewModel()
-    viewModel.setConference(conference)
+
+    // handled in AppViewModel now?
+    //viewModel.setConference(conference)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     if (isExpandedScreen) {

@@ -13,24 +13,18 @@ import com.apollographql.apollo3.cache.normalized.refetchPolicy
 import com.apollographql.apollo3.cache.normalized.watch
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.buildBookmarks
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -38,8 +32,6 @@ import org.koin.core.component.inject
 class ConfettiRepository(
     private val defaultFetchPolicy: FetchPolicy
 ) : KoinComponent {
-    // TODO move coroutines out of Repository to ViewModel
-    val coroutineScope: CoroutineScope = MainScope()
 
     private val appSettings: AppSettings by inject()
 
@@ -52,6 +44,17 @@ class ConfettiRepository(
             .refetchPolicy(FetchPolicy.CacheOnly)
             .watch()
             .map { it.data?.bookmarks?.sessionIds.orEmpty() }
+    }
+
+
+    val conferenceData: Flow<GetConferenceDataQuery.Data?> = getConferenceFlow().flatMapLatest {
+        apolloClientCache.getClient(it)
+            .query(GetConferenceDataQuery())
+            .refetchPolicy(FetchPolicy.CacheAndNetwork)
+            .watch()
+            .map {
+                it.data
+            }
     }
 
     private suspend fun <D: Mutation.Data> modifyBookmarks(mutation: Mutation<D>, data: (sessionIds: List<String>, id: String) -> D ) {
@@ -111,23 +114,13 @@ class ConfettiRepository(
             })
     }
 
-    private val conferenceData: StateFlow<GetConferenceDataQuery.Data?> =
-        getConferenceFlow().flatMapLatest {
-            if (it.isEmpty()) {
-                flowOf(null)
-            } else {
-                apolloClientCache.getClient(it).query(GetConferenceDataQuery()).toFlow().map {
-                    it.data
-                }.catch {
-                    // TODO log errors
-                    emit(null)
-                }
-            }
-        }.stateIn(coroutineScope, SharingStarted.Eagerly, null)
+    // TEMP
+    val timeZone = currentSystemDefault()
 
-    val timeZone = conferenceData.value?.config?.timezone?.let {
-        TimeZone.of(it)
-    } ?: TimeZone.currentSystemDefault()
+//    val timeZone = conferenceData.value?.config?.timezone?.let {
+//        TimeZone.of(it)
+//    } ?: TimeZone.currentSystemDefault()
+
 
     val conferenceName = conferenceData.filterNotNull().map { it.config.name }
 
@@ -184,20 +177,8 @@ class ConfettiRepository(
     ): Flow<ApolloResponse<GetSessionQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).toFlow()
 
-    suspend fun conferenceData(conference: String): Flow<ApolloResponse<GetConferenceDataQuery.Data>> =
-        apolloClientCache.getClient(conference).query(GetConferenceDataQuery()).toFlow()
-
     suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
-
-    suspend fun bookmarks(conference: String): Flow<List<String>> =
-        apolloClientCache.getClient(conference).query(GetBookmarksQuery())
-            .fetchPolicy(FetchPolicy.NetworkFirst)
-            .refetchPolicy(FetchPolicy.CacheOnly)
-            .toFlow()
-            .map {
-                it.data?.bookmarks?.sessionIds.orEmpty()
-            }
 
     suspend fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
         return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())

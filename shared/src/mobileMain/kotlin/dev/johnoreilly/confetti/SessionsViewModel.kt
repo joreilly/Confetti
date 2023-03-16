@@ -4,22 +4,11 @@ import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmm.viewmodel.stateIn
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
-import dev.johnoreilly.confetti.AppSettings.Companion.CONFERENCE_NOT_SET
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateService
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -29,8 +18,6 @@ import org.koin.core.component.inject
 open class SessionsViewModel : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
-
-    private var conference: String = CONFERENCE_NOT_SET
 
     fun addBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
@@ -46,13 +33,13 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
 
     private val conferenceRefresher: ConferenceRefresh by inject()
 
-    private fun uiStates(conference: String): Flow<SessionsUiState> = flow {
-        val values = combine(
-            repository.bookmarks(conference),
-            repository.conferenceData(conference),
-        ) { bookmarks, conferenceResponse ->
+    val uiState: StateFlow<SessionsUiState> = combine(
+            repository.getConferenceFlow(),
+            repository.bookmarks,
+            repository.conferenceData,
+        ) { conference, bookmarks, conferenceResponse ->
 
-            val data = conferenceResponse.data
+            val data = conferenceResponse
             if (data == null) {
                 return@combine SessionsUiState.Error
             }
@@ -73,31 +60,9 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
                 dateService.now(), conference, confDates, sessionsByStartTimeList,
                 speakers, rooms, bookmarks.toSet()
             )
-        }.catch {
-            it.printStackTrace()
 
-        }
-
-        emitAll(values)
     }
-
-    private val triggers = Channel<Unit>()
-
-    @NativeCoroutinesState
-    val uiState: StateFlow<SessionsUiState> = flow {
-        for (i in triggers) {
-            emit(i)
-        }
-    }.onStart {
-        emit(Unit)
-    }
-        .flatMapLatest {
-            uiStates(conference)
-                .onStart {
-                    emit(SessionsUiState.Loading)
-                }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
-
+    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
 
     val speakers = repository.speakers
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -107,17 +72,13 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
     val savedConference = repository.getConferenceFlow()
         .stateIn(viewModelScope, started = SharingStarted.Lazily, "")
 
-    fun setConference(conference: String) {
-        this.conference = conference
-    }
-
-
     suspend fun refresh() {
         conferenceRefresher.refresh(repository.getConference())
     }
 
-    fun refresh2() {
-        triggers.trySend(Unit)
+    suspend fun refresh2() {
+        // probably cleaner way of doing this
+        repository.refresh(repository.getConference(), networkOnly = true)
     }
 
     fun getSessionTime(session: SessionDetails): String {

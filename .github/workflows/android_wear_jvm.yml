@@ -25,3 +25,8 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: :androidApp:assembleDebug :wearApp:assembleDebug :wearApp:assembleAndroidTest :shared:runJvmMain
+
+    - name: Wear Unit Tests
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: :wearApp:test

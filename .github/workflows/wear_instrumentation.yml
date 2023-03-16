@@ -12,8 +12,7 @@ concurrency:
 jobs:
   build:
     runs-on: macos-latest
-    # TODO change to a test specific label
-    #if: contains(github.event.pull_request.labels.*.name, 'enhancement')
+    if: contains(github.event.pull_request.labels.*.name, 'test')
     timeout-minutes: 50
 
     strategy:
@@ -30,12 +29,6 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
-
-      # TODO move to the android_wear_jvm.yml
-    - name: Unit Tests
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :wearApp:test
 
     - name: AVD cache
       uses: actions/cache@v3

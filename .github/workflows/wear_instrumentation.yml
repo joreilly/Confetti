@@ -1,4 +1,4 @@
-name: Android, Wear and JVM CI
+name: Wear Instrumentation
 
 on:
   pull_request:

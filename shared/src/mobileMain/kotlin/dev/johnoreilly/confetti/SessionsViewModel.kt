@@ -93,10 +93,11 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
     }
         .flatMapLatest {
             uiStates(conference)
-                .onStart {
-                    emit(SessionsUiState.Loading)
-                }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
+        }
+        .onStart {
+            emit(SessionsUiState.Loading)
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
 
 
     val speakers = repository.speakers

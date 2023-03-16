@@ -42,7 +42,7 @@ fun versionName(): String {
 }
 
 android {
-    compileSdkPreview = WearSdk.compile
+    compileSdk = WearSdk.compile
     defaultConfig {
         applicationId = "dev.johnoreilly.confetti"
         minSdk = WearSdk.min

@@ -29,6 +29,7 @@ import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootMutation
 import dev.johnoreilly.confetti.backend.graphql.RootQuery
+import dev.johnoreilly.confetti.backend.graphql.TestDataSource
 import graphql.GraphQL
 import graphql.GraphQLContext
 import graphql.execution.AsyncSerialExecutionStrategy
@@ -337,7 +338,10 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
             ?.substring("bearer_".length)
             ?.firebaseUid()
 
-        val source = DataStoreDataSource(conf, uid)
+        val source = when (conf) {
+            ConferenceId.TestConference.id -> TestDataSource()
+            else -> DataStoreDataSource(conf, uid)
+        }
 
         return super.generateContext(request)
             .put(DefaultApplication.KEY_SOURCE, source)

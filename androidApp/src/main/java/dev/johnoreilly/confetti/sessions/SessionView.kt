@@ -13,10 +13,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
-import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
@@ -35,7 +34,7 @@ fun SessionsRoute(
     onSwitchConferenceSelected: () -> Unit,
     conference: String,
 ) {
-    val viewModel: ConfettiViewModel = getViewModel()
+    val viewModel: SessionsViewModel = getViewModel()
     viewModel.setConference(conference)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

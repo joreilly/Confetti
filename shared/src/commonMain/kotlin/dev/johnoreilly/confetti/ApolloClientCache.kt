@@ -33,7 +33,6 @@ class ApolloClientCache : KoinComponent {
             if (token == null) {
                 return chain.proceed(request)
             }
-            println("token $token")
             val newRequest = request.newBuilder().addHeader("Authorization", "Bearer $token").build()
             return chain.proceed(newRequest)
         }

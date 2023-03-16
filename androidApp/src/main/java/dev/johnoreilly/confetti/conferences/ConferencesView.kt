@@ -23,7 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
@@ -32,11 +32,10 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun ConferencesRoute(
     navigateToConference: (String) -> Unit,
-    viewModel: ConfettiViewModel = getViewModel()
 ) {
+    val viewModel = getViewModel<ConferencesViewModel>()
     val conferenceList by viewModel.conferenceList.collectAsStateWithLifecycle()
     ConferencesView(conferenceList) { conference ->
-        viewModel.setConference(conference)
         navigateToConference(conference)
     }
 }

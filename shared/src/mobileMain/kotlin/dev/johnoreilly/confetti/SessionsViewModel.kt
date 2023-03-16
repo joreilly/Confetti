@@ -9,17 +9,22 @@ import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.DateService
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -117,8 +122,18 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         conferenceRefresher.refresh(repository.getConference())
     }
 
-    fun refresh2() {
-        triggers.trySend(Unit)
+    suspend fun refresh2() {
+        coroutineScope {
+            launch(start = CoroutineStart.UNDISPATCHED) {
+                /**
+                 * Suspend until we got 2 events:
+                 * - first one is the current value
+                 * - second one is the new one
+                 */
+                uiState.take(2).collect()
+            }
+            triggers.trySend(Unit)
+        }
     }
 
     fun getSessionTime(session: SessionDetails): String {

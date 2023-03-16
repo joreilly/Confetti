@@ -12,8 +12,8 @@ concurrency:
 jobs:
   build:
     runs-on: macos-latest
-    if: contains(github.event.pull_request.labels.*.name, 'test')
     timeout-minutes: 50
+    if: contains(github.event.pull_request.labels.*.name, 'test')
 
     strategy:
       matrix:

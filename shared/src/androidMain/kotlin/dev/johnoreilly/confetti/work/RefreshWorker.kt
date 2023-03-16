@@ -18,18 +18,13 @@ import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.apollographql.apollo3.cache.normalized.fetchPolicy
-import com.apollographql.apollo3.cache.normalized.writeToCacheAsynchronously
 import dev.johnoreilly.confetti.ApolloClientCache
-import dev.johnoreilly.confetti.GetConferenceDataQuery
-import dev.johnoreilly.confetti.GetConferencesQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import java.time.Duration
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class RefreshWorker(
     private val appContext: Context,
     private val workerParams: WorkerParameters,
@@ -45,20 +40,13 @@ class RefreshWorker(
             val fetchConferences = workerParams.inputData.getBoolean(FetchConferencesKey, false)
             val fetchImages = workerParams.inputData.getBoolean(FetchImagesKey, false)
 
-            supervisorScope {
-                if (fetchConferences) {
-                    launch {
-                        fetchConferencesList()
-                    }
-                }
-
-                if (conference.isNotEmpty()) {
-                    launch {
-                        fetchConference(conference, fetchImages)
-                    }
-                }
-            }
-
+            updateCache(
+                fetchConferences = fetchConferences,
+                fetchImages = fetchImages,
+                conference = conference,
+                apolloClientCache = apolloClientCache,
+                cacheImages = ::cacheImages
+            )
             Result.success()
         }
     } catch (e: Exception) {
@@ -70,22 +58,8 @@ class RefreshWorker(
         createNotification(appContext, id)
     )
 
-    private suspend fun fetchConference(conference: String, fetchImages: Boolean) {
-        val client = apolloClientCache.getClient(conference)
 
-        val result = client.query(GetConferenceDataQuery())
-            .fetchPolicy(FetchPolicy.NetworkOnly)
-            .writeToCacheAsynchronously(false)
-            .execute()
-
-        if (fetchImages && result.data != null) {
-            val images = extractImages(result.data!!)
-
-            fetchImages(images)
-        }
-    }
-
-    private suspend fun fetchImages(images: Set<String>) {
+    private suspend fun cacheImages(images: Set<String>) {
         val dispatcher = Dispatchers.IO.limitedParallelism(3)
         val cache = imageLoader.diskCache!!
 
@@ -102,24 +76,6 @@ class RefreshWorker(
             }
         }
     }
-
-    private fun extractImages(data: GetConferenceDataQuery.Data): Set<String> {
-        return data.speakers.flatMap {
-            listOfNotNull(
-                it.speakerDetails.photoUrl,
-                it.speakerDetails.companyLogoUrl
-            )
-        }.toSet()
-    }
-
-    private suspend fun fetchConferencesList() {
-        apolloClientCache.getClient("all")
-            .query(GetConferencesQuery())
-            .fetchPolicy(FetchPolicy.NetworkOnly)
-            .writeToCacheAsynchronously(false)
-            .execute()
-    }
-
     companion object {
         fun WorkRefresh(conference: String): String = "refresh-$conference"
         val WorkDaily: String = "daily"
@@ -140,7 +96,10 @@ class RefreshWorker(
                 .build()
 
         fun dailyRefresh(): PeriodicWorkRequest =
-            PeriodicWorkRequestBuilder<RefreshWorker>(Duration.ofDays(1))
+            PeriodicWorkRequestBuilder<RefreshWorker>(
+                Duration.ofMinutes(1)
+            //Duration.ofDays(1)
+            )
                 .setInputData(
                     workDataOf(
                         FetchConferencesKey to true,
@@ -157,3 +116,4 @@ class RefreshWorker(
                 .build()
     }
 }
+

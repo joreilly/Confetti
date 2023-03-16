@@ -140,8 +140,11 @@ class ConfettiRepository(
         return appSettings.getConference()
     }
 
-    @Deprecated("This is not officially deprecated but it's only to be used by AppViewModel. " +
-        "Using it in other places might create discrepencies between the deep link conference and the settings one")
+    /**
+     * This is OK to use in AppViewModel and from background refresh jobs but use with caution
+     * elsewhere as the conference might also come from a deep link in which case this value
+     * would conflict
+     */
     fun getConferenceFlow(): Flow<String> {
         return appSettings.getConferenceFlow()
     }

@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.di.appModule
 import dev.johnoreilly.confetti.work.RefreshWorker
+import dev.johnoreilly.confetti.work.setupDailyRefresh
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -40,14 +41,7 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
             workManagerFactory()
         }
 
-        setupDailyRefresh()
+        setupDailyRefresh(get())
     }
 
-    private fun setupDailyRefresh() {
-        get<WorkManager>().enqueueUniquePeriodicWork(
-            RefreshWorker.WorkDaily,
-            ExistingPeriodicWorkPolicy.UPDATE,
-            RefreshWorker.dailyRefresh()
-        )
-    }
 }

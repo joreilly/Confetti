@@ -29,6 +29,7 @@ import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootMutation
 import dev.johnoreilly.confetti.backend.graphql.RootQuery
+import dev.johnoreilly.confetti.backend.graphql.TestDataSource
 import graphql.GraphQL
 import graphql.GraphQLContext
 import graphql.execution.AsyncSerialExecutionStrategy
@@ -48,6 +49,7 @@ import kotlinx.datetime.LocalDateTime
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asNumber
 import net.mbonnin.bare.graphql.asString
+import net.mbonnin.bare.graphql.cast
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -169,9 +171,8 @@ class DefaultApplication {
         return GraphQL
             .newGraphQL(graphQLSchema)
             .preparsedDocumentProvider(automaticPersistedQueryProvider)
-            //.instrumentation(FederatedTracingInstrumentation())
-            //.instrumentation(TracingInstrumentation())
-            .instrumentation(ApolloUsageReportingImplementation())
+            .instrumentation(CacheControlInstrumentation())
+            //.instrumentation(ApolloUsageReportingImplementation())
             .queryExecutionStrategy(AsyncSerialExecutionStrategy())
             .build()
     }
@@ -240,7 +241,7 @@ class DefaultApplication {
         val isNotWebSocketRequest = headers { isWebSocketHeaders(it) }.not()
 
         (isEndpointRequest and isNotWebSocketRequest).invoke { serverRequest ->
-            val graphQLResponse = graphQLServer.execute(serverRequest)
+            var graphQLResponse = graphQLServer.execute(serverRequest)
             if (graphQLResponse != null) {
 
                 if (graphQLResponse is GraphQLResponse<*>) {
@@ -251,21 +252,47 @@ class DefaultApplication {
                         }
                     }
                 }
-                ok().json().apply {
-                    if (graphQLResponse is GraphQLResponse<*>) {
-                        if (graphQLResponse.errors.orEmpty().any {
-                                it.message.lowercase()
-                                    .contains("PersistedQueryNotFound".lowercase())
-                            }) {
-                            header("Cache-Control", "no-store")
+                val headers = mutableMapOf<String, String>()
+                if (graphQLResponse is GraphQLResponse<*>) {
+                    headers.putAll(
+                        graphQLResponse.extensions?.get("headers")?.cast<Map<String, String>>()
+                            ?: emptyMap()
+                    )
+                    if (!graphQLResponse.canBeCached()) {
+                        headers.put("Cache-Control", "no-store")
+                    }
+
+                    var newExtensions: Map<Any, Any?>? = graphQLResponse.extensions?.filterNot { it.key == "headers" }
+                    if (newExtensions?.isEmpty() == true) {
+                        newExtensions = null
+                    }
+                    graphQLResponse = graphQLResponse.copy(
+                        extensions = newExtensions
+                    )
+                }
+
+                ok().json()
+                    .apply {
+                        headers.entries.forEach {
+                            header(it.key, it.value)
                         }
                     }
-                }
                     .bodyValueAndAwait(graphQLResponse)
             } else {
                 badRequest().buildAndAwait()
             }
         }
+    }
+
+    private fun GraphQLResponse<*>.canBeCached(): Boolean {
+        if (errors.orEmpty().any {
+                it.message.lowercase()
+                    .contains("PersistedQueryNotFound".lowercase())
+            }) {
+            return false
+        }
+
+        return true
     }
 
     /**
@@ -287,8 +314,10 @@ class DefaultApplication {
 
     companion object {
         val KEY_UID = "uid"
-        val KEY_SOURCE = "conf"
+        val KEY_CONFERENCE = "uid"
+        val KEY_SOURCE = "source"
         val KEY_REQUEST = "request"
+        val KEY_HEADERS = "headers"
     }
 }
 
@@ -325,23 +354,27 @@ class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
 @Component
 class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
     override suspend fun generateContext(request: ServerRequest): GraphQLContext {
-        var conf = request.queryParam("conference").getOrNull()
-        if (conf == null) {
-            conf = request.headers().firstHeader("conference")
+        var conference = request.queryParam("conference").getOrNull()
+        if (conference == null) {
+            conference = request.headers().firstHeader("conference")
         }
-        if (conf == null) {
-            conf = ConferenceId.KotlinConf2023.id
+        if (conference == null) {
+            conference = ConferenceId.KotlinConf2023.id
         }
 
         val uid = request.headers().firstHeader("authorization")
             ?.substring("bearer_".length)
             ?.firebaseUid()
 
-        val source = DataStoreDataSource(conf, uid)
+        val source = when (conference) {
+            ConferenceId.TestConference.id -> TestDataSource()
+            else -> DataStoreDataSource(conference, uid)
+        }
 
         return super.generateContext(request)
             .put(DefaultApplication.KEY_SOURCE, source)
             .put(DefaultApplication.KEY_REQUEST, request)
+            .put(DefaultApplication.KEY_CONFERENCE, conference)
             .apply {
                 if (uid != null) {
                     put(DefaultApplication.KEY_UID, uid)

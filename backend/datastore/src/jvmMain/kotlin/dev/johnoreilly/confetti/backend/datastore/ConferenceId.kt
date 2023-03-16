@@ -9,6 +9,7 @@ enum class ConferenceId(val id: String) {
     Fosdem2023("fosdem2023"),
     KotlinConf2023("kotlinconf2023"),
     AndroidMakers2023("androidmakers2023"),
+    TestConference("test"),
     ;
 
     companion object {

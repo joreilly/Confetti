@@ -160,6 +160,7 @@ class ScreenshotTest {
         }
     ) {
         SessionDetailView(
+            conference = "test",
             uiState = SessionDetailsUiState.Success(
                 SessionDetailsKey("fosdem", "14997"),
                 sessionDetails

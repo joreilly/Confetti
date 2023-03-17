@@ -28,6 +28,7 @@ class SessionDetailsViewModel(
         val sessionDetails = repository.sessionDetails(sessionId.conference, sessionId.sessionId)
         val value = if (sessionDetails.data != null) {
             SessionDetailsUiState.Success(
+                sessionId.conference,
                 sessionId,
                 sessionDetails.data!!.session.sessionDetails,
                 sessionDetails.data!!.config.timezone.toTimeZone()

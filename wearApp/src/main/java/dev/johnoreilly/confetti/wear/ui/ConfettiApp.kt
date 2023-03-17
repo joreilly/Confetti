@@ -98,7 +98,7 @@ fun ConfettiApp(
                 onNavigateToDestination(ConferencesDestination)
             },
             navigateToGoogleSignOut = { onNavigateToDestination(SignOutDestination) },
-            navigateToGoogleSignIn = {  onNavigateToDestination(SignInDestination) }
+            navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) }
         )
 
         authGraph(

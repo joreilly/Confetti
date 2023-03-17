@@ -24,13 +24,14 @@ import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 
 @Composable
 fun SessionSpeakerInfo(
+    conference: String,
     modifier: Modifier = Modifier,
     speaker: SpeakerDetails,
     navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
     Column(modifier = modifier) {
         Row(Modifier.clickable {
-            navigateToSpeaker(SpeakerDetailsKey(speaker.id)) },
+            navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(

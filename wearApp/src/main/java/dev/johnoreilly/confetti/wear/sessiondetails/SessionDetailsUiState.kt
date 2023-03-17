@@ -9,6 +9,7 @@ sealed interface SessionDetailsUiState {
     object Loading : SessionDetailsUiState
 
     data class Success(
+        val conference: String,
         val sessionId: SessionDetailsKey,
         val session: SessionDetails,
         val timeZone: TimeZone

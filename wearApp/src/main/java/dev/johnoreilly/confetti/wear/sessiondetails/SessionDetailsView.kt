@@ -43,7 +43,6 @@ fun SessionDetailsRoute(
         columnState = columnState,
         navigateToSpeaker = navigateToSpeaker,
         formatter = {
-
             viewModel.formatter.format(
                 it,
                 (uiState as SessionDetailsUiState.Success).timeZone,
@@ -97,6 +96,7 @@ fun SessionDetailView(
 
                 items(session.speakers) { speaker ->
                     SessionSpeakerInfo(
+                        conference = uiState.conference,
                         speaker = speaker.speakerDetails,
                         navigateToSpeaker = navigateToSpeaker
                     )
@@ -119,6 +119,7 @@ fun SessionDetailsLongText() {
     ConfettiTheme {
         SessionDetailView(
             uiState = SessionDetailsUiState.Success(
+                conference = "wearconf",
                 sessionId = SessionDetailsKey("", ""),
                 session = SessionDetails(
                     "1",
@@ -150,6 +151,7 @@ fun SessionDetailsViewPreview() {
 
     ConfettiTheme {
         SessionDetailView(SessionDetailsUiState.Success(
+            conference = "wearconf",
             sessionId = SessionDetailsKey("", ""),
             session = SessionDetails(
                 "1",

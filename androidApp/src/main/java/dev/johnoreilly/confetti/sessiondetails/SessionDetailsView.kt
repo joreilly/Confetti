@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.flowlayout.FlowRow
+import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import org.koin.androidx.compose.getViewModel
@@ -35,7 +36,21 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
-    Scaffold {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(onClick = { popBack() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
+                )
+            )
+        }
+    ) {
         Column(modifier = Modifier.padding(it)) {
             session?.let { session ->
                 Column(

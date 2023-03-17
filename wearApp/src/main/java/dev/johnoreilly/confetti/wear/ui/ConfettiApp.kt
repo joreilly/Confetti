@@ -17,6 +17,8 @@ import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
 import dev.johnoreilly.confetti.wear.auth.navigation.SignInDestination
 import dev.johnoreilly.confetti.wear.auth.navigation.SignOutDestination
 import dev.johnoreilly.confetti.wear.auth.navigation.authGraph
+import dev.johnoreilly.confetti.wear.speakerdetails.navigation.SpeakerDetailsDestination
+import dev.johnoreilly.confetti.wear.speakerdetails.navigation.speakerDetailsGraph
 
 @Composable
 fun ConfettiApp(
@@ -77,10 +79,19 @@ fun ConfettiApp(
                     SessionDetailsDestination,
                     SessionDetailsDestination.createNavigationRoute(it)
                 )
-            },
+            }
         )
 
-        sessionDetailsGraph()
+        sessionDetailsGraph(
+            navigateToSpeaker = {
+                onNavigateToDestination(
+                    SpeakerDetailsDestination,
+                    SpeakerDetailsDestination.createNavigationRoute(it)
+                )
+            }
+        )
+
+        speakerDetailsGraph()
 
         settingsGraph(
             onSwitchConferenceSelected = {

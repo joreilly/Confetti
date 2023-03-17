@@ -15,11 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.DisplayFeature
+import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessionSpeakerLocation
+import dev.johnoreilly.confetti.ui.ConfettiAppState
+import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
@@ -27,7 +30,7 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SessionsRoute(
-    isExpandedScreen: Boolean,
+    appState: ConfettiAppState,
     @Suppress("UNUSED_PARAMETER") displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
     navigateToSignIn: () -> Unit,
@@ -48,26 +51,29 @@ fun SessionsRoute(
         }
     }
 
-    if (isExpandedScreen) {
-        SessionListGridView(
-            uiState,
-            navigateToSession,
-            navigateToSignIn,
-            onSignOut,
-            onSwitchConferenceSelected
-        )
-    } else {
-        SessionListView(
-            uiState,
-            refreshing,
-            navigateToSession,
-            { viewModel.addBookmark(it) },
-            { viewModel.removeBookmark(it) },
-            navigateToSignIn,
-            onSignOut,
-            onSwitchConferenceSelected,
-            ::refresh
-        )
+    ConfettiScaffold(
+        title = (uiState as? SessionsUiState.Success)?.conferenceName,
+        appState = appState,
+        onSwitchConference = onSwitchConferenceSelected,
+        onSignIn = navigateToSignIn,
+        onSignOut = onSignOut,
+    ){
+        if (appState.isExpandedScreen) {
+            SessionListGridView(
+                uiState = uiState,
+                sessionSelected = navigateToSession,
+                onRefresh = ::refresh,
+            )
+        } else {
+            SessionListView(
+                uiState,
+                refreshing,
+                navigateToSession,
+                { viewModel.addBookmark(it) },
+                { viewModel.removeBookmark(it) },
+                ::refresh
+            )
+        }
     }
 }
 

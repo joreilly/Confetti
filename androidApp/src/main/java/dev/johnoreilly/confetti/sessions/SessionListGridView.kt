@@ -13,7 +13,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,39 +23,25 @@ import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.account.AccountIcon
+import dev.johnoreilly.confetti.ui.ErrorView
+import dev.johnoreilly.confetti.ui.LoadingView
 
 @Composable
 fun SessionListGridView(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
-    onSignIn: () -> Unit,
-    onSignOut: () -> Unit,
-    @Suppress("UNUSED_PARAMETER") onSwitchConferenceSelected: () -> Unit
+    onRefresh: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
 
-    if (uiState is SessionsUiState.Success) {
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text(uiState.conferenceName, fontSize = 40.sp) },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent
-                    ),
-                    actions = {
-                        AccountIcon(
-                            onSwitchConference = {},
-                            onSignIn = onSignIn,
-                            onSignOut = onSignOut
-                        )
-                    }
-                )
-            },
-            containerColor = Color.Transparent,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0)
-        ) { padding ->
-            Column(Modifier.padding(padding)) {
+    when (uiState) {
+        SessionsUiState.Error -> ErrorView(onRefresh)
+        SessionsUiState.Loading -> LoadingView()
+
+        is SessionsUiState.Success -> {
+
+            Column {
+
                 SessionListTabRow(pagerState, uiState)
 
                 HorizontalPager(
@@ -64,7 +49,11 @@ fun SessionListGridView(
                     state = pagerState,
                 ) { page ->
 
-                    Row(Modifier.padding(bottom = 60.dp).horizontalScroll(rememberScrollState())) {
+                    Row(
+                        Modifier
+                            .padding(bottom = 60.dp)
+                            .horizontalScroll(rememberScrollState())
+                    ) {
                         val sessionsByStartTime = uiState.sessionsByStartTimeList[page]
 
                         val rooms = uiState.rooms.filter { room ->
@@ -94,7 +83,11 @@ fun SessionListGridView(
                                 }
                             }
 
-                            LazyColumn(modifier = Modifier.fillMaxWidth().padding(end = 16.dp)) {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(end = 16.dp)
+                            ) {
                                 sessionsByStartTime.forEach {
                                     item {
                                         SessionGridRow(
@@ -111,9 +104,7 @@ fun SessionListGridView(
                     }
                 }
             }
-
         }
-
     }
 }
 
@@ -129,7 +120,9 @@ fun SessionGridRow(
     Row {
         Text(
             sessionByTimeList.key,
-            modifier = Modifier.width(timeInfoWidth).padding(16.dp),
+            modifier = Modifier
+                .width(timeInfoWidth)
+                .padding(16.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             color = MaterialTheme.colorScheme.primary
@@ -149,10 +142,11 @@ fun SessionGridRow(
                 color = MaterialTheme.colorScheme.secondaryContainer
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp).clickable(onClick = {
-                        sessionSelected(session.id)
-                    })
-                    ,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .clickable(onClick = {
+                            sessionSelected(session.id)
+                        }),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -165,15 +159,21 @@ fun SessionGridRow(
 
                     Spacer(modifier = Modifier.weight(1f))
                     session.speakers.forEach { speaker ->
-                        Row(Modifier.fillMaxWidth().padding(2.dp),
-                            verticalAlignment = Alignment.CenterVertically)
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(2.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        )
                         {
                             if (speaker.speakerDetails.photoUrl?.isNotEmpty() == true) {
                                 AsyncImage(
-                                    model =speaker.speakerDetails.photoUrl,
+                                    model = speaker.speakerDetails.photoUrl,
                                     contentDescription = speaker.speakerDetails.name,
                                     contentScale = ContentScale.Fit,
-                                    modifier = Modifier.size(20.dp).clip(RoundedCornerShape(16.dp))
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .clip(RoundedCornerShape(16.dp))
                                 )
                             }
 

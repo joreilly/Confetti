@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -120,21 +119,17 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
+    // FIXME: can we pass that as a parameter somehow
     fun setConference(conference: String) {
         this.conference = conference
         maybeStart()
     }
 
-    // FIXME: move to a separate ViewModel
-    val speakers = uiState.mapNotNull {
-        (it as? SessionsUiState.Success)?.speakers
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
-
     suspend fun refresh() = refresh(false)
 
     private suspend fun refresh(initial: Boolean) {
         val fetchPolicy = if (initial) {
-            FetchPolicy.CacheOnly
+            FetchPolicy.CacheFirst
         } else {
             FetchPolicy.NetworkOnly
         }

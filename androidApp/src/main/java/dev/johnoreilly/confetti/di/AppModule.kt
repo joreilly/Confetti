@@ -5,6 +5,7 @@ import dev.johnoreilly.confetti.AppViewModel
 import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.SessionsViewModel
+import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.TokenProvider
 import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailsViewModel
@@ -17,6 +18,7 @@ val appModule = module {
     viewModel { SessionsViewModel() }
     viewModel { AppViewModel() }
     viewModel { ConferencesViewModel() }
+    viewModel { SpeakersViewModel() }
     viewModel { SessionDetailsViewModel(get(), get()) }
     viewModel { SpeakerDetailsViewModel(get(), get()) }
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }

@@ -31,7 +31,7 @@ import kotlinx.datetime.TimeZone
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class ConfettiRepository() : KoinComponent {
+class ConfettiRepository : KoinComponent {
 
     private val appSettings: AppSettings by inject()
 

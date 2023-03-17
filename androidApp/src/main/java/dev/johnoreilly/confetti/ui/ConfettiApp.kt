@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti.ui
 
 
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -69,7 +68,7 @@ fun ConfettiApp(
                 }
             )
             sessionsGraph(
-                isExpandedScreen = appState.isExpandedScreen,
+                appState = appState,
                 displayFeatures = displayFeatures,
                 conference = conference!!,
                 navigateToSession = {
@@ -96,11 +95,29 @@ fun ConfettiApp(
                 }
             )
             sessionDetailsGraph(appState::onBackClick)
-            speakersGraph(appState.isExpandedScreen,
+            speakersGraph(
+                conference = conference!!,
+                appState = appState,
                 navigateToSpeaker = {
                     appState.navigate(
                         SpeakerDetailsDestination,
                         SpeakerDetailsDestination.createNavigationRoute(conference = conference!!, it)
+                    )
+                },
+                onSignIn = {
+                    appState.navigate(
+                        SignInDestination,
+                        SignInDestination.route
+                    )
+                },
+                onSignOut = {
+                    appState.navigate(
+                        ConferencesDestination, null
+                    )
+                },
+                onSwitchConference = {
+                    appState.navigate(
+                        ConferencesDestination, null
                     )
                 }
             )

@@ -8,6 +8,7 @@ import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.AppSettings.Companion.CONFERENCE_NOT_SET
 import dev.johnoreilly.confetti.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.sessions.SessionsRoute
+import dev.johnoreilly.confetti.ui.ConfettiAppState
 
 object SessionsDestination : ConfettiNavigationDestination {
     const val conferenceArg = "conference"
@@ -20,7 +21,7 @@ object SessionsDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.sessionsGraph(
-    isExpandedScreen: Boolean,
+    appState: ConfettiAppState,
     displayFeatures: List<DisplayFeature>,
     navigateToSession: (String) -> Unit,
     navigateToSignIn: () -> Unit,
@@ -38,7 +39,7 @@ fun NavGraphBuilder.sessionsGraph(
         )
     ) { backStackEntry ->
         SessionsRoute(
-            isExpandedScreen = isExpandedScreen,
+            appState = appState,
             displayFeatures = displayFeatures,
             navigateToSession = navigateToSession,
             onSignOut = onSignOut,

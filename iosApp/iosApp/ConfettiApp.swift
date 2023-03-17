@@ -53,7 +53,7 @@ struct ConferencesView: View {
     
     var body: some View {
         return NavigationView {
-            switch viewModel.uiStates {
+            switch viewModel.uiState {
             case let uiState as ConferencesViewModel.Success:
                 List(uiState.conferences, id: \.self) { conference in
                     HStack {

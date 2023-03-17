@@ -32,7 +32,7 @@ open class ConferencesViewModel : KMMViewModel(), KoinComponent {
     }
 
     @NativeCoroutinesState
-    val uiStates: StateFlow<UiState> = flow {
+    val uiState: StateFlow<UiState> = flow {
         for (uiState in channel) {
             emit(uiState)
         }

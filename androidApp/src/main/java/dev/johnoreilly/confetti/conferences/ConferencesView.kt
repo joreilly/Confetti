@@ -36,7 +36,7 @@ fun ConferencesRoute(
     navigateToConference: (String) -> Unit,
 ) {
     val viewModel = getViewModel<ConferencesViewModel>()
-    val uiState by viewModel.uiStates.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (val uiState1 = uiState) {
         ConferencesViewModel.Error -> ErrorView(viewModel::refresh)

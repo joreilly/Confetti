@@ -24,11 +24,11 @@ class AppSettings(val settings: FlowSettings) {
     }
 
     suspend fun getConference(): String {
-        return settings.getString(CONFERENCE_SETTING, "")
+        return settings.getString(CONFERENCE_SETTING, CONFERENCE_NOT_SET)
     }
 
     fun getConferenceFlow(): Flow<String> {
-        return settings.getStringFlow(CONFERENCE_SETTING, "")
+        return settings.getStringFlow(CONFERENCE_SETTING, CONFERENCE_NOT_SET)
     }
 
     suspend fun setConference(conference: String) {
@@ -46,5 +46,6 @@ class AppSettings(val settings: FlowSettings) {
         const val ENABLED_LANGUAGES_SETTING = "enabled_languages_2"
         const val CONFERENCE_SETTING = "conference"
         const val GUEST_MODE = "guest_mode"
+        const val CONFERENCE_NOT_SET = ""
     }
 }

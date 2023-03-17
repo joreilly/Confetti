@@ -13,12 +13,13 @@ import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 
 object SpeakerDetailsDestination : ConfettiNavigationDestination {
     const val speakerIdArg = "speakerId"
-    override val route = "speaker_details_route/{$speakerIdArg}"
+    const val conferenceArg = "conferenceArg"
+    override val route = "speaker_details_route/{$conferenceArg}/{$speakerIdArg}"
     override val destination = "speaker_details_destination"
 
     fun createNavigationRoute(spakerKey: SpeakerDetailsKey): String {
         val encodedId = Uri.encode(spakerKey.speakerId)
-        return "speaker_details_route/$encodedId"
+        return "speaker_details_route/${spakerKey.conference}/$encodedId"
     }
 
     fun fromNavArgs(entry: NavBackStackEntry): String {

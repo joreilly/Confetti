@@ -97,7 +97,7 @@ class RootQuery : Query {
             DOrderBy(orderBy1.field.value, orderBy1.direction.toDDirection())
         ).map {
             it.toConference()
-        }
+        } + TestDataSource().conference()
     }
 }
 
@@ -275,7 +275,7 @@ data class Venue(
             }
         }
 
-    @Deprecated("description(language: \"fr\") instead")
+    @Deprecated("use description(language: \"fr\") instead")
     val descriptionFr: String
         get() {
             return descriptions.get("fr") ?: descriptions.get("en") ?: ""

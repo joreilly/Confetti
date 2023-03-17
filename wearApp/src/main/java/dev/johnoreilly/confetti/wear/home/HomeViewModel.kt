@@ -2,7 +2,6 @@
 
 package dev.johnoreilly.confetti.wear.home
 
-import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

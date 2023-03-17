@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,36 +21,65 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.SpeakersUiState
+import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.ui.component.ConfettiTopAppBar
+import dev.johnoreilly.confetti.ui.ConfettiAppState
+import dev.johnoreilly.confetti.ui.ConfettiScaffold
+import dev.johnoreilly.confetti.ui.ErrorView
+import dev.johnoreilly.confetti.ui.LoadingView
 import org.koin.androidx.compose.getViewModel
 
 
 @Composable
 fun SpeakersRoute(
-    isExpandedScreen: Boolean,
+    conference: String,
+    appState: ConfettiAppState,
     navigateToSpeaker: (String) -> Unit,
-    viewModel: ConfettiViewModel = getViewModel()
+    onSwitchConference: () -> Unit,
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit
 ) {
-    val speakers by viewModel.speakers.collectAsState(emptyList())
+    val viewModel: SpeakersViewModel = getViewModel()
+    viewModel.setConference(conference = conference)
+    val uiState by viewModel.speakers.collectAsStateWithLifecycle()
 
-    if (isExpandedScreen) {
-        SpeakerGridView(speakers, navigateToSpeaker)
-    } else {
-        SpeakerListView(speakers, navigateToSpeaker)
+    ConfettiScaffold(
+        title = stringResource(R.string.speakers),
+        appState = appState,
+        onSwitchConference = onSwitchConference,
+        onSignIn = onSignIn,
+        onSignOut = onSignOut
+    ) {
+        when(val uiState1 = uiState) {
+            is SpeakersUiState.Success -> {
+                if (appState.isExpandedScreen) {
+                    SpeakerGridView(uiState1.speakers, navigateToSpeaker)
+                } else {
+                    SpeakerListView(uiState1.speakers, navigateToSpeaker)
+                }
+            }
+            is SpeakersUiState.Loading -> LoadingView()
+            is SpeakersUiState.Error -> ErrorView {
+
+            }
+        }
     }
+
 }
 
 
 @Composable
-fun SpeakerGridView(speakers: List<SpeakerDetails>, @Suppress("UNUSED_PARAMETER") navigateToSpeaker: (String) -> Unit) {
+fun SpeakerGridView(
+    speakers: List<SpeakerDetails>,
+    @Suppress("UNUSED_PARAMETER") navigateToSpeaker: (String) -> Unit
+) {
     LazyVerticalGrid(
         modifier = Modifier.padding(16.dp),
         columns = GridCells.Adaptive(200.dp),
@@ -68,10 +96,12 @@ fun SpeakerGridView(speakers: List<SpeakerDetails>, @Suppress("UNUSED_PARAMETER"
 
                     if (speaker.photoUrl?.isNotEmpty() == true) {
                         AsyncImage(
-                            model =speaker.photoUrl,
+                            model = speaker.photoUrl,
                             contentDescription = speaker.name,
                             contentScale = ContentScale.Fit,
-                            modifier = Modifier.size(150.dp).clip(RoundedCornerShape(16.dp))
+                            modifier = Modifier
+                                .size(150.dp)
+                                .clip(RoundedCornerShape(16.dp))
                         )
                     } else {
                         Spacer(modifier = Modifier.size(150.dp))
@@ -95,29 +125,20 @@ fun SpeakerGridView(speakers: List<SpeakerDetails>, @Suppress("UNUSED_PARAMETER"
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SpeakerListView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) -> Unit) {
-    Scaffold(
-        topBar = {
-            ConfettiTopAppBar(
-                title = stringResource(R.string.speakers),
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent
-                )
-            )
-        },
-        containerColor = Color.Transparent,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
-    ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
-            if (speakers.isNotEmpty()) {
-                LazyColumn {
-                    items(speakers) { speaker ->
-                        SpeakerView(speaker, navigateToSpeaker)
-                    }
+    Column {
+        if (speakers.isNotEmpty()) {
+            LazyColumn {
+                items(speakers) { speaker ->
+                    SpeakerView(speaker, navigateToSpeaker)
                 }
-            } else {
-                Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
-                    CircularProgressIndicator()
-                }
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center)
+            ) {
+                CircularProgressIndicator()
             }
         }
     }
@@ -126,18 +147,21 @@ fun SpeakerListView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) 
 
 @Composable
 fun SpeakerView(speaker: SpeakerDetails, navigateToSpeaker: (String) -> Unit) {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .clickable(onClick = { navigateToSpeaker(speaker.id) })
-        .padding(16.dp),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = { navigateToSpeaker(speaker.id) })
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (speaker.photoUrl?.isNotEmpty() == true) {
             AsyncImage(
-                model =speaker.photoUrl,
+                model = speaker.photoUrl,
                 contentDescription = speaker.name,
                 contentScale = ContentScale.Fit,
-                modifier = Modifier.size(60.dp).clip(CircleShape)
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
             )
         } else {
             Spacer(modifier = Modifier.size(60.dp))
@@ -147,7 +171,10 @@ fun SpeakerView(speaker: SpeakerDetails, navigateToSpeaker: (String) -> Unit) {
 
         Column {
             Text(text = speaker.name, style = TextStyle(fontSize = 20.sp))
-            Text(text = speaker.company ?: "", style = TextStyle(color = Color.DarkGray, fontSize = 14.sp))
+            Text(
+                text = speaker.company ?: "",
+                style = TextStyle(color = Color.DarkGray, fontSize = 14.sp)
+            )
         }
     }
 }

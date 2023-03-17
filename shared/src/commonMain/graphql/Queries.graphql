@@ -39,6 +39,9 @@ query GetSession($id: String!){
     session(id: $id) {
         ...SessionDetails
     }
+    config {
+        timezone
+    }
 }
 
 query GetConferences{

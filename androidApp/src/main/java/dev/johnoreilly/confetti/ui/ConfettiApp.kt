@@ -1,173 +1,135 @@
 package dev.johnoreilly.confetti.ui
 
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.consumedWindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.NavigationRailItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
 import androidx.window.layout.DisplayFeature
-import dev.johnoreilly.confetti.navigation.ConfettiNavHost
-import dev.johnoreilly.confetti.navigation.TopLevelDestination
-import dev.johnoreilly.confetti.ui.component.ConfettiBackground
+import dev.johnoreilly.confetti.AppSettings.Companion.CONFERENCE_NOT_SET
+import dev.johnoreilly.confetti.AppViewModel
+import dev.johnoreilly.confetti.account.navigation.SignInDestination
+import dev.johnoreilly.confetti.account.navigation.signInGraph
+import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
+import dev.johnoreilly.confetti.conferences.navigation.ConferencesDestination
+import dev.johnoreilly.confetti.conferences.navigation.conferencesGraph
+import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsDestination
+import dev.johnoreilly.confetti.sessiondetails.navigation.sessionDetailsGraph
+import dev.johnoreilly.confetti.sessions.navigation.SessionsDestination
+import dev.johnoreilly.confetti.sessions.navigation.sessionsGraph
+import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsDestination
+import dev.johnoreilly.confetti.speakerdetails.navigation.speakerDetailsGraph
+import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalLayoutApi::class,
-)
 @Composable
 fun ConfettiApp(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     windowSizeClass: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    appState: ConfettiAppState = rememberConfettiAppState(windowSizeClass, displayFeatures, navController)
 ) {
-    ConfettiTheme {
-        ConfettiBackground {
-            Scaffold(
-                containerColor = Color.Transparent,
-                contentColor = MaterialTheme.colorScheme.onBackground,
-                contentWindowInsets = WindowInsets(0, 0, 0, 0),
-                bottomBar = {
-                    if (appState.shouldShowBottomBar) {
-                        ConfettiBottomBar(
-                            destinations = appState.topLevelDestinations,
-                            onNavigateToDestination = appState::navigate,
-                            currentDestination = appState.currentDestination
-                        )
+    val appState: ConfettiAppState = rememberConfettiAppState(
+        windowSizeClass,
+        displayFeatures,
+        navController
+    )
+
+    val viewModel: AppViewModel = getViewModel()
+    val conference by viewModel.conference.collectAsStateWithLifecycle()
+
+    if (conference == null) {
+        // Reading from the settings
+        CircularProgressIndicator()
+    } else {
+        val initialRoute = if (conference == CONFERENCE_NOT_SET) {
+            ConferencesDestination.route
+        } else {
+            SessionsDestination.route
+        }
+        val scope = rememberCoroutineScope()
+
+        NavHost(
+            navController = navController,
+            startDestination = initialRoute,
+        ) {
+            conferencesGraph(
+                navigateToConference = {
+                    scope.launch {
+                        viewModel.setConference(it)
                     }
                 }
-            ) { padding ->
-                Row(
-                    Modifier
-                        .fillMaxSize()
-                        .windowInsetsPadding(
-                            WindowInsets.safeDrawing.only(
-                                WindowInsetsSides.Horizontal
-                            )
-                        )
-                ) {
-                    if (appState.shouldShowNavRail) {
-                        ConfettiNavRail(
-                            destinations = appState.topLevelDestinations,
-                            onNavigateToDestination = appState::navigate,
-                            currentDestination = appState.currentDestination,
-                            modifier = Modifier.safeDrawingPadding()
-                        )
-                    }
-
-                    ConfettiNavHost(
-                        navController = appState.navController,
-                        isExpandedScreen = appState.isExpandedScreen,
-                        displayFeatures = appState.displayFeatures,
-                        onBackClick = appState::onBackClick,
-                        onNavigateToDestination = appState::navigate,
-                        modifier = Modifier
-                            .padding(padding)
-                            .consumeWindowInsets(padding)
+            )
+            sessionsGraph(
+                appState = appState,
+                displayFeatures = displayFeatures,
+                conference = conference!!,
+                navigateToSession = {
+                    appState.navigate(
+                        SessionDetailsDestination,
+                        SessionDetailsDestination.createNavigationRoute(conference = conference!!, it)
+                    )
+                },
+                navigateToSignIn = {
+                    appState.navigate(
+                        SignInDestination,
+                        SignInDestination.route
+                    )
+                },
+                onSignOut = {
+                    appState.navigate(
+                        ConferencesDestination, null
+                    )
+                },
+                onSwitchConferenceSelected = {
+                    appState.navigate(
+                        ConferencesDestination, null
                     )
                 }
-            }
-        }
-    }
-}
-
-
-@Composable
-private fun ConfettiNavRail(
-    destinations: List<TopLevelDestination>,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?,
-    modifier: Modifier = Modifier,
-) {
-
-    NavigationRail(
-        modifier = modifier,
-        containerColor = Color.Transparent,
-        contentColor = ConfettiNavigationDefaults.navigationContentColor(),
-    ) {
-        destinations.forEach { destination ->
-            val selected =
-                currentDestination?.hierarchy?.any { it.route == destination.route } == true
-            NavigationRailItem(
-                selected = selected,
-                onClick = { onNavigateToDestination(destination) },
-                icon = {
-                    val icon = if (selected) {
-                        destination.selectedIcon
-                    } else {
-                        destination.unselectedIcon
-                    }
-                    Icon(icon, contentDescription = stringResource(destination.iconTextId))
+            )
+            sessionDetailsGraph(appState::onBackClick)
+            speakersGraph(
+                conference = conference!!,
+                appState = appState,
+                navigateToSpeaker = {
+                    appState.navigate(
+                        SpeakerDetailsDestination,
+                        SpeakerDetailsDestination.createNavigationRoute(conference = conference!!, it)
+                    )
+                },
+                onSignIn = {
+                    appState.navigate(
+                        SignInDestination,
+                        SignInDestination.route
+                    )
+                },
+                onSignOut = {
+                    appState.navigate(
+                        ConferencesDestination, null
+                    )
+                },
+                onSwitchConference = {
+                    appState.navigate(
+                        ConferencesDestination, null
+                    )
                 }
             )
+            speakerDetailsGraph(appState::onBackClick)
+            signInGraph(appState::onBackClick)
+        }
+    }
+
+    val analyticsLogger: AnalyticsLogger = get()
+    LaunchedEffect(Unit) {
+        navController.currentBackStackEntryFlow.collect { navEntry ->
+            analyticsLogger.logNavigationEvent(conference ?: "", navEntry)
         }
     }
 }
-
-
-@Composable
-private fun ConfettiBottomBar(
-    destinations: List<TopLevelDestination>,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?
-) {
-    NavigationBar(
-        contentColor = ConfettiNavigationDefaults.navigationContentColor(),
-        tonalElevation = 0.dp,
-    ) {
-        destinations.forEach { destination ->
-            val selected =
-                currentDestination?.hierarchy?.any { it.route == destination.route } == true
-            NavigationBarItem(
-                selected = selected,
-                onClick = { onNavigateToDestination(destination) },
-                icon = {
-                    val icon = if (selected) {
-                        destination.selectedIcon
-                    } else {
-                        destination.unselectedIcon
-                    }
-                    Icon(icon, contentDescription = stringResource(destination.iconTextId))
-                },
-                label = { Text(stringResource(destination.iconTextId)) }
-            )
-        }
-    }
-}
-
-object ConfettiNavigationDefaults {
-    @Composable
-    fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
-    @Composable
-    fun navigationSelectedItemColor() = MaterialTheme.colorScheme.onPrimaryContainer
-    @Composable
-    fun navigationIndicatorColor() = MaterialTheme.colorScheme.primaryContainer
-}
-

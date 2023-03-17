@@ -5,7 +5,7 @@ import KMMViewModelSwiftUI
 
 struct SessionListView: View {
     var sessionUiState: SessionsUiStateSuccess
-    let showConferenceList: () -> Void
+    let navigateToConferences: () -> Void
     let refresh: () async -> Void
     @State var selectedDateIndex: Int = 0
     
@@ -49,7 +49,7 @@ struct SessionListView: View {
             }
             .navigationBarItems(
                   trailing: Button(action: {
-                      showConferenceList()
+                      navigateToConferences()
                   }, label: {
                       Text("Switch")
                   }))

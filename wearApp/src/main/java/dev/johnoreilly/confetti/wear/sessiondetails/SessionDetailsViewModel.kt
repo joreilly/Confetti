@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,19 +21,23 @@ class SessionDetailsViewModel(
     repository: ConfettiRepository,
     val formatter: DateService
 ) : ViewModel() {
-    val timeZone: TimeZone = repository.timeZone
     private val sessionId: SessionDetailsKey =
         SessionDetailsDestination.fromNavArgs(savedStateHandle)
 
     val session: StateFlow<SessionDetailsUiState> = flow {
         val sessionDetails = repository.sessionDetails(sessionId.conference, sessionId.sessionId)
-        emitAll(sessionDetails.map {
-            if (it.data != null) {
-                SessionDetailsUiState.Success(sessionId, it.data!!.session.sessionDetails)
-            } else {
-                SessionDetailsUiState.Error
-            }
-        })
+        val value = if (sessionDetails.data != null) {
+            SessionDetailsUiState.Success(
+                sessionId.conference,
+                sessionId,
+                sessionDetails.data!!.session.sessionDetails,
+                sessionDetails.data!!.config.timezone.toTimeZone()
+            )
+        } else {
+            SessionDetailsUiState.Error
+        }
+
+        emit(value)
     }
         .stateIn(
             viewModelScope,

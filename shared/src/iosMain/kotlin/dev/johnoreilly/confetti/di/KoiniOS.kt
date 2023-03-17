@@ -22,12 +22,8 @@ actual fun platformModule() = module {
     single { get<ObservableSettings>().toFlowSettings() }
     single<NormalizedCacheFactory> { SqlNormalizedCacheFactory("confetti.db") }
     single<DateService> { IosDateService() }
-    single<ConferenceRefresh> { JobConferenceRefresh(get()) }
     factory {
         ApolloClient.Builder()
-    }
-    single {
-        FetchPolicy.CacheAndNetwork
     }
 }
 

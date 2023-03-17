@@ -23,22 +23,31 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.johnoreilly.confetti.ConfettiViewModel
+import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.ui.ConfettiTheme
+import dev.johnoreilly.confetti.ui.ErrorView
+import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ConferencesRoute(
     navigateToConference: (String) -> Unit,
-    viewModel: ConfettiViewModel = getViewModel()
 ) {
-    val conferenceList by viewModel.conferenceList.collectAsStateWithLifecycle()
-    ConferencesView(conferenceList) { conference ->
-        viewModel.setConference(conference)
-        navigateToConference(conference)
+    val viewModel = getViewModel<ConferencesViewModel>()
+    val uiState by viewModel.uiStates.collectAsStateWithLifecycle()
+
+    when (val uiState1 = uiState) {
+        ConferencesViewModel.Error -> ErrorView(viewModel::refresh)
+        ConferencesViewModel.Loading -> LoadingView()
+        is ConferencesViewModel.Success -> {
+            ConferencesView(uiState1.conferences) { conference ->
+                navigateToConference(conference)
+            }
+        }
     }
+
 }
 
 @Composable
@@ -83,9 +92,8 @@ private fun ConferencesViewPreview() {
                     GetConferencesQuery.Conference("1", emptyList(), "FrenchKit 2022"),
                     GetConferencesQuery.Conference("2", emptyList(), "Droidcon London 2022"),
                     GetConferencesQuery.Conference("3", emptyList(), "DevFest Ukraine 2023"),
-                ),
-                navigateToConference = {}
-            )
+                )
+            ) {}
         }
     }
 }

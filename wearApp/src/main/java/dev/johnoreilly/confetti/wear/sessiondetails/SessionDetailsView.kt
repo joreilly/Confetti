@@ -38,12 +38,18 @@ fun SessionDetailsRoute(
     viewModel: SessionDetailsViewModel = getViewModel()
 ) {
     val uiState by viewModel.session.collectAsStateWithLifecycle()
-    val timeZone = remember { viewModel.timeZone }
     SessionDetailView(
         uiState = uiState,
         columnState = columnState,
         navigateToSpeaker = navigateToSpeaker,
-        formatter = { viewModel.formatter.format(it, timeZone, "eeee HH:mm") })
+        formatter = {
+            viewModel.formatter.format(
+                it,
+                (uiState as SessionDetailsUiState.Success).timeZone,
+                "eeee HH:mm"
+            )
+        }
+    )
 }
 
 @Composable
@@ -90,6 +96,7 @@ fun SessionDetailView(
 
                 items(session.speakers) { speaker ->
                     SessionSpeakerInfo(
+                        conference = uiState.conference,
                         speaker = speaker.speakerDetails,
                         navigateToSpeaker = navigateToSpeaker
                     )
@@ -112,6 +119,7 @@ fun SessionDetailsLongText() {
     ConfettiTheme {
         SessionDetailView(
             uiState = SessionDetailsUiState.Success(
+                conference = "wearconf",
                 sessionId = SessionDetailsKey("", ""),
                 session = SessionDetails(
                     "1",
@@ -125,7 +133,8 @@ fun SessionDetailsLongText() {
                     SessionDetails.Room("Main Hall"),
                     listOf(),
                     Session.type.name
-                )
+                ),
+                timeZone = TimeZone.UTC
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToSpeaker = {},
@@ -142,6 +151,7 @@ fun SessionDetailsViewPreview() {
 
     ConfettiTheme {
         SessionDetailView(SessionDetailsUiState.Success(
+            conference = "wearconf",
             sessionId = SessionDetailsKey("", ""),
             session = SessionDetails(
                 "1",
@@ -155,7 +165,8 @@ fun SessionDetailsViewPreview() {
                 SessionDetails.Room("Main Hall"),
                 listOf(),
                 Session.type.name
-            )
+            ),
+            timeZone = TimeZone.UTC
         ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToSpeaker = {},

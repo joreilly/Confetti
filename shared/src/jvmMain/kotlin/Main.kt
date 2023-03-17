@@ -11,11 +11,9 @@ fun main(args: Array<String>) = runBlocking {
     val repo = koin.get<ConfettiRepository>()
     val clientCache = koin.get<ApolloClientCache>()
 
-    repo.setConference("droidconlondon2022")
-
     println("Sessions")
-    val sessions = repo.sessions.first()
-    sessions.forEach { session ->
+    val sessions = repo.sessions("droidconlondon2022").first()
+    sessions.data!!.sessions.nodes.map { it.sessionDetails }.forEach { session ->
         println("${session.startsAt} ${session.title}")
     }
     println("done")

@@ -20,3 +20,13 @@ tasks.register("setupCredentials") {
         }
     }
 }
+
+tasks.register("quickChecks") {
+    dependsOn(
+        ":backend:service-graphql:build",
+        ":backend:service-import:build",
+        ":androidApp:assembleDebug",
+        ":wearApp:assembleDebug",
+        ":wearApp:assembleDebugAndroidTest",
+    )
+}

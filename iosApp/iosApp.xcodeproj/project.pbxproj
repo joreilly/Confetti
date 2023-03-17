@@ -22,7 +22,7 @@
 		1AF675D028F1F20B00CC1C26 /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF675CF28F1F20B00CC1C26 /* SessionListView.swift */; };
 		1AF675D228F1F21700CC1C26 /* SessionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF675D128F1F21700CC1C26 /* SessionDetailsView.swift */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
+		7555FF83242A565900829871 /* ConfettiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ConfettiApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,7 +49,7 @@
 		1AF675D128F1F21700CC1C26 /* SessionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailsView.swift; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Confetti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Confetti.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7555FF82242A565900829871 /* ConfettiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiApp.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,7 +121,7 @@
 				1AF675CA28F1F0F300CC1C26 /* Speakers */,
 				1AF675C928F1F06800CC1C26 /* Sessions */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
-				7555FF82242A565900829871 /* ContentView.swift */,
+				7555FF82242A565900829871 /* ConfettiApp.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
@@ -249,7 +249,7 @@
 				1AF675CE28F1F1FE00CC1C26 /* SpeakerDetailsView.swift in Sources */,
 				1AF675CC28F1F1F100CC1C26 /* SpeakerListView.swift in Sources */,
 				1AEAB76E28FDB69F00B06D90 /* SessionSpeakerInfo.swift in Sources */,
-				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				7555FF83242A565900829871 /* ConfettiApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

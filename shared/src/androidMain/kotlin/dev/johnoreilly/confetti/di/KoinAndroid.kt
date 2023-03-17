@@ -56,7 +56,7 @@ actual fun platformModule() = module {
     single {
         get<FlowSettings>().toBlockingObservableSettings()
     }
-    worker { RefreshWorker(get(), get(), get(), get(), get()) }
+    worker { RefreshWorker(get(), get(), get(), get()) }
     single { WorkManager.getInstance(androidContext()) }
 }
 

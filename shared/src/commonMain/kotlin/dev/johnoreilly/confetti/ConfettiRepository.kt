@@ -9,7 +9,6 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.cache.normalized.optimisticUpdates
-import com.apollographql.apollo3.cache.normalized.refetchPolicy
 import com.apollographql.apollo3.cache.normalized.watch
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.buildBookmarks
@@ -26,58 +25,45 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class ConfettiRepository(
-    private val defaultFetchPolicy: FetchPolicy
-) : KoinComponent {
-    // TODO move coroutines out of Repository to ViewModel
-    val coroutineScope: CoroutineScope = MainScope()
+class ConfettiRepository : KoinComponent {
 
     private val appSettings: AppSettings by inject()
 
     private val apolloClientCache: ApolloClientCache by inject()
 
-    val bookmarks: Flow<List<String>> = getConferenceFlow().flatMapLatest {
-        apolloClientCache.getClient(it)
-            .query(GetBookmarksQuery())
-            .fetchPolicy(FetchPolicy.NetworkFirst)
-            .refetchPolicy(FetchPolicy.CacheOnly)
-            .watch()
-            .onEach { println("got bookmarks ${it.data}") }
-            .map { it.data?.bookmarks?.sessionIds.orEmpty() }
-    }
-
-    private suspend fun <D: Mutation.Data> modifyBookmarks(mutation: Mutation<D>, data: (sessionIds: List<String>, id: String) -> D ) {
-            try {
-                val client = apolloClientCache.getClient(getConference())
-                val optimisticData  = try {
-                    val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
-                    data(bookmarks!!.sessionIds, bookmarks.id)
-                } catch (e: Exception) {
-                    null
-                }
-                client.mutation(mutation)
-                    .apply {
-                        if (optimisticData != null) {
-                            optimisticUpdates(optimisticData)
-                        }
-                    }
-                    .execute()
+    private suspend fun <D : Mutation.Data> modifyBookmarks(
+        conference: String,
+        mutation: Mutation<D>,
+        data: (sessionIds: List<String>, id: String) -> D
+    ) {
+        try {
+            val client = apolloClientCache.getClient(conference)
+            val optimisticData = try {
+                val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
+                data(bookmarks!!.sessionIds, bookmarks.id)
             } catch (e: Exception) {
-                e.printStackTrace()
+                null
             }
+            client.mutation(mutation)
+                .apply {
+                    if (optimisticData != null) {
+                        optimisticUpdates(optimisticData)
+                    }
+                }
+                .execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
-    suspend fun addBookmark(sessionId: String) {
-        modifyBookmarks(AddBookmarkMutation(sessionId)) { sessionIds, id ->
+    suspend fun addBookmark(conference: String, sessionId: String) {
+        modifyBookmarks(conference, AddBookmarkMutation(sessionId)) { sessionIds, id ->
             AddBookmarkMutation.Data {
                 addBookmark = buildBookmarks {
                     this.id = id
@@ -87,8 +73,8 @@ class ConfettiRepository(
         }
     }
 
-    suspend fun removeBookmark(sessionId: String) {
-        modifyBookmarks(RemoveBookmarkMutation(sessionId)) {sessionIds, id ->
+    suspend fun removeBookmark(conference: String, sessionId: String) {
+        modifyBookmarks(conference, RemoveBookmarkMutation(sessionId)) { sessionIds, id ->
             RemoveBookmarkMutation.Data {
                 removeBookmark = buildBookmarks {
                     this.id = id
@@ -98,62 +84,22 @@ class ConfettiRepository(
         }
     }
 
-    val conferenceList: Flow<List<GetConferencesQuery.Conference>> = flow {
-        val client = apolloClientCache.getClient("all")
-
-        emitAll(client.query(GetConferencesQuery())
-            .fetchPolicy(defaultFetchPolicy)
-            .toFlow()
-            .catch {
-                // handle network failures by swallowing the error
-            }
-            .mapNotNull {
-                it.data?.conferences
-            })
-    }
-
-    private val conferenceData: StateFlow<GetConferenceDataQuery.Data?> =
-        getConferenceFlow().flatMapLatest {
-            if (it.isEmpty()) {
-                flowOf(null)
-            } else {
-                apolloClientCache.getClient(it).query(GetConferenceDataQuery()).toFlow().map {
-                    it.data
-                }.catch {
-                    // TODO log errors
-                    emit(null)
-                }
-            }
-        }.stateIn(coroutineScope, SharingStarted.Eagerly, null)
-
-    val timeZone = conferenceData.value?.config?.timezone?.let {
-        TimeZone.of(it)
-    } ?: TimeZone.currentSystemDefault()
-
-    val conferenceName = conferenceData.filterNotNull().map { it.config.name }
-
-    val sessions = conferenceData.filterNotNull().map {
-        it.sessions.nodes.map { it.sessionDetails }.sortedBy { it.startsAt }
-    }
-
-    val sessionsMap: Flow<Map<LocalDate, List<SessionDetails>>> = sessions.map {
-        it.groupBy {
-            it.startsAt.date
-        }
-    }
-
-    val speakers = conferenceData.filterNotNull().map {
-        it.speakers.map { it.speakerDetails }
-    }
-
-    val rooms = conferenceData.filterNotNull().map {
-        it.rooms.map { it.roomDetails }
+    suspend fun conferences(fetchPolicy: FetchPolicy): ApolloResponse<GetConferencesQuery.Data> {
+        return apolloClientCache.getClient("all")
+            .query(GetConferencesQuery())
+            .fetchPolicy(fetchPolicy)
+            .tryExecute()
     }
 
     suspend fun getConference(): String {
         return appSettings.getConference()
     }
 
+    /**
+     * This is OK to use in AppViewModel and from background refresh jobs but use with caution
+     * elsewhere as the conference might also come from a deep link in which case this value
+     * would conflict
+     */
     fun getConferenceFlow(): Flow<String> {
         return appSettings.getConferenceFlow()
     }
@@ -182,11 +128,36 @@ class ConfettiRepository(
     suspend fun sessionDetails(
         conference: String,
         sessionId: String
-    ): Flow<ApolloResponse<GetSessionQuery.Data>> =
-        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).toFlow()
+    ): ApolloResponse<GetSessionQuery.Data> =
+        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).tryExecute()
+
+    suspend fun conferenceData(
+        conference: String,
+        fetchPolicy: FetchPolicy
+    ): ApolloResponse<GetConferenceDataQuery.Data> =
+        apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
+            .fetchPolicy(fetchPolicy).tryExecute()
+
+    suspend fun bookmarks(
+        conference: String,
+        fetchPolicy: FetchPolicy
+    ): ApolloResponse<GetBookmarksQuery.Data> =
+        apolloClientCache.getClient(conference).query(GetBookmarksQuery()).fetchPolicy(fetchPolicy)
+            .tryExecute()
 
     suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
+
+
+    fun watchBookmarks(
+        conference: String,
+        initialData: GetBookmarksQuery.Data?
+    ): Flow<ApolloResponse<GetBookmarksQuery.Data>> = flow {
+        val values = apolloClientCache.getClient(conference).query(GetBookmarksQuery())
+            .watch(initialData)
+
+        emitAll(values)
+    }
 
     suspend fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
         return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())

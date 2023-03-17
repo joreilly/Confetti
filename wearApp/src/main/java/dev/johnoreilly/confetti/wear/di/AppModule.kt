@@ -11,7 +11,6 @@ import com.google.android.horologist.auth.ui.ExperimentalHorologistAuthUiApi
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
 import dev.johnoreilly.confetti.ConferenceRefresh
-import dev.johnoreilly.confetti.ConfettiViewModel
 import dev.johnoreilly.confetti.wear.conferences.ConferencesViewModel
 import dev.johnoreilly.confetti.wear.data.auth.GoogleSignInAuthUserRepository
 import dev.johnoreilly.confetti.wear.home.HomeViewModel
@@ -24,8 +23,8 @@ import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+@OptIn(ExperimentalHorologistAuthDataApi::class, ExperimentalHorologistAuthUiApi::class)
 val appModule = module {
-    viewModel { ConfettiViewModel() }
     viewModel { SessionDetailsViewModel(get(), get(), get()) }
     viewModel { SpeakerDetailsViewModel(get(), get()) }
     viewModel { ConferencesViewModel(get(), get(), get()) }
@@ -38,9 +37,4 @@ val appModule = module {
     single { GoogleSignIn.getClient(get<Context>(), GoogleSignInOptions.DEFAULT_SIGN_IN) }
     single { GoogleSignInAuthUserRepository(get(), get()) }
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
-    single {
-        // Assume an offline first strategy for Wear
-        // Eventually use the mobile to drive updates
-        FetchPolicy.CacheFirst
-    }
 }

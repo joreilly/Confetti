@@ -6,10 +6,8 @@ import java.util.*
 plugins {
     id("com.android.application")
     kotlin("android")
-    if (File("wearApp/google-services.json").exists()) {
-        id("com.google.gms.google-services")
-        id("com.google.firebase.crashlytics")
-    }
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 configureCompilerOptions()
@@ -174,9 +172,7 @@ dependencies {
     implementation(libs.google.services)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
-    if (file("google-services.json").exists()) {
-        implementation(libs.firebase.performance)
-    }
+    implementation(libs.firebase.performance)
 
     debugImplementation(libs.compose.ui.manifest)
 

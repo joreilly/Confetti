@@ -160,10 +160,11 @@ class ScreenshotTest {
         }
     ) {
         SessionDetailView(
-            conference = "test",
             uiState = SessionDetailsUiState.Success(
+                "wearconf",
                 SessionDetailsKey("fosdem", "14997"),
-                sessionDetails
+                sessionDetails,
+                TimeZone.UTC
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToSpeaker = {},

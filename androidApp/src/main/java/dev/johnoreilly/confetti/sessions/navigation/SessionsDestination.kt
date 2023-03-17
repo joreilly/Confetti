@@ -7,7 +7,7 @@ import androidx.navigation.navArgument
 import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.AppSettings.Companion.CONFERENCE_NOT_SET
 import dev.johnoreilly.confetti.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.sessions.SessionsRoute
+import dev.johnoreilly.confetti.sessions.SessionsView
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 
 object SessionsDestination : ConfettiNavigationDestination {
@@ -38,7 +38,7 @@ fun NavGraphBuilder.sessionsGraph(
             }
         )
     ) { backStackEntry ->
-        SessionsRoute(
+        SessionsView(
             appState = appState,
             displayFeatures = displayFeatures,
             navigateToSession = navigateToSession,

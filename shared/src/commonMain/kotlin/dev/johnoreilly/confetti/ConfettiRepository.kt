@@ -10,24 +10,11 @@ import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.cache.normalized.optimisticUpdates
 import com.apollographql.apollo3.cache.normalized.watch
-import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.buildBookmarks
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -88,7 +75,7 @@ class ConfettiRepository : KoinComponent {
         return apolloClientCache.getClient("all")
             .query(GetConferencesQuery())
             .fetchPolicy(fetchPolicy)
-            .tryExecute()
+            .execute()
     }
 
     suspend fun getConference(): String {
@@ -129,21 +116,21 @@ class ConfettiRepository : KoinComponent {
         conference: String,
         sessionId: String
     ): ApolloResponse<GetSessionQuery.Data> =
-        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).tryExecute()
+        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).execute()
 
     suspend fun conferenceData(
         conference: String,
         fetchPolicy: FetchPolicy
     ): ApolloResponse<GetConferenceDataQuery.Data> =
         apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
-            .fetchPolicy(fetchPolicy).tryExecute()
+            .fetchPolicy(fetchPolicy).execute()
 
     suspend fun bookmarks(
         conference: String,
         fetchPolicy: FetchPolicy
     ): ApolloResponse<GetBookmarksQuery.Data> =
         apolloClientCache.getClient(conference).query(GetBookmarksQuery()).fetchPolicy(fetchPolicy)
-            .tryExecute()
+            .execute()
 
     suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()

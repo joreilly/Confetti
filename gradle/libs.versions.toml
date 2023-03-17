@@ -3,7 +3,7 @@ accompanist = "0.29.2-rc"
 activity-compose = "1.7.0-rc01"
 androidx-lifecycle = "2.5.1"
 androidx-datastore = "1.1.0-alpha01"
-apollo = "3.7.5"
+apollo = "4.0.0-SNAPSHOT"
 compose = "1.4.0-rc01"
 compose-compiler = "1.4.4-dev-k1.8.20-RC-88d9f3a8232"
 compose-material-3 = "1.0.1"
@@ -110,7 +110,7 @@ okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alp
 play-services-auth = "com.google.android.gms:play-services-auth:20.4.1"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = "com.android.tools.build:gradle:7.4.1"
-plugin-apollo = "com.apollographql.apollo3:apollo-gradle-plugin:3.7.5"
+plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-appengine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.5"
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
 plugin-google-services = "com.google.gms:google-services:4.3.15"

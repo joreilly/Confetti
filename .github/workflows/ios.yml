@@ -20,3 +20,6 @@ jobs:
 
       - name: Build iOS app
         run: xcodebuild -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 8' build
+
+      - name: Run iOS unit tests
+        run: xcodebuild test -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 8' build

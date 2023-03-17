@@ -19,6 +19,7 @@ import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewModel
 import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
 import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.auth.ConfettiGoogleSignOutViewModel
+import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -26,6 +27,7 @@ import org.koin.dsl.module
 val appModule = module {
     viewModel { ConfettiViewModel() }
     viewModel { SessionDetailsViewModel(get(), get(), get()) }
+    viewModel { SpeakerDetailsViewModel(get(), get()) }
     viewModel { ConferencesViewModel(get(), get(), get()) }
     viewModel { SessionsViewModel(get(), get()) }
     viewModel { HomeViewModel(get(), get(), get()) }

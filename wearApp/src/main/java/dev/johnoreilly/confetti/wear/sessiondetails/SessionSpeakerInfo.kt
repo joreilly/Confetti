@@ -1,11 +1,13 @@
 package dev.johnoreilly.confetti.wear.sessiondetails
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -18,14 +20,19 @@ import coil.request.ImageRequest
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
+import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 
 @Composable
 fun SessionSpeakerInfo(
     modifier: Modifier = Modifier,
     speaker: SpeakerDetails,
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
     Column(modifier = modifier) {
-        Row {
+        Row(Modifier.clickable {
+            navigateToSpeaker(SpeakerDetailsKey(speaker.id)) },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             AsyncImage(
                 modifier = Modifier
                     .size(32.dp)

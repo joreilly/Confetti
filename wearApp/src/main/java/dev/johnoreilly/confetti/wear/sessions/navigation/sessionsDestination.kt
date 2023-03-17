@@ -11,6 +11,7 @@ import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistC
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
@@ -45,7 +46,7 @@ object SessionsDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.sessionsGraph(
-    navigateToSession: (SessionDetailsKey) -> Unit,
+    navigateToSession: (SessionDetailsKey) -> Unit
 ) {
     scrollable(
         route = SessionsDestination.route,

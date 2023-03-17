@@ -165,6 +165,7 @@ class ScreenshotTest {
                 sessionDetails
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            navigateToSpeaker = {},
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }

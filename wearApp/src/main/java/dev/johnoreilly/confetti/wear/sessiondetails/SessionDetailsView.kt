@@ -19,6 +19,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -33,6 +34,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun SessionDetailsRoute(
     columnState: ScalingLazyColumnState,
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit,
     viewModel: SessionDetailsViewModel = getViewModel()
 ) {
     val uiState by viewModel.session.collectAsStateWithLifecycle()
@@ -40,6 +42,7 @@ fun SessionDetailsRoute(
     SessionDetailView(
         uiState = uiState,
         columnState = columnState,
+        navigateToSpeaker = navigateToSpeaker,
         formatter = { viewModel.formatter.format(it, timeZone, "eeee HH:mm") })
 }
 
@@ -47,6 +50,7 @@ fun SessionDetailsRoute(
 fun SessionDetailView(
     uiState: SessionDetailsUiState,
     columnState: ScalingLazyColumnState,
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit,
     formatter: (LocalDateTime) -> String
 ) {
     ScalingLazyColumn(
@@ -85,7 +89,10 @@ fun SessionDetailView(
                 }
 
                 items(session.speakers) { speaker ->
-                    SessionSpeakerInfo(speaker = speaker.speakerDetails)
+                    SessionSpeakerInfo(
+                        speaker = speaker.speakerDetails,
+                        navigateToSpeaker = navigateToSpeaker
+                    )
                 }
             }
 
@@ -121,6 +128,7 @@ fun SessionDetailsLongText() {
                 )
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            navigateToSpeaker = {},
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
@@ -150,6 +158,7 @@ fun SessionDetailsViewPreview() {
             )
         ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            navigateToSpeaker = {},
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }

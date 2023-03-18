@@ -77,7 +77,7 @@ object GraphQLSummit {
         }
     }
 
-    suspend fun import() {
+    suspend fun import(): Int {
         val data = getJsonUrl("https://web.cvent.com/hub/graphqlv2", sessionsBody)
 
         val rooms = mutableListOf<DRoom>()
@@ -148,7 +148,7 @@ object GraphQLSummit {
                 )
             }
 
-        DataStore().write(
+        return DataStore().write(
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,

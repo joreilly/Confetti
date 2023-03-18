@@ -40,8 +40,8 @@ suspend fun main(args: Array<String>) {
         }
         routing {
             post("/update/{conf}") {
-                update(call.parameters["conf"])
-                call.respond(HttpStatusCode.OK)
+                val result = update(call.parameters["conf"])
+                call.respondText("$result sessions updated", status = HttpStatusCode.OK)
             }
             post("/update-days") {
                 DataStore().updateDays()
@@ -74,8 +74,8 @@ private fun updateShortDescription() {
     }
 }
 
-private suspend fun update(conf: String?) {
-    when (ConferenceId.from(conf)) {
+private suspend fun update(conf: String?): Int {
+    return when (ConferenceId.from(conf)) {
         ConferenceId.DroidConSF2022 -> DroidConSF.import()
         ConferenceId.DevFestNantes2022 -> DevFestNantes.import()
         ConferenceId.FrenchKit2022 -> FrenchKit.import()

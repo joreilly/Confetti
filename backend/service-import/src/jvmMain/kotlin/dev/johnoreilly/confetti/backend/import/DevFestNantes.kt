@@ -88,7 +88,7 @@ object DevFestNantes {
 
     private val UNKNOWN_END = LocalDateTime(0, 1, 1, 0, 0)
 
-    internal suspend fun import() {
+    internal suspend fun import(): Int {
         val slots = getJsonGithubFile("data/slots.json").asMap.get("slots").asList.map { it.asMap }
         val categories =
             getJsonGithubFile("data/categories.json").asMap.get("categories").asList.map { it.asMap }
@@ -218,7 +218,7 @@ object DevFestNantes {
             timeZone = timeZone
         )
 
-        return DataStore().write(
+        DataStore().write(
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,
@@ -240,6 +240,7 @@ object DevFestNantes {
                 )
             )
         )
+        return sessions.size
     }
 
     private fun slotSessions(slots: List<Map<String, Any?>>): List<DSession> {

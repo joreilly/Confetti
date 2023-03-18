@@ -68,7 +68,7 @@ object DroidConSF {
             }.toList()
     }
 
-    suspend fun import() {
+    suspend fun import(): Int {
         val items = items()
 
         val dataStore = DataStore()
@@ -120,6 +120,8 @@ object DroidConSF {
             ),
             venues = emptyList()
         )
+
+        return items.size
     }
 
     private const val TIMEZONE = "America/Los_Angeles"

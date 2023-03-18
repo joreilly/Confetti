@@ -33,11 +33,13 @@ class ApolloClientCache : KoinComponent {
             if (token == null) {
                 return chain.proceed(request)
             }
-            val newRequest = request.newBuilder().addHeader("Authorization", "Bearer $token").build()
+            val newRequest =
+                request.newBuilder().addHeader("Authorization", "Bearer $token").build()
             return chain.proceed(newRequest)
         }
 
     }
+
     suspend fun getClient(conference: String): ApolloClient {
         return mutex.withLock {
             _clients.getOrPut(conference) {
@@ -58,11 +60,11 @@ class ApolloClientCache : KoinComponent {
             .serverUrl("https://confetti-app.dev/graphql")
             .addHttpHeader("conference", conference)
             .addHttpInterceptor(httpInterceptor)
-            .autoPersistedQueries()
             .normalizedCache(
                 memoryFirstThenSqlCacheFactory,
                 writeToCacheAsynchronously = writeToCacheAsynchronously
             )
+            .autoPersistedQueries()
             .build()
     }
 

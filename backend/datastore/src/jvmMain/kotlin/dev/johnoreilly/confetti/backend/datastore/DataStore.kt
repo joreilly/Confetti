@@ -114,7 +114,7 @@ class DataStore {
         partnerGroups: List<DPartnerGroup>,
         venues: List<DVenue>,
         config: DConfig
-    ) {
+    ): Int {
         val conf = config.id
         datastore.runInTransaction {
             it.put(partnerGroups.toEntity(conf))
@@ -133,6 +133,8 @@ class DataStore {
         // This is written outside a transaction because a transaction cannot write more than 500 entities at once
         datastore.write(sessions.map { it.toEntity(conf) })
         datastore.write(speakers.map { it.toEntity(conf) })
+
+        return sessions.size
     }
 
     /**

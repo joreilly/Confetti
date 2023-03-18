@@ -1,5 +1,5 @@
 service: import
-runtime: java11
+runtime: java17
 instance_class: F1
 
 entrypoint: java -Xmx64m -jar service-import-all.jar

@@ -17,7 +17,7 @@ object FrenchKit {
         }
     }
 
-    suspend fun import() {
+    suspend fun import(): Int {
         val schedule = getJsonUrl("https://frenchkit.fr/schedule/schedule-14.json")
         val speakersJson = getJsonUrl("https://frenchkit.fr/speakers/speakers-8.json")
 
@@ -81,5 +81,7 @@ object FrenchKit {
                 )
             )
         )
+
+        return sessions.size
     }
 }

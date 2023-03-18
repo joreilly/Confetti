@@ -29,7 +29,7 @@ object Fosdem {
         }?.textContent
     }
 
-    internal fun import() {
+    internal fun import(): Int {
         val response = Request.Builder()
             .get()
             .url("https://fosdem.org/schedule/xml")

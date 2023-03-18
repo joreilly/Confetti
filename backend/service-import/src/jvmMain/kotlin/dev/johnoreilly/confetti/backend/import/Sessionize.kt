@@ -9,19 +9,19 @@ object Sessionize {
     private val kotlinConf2023 = "https://sessionize.com/api/v2/rje6khfn/view/All"
     private val androidMakers2023 = "https://sessionize.com/api/v2/72i2tw4v/view/All"
 
-    suspend fun importDroidConLondon2022() {
-        import(ConferenceId.DroidConLondon2022.id, "droidcon London", droidConLondon2022)
+    suspend fun importDroidConLondon2022(): Int {
+        return import(ConferenceId.DroidConLondon2022.id, "droidcon London", droidConLondon2022)
     }
 
-    suspend fun importKotlinConf2023() {
-        import(ConferenceId.KotlinConf2023.id, "KotlinConf 2023", kotlinConf2023)
+    suspend fun importKotlinConf2023(): Int {
+        return import(ConferenceId.KotlinConf2023.id, "KotlinConf 2023", kotlinConf2023)
     }
 
-    suspend fun importAndroidMakers2023() {
-        import(ConferenceId.AndroidMakers2023.id, "AndroidMakers 2023", androidMakers2023)
+    suspend fun importAndroidMakers2023(): Int {
+        return import(ConferenceId.AndroidMakers2023.id, "AndroidMakers 2023", androidMakers2023)
     }
 
-    private suspend fun import(conf: String, confName: String, url: String) {
+    private suspend fun import(conf: String, confName: String, url: String): Int {
         val data = getJsonUrl(url)
 
         val categories = data.asMap["categories"].asList.map { it.asMap }
@@ -83,7 +83,7 @@ object Sessionize {
                 }
             )
         }
-        DataStore().write(
+        return DataStore().write(
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,

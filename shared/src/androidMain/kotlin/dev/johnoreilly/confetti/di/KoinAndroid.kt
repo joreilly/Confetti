@@ -23,11 +23,15 @@ import dev.johnoreilly.confetti.work.RefreshWorker
 import okhttp3.OkHttpClient
 import okhttp3.logging.LoggingEventListener
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.workmanager.dsl.worker
+import org.koin.androidx.workmanager.dsl.workerOf
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.new
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
-    single<DateService> { AndroidDateService() }
+    singleOf(::AndroidDateService).withOptions { bind<DateService>() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .apply {
@@ -52,11 +56,9 @@ actual fun platformModule() = module {
         }
     }
     single { androidContext().settingsStore }
-    single<FlowSettings> { DataStoreSettings(get()) }
-    single {
-        get<FlowSettings>().toBlockingObservableSettings()
-    }
-    worker { RefreshWorker(get(), get(), get(), get()) }
+    single<FlowSettings> { new(::DataStoreSettings) }
+    single { get<FlowSettings>().toBlockingObservableSettings() }
+    workerOf(::RefreshWorker)
     single { WorkManager.getInstance(androidContext()) }
 }
 

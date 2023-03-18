@@ -1,20 +1,23 @@
 package dev.johnoreilly.confetti.account.navigation
 
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.johnoreilly.confetti.account.SignInRoute
-import dev.johnoreilly.confetti.navigation.ConfettiNavigationDestination
 
-object SignInDestination : ConfettiNavigationDestination {
-    override val route = "signin"
-    override val destination = "signin_destination"
+private const val base = "signin"
+private val arguments = emptyList<NamedNavArgument>()
+
+private val pattern = base
+
+object SigninKey {
+    val route = base
 }
-
 
 fun NavGraphBuilder.signInGraph(onBackClick: () -> Unit) {
     composable(
-        route = SignInDestination.route,
-        arguments = emptyList()
+        route = pattern,
+        arguments = arguments
     ) {
         SignInRoute(onBackClick)
     }

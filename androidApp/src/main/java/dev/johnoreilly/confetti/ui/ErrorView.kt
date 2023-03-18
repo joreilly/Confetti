@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ErrorView(onRefresh: () ->Unit){
+fun ErrorView(onRefresh: (() ->Unit)? = null){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -23,11 +23,13 @@ fun ErrorView(onRefresh: () ->Unit){
             Text(
                 text = "Oops something went wrong"
             )
-            Button(
-                onClick = onRefresh,
-                modifier = Modifier.align(Alignment.CenterHorizontally).padding(16.dp)
-            ) {
-                Text(text = "Retry")
+            if (onRefresh != null) {
+                Button(
+                    onClick = onRefresh,
+                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(16.dp)
+                ) {
+                    Text(text = "Retry")
+                }
             }
         }
     }

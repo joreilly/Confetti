@@ -30,6 +30,7 @@ import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SpeakersUiState
 import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ErrorView
@@ -41,30 +42,33 @@ import org.koin.androidx.compose.getViewModel
 fun SpeakersRoute(
     conference: String,
     appState: ConfettiAppState,
-    navigateToSpeaker: (String) -> Unit,
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit,
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit
 ) {
-    val viewModel: SpeakersViewModel = getViewModel()
-    viewModel.setConference(conference = conference)
+    val viewModel: SpeakersViewModel = getViewModel<SpeakersViewModel>().apply {
+        configure(conference = conference)
+    }
     val uiState by viewModel.speakers.collectAsStateWithLifecycle()
 
     ConfettiScaffold(
+        conference = conference,
         title = stringResource(R.string.speakers),
         appState = appState,
         onSwitchConference = onSwitchConference,
         onSignIn = onSignIn,
         onSignOut = onSignOut
     ) {
-        when(val uiState1 = uiState) {
+        when (val uiState1 = uiState) {
             is SpeakersUiState.Success -> {
                 if (appState.isExpandedScreen) {
-                    SpeakerGridView(uiState1.speakers, navigateToSpeaker)
+                    SpeakerGridView(uiState1.conference, uiState1.speakers, navigateToSpeaker)
                 } else {
-                    SpeakerListView(uiState1.speakers, navigateToSpeaker)
+                    SpeakerListView(uiState1.conference, uiState1.speakers, navigateToSpeaker)
                 }
             }
+
             is SpeakersUiState.Loading -> LoadingView()
             is SpeakersUiState.Error -> ErrorView {
 
@@ -77,8 +81,9 @@ fun SpeakersRoute(
 
 @Composable
 fun SpeakerGridView(
+    conference: String,
     speakers: List<SpeakerDetails>,
-    @Suppress("UNUSED_PARAMETER") navigateToSpeaker: (String) -> Unit
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
     LazyVerticalGrid(
         modifier = Modifier.padding(16.dp),
@@ -93,7 +98,6 @@ fun SpeakerGridView(
                     modifier = Modifier.padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-
                     if (speaker.photoUrl?.isNotEmpty() == true) {
                         AsyncImage(
                             model = speaker.photoUrl,
@@ -124,12 +128,16 @@ fun SpeakerGridView(
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SpeakerListView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) -> Unit) {
+fun SpeakerListView(
+    conference: String,
+    speakers: List<SpeakerDetails>,
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
+) {
     Column {
         if (speakers.isNotEmpty()) {
             LazyColumn {
                 items(speakers) { speaker ->
-                    SpeakerView(speaker, navigateToSpeaker)
+                    SpeakerView(conference, speaker, navigateToSpeaker)
                 }
             }
         } else {
@@ -146,11 +154,15 @@ fun SpeakerListView(speakers: List<SpeakerDetails>, navigateToSpeaker: (String) 
 
 
 @Composable
-fun SpeakerView(speaker: SpeakerDetails, navigateToSpeaker: (String) -> Unit) {
+fun SpeakerView(
+    conference: String,
+    speaker: SpeakerDetails,
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { navigateToSpeaker(speaker.id) })
+            .clickable(onClick = { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) })
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

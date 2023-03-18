@@ -4,7 +4,7 @@ import androidx.navigation.NavBackStackEntry
 
 object NavigationHelper {
     @Suppress("DEPRECATION")
-    fun AnalyticsLogger.logNavigationEvent(conference: String, navEntry: NavBackStackEntry) {
+    fun AnalyticsLogger.logNavigationEvent(navEntry: NavBackStackEntry) {
         if (this == AnalyticsLogger.None) return
 
         val arguments = navEntry.arguments
@@ -20,7 +20,6 @@ object NavigationHelper {
 
         logEvent(
             AnalyticsEvent.Navigation(
-                conference,
                 navEntry.destination.route ?: "none",
                 loggingArguments
             )

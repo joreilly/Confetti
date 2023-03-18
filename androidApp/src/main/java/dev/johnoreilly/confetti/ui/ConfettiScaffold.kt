@@ -30,6 +30,7 @@ import dev.johnoreilly.confetti.account.AccountIcon
 @Composable
 fun ConfettiScaffold(
     title: String?,
+    conference: String,
     appState: ConfettiAppState,
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
@@ -43,8 +44,8 @@ fun ConfettiScaffold(
         var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         if (appState.shouldShowNavRail) {
             ConfettiNavRail(
-                destinations = appState.topLevelDestinations,
-                onNavigateToDestination = appState::navigate,
+                conference = conference,
+                onNavigateToDestination = appState::navigateToTopLevelDestination,
                 currentDestination = appState.currentDestination,
                 modifier = Modifier.safeDrawingPadding()
             )
@@ -84,8 +85,8 @@ fun ConfettiScaffold(
                 }
                 if (appState.shouldShowBottomBar) {
                     ConfettiBottomBar(
-                        destinations = appState.topLevelDestinations,
-                        onNavigateToDestination = appState::navigate,
+                        conference = conference,
+                        onNavigateToDestination = appState::navigateToTopLevelDestination,
                         currentDestination = appState.currentDestination
                     )
                 }

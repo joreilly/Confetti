@@ -1,51 +1,51 @@
 package dev.johnoreilly.confetti.sessions.navigation
 
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.window.layout.DisplayFeature
-import dev.johnoreilly.confetti.AppSettings.Companion.CONFERENCE_NOT_SET
-import dev.johnoreilly.confetti.navigation.ConfettiNavigationDestination
+import dev.johnoreilly.confetti.navigation.urlDecoded
+import dev.johnoreilly.confetti.navigation.urlEncoded
+import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.sessions.SessionsView
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 
-object SessionsDestination : ConfettiNavigationDestination {
-    const val conferenceArg = "conference"
-    override val route = "sessions_route/{$conferenceArg}"
-    override val destination = "sessions_destination"
+private const val base = "sessions"
+private const val conferenceArg = "conference"
 
-    fun createNavigationRoute(conference: String): String {
-        return "sessions_route/$conference"
-    }
+val sessionsRoutePattern = "$base/{$conferenceArg}"
+
+class SessionsKey(val conference: String) {
+    constructor(backStackEntry: NavBackStackEntry) :
+        this(backStackEntry.arguments!!.getString(conferenceArg)!!.urlDecoded())
+
+    val route: String = "${base}/${conference.urlEncoded()}"
 }
+
 
 fun NavGraphBuilder.sessionsGraph(
     appState: ConfettiAppState,
-    displayFeatures: List<DisplayFeature>,
-    navigateToSession: (String) -> Unit,
+    navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
-    conference: String,
 ) {
     composable(
-        route = SessionsDestination.route,
+        route = sessionsRoutePattern,
         arguments = listOf(
-            navArgument(SessionsDestination.conferenceArg) {
+            navArgument(conferenceArg) {
                 type = NavType.StringType
-                defaultValue = conference
             }
         )
     ) { backStackEntry ->
         SessionsView(
+            conference = SessionsKey(backStackEntry).conference,
             appState = appState,
-            displayFeatures = displayFeatures,
             navigateToSession = navigateToSession,
             onSignOut = onSignOut,
             navigateToSignIn = navigateToSignIn,
             onSwitchConferenceSelected = onSwitchConferenceSelected,
-            conference = backStackEntry.arguments?.getString(SessionsDestination.conferenceArg) ?: CONFERENCE_NOT_SET
         )
     }
 }

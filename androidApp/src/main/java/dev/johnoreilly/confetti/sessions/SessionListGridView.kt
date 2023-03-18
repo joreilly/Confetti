@@ -23,13 +23,14 @@ import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 
 @Composable
 fun SessionListGridView(
     uiState: SessionsUiState,
-    sessionSelected: (sessionId: String) -> Unit,
+    sessionSelected: (SessionDetailsKey) -> Unit,
     onRefresh: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
@@ -63,7 +64,6 @@ fun SessionListGridView(
                         val timeInfoWidth = 90.dp
                         val sessionInfoWidth = 240.dp
 
-
                         Column {
                             Row(
                                 modifier = Modifier.padding(
@@ -91,6 +91,7 @@ fun SessionListGridView(
                                 sessionsByStartTime.forEach {
                                     item {
                                         SessionGridRow(
+                                            uiState.conference,
                                             it,
                                             rooms,
                                             sessionInfoWidth,
@@ -111,11 +112,12 @@ fun SessionListGridView(
 
 @Composable
 fun SessionGridRow(
+    conference: String,
     sessionByTimeList: Map.Entry<String, List<SessionDetails>>,
     rooms: List<RoomDetails>,
     sessionInfoWidth: Dp,
     timeInfoWidth: Dp,
-    sessionSelected: (sessionId: String) -> Unit
+    sessionSelected: (SessionDetailsKey) -> Unit
 ) {
     Row {
         Text(
@@ -145,7 +147,7 @@ fun SessionGridRow(
                     modifier = Modifier
                         .padding(16.dp)
                         .clickable(onClick = {
-                            sessionSelected(session.id)
+                            sessionSelected(SessionDetailsKey(conference, session.id))
                         }),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

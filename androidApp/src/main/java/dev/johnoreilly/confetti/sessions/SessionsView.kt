@@ -1,13 +1,15 @@
 package dev.johnoreilly.confetti.sessions
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.window.layout.DisplayFeature
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.SessionsViewModel
+import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import kotlinx.coroutines.launch
@@ -16,16 +18,16 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SessionsView(
+    conference: String,
     appState: ConfettiAppState,
-    @Suppress("UNUSED_PARAMETER") displayFeatures: List<DisplayFeature>,
-    navigateToSession: (String) -> Unit,
+    navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
-    conference: String,
 ) {
-    val viewModel: SessionsViewModel = getViewModel()
-    viewModel.setConference(conference)
+    val viewModel: SessionsViewModel = getViewModel<SessionsViewModel>().apply {
+        configure(conference)
+    }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var refreshing by remember { mutableStateOf(false) }
     val refreshScope = rememberCoroutineScope()
@@ -38,6 +40,7 @@ fun SessionsView(
     }
 
     ConfettiScaffold(
+        conference = conference,
         title = (uiState as? SessionsUiState.Success)?.conferenceName,
         appState = appState,
         onSwitchConference = onSwitchConferenceSelected,
@@ -52,12 +55,12 @@ fun SessionsView(
             )
         } else {
             SessionListView(
-                uiState,
-                refreshing,
-                navigateToSession,
-                { viewModel.addBookmark(it) },
-                { viewModel.removeBookmark(it) },
-                ::refresh
+                uiState = uiState,
+                refreshing = refreshing,
+                sessionSelected = navigateToSession,
+                addBookmark = { viewModel.addBookmark(it) },
+                removeBookmark = { viewModel.removeBookmark(it) },
+                onRefresh = ::refresh
             )
         }
     }

@@ -9,24 +9,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import dev.johnoreilly.confetti.navigation.SessionsTopLevelDestination
+import dev.johnoreilly.confetti.navigation.SpeakersTopLevelDestination
 import dev.johnoreilly.confetti.navigation.TopLevelDestination
 
 @Composable
 internal fun ConfettiBottomBar(
-    destinations: List<TopLevelDestination>,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    conference: String,
+    onNavigateToDestination: (String) -> Unit,
     currentDestination: NavDestination?
 ) {
     NavigationBar(
         contentColor = ConfettiNavigationDefaults.navigationContentColor(),
         tonalElevation = 0.dp,
     ) {
-        destinations.forEach { destination ->
+        listOf(SessionsTopLevelDestination, SpeakersTopLevelDestination).forEach { destination ->
+            val route = destination.route(conference)
+
             val selected =
-                currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                currentDestination?.hierarchy?.any { it.route == destination.routePattern } == true
             NavigationBarItem(
                 selected = selected,
-                onClick = { onNavigateToDestination(destination) },
+                onClick = { onNavigateToDestination(route) },
                 icon = {
                     val icon = if (selected) {
                         destination.selectedIcon

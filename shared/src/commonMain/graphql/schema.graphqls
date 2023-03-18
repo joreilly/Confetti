@@ -153,7 +153,7 @@ type Venue {
 
   description(language: String): String!
 
-  descriptionFr: String! @deprecated(reason: "description(language: \"fr\") instead")
+  descriptionFr: String! @deprecated(reason: "use description(language: \"fr\") instead")
 
   floorPlanUrl: String
 

@@ -39,6 +39,7 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo3:apollo-normalized-cache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo3:apollo-normalized-cache-sqlite" }

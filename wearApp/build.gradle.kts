@@ -183,6 +183,7 @@ dependencies {
     testImplementation(libs.accompanist.testharness)
     testImplementation(libs.snapshot.android)
     testImplementation(libs.snapshot.jvm)
+    testImplementation(libs.androidx.work.testing)
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.fastlane.screengrab)

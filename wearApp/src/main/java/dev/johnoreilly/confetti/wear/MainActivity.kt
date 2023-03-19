@@ -42,8 +42,7 @@ class MainActivity : ComponentActivity() {
     private suspend fun logNavigationEvents() {
         if (isFirebaseInstalled) {
             navController.currentBackStackEntryFlow.collect { navEntry ->
-                val conference = repository.getConference()
-                analyticsLogger.logNavigationEvent(conference, navEntry)
+                analyticsLogger.logNavigationEvent(navEntry)
             }
         }
     }

@@ -16,12 +16,14 @@ open class AppViewModel : KMMViewModel(), KoinComponent {
     @NativeCoroutinesState
     val conference: StateFlow<String?> = repository
         .getConferenceFlow()
-        .onStart {
-            delay(1000)
-        }
         .stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(),
-        null
-    )
+            viewModelScope,
+            SharingStarted.WhileSubscribed(),
+            null
+        )
+
+    // Kept for compatibility with iOS
+    suspend fun setConference(conference: String) {
+        repository.setConference(conference)
+    }
 }

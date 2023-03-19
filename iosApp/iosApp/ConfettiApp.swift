@@ -115,7 +115,7 @@ struct SessionsView: View {
                 ProgressView()
             }
         }.onAppear {
-            viewModel.setConference(conference: conference)
+            viewModel.configure(conference: conference)
         }
     }
 }

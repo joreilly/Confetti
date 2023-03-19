@@ -138,7 +138,7 @@ wear-complications-data = "androidx.wear.watchface:watchface-complications-data-
 wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha05"
 wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha05"
 wire-runtime = "com.squareup.wire:wire-runtime:4.5.2"
-xoxo = "net.mbonnin.xoxo:xoxo:0.2"
+xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]

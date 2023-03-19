@@ -40,6 +40,8 @@ fun Project.configureCompilerOptions(jvmVersion: Int = 11) {
         compileOptions {
             it.sourceCompatibility = JavaVersion.toVersion(jvmVersion.toJavaVersion())
             it.targetCompatibility = JavaVersion.toVersion(jvmVersion.toJavaVersion())
+
+            it.isCoreLibraryDesugaringEnabled = true
         }
     }
 }

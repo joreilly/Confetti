@@ -23,20 +23,34 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import dev.johnoreilly.confetti.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
+import dev.johnoreilly.confetti.ui.ErrorView
+import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.SocialIcon
 import org.koin.androidx.compose.getViewModel
 
 
 @Composable
-fun SpeakerDetailsRoute(onBackClick: () -> Unit, viewModel: SpeakerDetailsViewModel = getViewModel()) {
-    val speaker by viewModel.speaker.collectAsStateWithLifecycle()
-    SpeakerDetailsView(speaker, onBackClick)
+internal fun SpeakerDetailsRoute(speakerDetailsKey: SpeakerDetailsKey, onBackClick: () -> Unit) {
+    val viewModel: SpeakerDetailsViewModel = getViewModel<SpeakerDetailsViewModel>().apply {
+        configure(speakerDetailsKey.conference, speakerDetailsKey.speakerId)
+    }
+
+    val uiState by viewModel.speaker.collectAsStateWithLifecycle()
+
+    when (val uiState1 = uiState) {
+        is SpeakerDetailsViewModel.Loading -> LoadingView()
+        is SpeakerDetailsViewModel.Error -> ErrorView()
+        is SpeakerDetailsViewModel.Success -> SpeakerDetailsView(uiState1.details, onBackClick)
+    }
+
 }
 
 
 @Composable
-fun SpeakerDetailsView(speaker: SpeakerDetails?, popBack: () -> Unit) {
+fun SpeakerDetailsView(speaker: SpeakerDetails, popBack: () -> Unit) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
@@ -46,7 +60,7 @@ fun SpeakerDetailsView(speaker: SpeakerDetails?, popBack: () -> Unit) {
                 title = {
                     Text(
                         modifier = Modifier.padding(PaddingValues(start = 16.dp, end = 16.dp)),
-                        text = speaker?.name ?: "",
+                        text = speaker.name,
                         maxLines = 1, overflow = TextOverflow.Ellipsis
                     )
                 },
@@ -66,7 +80,8 @@ fun SpeakerDetailsView(speaker: SpeakerDetails?, popBack: () -> Unit) {
         Column(modifier = Modifier.padding(padding)) {
             speaker?.let { speaker ->
                 Column(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(16.dp)
                         .verticalScroll(state = scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -78,7 +93,8 @@ fun SpeakerDetailsView(speaker: SpeakerDetails?, popBack: () -> Unit) {
                             model = imageUrl,
                             contentDescription = speaker.name,
                             contentScale = ContentScale.Fit,
-                            modifier = Modifier.size(240.dp)
+                            modifier = Modifier
+                                .size(240.dp)
                                 .clip(RoundedCornerShape(16.dp))
                         )
                     }

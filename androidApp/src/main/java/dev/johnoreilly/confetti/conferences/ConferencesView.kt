@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,15 +26,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.GetConferencesQuery
+import dev.johnoreilly.confetti.sessions.navigation.SessionsKey
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ConferencesRoute(
-    navigateToConference: (String) -> Unit,
+    navigateToConference: (SessionsKey) -> Unit,
 ) {
     val viewModel = getViewModel<ConferencesViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -42,8 +45,12 @@ fun ConferencesRoute(
         ConferencesViewModel.Error -> ErrorView(viewModel::refresh)
         ConferencesViewModel.Loading -> LoadingView()
         is ConferencesViewModel.Success -> {
+            val scope = rememberCoroutineScope()
             ConferencesView(uiState1.conferences) { conference ->
-                navigateToConference(conference)
+                scope.launch {
+                    viewModel.setConference(conference)
+                    navigateToConference(SessionsKey(conference))
+                }
             }
         }
     }

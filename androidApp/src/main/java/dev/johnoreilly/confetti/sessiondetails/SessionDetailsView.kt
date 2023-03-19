@@ -19,13 +19,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.flowlayout.FlowRow
-import dev.johnoreilly.confetti.SessionsUiState
+import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SessionDetailsRoute(onBackClick: () -> Unit, viewModel: SessionDetailsViewModel = getViewModel()) {
+fun SessionDetailsRoute(conference: String, sessionId: String, onBackClick: () -> Unit) {
+    val viewModel: SessionDetailsViewModel = getViewModel<SessionDetailsViewModel>().apply {
+        configure(conference, sessionId)
+    }
     val session by viewModel.session.collectAsStateWithLifecycle()
     SessionDetailView(session, onBackClick)
 }

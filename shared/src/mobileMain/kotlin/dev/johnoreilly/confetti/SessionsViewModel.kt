@@ -31,7 +31,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
 
-    private var conference: String = CONFERENCE_NOT_SET
+    private lateinit var conference: String
     private val refreshDatas = Channel<RefreshData>()
     private var started: Boolean = false
 
@@ -46,13 +46,13 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
 
     fun addBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            repository.addBookmark(conference, sessionId)
+            repository.addBookmark(conference!!, sessionId)
         }
     }
 
     fun removeBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            repository.removeBookmark(conference, sessionId)
+            repository.removeBookmark(conference!!, sessionId)
         }
     }
 
@@ -88,6 +88,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             sessionsByStartTimeList.add(sessionsByStartTime)
         }
         return SessionsUiState.Success(
+            conference,
             dateService.now(),
             conference,
             confDates,
@@ -120,7 +121,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
     // FIXME: can we pass that as a parameter somehow
-    fun setConference(conference: String) {
+    fun configure(conference: String) {
         this.conference = conference
         maybeStart()
     }
@@ -160,6 +161,7 @@ sealed interface SessionsUiState {
     object Error : SessionsUiState
 
     data class Success(
+        val conference: String,
         val now: LocalDateTime,
         val conferenceName: String,
         val confDates: List<LocalDate>,

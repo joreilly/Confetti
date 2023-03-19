@@ -45,6 +45,7 @@ import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessionSpeakerLocation
+import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
@@ -60,7 +61,7 @@ import java.time.format.FormatStyle
 fun SessionListView(
     uiState: SessionsUiState,
     refreshing: Boolean,
-    sessionSelected: (sessionId: String) -> Unit,
+    sessionSelected: (SessionDetailsKey) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     onRefresh: () -> Unit
@@ -109,6 +110,7 @@ fun SessionListView(
 
                                 items(it.value) { session ->
                                     SessionView(
+                                        uiState.conference,
                                         session,
                                         sessionSelected,
                                         uiState.bookmarks.contains(session.id),
@@ -162,8 +164,9 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
 
 @Composable
 fun SessionView(
+    conference: String,
     session: SessionDetails,
-    sessionSelected: (sessionId: String) -> Unit,
+    sessionSelected: (SessionDetailsKey) -> Unit,
     isBookmarked: Boolean,
     addBookmark: (String) -> Unit,
     removeBookmark: (String) -> Unit
@@ -172,7 +175,7 @@ fun SessionView(
     var modifier = Modifier.fillMaxSize()
     if (!session.isBreak()) {
         modifier = modifier.clickable(onClick = {
-            sessionSelected(session.id)
+            sessionSelected(SessionDetailsKey(conference, session.id))
         })
     }
     Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {

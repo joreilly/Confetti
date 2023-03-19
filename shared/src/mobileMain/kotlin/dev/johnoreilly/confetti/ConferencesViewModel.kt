@@ -61,4 +61,8 @@ open class ConferencesViewModel : KMMViewModel(), KoinComponent {
             }
         }
     }
+
+    suspend fun setConference(conference: String) {
+        repository.setConference(conference)
+    }
 }

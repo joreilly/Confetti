@@ -8,13 +8,13 @@ import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.AppViewModel
 import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.ConferencesViewModel
+import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.SessionsViewModel
+import dev.johnoreilly.confetti.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.TokenProvider
 import dev.johnoreilly.confetti.account.AccountViewModel
 import dev.johnoreilly.confetti.account.Authentication
-import dev.johnoreilly.confetti.sessiondetails.SessionDetailsViewModel
-import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
@@ -32,6 +32,8 @@ val appModule = module {
     viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)
     viewModelOf(::AccountViewModel)
+
+    single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
 
     singleOf(::WorkManagerConferenceRefresh).withOptions { bind<ConferenceRefresh>() }
     singleOf(::Authentication)

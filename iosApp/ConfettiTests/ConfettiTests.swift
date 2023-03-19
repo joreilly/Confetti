@@ -24,7 +24,7 @@ final class ConfettiTests: XCTestCase {
     
     func testGetSessions() async throws {
         let viewModel = SessionsViewModel()
-        viewModel.setConference(conference: "test")
+        viewModel.configure(conference: "test")
         
         let sessionsUIStateSequence = asyncSequence(for: viewModel.uiStateFlow)
         let uiState = try await sessionsUIStateSequence.first(where: { $0 is SessionsUiStateSuccess })

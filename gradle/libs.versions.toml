@@ -74,7 +74,7 @@ google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.11.0"
 google-services = "com.google.gms:google-services:4.3.15"
 graphql-java = "com.graphql-java:graphql-java:20.0"
-graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.0-alpha.3"
+graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.0-alpha.4"
 horologist-auth-composables = "com.google.android.horologist:horologist-auth-composables:0.3.9"
 horologist-auth-ui = "com.google.android.horologist:horologist-auth-ui:0.3.9"
 horologist-auth-data = "com.google.android.horologist:horologist-auth-data:0.3.9"

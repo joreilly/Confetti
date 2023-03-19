@@ -17,8 +17,8 @@ import dev.johnoreilly.confetti.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.sessions.navigation.sessionsGraph
 import dev.johnoreilly.confetti.speakerdetails.navigation.speakerDetailsGraph
 import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
-import dev.johnoreilly.confetti.splash.navigation.SplashKey
-import dev.johnoreilly.confetti.splash.navigation.splashGraph
+import dev.johnoreilly.confetti.initial_loading.navigation.InitialLoadingKey
+import dev.johnoreilly.confetti.initial_loading.navigation.initialLoadingGraph
 import org.koin.androidx.compose.get
 
 @Composable
@@ -35,7 +35,7 @@ fun ConfettiApp(
 
     NavHost(
         navController = navController,
-        startDestination = SplashKey.route,
+        startDestination = InitialLoadingKey.route,
     ) {
         fun onSignIn() {
             appState.navigate(SigninKey.route)
@@ -49,7 +49,7 @@ fun ConfettiApp(
             appState.navigateToTopLevelDestination(ConferencesKey.route)
         }
 
-        splashGraph(
+        initialLoadingGraph(
             navigateToConferences = { appState.navigateToTopLevelDestination(it.route) },
             navigateToSessions = { appState.navigateToTopLevelDestination(it.route) }
         )

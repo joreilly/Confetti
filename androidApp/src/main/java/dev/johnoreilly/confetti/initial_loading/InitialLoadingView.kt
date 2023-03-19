@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.splash
+package dev.johnoreilly.confetti.initial_loading
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -11,8 +11,9 @@ import dev.johnoreilly.confetti.sessions.navigation.SessionsKey
 import dev.johnoreilly.confetti.ui.LoadingView
 import org.koin.androidx.compose.getViewModel
 
+// FIXME: use https://developer.android.com/develop/ui/views/launch/splash-screen#suspend-drawing to avoid the progressbar
 @Composable
-fun SplashRoute(
+fun InitialLoadingRoute(
     navigateToConferences: (ConferencesKey) -> Unit,
     navigateToSessions: (SessionsKey) -> Unit
 ) {
@@ -26,6 +27,10 @@ fun SplashRoute(
                 navigateToConferences(ConferencesKey)
             }
         }
-        else -> navigateToSessions(SessionsKey(conference1))
+        else -> {
+            SideEffect {
+                navigateToSessions(SessionsKey(conference1))
+            }
+        }
     }
 }

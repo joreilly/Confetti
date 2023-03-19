@@ -14,6 +14,7 @@ import com.google.android.horologist.data.WearDataLayerRegistry
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.ui.colorScheme
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -24,7 +25,7 @@ class WearSettingsSync(
     val context: Context,
     val coroutineScope: CoroutineScope
 ) {
-    val settingsDataStore = dataLayerRegistry.protoDataStore<WearSettings>(coroutineScope)
+    val settingsDataStore by lazy { dataLayerRegistry.protoDataStore<WearSettings>(coroutineScope) }
 
     suspend fun isAvailable(): Boolean {
         if (Build.VERSION.SDK_INT < 23)
@@ -47,7 +48,7 @@ class WearSettingsSync(
 
     val wearNodes = flow {
         emit(phoneDataLayerRegistry.connectedNodes())
-    }
+    }.catch { emit(listOf()) }
 
     suspend fun updateWearTheme() {
         if (isAvailable()) {

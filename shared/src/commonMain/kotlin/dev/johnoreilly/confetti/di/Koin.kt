@@ -9,6 +9,7 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.TokenProvider
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
@@ -16,7 +17,7 @@ expect fun platformModule(): Module
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
-        modules(commonModule(), platformModule())
+        modules(commonModule())
         appDeclaration()
     }
 
@@ -24,16 +25,12 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
 fun initKoin() = initKoin() {}
 
 fun commonModule() = module {
-    single { ConfettiRepository() }
-    single { AppSettings(get()) }
-    single { ApolloClientCache() }
-    single<TokenProvider> {
-        object : TokenProvider {
-            override suspend fun token(forceRefresh: Boolean): String? {
-                return null
-            }
-        }
-    }
+    includes(platformModule())
+
+    singleOf(::ConfettiRepository)
+    singleOf(::AppSettings)
+    singleOf(::ApolloClientCache)
+    single { TokenProvider { null } }
 }
 
 expect fun getDatabaseName(conference: String): String

@@ -7,8 +7,6 @@
 package dev.johnoreilly.confetti.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.WorkManager
 import coil.ImageLoader
@@ -18,7 +16,6 @@ import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
 import com.google.android.horologist.data.WearDataLayerRegistry
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
-import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toBlockingObservableSettings
 import com.russhwolf.settings.datastore.DataStoreSettings
@@ -72,6 +69,8 @@ actual fun platformModule() = module {
     single { get<FlowSettings>().toBlockingObservableSettings() }
     workerOf(::RefreshWorker)
     single { WorkManager.getInstance(androidContext()) }
+
+    single<CoroutineScope> { CoroutineScope(Dispatchers.Default) }
 
     single<WearDataLayerRegistry> {
         WearDataLayerRegistry.fromContext(

@@ -87,7 +87,7 @@ horologist-datalayer-phone = { module = "com.google.android.horologist:horologis
 horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist-datalayer-watch" }
 horologist-tiles = "com.google.android.horologist:horologist-tiles:0.3.9"
 junit = "junit:junit:4.13.2"
-kaml = "com.charleskorn.kaml:kaml:0.47.0"
+kaml = "com.charleskorn.kaml:kaml:0.53.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
 koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin-android" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }

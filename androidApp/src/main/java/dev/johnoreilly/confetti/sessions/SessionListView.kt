@@ -41,7 +41,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.SpeakersUiState
 import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
@@ -50,9 +49,11 @@ import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
+import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
-
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -129,6 +130,7 @@ fun SessionListView(
     }
 }
 
+private val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
 
 @Composable
 fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) {
@@ -152,13 +154,11 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
                         pagerState.animateScrollToPage(index)
                     }
                 },
-                text = { Text(text = date.toString()) }
+                text = { Text(text = dateFormatter.format(date)) }
             )
         }
     }
 }
-
-
 
 @Composable
 fun SessionView(

@@ -13,7 +13,7 @@ private fun Int.toJavaVersion(): String = when(this) {
     8 -> "1.8"
     else -> toString()
 }
-fun Project.configureCompilerOptions(jvmVersion: Int = 8) {
+fun Project.configureCompilerOptions(jvmVersion: Int = 11) {
     tasks.withType(KotlinCompile::class.java).configureEach {
         it.compilerOptions {
             //allWarningsAsErrors.set(true)

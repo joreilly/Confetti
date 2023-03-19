@@ -13,24 +13,20 @@ import org.koin.core.component.inject
 open class SpeakersViewModel : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
 
-    private var conference: String? = null
+    private lateinit var conference: String
 
     // FIXME: can we pass that as a parameter somehow
-    fun configure(conference: String?) {
+    fun configure(conference: String) {
         this.conference = conference
     }
 
     val speakers: StateFlow<SpeakersUiState> = flow {
-        val conference1 = conference ?: repository.getConference()
-        repository.conferenceData(conference1, FetchPolicy.CacheOnly).also {
-            println(it.errors)
-            println(it.exception)
-        }
+        repository.conferenceData(conference, FetchPolicy.CacheOnly)
             .data?.speakers?.map {
             it.speakerDetails
         }.let {
             it?.let {
-                emit(SpeakersUiState.Success(conference1, it))
+                emit(SpeakersUiState.Success(conference, it))
             }
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SpeakersUiState.Loading)

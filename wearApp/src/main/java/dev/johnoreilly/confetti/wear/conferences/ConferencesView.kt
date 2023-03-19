@@ -22,6 +22,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
@@ -36,8 +37,10 @@ fun ConferencesRoute(
 ) {
     val uiState by viewModel.conferenceList.collectAsStateWithLifecycle()
 
-    ReportDrawnWhen {
-        uiState !is ConferencesUiState.Loading
+    if (!BuildConfig.DEBUG) {
+        ReportDrawnWhen {
+            uiState !is ConferencesUiState.Loading
+        }
     }
 
     ConferencesView(

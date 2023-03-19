@@ -7,6 +7,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
+import dev.johnoreilly.confetti.wear.Theme
+import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 
 
 /**
@@ -32,6 +34,7 @@ val ColorScheme = Colors(
 @Suppress("DEPRECATION")
 @Composable
 fun ConfettiTheme(
+    mobileTheme: Theme? = null,
     content: @Composable () -> Unit
 ) {
     val material = MaterialTheme.typography
@@ -52,7 +55,10 @@ fun ConfettiTheme(
             caption3 = material.caption3.copy(platformStyle = platformStyle),
         )
     }
-    MaterialTheme(colors = ColorScheme, content = content, typography = typography)
+    val colors = remember(mobileTheme) {
+        mobileTheme?.toMaterialThemeColors() ?: ColorScheme
+    }
+    MaterialTheme(colors = colors, content = content, typography = typography)
 }
 
 fun Colors.toTileColors(): androidx.wear.tiles.material.Colors =

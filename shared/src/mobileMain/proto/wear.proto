@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_package = "dev.johnoreilly.confetti.wear";
+option java_multiple_files = true;
+
+message Theme {
+  uint64 primary = 1;
+  uint64 primaryVariant = 2;
+  uint64 secondary = 3;
+  uint64 secondaryVariant = 4;
+  uint64 background = 5;
+  uint64 surface = 6;
+  uint64 error = 7;
+  uint64 onPrimary = 8;
+  uint64 onSecondary = 9;
+  uint64 onBackground = 10;
+  uint64 onSurface = 11;
+  uint64 onSurfaceVariant = 12;
+  uint64 onError = 13;
+}
+
+message WearSettings {
+  Theme theme = 1;
+}

@@ -28,7 +28,6 @@ import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.previews.WearSmallRoundDevicePreview
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toKotlinInstant
 import org.koin.androidx.compose.getViewModel
 
 @Composable

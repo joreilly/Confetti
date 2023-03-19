@@ -161,6 +161,9 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.androidx.work.runtime.ktx)
 
+    implementation(libs.horologist.datalayer)
+    implementation(libs.horologist.datalayer.phone)
+
     implementation(libs.kmm.viewmodel)
 
     implementation(platform(libs.firebase.bom))

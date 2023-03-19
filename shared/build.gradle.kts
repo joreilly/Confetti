@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.rickclephas.kmp.nativecoroutines")
     id("co.touchlab.faktory.kmmbridge")
+    id("com.squareup.wire")
 }
 
 configureCompilerOptions()
@@ -13,6 +14,11 @@ version = "1.0"
 
 dependencies {
     implementation(platform(libs.firebase.bom))
+}
+
+wire {
+    kotlin {
+    }
 }
 
 kotlin {
@@ -80,6 +86,7 @@ kotlin {
                 api(libs.koin.android)
                 api(libs.koin.workmanager)
                 implementation(libs.okio)
+                implementation(libs.horologist.datalayer)
 
                 implementation(libs.google.services)
                 implementation(libs.firebase.analytics)

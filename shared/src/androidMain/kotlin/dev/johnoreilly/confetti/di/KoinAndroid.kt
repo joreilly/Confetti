@@ -1,25 +1,37 @@
-@file:OptIn(ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class)
+@file:OptIn(
+    ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class,
+    ExperimentalHorologistDataLayerApi::class
+)
+@file:Suppress("RemoveExplicitTypeArguments")
 
 package dev.johnoreilly.confetti.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.WorkManager
 import coil.ImageLoader
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
+import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
+import com.google.android.horologist.data.WearDataLayerRegistry
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
+import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toBlockingObservableSettings
 import com.russhwolf.settings.datastore.DataStoreSettings
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
+import dev.johnoreilly.confetti.settings.WearSettingsSerializer
 import dev.johnoreilly.confetti.shared.BuildConfig
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.work.RefreshWorker
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.LoggingEventListener
 import org.koin.android.ext.koin.androidContext
@@ -36,10 +48,10 @@ actual fun platformModule() = module {
             }
             .build()
     }
-    factory {
+    factory<ApolloClient.Builder> {
         ApolloClient.Builder().okHttpClient(get())
     }
-    single {
+    single<ImageLoader> {
         ImageLoader.Builder(androidContext())
             .okHttpClient { get() }
             .build()
@@ -51,13 +63,26 @@ actual fun platformModule() = module {
             FirebaseAnalyticsLogger
         }
     }
-    single { androidContext().settingsStore }
+    single<DataStore<Preferences>> { androidContext().settingsStore }
     single<FlowSettings> { DataStoreSettings(get()) }
-    single {
+    single<ObservableSettings> {
         get<FlowSettings>().toBlockingObservableSettings()
     }
     worker { RefreshWorker(get(), get(), get(), get()) }
-    single { WorkManager.getInstance(androidContext()) }
+    single<WorkManager> { WorkManager.getInstance(androidContext()) }
+
+    single<CoroutineScope> {
+        CoroutineScope(Dispatchers.Default)
+    }
+
+    single<WearDataLayerRegistry> {
+        WearDataLayerRegistry.fromContext(
+            application = androidContext(),
+            coroutineScope = get()
+        ).apply {
+            registerSerializer(WearSettingsSerializer)
+        }
+    }
 }
 
 val Context.settingsStore by preferencesDataStore("settings")

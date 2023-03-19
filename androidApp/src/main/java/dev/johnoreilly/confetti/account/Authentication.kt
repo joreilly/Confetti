@@ -9,11 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
@@ -49,6 +51,20 @@ class Authentication {
 
     fun currentUser(): User? {
         return Firebase.auth.currentUser?.toUser()
+    }
+
+    val currentUserFlow = callbackFlow<User?> {
+        trySend(currentUser())
+
+        val listener = AuthStateListener {
+            trySend(it.currentUser?.toUser())
+        }
+
+        Firebase.auth.addAuthStateListener(listener)
+
+        awaitClose {
+            Firebase.auth.removeAuthStateListener(listener)
+        }
     }
 
     fun signOut() {

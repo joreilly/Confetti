@@ -36,9 +36,6 @@ import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toKotlinInstant
-import kotlinx.datetime.toKotlinLocalDate
-import kotlinx.datetime.toKotlinLocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import org.junit.BeforeClass
 import org.junit.ClassRule

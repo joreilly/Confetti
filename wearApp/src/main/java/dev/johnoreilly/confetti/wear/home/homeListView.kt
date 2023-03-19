@@ -39,7 +39,6 @@ import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDate
-import kotlinx.datetime.toKotlinLocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable

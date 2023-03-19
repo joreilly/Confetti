@@ -1,40 +1,48 @@
 package dev.johnoreilly.confetti.account
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import dev.johnoreilly.confetti.ApolloClientCache
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AccountIcon(
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    viewModel: AccountViewModel = getViewModel()
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
-    val authentication = get<Authentication>()
-    var user by remember { mutableStateOf(authentication.currentUser()) }
-    val apolloClientCache = get<ApolloClientCache>()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val user = uiState.user
 
     IconButton(onClick = { showMenu = !showMenu }) {
         when {
             user?.photoUrl != null -> {
                 AsyncImage(
-                    model = user?.photoUrl,
-                    contentDescription = user?.name,
+                    model = user.photoUrl,
+                    contentDescription = user.name,
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier
+                        .size(30.dp)
                         .clip(androidx.compose.foundation.shape.CircleShape)
                 )
             }
@@ -51,15 +59,12 @@ fun AccountIcon(
         expanded = showMenu,
         onDismissRequest = { showMenu = false }
     ) {
-
         if (user != null) {
             DropdownMenuItem(
                 text = { Text("Sign out") },
                 onClick = {
                     onSignOut()
-                    apolloClientCache.clear()
-                    authentication.signOut()
-                    user = null
+                    viewModel.signOut()
                     showMenu = false
                 }
             )
@@ -79,5 +84,23 @@ fun AccountIcon(
                 onSwitchConference()
             }
         )
+        if (uiState.showInstallOnWear) {
+            DropdownMenuItem(
+                text = { Text("Install on Wear") },
+                onClick = {
+                    showMenu = false
+                    viewModel.installOnWear()
+                }
+            )
+        }
+        if (uiState.isInstalledOnWear) {
+            DropdownMenuItem(
+                text = { Text("Update Wear Theme") },
+                onClick = {
+                    showMenu = false
+                    viewModel.updateWearTheme()
+                }
+            )
+        }
     }
 }

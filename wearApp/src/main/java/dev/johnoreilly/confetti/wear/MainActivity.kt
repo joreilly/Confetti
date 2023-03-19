@@ -5,21 +5,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.google.firebase.FirebaseApp
-import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
-import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
-import kotlinx.coroutines.async
 import org.koin.android.ext.android.inject
-import java.lang.IllegalStateException
 
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavHostController
@@ -32,9 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             navController = rememberSwipeDismissableNavController()
 
-            ConfettiTheme {
-                ConfettiApp(navController)
-            }
+            ConfettiApp(navController)
 
             LaunchedEffect(Unit) {
                 navigateFromTileLaunch()

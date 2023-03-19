@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.rickclephas.kmp.nativecoroutines")
     id("co.touchlab.faktory.kmmbridge")
+    id("com.squareup.wire")
 }
 
 configureCompilerOptions()
@@ -13,6 +14,24 @@ version = "1.0"
 
 dependencies {
     implementation(platform(libs.firebase.bom))
+}
+
+wire {
+    kotlin {
+    }
+}
+
+// https://github.com/square/wire/issues/2411
+val wireTask = tasks.withType<com.squareup.wire.gradle.WireTask>()
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    dependsOn(wireTask)
+}
+afterEvaluate {
+    wireTask.forEach {
+        if ("generateCommon.+MainProtos".toRegex().matches(it.name)) {
+            it.enabled = false
+        }
+    }
 }
 
 kotlin {
@@ -80,6 +99,7 @@ kotlin {
                 api(libs.koin.android)
                 api(libs.koin.workmanager)
                 implementation(libs.okio)
+                implementation(libs.horologist.datalayer)
 
                 implementation(libs.google.services)
                 implementation(libs.firebase.analytics)

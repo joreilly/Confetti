@@ -1,8 +1,11 @@
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
+import dev.johnoreilly.confetti.wear.WearAppViewModel
 import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
 import dev.johnoreilly.confetti.wear.conferences.navigation.conferencesGraph
 import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
@@ -19,6 +22,7 @@ import dev.johnoreilly.confetti.wear.auth.navigation.SignOutDestination
 import dev.johnoreilly.confetti.wear.auth.navigation.authGraph
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.SpeakerDetailsDestination
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.speakerDetailsGraph
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ConfettiApp(
@@ -36,74 +40,80 @@ fun ConfettiApp(
         }
     }
 
-    WearNavScaffold(
-        startDestination = ConferenceHomeDestination.route,
-        navController = navController
-    ) {
-        conferencesGraph(
-            navigateToConference = {
-                onNavigateToDestination(
-                    ConferenceHomeDestination,
-                    ConferenceHomeDestination.createNavigationRoute(it)
-                )
-            }
-        )
+    val viewModel: WearAppViewModel = getViewModel()
 
-        conferenceHomeGraph(
-            navigateToSession = {
-                onNavigateToDestination(
-                    SessionDetailsDestination,
-                    SessionDetailsDestination.createNavigationRoute(it)
-                )
-            },
-            navigateToSettings = {
-                onNavigateToDestination(SettingsDestination)
-            },
-            navigateToDay = {
-                onNavigateToDestination(
-                    SessionsDestination,
-                    SessionsDestination.createNavigationRoute(it)
-                )
-            },
-            navigateToConferenceList = {
-                onNavigateToDestination(
-                    ConferencesDestination,
-                    ConferencesDestination.route
-                )
-            }
-        )
+    val appState by viewModel.appState.collectAsStateWithLifecycle()
 
-        sessionsGraph(
-            navigateToSession = {
-                onNavigateToDestination(
-                    SessionDetailsDestination,
-                    SessionDetailsDestination.createNavigationRoute(it)
-                )
-            }
-        )
+    ConfettiTheme(appState.theme) {
+        WearNavScaffold(
+            startDestination = ConferenceHomeDestination.route,
+            navController = navController
+        ) {
+            conferencesGraph(
+                navigateToConference = {
+                    onNavigateToDestination(
+                        ConferenceHomeDestination,
+                        ConferenceHomeDestination.createNavigationRoute(it)
+                    )
+                }
+            )
 
-        sessionDetailsGraph(
-            navigateToSpeaker = {
-                onNavigateToDestination(
-                    SpeakerDetailsDestination,
-                    SpeakerDetailsDestination.createNavigationRoute(it)
-                )
-            }
-        )
+            conferenceHomeGraph(
+                navigateToSession = {
+                    onNavigateToDestination(
+                        SessionDetailsDestination,
+                        SessionDetailsDestination.createNavigationRoute(it)
+                    )
+                },
+                navigateToSettings = {
+                    onNavigateToDestination(SettingsDestination)
+                },
+                navigateToDay = {
+                    onNavigateToDestination(
+                        SessionsDestination,
+                        SessionsDestination.createNavigationRoute(it)
+                    )
+                },
+                navigateToConferenceList = {
+                    onNavigateToDestination(
+                        ConferencesDestination,
+                        ConferencesDestination.route
+                    )
+                }
+            )
 
-        speakerDetailsGraph()
+            sessionsGraph(
+                navigateToSession = {
+                    onNavigateToDestination(
+                        SessionDetailsDestination,
+                        SessionDetailsDestination.createNavigationRoute(it)
+                    )
+                }
+            )
 
-        settingsGraph(
-            onSwitchConferenceSelected = {
-                onNavigateToDestination(ConferencesDestination)
-            },
-            navigateToGoogleSignOut = { onNavigateToDestination(SignOutDestination) },
-            navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) }
-        )
+            sessionDetailsGraph(
+                navigateToSpeaker = {
+                    onNavigateToDestination(
+                        SpeakerDetailsDestination,
+                        SpeakerDetailsDestination.createNavigationRoute(it)
+                    )
+                }
+            )
 
-        authGraph(
-            navigateUp = { navController.popBackStack() },
-            navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) },
-        )
+            speakerDetailsGraph()
+
+            settingsGraph(
+                onSwitchConferenceSelected = {
+                    onNavigateToDestination(ConferencesDestination)
+                },
+                navigateToGoogleSignOut = { onNavigateToDestination(SignOutDestination) },
+                navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) }
+            )
+
+            authGraph(
+                navigateUp = { navController.popBackStack() },
+                navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) },
+            )
+        }
     }
 }

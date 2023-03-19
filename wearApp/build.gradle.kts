@@ -169,6 +169,9 @@ dependencies {
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.play.services.auth)
 
+    implementation(libs.horologist.datalayer)
+    implementation(libs.horologist.datalayer.watch)
+
     implementation(libs.google.services)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)

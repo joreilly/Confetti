@@ -1,0 +1,6 @@
+<resources>
+    <string-array name="android_wear_capabilities">
+        <item>horologist_phone</item>
+        <item>data_layer_app_helper_device_phone</item>
+    </string-array>
+</resources>

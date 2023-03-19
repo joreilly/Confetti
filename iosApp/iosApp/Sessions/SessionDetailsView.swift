@@ -37,6 +37,5 @@ struct SessionDetailsView: View {
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color(0xF0F0F0))
     }
 }

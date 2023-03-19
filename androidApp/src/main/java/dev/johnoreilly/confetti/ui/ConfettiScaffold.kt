@@ -14,9 +14,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.account.AccountIcon
 
@@ -37,6 +39,8 @@ fun ConfettiScaffold(
     val titleFontSize =
         if (appState.isExpandedScreen) 40.sp else MaterialTheme.typography.titleLarge.fontSize
     Row {
+        // The default behaviour is to keep top bar always visible.
+        var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         if (appState.shouldShowNavRail) {
             ConfettiNavRail(
                 destinations = appState.topLevelDestinations,
@@ -44,8 +48,13 @@ fun ConfettiScaffold(
                 currentDestination = appState.currentDestination,
                 modifier = Modifier.safeDrawingPadding()
             )
+        } else {
+            // If NavRail is not visible (i.e., phones), we collapse the top bar while scrolling.
+            // That gives more space for the user to see the screen content.
+            scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         }
         Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
@@ -62,13 +71,14 @@ fun ConfettiScaffold(
                             onSignIn = onSignIn,
                             onSignOut = onSignOut,
                         )
-                    }
+                    },
+                    scrollBehavior = scrollBehavior,
                 )
             },
             containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0, 0, 0, 0)
-        ) {
-            Column(modifier = Modifier.padding(it).fillMaxHeight()) {
+        ) { innerPadding ->
+            Column(modifier = Modifier.padding(innerPadding).fillMaxHeight()) {
                 Box(modifier = Modifier.weight(1f)) {
                     content()
                 }

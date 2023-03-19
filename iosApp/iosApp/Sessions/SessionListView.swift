@@ -53,7 +53,6 @@ struct SessionListView: View {
                   }, label: {
                       Text("Switch")
                   }))
-            .background(Color(0xF6F6F6))
             .refreshable {
                 await refresh()
             }

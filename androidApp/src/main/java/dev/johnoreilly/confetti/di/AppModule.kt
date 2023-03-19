@@ -17,30 +17,26 @@ import dev.johnoreilly.confetti.sessiondetails.SessionDetailsViewModel
 import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.withOptions
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { SessionsViewModel() }
-    viewModel { AppViewModel() }
-    viewModel { ConferencesViewModel() }
-    viewModel { SpeakersViewModel() }
-    viewModel { SessionDetailsViewModel(get(), get()) }
-    viewModel { SpeakerDetailsViewModel(get(), get()) }
-    viewModel { AccountViewModel(get(), get(), get()) }
-    single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
+    viewModelOf(::SessionsViewModel)
+    viewModelOf(::AppViewModel)
+    viewModelOf(::ConferencesViewModel)
+    viewModelOf(::SpeakersViewModel)
+    viewModelOf(::SessionDetailsViewModel)
+    viewModelOf(::SpeakerDetailsViewModel)
+    viewModelOf(::AccountViewModel)
 
-    single<Authentication> {
-        Authentication()
-    }
-    single<TokenProvider> {
-        object : TokenProvider {
-            override suspend fun token(forceRefresh: Boolean): String? {
-                return get<Authentication>().idToken(forceRefresh)
-            }
-        }
-    }
+    singleOf(::WorkManagerConferenceRefresh).withOptions { bind<ConferenceRefresh>() }
+    singleOf(::Authentication)
+    single { TokenProvider { forceRefresh -> get<Authentication>().idToken(forceRefresh) } }
 
     single<PhoneDataLayerAppHelper> {
         PhoneDataLayerAppHelper(androidContext(), get())

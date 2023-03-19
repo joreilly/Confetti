@@ -35,11 +35,15 @@ import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.LoggingEventListener
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.workmanager.dsl.worker
+import org.koin.androidx.workmanager.dsl.workerOf
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.new
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
-    single<DateService> { AndroidDateService() }
+    singleOf(::AndroidDateService).withOptions { bind<DateService>() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .apply {
@@ -63,17 +67,11 @@ actual fun platformModule() = module {
             FirebaseAnalyticsLogger
         }
     }
-    single<DataStore<Preferences>> { androidContext().settingsStore }
-    single<FlowSettings> { DataStoreSettings(get()) }
-    single<ObservableSettings> {
-        get<FlowSettings>().toBlockingObservableSettings()
-    }
-    worker { RefreshWorker(get(), get(), get(), get()) }
-    single<WorkManager> { WorkManager.getInstance(androidContext()) }
-
-    single<CoroutineScope> {
-        CoroutineScope(Dispatchers.Default)
-    }
+    single { androidContext().settingsStore }
+    single<FlowSettings> { new(::DataStoreSettings) }
+    single { get<FlowSettings>().toBlockingObservableSettings() }
+    workerOf(::RefreshWorker)
+    single { WorkManager.getInstance(androidContext()) }
 
     single<WearDataLayerRegistry> {
         WearDataLayerRegistry.fromContext(

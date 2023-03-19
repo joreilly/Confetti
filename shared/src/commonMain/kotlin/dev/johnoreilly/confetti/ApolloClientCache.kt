@@ -19,6 +19,17 @@ interface TokenProvider {
     suspend fun token(forceRefresh: Boolean): String?
 }
 
+/**
+ * A factory function which creates an anonymous instance for [TokenProvider] where [getToken] is
+ * used when [TokenProvider.token] is invoked.
+ */
+inline fun TokenProvider(
+    crossinline getToken: suspend (forceRefresh: Boolean) -> String?,
+): TokenProvider =
+    object : TokenProvider {
+        override suspend fun token(forceRefresh: Boolean): String? = getToken(forceRefresh)
+    }
+
 class ApolloClientCache : KoinComponent {
     val _clients = mutableMapOf<String, ApolloClient>()
     val mutex = Mutex(false)

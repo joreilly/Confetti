@@ -53,12 +53,12 @@ fun SpeakersRoute(
     val uiState by viewModel.speakers.collectAsStateWithLifecycle()
 
     ConfettiScaffold(
-        conference = conference,
         title = stringResource(R.string.speakers),
+        conference = conference,
         appState = appState,
         onSwitchConference = onSwitchConference,
         onSignIn = onSignIn,
-        onSignOut = onSignOut
+        onSignOut = onSignOut,
     ) {
         when (val uiState1 = uiState) {
             is SpeakersUiState.Success -> {

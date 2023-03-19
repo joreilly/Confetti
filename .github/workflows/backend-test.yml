@@ -25,4 +25,4 @@ jobs:
     - name: Build
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: :backend:service-graphql:build :backend:service-import:build
+        arguments: :backend:service-graphql:build :backend:service-import:build :backend:service-import:fatJar

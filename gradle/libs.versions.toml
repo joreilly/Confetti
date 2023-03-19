@@ -25,11 +25,13 @@ multiplatform-settings = "1.0.0"
 nav-compose = "2.5.3"
 okio = "3.3.0"
 robolectric = "4.10-alpha-1"
+snapshot-android = "v1.0.2"
 work-runtime-ktx = "2.8.0"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
 accompanist-flow-layout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
+accompanist-testharness = { module = "com.google.accompanist:accompanist-testharness", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.1.1"
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
@@ -125,6 +127,8 @@ plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+snapshot-android = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-android", version.ref = "snapshot-android" }
+snapshot-jvm = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-jvm", version.ref = "snapshot-android" }
 splash-screen = "androidx.core:core-splashscreen:1.0.0"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"

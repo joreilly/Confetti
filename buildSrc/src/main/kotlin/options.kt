@@ -35,7 +35,7 @@ fun Project.configureCompilerOptions(jvmVersion: Int = 8) {
         }
     }
 
-    extensions?.findByName("android")?.apply{
+    extensions.findByName("android")?.apply{
         this as BaseExtension
         compileOptions {
             it.sourceCompatibility = JavaVersion.toVersion(jvmVersion.toJavaVersion())

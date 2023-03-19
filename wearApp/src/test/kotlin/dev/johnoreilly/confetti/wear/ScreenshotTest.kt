@@ -35,8 +35,10 @@ import com.quickbird.snapshot.intMean
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Rule
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -46,9 +48,14 @@ import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 @RunWith(RobolectricTestRunner::class)
 @Config(application = KoinTestApp::class, sdk = [30])
 @GraphicsMode(NATIVE)
-open class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
+abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     @get:Rule
     val rule = createComposeRule()
+
+    @After
+    fun after() {
+        stopKoin()
+    }
 
     fun takeScreenshot(
         round: Boolean = true,

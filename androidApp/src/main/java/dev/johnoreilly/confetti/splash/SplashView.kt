@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.splash
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.AppSettings.Companion.CONFERENCE_NOT_SET
@@ -20,7 +21,11 @@ fun SplashRoute(
     val conference by viewModel.conference.collectAsStateWithLifecycle()
     when (val conference1 = conference) {
         null -> LoadingView()
-        CONFERENCE_NOT_SET -> navigateToConferences(ConferencesKey)
+        CONFERENCE_NOT_SET -> {
+            SideEffect {
+                navigateToConferences(ConferencesKey)
+            }
+        }
         else -> navigateToSessions(SessionsKey(conference1))
     }
 }

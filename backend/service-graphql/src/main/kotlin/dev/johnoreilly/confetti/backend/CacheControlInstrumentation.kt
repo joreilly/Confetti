@@ -14,10 +14,10 @@ import net.mbonnin.bare.graphql.cast
 import java.util.concurrent.CompletableFuture
 
 class CacheControlInstrumentation : Instrumentation {
-    class MyState(val headers: MutableMap<String, String>) : InstrumentationState
+    class MyState(var maxAge: Int) : InstrumentationState
 
     override fun createState(parameters: InstrumentationCreateStateParameters?): InstrumentationState? {
-        return MyState(mutableMapOf())
+        return MyState(1800)
     }
 
     override fun beginField(
@@ -28,10 +28,7 @@ class CacheControlInstrumentation : Instrumentation {
         when {
              conference == "test" ||
                 parameters.field.name == "bookmarks" -> {
-                state.cast<MyState>().headers.put(
-                    "Cache-Control",
-                    "no-store"
-                )
+                state.cast<MyState>().maxAge = 0
             }
         }
         return super.beginField(parameters, state)!!
@@ -45,7 +42,7 @@ class CacheControlInstrumentation : Instrumentation {
 
         return CompletableFuture.completedFuture(
             executionResult.cast<ExecutionResultImpl>().transform {
-                it.addExtension("headers", state.cast<MyState>().headers)
+                it.addExtension("maxAge", state.cast<MyState>().maxAge)
             })
     }
 }

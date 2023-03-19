@@ -106,6 +106,26 @@ val fatJar = tasks.register("fatJar", Jar::class.java) {
       "META-INF/DEPENDENCIES",
       "META-INF/services/io.grpc.NameResolverProvider",
       "META-INF/services/io.grpc.LoadBalancerProvider",
+      /**
+       * auto-value 1.10.1 duplicates all those below
+       */
+      "META-INF/kotlin-stdlib.kotlin_module",
+      "META-INF/maven/com.google.errorprone/error_prone_annotations/pom.properties",
+      "META-INF/maven/com.google.errorprone/error_prone_annotations/pom.xml",
+      "META-INF/maven/com.google.guava/failureaccess/pom.properties",
+      "META-INF/maven/com.google.guava/failureaccess/pom.xml",
+      "META-INF/maven/com.google.guava/listenablefuture/pom.properties",
+      "META-INF/maven/com.google.guava/listenablefuture/pom.xml",
+      "META-INF/maven/com.google.j2objc/j2objc-annotations/pom.properties",
+      "META-INF/maven/com.google.j2objc/j2objc-annotations/pom.xml",
+      "META-INF/maven/org.jetbrains/annotations/pom.properties",
+      "META-INF/maven/org.jetbrains/annotations/pom.xml",
+      "META-INF/metadata.jvm.kotlin_module",
+      "META-INF/metadata.kotlin_module",
+      "META-INF/maven/com.google.guava/guava/pom.properties",
+      "META-INF/maven/com.google.guava/guava/pom.xml",
+      "META-INF/native-image/native-image.properties",
+
     )
   }
   with(tasks.getByName("jvmJar") as CopySpec)

@@ -10,7 +10,7 @@ struct ConfettiApp: View {
     @StateViewModel var viewModel = AppViewModel()
 
     init() {
-        UITabBar.appearance().backgroundColor = UIColor.white
+        UITabBar.appearance().backgroundColor = UIColor.systemBackground
     }
         
     var body: some View {

@@ -57,9 +57,6 @@ fun ConferencesView(
     columnState: ScalingLazyColumnState,
     modifier: Modifier = Modifier
 ) {
-    ReportDrawnWhen {
-        uiState !is ConferencesUiState.Loading
-    }
 
     ScalingLazyColumn(
         modifier = modifier.fillMaxSize(), columnState = columnState

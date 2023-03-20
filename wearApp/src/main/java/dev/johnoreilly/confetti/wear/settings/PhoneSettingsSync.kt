@@ -8,8 +8,8 @@ import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
 import com.google.android.horologist.data.ProtoDataStoreHelper.protoFlow
 import com.google.android.horologist.data.TargetNodeId.PairedPhone
 import com.google.android.horologist.data.WearDataLayerRegistry
-import dev.johnoreilly.confetti.wear.Theme
-import dev.johnoreilly.confetti.wear.WearSettings
+import dev.johnoreilly.confetti.wear.proto.Theme
+import dev.johnoreilly.confetti.wear.proto.WearSettings
 
 class PhoneSettingsSync(
     val dataLayerRegistry: WearDataLayerRegistry,

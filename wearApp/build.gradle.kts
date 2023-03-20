@@ -89,7 +89,7 @@ android {
         getByName("release") {
             isShrinkResources = true
             isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
         }
         create("benchmark") {

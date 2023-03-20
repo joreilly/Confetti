@@ -13,6 +13,8 @@ import com.google.android.horologist.data.ProtoDataStoreHelper.protoDataStore
 import com.google.android.horologist.data.WearDataLayerRegistry
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.ui.colorScheme
+import dev.johnoreilly.confetti.wear.proto.Theme
+import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first

@@ -2,7 +2,7 @@ package dev.johnoreilly.confetti.settings
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
-import dev.johnoreilly.confetti.wear.WearSettings
+import dev.johnoreilly.confetti.wear.proto.WearSettings
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream

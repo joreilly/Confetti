@@ -1,6 +1,8 @@
 package dev.johnoreilly.confetti.sessions
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,6 +14,7 @@ import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -60,8 +63,28 @@ fun SessionsView(
                 sessionSelected = navigateToSession,
                 addBookmark = { viewModel.addBookmark(it) },
                 removeBookmark = { viewModel.removeBookmark(it) },
-                onRefresh = ::refresh
+                onRefresh = ::refresh,
             )
+        }
+
+        val addErrorCount by viewModel.addErrorChannel.receiveAsFlow().collectAsStateWithLifecycle(initialValue = 0)
+        LaunchedEffect(addErrorCount) {
+            if (addErrorCount > 0) {
+                it.showSnackbar(
+                    message = "Error while adding bookmark",
+                    duration = SnackbarDuration.Short,
+                )
+            }
+        }
+
+        val removeErrorCount by viewModel.removeErrorChannel.receiveAsFlow().collectAsStateWithLifecycle(initialValue = 0)
+        LaunchedEffect(removeErrorCount) {
+            if (removeErrorCount > 0) {
+                it.showSnackbar(
+                    message = "Error while removing bookmark",
+                    duration = SnackbarDuration.Short,
+                )
+            }
         }
     }
 }

@@ -28,29 +28,27 @@ class ConfettiRepository : KoinComponent {
         conference: String,
         mutation: Mutation<D>,
         data: (sessionIds: List<String>, id: String) -> D
-    ) {
-        try {
-            val client = apolloClientCache.getClient(conference)
-            val optimisticData = try {
-                val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
-                data(bookmarks!!.sessionIds, bookmarks.id)
-            } catch (e: Exception) {
-                null
-            }
-            client.mutation(mutation)
-                .apply {
-                    if (optimisticData != null) {
-                        optimisticUpdates(optimisticData)
-                    }
-                }
-                .execute()
+    ): Boolean {
+        val client = apolloClientCache.getClient(conference)
+        val optimisticData = try {
+            val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
+            data(bookmarks!!.sessionIds, bookmarks.id)
         } catch (e: Exception) {
-            e.printStackTrace()
+            null
         }
+        val response = client.mutation(mutation)
+            .apply {
+                if (optimisticData != null) {
+                    optimisticUpdates(optimisticData)
+                }
+            }
+            .execute()
+
+        return response.data != null
     }
 
-    suspend fun addBookmark(conference: String, sessionId: String) {
-        modifyBookmarks(conference, AddBookmarkMutation(sessionId)) { sessionIds, id ->
+    suspend fun addBookmark(conference: String, sessionId: String): Boolean {
+        return modifyBookmarks(conference, AddBookmarkMutation(sessionId)) { sessionIds, id ->
             AddBookmarkMutation.Data {
                 addBookmark = buildBookmarks {
                     this.id = id
@@ -60,8 +58,8 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    suspend fun removeBookmark(conference: String, sessionId: String) {
-        modifyBookmarks(conference, RemoveBookmarkMutation(sessionId)) { sessionIds, id ->
+    suspend fun removeBookmark(conference: String, sessionId: String): Boolean {
+        return modifyBookmarks(conference, RemoveBookmarkMutation(sessionId)) { sessionIds, id ->
             RemoveBookmarkMutation.Data {
                 removeBookmark = buildBookmarks {
                     this.id = id

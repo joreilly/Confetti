@@ -6,7 +6,6 @@ import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmm.viewmodel.stateIn
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
-import dev.johnoreilly.confetti.AppSettings.Companion.CONFERENCE_NOT_SET
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -17,9 +16,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -30,9 +29,11 @@ import org.koin.core.component.inject
 open class SessionsViewModel : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
+    private var addErrorCount = 1
+    private var removeErrorCount = 1
 
     private lateinit var conference: String
-    private val refreshDatas = Channel<RefreshData>()
+    private val responseDatas = Channel<ResponseData>()
     private var started: Boolean = false
 
     private fun maybeStart() {
@@ -46,17 +47,27 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
 
     fun addBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            repository.addBookmark(conference!!, sessionId)
+            val success = repository.addBookmark(conference, sessionId)
+            if (!success) {
+                addErrorChannel.send(addErrorCount++)
+            }
         }
     }
 
     fun removeBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            repository.removeBookmark(conference!!, sessionId)
+            val success = repository.removeBookmark(conference, sessionId)
+            if (!success) {
+                removeErrorChannel.send(removeErrorCount++)
+            }
         }
     }
 
-    private fun uiStates(bookmarksResponse: ApolloResponse<GetBookmarksQuery.Data>, sessionsResponse: ApolloResponse<GetConferenceDataQuery.Data>): SessionsUiState {
+    private fun uiStates(
+        refreshData: ResponseData
+    ): SessionsUiState {
+        val bookmarksResponse = refreshData.bookmarksResponse
+        val sessionsResponse = refreshData.sessionsResponse
         val bookmarksData = bookmarksResponse.data
         val sessionsData = sessionsResponse.data
 
@@ -75,7 +86,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             return SessionsUiState.Error
         }
 
-        val sessionsMap = sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
+        val sessionsMap =
+            sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
         val speakers = sessionsData.speakers.map { it.speakerDetails }
         val rooms = sessionsData.rooms.map { it.roomDetails }
 
@@ -84,7 +96,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
         confDates.forEach { confDate ->
             val sessions = sessionsMap[confDate] ?: emptyList()
-            val sessionsByStartTime = sessions.groupBy { getSessionTime(it, sessionsData.config.timezone.toTimeZone()) }
+            val sessionsByStartTime =
+                sessions.groupBy { getSessionTime(it, sessionsData.config.timezone.toTimeZone()) }
             sessionsByStartTimeList.add(sessionsByStartTime)
         }
         return SessionsUiState.Success(
@@ -95,28 +108,30 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             sessionsByStartTimeList,
             speakers,
             rooms,
-            bookmarksData.bookmarks?.sessionIds.orEmpty().toSet()
+            bookmarksData.bookmarks?.sessionIds.orEmpty().toSet(),
         )
     }
 
-    class RefreshData(
+    data class ResponseData(
         val bookmarksResponse: ApolloResponse<GetBookmarksQuery.Data>,
         val sessionsResponse: ApolloResponse<GetConferenceDataQuery.Data>,
     )
 
+    val addErrorChannel = Channel<Int>()
+    val removeErrorChannel = Channel<Int>()
+
+
     @NativeCoroutinesState
-    val uiState: StateFlow<SessionsUiState> = flow {
-        for (i in refreshDatas) {
-            emit(i)
-        }
-    }
-        .flatMapLatest { refreshData ->
+    val uiState: StateFlow<SessionsUiState> = responseDatas.receiveAsFlow()
+            .flatMapLatest { refreshData ->
             val bookmarksData = refreshData.bookmarksResponse.data
-            repository.watchBookmarks(conference, bookmarksData).onStart {
-                refreshData.bookmarksResponse.let { emit(it) }
-            }.map {
-                uiStates(it, refreshData.sessionsResponse)
-            }
+            repository.watchBookmarks(conference, bookmarksData)
+                .map { refreshData.copy(bookmarksResponse = it) }
+                .onStart {
+                    emit(refreshData)
+                }.map {
+                    uiStates(it)
+                }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
@@ -134,6 +149,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         } else {
             FetchPolicy.NetworkOnly
         }
+
         coroutineScope {
             val bookmarksResponse = async {
                 repository.bookmarks(conference, fetchPolicy)
@@ -142,8 +158,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
                 repository.conferenceData(conference, fetchPolicy)
             }
 
-            refreshDatas.send(
-                RefreshData(
+            responseDatas.send(
+                ResponseData(
                     bookmarksResponse = bookmarksResponse.await(),
                     sessionsResponse = sessionsResponse.await()
                 )

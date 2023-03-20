@@ -10,6 +10,5 @@ sealed interface SettingsUiState {
 
     data class Success(
         val authUser: AuthUser?,
-        val conference: String
     ) : SettingsUiState
 }

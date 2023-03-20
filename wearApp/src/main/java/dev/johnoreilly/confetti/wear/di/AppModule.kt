@@ -43,7 +43,7 @@ val appModule = module {
     viewModelOf(::ConfettiGoogleSignOutViewModel)
     viewModelOf(::GoogleSignInViewModel)
     viewModelOf(::WearAppViewModel)
-    single { PhoneSettingsSync(get()) }
+    singleOf(::PhoneSettingsSync)
     single { GoogleSignIn.getClient(get<Context>(), GoogleSignInOptions.DEFAULT_SIGN_IN) }
     singleOf(::GoogleSignInAuthUserRepository).withOptions { bind<GoogleSignInEventListener>() }
     singleOf(::WorkManagerConferenceRefresh).withOptions { bind<ConferenceRefresh>() }

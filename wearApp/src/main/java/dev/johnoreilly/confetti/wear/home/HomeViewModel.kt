@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
+import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.work.RefreshWorker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +27,8 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     savedStateHandle: SavedStateHandle,
     private val repository: ConfettiRepository,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val phoneSettingsSync: PhoneSettingsSync
 ) : ViewModel() {
 
     private val conferenceParam: String =
@@ -82,7 +84,7 @@ class HomeViewModel(
     }
 
     private fun conferenceIdFlow(): Flow<String> = if (conferenceParam.isEmpty()) {
-        repository.getConferenceFlow()
+        phoneSettingsSync.conferenceFlow
     } else {
         flowOf(conferenceParam)
     }

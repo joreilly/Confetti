@@ -17,7 +17,6 @@ import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
@@ -54,29 +53,25 @@ class WearSettingsSync(
 
     suspend fun updateWearTheme() {
         if (isAvailable()) {
-            val connectedNodes = phoneDataLayerRegistry.connectedAndInstalledNodes.first()
+            val theme = colorScheme(false, false, false, context)
 
-            if (connectedNodes.isNotEmpty()) {
-                val theme = colorScheme(false, false, false, context)
-
-                settingsDataStore.updateData {
-                    it.copy(
-                        theme = Theme(
-                            primary = toLong(theme.primary),
-                            primaryVariant = toLong(theme.primaryContainer),
-                            secondary = toLong(theme.secondary),
-                            secondaryVariant = toLong(theme.secondaryContainer),
-                            surface = toLong(theme.surface),
-                            error = toLong(theme.error),
-                            onPrimary = toLong(theme.onPrimary),
-                            onSecondary = toLong(theme.onSecondary),
-                            onBackground = toLong(theme.onBackground),
-                            onSurface = toLong(theme.onSurface),
-                            onSurfaceVariant = toLong(theme.onSurfaceVariant),
-                            onError = toLong(theme.onError),
-                        )
+            settingsDataStore.updateData {
+                it.copy(
+                    theme = Theme(
+                        primary = toLong(theme.primary),
+                        primaryVariant = toLong(theme.primaryContainer),
+                        secondary = toLong(theme.secondary),
+                        secondaryVariant = toLong(theme.secondaryContainer),
+                        surface = toLong(theme.surface),
+                        error = toLong(theme.error),
+                        onPrimary = toLong(theme.onPrimary),
+                        onSecondary = toLong(theme.onSecondary),
+                        onBackground = toLong(theme.onBackground),
+                        onSurface = toLong(theme.onSurface),
+                        onSurfaceVariant = toLong(theme.onSurfaceVariant),
+                        onError = toLong(theme.onError),
                     )
-                }
+                )
             }
         }
     }
@@ -89,6 +84,14 @@ class WearSettingsSync(
         } catch (rie: Exception) {
             // likely RemoteIntentException due to emulator without playstore
             // TODO handle error
+        }
+    }
+
+    suspend fun setConference(conference: String) {
+        if (isAvailable()) {
+            settingsDataStore.updateData {
+                it.copy(conference = conference)
+            }
         }
     }
 }

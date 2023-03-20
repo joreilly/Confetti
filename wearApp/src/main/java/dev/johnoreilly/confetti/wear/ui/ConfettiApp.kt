@@ -44,7 +44,7 @@ fun ConfettiApp(
 
     val appState by viewModel.appState.collectAsStateWithLifecycle()
 
-    ConfettiTheme(appState.theme) {
+    ConfettiTheme(appState.settings.theme) {
         WearNavScaffold(
             startDestination = ConferenceHomeDestination.route,
             navController = navController

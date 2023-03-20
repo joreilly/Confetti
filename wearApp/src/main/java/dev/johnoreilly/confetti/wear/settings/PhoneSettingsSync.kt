@@ -8,13 +8,23 @@ import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
 import com.google.android.horologist.data.ProtoDataStoreHelper.protoFlow
 import com.google.android.horologist.data.TargetNodeId.PairedPhone
 import com.google.android.horologist.data.WearDataLayerRegistry
+import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.proto.WearSettings
+import kotlinx.coroutines.flow.combine
 
 class PhoneSettingsSync(
     val dataLayerRegistry: WearDataLayerRegistry,
+    val repository: ConfettiRepository
 ) {
     val settingsFlow = dataLayerRegistry.protoFlow<WearSettings>(PairedPhone)
+
+    val conferenceFlow = combine(
+        settingsFlow,
+        repository.getConferenceFlow()
+    ) { phoneSettings, conferenceSetting ->
+        phoneSettings.conference.ifBlank { conferenceSetting }
+    }
 }
 
 fun Theme.toMaterialThemeColors(): Colors {

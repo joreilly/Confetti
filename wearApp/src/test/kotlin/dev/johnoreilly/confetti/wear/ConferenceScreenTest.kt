@@ -23,6 +23,7 @@ class ConferenceScreenTest : ScreenshotTest() {
                 )
             ),
             navigateToConference = {},
+            // TODO switch back to belowTimeText when screen size is correct
             columnState = ScalingLazyColumnDefaults.scalingLazyColumnDefaults().create()
         )
     }

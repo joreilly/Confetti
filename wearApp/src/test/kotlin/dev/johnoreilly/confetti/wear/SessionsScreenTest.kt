@@ -43,6 +43,7 @@ class SessionsScreenTest : ScreenshotTest() {
                 )
             ),
             sessionSelected = {},
+            // TODO switch back to belowTimeText when screen size is correct
             columnState = ScalingLazyColumnDefaults.scalingLazyColumnDefaults().create()
         )
     }

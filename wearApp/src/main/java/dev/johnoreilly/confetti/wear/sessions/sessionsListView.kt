@@ -16,6 +16,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
@@ -36,8 +37,10 @@ fun SessionsRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    ReportDrawnWhen {
-        uiState is SessionsUiState.Success
+    if (!BuildConfig.DEBUG) {
+        ReportDrawnWhen {
+            uiState is SessionsUiState.Success
+        }
     }
 
     SessionListView(

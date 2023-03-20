@@ -29,4 +29,4 @@ jobs:
     - name: Wear Unit Tests
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: :wearApp:test
+        arguments: :wearApp:testDebugUnitTest

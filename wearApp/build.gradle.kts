@@ -72,6 +72,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
@@ -183,6 +184,10 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)
     testImplementation(libs.koin.test)
+    testImplementation(libs.accompanist.testharness)
+    testImplementation(libs.snapshot.android)
+    testImplementation(libs.snapshot.jvm)
+    testImplementation(libs.androidx.work.testing)
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.fastlane.screengrab)

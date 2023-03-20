@@ -13,6 +13,12 @@ pluginManagement {
                 content {
                 }
             }
+            maven {
+                url = uri("https://jitpack.io")
+                content {
+                    includeGroup("com.github.QuickBirdEng.kotlin-snapshot-testing")
+                }
+            }
         }
     }
 

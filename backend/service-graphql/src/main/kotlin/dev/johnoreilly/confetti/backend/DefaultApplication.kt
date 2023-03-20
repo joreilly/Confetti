@@ -254,15 +254,18 @@ class DefaultApplication {
                 }
                 val headers = mutableMapOf<String, String>()
                 if (graphQLResponse is GraphQLResponse<*>) {
-                    headers.putAll(
-                        graphQLResponse.extensions?.get("headers")?.cast<Map<String, String>>()
-                            ?: emptyMap()
-                    )
+                    var maxAge = graphQLResponse.extensions?.get("maxAge")?.cast<Int>() ?: 0
                     if (!graphQLResponse.canBeCached()) {
-                        headers.put("Cache-Control", "no-store")
+                        maxAge = 0
                     }
 
-                    var newExtensions: Map<Any, Any?>? = graphQLResponse.extensions?.filterNot { it.key == "headers" }
+                    if (maxAge == 0) {
+                        headers.put("Cache-Control", "no-store")
+                    } else {
+                        headers.put("Cache-Control", "public, max-age=$maxAge")
+                    }
+
+                    var newExtensions: Map<Any, Any?>? = graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
                     if (newExtensions?.isEmpty() == true) {
                         newExtensions = null
                     }

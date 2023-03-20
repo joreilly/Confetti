@@ -86,6 +86,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             return SessionsUiState.Error
         }
 
+        val conferenceName = sessionsData.config.name
         val sessionsMap =
             sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
         val speakers = sessionsData.speakers.map { it.speakerDetails }
@@ -103,7 +104,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         return SessionsUiState.Success(
             conference,
             dateService.now(),
-            conference,
+            conferenceName,
             confDates,
             sessionsByStartTimeList,
             speakers,

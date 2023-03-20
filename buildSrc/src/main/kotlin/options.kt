@@ -5,9 +5,9 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 private fun Int.toJavaVersion(): String = when(this) {
     8 -> "1.8"
@@ -15,10 +15,9 @@ private fun Int.toJavaVersion(): String = when(this) {
 }
 fun Project.configureCompilerOptions(jvmVersion: Int = 11) {
     tasks.withType(KotlinCompile::class.java).configureEach {
-        it.compilerOptions {
-            //allWarningsAsErrors.set(true)
-            (this as? KotlinJvmCompilerOptions)?.let {
-                it.jvmTarget.set(JvmTarget.fromTarget(jvmVersion.toJavaVersion()))
+        it.kotlinOptions {
+            (this as? KotlinJvmOptions)?.let {
+                it.jvmTarget = jvmVersion.toJavaVersion()
             }
         }
     }

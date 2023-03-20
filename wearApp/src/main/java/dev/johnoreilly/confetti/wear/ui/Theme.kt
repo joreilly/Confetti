@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
-import dev.johnoreilly.confetti.wear.Theme
+import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 
 

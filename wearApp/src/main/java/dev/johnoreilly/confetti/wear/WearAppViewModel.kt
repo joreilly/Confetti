@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.wear
 
 import com.rickclephas.kmm.viewmodel.coroutineScope
 import dev.johnoreilly.confetti.AppViewModel
+import dev.johnoreilly.confetti.wear.proto.WearSettings
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn

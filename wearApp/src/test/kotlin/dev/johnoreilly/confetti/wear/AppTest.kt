@@ -26,11 +26,13 @@ import org.koin.test.get
 import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
 import org.robolectric.shadows.ShadowSettings
 
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = KoinTestApp::class, sdk = [30])
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
 class AppTest : KoinTest {
     @get:Rule
     val rule = createAndroidComposeRule(MainActivity::class.java)

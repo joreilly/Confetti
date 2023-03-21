@@ -3,9 +3,7 @@ package dev.johnoreilly.confetti.ui
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -33,6 +31,9 @@ class ConfettiAppState(
     val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
+
+    var shouldShowSettingsDialog by mutableStateOf(false)
+        private set
 
     val shouldShowBottomBar: Boolean
         get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact ||
@@ -75,5 +76,10 @@ class ConfettiAppState(
     fun onBackClick() {
         navController.popBackStack()
     }
+
+    fun setShowSettingsDialog(shouldShow: Boolean) {
+        shouldShowSettingsDialog = shouldShow
+    }
+
 }
 

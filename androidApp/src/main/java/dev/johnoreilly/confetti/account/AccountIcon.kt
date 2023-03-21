@@ -27,6 +27,7 @@ fun AccountIcon(
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
+    onShowSettings: () -> Unit,
     viewModel: AccountViewModel = getViewModel()
 ) {
     var showMenu by remember { mutableStateOf(false) }
@@ -82,6 +83,13 @@ fun AccountIcon(
             onClick = {
                 showMenu = false
                 onSwitchConference()
+            }
+        )
+        DropdownMenuItem(
+            text = { Text("Settings") },
+            onClick = {
+                showMenu = false
+                onShowSettings()
             }
         )
         if (uiState.showInstallOnWear) {

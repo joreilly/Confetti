@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.account.AccountIcon
+import dev.johnoreilly.confetti.settings.SettingsDialog
 
 /**
  * A wrapper for some content view that handles the different layouts (mobile/tablet, etc...)
@@ -43,6 +44,13 @@ fun ConfettiScaffold(
     val snackbarHostState = remember { SnackbarHostState()}
     val titleFontSize =
         if (appState.isExpandedScreen) 40.sp else MaterialTheme.typography.titleLarge.fontSize
+
+    if (appState.shouldShowSettingsDialog) {
+        SettingsDialog(
+            onDismiss = { appState.setShowSettingsDialog(false) },
+        )
+    }
+
     Row {
         // The default behaviour is to keep top bar always visible.
         var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -78,6 +86,7 @@ fun ConfettiScaffold(
                             onSwitchConference = onSwitchConference,
                             onSignIn = onSignIn,
                             onSignOut = onSignOut,
+                            onShowSettings = {  appState.setShowSettingsDialog(true) },
                         )
                     },
                     scrollBehavior = scrollBehavior,

@@ -8,6 +8,7 @@ import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.AppViewModel
 import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.ConferencesViewModel
+import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.SpeakerDetailsViewModel
@@ -18,7 +19,6 @@ import dev.johnoreilly.confetti.account.Authentication
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -28,13 +28,19 @@ import org.koin.dsl.module
 val appModule = module {
     viewModelOf(::SessionsViewModel)
     viewModelOf(::AppViewModel)
-    viewModel {
-        ConferencesViewModel { get<WearSettingsSync>().setConference(it) }
-    }
+    viewModelOf(::ConferencesViewModel)
     viewModelOf(::SpeakersViewModel)
     viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)
     viewModelOf(::AccountViewModel)
+
+    single {
+        ConfettiRepository().apply {
+            addConferenceListener {
+                get<WearSettingsSync>().setConference(it)
+            }
+        }
+    }
 
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
 

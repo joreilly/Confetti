@@ -14,9 +14,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-open class ConferencesViewModel(
-    private val onConferenceSet: suspend (String) -> Unit = {}
-) : KMMViewModel(), KoinComponent {
+open class ConferencesViewModel() : KMMViewModel(), KoinComponent {
     val repository: ConfettiRepository = get()
 
     sealed interface UiState
@@ -64,8 +62,7 @@ open class ConferencesViewModel(
         }
     }
 
-    open suspend fun setConference(conference: String) {
+    suspend fun setConference(conference: String) {
         repository.setConference(conference)
-        onConferenceSet(conference)
     }
 }

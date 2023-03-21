@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-open class ConferencesViewModel : KMMViewModel(), KoinComponent {
+open class ConferencesViewModel() : KMMViewModel(), KoinComponent {
     val repository: ConfettiRepository = get()
 
     sealed interface UiState

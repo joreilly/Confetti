@@ -8,6 +8,7 @@ import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.AppViewModel
 import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.ConferencesViewModel
+import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.SpeakerDetailsViewModel
@@ -32,6 +33,14 @@ val appModule = module {
     viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)
     viewModelOf(::AccountViewModel)
+
+    single {
+        ConfettiRepository().apply {
+            addConferenceListener {
+                get<WearSettingsSync>().setConference(it)
+            }
+        }
+    }
 
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
 

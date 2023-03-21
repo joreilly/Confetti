@@ -22,7 +22,6 @@ fun SettingsRoute(
     SettingsListView(
         uiState = uiState,
         conferenceCleared = {
-            viewModel.clearConference()
             onSwitchConferenceSelected()
         },
         navigateToGoogleSignIn = navigateToGoogleSignIn,

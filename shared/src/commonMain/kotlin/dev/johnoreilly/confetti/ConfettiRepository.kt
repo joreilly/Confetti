@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloCall
@@ -11,7 +9,6 @@ import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.cache.normalized.optimisticUpdates
 import com.apollographql.apollo3.cache.normalized.watch
 import dev.johnoreilly.confetti.type.buildBookmarks
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
@@ -23,6 +20,12 @@ class ConfettiRepository : KoinComponent {
     private val appSettings: AppSettings by inject()
 
     private val apolloClientCache: ApolloClientCache by inject()
+
+    private val conferenceListeners: MutableList<suspend (String) -> Unit> = mutableListOf()
+
+    fun addConferenceListener(onConferenceSet: suspend (String) -> Unit = {}) {
+        conferenceListeners.add(onConferenceSet)
+    }
 
     private suspend fun <D : Mutation.Data> modifyBookmarks(
         conference: String,
@@ -91,6 +94,9 @@ class ConfettiRepository : KoinComponent {
 
     suspend fun setConference(conference: String) {
         appSettings.setConference(conference)
+        conferenceListeners.forEach {
+            it(conference)
+        }
     }
 
     suspend fun refresh(conference: String, networkOnly: Boolean = true) {

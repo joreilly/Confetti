@@ -43,7 +43,6 @@ fun SettingsListView(
             StandardChip(
                 label = "Change Conference",
                 onClick = conferenceCleared,
-                enabled = !((uiState as? SettingsUiState.Success)?.conference.isNullOrBlank())
             )
         }
 
@@ -73,7 +72,7 @@ fun SettingsListViewPreview() {
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToGoogleSignIn = { },
             navigateToGoogleSignOut = { },
-            uiState = SettingsUiState.Success(null, "conf")
+            uiState = SettingsUiState.Success(null)
         )
     }
 }

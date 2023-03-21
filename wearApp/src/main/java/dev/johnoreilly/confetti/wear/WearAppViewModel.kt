@@ -2,15 +2,23 @@ package dev.johnoreilly.confetti.wear
 
 import com.rickclephas.kmm.viewmodel.coroutineScope
 import dev.johnoreilly.confetti.AppViewModel
-import dev.johnoreilly.confetti.wear.proto.WearSettings
+import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import org.koin.core.component.get
 
-class WearAppViewModel: AppViewModel() {
+class WearAppViewModel : AppViewModel() {
     val phoneSettingsSync: PhoneSettingsSync = get()
+    val repository: ConfettiRepository = get()
 
-    val appState = phoneSettingsSync.settingsFlow
-        .stateIn(viewModelScope.coroutineScope, SharingStarted.Eagerly, WearSettings())
+    val appState = combine(
+        phoneSettingsSync.settingsFlow,
+        repository.getConferenceFlow()
+    ) { phoneSettings, wearConference ->
+        AppUiState(phoneSettings.conference.ifBlank { wearConference }, phoneSettings)
+    }
+        .stateIn(viewModelScope.coroutineScope, SharingStarted.Eagerly, AppUiState())
 }
+

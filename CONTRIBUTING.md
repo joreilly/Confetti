@@ -11,7 +11,7 @@ If you don't know where to start, you can also take a look at the list of [good 
 
 Documentation, UX, design, data contributions are very welcome. 
 
-If you see a conference missing in the list, please let us know by [opening an issue](https://github.com/joreilly/Confetti/labels/good%20first%20issue).
+If you see a conference missing in the list, please let us know by [opening an issue](https://github.com/joreilly/Confetti/issues/new).
 
 ## Dev environment
 

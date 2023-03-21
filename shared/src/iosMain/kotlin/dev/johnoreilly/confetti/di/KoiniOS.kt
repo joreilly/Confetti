@@ -21,7 +21,7 @@ actual fun platformModule() = module {
     single<ObservableSettings> { NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults) }
     single { get<ObservableSettings>().toFlowSettings() }
     single<NormalizedCacheFactory> { SqlNormalizedCacheFactory("confetti.db") }
-    singleOf(::IosDateService).withOptions { bind<DateService>() }
+    singleOf(::IosDateService){ bind<DateService>() }
     factory {
         ApolloClient.Builder()
     }

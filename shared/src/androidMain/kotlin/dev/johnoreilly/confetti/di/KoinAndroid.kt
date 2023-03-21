@@ -40,7 +40,7 @@ import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
-    singleOf(::AndroidDateService).withOptions { bind<DateService>() }
+    singleOf(::AndroidDateService) { bind<DateService>() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .apply {

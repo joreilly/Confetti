@@ -16,8 +16,8 @@ struct SessionListView: View {
                 Spacer().frame(height: 16)
 
                 Picker(selection: $selectedDateIndex, label: Text("Date")) {
-                    ForEach(0..<sessionUiState.confDates.count, id: \.self) { i in
-                        Text("\(sessionUiState.confDates[i])").tag(i)
+                    ForEach(0..<sessionUiState.formattedConfDates.count, id: \.self) { i in
+                        Text("\(sessionUiState.formattedConfDates[i])").tag(i)
                     }
                 }
                 .pickerStyle(.segmented)

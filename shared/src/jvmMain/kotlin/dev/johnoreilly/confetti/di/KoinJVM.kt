@@ -20,7 +20,7 @@ import java.util.prefs.Preferences
 actual fun platformModule() = module {
     single<ObservableSettings> { PreferencesSettings(Preferences.userRoot()) }
     single { get<ObservableSettings>().toFlowSettings() }
-    singleOf(::JvmDateService).withOptions { bind<DateService>() }
+    singleOf(::JvmDateService){ bind<DateService>() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .build()

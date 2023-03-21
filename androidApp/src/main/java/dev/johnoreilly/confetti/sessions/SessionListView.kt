@@ -52,8 +52,6 @@ import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -77,7 +75,7 @@ fun SessionListView(
                 SessionListTabRow(pagerState, uiState)
 
                 HorizontalPager(
-                    pageCount = uiState.confDates.size,
+                    pageCount = uiState.formattedConfDates.size,
                     state = pagerState,
                 ) { page ->
 
@@ -131,8 +129,6 @@ fun SessionListView(
     }
 }
 
-private val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-
 @Composable
 fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) {
     TabRow(
@@ -145,7 +141,7 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
             )
         }
     ) {
-        uiState.confDates.forEachIndexed { index, date ->
+        uiState.formattedConfDates.forEachIndexed { index, formattedDate ->
             val coroutineScope = rememberCoroutineScope()
 
             ConfettiTab(
@@ -155,7 +151,7 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
                         pagerState.animateScrollToPage(index)
                     }
                 },
-                text = { Text(text = dateFormatter.format(date)) }
+                text = { Text(text = formattedDate) }
             )
         }
     }

@@ -20,9 +20,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
+import kotlinx.datetime.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -87,6 +85,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         }
 
         val conferenceName = sessionsData.config.name
+        val timeZone = sessionsData.config.timezone.toTimeZone()
         val sessionsMap =
             sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
         val speakers = sessionsData.speakers.map { it.speakerDetails }
@@ -98,14 +97,18 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         confDates.forEach { confDate ->
             val sessions = sessionsMap[confDate] ?: emptyList()
             val sessionsByStartTime =
-                sessions.groupBy { getSessionTime(it, sessionsData.config.timezone.toTimeZone()) }
+                sessions.groupBy { getSessionTime(it, timeZone) }
             sessionsByStartTimeList.add(sessionsByStartTime)
+        }
+
+        val formattedConfDates = confDates.map { date ->
+            dateService.format(date.atTime(0, 0), timeZone, "MMM dd, yyyy")
         }
         return SessionsUiState.Success(
             conference,
             dateService.now(),
             conferenceName,
-            confDates,
+            formattedConfDates,
             sessionsByStartTimeList,
             speakers,
             rooms,
@@ -181,7 +184,7 @@ sealed interface SessionsUiState {
         val conference: String,
         val now: LocalDateTime,
         val conferenceName: String,
-        val confDates: List<LocalDate>,
+        val formattedConfDates: List<String>,
         val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,
         val speakers: List<SpeakerDetails>,
         val rooms: List<RoomDetails>,

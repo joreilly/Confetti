@@ -46,7 +46,7 @@ fun SessionListGridView(
                 SessionListTabRow(pagerState, uiState)
 
                 HorizontalPager(
-                    pageCount = uiState.confDates.size,
+                    pageCount = uiState.formattedConfDates.size,
                     state = pagerState,
                 ) { page ->
 

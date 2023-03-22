@@ -3,6 +3,8 @@
 
 package dev.johnoreilly.confetti.wear
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithText
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.GetConferencesQuery
@@ -12,7 +14,11 @@ import org.junit.Test
 
 class ConferenceScreenTest : ScreenshotTest() {
     @Test
-    fun conferencesScreen() = takeScreenshot {
+    fun conferencesScreen() = takeScreenshot(
+        checks = {
+            rule.onNodeWithText("FrenchKit 2022").assertIsDisplayed()
+        }
+    ) {
         ConferencesView(
             uiState = ConferencesUiState.Success(
                 listOf(

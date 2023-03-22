@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalCoroutinesApi::class)
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
@@ -46,7 +46,7 @@ import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = KoinTestApp::class, sdk = [30])
+@Config(application = KoinTestApp::class, sdk = [30], qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav")
 @GraphicsMode(NATIVE)
 abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     @get:Rule
@@ -61,6 +61,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
         round: Boolean = true,
         showTimeText: Boolean = true,
         size: DpSize = DpSize(221.dp, 221.dp),
+        checks: () -> Unit = {},
         content: @Composable () -> Unit
     ) {
         runTest {
@@ -88,10 +89,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
                                     .background(Color.Black),
                                 timeText = {
                                     if (showTimeText) {
-                                        TimeText(timeSource = object : TimeSource {
-                                            override val currentTime: String
-                                                @Composable get() = "10:10"
-                                        })
+                                        TimeText(timeSource = FixedTimeSource)
                                     }
                                 }
                             ) {
@@ -103,6 +101,8 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
             }
 
             rule.awaitIdle()
+
+            checks()
 
             val snapshotting = Snapshotting(
                 diffing = Diffing.bitmap(colorDiffing = Diffing.intMean),

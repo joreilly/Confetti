@@ -9,7 +9,6 @@ import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,13 +18,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Scaffold
-import androidx.wear.compose.material.TimeSource
 import androidx.wear.compose.material.TimeText
-import com.google.accompanist.testharness.TestHarness
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
@@ -46,7 +40,11 @@ import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = KoinTestApp::class, sdk = [30], qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav")
+@Config(
+    application = KoinTestApp::class,
+    sdk = [30],
+    qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
+)
 @GraphicsMode(NATIVE)
 abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     @get:Rule
@@ -60,7 +58,6 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     fun takeScreenshot(
         round: Boolean = true,
         showTimeText: Boolean = true,
-        size: DpSize = DpSize(221.dp, 221.dp),
         checks: () -> Unit = {},
         content: @Composable () -> Unit
     ) {
@@ -71,32 +68,30 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
                 view = LocalView.current
                 Box(
                     modifier = Modifier
-                        .size(size)
                         .background(Color.Transparent)
                 ) {
                     ConfettiTheme {
-                        TestHarness(isScreenRound = round, size = size, darkMode = true) {
-                            Scaffold(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .run {
-                                        if (round) {
-                                            clip(CircleShape)
-                                        } else {
-                                            this
-                                        }
-                                    }
-                                    .background(Color.Black),
-                                timeText = {
-                                    if (showTimeText) {
-                                        TimeText(timeSource = FixedTimeSource)
+                        Scaffold(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .run {
+                                    if (round) {
+                                        clip(CircleShape)
+                                    } else {
+                                        this
                                     }
                                 }
-                            ) {
-                                content()
+                                .background(Color.Black),
+                            timeText = {
+                                if (showTimeText) {
+                                    TimeText(timeSource = FixedTimeSource)
+                                }
                             }
+                        ) {
+                            content()
                         }
                     }
+
                 }
             }
 
@@ -113,6 +108,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
                 }
             ).fileSnapshotting
 
+            // Flip to true to record
             snapshotting.snapshot(rule.onRoot(), record = false)
         }
     }

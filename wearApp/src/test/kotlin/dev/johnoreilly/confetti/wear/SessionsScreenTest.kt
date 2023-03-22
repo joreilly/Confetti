@@ -3,6 +3,8 @@
 
 package dev.johnoreilly.confetti.wear
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithText
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -15,7 +17,11 @@ import org.junit.Test
 
 class SessionsScreenTest : ScreenshotTest() {
     @Test
-    fun sessionsScreen() = takeScreenshot {
+    fun sessionsScreen() = takeScreenshot(
+        checks = {
+            rule.onNodeWithText("Sunday 12:30").assertIsDisplayed()
+        }
+    ) {
         val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
 
         SessionListView(

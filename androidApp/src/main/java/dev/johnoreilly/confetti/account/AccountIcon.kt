@@ -46,9 +46,7 @@ fun AccountIcon(
         onShowSettings = onShowSettings,
         installOnWear = viewModel::installOnWear,
         updateWearTheme = viewModel::updateWearTheme,
-        user = accountUiState.user,
-        showInstallOnWear = accountUiState.showInstallOnWear,
-        isInstalledOnWear = accountUiState.isInstalledOnWear
+        uiState = accountUiState
     )
 }
 
@@ -57,14 +55,13 @@ private fun AccountIcon(
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
+    onShowSettings: () -> Unit,
     updateWearTheme: () -> Unit,
     installOnWear: () -> Unit,
-    onShowSettings: () -> Unit,
-    user: User?,
-    showInstallOnWear: Boolean,
-    isInstalledOnWear: Boolean
+    uiState: UiState,
 ) {
     var showMenu by remember { mutableStateOf(false) }
+    val user = uiState.user
 
     IconButton(onClick = { showMenu = !showMenu }) {
         when {
@@ -124,7 +121,7 @@ private fun AccountIcon(
                 onShowSettings()
             }
         )
-        if (showInstallOnWear) {
+        if (uiState.showInstallOnWear) {
             DropdownMenuItem(
                 text = { Text("Install on Wear") },
                 onClick = {
@@ -133,7 +130,7 @@ private fun AccountIcon(
                 }
             )
         }
-        if (isInstalledOnWear) {
+        if (uiState.isInstalledOnWear) {
             DropdownMenuItem(
                 text = { Text("Update Wear Theme") },
                 onClick = {
@@ -149,6 +146,7 @@ private fun AccountIcon(
 @Preview(uiMode = UI_MODE_NIGHT_NO, name = "light theme")
 @Composable
 private fun AccountIconPreview() {
+    val accountUiState = UiState()
     ConfettiTheme {
         Surface {
             AccountIcon(
@@ -157,10 +155,8 @@ private fun AccountIconPreview() {
                 onSignOut = {},
                 updateWearTheme = {},
                 installOnWear = {},
-                user = null,
-                showInstallOnWear = false,
-                isInstalledOnWear = false,
-                onShowSettings = {}
+                onShowSettings = {},
+                uiState = accountUiState
             )
         }
     }

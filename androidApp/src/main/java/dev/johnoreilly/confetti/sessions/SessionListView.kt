@@ -31,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -47,9 +48,9 @@ import dev.johnoreilly.confetti.sessionSpeakerLocation
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
-import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 
@@ -61,7 +62,8 @@ fun SessionListView(
     sessionSelected: (SessionDetailsKey) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onNavigateToSignIn: () -> Unit
 ) {
     val pagerState = rememberPagerState()
 
@@ -107,12 +109,13 @@ fun SessionListView(
 
                                 items(it.value) { session ->
                                     SessionView(
-                                        uiState.conference,
-                                        session,
-                                        sessionSelected,
-                                        uiState.bookmarks.contains(session.id),
-                                        addBookmark,
-                                        removeBookmark
+                                        conference = uiState.conference,
+                                        session = session,
+                                        sessionSelected = sessionSelected,
+                                        isBookmarked = uiState.bookmarks.contains(session.id),
+                                        addBookmark = addBookmark,
+                                        removeBookmark = removeBookmark,
+                                        onNavigateToSignIn = onNavigateToSignIn
                                     )
                                 }
                             }
@@ -164,7 +167,8 @@ fun SessionView(
     sessionSelected: (SessionDetailsKey) -> Unit,
     isBookmarked: Boolean,
     addBookmark: (String) -> Unit,
-    removeBookmark: (String) -> Unit
+    removeBookmark: (String) -> Unit,
+    onNavigateToSignIn: () -> Unit,
 ) {
 
     var modifier = Modifier.fillMaxSize()
@@ -195,23 +199,42 @@ fun SessionView(
 
         val authentication = get<Authentication>()
         val user by remember { mutableStateOf(authentication.currentUser()) }
-        if (user != null) {
-            if (isBookmarked) {
-                Icon(
-                    imageVector = Icons.Outlined.Bookmark,
-                    contentDescription = "remove bookmark",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .clickable { removeBookmark(session.id) }
-                        .padding(8.dp))
-            } else {
-                Icon(
-                    imageVector = Icons.Outlined.BookmarkAdd,
-                    contentDescription = "add bookmark",
-                    modifier = Modifier
-                        .clickable { addBookmark(session.id) }
-                        .padding(8.dp))
-            }
+        var showDialog by remember { mutableStateOf(false) }
+
+        if (isBookmarked) {
+            Icon(
+                imageVector = Icons.Outlined.Bookmark,
+                contentDescription = "remove bookmark",
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .clickable {
+                        if (user != null) {
+                            removeBookmark(session.id)
+                        } else {
+                            showDialog = true
+                        }
+                    }
+                    .padding(8.dp))
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.BookmarkAdd,
+                contentDescription = "add bookmark",
+                modifier = Modifier
+                    .clickable {
+                        if (user != null) {
+                            addBookmark(session.id)
+                        } else {
+                            showDialog = true
+                        }
+                    }
+                    .padding(8.dp))
+        }
+
+        if (showDialog) {
+            SignInDialog(
+                onDismissRequest = {showDialog = false},
+                onSignInClicked = onNavigateToSignIn
+            )
         }
     }
 }

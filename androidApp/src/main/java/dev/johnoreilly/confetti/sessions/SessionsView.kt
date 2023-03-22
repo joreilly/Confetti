@@ -64,6 +64,7 @@ fun SessionsView(
                 addBookmark = { viewModel.addBookmark(it) },
                 removeBookmark = { viewModel.removeBookmark(it) },
                 onRefresh = ::refresh,
+                onNavigateToSignIn = navigateToSignIn,
             )
         }
 

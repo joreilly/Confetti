@@ -50,8 +50,6 @@ android {
         versionName = "1.0"
         versionCode = versionCode()
         versionName = versionName()
-
-        testInstrumentationRunner = "dev.johnoreilly.confetti.wear.InstrumentationTestRunner"
     }
 
     signingConfigs {
@@ -188,11 +186,4 @@ dependencies {
     testImplementation(libs.snapshot.android)
     testImplementation(libs.snapshot.jvm)
     testImplementation(libs.androidx.work.testing)
-
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.fastlane.screengrab)
-    androidTestImplementation(libs.test.junit.ktx)
-    androidTestImplementation(libs.test.runner)
-    androidTestImplementation(libs.compose.ui.test.junit4)
-    androidTestImplementation(libs.koin.test)
 }

@@ -220,4 +220,4 @@ fun colorScheme(
 }
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
-private fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

@@ -16,9 +16,11 @@ import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.TokenProvider
 import dev.johnoreilly.confetti.account.AccountViewModel
 import dev.johnoreilly.confetti.account.Authentication
+import dev.johnoreilly.confetti.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -33,6 +35,7 @@ val appModule = module {
     viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)
     viewModelOf(::AccountViewModel)
+    viewModelOf(::SettingsViewModel)
 
     single {
         ConfettiRepository().apply {

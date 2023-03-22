@@ -99,6 +99,8 @@ object Sessionize {
         val day1 = LocalDate(2023, 4, 27)
         val day2 = LocalDate(2023, 4, 28)
         var time = day1.atTime(9, 30)
+        var roomIndex = 0
+        val fakeRooms = listOf("moebius", "blin", "202", "204")
 
         val categories = data.asMap["categories"].asList.map { it.asMap }
             .flatMap {
@@ -115,7 +117,7 @@ object Sessionize {
             if (start > LocalDateTime(2023, 4, 27, 18, 0)) {
                 start = day2.atTime(9,30)
             }
-            var end  = start.toInstant(TimeZone.UTC).plus(1.hours).toLocalDateTime(TimeZone.UTC)
+            val end  = start.toInstant(TimeZone.UTC).plus(1.hours).toLocalDateTime(TimeZone.UTC)
 
             DSession(
                 id = it.get("id").asString,
@@ -130,19 +132,25 @@ object Sessionize {
                 tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
                     categories.get(categoryId)?.asString
                 },
-                rooms = listOf(it.get("roomId").toString()),
+                rooms = listOf(fakeRooms.get(roomIndex++)),
                 speakers = it.get("speakers").asList.map { it.asString },
                 shortDescription = null,
             ).also {
                 time = end
+                if (roomIndex >= fakeRooms.size) {
+                    roomIndex = 0
+                }
             }
         }
 
-        val rooms = data.asMap["rooms"].asList.map { it.asMap }.map {
+        var rooms = data.asMap["rooms"].asList.map { it.asMap }.map {
             DRoom(
                 id = it.get("id").toString(),
                 name = it.get("name").asString
             )
+        }
+        if (rooms.isEmpty()) {
+           rooms = sessions.flatMap { it.rooms }.distinct().map { DRoom(id = it, name = it) }
         }
         val speakers = data.asMap["speakers"].asList.map { it.asMap }.map {
             DSpeaker(

@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 
 package dev.johnoreilly.confetti.sessiondetails
 
@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.flowlayout.FlowRow
 import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import org.koin.androidx.compose.getViewModel
@@ -71,9 +70,11 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit) {
 
                     if (session.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.size(16.dp))
-                        FlowRow(crossAxisSpacing = 8.dp) {
+                        FlowRow {
                             session.tags.forEach { tag ->
-                                Chip(tag)
+                                Box(Modifier.padding(bottom = 8.dp)) {
+                                    Chip(tag)
+                                }
                             }
                         }
                     }

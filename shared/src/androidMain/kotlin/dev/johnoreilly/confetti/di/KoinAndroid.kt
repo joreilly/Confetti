@@ -34,9 +34,7 @@ import okhttp3.logging.LoggingEventListener
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.bind
-import org.koin.core.module.dsl.new
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
@@ -65,7 +63,7 @@ actual fun platformModule() = module {
         }
     }
     single { androidContext().settingsStore }
-    single<FlowSettings> { new(::DataStoreSettings) }
+    singleOf(::DataStoreSettings) { bind<FlowSettings>() }
     single { get<FlowSettings>().toBlockingObservableSettings() }
     workerOf(::RefreshWorker)
     single { WorkManager.getInstance(androidContext()) }

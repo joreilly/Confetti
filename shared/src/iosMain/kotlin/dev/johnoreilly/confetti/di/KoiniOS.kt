@@ -13,7 +13,6 @@ import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.IosDateService
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 

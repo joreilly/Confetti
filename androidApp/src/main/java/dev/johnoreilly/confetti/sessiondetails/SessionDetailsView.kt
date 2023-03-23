@@ -150,7 +150,7 @@ private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
         // If details is null, early return.
         if (details == null) return@remember {}
 
-        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yy")
+        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM")
         val timeFormatter = DateTimeFormatter.ofPattern("hh:mm")
 
         val sendIntent = Intent().apply {

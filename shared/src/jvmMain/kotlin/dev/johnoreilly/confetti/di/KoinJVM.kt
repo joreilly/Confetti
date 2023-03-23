@@ -13,14 +13,13 @@ import dev.johnoreilly.confetti.utils.JvmDateService
 import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 import java.util.prefs.Preferences
 
 actual fun platformModule() = module {
     single<ObservableSettings> { PreferencesSettings(Preferences.userRoot()) }
     single { get<ObservableSettings>().toFlowSettings() }
-    singleOf(::JvmDateService){ bind<DateService>() }
+    singleOf(::JvmDateService) { bind<DateService>() }
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .build()

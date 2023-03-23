@@ -20,11 +20,9 @@ import dev.johnoreilly.confetti.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 
 val appModule = module {
@@ -47,7 +45,7 @@ val appModule = module {
 
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
 
-    singleOf(::WorkManagerConferenceRefresh).withOptions { bind<ConferenceRefresh>() }
+    singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }
     singleOf(::Authentication)
     single { TokenProvider { forceRefresh -> get<Authentication>().idToken(forceRefresh) } }
 

@@ -161,6 +161,7 @@ private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
             val date = dateFormatter.format(details.startsAt)
             val startsAt = timeFormatter.format(details.startsAt)
             val endsAt = timeFormatter.format(details.endsAt)
+            val schedule = "$date $startsAt-$endsAt"
             val speakers = details
                 .speakers
                 .map { it.speakerDetails.name }
@@ -170,10 +171,8 @@ private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
             val text =
                 """
                 |Title: ${details.title}
+                |Schedule: $schedule
                 |Room: $room
-                |Date: $date
-                |Starts at: $startsAt
-                |Ends at: $endsAt
                 |Speaker: $speakers
                 |---
                 |Description: ${details.sessionDescription}

@@ -125,7 +125,7 @@ plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutin
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.20-RC-1.0.9" }
-plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.4" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.5" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.2" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }

@@ -28,7 +28,6 @@ import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
 
 @OptIn(ExperimentalHorologistAuthDataApi::class, ExperimentalHorologistAuthUiApi::class)
@@ -45,6 +44,6 @@ val appModule = module {
     viewModelOf(::WearAppViewModel)
     singleOf(::PhoneSettingsSync)
     single { GoogleSignIn.getClient(get<Context>(), GoogleSignInOptions.DEFAULT_SIGN_IN) }
-    singleOf(::GoogleSignInAuthUserRepository).withOptions { bind<GoogleSignInEventListener>() }
-    singleOf(::WorkManagerConferenceRefresh).withOptions { bind<ConferenceRefresh>() }
+    singleOf(::GoogleSignInAuthUserRepository) { bind<GoogleSignInEventListener>() }
+    singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }
 }

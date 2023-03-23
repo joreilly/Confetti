@@ -12,11 +12,10 @@ fun SystemBarsColorEffect(
     color: Color = Color.Transparent,
     isSystemInDarkTheme: Boolean,
 ) {
-    val darkIcons = !isSystemInDarkTheme
-    DisposableEffect(systemUiController, darkIcons) {
+    DisposableEffect(systemUiController, color, isSystemInDarkTheme) {
         systemUiController.setSystemBarsColor(
             color = color,
-            darkIcons = darkIcons,
+            darkIcons = !isSystemInDarkTheme,
         )
         onDispose {}
     }

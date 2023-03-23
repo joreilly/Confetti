@@ -6,6 +6,7 @@ import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_SOURCE
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_UID
+import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.datastore.DDirection
 import dev.johnoreilly.confetti.backend.datastore.DOrderBy
 import dev.johnoreilly.confetti.backend.datastore.DataStore
@@ -97,7 +98,9 @@ class RootQuery : Query {
             DOrderBy(orderBy1.field.value, orderBy1.direction.toDDirection())
         ).map {
             it.toConference()
-        } + TestDataSource().conference()
+        }.filter {
+            it.id != ConferenceId.AndroidMakers2023.id
+        }
     }
 }
 

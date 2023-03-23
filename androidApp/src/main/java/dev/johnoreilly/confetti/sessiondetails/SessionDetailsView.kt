@@ -146,7 +146,7 @@ fun Chip(name: String) {
 private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
     val context = LocalContext.current
 
-    return remember(details) {
+    return remember(context, details) {
         // If details is null, there is nothing to share.
         if (details == null) return@remember {}
 

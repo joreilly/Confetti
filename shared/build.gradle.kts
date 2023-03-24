@@ -85,7 +85,7 @@ kotlin {
                 api(libs.coil.base)
                 api(libs.koin.android)
                 api(libs.koin.workmanager)
-                implementation(libs.okio)
+                api(libs.okio)
                 implementation(libs.horologist.datalayer)
 
                 implementation(libs.google.services)

@@ -25,7 +25,7 @@ class SessionsDetailsTest : ScreenshotTest() {
     @Test
     fun sessionDetailsScreen() = takeScreenshot(
         checks = {
-            rule.onNodeWithText("Wednesday 09:30").assertIsDisplayed()
+            rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         }
     ) {
         SessionDetailView(

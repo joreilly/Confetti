@@ -109,7 +109,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
             ).fileSnapshotting
 
             // Flip to true to record
-            snapshotting.snapshot(rule.onRoot(), record = true)
+            snapshotting.snapshot(rule.onRoot(), record = false)
         }
     }
 }

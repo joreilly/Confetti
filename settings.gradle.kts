@@ -4,7 +4,8 @@ pluginManagement {
         it.apply {
             mavenCentral()
             google()
-            maven("https://androidx.dev/storage/compose-compiler/repository")
+            maven(url = "https://androidx.dev/storage/compose-compiler/repository")
+            maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
             gradlePluginPortal {
                 content {
                 }
@@ -49,6 +50,7 @@ include(":backend:service-import")
 include(":landing-page")
 include(":wearApp")
 include(":wearBenchmark")
+include(":compose-desktop")
 
 val javaVersion = System.getProperty("java.version")?.split(".")?.firstOrNull()?.toInt() ?: Int.MAX_VALUE
 

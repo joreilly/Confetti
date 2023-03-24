@@ -155,6 +155,7 @@ dependencies {
     implementation(libs.splash.screen)
 
     implementation(libs.accompanist.adaptive)
+    implementation(libs.accompanist.systemuicontroller)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)

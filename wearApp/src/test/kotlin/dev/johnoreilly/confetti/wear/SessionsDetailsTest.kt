@@ -34,7 +34,7 @@ class SessionsDetailsTest : ScreenshotTest() {
                 sessionDetails,
                 TimeZone.UTC
             ),
-            columnState = ScalingLazyColumnDefaults.scalingLazyColumnDefaults().create(),
+            columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToSpeaker = {},
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )

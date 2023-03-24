@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistTilesApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.complication
 
@@ -6,7 +6,7 @@ import android.content.Context
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.data.LongTextComplicationData
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
-import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.complication.DataTemplates.longText
 import com.google.android.horologist.tiles.complication.DataTemplates.shortText
 import com.google.android.horologist.tiles.complication.TypedComplicationTemplate
@@ -16,7 +16,7 @@ import dev.johnoreilly.confetti.type.Session
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toKotlinInstant
 
-@OptIn(ExperimentalHorologistTilesApi::class)
+@OptIn(ExperimentalHorologistApi::class)
 class NextSessionTemplate(context: Context) :
     TypedComplicationTemplate<NextSessionComplicationData>(context) {
     override fun previewData(): NextSessionComplicationData {

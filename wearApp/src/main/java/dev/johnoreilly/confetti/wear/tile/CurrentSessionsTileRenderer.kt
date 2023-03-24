@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistTilesApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.tile
 
@@ -22,7 +22,7 @@ import androidx.wear.tiles.material.Typography
 import androidx.wear.tiles.material.layouts.MultiSlotLayout
 import androidx.wear.tiles.material.layouts.PrimaryLayout
 import com.google.android.horologist.compose.tools.TileLayoutPreview
-import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.Session

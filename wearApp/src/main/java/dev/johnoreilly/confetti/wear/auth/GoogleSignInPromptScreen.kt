@@ -1,7 +1,4 @@
-@file:OptIn(ExperimentalHorologistAuthComposablesApi::class,
-    ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistBaseUiApi::class,
-    ExperimentalHorologistAuthUiApi::class, ExperimentalHorologistAuthUiApi::class
-)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.auth
 
@@ -15,16 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.wear.compose.material.Text
-import com.google.android.horologist.auth.composables.ExperimentalHorologistAuthComposablesApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.composables.chips.SignInChip
-import com.google.android.horologist.auth.ui.ExperimentalHorologistAuthUiApi
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptScreen
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
-import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
 import com.google.android.horologist.base.ui.components.ConfirmationDialog
 import com.google.android.horologist.base.ui.components.StandardChipType
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.R
 import org.koin.androidx.compose.getViewModel
 

@@ -1,9 +1,9 @@
-@file:OptIn(ExperimentalHorologistDataLayerApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 @file:Suppress("RemoveExplicitTypeArguments")
 
 package dev.johnoreilly.confetti.di
 
-import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.AppViewModel
 import dev.johnoreilly.confetti.ConferenceRefresh

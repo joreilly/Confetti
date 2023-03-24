@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistTilesApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.complication
 
@@ -8,16 +8,13 @@ import androidx.core.net.toUri
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.complication.DataComplicationService
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.toTimeZone
-import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaZoneId
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
 import org.koin.android.ext.android.inject

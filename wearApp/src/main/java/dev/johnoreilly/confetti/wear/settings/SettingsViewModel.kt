@@ -1,10 +1,10 @@
-@file:OptIn(ExperimentalHorologistAuthDataApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.horologist.auth.data.ExperimentalHorologistAuthDataApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.wear.data.auth.GoogleSignInAuthUserRepository
 import kotlinx.coroutines.flow.SharingStarted

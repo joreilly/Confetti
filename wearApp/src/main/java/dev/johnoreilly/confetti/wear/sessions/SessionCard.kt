@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.sessions
 
@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 

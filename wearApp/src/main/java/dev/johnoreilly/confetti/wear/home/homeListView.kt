@@ -1,7 +1,4 @@
-@file:OptIn(
-    ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistBaseUiApi::class,
-    ExperimentalHorologistComposablesApi::class, ExperimentalWearMaterialApi::class
-)
+@file:OptIn(ExperimentalHorologistApi::class, ExperimentalWearMaterialApi::class)
 
 package dev.johnoreilly.confetti.wear.home
 
@@ -22,14 +19,12 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
-import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.StandardChip
-import com.google.android.horologist.composables.ExperimentalHorologistComposablesApi
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.sessions.SessionCard

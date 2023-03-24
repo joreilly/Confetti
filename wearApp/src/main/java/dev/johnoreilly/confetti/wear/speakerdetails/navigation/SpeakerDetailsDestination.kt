@@ -1,10 +1,10 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.speakerdetails.navigation
 
 import android.net.Uri
 import androidx.navigation.*
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsRoute

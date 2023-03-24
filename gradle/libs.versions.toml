@@ -7,10 +7,7 @@ apollo = "4.0.0-SNAPSHOT"
 compose = "1.4.0"
 compose-compiler = "1.4.4-dev-k1.8.20-RC-88d9f3a8232"
 compose-material-3 = "1.0.1"
-horologist-auth-composables = "0.3.9"
-horologist-auth-ui = "0.3.9"
-horologist-datalayer-phone = "0.3.9"
-horologist-datalayer-watch = "0.3.9"
+horologist = "0.3.10"
 junit = "4.13"
 kmp-nativecoroutines = "1.0.0-ALPHA-5-kotlin-1.8.20-RC"
 kmm-viewmodel = "1.0.0-ALPHA-4"
@@ -78,17 +75,17 @@ google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.14.1"
 google-services = "com.google.gms:google-services:4.3.15"
 graphql-java = "com.graphql-java:graphql-java:230521-nf-execution"
 graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.0-alpha.4"
-horologist-auth-composables = "com.google.android.horologist:horologist-auth-composables:0.3.10"
-horologist-auth-ui = "com.google.android.horologist:horologist-auth-ui:0.3.10"
-horologist-auth-data = "com.google.android.horologist:horologist-auth-data:0.3.10"
-horologist-base-ui = "com.google.android.horologist:horologist-base-ui:0.3.10"
-horologist-composables = "com.google.android.horologist:horologist-composables:0.3.10"
-horologist-compose-layout = "com.google.android.horologist:horologist-compose-layout:0.3.10"
-horologist-compose-tools = "com.google.android.horologist:horologist-compose-tools:0.3.10"
-horologist-datalayer = "com.google.android.horologist:horologist-datalayer:0.3.10"
-horologist-datalayer-phone = { module = "com.google.android.horologist:horologist-datalayer-phone", version.ref = "horologist-datalayer-phone" }
-horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist-datalayer-watch" }
-horologist-tiles = "com.google.android.horologist:horologist-tiles:0.3.10"
+horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }
+horologist-auth-ui = { module = "com.google.android.horologist:horologist-auth-ui", version.ref = "horologist" }
+horologist-auth-data = { module = "com.google.android.horologist:horologist-auth-data", version.ref = "horologist" }
+horologist-base-ui = { module = "com.google.android.horologist:horologist-base-ui", version.ref = "horologist" }
+horologist-composables = { module = "com.google.android.horologist:horologist-composables", version.ref = "horologist" }
+horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
+horologist-compose-tools = { module = "com.google.android.horologist:horologist-compose-tools", version.ref = "horologist" }
+horologist-datalayer = { module = "com.google.android.horologist:horologist-datalayer", version.ref = "horologist" }
+horologist-datalayer-phone = { module = "com.google.android.horologist:horologist-datalayer-phone", version.ref = "horologist" }
+horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist" }
+horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.53.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }

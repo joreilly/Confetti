@@ -1,10 +1,10 @@
-@file:OptIn(ExperimentalHorologistDataLayerApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.settings
 
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors
-import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.data.ProtoDataStoreHelper.protoFlow
 import com.google.android.horologist.data.TargetNodeId.PairedPhone
 import com.google.android.horologist.data.WearDataLayerRegistry

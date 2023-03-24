@@ -72,7 +72,7 @@ firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-bom = "com.google.firebase:firebase-bom:31.2.3"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
-google-cloud-bom = "com.google.cloud:libraries-bom:26.10.0"
+google-cloud-bom = "com.google.cloud:libraries-bom:26.11.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.14.1"
 google-services = "com.google.gms:google-services:4.3.15"

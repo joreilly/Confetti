@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
@@ -6,7 +6,7 @@ package dev.johnoreilly.confetti.wear
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.wear.TestFixtures.conferences
 import dev.johnoreilly.confetti.wear.conferences.ConferencesUiState

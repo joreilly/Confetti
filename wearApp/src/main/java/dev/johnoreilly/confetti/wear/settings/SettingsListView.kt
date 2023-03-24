@@ -1,7 +1,4 @@
-@file:OptIn(
-    ExperimentalHorologistComposeLayoutApi::class,
-    ExperimentalHorologistBaseUiApi::class, ExperimentalHorologistAuthDataApi::class
-)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.settings
 
@@ -10,13 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
-import com.google.android.horologist.auth.data.ExperimentalHorologistAuthDataApi
-import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.StandardChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes

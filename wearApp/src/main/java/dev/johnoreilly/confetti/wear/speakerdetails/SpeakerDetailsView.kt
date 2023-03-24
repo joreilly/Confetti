@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.speakerdetails
 
@@ -17,7 +17,7 @@ import androidx.wear.compose.material.Text
 import coil.compose.AsyncImage
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import org.koin.androidx.compose.getViewModel
 

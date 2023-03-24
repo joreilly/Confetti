@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistDataLayerApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear
 
@@ -8,7 +8,7 @@ import android.util.Log
 import androidx.compose.ui.graphics.Color
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.AvailabilityException
-import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.data.ProtoDataStoreHelper.protoDataStore
 import com.google.android.horologist.data.WearDataLayerRegistry
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper

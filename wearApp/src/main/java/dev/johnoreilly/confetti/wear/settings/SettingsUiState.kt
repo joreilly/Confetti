@@ -1,8 +1,8 @@
-@file:OptIn(ExperimentalHorologistAuthDataApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.settings
 
-import com.google.android.horologist.auth.data.ExperimentalHorologistAuthDataApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.data.common.model.AuthUser
 
 sealed interface SettingsUiState {

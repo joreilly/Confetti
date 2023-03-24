@@ -1,17 +1,18 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistTilesApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
 
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
-import com.google.android.horologist.tiles.ExperimentalHorologistTilesApi
-import dev.johnoreilly.confetti.wear.TestFixtures.sessionDetails
-import dev.johnoreilly.confetti.wear.TestFixtures.sessionTime
+import dev.johnoreilly.confetti.wear.SessionsDetailsTest.Companion.sessionDetails
+import dev.johnoreilly.confetti.wear.SessionsDetailsTest.Companion.sessionTime
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsTileRenderer
+import dev.johnoreilly.confetti.wear.TestFixtures.sessionDetails
+import dev.johnoreilly.confetti.wear.TestFixtures.sessionTime
 import org.junit.Test
 
 class TileScreenshotTest : ScreenshotTest() {

@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package dev.johnoreilly.confetti.sessions
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,6 +45,8 @@ fun SessionsView(
         }
     }
 
+    val search by viewModel.search.collectAsStateWithLifecycle()
+
     ConfettiScaffold(
         conference = conference,
         title = (uiState as? SessionsUiState.Success)?.conferenceName,
@@ -49,7 +54,9 @@ fun SessionsView(
         onSwitchConference = onSwitchConferenceSelected,
         onSignIn = navigateToSignIn,
         onSignOut = onSignOut,
-    ){
+        search = search,
+        onSearch = viewModel::onSearch,
+    ) {
         if (appState.isExpandedScreen) {
             SessionListGridView(
                 uiState = uiState,
@@ -68,7 +75,8 @@ fun SessionsView(
             )
         }
 
-        val addErrorCount by viewModel.addErrorChannel.receiveAsFlow().collectAsStateWithLifecycle(initialValue = 0)
+        val addErrorCount by viewModel.addErrorChannel.receiveAsFlow()
+            .collectAsStateWithLifecycle(initialValue = 0)
         LaunchedEffect(addErrorCount) {
             if (addErrorCount > 0) {
                 it.showSnackbar(
@@ -78,7 +86,8 @@ fun SessionsView(
             }
         }
 
-        val removeErrorCount by viewModel.removeErrorChannel.receiveAsFlow().collectAsStateWithLifecycle(initialValue = 0)
+        val removeErrorCount by viewModel.removeErrorChannel.receiveAsFlow()
+            .collectAsStateWithLifecycle(initialValue = 0)
         LaunchedEffect(removeErrorCount) {
             if (removeErrorCount > 0) {
                 it.showSnackbar(

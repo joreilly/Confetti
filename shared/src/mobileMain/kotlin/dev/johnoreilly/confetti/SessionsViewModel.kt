@@ -13,14 +13,19 @@ import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.*
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -124,10 +129,12 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
     val addErrorChannel = Channel<Int>()
     val removeErrorChannel = Channel<Int>()
 
+    private val _search = MutableStateFlow("")
+    val search = _search.asStateFlow()
 
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> = responseDatas.receiveAsFlow()
-            .flatMapLatest { refreshData ->
+        .flatMapLatest { refreshData ->
             val bookmarksData = refreshData.bookmarksResponse.data
             repository.watchBookmarks(conference, bookmarksData)
                 .map { refreshData.copy(bookmarksResponse = it) }
@@ -136,6 +143,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
                 }.map {
                     uiStates(it)
                 }
+        }.combine(_search) { uiState, search ->
+            filterSessions(uiState, search)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
@@ -146,6 +155,25 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
     }
 
     suspend fun refresh() = refresh(false)
+
+    fun onSearch(search: String) {
+        _search.value = search
+    }
+
+    private fun filterSessions(uiState: SessionsUiState, filter: String): SessionsUiState {
+        return if (filter.isNotBlank() && uiState is SessionsUiState.Success) {
+            val newSessions = uiState.sessionsByStartTimeList.map { outerMap ->
+                outerMap.mapValues { (_, value) ->
+                    value.filter { session ->
+                        session.title.contains(filter, ignoreCase = true)
+                    }
+                }
+            }
+            uiState.copy(sessionsByStartTimeList = newSessions)
+        } else {
+            uiState
+        }
+    }
 
     private suspend fun refresh(initial: Boolean) {
         val fetchPolicy = if (initial) {

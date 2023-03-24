@@ -6,22 +6,33 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.settings.SettingsDialog
@@ -39,9 +50,11 @@ fun ConfettiScaffold(
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
+    search: String? = null,
+    onSearch: (String) -> Unit = {},
     content: @Composable (SnackbarHostState) -> Unit,
 ) {
-    val snackbarHostState = remember { SnackbarHostState()}
+    val snackbarHostState = remember { SnackbarHostState() }
     val titleFontSize =
         if (appState.isExpandedScreen) 40.sp else MaterialTheme.typography.titleLarge.fontSize
 
@@ -81,13 +94,45 @@ fun ConfettiScaffold(
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = Color.Transparent
                     ),
-                    actions = {
+                    navigationIcon = {
                         AccountIcon(
                             onSwitchConference = onSwitchConference,
                             onSignIn = onSignIn,
                             onSignOut = onSignOut,
-                            onShowSettings = {  appState.setShowSettingsDialog(true) },
+                            onShowSettings = { appState.setShowSettingsDialog(true) },
                         )
+                    },
+                    actions = {
+                        if (search != null) {
+                            var searchCollapsed by remember { mutableStateOf(true) }
+                            if (searchCollapsed) {
+                                IconButton(onClick = { searchCollapsed = false }) {
+                                    Icon(Icons.Filled.Search, contentDescription = "Search")
+                                }
+                            } else {
+                                TextField(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    value = search,
+                                    onValueChange = onSearch,
+                                    label = { Text("Search") },
+                                    maxLines = 1,
+                                    singleLine = true,
+                                    trailingIcon = {
+                                        IconButton(onClick = {
+                                            searchCollapsed = true
+                                            onSearch("")
+                                        }) {
+                                            Icon(
+                                                Icons.Filled.Close,
+                                                contentDescription = "Close Search"
+                                            )
+                                        }
+                                    }
+                                )
+                            }
+                        }
                     },
                     scrollBehavior = scrollBehavior,
                 )
@@ -95,7 +140,11 @@ fun ConfettiScaffold(
             containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { innerPadding ->
-            Column(modifier = Modifier.padding(innerPadding).fillMaxHeight()) {
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxHeight()
+            ) {
                 Box(modifier = Modifier.weight(1f)) {
                     content(snackbarHostState)
                 }

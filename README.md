@@ -35,7 +35,8 @@ Requires XCode 14 or later for iOS client.
 <img width="1054" alt="Screenshot 2022-10-19 at 13 44 57" src="https://user-images.githubusercontent.com/6302/196694566-20a8edc0-a120-4305-8ff2-d18d543f47a2.png">
 
 
-![Screenshot_20221113_151115](https://user-images.githubusercontent.com/6302/201531906-42a1176e-720e-43bf-a4d3-07f8ee35bebb.png)
+![Screenshot_20230324_091534](https://user-images.githubusercontent.com/6302/227476725-edd577f5-2abd-4660-a777-decef84fbb9b.png)
+
 
 <img width="453" alt="Screenshot 2023-01-18 at 18 52 58" src="https://user-images.githubusercontent.com/6302/213269228-50154ff5-a1c1-4da6-be26-1c4a1bf20337.png">
 

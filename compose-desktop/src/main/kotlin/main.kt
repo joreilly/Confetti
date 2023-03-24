@@ -2,17 +2,14 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,9 +25,13 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.sessionSpeakerLocation
+import dev.johnoreilly.confetti.utils.JvmDateService
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 
 
 private val koin = initKoin().koin
+private val dateService = JvmDateService()
 
 fun main() = application {
     val windowState = rememberWindowState()
@@ -91,7 +92,15 @@ fun SessionListView(sessionList: List<SessionDetails>, sessionSelected: (player:
 @Composable
 fun SessionView(session: SessionDetails, sessionSelected: (session: SessionDetails) -> Unit) {
     Row(Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 8.dp).clickable(onClick = { sessionSelected(session) })) {
+
         Column(modifier = Modifier.weight(1f)) {
+            val sessionTime = getSessionTime(session, currentSystemDefault())
+            Text(
+                sessionTime,
+                color = MaterialTheme.colors.primary,
+                style = MaterialTheme.typography.body2
+            )
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = session.title, style = TextStyle(fontSize = 16.sp))
             }
@@ -186,4 +195,8 @@ fun SessionSpeakerInfo(
             }
         }
     }
+}
+
+private fun getSessionTime(session: SessionDetails, timeZone: TimeZone): String {
+    return dateService.format(session.startsAt, timeZone, "MMM dd, HH:mm")
 }

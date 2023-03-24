@@ -21,19 +21,6 @@ wire {
     }
 }
 
-// https://github.com/square/wire/issues/2411
-val wireTask = tasks.withType<com.squareup.wire.gradle.WireTask>()
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    dependsOn(wireTask)
-}
-afterEvaluate {
-    wireTask.forEach {
-        if ("generateCommon.+MainProtos".toRegex().matches(it.name)) {
-            it.enabled = false
-        }
-    }
-}
-
 kotlin {
     android()
     jvm()
@@ -182,19 +169,6 @@ kmmbridge {
     githubReleaseVersions()
     spm()
     versionPrefix.set("0.7")
-}
-
-allprojects {
-    afterEvaluate {
-        // temp fix until sqllight includes https://github.com/cashapp/sqldelight/pull/3671
-        project.extensions.findByType<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension>()
-            ?.let { kmpExt ->
-                kmpExt.targets
-                    .filterIsInstance<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>()
-                    .flatMap { it.binaries }
-                    .forEach { it.linkerOpts("-lsqlite3") }
-            }
-    }
 }
 
 kotlin.sourceSets.all {

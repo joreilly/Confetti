@@ -1,6 +1,6 @@
 @file:OptIn(
     ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class,
-    ExperimentalHorologistDataLayerApi::class
+    ExperimentalHorologistApi::class
 )
 @file:Suppress("RemoveExplicitTypeArguments")
 
@@ -12,7 +12,7 @@ import androidx.work.WorkManager
 import coil.ImageLoader
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
-import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.data.WearDataLayerRegistry
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation

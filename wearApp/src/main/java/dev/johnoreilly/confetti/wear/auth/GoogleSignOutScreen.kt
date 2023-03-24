@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistBaseUiApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.auth
 
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Text
-import com.google.android.horologist.base.ui.ExperimentalHorologistBaseUiApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.ConfirmationDialog
 import dev.johnoreilly.confetti.R
 import org.koin.androidx.compose.getViewModel

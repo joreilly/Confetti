@@ -1,18 +1,14 @@
-@file:OptIn(ExperimentalHorologistAuthDataApi::class, ExperimentalHorologistAuthUiApi::class,
-    ExperimentalHorologistDataLayerApi::class
-)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.di
 
 import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.horologist.auth.data.ExperimentalHorologistAuthDataApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.data.googlesignin.GoogleSignInEventListener
-import com.google.android.horologist.auth.ui.ExperimentalHorologistAuthUiApi
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
-import com.google.android.horologist.data.ExperimentalHorologistDataLayerApi
 import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.wear.WearAppViewModel
 import dev.johnoreilly.confetti.wear.auth.ConfettiGoogleSignOutViewModel
@@ -30,7 +26,7 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-@OptIn(ExperimentalHorologistAuthDataApi::class, ExperimentalHorologistAuthUiApi::class)
+@OptIn(ExperimentalHorologistApi::class, ExperimentalHorologistApi::class)
 val appModule = module {
     viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)

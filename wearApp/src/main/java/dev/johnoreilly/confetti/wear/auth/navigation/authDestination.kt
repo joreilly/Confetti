@@ -1,16 +1,15 @@
-@file:OptIn(ExperimentalHorologistComposeLayoutApi::class, ExperimentalHorologistAuthUiApi::class)
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.auth.navigation
 
 import androidx.navigation.NavGraphBuilder
-import com.google.android.horologist.auth.ui.ExperimentalHorologistAuthUiApi
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInScreen
-import com.google.android.horologist.compose.navscaffold.ExperimentalHorologistComposeLayoutApi
 import com.google.android.horologist.compose.navscaffold.composable
 import com.google.android.horologist.compose.navscaffold.scrollable
-import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.auth.GoogleSignInPromptScreen
 import dev.johnoreilly.confetti.wear.auth.GoogleSignOutScreen
+import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import org.koin.androidx.compose.getViewModel
 
 object SignInPromptDestination : ConfettiNavigationDestination {

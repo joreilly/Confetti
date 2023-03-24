@@ -41,6 +41,9 @@ Requires XCode 14 or later for iOS client.
 
 <img width="453" alt="Screenshot 2023-01-18 at 18 52 58" src="https://user-images.githubusercontent.com/6302/213269228-50154ff5-a1c1-4da6-be26-1c4a1bf20337.png">
 
+
+<img width="1205" alt="Screenshot 2023-03-24 at 18 33 34" src="https://user-images.githubusercontent.com/6302/227615364-dd349253-483b-45a6-9090-cc8b932bef1f.png">
+
 ### API
 
 The API is available at https://confetti-app.dev/graphiql

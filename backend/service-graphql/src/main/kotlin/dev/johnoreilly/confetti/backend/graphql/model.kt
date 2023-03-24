@@ -60,6 +60,10 @@ class RootQuery : Query {
         return dfe.source().speakers()
     }
 
+    fun speaker(dfe: DataFetchingEnvironment, id: String): Speaker {
+        return dfe.source().speaker(id)
+    }
+
     fun venue(dfe: DataFetchingEnvironment, id: String): Venue {
         return dfe.source().venues().first { it.id == id }
     }
@@ -119,6 +123,7 @@ class LocalDateTimeFilter(
     val before: LocalDateTime? = null,
     val after: LocalDateTime? = null,
 )
+
 class SessionFilter(
     val startsAt: LocalDateTimeFilter? = null,
     val endsAt: LocalDateTimeFilter? = null,
@@ -227,7 +232,16 @@ data class Speaker(
     val city: String?,
     val socials: List<Social>,
     val photoUrl: String?,
-)
+    private val sessionIds: List<String>,
+) {
+    fun sessions(
+        dfe: DataFetchingEnvironment,
+    ): List<Session> {
+        return dfe.source().sessions(
+            sessionIds
+        )
+    }
+}
 
 
 data class Social(

@@ -31,11 +31,13 @@ class TestDataSource : DataSource {
             companyLogoUrl = null,
             city = null,
             socials = emptyList(),
-            photoUrl = null
+            photoUrl = null,
+            sessionIds = emptyList()
         )
     )
 
     private val start = LocalDateTime(2032, 1, 1, 12, 0, 0)
+
     override fun sessions(
         first: Int,
         after: String?,
@@ -72,6 +74,10 @@ class TestDataSource : DataSource {
                 endCursor = to.toString()
             )
         )
+    }
+
+    override fun sessions(ids: List<String>): List<Session> {
+        return emptyList()
     }
 
     override fun speakers(): List<Speaker> {
@@ -119,5 +125,9 @@ class TestDataSource : DataSource {
 
     override fun removeBookmark(sessionId: String): Set<String> {
         return emptySet()
+    }
+
+    override fun speaker(id: String): Speaker {
+        return speakers[0]
     }
 }

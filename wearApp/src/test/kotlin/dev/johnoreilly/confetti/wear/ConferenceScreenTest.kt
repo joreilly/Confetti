@@ -5,9 +5,8 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import dev.johnoreilly.confetti.GetConferencesQuery
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import dev.johnoreilly.confetti.wear.TestFixtures.conferences
 import dev.johnoreilly.confetti.wear.conferences.ConferencesUiState
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView

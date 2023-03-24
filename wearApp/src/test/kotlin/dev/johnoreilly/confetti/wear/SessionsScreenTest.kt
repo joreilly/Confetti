@@ -5,16 +5,13 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import dev.johnoreilly.confetti.fragment.SessionDetails
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
-import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.sessions.SessionListView
 import dev.johnoreilly.confetti.wear.sessions.SessionsUiState
-import kotlinx.datetime.LocalDateTime
 import org.junit.Test
 
 class SessionsScreenTest : ScreenshotTest() {

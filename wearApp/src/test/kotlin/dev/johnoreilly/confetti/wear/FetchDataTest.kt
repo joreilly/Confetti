@@ -12,9 +12,7 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.GetSessionsQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before

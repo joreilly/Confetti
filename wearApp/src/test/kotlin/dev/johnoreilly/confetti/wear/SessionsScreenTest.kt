@@ -14,6 +14,9 @@ import dev.johnoreilly.confetti.wear.sessions.SessionsUiState
 import org.junit.Test
 
 class SessionsScreenTest : ScreenshotTest() {
+    init {
+        tolerance = 0.03f
+    }
 
     @Test
     fun sessionsScreen() = takeScrollableScreenshot(

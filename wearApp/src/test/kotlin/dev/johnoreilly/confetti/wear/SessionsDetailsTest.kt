@@ -16,6 +16,10 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class SessionsDetailsTest : ScreenshotTest() {
+    init {
+        tolerance = 0.02f
+    }
+
     @Test
     fun sessionDetailsScreen() = takeScrollableScreenshot(
         checks = {

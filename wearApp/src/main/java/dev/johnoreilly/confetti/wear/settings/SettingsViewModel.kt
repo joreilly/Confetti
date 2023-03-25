@@ -15,7 +15,7 @@ class SettingsViewModel(
     userRepository: FirebaseAuthUserRepository
 ) : ViewModel() {
     val uiState: StateFlow<SettingsUiState> =
-        userRepository.authState.map {
+        userRepository.localAuthState.map {
             SettingsUiState.Success(it)
         }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsUiState.Loading)

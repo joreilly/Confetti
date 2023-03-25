@@ -85,6 +85,7 @@ horologist-compose-tools = { module = "com.google.android.horologist:horologist-
 horologist-datalayer = { module = "com.google.android.horologist:horologist-datalayer", version.ref = "horologist" }
 horologist-datalayer-phone = { module = "com.google.android.horologist:horologist-datalayer-phone", version.ref = "horologist" }
 horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist" }
+horologist-auth-data-phone = { module = "com.google.android.horologist:horologist-auth-data-phone", version.ref = "horologist" }
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.53.0"

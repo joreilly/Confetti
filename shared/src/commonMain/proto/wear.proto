@@ -22,4 +22,5 @@ message Theme {
 message WearSettings {
   Theme theme = 1;
   string conference = 2;
+  string authToken = 3;
 }

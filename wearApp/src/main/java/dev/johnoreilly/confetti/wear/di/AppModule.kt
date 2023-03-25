@@ -9,6 +9,8 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.data.googlesignin.GoogleSignInEventListener
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.WearAppViewModel
@@ -48,6 +50,9 @@ val appModule = module {
                 .requestEmail()
                 .build()
         )
+    }
+    single {
+        Firebase.auth
     }
     singleOf(::FirebaseAuthUserRepository) { bind<GoogleSignInEventListener>() }
     singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }

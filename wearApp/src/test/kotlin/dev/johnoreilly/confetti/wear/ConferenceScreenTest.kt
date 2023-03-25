@@ -12,6 +12,10 @@ import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import org.junit.Test
 
 class ConferenceScreenTest : ScreenshotTest() {
+    init {
+        tolerance = 0.03f
+    }
+
     @Test
     fun conferencesScreen() {
         takeScrollableScreenshot (

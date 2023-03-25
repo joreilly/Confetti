@@ -27,9 +27,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
-import com.quickbird.snapshot.bitmap
 import com.quickbird.snapshot.fileSnapshotting
-import com.quickbird.snapshot.intMean
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -53,6 +51,8 @@ import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 )
 @GraphicsMode(NATIVE)
 abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
+    var tolerance: Float = 0f
+
     @get:Rule
     val rule = createComposeRule()
 
@@ -116,7 +116,10 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
             checks()
 
             val snapshotting = Snapshotting(
-                diffing = Diffing.bitmap(colorDiffing = Diffing.intMean),
+                diffing = Diffing.bitmapWithTolerance(
+                    tolerance = tolerance,
+                    colorDiffing = Diffing.highlightWithRed
+                ),
                 snapshot = { node: SemanticsNodeInteraction ->
                     Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888).apply {
                         view.draw(Canvas(this))

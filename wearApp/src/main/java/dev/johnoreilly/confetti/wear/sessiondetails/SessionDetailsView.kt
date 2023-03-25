@@ -22,6 +22,7 @@ import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.utils.AndroidDateService
+import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -94,7 +95,7 @@ fun SessionDetailView(
                 }
 
                 items(session.speakers) { speaker ->
-                    SessionSpeakerInfo(
+                    SessionSpeakerChip(
                         conference = uiState.conference,
                         speaker = speaker.speakerDetails,
                         navigateToSpeaker = navigateToSpeaker

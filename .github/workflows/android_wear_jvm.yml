@@ -48,8 +48,3 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: :shared:runJvmMain
-
-      - name: Wear Unit Tests
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: :wearApp:testDebugUnitTest

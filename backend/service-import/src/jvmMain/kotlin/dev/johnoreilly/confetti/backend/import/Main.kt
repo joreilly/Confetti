@@ -74,6 +74,19 @@ private fun updateShortDescription() {
     }
 }
 
+fun updateSpeakers() {
+    DataStore().updateSessions {
+        println("updating session: ${it.key.name}")
+        val description = it.getStringOrNull("description") ?: return@updateSessions null
+
+        val shortDescription = summarizeText(description) ?: return@updateSessions null
+
+        Entity.newBuilder(it).set(
+            "shortDescription", StringValue(shortDescription)
+        ).build()
+    }
+}
+
 private suspend fun update(conf: String?): Int {
     return when (ConferenceId.from(conf)) {
         ConferenceId.DroidConSF2022 -> DroidConSF.import()

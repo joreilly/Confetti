@@ -116,6 +116,21 @@ class DataStore {
         config: DConfig
     ): Int {
         val conf = config.id
+
+        val map = sessions.flatMap {session ->
+            session.speakers.map {
+                it to session.id
+            }
+        }.groupBy(
+            { it.first },
+            { it.second },
+        )
+        @Suppress("NAME_SHADOWING")
+        val speakers = speakers.map {
+            it.copy(
+                sessions = map.get(it.id).orEmpty()
+            )
+        }
         datastore.runInTransaction {
             it.put(partnerGroups.toEntity(conf))
             val config2 = config.copy(
@@ -156,14 +171,14 @@ class DataStore {
                 )
             )
             .build()
-        val result = datastore.run(query)
+        val result = run(query)
 
         val keys = mutableListOf<Key>()
         result.forEach {
             keys.add(it.key)
         }
 
-        datastore.delete(*keys.toTypedArray())
+        delete(*keys.toTypedArray())
     }
 
     private fun log(message: String) {
@@ -205,6 +220,15 @@ class DataStore {
                 *filters.drop(1).toTypedArray()
             )
         }
+    }
+
+    fun readSessions(
+        conf: String,
+        ids: List<String>
+    ): List<DSession> {
+        val keys = ids.map { keyFactory.setKind(KIND_SESSION).addAncestor(PathElement.of(KIND_CONF, conf)).newKey(it) }
+
+        return datastore.get(keys).map { it.toSession() }
     }
 
     fun readSessions(
@@ -352,6 +376,7 @@ class DataStore {
             photoUrl = getStringOrNull("photoUrl"),
             companyLogoUrl = getStringOrNull("companyLogoUrl"),
             city = getStringOrNull("city"),
+            sessions = getListOrNull<StringValue>("sessions").orEmpty().map { it.get() }
         )
     }
 
@@ -455,6 +480,7 @@ class DataStore {
                 "links",
                 links.map { it.toMap().toJsonElement().toString() }.toValue(excludeFromIndex = true)
             )
+            .set("sessions", sessions.toValue())
             .build()
     }
 
@@ -602,25 +628,21 @@ class DataStore {
         }
     }
 
-    fun updateSessions(block: (Entity) -> Entity?) {
-        var count = 0
+    fun updateSessions(block: (Entity) ->  Entity?) {
+        forEachSession {
+            block(it)?.let { datastore.put(it)}
+        }
+    }
+
+    fun forEachSession(block: (Entity) ->Unit) {
         val queryBuilder = Query.newEntityQueryBuilder()
             .setKind(KIND_SESSION)
-            .setFilter(
-                StructuredQuery.PropertyFilter.hasAncestor(
-                    keyFactory.setKind(KIND_CONF).newKey(ConferenceId.DroidConLondon2022.id)
-                )
-            )
-            .setLimit(100)
+            .setLimit(50)
 
         while (true) {
             val result = datastore.run(queryBuilder.build())
             result.forEach {
-                block(it)?.let { datastore.put(it) }
-                count++
-                if (count >= 100) {
-                    return
-                }
+                block(it)
             }
 
             when (result.moreResults) {
@@ -641,8 +663,51 @@ class DataStore {
         }
     }
 
+    fun updateSpeakers(block: (Entity) ->Entity) {
+        val queryBuilder = Query.newEntityQueryBuilder()
+            .setKind(KIND_SPEAKER)
+            .setLimit(50)
+
+        while (true) {
+            val result = datastore.run(queryBuilder.build())
+            val newEntities = buildList {
+                result.forEach {
+                    this.add(block(it))
+                }
+            }
+            println("putting ${newEntities.size} entities")
+            datastore.put(*newEntities.toTypedArray())
+
+            when (result.moreResults) {
+                QueryResultBatch.MoreResultsType.MORE_RESULTS_TYPE_UNSPECIFIED -> TODO()
+                QueryResultBatch.MoreResultsType.NOT_FINISHED -> queryBuilder.setStartCursor(result.cursorAfter)
+                QueryResultBatch.MoreResultsType.MORE_RESULTS_AFTER_LIMIT -> queryBuilder.setStartCursor(
+                    result.cursorAfter
+                )
+
+                QueryResultBatch.MoreResultsType.MORE_RESULTS_AFTER_CURSOR -> queryBuilder.setStartCursor(
+                    result.cursorAfter
+                )
+
+                QueryResultBatch.MoreResultsType.NO_MORE_RESULTS -> break
+                QueryResultBatch.MoreResultsType.UNRECOGNIZED -> TODO()
+                null -> TODO()
+            }
+        }
+    }
+
+    fun readSpeaker(conf: String, id: String): DSpeaker {
+        return datastore.get(keyFactory.setKind(KIND_SPEAKER).addAncestor(PathElement.of(KIND_CONF, conf)).newKey(id)).toSpeaker()
+    }
+
     companion object {
-        private fun Any?.toValue(excludeFromIndex: Boolean = false): Value<*> {
+        fun <T, R> Iterator<T>.map(block: (T) -> R) = buildList<R> {
+            this@map.forEach {
+                add(block(it))
+            }
+        }
+
+        fun Any?.toValue(excludeFromIndex: Boolean = false): Value<*> {
             return when (this) {
                 is String -> StringValue.newBuilder(this).setExcludeFromIndexes(excludeFromIndex)
                     .build()
@@ -662,13 +727,18 @@ class DataStore {
             }
         }
 
-        private fun Entity.getStringOrNull(name: String): String? = try {
+        fun Entity.getStringOrNull(name: String): String? = try {
             getString(name)
         } catch (_: Exception) {
             null
         }
 
-        private fun Entity.getDoubleOrNull(name: String): Double? = try {
+        fun <T: Value<*>> Entity.getListOrNull(name: String): List<T>? = try {
+            getList<T>(name)
+        } catch (_: Exception) {
+            null
+        }
+        fun Entity.getDoubleOrNull(name: String): Double? = try {
             getDouble(name)
         } catch (_: Exception) {
             null

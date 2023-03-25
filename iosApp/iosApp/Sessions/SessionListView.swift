@@ -4,6 +4,7 @@ import KMMViewModelCore
 import KMMViewModelSwiftUI
 
 struct SessionListView: View {
+    @ObservedObject var viewModel: SessionsViewModel
     var sessionUiState: SessionsUiStateSuccess
     let navigateToConferences: () -> Void
     let refresh: () async -> Void
@@ -56,6 +57,7 @@ struct SessionListView: View {
             .refreshable {
                 await refresh()
             }
+            .searchable(text: $viewModel.searchQuery)
         }
     }
 }

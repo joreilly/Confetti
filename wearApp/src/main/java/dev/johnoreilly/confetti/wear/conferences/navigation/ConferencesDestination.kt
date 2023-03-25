@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear.conferences.navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
@@ -14,7 +15,14 @@ object ConferencesDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.conferencesGraph(navigateToConference: (String) -> Unit) {
-    scrollable(route = ConferencesDestination.route) {
+    scrollable(
+        route = ConferencesDestination.route,
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "confetti://confetti/conferences"
+            }
+        )
+    ) {
         ConferencesRoute(navigateToConference, it.columnState)
     }
 }

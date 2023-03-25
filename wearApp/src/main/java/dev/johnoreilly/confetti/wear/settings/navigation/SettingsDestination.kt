@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear.settings.navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
@@ -18,7 +19,15 @@ fun NavGraphBuilder.settingsGraph(
     navigateToGoogleSignIn: () -> Unit,
     navigateToGoogleSignOut: () -> Unit,
 ) {
-    scrollable(route = SettingsDestination.route) {
+    scrollable(
+        route = SettingsDestination.route,
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern =
+                    "confetti://confetti/settings"
+            }
+        )
+    ) {
         SettingsRoute(
             it.columnState,
             onSwitchConferenceSelected,

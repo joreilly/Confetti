@@ -7,6 +7,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
@@ -52,6 +53,12 @@ fun NavGraphBuilder.sessionsGraph(
         arguments = listOf(
             navArgument(SessionsDestination.dateArg) { type = NavType.StringType }
         ),
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern =
+                    "confetti://confetti/sessions/{${SessionsDestination.dateArg}}"
+            }
+        )
     ) {
         SessionsRoute(
             navigateToSession = navigateToSession,

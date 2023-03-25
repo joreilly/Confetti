@@ -45,7 +45,7 @@ fun SessionsView(
         }
     }
 
-    val search by viewModel.search.collectAsStateWithLifecycle()
+    val search by viewModel.searchQuery.collectAsStateWithLifecycle()
 
     ConfettiScaffold(
         conference = conference,

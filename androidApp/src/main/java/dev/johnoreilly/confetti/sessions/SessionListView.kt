@@ -108,7 +108,7 @@ fun SessionListView(
                                 }
 
                                 items(it.value) { session ->
-                                    SessionView(
+                                    SessionItemView(
                                         conference = uiState.conference,
                                         session = session,
                                         sessionSelected = sessionSelected,
@@ -161,14 +161,14 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
 }
 
 @Composable
-fun SessionView(
+fun SessionItemView(
     conference: String,
     session: SessionDetails,
     sessionSelected: (SessionDetailsKey) -> Unit,
-    isBookmarked: Boolean,
-    addBookmark: (String) -> Unit,
-    removeBookmark: (String) -> Unit,
-    onNavigateToSignIn: () -> Unit,
+    isBookmarked: Boolean? = null,
+    addBookmark: (String) -> Unit = {},
+    removeBookmark: (String) -> Unit = {},
+    onNavigateToSignIn: () -> Unit = {},
 ) {
 
     var modifier = Modifier.fillMaxSize()
@@ -201,33 +201,37 @@ fun SessionView(
         val user by remember { mutableStateOf(authentication.currentUser()) }
         var showDialog by remember { mutableStateOf(false) }
 
-        if (isBookmarked) {
-            Icon(
-                imageVector = Icons.Outlined.Bookmark,
-                contentDescription = "remove bookmark",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .clickable {
-                        if (user != null) {
-                            removeBookmark(session.id)
-                        } else {
-                            showDialog = true
+        when(isBookmarked) {
+            true -> {
+                Icon(
+                    imageVector = Icons.Outlined.Bookmark,
+                    contentDescription = "remove bookmark",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .clickable {
+                            if (user != null) {
+                                removeBookmark(session.id)
+                            } else {
+                                showDialog = true
+                            }
                         }
-                    }
-                    .padding(8.dp))
-        } else {
-            Icon(
-                imageVector = Icons.Outlined.BookmarkAdd,
-                contentDescription = "add bookmark",
-                modifier = Modifier
-                    .clickable {
-                        if (user != null) {
-                            addBookmark(session.id)
-                        } else {
-                            showDialog = true
+                        .padding(8.dp))
+            }
+            false -> {
+                Icon(
+                    imageVector = Icons.Outlined.BookmarkAdd,
+                    contentDescription = "add bookmark",
+                    modifier = Modifier
+                        .clickable {
+                            if (user != null) {
+                                addBookmark(session.id)
+                            } else {
+                                showDialog = true
+                            }
                         }
-                    }
-                    .padding(8.dp))
+                        .padding(8.dp))
+            }
+            else -> {}
         }
 
         if (showDialog) {

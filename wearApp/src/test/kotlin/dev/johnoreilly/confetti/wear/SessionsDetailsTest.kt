@@ -53,6 +53,7 @@ class SessionsDetailsTest : ScreenshotTest() {
 
     @Test
     fun sessionDetailsScreen() = takeScrollableScreenshot(
+        timeTextMode = TimeTextMode.OnTop,
         checks = {
             rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         }
@@ -72,6 +73,7 @@ class SessionsDetailsTest : ScreenshotTest() {
 
     @Test
     fun sessionDetailsScreenEnd() = takeScrollableScreenshot(
+        timeTextMode = TimeTextMode.Off,
         checks = { columnState ->
             columnState.state.scrollToItem(100)
             rule.onNodeWithText("Martin Bonnin").assertIsDisplayed()

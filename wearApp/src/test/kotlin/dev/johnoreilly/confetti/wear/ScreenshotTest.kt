@@ -1,4 +1,7 @@
-@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalHorologistApi::class)
+@file:OptIn(
+    ExperimentalCoroutinesApi::class, ExperimentalHorologistApi::class,
+    ExperimentalTestApi::class
+)
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
@@ -21,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
@@ -208,6 +212,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
 
     fun takeScrollableScreenshot(
         round: Boolean = true,
+        timeTextMode: TimeTextMode,
         columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText(),
         checks: suspend (columnState: ScalingLazyColumnState) -> Unit = {},
         content: @Composable (columnState: ScalingLazyColumnState) -> Unit
@@ -217,10 +222,15 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
         takeScreenshot(
             round,
             timeText = {
-                TimeText(
-                    timeSource = FixedTimeSource,
-                    modifier = Modifier.scrollAway(columnState.state)
-                )
+                if (timeTextMode != TimeTextMode.Off) {
+                    TimeText(
+                        timeSource = FixedTimeSource,
+                        modifier = if (timeTextMode == TimeTextMode.Scrolling)
+                            Modifier.scrollAway(columnState.state)
+                        else
+                            Modifier
+                    )
+                }
             },
             checks = {
                 checks(columnState)
@@ -230,6 +240,12 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
 
             content(columnState)
         }
+    }
+
+    enum class TimeTextMode {
+        OnTop,
+        Off,
+        Scrolling
     }
 
     companion object {

@@ -20,6 +20,7 @@ class SessionsScreenTest : ScreenshotTest() {
 
     @Test
     fun sessionsScreen() = takeScrollableScreenshot(
+        timeTextMode = TimeTextMode.OnTop,
         checks = { columnState ->
             rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         }

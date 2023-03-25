@@ -112,6 +112,9 @@ fun ConfettiScaffold(
                     if (shouldShowSearch) {
                         // Wraps search in a top-bar to maintain same appearance and sizing.
                         CenterAlignedTopAppBar(
+                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                                containerColor = Color.Transparent
+                            ),
                             title = {
                                 SearchTextField(
                                     value = search.orEmpty(),
@@ -121,7 +124,8 @@ fun ConfettiScaffold(
                                         onSearch("")
                                     }
                                 )
-                            }
+                            },
+                            scrollBehavior = scrollBehavior,
                         )
                     } else {
                         CenterAlignedTopAppBar(

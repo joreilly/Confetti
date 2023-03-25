@@ -13,11 +13,11 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.wear.complication.nextSessionOrNull
+import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
+import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
+import dev.johnoreilly.confetti.wear.ui.ColorScheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Clock
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.todayIn
 import org.koin.android.ext.android.inject
 
 class CurrentSessionsTileService : SuspendingTileService() {
@@ -27,6 +27,8 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
     private val analyticsLogger: AnalyticsLogger by inject()
 
+    private val phoneSettingsSync: PhoneSettingsSync by inject()
+
     override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
         return renderer.produceRequestedResources(tileState(), requestParams)
     }
@@ -34,6 +36,10 @@ class CurrentSessionsTileService : SuspendingTileService() {
     private suspend fun tileState(): CurrentSessionsData {
         val conference = repository.getConference()
         val data = repository.conferenceData(conference, FetchPolicy.CacheOnly).data
+        val theme =
+            phoneSettingsSync.settingsFlow.first().theme?.toMaterialThemeColors() ?: ColorScheme
+
+        renderer.updateTheme(theme)
 
         val nextSession = data?.sessions?.nodes?.map { it.sessionDetails }
             ?.nextSessionOrNull(data.config.timezone.toTimeZone())
@@ -73,8 +79,8 @@ class CurrentSessionsTileService : SuspendingTileService() {
         analyticsLogger.logEvent(TileAnalyticsEvent(TileAnalyticsEvent.Type.Leave, getConference()))
     }
 
-    private fun getConference(): String? = runBlocking {
-        // TODO refactor to avoid needing this so early
+    private fun getConference(): String = runBlocking {
+        // Not ideal, but runs on the Binder Thread
         repository.getConference()
     }
 }

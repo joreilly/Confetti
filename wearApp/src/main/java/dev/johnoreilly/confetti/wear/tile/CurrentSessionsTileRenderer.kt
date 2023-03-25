@@ -21,8 +21,8 @@ import androidx.wear.tiles.material.Text
 import androidx.wear.tiles.material.Typography
 import androidx.wear.tiles.material.layouts.MultiSlotLayout
 import androidx.wear.tiles.material.layouts.PrimaryLayout
-import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.Session
@@ -33,15 +33,18 @@ import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.toTileColors
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-class CurrentSessionsTileRenderer(context: Context) :
+class CurrentSessionsTileRenderer(
+    context: Context
+) :
     SingleTileLayoutRenderer<CurrentSessionsData, CurrentSessionsData>(context) {
     val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
-    override fun createTheme(): Colors = ColorScheme.toTileColors()
+    private var colors: androidx.wear.compose.material.Colors = ColorScheme
+
+    override fun createTheme(): Colors = colors.toTileColors()
 
     override fun renderTile(
         state: CurrentSessionsData,
@@ -155,6 +158,10 @@ class CurrentSessionsTileRenderer(context: Context) :
                     .build()
             )
             .build()
+
+    fun updateTheme(theme: androidx.wear.compose.material.Colors) {
+        this.colors = theme
+    }
 }
 
 @WearPreviewDevices

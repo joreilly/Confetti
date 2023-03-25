@@ -4,13 +4,12 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.core.net.toUri
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class NavigationTest : BaseAppTest() {
     @Test
-    fun launchHome() = runTest {
+    fun launchHome() {
         val activity = rule.activity
 
         val navController = activity.navController

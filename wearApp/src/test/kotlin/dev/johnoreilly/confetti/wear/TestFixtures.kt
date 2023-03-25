@@ -53,12 +53,13 @@ object TestFixtures {
         )
     )
 
+    val JohnUrl = "https://sessionize.com/image/48e7-400o400o2-HkquSQhsfczBGkrABwVTBc.jpg"
     val JohnOreilly = SessionDetails.Speaker(
         __typename = "Speaker",
         speakerDetails = SpeakerDetails(
             id = "0392772c-28d4-47f6-bd39-47d743fb4a81",
             name = "John O'Reilly",
-            photoUrl = "https://sessionize.com/image/48e7-400o400o2-HkquSQhsfczBGkrABwVTBc.jpg",
+            photoUrl = JohnUrl,
             company = null,
             companyLogoUrl = null,
             city = null,
@@ -69,12 +70,13 @@ object TestFixtures {
         )
     )
 
+    val MartinUrl = "https://sessionize.com/image/7c96-400o400o2-UiWeCMZDxPejrFsozKmLYr.jpeg"
     val MartinBonnin = SessionDetails.Speaker(
         __typename = "Speaker",
         speakerDetails = SpeakerDetails(
             id = "56fda597-4927-4d25-9a80-4795d15ef080",
             name = "Martin Bonnin",
-            photoUrl = "https://sessionize.com/image/7c96-400o400o2-UiWeCMZDxPejrFsozKmLYr.jpeg",
+            photoUrl = MartinUrl,
             company = null,
             companyLogoUrl = null,
             city = null,

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +28,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.scrollAway
+import coil.compose.LocalImageLoader
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
@@ -85,6 +87,17 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
         stopKoin()
     }
 
+    @Composable
+    fun FakeImageLoader.apply(content: @Composable () -> Unit) {
+        // Not sure why this is needed, but Coil has improved
+        // test support in next release
+        this.override {
+            CompositionLocalProvider(LocalImageLoader provides this) {
+                content()
+            }
+        }
+    }
+
     fun takeScreenshot(
         round: Boolean = true,
         timeText: @Composable () -> Unit = {
@@ -100,7 +113,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
 
             rule.setContent {
                 view = LocalView.current
-                fakeImageLoader.override {
+                fakeImageLoader.apply {
                     Box(
                         modifier = Modifier
                             .background(Color.Transparent)

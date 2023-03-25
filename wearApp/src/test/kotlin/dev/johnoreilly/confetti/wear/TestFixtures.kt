@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.wear
 import dev.johnoreilly.confetti.GetConferencesQuery.Conference
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.wear.proto.Theme
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
@@ -100,5 +101,21 @@ The talk will cover
         room = SessionDetails.Room(name = "Effectenbeurszaal"),
         tags = listOf(),
         __typename = "Session"
+    )
+
+    val MobileTheme = Theme(
+        primary = -32579010567340032,
+        primaryVariant = -46196668235776,
+        secondary = -26389284088971264,
+        secondaryVariant = -22011707392000,
+        background = 0,
+        surface = -847740644884480,
+        error = -19673445591678976,
+        onPrimary = -4294967296,
+        onSecondary = -4294967296,
+        onBackground = -63021691516747776,
+        onSurface = -63021691516747776,
+        onSurfaceVariant = -50027452646293504,
+        onError = -4294967296
     )
 }

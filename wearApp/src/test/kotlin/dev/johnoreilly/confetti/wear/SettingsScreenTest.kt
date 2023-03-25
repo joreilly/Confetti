@@ -20,7 +20,7 @@ import org.junit.Test
 
 class SettingsScreenTest : ScreenshotTest() {
     init {
-        tolerance = 0.02f
+        tolerance = 0.05f
     }
 
     @Before

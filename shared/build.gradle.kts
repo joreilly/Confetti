@@ -57,6 +57,9 @@ kotlin {
 
                 api(libs.apollo.runtime)
                 api(libs.bundles.apollo)
+
+                // Multiplatform Logging
+                api(libs.napier)
             }
         }
         val commonTest by getting {

@@ -53,6 +53,8 @@ type Query {
 
   sessions(after: String, filter: SessionFilterInput, first: Int, orderBy: SessionOrderByInput): SessionConnection!
 
+  speaker(id: String!): Speaker!
+
   speakers: [Speaker!]!
 
   venue(id: String!): Venue!
@@ -142,6 +144,8 @@ type Speaker {
   name: String!
 
   photoUrl: String
+
+  sessions: [Session!]!
 
   socials: [Social!]!
 }

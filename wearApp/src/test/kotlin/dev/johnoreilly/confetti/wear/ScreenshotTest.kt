@@ -3,14 +3,19 @@
 
 package dev.johnoreilly.confetti.wear
 
+import android.app.Application
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -18,12 +23,14 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import androidx.test.core.app.ApplicationProvider
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.scrollAway
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
@@ -32,6 +39,8 @@ import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import okio.FileSystem
+import okio.Path
 import org.junit.After
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -64,6 +73,13 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     @JvmField
     var mobileTheme: Theme? = null
 
+    var record = false
+
+    var fakeImageLoader = FakeImageLoader.Never
+
+    val resources: Resources
+        get() = ApplicationProvider.getApplicationContext<Application>().resources
+
     @After
     fun after() {
         stopKoin()
@@ -84,30 +100,31 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
 
             rule.setContent {
                 view = LocalView.current
-                Box(
-                    modifier = Modifier
-                        .background(Color.Transparent)
-                ) {
-                    ConfettiTheme(mobileTheme = mobileTheme) {
-                        Scaffold(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .run {
-                                    if (round) {
-                                        clip(CircleShape)
-                                    } else {
-                                        this
+                fakeImageLoader.override {
+                    Box(
+                        modifier = Modifier
+                            .background(Color.Transparent)
+                    ) {
+                        ConfettiTheme(mobileTheme = mobileTheme) {
+                            Scaffold(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .run {
+                                        if (round) {
+                                            clip(CircleShape)
+                                        } else {
+                                            this
+                                        }
                                     }
+                                    .background(Color.Black),
+                                timeText = {
+                                    timeText()
                                 }
-                                .background(Color.Black),
-                            timeText = {
-                                timeText()
+                            ) {
+                                content()
                             }
-                        ) {
-                            content()
                         }
                     }
-
                 }
             }
 
@@ -128,7 +145,51 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
             ).fileSnapshotting
 
             // Flip to true to record
-            snapshotting.snapshot(rule.onRoot(), record = false)
+            snapshotting.snapshot(rule.onRoot(), record = record)
+        }
+    }
+
+    fun takeComponentScreenshot(
+        round: Boolean = true,
+        checks: suspend () -> Unit = {},
+        content: @Composable BoxScope.() -> Unit
+    ) {
+        runTest {
+            lateinit var view: View
+
+            rule.setContent {
+                view = LocalView.current
+                fakeImageLoader.override {
+                    Box(
+                        modifier = Modifier
+                            .background(Color.Transparent),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ConfettiTheme(mobileTheme = mobileTheme) {
+                            content()
+                        }
+                    }
+                }
+            }
+
+            rule.awaitIdle()
+
+            checks()
+
+            val snapshotting = Snapshotting(
+                diffing = Diffing.bitmapWithTolerance(
+                    tolerance = tolerance,
+                    colorDiffing = Diffing.highlightWithRed
+                ),
+                snapshot = { node: SemanticsNodeInteraction ->
+                    Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888).apply {
+                        view.draw(Canvas(this))
+                    }
+                }
+            ).fileSnapshotting
+
+            // Flip to true to record
+            snapshotting.snapshot(rule.onRoot(), record = record)
         }
     }
 
@@ -165,5 +226,9 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
             arrayOf("Confetti", null),
             arrayOf("Phone-1", TestFixtures.MobileTheme),
         )
+
+        fun loadTestBitmap(path: Path): Bitmap = FileSystem.RESOURCES.read(path) {
+            BitmapFactory.decodeStream(this.inputStream())
+        }
     }
 }

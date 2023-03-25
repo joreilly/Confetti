@@ -187,4 +187,5 @@ dependencies {
     testImplementation(libs.snapshot.android)
     testImplementation(libs.snapshot.jvm)
     testImplementation(libs.androidx.work.testing)
+    testImplementation(libs.horologist.compose.tools)
 }

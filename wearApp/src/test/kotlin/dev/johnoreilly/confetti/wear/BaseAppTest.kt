@@ -33,7 +33,7 @@ import org.robolectric.shadows.ShadowSettings
 @RunWith(RobolectricTestRunner::class)
 @Config(application = KoinTestApp::class, sdk = [30])
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-open class BaseAppTest : KoinTest {
+abstract class BaseAppTest : KoinTest {
     @get:Rule
     val rule = createAndroidComposeRule(MainActivity::class.java)
 

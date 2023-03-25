@@ -165,7 +165,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             val newSessions = uiState.sessionsByStartTimeList.map { outerMap ->
                 outerMap.mapValues { (_, value) ->
                     value.filter { session ->
-                        session.title.contains(filter, ignoreCase = true)
+                        filterSessionDetails(session, filter)
                     }
                 }
             }
@@ -173,6 +173,16 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         } else {
             uiState
         }
+    }
+
+    private fun filterSessionDetails(details: SessionDetails, filter: String): Boolean {
+        val ignoreCase = true
+        return details.title.contains(filter, ignoreCase) ||
+            details.sessionDescription.orEmpty().contains(filter, ignoreCase) ||
+            details.room?.name?.contains(filter, ignoreCase) == true ||
+            details.speakers.any { speaker ->
+                speaker.speakerDetails.name.contains(filter, ignoreCase)
+            }
     }
 
     private suspend fun refresh(initial: Boolean) {

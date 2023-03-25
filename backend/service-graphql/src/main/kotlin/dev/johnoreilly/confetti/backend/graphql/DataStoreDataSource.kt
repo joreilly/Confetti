@@ -78,6 +78,10 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
         return datastore.removeBookmark(uid, conf, sessionId)
     }
 
+    override fun speaker(id: String): Speaker {
+        return datastore.readSpeaker(conf, id).toSpeaker()
+    }
+
     override fun sessions(
         first: Int,
         after: String?,
@@ -109,6 +113,15 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             nodes = page.items.map {it.toSession() },
             pageInfo = PageInfo(endCursor = page.nextPageCursor)
         )
+    }
+
+    override fun sessions(
+        ids: List<String>,
+    ): List<Session> {
+        return datastore.readSessions(
+            conf = conf,
+            ids = ids,
+        ).map { it.toSession() }
     }
 
     private fun DSession.toSession(): Session {
@@ -148,7 +161,8 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             socials = links.map { it.toSocial() },
             photoUrl = photoUrl,
             companyLogoUrl = companyLogoUrl,
-            city = city
+            city = city,
+            sessionIds = sessions.orEmpty(),
         )
     }
 

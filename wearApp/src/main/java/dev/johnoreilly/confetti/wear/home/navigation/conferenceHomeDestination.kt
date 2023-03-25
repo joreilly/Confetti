@@ -7,6 +7,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
@@ -48,6 +49,12 @@ fun NavGraphBuilder.conferenceHomeGraph(
                 defaultValue = ""
             }
         ),
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern =
+                    "confetti://confetti/conferenceHome/{${ConferenceHomeDestination.conferenceArg}}"
+            }
+        )
     ) {
         HomeRoute(
             navigateToSession = navigateToSession,

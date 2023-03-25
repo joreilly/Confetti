@@ -9,13 +9,15 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import dev.johnoreilly.confetti.wear.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.TestFixtures.sessionTime
+import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsTileRenderer
+import dev.johnoreilly.confetti.wear.ui.ColorScheme
 import org.junit.Test
 
 class TileScreenshotTest : ScreenshotTest() {
     @Test
-    fun tile() = takeScreenshot(showTimeText = false) {
+    fun tile() = takeScreenshot(timeText = {}) {
         val context = LocalContext.current
 
         val tileState = remember {
@@ -27,7 +29,12 @@ class TileScreenshotTest : ScreenshotTest() {
                 )
             )
         }
-        val renderer = remember { CurrentSessionsTileRenderer(context) }
+
+        val colors = mobileTheme?.toMaterialThemeColors() ?: ColorScheme
+
+        val renderer = remember { CurrentSessionsTileRenderer(context).apply {
+            updateTheme(colors)
+        } }
 
         TileLayoutPreview(tileState, tileState, renderer)
     }

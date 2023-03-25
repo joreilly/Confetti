@@ -129,8 +129,9 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
     val addErrorChannel = Channel<Int>()
     val removeErrorChannel = Channel<Int>()
 
-    private val _search = MutableStateFlow("")
-    val search = _search.asStateFlow()
+    // exposed like this so it can be bound to in SwiftUI code
+    @NativeCoroutinesState
+    val searchQuery = MutableStateFlow("")
 
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> = responseDatas.receiveAsFlow()
@@ -143,10 +144,11 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
                 }.map {
                     uiStates(it)
                 }
-        }.combine(_search) { uiState, search ->
+        }.combine(searchQuery) { uiState, search ->
             filterSessions(uiState, search)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
+
 
     // FIXME: can we pass that as a parameter somehow
     fun configure(conference: String) {
@@ -156,8 +158,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
 
     suspend fun refresh() = refresh(false)
 
-    fun onSearch(search: String) {
-        _search.value = search
+    fun onSearch(searchString: String) {
+        searchQuery.value = searchString
     }
 
     private fun filterSessions(uiState: SessionsUiState, filter: String): SessionsUiState {
@@ -167,7 +169,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
                     value.filter { session ->
                         filterSessionDetails(session, filter)
                     }
-                }
+                }.filterValues { it.isNotEmpty() }
             }
             uiState.copy(sessionsByStartTimeList = newSessions)
         } else {

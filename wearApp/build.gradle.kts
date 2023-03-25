@@ -143,6 +143,7 @@ dependencies {
     implementation(libs.compose.material.icons.core)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.activity.compose)
+    implementation(libs.okio)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)
@@ -186,4 +187,5 @@ dependencies {
     testImplementation(libs.snapshot.android)
     testImplementation(libs.snapshot.jvm)
     testImplementation(libs.androidx.work.testing)
+    testImplementation(libs.horologist.compose.tools)
 }

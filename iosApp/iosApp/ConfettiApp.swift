@@ -96,7 +96,7 @@ struct SessionsView: View {
             case let uiState as SessionsUiStateSuccess:
                 
                 TabView {
-                    SessionListView(sessionUiState: uiState, navigateToConferences: navigateToConferences, refresh: {
+                    SessionListView(viewModel: viewModel, sessionUiState: uiState, navigateToConferences: navigateToConferences, refresh: {
                         do {
                             try await viewModel.refresh()
                         } catch {

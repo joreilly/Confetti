@@ -1,45 +1,64 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
+@file:OptIn(
+    ExperimentalCoroutinesApi::class, ExperimentalHorologistApi::class,
+    ExperimentalTestApi::class
+)
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
 
+import android.app.Application
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import androidx.test.core.app.ApplicationProvider
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.material.scrollAway
+import coil.compose.LocalImageLoader
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
-import com.quickbird.snapshot.bitmap
 import com.quickbird.snapshot.fileSnapshotting
-import com.quickbird.snapshot.intMean
+import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import okio.FileSystem
+import okio.Path
 import org.junit.After
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
-import org.robolectric.RobolectricTestRunner
+import org.robolectric.ParameterizedRobolectricTestRunner
+import org.robolectric.ParameterizedRobolectricTestRunner.Parameter
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 
-@RunWith(RobolectricTestRunner::class)
+@RunWith(ParameterizedRobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,
     sdk = [30],
@@ -47,18 +66,50 @@ import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 )
 @GraphicsMode(NATIVE)
 abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
+    var tolerance: Float = 0f
+
     @get:Rule
     val rule = createComposeRule()
+
+    @Parameter(0)
+    @JvmField
+    var name: String = ""
+
+    @Parameter(1)
+    @JvmField
+    var mobileTheme: Theme? = null
+
+    var record = false
+
+    var fakeImageLoader = FakeImageLoader.Never
+
+    val resources: Resources
+        get() = ApplicationProvider.getApplicationContext<Application>().resources
 
     @After
     fun after() {
         stopKoin()
     }
 
+    @Composable
+    fun FakeImageLoader.apply(content: @Composable () -> Unit) {
+        // Not sure why this is needed, but Coil has improved
+        // test support in next release
+        this.override {
+            CompositionLocalProvider(LocalImageLoader provides this) {
+                content()
+            }
+        }
+    }
+
     fun takeScreenshot(
         round: Boolean = true,
-        showTimeText: Boolean = true,
-        checks: () -> Unit = {},
+        timeText: @Composable () -> Unit = {
+            TimeText(
+                timeSource = FixedTimeSource
+            )
+        },
+        checks: suspend () -> Unit = {},
         content: @Composable () -> Unit
     ) {
         runTest {
@@ -66,32 +117,31 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
 
             rule.setContent {
                 view = LocalView.current
-                Box(
-                    modifier = Modifier
-                        .background(Color.Transparent)
-                ) {
-                    ConfettiTheme {
-                        Scaffold(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .run {
-                                    if (round) {
-                                        clip(CircleShape)
-                                    } else {
-                                        this
+                fakeImageLoader.apply {
+                    Box(
+                        modifier = Modifier
+                            .background(Color.Transparent)
+                    ) {
+                        ConfettiTheme(mobileTheme = mobileTheme) {
+                            Scaffold(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .run {
+                                        if (round) {
+                                            clip(CircleShape)
+                                        } else {
+                                            this
+                                        }
                                     }
+                                    .background(Color.Black),
+                                timeText = {
+                                    timeText()
                                 }
-                                .background(Color.Black),
-                            timeText = {
-                                if (showTimeText) {
-                                    TimeText(timeSource = FixedTimeSource)
-                                }
+                            ) {
+                                content()
                             }
-                        ) {
-                            content()
                         }
                     }
-
                 }
             }
 
@@ -100,7 +150,10 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
             checks()
 
             val snapshotting = Snapshotting(
-                diffing = Diffing.bitmap(colorDiffing = Diffing.intMean),
+                diffing = Diffing.bitmapWithTolerance(
+                    tolerance = tolerance,
+                    colorDiffing = Diffing.highlightWithRed
+                ),
                 snapshot = { node: SemanticsNodeInteraction ->
                     Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888).apply {
                         view.draw(Canvas(this))
@@ -109,7 +162,102 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
             ).fileSnapshotting
 
             // Flip to true to record
-            snapshotting.snapshot(rule.onRoot(), record = false)
+            snapshotting.snapshot(rule.onRoot(), record = record)
+        }
+    }
+
+    fun takeComponentScreenshot(
+        round: Boolean = true,
+        checks: suspend () -> Unit = {},
+        content: @Composable BoxScope.() -> Unit
+    ) {
+        runTest {
+            lateinit var view: View
+
+            rule.setContent {
+                view = LocalView.current
+                fakeImageLoader.override {
+                    Box(
+                        modifier = Modifier
+                            .background(Color.Transparent),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ConfettiTheme(mobileTheme = mobileTheme) {
+                            content()
+                        }
+                    }
+                }
+            }
+
+            rule.awaitIdle()
+
+            checks()
+
+            val snapshotting = Snapshotting(
+                diffing = Diffing.bitmapWithTolerance(
+                    tolerance = tolerance,
+                    colorDiffing = Diffing.highlightWithRed
+                ),
+                snapshot = { node: SemanticsNodeInteraction ->
+                    Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888).apply {
+                        view.draw(Canvas(this))
+                    }
+                }
+            ).fileSnapshotting
+
+            // Flip to true to record
+            snapshotting.snapshot(rule.onRoot(), record = record)
+        }
+    }
+
+    fun takeScrollableScreenshot(
+        round: Boolean = true,
+        timeTextMode: TimeTextMode,
+        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText(),
+        checks: suspend (columnState: ScalingLazyColumnState) -> Unit = {},
+        content: @Composable (columnState: ScalingLazyColumnState) -> Unit
+    ) {
+        lateinit var columnState: ScalingLazyColumnState
+
+        takeScreenshot(
+            round,
+            timeText = {
+                if (timeTextMode != TimeTextMode.Off) {
+                    TimeText(
+                        timeSource = FixedTimeSource,
+                        modifier = if (timeTextMode == TimeTextMode.Scrolling)
+                            Modifier.scrollAway(columnState.state)
+                        else
+                            Modifier
+                    )
+                }
+            },
+            checks = {
+                checks(columnState)
+            }
+        ) {
+            columnState = columnStateFactory.create()
+
+            content(columnState)
+        }
+    }
+
+    enum class TimeTextMode {
+        OnTop,
+        Off,
+        Scrolling
+    }
+
+    companion object {
+        @JvmStatic
+        @ParameterizedRobolectricTestRunner.Parameters(name = "Colors: {0}")
+        fun params() = listOf(
+            arrayOf("Confetti", null),
+            arrayOf("Phone-1", TestFixtures.MobileTheme),
+        )
+
+        fun loadTestBitmap(path: Path): Bitmap = FileSystem.RESOURCES.read(path) {
+            BitmapFactory.decodeStream(this.inputStream())
         }
     }
 }

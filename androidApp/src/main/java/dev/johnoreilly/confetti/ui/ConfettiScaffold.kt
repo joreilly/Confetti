@@ -6,6 +6,7 @@
 package dev.johnoreilly.confetti.ui
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
@@ -121,7 +122,6 @@ fun ConfettiScaffold(
                                     onValueChange = onSearch,
                                     onCloseSearch = {
                                         isSearching = false
-                                        onSearch("")
                                     }
                                 )
                             },
@@ -184,14 +184,27 @@ private fun SearchTextField(
     modifier: Modifier = Modifier,
     value: String = "",
     onValueChange: (String) -> Unit,
-    onCloseSearch: () -> Unit,
+    onCloseSearch: () -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
 
+    val closeSearch = remember {
+        {
+            keyboardController?.hide()
+            onValueChange("")
+            onCloseSearch()
+        }
+    }
+
     DisposableEffect(Unit) {
         focusRequester.requestFocus()
         onDispose { onValueChange("") }
+    }
+
+    BackHandler {
+        // Closes search if the user presses back before closing the app.
+        closeSearch()
     }
 
     TextField(
@@ -206,7 +219,7 @@ private fun SearchTextField(
         placeholder = { Text("Search") },
         leadingIcon = { Icon(Icons.Filled.Search, "Search") },
         trailingIcon = {
-            IconButton(onClick = { onCloseSearch() }) {
+            IconButton(onClick = { closeSearch() }) {
                 Icon(
                     Icons.Filled.Close,
                     contentDescription = "Close Search"

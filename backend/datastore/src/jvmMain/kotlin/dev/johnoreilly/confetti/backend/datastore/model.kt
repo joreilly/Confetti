@@ -35,7 +35,7 @@ class DVenue(
   val floorPlanUrl: String?,
 )
 
-class DSpeaker(
+data class DSpeaker(
   val id: String,
   val name: String,
   val bio: String?,
@@ -44,6 +44,7 @@ class DSpeaker(
   val city: String?,
   val links: List<DLink>,
   val photoUrl: String?,
+  val sessions: List<String>? = null
 )
 
 class DLink(

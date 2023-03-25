@@ -217,8 +217,10 @@ private fun SearchTextField(
         keyboardActions = KeyboardActions(
             onSearch = { keyboardController?.hide() }
         ),
-        colors = TextFieldDefaults.textFieldColors(
-            focusedIndicatorColor = Color.Transparent, //hide the indicator
+        colors = TextFieldDefaults.textFieldColors( // hide the indicator
+            focusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
         ),
         textStyle = ConfettiTypography.bodyLarge,
         shape = ShapeDefaults.Large,

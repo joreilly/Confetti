@@ -141,6 +141,7 @@ wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha07"
 wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha07"
 wire-runtime = "com.squareup.wire:wire-runtime:4.5.3"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
+napier = "io.github.aakira:napier:2.6.1"
 
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]

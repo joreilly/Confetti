@@ -19,6 +19,7 @@ class ConferenceScreenTest : ScreenshotTest() {
     @Test
     fun conferencesScreen() {
         takeScrollableScreenshot (
+            timeTextMode = TimeTextMode.OnTop,
             checks = { columnState ->
                 rule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
             }

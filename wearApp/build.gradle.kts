@@ -176,6 +176,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance)
+    implementation(libs.firebase.auth.ktx)
 
     debugImplementation(libs.compose.ui.manifest)
 

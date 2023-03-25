@@ -42,7 +42,8 @@ fun SettingsListView(
         }
 
         item {
-            if ((uiState as? SettingsUiState.Success)?.authUser == null) {
+            val authUser = (uiState as? SettingsUiState.Success)?.authUser
+            if (authUser == null) {
                 StandardChip(
                     label = "Sign In",
                     onClick = navigateToGoogleSignIn,
@@ -50,6 +51,7 @@ fun SettingsListView(
             } else {
                 StandardChip(
                     label = "Sign Out",
+                    icon = authUser.avatarUri,
                     onClick = navigateToGoogleSignOut,
                 )
             }

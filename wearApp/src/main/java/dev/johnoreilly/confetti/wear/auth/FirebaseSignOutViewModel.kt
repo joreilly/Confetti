@@ -6,17 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import dev.johnoreilly.confetti.wear.data.auth.GoogleSignInAuthUserRepository
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ConfettiGoogleSignOutViewModel(
-    private val googleSignInAuthUserRepository: GoogleSignInAuthUserRepository
-) : ViewModel() {
+class FirebaseSignOutViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(GoogleSignOutScreenState.Idle)
-    public val uiState: StateFlow<GoogleSignOutScreenState> = _uiState
+    val uiState: StateFlow<GoogleSignOutScreenState> = _uiState
 
     fun onIdleStateObserved() {
         if (_uiState.compareAndSet(
@@ -26,7 +25,7 @@ class ConfettiGoogleSignOutViewModel(
         ) {
             viewModelScope.launch {
                 try {
-                    googleSignInAuthUserRepository.signOut()
+                    Firebase.auth.signOut()
                     _uiState.value = GoogleSignOutScreenState.Success
                 } catch (apiException: ApiException) {
                     _uiState.value = GoogleSignOutScreenState.Failed

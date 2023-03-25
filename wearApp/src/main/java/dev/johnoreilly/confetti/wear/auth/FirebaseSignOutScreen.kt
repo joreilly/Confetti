@@ -20,9 +20,9 @@ import dev.johnoreilly.confetti.R
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun GoogleSignOutScreen(
+fun FirebaseSignOutScreen(
     navigateUp: () -> Unit,
-    viewModel: ConfettiGoogleSignOutViewModel = getViewModel()
+    viewModel: FirebaseSignOutViewModel = getViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 

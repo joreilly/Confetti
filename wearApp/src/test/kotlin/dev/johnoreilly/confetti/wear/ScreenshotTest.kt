@@ -5,7 +5,6 @@ package dev.johnoreilly.confetti.wear
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.util.Size
 import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -30,13 +28,10 @@ import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
-import com.quickbird.snapshot.intMean
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import okio.Buffer
-import okio.ByteString
 import org.junit.After
 import org.junit.Rule
 import org.junit.runner.RunWith

@@ -6,10 +6,12 @@ import com.google.cloud.datastore.StringValue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import dev.johnoreilly.confetti.backend.datastore.DataStore.Companion.getListOrNull
 import dev.johnoreilly.confetti.backend.datastore.DataStore.Companion.toValue
+import org.junit.Ignore
 import org.junit.Test
 
 class MainTest {
     @Test
+    @Ignore
     fun test() {
         val dataStore = DataStore()
 

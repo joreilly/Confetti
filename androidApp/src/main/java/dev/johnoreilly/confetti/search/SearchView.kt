@@ -21,7 +21,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -38,7 +37,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -49,35 +47,6 @@ import dev.johnoreilly.confetti.speakers.SpeakerItemView
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ConfettiTypography
-import org.koin.androidx.compose.getViewModel
-
-@Composable
-fun SearchViewController(
-    conference: String,
-    appState: ConfettiAppState,
-    navigateToSession: (SessionDetailsKey) -> Unit,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit,
-    onSwitchConference: () -> Unit,
-    onSignIn: () -> Unit,
-    onSignOut: () -> Unit,
-) {
-    val viewModel = getViewModel<SearchViewModel>()
-    val search by viewModel.search.collectAsStateWithLifecycle()
-    val sessions by viewModel.sessions.collectAsStateWithLifecycle()
-    val speakers by viewModel.speakers.collectAsStateWithLifecycle()
-    SearchView(
-        conference = conference,
-        appState = appState,
-        navigateToSession = navigateToSession,
-        navigateToSpeaker = navigateToSpeaker,
-        onSwitchConference = onSwitchConference,
-        onSignIn = onSignIn,
-        onSignOut = onSignOut,
-        sessions = sessions,
-        speakers = speakers,
-        search = search,
-    )
-}
 
 @Composable
 fun SearchView(
@@ -93,7 +62,6 @@ fun SearchView(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
 ) {
-
     ConfettiScaffold(
         title = stringResource(R.string.search),
         conference = conference,
@@ -177,7 +145,8 @@ private fun SearchTextField(
         keyboardActions = KeyboardActions(
             onSearch = { keyboardController?.hide() }
         ),
-        colors = TextFieldDefaults.textFieldColors( // hide the indicator
+        colors = TextFieldDefaults.textFieldColors(
+            // hide the indicator
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,

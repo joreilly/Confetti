@@ -9,9 +9,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import dev.johnoreilly.confetti.navigation.SearchTopLevelDestination
 import dev.johnoreilly.confetti.navigation.SessionsTopLevelDestination
 import dev.johnoreilly.confetti.navigation.SpeakersTopLevelDestination
-import dev.johnoreilly.confetti.navigation.TopLevelDestination
 
 @Composable
 internal fun ConfettiBottomBar(
@@ -23,7 +23,12 @@ internal fun ConfettiBottomBar(
         contentColor = ConfettiNavigationDefaults.navigationContentColor(),
         tonalElevation = 0.dp,
     ) {
-        listOf(SessionsTopLevelDestination, SpeakersTopLevelDestination).forEach { destination ->
+        val tabs = listOf(
+            SessionsTopLevelDestination,
+            SpeakersTopLevelDestination,
+            SearchTopLevelDestination,
+        )
+        tabs.forEach { destination ->
             val route = destination.route(conference)
 
             val selected =

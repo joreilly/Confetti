@@ -16,6 +16,7 @@ import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.TokenProvider
 import dev.johnoreilly.confetti.account.AccountViewModel
 import dev.johnoreilly.confetti.account.Authentication
+import dev.johnoreilly.confetti.search.searchModule
 import dev.johnoreilly.confetti.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
@@ -26,6 +27,8 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val appModule = module {
+    includes(searchModule())
+
     viewModelOf(::SessionsViewModel)
     viewModelOf(::AppViewModel)
     viewModelOf(::ConferencesViewModel)

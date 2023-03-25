@@ -26,7 +26,6 @@ import kotlin.test.assertEquals
 class SessionsDetailsTest : ScreenshotTest() {
     init {
         tolerance = 0.02f
-        record = true
     }
 
     @Before

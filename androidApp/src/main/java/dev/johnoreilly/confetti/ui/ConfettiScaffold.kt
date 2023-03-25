@@ -6,6 +6,7 @@
 package dev.johnoreilly.confetti.ui
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
@@ -192,6 +193,11 @@ private fun SearchTextField(
     DisposableEffect(Unit) {
         focusRequester.requestFocus()
         onDispose { onValueChange("") }
+    }
+
+    BackHandler {
+        // Closes search if the user presses back.
+        onCloseSearch()
     }
 
     TextField(

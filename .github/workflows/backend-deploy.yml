@@ -35,9 +35,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
 
     - name: Build
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :setupCredentials appengineDeploy uploadLandingPage
+      run: ./gradlew :setupCredentials appengineDeploy uploadLandingPage
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         FIREBASE_SERVICES_JSON: ${{ secrets.FIREBASE_SERVICES_JSON }}

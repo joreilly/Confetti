@@ -167,7 +167,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
                     value.filter { session ->
                         filterSessionDetails(session, filter)
                     }
-                }
+                }.filterValues { it.isNotEmpty() }
             }
             uiState.copy(sessionsByStartTimeList = newSessions)
         } else {

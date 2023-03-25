@@ -52,6 +52,7 @@ fun SettingsListView(
                 StandardChip(
                     label = "Sign Out",
                     icon = authUser.avatarUri,
+                    largeIcon = true,
                     onClick = navigateToGoogleSignOut,
                 )
             }

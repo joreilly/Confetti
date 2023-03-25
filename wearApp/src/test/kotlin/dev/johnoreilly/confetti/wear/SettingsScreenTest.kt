@@ -21,7 +21,6 @@ import org.junit.Test
 class SettingsScreenTest : ScreenshotTest() {
     init {
         tolerance = 0.02f
-        record = true
     }
 
     @Before

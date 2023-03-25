@@ -122,7 +122,6 @@ fun ConfettiScaffold(
                                     onValueChange = onSearch,
                                     onCloseSearch = {
                                         isSearching = false
-                                        onSearch("")
                                     }
                                 )
                             },
@@ -185,10 +184,18 @@ private fun SearchTextField(
     modifier: Modifier = Modifier,
     value: String = "",
     onValueChange: (String) -> Unit,
-    onCloseSearch: () -> Unit,
+    onCloseSearch: () -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
+
+    val closeSearch = remember {
+        {
+            keyboardController?.hide()
+            onValueChange("")
+            onCloseSearch()
+        }
+    }
 
     DisposableEffect(Unit) {
         focusRequester.requestFocus()
@@ -196,8 +203,8 @@ private fun SearchTextField(
     }
 
     BackHandler {
-        // Closes search if the user presses back.
-        onCloseSearch()
+        // Closes search if the user presses back before closing the app.
+        closeSearch()
     }
 
     TextField(
@@ -212,7 +219,7 @@ private fun SearchTextField(
         placeholder = { Text("Search") },
         leadingIcon = { Icon(Icons.Filled.Search, "Search") },
         trailingIcon = {
-            IconButton(onClick = { onCloseSearch() }) {
+            IconButton(onClick = { closeSearch() }) {
                 Icon(
                     Icons.Filled.Close,
                     contentDescription = "Close Search"

@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear.auth.navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInScreen
 import com.google.android.horologist.compose.navscaffold.composable
@@ -33,7 +34,12 @@ fun NavGraphBuilder.authGraph(
 ) {
 
     scrollable(
-        route = SignInPromptDestination.route
+        route = SignInPromptDestination.route,
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "confetti://confetti/signInPrompt"
+            }
+        )
     ) {
         GoogleSignInPromptScreen(
             navigateToGoogleSignIn = navigateToGoogleSignIn,
@@ -42,7 +48,14 @@ fun NavGraphBuilder.authGraph(
         )
     }
 
-    composable(route = SignInDestination.route) {
+    composable(
+        route = SignInDestination.route,
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "confetti://confetti/signIn"
+            }
+        )
+    ) {
         GoogleSignInScreen(
             onAuthCancelled = navigateUp,
             onAuthSucceed = navigateUp,
@@ -50,7 +63,14 @@ fun NavGraphBuilder.authGraph(
         )
     }
 
-    composable(route = SignOutDestination.route) {
+    composable(
+        route = SignOutDestination.route,
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "confetti://confetti/signOut"
+            }
+        )
+    ) {
         GoogleSignOutScreen(
             navigateUp = navigateUp,
         )

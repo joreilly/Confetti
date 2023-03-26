@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.app
 
 import androidx.core.net.toUri
 import kotlinx.coroutines.ExperimentalCoroutinesApi

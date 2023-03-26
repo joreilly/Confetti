@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.screenshots
 
 import android.graphics.Bitmap
 import android.util.Size

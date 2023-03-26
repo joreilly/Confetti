@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.app
 
 import android.app.Application
 import dev.johnoreilly.confetti.di.initKoin

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.screenshots
 
 import android.util.Log
 import androidx.work.Configuration
@@ -12,6 +12,7 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.GetSessionsQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After

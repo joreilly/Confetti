@@ -9,7 +9,6 @@ import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import org.koin.androidx.compose.getViewModel
 
-
 @Composable
 fun SearchViewContainer(
     conference: String,

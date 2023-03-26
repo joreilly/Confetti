@@ -1,8 +1,7 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package dev.johnoreilly.confetti.search
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -54,6 +53,7 @@ import dev.johnoreilly.confetti.speakers.SpeakerItemView
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ConfettiTypography
+import dev.johnoreilly.confetti.utils.rememberRunnable
 
 @Composable
 fun SearchView(
@@ -83,35 +83,57 @@ fun SearchView(
                     .padding(8.dp),
                 value = search,
                 onValueChange = onSearchChange,
-            )
 
-            LazyColumn {
-                if (search.isNotBlank() && sessions != null) {
-                    item {
-                        Header(Icons.Filled.CoPresent, "Sessions")
-                    }
-                }
-                items(sessions) { session ->
-                    SessionItemView(
-                        conference = conference,
-                        session = session,
-                        sessionSelected = navigateToSession,
-                    )
-                }
+                )
 
-                if (search.isNotBlank() && speakers != null) {
-                    item {
-                        Header(Icons.Filled.Person, "Speakers")
-                    }
-                }
-                items(speakers) { speaker ->
-                    SpeakerItemView(
-                        conference = conference,
-                        speaker = speaker,
-                        navigateToSpeaker = navigateToSpeaker
-                    )
-                }
+            if (search.isNotBlank()) {
+                SearchContent(
+                    sessions = sessions,
+                    conference = conference,
+                    navigateToSession = navigateToSession,
+                    speakers = speakers,
+                    navigateToSpeaker = navigateToSpeaker,
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun SearchContent(
+    sessions: List<SessionDetails>,
+    conference: String,
+    navigateToSession: (SessionDetailsKey) -> Unit,
+    speakers: List<SpeakerDetails>,
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
+) {
+    LazyColumn {
+        // Shows header if and only if there are session results.
+        if (sessions.isNotEmpty()) {
+            item {
+                Header(Icons.Filled.CoPresent, "Sessions")
+            }
+        }
+        items(sessions) { session ->
+            SessionItemView(
+                conference = conference,
+                session = session,
+                sessionSelected = navigateToSession,
+            )
+        }
+
+        // Shows header if and only if there are speaker results.
+        if (speakers.isNotEmpty()) {
+            item {
+                Header(Icons.Filled.Person, "Speakers")
+            }
+        }
+        items(speakers) { speaker ->
+            SpeakerItemView(
+                conference = conference,
+                speaker = speaker,
+                navigateToSpeaker = navigateToSpeaker,
+            )
         }
     }
 }
@@ -148,7 +170,6 @@ private fun Header(
     }
 }
 
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun SearchTextField(
@@ -160,9 +181,15 @@ private fun SearchTextField(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
 
+    val closeSearch = rememberRunnable {
+        keyboardController?.hide()
+        onValueChange("")
+        onCloseSearch()
+    }
+
     DisposableEffect(Unit) {
         focusRequester.requestFocus()
-        onDispose { onValueChange("") }
+        onDispose { closeSearch() }
     }
 
     TextField(
@@ -174,14 +201,16 @@ private fun SearchTextField(
             .fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
-        placeholder = { Text("Search") },
+        placeholder = { Text("What are you looking for?") },
         leadingIcon = { Icon(Icons.Filled.Search, "Search") },
         trailingIcon = {
-            IconButton(onClick = { onCloseSearch() }) {
-                Icon(
-                    Icons.Filled.Close,
-                    contentDescription = "Close Search"
-                )
+            if (value.isNotBlank()) {
+                IconButton(onClick = { closeSearch() }) {
+                    Icon(
+                        Icons.Filled.Close,
+                        contentDescription = "Close Search"
+                    )
+                }
             }
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),

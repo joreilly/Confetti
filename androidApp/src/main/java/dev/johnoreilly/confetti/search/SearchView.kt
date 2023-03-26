@@ -4,17 +4,23 @@ package dev.johnoreilly.confetti.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.CoPresent
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -27,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -34,9 +41,9 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -71,12 +78,17 @@ fun SearchView(
         onSignOut = onSignOut,
     ) {
         Column {
-            SearchTextField(value = search, onValueChange = onSearchChange)
+            SearchTextField(
+                modifier = Modifier
+                    .padding(8.dp),
+                value = search,
+                onValueChange = onSearchChange,
+            )
 
             LazyColumn {
-                if (sessions != null) {
-                    stickyHeader {
-                        Text(text = "Sessions", style = TextStyle(fontSize = 16.sp))
+                if (search.isNotBlank() && sessions != null) {
+                    item {
+                        Header(Icons.Filled.CoPresent, "Sessions")
                     }
                 }
                 items(sessions) { session ->
@@ -87,9 +99,9 @@ fun SearchView(
                     )
                 }
 
-                if (speakers != null) {
-                    stickyHeader {
-                        Text(text = "Speakers", style = TextStyle(fontSize = 16.sp))
+                if (search.isNotBlank() && speakers != null) {
+                    item {
+                        Header(Icons.Filled.Person, "Speakers")
                     }
                 }
                 items(speakers) { speaker ->
@@ -102,7 +114,38 @@ fun SearchView(
             }
         }
     }
+}
 
+@Composable
+private fun Header(
+    icon: ImageVector,
+    text: String,
+) {
+    Column {
+        Row(
+            modifier = Modifier
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 16.dp,
+                    bottom = 8.dp
+                )
+                .fillMaxWidth()
+        ) {
+            Icon(
+                modifier = Modifier
+                    .padding(end = 8.dp),
+                imageVector = icon,
+                contentDescription = null,
+            )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+        Divider()
+    }
 }
 
 
@@ -118,7 +161,7 @@ private fun SearchTextField(
     val focusRequester = remember { FocusRequester() }
 
     DisposableEffect(Unit) {
-//        focusRequester.requestFocus()
+        focusRequester.requestFocus()
         onDispose { onValueChange("") }
     }
 

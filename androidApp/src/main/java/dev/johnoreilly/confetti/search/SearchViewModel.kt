@@ -47,6 +47,8 @@ class SearchViewModel(
         }
 
     private fun filterSpeakers(details: SpeakerDetails, filter: String): Boolean {
+        if (filter.isBlank()) return false
+
         val ignoreCase = true
         return details.name.contains(filter, ignoreCase) ||
             details.bio.orEmpty().contains(filter, ignoreCase) ||
@@ -55,6 +57,8 @@ class SearchViewModel(
     }
 
     private fun filterSessions(details: SessionDetails, filter: String): Boolean {
+        if (filter.isBlank()) return false
+
         val ignoreCase = true
         return details.title.contains(filter, ignoreCase) ||
             details.sessionDescription.orEmpty().contains(filter, ignoreCase) ||

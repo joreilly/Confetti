@@ -51,7 +51,6 @@ import kotlinx.coroutines.test.runTest
 import okio.FileSystem
 import okio.Path
 import org.junit.After
-import org.junit.Assume
 import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.runner.RunWith

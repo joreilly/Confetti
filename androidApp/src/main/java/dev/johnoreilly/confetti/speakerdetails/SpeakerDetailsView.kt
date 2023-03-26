@@ -89,7 +89,7 @@ fun SpeakerDetailsView(
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        Column(modifier = Modifier.padding(padding).padding(bottom = 16.dp)) {
             speaker?.let { speaker ->
                 Column(
                     modifier = Modifier

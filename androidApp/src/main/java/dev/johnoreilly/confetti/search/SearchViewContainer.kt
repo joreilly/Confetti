@@ -24,11 +24,21 @@ fun SearchViewContainer(
     SideEffect {
         viewModel.configure(conference)
     }
-    val search by viewModel.search.collectAsStateWithLifecycle(initialValue = "")
-    val loading by viewModel.loading.collectAsStateWithLifecycle(initialValue = true)
-    val sessions by viewModel.sessions.collectAsStateWithLifecycle(initialValue = emptyList())
-    val bookmarks by viewModel.bookmarks.collectAsStateWithLifecycle(initialValue = emptySet())
-    val speakers by viewModel.speakers.collectAsStateWithLifecycle(initialValue = emptyList())
+    val search by viewModel
+        .search
+        .collectAsStateWithLifecycle(initialValue = "")
+    val loading by viewModel
+        .loading
+        .collectAsStateWithLifecycle(initialValue = true)
+    val sessions by viewModel
+        .sessions
+        .collectAsStateWithLifecycle(initialValue = emptyList())
+    val bookmarks by viewModel
+        .bookmarks
+        .collectAsStateWithLifecycle(initialValue = emptySet())
+    val speakers by viewModel
+        .speakers
+        .collectAsStateWithLifecycle(initialValue = emptyList())
     SearchView(
         conference = conference,
         appState = appState,

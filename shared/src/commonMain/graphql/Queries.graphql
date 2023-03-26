@@ -77,6 +77,11 @@ fragment SpeakerDetails on Speaker {
     companyLogoUrl
     city
     bio
+  	sessions {
+      id
+      title
+      startsAt
+    }
     socials {
         name
         url

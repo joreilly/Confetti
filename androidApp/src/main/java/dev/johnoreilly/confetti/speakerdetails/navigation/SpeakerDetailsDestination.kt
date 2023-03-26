@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.johnoreilly.confetti.navigation.urlDecoded
 import dev.johnoreilly.confetti.navigation.urlEncoded
+import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.sessions.navigation.SessionsKey
 import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsRoute
 
 
@@ -32,11 +34,19 @@ class SpeakerDetailsKey(val conference: String, val speakerId: String) {
 }
 
 
-fun NavGraphBuilder.speakerDetailsGraph(onBackClick: () -> Unit) {
+fun NavGraphBuilder.speakerDetailsGraph(
+    navigateToSession: (SessionDetailsKey) -> Unit,
+    onBackClick: () -> Unit)
+{
     composable(
         route = pattern,
         arguments = arguments
-    ) {
-        SpeakerDetailsRoute(SpeakerDetailsKey(it), onBackClick)
+    ) { backStackEntry ->
+        SpeakerDetailsRoute(
+            conference = SessionsKey(backStackEntry).conference,
+            SpeakerDetailsKey(backStackEntry),
+            navigateToSession,
+            onBackClick
+        )
     }
 }

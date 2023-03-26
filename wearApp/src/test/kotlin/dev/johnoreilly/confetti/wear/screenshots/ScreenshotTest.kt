@@ -52,6 +52,7 @@ import okio.FileSystem
 import okio.Path
 import org.junit.After
 import org.junit.Assume
+import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
@@ -256,12 +257,11 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     }
 
     fun enableA11yTest() {
-        Assume.assumeTrue(mobileTheme == null)
+        assumeTrue(mobileTheme == null)
 
         // allow more tolerance as A11y tests are mainly for illustrating the
         // current observable behaviour
         tolerance = 0.10f
-        record = true
 
         snapshotTransformer = A11ySnapshotTransformer()
     }

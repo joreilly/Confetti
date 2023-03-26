@@ -1,4 +1,3 @@
-
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
@@ -52,8 +51,6 @@ include(":wearApp")
 include(":wearBenchmark")
 include(":compose-desktop")
 
-val javaVersion = System.getProperty("java.version")?.split(".")?.firstOrNull()?.toInt() ?: Int.MAX_VALUE
-
-check (javaVersion >= 17) {
-    "This project needs to be run with Java 17 or higher (found: $javaVersion)."
+check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+    "This project needs to be run with Java 17 or higher (found: ${JavaVersion.current()})."
 }

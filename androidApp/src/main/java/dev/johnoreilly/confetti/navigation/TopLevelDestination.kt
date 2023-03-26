@@ -1,7 +1,6 @@
 package dev.johnoreilly.confetti.navigation
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Person
@@ -17,7 +16,6 @@ import dev.johnoreilly.confetti.sessions.navigation.SessionsKey
 import dev.johnoreilly.confetti.sessions.navigation.sessionsRoutePattern
 import dev.johnoreilly.confetti.speakers.navigation.SpeakersKey
 import dev.johnoreilly.confetti.speakers.navigation.speakersRoutePattern
-
 
 sealed interface TopLevelDestination {
     val selectedIcon: ImageVector

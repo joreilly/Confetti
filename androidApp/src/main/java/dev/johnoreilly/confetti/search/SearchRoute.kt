@@ -4,14 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.johnoreilly.confetti.SearchViewModel
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SearchViewContainer(
+fun SearchRoute(
     conference: String,
     appState: ConfettiAppState,
     navigateToSession: (SessionDetailsKey) -> Unit,

@@ -179,7 +179,11 @@ private fun HeaderView(
 ) {
     val tonalElevation = LocalBackgroundTheme.current.tonalElevation
     ConfettiBackground(
-        tonalElevation = if (tonalElevation == Dp.Unspecified) 2.dp else tonalElevation,
+        tonalElevation = if (tonalElevation == Dp.Unspecified) {
+            BackgroundTheme.DEFAULT_TONAL_ELEVATION
+        } else {
+            tonalElevation
+        },
         modifier = Modifier
             .fillMaxWidth(),
     ) {

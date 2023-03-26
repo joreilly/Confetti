@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-
 @Composable
 fun SessionsView(
     conference: String,
@@ -45,8 +44,6 @@ fun SessionsView(
         }
     }
 
-    val search by viewModel.searchQuery.collectAsStateWithLifecycle()
-
     ConfettiScaffold(
         conference = conference,
         title = (uiState as? SessionsUiState.Success)?.conferenceName,
@@ -54,8 +51,6 @@ fun SessionsView(
         onSwitchConference = onSwitchConferenceSelected,
         onSignIn = navigateToSignIn,
         onSignOut = onSignOut,
-        search = search,
-        onSearch = viewModel::onSearch,
     ) {
         if (appState.isExpandedScreen) {
             SessionListGridView(

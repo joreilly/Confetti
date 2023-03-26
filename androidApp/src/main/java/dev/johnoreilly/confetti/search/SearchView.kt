@@ -100,39 +100,24 @@ fun SearchView(
             if (loading) {
                 LoadingView()
             } else if (search.isNotBlank()) {
-                SearchContent(
-                    sessionsListContent = {
-                        sessionItems(
-                            conference = conference,
-                            sessions = sessions,
-                            navigateToSession = navigateToSession,
-                            bookmarks = bookmarks,
-                            addBookmark = addBookmark,
-                            removeBookmark = removeBookmark,
-                            onSignIn = onSignIn,
-                        )
-                    },
-                    speakersListContent = {
-                        speakerItems(
-                            conference = conference,
-                            speakers = speakers,
-                            navigateToSpeaker = navigateToSpeaker,
-                        )
-                    },
-                )
+                LazyColumn {
+                    sessionItems(
+                        conference = conference,
+                        sessions = sessions,
+                        navigateToSession = navigateToSession,
+                        bookmarks = bookmarks,
+                        addBookmark = addBookmark,
+                        removeBookmark = removeBookmark,
+                        onSignIn = onSignIn,
+                    )
+                    speakerItems(
+                        conference = conference,
+                        speakers = speakers,
+                        navigateToSpeaker = navigateToSpeaker,
+                    )
+                }
             }
         }
-    }
-}
-
-@Composable
-private fun SearchContent(
-    sessionsListContent: LazyListScope.() -> Unit,
-    speakersListContent: LazyListScope.() -> Unit,
-) {
-    LazyColumn {
-        sessionsListContent()
-        speakersListContent()
     }
 }
 

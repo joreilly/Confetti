@@ -94,6 +94,16 @@ fun SettingsDialog(
                     onChangeDynamicColorPreference = onChangeDynamicColorPreference,
                     onChangeDarkThemeConfig = onChangeDarkThemeConfig,
                 )
+
+                Row(
+                    modifier = Modifier.padding(top = 16.dp),
+                ) {
+
+                    Button(onClick = { onUpdateWearTheme() }) {
+                        Text("Update Wear Theme")
+                    }
+                }
+
                 Divider(Modifier.padding(top = 8.dp))
 
                 Row(
@@ -229,39 +239,4 @@ private fun TextLink(text: String, url: String) {
             },
     )
 }
-/*
-@Preview
-@Composable
-private fun PreviewSettingsDialog() {
-    NiaTheme {
-        SettingsDialog(
-            onDismiss = {},
-            settingsUiState = Success(
-                UserEditableSettings(
-                    brand = DEFAULT,
-                    darkThemeConfig = FOLLOW_SYSTEM,
-                    useDynamicColor = false,
-                ),
-            ),
-            onChangeThemeBrand = {},
-            onChangeDynamicColorPreference = {},
-            onChangeDarkThemeConfig = {},
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewSettingsDialogLoading() {
-    NiaTheme {
-        SettingsDialog(
-            onDismiss = {},
-            settingsUiState = Loading,
-            onChangeThemeBrand = {},
-            onChangeDynamicColorPreference = {},
-            onChangeDarkThemeConfig = {},
-        )
-    }
-}
-*/
 

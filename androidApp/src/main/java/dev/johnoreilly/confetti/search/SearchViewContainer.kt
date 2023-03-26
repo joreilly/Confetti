@@ -11,7 +11,7 @@ import org.koin.androidx.compose.getViewModel
 
 
 @Composable
-fun SearchViewController(
+fun SearchViewContainer(
     conference: String,
     appState: ConfettiAppState,
     navigateToSession: (SessionDetailsKey) -> Unit,

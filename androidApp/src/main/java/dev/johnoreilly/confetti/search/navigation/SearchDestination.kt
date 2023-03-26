@@ -8,7 +8,7 @@ import androidx.navigation.navArgument
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.navigation.urlDecoded
 import dev.johnoreilly.confetti.navigation.urlEncoded
-import dev.johnoreilly.confetti.search.SearchViewController
+import dev.johnoreilly.confetti.search.SearchViewContainer
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 
@@ -41,7 +41,7 @@ fun NavGraphBuilder.searchGraph(
             }
         )
     ) { backStackEntry ->
-        SearchViewController(
+        SearchViewContainer(
             conference = SearchKey(backStackEntry).conference,
             appState = appState,
             navigateToSession = navigateToSession,

@@ -7,6 +7,7 @@
 package dev.johnoreilly.confetti.wear.screenshots
 
 import android.app.Application
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -88,7 +89,10 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     var snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None
 
     val resources: Resources
-        get() = ApplicationProvider.getApplicationContext<Application>().resources
+        get() = applicationContext.resources
+
+    val applicationContext: Context
+        get() = ApplicationProvider.getApplicationContext<Application>()
 
     @After
     fun after() {
@@ -219,7 +223,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     }
 
     fun takeScrollableScreenshot(
-        round: Boolean = true,
+        round: Boolean = resources.configuration.isScreenRound,
         timeTextMode: TimeTextMode,
         columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText(),
         checks: suspend (columnState: ScalingLazyColumnState) -> Unit = {},

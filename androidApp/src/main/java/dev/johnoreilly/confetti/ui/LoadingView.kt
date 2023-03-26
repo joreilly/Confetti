@@ -19,5 +19,4 @@ fun LoadingView() {
     ) {
         CircularProgressIndicator()
     }
-
 }

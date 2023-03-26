@@ -59,6 +59,7 @@ import dev.johnoreilly.confetti.speakers.SpeakerItemView
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ConfettiTypography
+import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 import dev.johnoreilly.confetti.utils.rememberRunnable
 
@@ -78,6 +79,7 @@ fun SearchView(
     bookmarks: Set<String>,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
+    loading: Boolean,
 ) {
     ConfettiScaffold(
         title = stringResource(R.string.search),
@@ -95,7 +97,9 @@ fun SearchView(
                 onValueChange = onSearchChange,
             )
 
-            if (search.isNotBlank()) {
+            if (loading) {
+                LoadingView()
+            } else if (search.isNotBlank()) {
                 SearchContent(
                     sessionsListContent = {
                         sessionItems(

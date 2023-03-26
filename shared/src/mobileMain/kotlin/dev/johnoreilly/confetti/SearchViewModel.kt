@@ -3,7 +3,6 @@ package dev.johnoreilly.confetti
 import com.rickclephas.kmm.viewmodel.KMMViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
@@ -18,15 +17,22 @@ class SearchViewModel(
 
     val search = MutableStateFlow("")
 
-    private val sessionsState = sessionsViewModel
+
+    val loading = sessionsViewModel
+        .uiState
+        .combine(speakersViewModel.speakers) { sessions, speakers ->
+            sessions is SessionsUiState.Loading || speakers is SpeakersUiState.Loading
+        }
+
+    private val successSessions = sessionsViewModel
         .uiState
         .filterIsInstance<SessionsUiState.Success>()
 
-    private val speakersState = speakersViewModel
+    private val successSpeakers = speakersViewModel
         .speakers
         .filterIsInstance<SpeakersUiState.Success>()
 
-    val sessions = sessionsState
+    val sessions = successSessions
         .map { state ->
             state
                 .sessionsByStartTimeList
@@ -37,10 +43,10 @@ class SearchViewModel(
             sessions.filter { filterSessions(it, search) }
         }
 
-    val bookmarks = sessionsState
+    val bookmarks = successSessions
         .map { state -> state.bookmarks }
 
-    val speakers = speakersState
+    val speakers = successSpeakers
         .map { state -> state.speakers }
         .combine(search) { sessions, search ->
             sessions.filter { filterSpeakers(it, search) }

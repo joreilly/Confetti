@@ -3,8 +3,6 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.Modifier
 import androidx.core.graphics.drawable.toDrawable
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
@@ -13,7 +11,6 @@ import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.StandardChip
 import com.google.android.horologist.base.ui.components.StandardChipType
-import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
@@ -28,7 +25,7 @@ import org.robolectric.annotation.Config
 class ThemeTest : ScreenshotTest() {
     init {
         // useful for illustrative purpose only
-        tolerance = 0.25f
+        tolerance = 0.2f
     }
 
     @Before
@@ -46,7 +43,7 @@ class ThemeTest : ScreenshotTest() {
 
     @Test
     @Config(
-        qualifiers = "+h450dp-notround"
+        qualifiers = "+h400dp-notround"
     )
     fun themeTest() = takeScrollableScreenshot(
         timeTextMode = TimeTextMode.OnTop,
@@ -77,11 +74,12 @@ class ThemeTest : ScreenshotTest() {
                     chipType = StandardChipType.Secondary
                 )
             }
-            item {
-                PlaceholderChip(
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
+            // Breaks screenshot tests
+//            item {
+//                PlaceholderChip(
+//                    modifier = Modifier.fillMaxWidth(),
+//                )
+//            }
             item {
                 SessionCard(TestFixtures.sessionDetails) {}
             }

@@ -20,14 +20,6 @@ class AccountViewModel(
         }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UiState())
 
-    init {
-        authentication
-        viewModelScope.launch {
-            val idToken = authentication.idToken(true)
-            wearSettingsSync.updateIdToken(idToken)
-        }
-    }
-
     fun signOut() {
         apolloClientCache.clear()
         authentication.signOut()

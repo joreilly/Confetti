@@ -25,10 +25,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,9 +36,12 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.account.AccountIcon
+import dev.johnoreilly.confetti.account.WearUiState
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.settings.SettingsDialog
+import dev.johnoreilly.confetti.wear.WearSettingsSync
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 class ScaffoldState(
@@ -46,6 +49,7 @@ class ScaffoldState(
     val snackbarHostState: SnackbarHostState,
     val user: User?
 )
+
 /**
  * A wrapper for some content view that handles the different layouts (mobile/tablet, etc...)
  */
@@ -61,10 +65,32 @@ fun ConfettiScaffold(
     content: @Composable (ScaffoldState) -> Unit,
 ) {
     val authentication = koinInject<Authentication>()
+    val wearSettingSync = koinInject<WearSettingsSync>()
     fun signOut() {
         authentication.signOut()
         onSignOut()
     }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val wearSettingNodeState =
+        wearSettingSync.wearNodes.collectAsStateWithLifecycle(emptyList()).value
+    val wearSettingsUIState = WearUiState(wearSettingNodeState)
+
+    fun installOnWear() {
+        coroutineScope.launch {
+            wearSettingNodeState.filter { !it.isAppInstalled }.forEach {
+                wearSettingSync.installOnWearNode(it.id)
+            }
+        }
+    }
+
+    fun updateWearTheme() {
+        coroutineScope.launch {
+            wearSettingSync.updateWearTheme()
+        }
+    }
+
     val user by authentication.currentUser.collectAsStateWithLifecycle()
 
     val titleState = remember(title) { mutableStateOf(title) }
@@ -77,8 +103,11 @@ fun ConfettiScaffold(
         onSwitchConference = onSwitchConference,
         onSignIn = onSignIn,
         onSignOut = ::signOut,
-        user = user
-        ) {
+        user = user,
+        updateWearTheme = ::updateWearTheme,
+        installOnWear = ::installOnWear,
+        wearSettingsUiState = wearSettingsUIState,
+    ) {
         content(ScaffoldState(titleState, it, user))
     }
 }
@@ -95,6 +124,9 @@ fun ConfettiScaffold(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     user: User?,
+    updateWearTheme: () -> Unit,
+    installOnWear: () -> Unit,
+    wearSettingsUiState: WearUiState,
     content: @Composable (SnackbarHostState) -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -146,7 +178,10 @@ fun ConfettiScaffold(
                             onSignIn = onSignIn,
                             onSignOut = onSignOut,
                             onShowSettings = { appState.setShowSettingsDialog(true) },
-                            user = user
+                            user = user,
+                            updateWearTheme = updateWearTheme,
+                            installOnWear = installOnWear,
+                            wearSettingsUiState = wearSettingsUiState,
                         )
                     },
                     scrollBehavior = scrollBehavior,

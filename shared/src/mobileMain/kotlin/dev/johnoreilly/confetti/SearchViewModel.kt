@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-class SearchViewModel(
+open class SearchViewModel(
     // TODO: Remove dependency between view models.
     private val sessionsViewModel: SessionsViewModel,
     private val speakersViewModel: SpeakersViewModel,

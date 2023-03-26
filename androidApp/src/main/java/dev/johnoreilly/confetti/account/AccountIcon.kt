@@ -13,7 +13,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.ui.ConfettiTheme
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AccountIcon(
@@ -34,29 +32,8 @@ fun AccountIcon(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onShowSettings: () -> Unit,
-    user: User?,
-    viewModel: AccountViewModel = getViewModel(),
-) {
-    val accountUiState = viewModel.uiState.collectAsState().value
-    AccountIcon(
-        onSwitchConference = onSwitchConference,
-        onSignIn = onSignIn,
-        onSignOut = onSignOut,
-        onShowSettings = onShowSettings,
-        installOnWear = viewModel::installOnWear,
-        uiState = accountUiState,
-        user = user,
-    )
-}
-
-@Composable
-private fun AccountIcon(
-    onSwitchConference: () -> Unit,
-    onSignIn: () -> Unit,
-    onSignOut: () -> Unit,
-    onShowSettings: () -> Unit,
     installOnWear: () -> Unit,
-    uiState: UiState,
+    wearSettingsUiState: WearUiState,
     user: User?,
 ) {
     var showMenu by remember { mutableStateOf(false) }
@@ -119,12 +96,21 @@ private fun AccountIcon(
                 onShowSettings()
             }
         )
-        if (uiState.showInstallOnWear) {
+        if (wearSettingsUiState.showInstallOnWear) {
             DropdownMenuItem(
                 text = { Text("Install on Wear") },
                 onClick = {
                     showMenu = false
                     installOnWear()
+                }
+            )
+        }
+        if (wearSettingsUiState.isInstalledOnWear) {
+            DropdownMenuItem(
+                text = { Text("Update Wear Theme") },
+                onClick = {
+                    showMenu = false
+                    updateWearTheme()
                 }
             )
         }
@@ -135,7 +121,7 @@ private fun AccountIcon(
 @Preview(uiMode = UI_MODE_NIGHT_NO, name = "light theme")
 @Composable
 private fun AccountIconPreview() {
-    val accountUiState = UiState()
+    val wearUiState = WearUiState()
     ConfettiTheme {
         Surface {
             AccountIcon(
@@ -144,7 +130,7 @@ private fun AccountIconPreview() {
                 onSignOut = {},
                 onShowSettings = {},
                 installOnWear = {},
-                uiState = accountUiState,
+                wearSettingsUiState = wearUiState,
                 user = object: User {
                     override val name: String
                         get() = "Foo"

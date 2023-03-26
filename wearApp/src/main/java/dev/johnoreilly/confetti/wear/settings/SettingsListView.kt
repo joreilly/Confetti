@@ -5,6 +5,9 @@ package dev.johnoreilly.confetti.wear.settings
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
@@ -42,15 +45,25 @@ fun SettingsListView(
         }
 
         item {
-            if ((uiState as? SettingsUiState.Success)?.authUser == null) {
+            val authUser = (uiState as? SettingsUiState.Success)?.authUser
+            if (authUser == null) {
                 StandardChip(
                     label = "Sign In",
                     onClick = navigateToGoogleSignIn,
                 )
             } else {
                 StandardChip(
+                    modifier = Modifier.clearAndSetSemantics {
+                        contentDescription = "Logged in as " + authUser.displayName
+                        onClick("Sign Out") {
+                            navigateToGoogleSignOut()
+                            true
+                        }
+                    },
                     label = "Sign Out",
-                    onClick = navigateToGoogleSignOut,
+                    icon = authUser.avatarUri,
+                    largeIcon = true,
+                    onClick = navigateToGoogleSignOut
                 )
             }
         }

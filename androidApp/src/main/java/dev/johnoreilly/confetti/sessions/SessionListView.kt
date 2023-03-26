@@ -201,42 +201,38 @@ fun SessionItemView(
         val user by remember { mutableStateOf(authentication.currentUser()) }
         var showDialog by remember { mutableStateOf(false) }
 
-        when(isBookmarked) {
-            true -> {
-                Icon(
-                    imageVector = Icons.Outlined.Bookmark,
-                    contentDescription = "remove bookmark",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .clickable {
-                            if (user != null) {
-                                removeBookmark(session.id)
-                            } else {
-                                showDialog = true
-                            }
+        if (isBookmarked) {
+            Icon(
+                imageVector = Icons.Outlined.Bookmark,
+                contentDescription = "remove bookmark",
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .clickable {
+                        if (user != null) {
+                            removeBookmark(session.id)
+                        } else {
+                            showDialog = true
                         }
-                        .padding(8.dp))
-            }
-            false -> {
-                Icon(
-                    imageVector = Icons.Outlined.BookmarkAdd,
-                    contentDescription = "add bookmark",
-                    modifier = Modifier
-                        .clickable {
-                            if (user != null) {
-                                addBookmark(session.id)
-                            } else {
-                                showDialog = true
-                            }
+                    }
+                    .padding(8.dp))
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.BookmarkAdd,
+                contentDescription = "add bookmark",
+                modifier = Modifier
+                    .clickable {
+                        if (user != null) {
+                            addBookmark(session.id)
+                        } else {
+                            showDialog = true
                         }
-                        .padding(8.dp))
-            }
-            else -> {}
+                    }
+                    .padding(8.dp))
         }
 
         if (showDialog) {
             SignInDialog(
-                onDismissRequest = {showDialog = false},
+                onDismissRequest = { showDialog = false },
                 onSignInClicked = onNavigateToSignIn
             )
         }

@@ -42,6 +42,7 @@ import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
+import dev.johnoreilly.confetti.wear.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -50,6 +51,7 @@ import kotlinx.coroutines.test.runTest
 import okio.FileSystem
 import okio.Path
 import org.junit.After
+import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
@@ -251,6 +253,16 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
 
             content(columnState)
         }
+    }
+
+    fun enableA11yTest() {
+        assumeTrue(mobileTheme == null)
+
+        // allow more tolerance as A11y tests are mainly for illustrating the
+        // current observable behaviour
+        tolerance = 0.10f
+
+        snapshotTransformer = A11ySnapshotTransformer()
     }
 
     enum class TimeTextMode {

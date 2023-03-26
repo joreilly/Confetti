@@ -156,7 +156,6 @@ fun ConfettiScaffold(
                 }
 
             },
-            containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { innerPadding ->
             Column(

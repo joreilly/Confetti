@@ -58,7 +58,6 @@ object SearchTopLevelDestination : TopLevelDestination {
     override val routePattern = searchRoutePattern
 
     override fun route(conference: String): String {
-        Log.d("marcello", SearchKey(conference).route)
         return SearchKey(conference).route
     }
 }

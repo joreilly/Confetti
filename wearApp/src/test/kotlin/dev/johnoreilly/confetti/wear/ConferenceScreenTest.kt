@@ -3,7 +3,6 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.ui.test.assertContentDescriptionEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
@@ -16,7 +15,6 @@ import dev.johnoreilly.confetti.wear.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.conferences.ConferencesUiState
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
-import org.junit.Assume
 import org.junit.Assume.assumeTrue
 import org.junit.Test
 
@@ -51,11 +49,9 @@ class ConferenceScreenTest : ScreenshotTest() {
         // current observable behaviour
         tolerance = 0.10f
 
-        val a11yTranformer = A11ySnapshotTransformer()
+        snapshotTransformer = A11ySnapshotTransformer()
 
-        this.snapshotTransformer = a11yTranformer
-
-        takeScrollableScreenshot (
+        takeScrollableScreenshot(
             timeTextMode = TimeTextMode.OnTop,
             checks = { columnState ->
                 rule.onNodeWithText("Conferences")

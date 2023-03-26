@@ -29,6 +29,7 @@ import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.test.core.app.ApplicationProvider
+import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.scrollAway
@@ -112,6 +113,8 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
                 timeSource = FixedTimeSource
             )
         },
+        positionIndicator: @Composable () -> Unit = {
+        },
         checks: suspend () -> Unit = {},
         content: @Composable () -> Unit
     ) {
@@ -139,7 +142,8 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
                                     .background(Color.Black),
                                 timeText = {
                                     timeText()
-                                }
+                                },
+                                positionIndicator = positionIndicator
                             ) {
                                 content()
                             }
@@ -235,6 +239,9 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
                             Modifier
                     )
                 }
+            },
+            positionIndicator = {
+                PositionIndicator(scalingLazyListState = columnState.state)
             },
             checks = {
                 checks(columnState)

@@ -1,12 +1,9 @@
-package dev.johnoreilly.confetti.search
+package dev.johnoreilly.confetti
 
-import androidx.lifecycle.ViewModel
-import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.SessionsViewModel
-import dev.johnoreilly.confetti.SpeakersUiState
-import dev.johnoreilly.confetti.SpeakersViewModel
+import com.rickclephas.kmm.viewmodel.KMMViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
@@ -14,9 +11,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class SearchViewModel(
+    // TODO: Remove dependency between view models.
     private val sessionsViewModel: SessionsViewModel,
     private val speakersViewModel: SpeakersViewModel,
-) : ViewModel() {
+) : KMMViewModel() {
 
     val search = MutableStateFlow("")
 

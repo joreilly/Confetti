@@ -53,7 +53,7 @@ object TestFixtures {
         )
     )
 
-    val JohnUrl = "https://sessionize.com/image/48e7-400o400o2-HkquSQhsfczBGkrABwVTBc.jpg"
+    const val JohnUrl = "https://sessionize.com/image/48e7-400o400o2-HkquSQhsfczBGkrABwVTBc.jpg"
     val JohnOreilly = SessionDetails.Speaker(
         __typename = "Speaker",
         speakerDetails = SpeakerDetails(
@@ -64,13 +64,12 @@ object TestFixtures {
             companyLogoUrl = null,
             city = null,
             bio = "John is a Kotlin GDE that has been developing Android apps since 2010. He worked on server side Java applications in the 2000s and desktop clients in the 1990s. He's also been exploring and advocating for all things Kotlin Multiplatform since 2018.",
-            socials = listOf(
-
-            )
+            socials = emptyList(),
+            sessions = emptyList()
         )
     )
 
-    val MartinUrl = "https://sessionize.com/image/7c96-400o400o2-UiWeCMZDxPejrFsozKmLYr.jpeg"
+    const val MartinUrl = "https://sessionize.com/image/7c96-400o400o2-UiWeCMZDxPejrFsozKmLYr.jpeg"
     val MartinBonnin = SessionDetails.Speaker(
         __typename = "Speaker",
         speakerDetails = SpeakerDetails(
@@ -81,9 +80,8 @@ object TestFixtures {
             companyLogoUrl = null,
             city = null,
             bio = "Martin is a maintainer of Apollo Kotlin. He has been writing Android applications since Cupcake and fell in love with Kotlin in 2017. Martin loves naming things and the sound of his laptop fan compiling all these type-safe programs. When not busy rewriting all his bash scripts in Kotlin, Martin loves to hike the Pyrénées or play a good game of Hearthstone.",
-            socials = listOf(
-
-            )
+            socials = emptyList(),
+            sessions = emptyList()
         )
     )
 

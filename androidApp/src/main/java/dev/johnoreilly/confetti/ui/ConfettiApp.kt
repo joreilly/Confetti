@@ -71,7 +71,12 @@ fun ConfettiApp(
             onSignOut = ::onSignOut,
             onSwitchConference = ::onSwitchConference,
         )
-        speakerDetailsGraph(appState::onBackClick)
+        speakerDetailsGraph(
+            navigateToSession = {
+                appState.navigate(it.route)
+            },
+            appState::onBackClick
+        )
         signInGraph(appState::onBackClick)
     }
 

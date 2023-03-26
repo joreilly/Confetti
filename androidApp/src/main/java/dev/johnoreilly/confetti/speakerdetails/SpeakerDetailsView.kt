@@ -4,6 +4,7 @@ package dev.johnoreilly.confetti.speakerdetails
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,12 +20,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
@@ -33,7 +36,12 @@ import org.koin.androidx.compose.getViewModel
 
 
 @Composable
-internal fun SpeakerDetailsRoute(speakerDetailsKey: SpeakerDetailsKey, onBackClick: () -> Unit) {
+internal fun SpeakerDetailsRoute(
+    conference: String,
+    speakerDetailsKey: SpeakerDetailsKey,
+    navigateToSession: (SessionDetailsKey) -> Unit,
+    onBackClick: () -> Unit
+) {
     val viewModel: SpeakerDetailsViewModel = getViewModel<SpeakerDetailsViewModel>().apply {
         configure(speakerDetailsKey.conference, speakerDetailsKey.speakerId)
     }
@@ -43,14 +51,19 @@ internal fun SpeakerDetailsRoute(speakerDetailsKey: SpeakerDetailsKey, onBackCli
     when (val uiState1 = uiState) {
         is SpeakerDetailsViewModel.Loading -> LoadingView()
         is SpeakerDetailsViewModel.Error -> ErrorView()
-        is SpeakerDetailsViewModel.Success -> SpeakerDetailsView(uiState1.details, onBackClick)
+        is SpeakerDetailsViewModel.Success -> SpeakerDetailsView(conference, uiState1.details, navigateToSession, onBackClick)
     }
 
 }
 
 
 @Composable
-fun SpeakerDetailsView(speaker: SpeakerDetails, popBack: () -> Unit) {
+fun SpeakerDetailsView(
+    conference: String,
+    speaker: SpeakerDetails,
+    navigateToSession: (SessionDetailsKey) -> Unit,
+    popBack: () -> Unit
+) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
@@ -121,10 +134,31 @@ fun SpeakerDetailsView(speaker: SpeakerDetails, popBack: () -> Unit) {
                             )
                         }
                     }
+
+                    SpeakerTalks(conference, speaker.sessions, navigateToSession)
                 }
             }
         }
     }
 }
 
+@Composable
+fun SpeakerTalks(
+    conference: String,
+    sessions: List<SpeakerDetails.Session>,
+    navigateToSession: (SessionDetailsKey) -> Unit,
+) {
+    Column(Modifier.fillMaxWidth()) {
+        Text("Sessions", style = MaterialTheme.typography.headlineSmall)
+        Divider()
+        Spacer(modifier = Modifier.size(8.dp))
+        sessions.forEach { session ->
+            Row(Modifier.fillMaxWidth().clickable {
+                navigateToSession(SessionDetailsKey(conference, session.id))
+            }.padding(vertical = 8.dp)) {
+                Text(session.title, style = MaterialTheme.typography.bodyLarge)
+            }
+        }
+    }
+}
 

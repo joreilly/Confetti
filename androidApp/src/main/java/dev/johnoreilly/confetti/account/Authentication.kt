@@ -38,7 +38,7 @@ private fun FirebaseUser.toUser(): User {
 suspend fun FirebaseUser.idToken(forceRefresh: Boolean): String = suspendCoroutine { continuation ->
     getIdToken(forceRefresh).addOnCompleteListener {
             if (it.isSuccessful) {
-                continuation.resume(it.getResult().token!!)
+                continuation.resume(it.result.token!!)
             } else {
                 continuation.resume("invalid")
             }

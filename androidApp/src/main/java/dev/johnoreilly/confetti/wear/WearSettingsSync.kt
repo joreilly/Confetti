@@ -94,4 +94,12 @@ class WearSettingsSync(
             }
         }
     }
+
+    suspend fun updateIdToken(idToken: String?) {
+        if (isAvailable()) {
+            settingsDataStore.updateData {
+                it.copy(authToken = idToken.orEmpty())
+            }
+        }
+    }
 }

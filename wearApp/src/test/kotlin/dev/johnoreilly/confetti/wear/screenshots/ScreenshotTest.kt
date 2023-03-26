@@ -4,7 +4,7 @@
 )
 @file:Suppress("UnstableApiUsage")
 
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.screenshots
 
 import android.app.Application
 import android.content.res.Resources
@@ -41,6 +41,7 @@ import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
+import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -82,6 +83,8 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     var record = false
 
     var fakeImageLoader = FakeImageLoader.Never
+
+    var snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None
 
     val resources: Resources
         get() = ApplicationProvider.getApplicationContext<Application>().resources
@@ -155,9 +158,10 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
                     colorDiffing = Diffing.highlightWithRed
                 ),
                 snapshot = { node: SemanticsNodeInteraction ->
-                    Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888).apply {
+                    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888).apply {
                         view.draw(Canvas(this))
                     }
+                    snapshotTransformer.transform(node, bitmap)
                 }
             ).fileSnapshotting
 

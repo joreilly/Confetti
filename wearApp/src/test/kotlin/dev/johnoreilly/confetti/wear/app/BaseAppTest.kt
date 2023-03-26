@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.app
 
 import android.os.Looper
 import android.util.Log
@@ -10,6 +10,7 @@ import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.apollographql.apollo3.cache.normalized.sql.ApolloInitializer
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.wear.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before

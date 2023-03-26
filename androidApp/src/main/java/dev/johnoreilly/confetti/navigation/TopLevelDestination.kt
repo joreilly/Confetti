@@ -4,15 +4,18 @@ import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.search.navigation.SearchKey
+import dev.johnoreilly.confetti.search.navigation.searchRoutePattern
 import dev.johnoreilly.confetti.sessions.navigation.SessionsKey
 import dev.johnoreilly.confetti.sessions.navigation.sessionsRoutePattern
 import dev.johnoreilly.confetti.speakers.navigation.SpeakersKey
 import dev.johnoreilly.confetti.speakers.navigation.speakersRoutePattern
-
 
 sealed interface TopLevelDestination {
     val selectedIcon: ImageVector
@@ -43,6 +46,17 @@ object SpeakersTopLevelDestination: TopLevelDestination {
 
     override fun route(conference: String): String {
         return SpeakersKey(conference).route
+    }
+}
+
+object SearchTopLevelDestination : TopLevelDestination {
+    override val selectedIcon = Icons.Filled.Search
+    override val unselectedIcon = Icons.Outlined.Search
+    override val iconTextId = R.string.search
+    override val routePattern = searchRoutePattern
+
+    override fun route(conference: String): String {
+        return SearchKey(conference).route
     }
 }
 

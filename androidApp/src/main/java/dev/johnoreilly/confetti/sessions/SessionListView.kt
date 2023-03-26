@@ -108,7 +108,7 @@ fun SessionListView(
                                 }
 
                                 items(it.value) { session ->
-                                    SessionView(
+                                    SessionItemView(
                                         conference = uiState.conference,
                                         session = session,
                                         sessionSelected = sessionSelected,
@@ -161,14 +161,14 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
 }
 
 @Composable
-fun SessionView(
+fun SessionItemView(
     conference: String,
     session: SessionDetails,
     sessionSelected: (SessionDetailsKey) -> Unit,
     isBookmarked: Boolean,
     addBookmark: (String) -> Unit,
     removeBookmark: (String) -> Unit,
-    onNavigateToSignIn: () -> Unit,
+    onNavigateToSignIn: () -> Unit = {},
 ) {
 
     var modifier = Modifier.fillMaxSize()
@@ -232,7 +232,7 @@ fun SessionView(
 
         if (showDialog) {
             SignInDialog(
-                onDismissRequest = {showDialog = false},
+                onDismissRequest = { showDialog = false },
                 onSignInClicked = onNavigateToSignIn
             )
         }

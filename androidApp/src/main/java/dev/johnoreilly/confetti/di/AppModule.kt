@@ -16,6 +16,7 @@ import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.TokenProvider
 import dev.johnoreilly.confetti.account.AccountViewModel
 import dev.johnoreilly.confetti.account.Authentication
+import dev.johnoreilly.confetti.SearchViewModel
 import dev.johnoreilly.confetti.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
@@ -34,6 +35,7 @@ val appModule = module {
     viewModelOf(::SpeakerDetailsViewModel)
     viewModelOf(::AccountViewModel)
     viewModelOf(::SettingsViewModel)
+    viewModelOf(::SearchViewModel)
 
     single {
         ConfettiRepository().apply {

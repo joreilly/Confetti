@@ -137,7 +137,7 @@ fun SpeakerListView(
         if (speakers.isNotEmpty()) {
             LazyColumn {
                 items(speakers) { speaker ->
-                    SpeakerView(conference, speaker, navigateToSpeaker)
+                    SpeakerItemView(conference, speaker, navigateToSpeaker)
                 }
             }
         } else {
@@ -154,7 +154,7 @@ fun SpeakerListView(
 
 
 @Composable
-fun SpeakerView(
+fun SpeakerItemView(
     conference: String,
     speaker: SpeakerDetails,
     navigateToSpeaker: (SpeakerDetailsKey) -> Unit
@@ -190,4 +190,3 @@ fun SpeakerView(
         }
     }
 }
-

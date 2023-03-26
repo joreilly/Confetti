@@ -19,6 +19,7 @@ import dev.johnoreilly.confetti.speakerdetails.navigation.speakerDetailsGraph
 import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
 import dev.johnoreilly.confetti.initial_loading.navigation.InitialLoadingKey
 import dev.johnoreilly.confetti.initial_loading.navigation.initialLoadingGraph
+import dev.johnoreilly.confetti.search.navigation.searchGraph
 import org.koin.androidx.compose.get
 
 @Composable
@@ -78,6 +79,14 @@ fun ConfettiApp(
             appState::onBackClick
         )
         signInGraph(appState::onBackClick)
+        searchGraph(
+            appState = appState,
+            navigateToSession = { appState.navigate(it.route) },
+            navigateToSpeaker = { appState.navigate(it.route) },
+            navigateToSignIn = ::onSignIn,
+            onSignOut = ::onSignOut,
+            onSwitchConferenceSelected = ::onSwitchConference
+        )
     }
 
     val analyticsLogger: AnalyticsLogger = get()

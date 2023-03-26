@@ -22,14 +22,10 @@ jobs:
       uses: gradle/gradle-build-action@v2
 
     - name: Build
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :androidApp:assembleDebug :wearApp:assembleDebug
+      run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug
 
     - name: Wear Unit Tests
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :wearApp:testDebugUnitTest
+      run: ./gradlew :wearApp:testDebugUnitTest
 
   build-jvm:
     runs-on: ubuntu-22.04
@@ -45,6 +41,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: :shared:runJvmMain
+        run: ./gradlew :shared:runJvmMain

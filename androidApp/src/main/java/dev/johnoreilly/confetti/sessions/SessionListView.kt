@@ -165,9 +165,9 @@ fun SessionItemView(
     conference: String,
     session: SessionDetails,
     sessionSelected: (SessionDetailsKey) -> Unit,
-    isBookmarked: Boolean? = null,
-    addBookmark: (String) -> Unit = {},
-    removeBookmark: (String) -> Unit = {},
+    isBookmarked: Boolean,
+    addBookmark: (String) -> Unit,
+    removeBookmark: (String) -> Unit,
     onNavigateToSignIn: () -> Unit = {},
 ) {
 

@@ -9,8 +9,8 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class SearchViewModel(
@@ -20,28 +20,30 @@ class SearchViewModel(
 
     val search = MutableStateFlow("")
 
-    val sessions = sessionsViewModel
+    private val sessionsState = sessionsViewModel
         .uiState
-        .mapNotNull { state ->
-            if (state is SessionsUiState.Success) {
-                state.sessionsByStartTimeList.flatMap { it.values }.flatten()
-            } else {
-                null
-            }
+        .filterIsInstance<SessionsUiState.Success>()
+
+    private val speakersState = speakersViewModel
+        .speakers
+        .filterIsInstance<SpeakersUiState.Success>()
+
+    val sessions = sessionsState
+        .map { state ->
+            state
+                .sessionsByStartTimeList
+                .flatMap { sessions -> sessions.values }
+                .flatten()
         }
         .combine(search) { sessions, search ->
             sessions.filter { filterSessions(it, search) }
         }
 
-    val speakers = speakersViewModel
-        .speakers
-        .mapNotNull { state ->
-            if (state is SpeakersUiState.Success) {
-                state.speakers
-            } else {
-                null
-            }
-        }
+    val bookmarks = sessionsState
+        .map { state -> state.bookmarks }
+
+    val speakers = speakersState
+        .map { state -> state.speakers }
         .combine(search) { sessions, search ->
             sessions.filter { filterSpeakers(it, search) }
         }
@@ -75,5 +77,13 @@ class SearchViewModel(
 
     fun onSearchChange(query: String) {
         search.update { query }
+    }
+
+    fun addBookmark(sessionId: String) {
+        sessionsViewModel.addBookmark(sessionId)
+    }
+
+    fun removeBookmark(sessionId: String) {
+        sessionsViewModel.removeBookmark(sessionId)
     }
 }

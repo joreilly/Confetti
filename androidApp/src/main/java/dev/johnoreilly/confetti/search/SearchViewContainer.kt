@@ -25,6 +25,7 @@ fun SearchViewContainer(
     }
     val search by viewModel.search.collectAsStateWithLifecycle()
     val sessions by viewModel.sessions.collectAsStateWithLifecycle(emptyList())
+    val bookmarks by viewModel.bookmarks.collectAsStateWithLifecycle(emptySet())
     val speakers by viewModel.speakers.collectAsStateWithLifecycle(emptyList())
     SearchView(
         conference = conference,
@@ -38,5 +39,8 @@ fun SearchViewContainer(
         speakers = speakers,
         search = search,
         onSearchChange = viewModel::onSearchChange,
+        bookmarks = bookmarks,
+        addBookmark = viewModel::addBookmark,
+        removeBookmark = viewModel::removeBookmark,
     )
 }

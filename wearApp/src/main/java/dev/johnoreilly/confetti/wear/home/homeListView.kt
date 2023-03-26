@@ -91,11 +91,12 @@ fun HomeListView(
                 item {
                     val chipPlaceholderState = rememberPlaceholderState { false }
                     ListHeader {
-                        Text("",
-                            style = MaterialTheme.typography.title2,
+                        Text(
+                            "",
                             modifier = Modifier
-                            .fillMaxWidth(0.75f)
-                            .placeholder(chipPlaceholderState))
+                                .fillMaxWidth(0.75f)
+                                .placeholder(chipPlaceholderState)
+                        )
                     }
                 }
 

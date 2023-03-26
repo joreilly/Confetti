@@ -84,7 +84,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     @JvmField
     var mobileTheme: Theme? = null
 
-    var record = false
+    var record = true
 
     var fakeImageLoader = FakeImageLoader.Never
 

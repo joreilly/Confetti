@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.johnoreilly.confetti.SearchViewModel
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState

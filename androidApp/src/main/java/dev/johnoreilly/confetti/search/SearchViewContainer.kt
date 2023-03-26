@@ -24,7 +24,7 @@ fun SearchViewContainer(
     SideEffect {
         viewModel.configure(conference)
     }
-    val search by viewModel.search.collectAsStateWithLifecycle()
+    val search by viewModel.search.collectAsStateWithLifecycle(initialValue = "")
     val loading by viewModel.loading.collectAsStateWithLifecycle(initialValue = true)
     val sessions by viewModel.sessions.collectAsStateWithLifecycle(initialValue = emptyList())
     val bookmarks by viewModel.bookmarks.collectAsStateWithLifecycle(initialValue = emptySet())

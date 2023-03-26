@@ -3,7 +3,10 @@ package dev.johnoreilly.confetti
 import com.rickclephas.kmm.viewmodel.KMMViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
@@ -15,8 +18,8 @@ class SearchViewModel(
     private val speakersViewModel: SpeakersViewModel,
 ) : KMMViewModel() {
 
-    val search = MutableStateFlow("")
-
+    private val _search = MutableStateFlow("")
+    val search: Flow<String> = _search.asStateFlow()
 
     val loading = sessionsViewModel
         .uiState
@@ -80,7 +83,7 @@ class SearchViewModel(
     }
 
     fun onSearchChange(query: String) {
-        search.update { query }
+        _search.update { query }
     }
 
     fun addBookmark(sessionId: String) {

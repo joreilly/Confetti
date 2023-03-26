@@ -59,4 +59,21 @@ class SpeakerDetailsTest : ScreenshotTest() {
             columnState = columnState,
         )
     }
+
+    @Test
+    fun speakerDetailsScreenA11y() {
+        enableA11yTest()
+
+        takeScrollableScreenshot(
+            timeTextMode = TimeTextMode.OnTop,
+            checks = {
+                rule.onNodeWithText("John O'Reilly").assertIsDisplayed()
+            }
+        ) { columnState ->
+            SpeakerDetailsView(
+                speaker = JohnOreilly.speakerDetails,
+                columnState = columnState,
+            )
+        }
+    }
 }

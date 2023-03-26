@@ -93,4 +93,28 @@ class SessionsDetailsTest : ScreenshotTest() {
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
+
+    @Test
+    fun sessionDetailsScreenA11y() {
+        enableA11yTest()
+
+        takeScrollableScreenshot(
+            timeTextMode = TimeTextMode.OnTop,
+            checks = {
+                rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+            }
+        ) { columnState ->
+            SessionDetailView(
+                uiState = SessionDetailsUiState.Success(
+                    "wearconf",
+                    SessionDetailsKey("fosdem", "14997"),
+                    sessionDetails,
+                    TimeZone.UTC
+                ),
+                navigateToSpeaker = {},
+                columnState = columnState,
+                formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
+            )
+        }
+    }
 }

@@ -43,13 +43,7 @@ class ConferenceScreenTest : ScreenshotTest() {
 
     @Test
     fun conferencesScreenA11y() {
-        assumeTrue(mobileTheme == null)
-
-        // allow more tolerance as A11y tests are mainly for illustrating the
-        // current observable behaviour
-        tolerance = 0.10f
-
-        snapshotTransformer = A11ySnapshotTransformer()
+        enableA11yTest()
 
         takeScrollableScreenshot(
             timeTextMode = TimeTextMode.OnTop,

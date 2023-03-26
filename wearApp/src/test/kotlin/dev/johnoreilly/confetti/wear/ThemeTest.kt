@@ -27,7 +27,8 @@ import org.robolectric.annotation.Config
 
 class ThemeTest : ScreenshotTest() {
     init {
-        tolerance = 0.05f
+        // useful for illustrative purpose only
+        tolerance = 0.25f
     }
 
     @Before

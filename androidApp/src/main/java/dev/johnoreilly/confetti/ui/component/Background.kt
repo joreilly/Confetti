@@ -50,10 +50,10 @@ val LocalBackgroundTheme = staticCompositionLocalOf { BackgroundTheme() }
 @Composable
 fun ConfettiBackground(
     modifier: Modifier = Modifier,
+    color: Color = LocalBackgroundTheme.current.color,
+    tonalElevation: Dp = LocalBackgroundTheme.current.tonalElevation,
     content: @Composable () -> Unit
 ) {
-    val color = LocalBackgroundTheme.current.color
-    val tonalElevation = LocalBackgroundTheme.current.tonalElevation
     Surface(
         color = if (color == Color.Unspecified) Color.Transparent else color,
         tonalElevation = if (tonalElevation == Dp.Unspecified) 0.dp else tonalElevation,
@@ -92,4 +92,3 @@ fun BackgroundAndroid() {
         ConfettiBackground(Modifier.size(100.dp), content = {})
     }
 }
-

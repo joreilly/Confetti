@@ -48,6 +48,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -60,7 +61,9 @@ import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ConfettiTypography
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.ui.component.BackgroundTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
+import dev.johnoreilly.confetti.ui.component.LocalBackgroundTheme
 import dev.johnoreilly.confetti.utils.rememberRunnable
 
 @Composable
@@ -174,7 +177,9 @@ private fun HeaderView(
     icon: ImageVector,
     text: String,
 ) {
+    val tonalElevation = LocalBackgroundTheme.current.tonalElevation
     ConfettiBackground(
+        tonalElevation = if (tonalElevation == Dp.Unspecified) 2.dp else tonalElevation,
         modifier = Modifier
             .fillMaxWidth(),
     ) {

@@ -9,14 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth.AuthStateListener
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.FirebaseUser
+import dev.gitlive.firebase.auth.GoogleAuthProvider
+import dev.gitlive.firebase.auth.auth
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -31,44 +32,32 @@ private fun FirebaseUser.toUser(): User {
     return User(
         displayName ?: "",
         email ,
-        photoUrl.toString()
+        photoURL.toString()
     )
 }
 
-suspend fun FirebaseUser.idToken(forceRefresh: Boolean): String = suspendCoroutine { continuation ->
-    getIdToken(forceRefresh).addOnCompleteListener {
-            if (it.isSuccessful) {
-                continuation.resume(it.getResult().token!!)
-            } else {
-                continuation.resume("invalid")
-            }
-        }
-}
+suspend fun FirebaseUser.idToken(forceRefresh: Boolean): String = getIdToken(forceRefresh) ?: "invalid"
+
 class Authentication {
     suspend fun idToken(forceRefresh: Boolean = false): String? {
-        return Firebase.auth.currentUser?.idToken(forceRefresh)
+        return Firebase.auth.currentUser?.getIdToken(forceRefresh)
     }
 
     fun currentUser(): User? {
         return Firebase.auth.currentUser?.toUser()
     }
 
-    val currentUserFlow = callbackFlow<User?> {
-        trySend(currentUser())
-
-        val listener = AuthStateListener {
-            trySend(it.currentUser?.toUser())
+    val currentUserFlow: Flow<User?> = Firebase.auth.authStateChanged.map {it?.toUser() }
+        .onStart {
+            emit(currentUser())
         }
 
-        Firebase.auth.addAuthStateListener(listener)
-
-        awaitClose {
-            Firebase.auth.removeAuthStateListener(listener)
-        }
-    }
 
     fun signOut() {
-        Firebase.auth.signOut()
+        // The underlying function is only blocking on JS so it should be OK to block here
+        runBlocking {
+            Firebase.auth.signOut()
+        }
     }
 }
 
@@ -82,9 +71,9 @@ fun rememberFirebaseAuthLauncher(
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
             val account = task.getResult(ApiException::class.java)!!
-            val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+            val credential = GoogleAuthProvider.credential(account.idToken!!, null)
             scope.launch {
-                val authResult = Firebase.auth.signInWithCredential(credential).await()
+                val authResult = Firebase.auth.signInWithCredential(credential)
                 onAuthComplete(authResult.user!!.toUser())
             }
         } catch (e: Exception) {

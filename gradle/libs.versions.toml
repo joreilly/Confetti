@@ -45,6 +45,7 @@ apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo3:apollo-no
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime" }
 apollo-annotations = { module = "com.apollographql.apollo3:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo3:apollo-tooling", version.ref = "apollo" }
+atomicfu = "org.jetbrains.kotlinx:atomicfu:0.20.1"
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
 coil-base = "io.coil-kt:coil-base:2.3.0"
 coil-compose = "io.coil-kt:coil-compose:2.3.0"

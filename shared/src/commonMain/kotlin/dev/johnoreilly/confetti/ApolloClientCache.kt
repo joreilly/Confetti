@@ -70,6 +70,7 @@ class ApolloClientCache : KoinComponent {
         return get<ApolloClient.Builder>()
             .serverUrl("https://confetti-app.dev/graphql")
             .addHttpHeader("conference", conference)
+            .ignorePartialData(true)
             .addHttpInterceptor(httpInterceptor)
             .normalizedCache(
                 memoryFirstThenSqlCacheFactory,

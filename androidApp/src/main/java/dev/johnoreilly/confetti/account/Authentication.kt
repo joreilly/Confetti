@@ -36,8 +36,6 @@ private fun FirebaseUser.toUser(): User {
     )
 }
 
-suspend fun FirebaseUser.idToken(forceRefresh: Boolean): String = getIdToken(forceRefresh) ?: "invalid"
-
 class Authentication {
     suspend fun idToken(forceRefresh: Boolean = false): String? {
         return Firebase.auth.currentUser?.getIdToken(forceRefresh)

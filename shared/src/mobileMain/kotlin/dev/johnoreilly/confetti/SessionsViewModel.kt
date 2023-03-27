@@ -109,7 +109,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         }
     }
 
-    suspend fun refresh() = refresh(false, true)
+    suspend fun refresh() = refresh(showLoading = false, forceRefresh = true)
 
     fun onSearch(searchString: String) {
         searchQuery.value = searchString

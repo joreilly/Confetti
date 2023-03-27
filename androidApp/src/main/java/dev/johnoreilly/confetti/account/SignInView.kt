@@ -23,8 +23,7 @@ import org.koin.compose.koinInject
 fun SignInRoute(onBackClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
+            .fillMaxSize()
     ) {
         var error: String? by remember { mutableStateOf(null) }
         val launcher = rememberFirebaseAuthLauncher(

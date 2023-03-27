@@ -56,18 +56,34 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.buffer
 import okio.source
+import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.condition.SearchStrategy
+import org.springframework.boot.autoconfigure.web.ErrorProperties
+import org.springframework.boot.autoconfigure.web.ServerProperties
+import org.springframework.boot.autoconfigure.web.WebProperties
+import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler
 import org.springframework.boot.runApplication
+import org.springframework.boot.web.error.ErrorAttributeOptions
+import org.springframework.boot.web.reactive.error.DefaultErrorAttributes
+import org.springframework.boot.web.reactive.error.ErrorAttributes
+import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
+import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
+import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
+import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
 import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.reactive.function.server.json
+import org.springframework.web.reactive.result.view.ViewResolver
+import org.springframework.web.server.ServerWebExchange
 import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
@@ -160,6 +176,55 @@ class DefaultApplication {
     @Primary
     fun parser(objectMapper: ObjectMapper): GraphQLRequestParser<ServerRequest> {
         return MySpringGraphQLRequestParser(objectMapper)
+    }
+
+    @Bean
+    @Order(-2)
+    fun errorWebExceptionHandler(
+        errorAttributes: ErrorAttributes?,
+        webProperties: WebProperties,
+        serverProperties: ServerProperties,
+        viewResolvers: ObjectProvider<ViewResolver?>,
+        serverCodecConfigurer: ServerCodecConfigurer,
+        applicationContext: ApplicationContext?
+    ): ErrorWebExceptionHandler? {
+        serverProperties.error.includeMessage = ErrorProperties.IncludeAttribute.ALWAYS
+        val exceptionHandler = DefaultErrorWebExceptionHandler(
+            errorAttributes,
+            webProperties.resources,
+            serverProperties.error,
+            applicationContext
+        )
+        exceptionHandler.setViewResolvers(viewResolvers.orderedStream().toList())
+        exceptionHandler.setMessageWriters(serverCodecConfigurer.writers)
+        exceptionHandler.setMessageReaders(serverCodecConfigurer.readers)
+        return exceptionHandler
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean(value = [ErrorAttributes::class], search = SearchStrategy.CURRENT)
+    fun errorAttributes(): DefaultErrorAttributes? {
+        return object : DefaultErrorAttributes() {
+            private var throwable: Throwable? = null
+
+            override fun getErrorAttributes(
+                request: ServerRequest?,
+                options: ErrorAttributeOptions?
+            ): MutableMap<String, Any> {
+                val options1 = if (throwable is BadConferenceException) {
+                    options?.including(ErrorAttributeOptions.Include.MESSAGE)
+                } else {
+                    options
+                }
+                return super.getErrorAttributes(request, options1)
+            }
+
+            override fun storeErrorInformation(error: Throwable?, exchange: ServerWebExchange?) {
+                throwable = error
+                super.storeErrorInformation(error, exchange)
+            }
+        }
     }
 
     @Bean
@@ -354,6 +419,8 @@ class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
     }
 }
 
+class BadConferenceException(val conference: String) : Exception("Unknown conference: '$conference', use Query.conferences without a header to get the list of possible values.")
+
 @Component
 class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
     override suspend fun generateContext(request: ServerRequest): GraphQLContext {
@@ -369,6 +436,9 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
             ?.substring("bearer_".length)
             ?.firebaseUid()
 
+        if (ConferenceId.values().find { it.id == conference } == null && conference != "all") {
+            throw BadConferenceException(conference)
+        }
         val source = when (conference) {
             ConferenceId.TestConference.id -> TestDataSource()
             else -> DataStoreDataSource(conference, uid)
@@ -487,3 +557,4 @@ object LocalDateTimeCoercing : Coercing<LocalDateTime, String> {
         throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
     }
 }
+

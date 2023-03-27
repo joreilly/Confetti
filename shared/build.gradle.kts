@@ -32,6 +32,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "ConfettiKit"
+            isStatic = true
         }
     }
 

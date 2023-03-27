@@ -17,21 +17,9 @@ abstract class PlayStoreScreenshotTask : DefaultTask() {
 
     @TaskAction
     fun generateImages() {
-//        val git = org.eclipse.jgit.api.Git(
-//            FileRepositoryBuilder()
-//                .findGitDir(project.rootProject.file(".git"))
-//                .build()
-//        )
-
         val existing = output.asFileTree.files
         logger.info("Deleting " + existing.map { it.name })
         project.delete(existing)
-
-//        git.rm().apply {
-//            existing.forEach {
-//                addFilepattern(it.canonicalPath)
-//            }
-//        }.call()
 
         selectedImages.forEachIndexed { index, file ->
             val sourceImage = ImageIO.read(file)

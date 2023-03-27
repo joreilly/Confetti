@@ -4,6 +4,11 @@ type Bookmarks {
   sessionIds: [String!]!
 }
 
+"""
+Built-in Boolean
+"""
+scalar Boolean
+
 type Conference {
   days: [LocalDate!]!
 
@@ -14,10 +19,57 @@ type Conference {
   timezone: String!
 }
 
+enum ConferenceField {
+  DAYS
+}
+
+input ConferenceOrderByInput {
+  direction: OrderByDirection!
+
+  field: ConferenceField!
+}
+
+"""
+Built-in Float
+"""
+scalar Float
+
+"""
+A type representing a formatted kotlinx.datetime.Instant
+"""
+scalar Instant
+
+"""
+Built-in Int
+"""
+scalar Int
+
+"""
+A type representing a formatted kotlinx.datetime.LocalDate
+"""
+scalar LocalDate
+
+"""
+A type representing a formatted kotlinx.datetime.LocalDateTime
+"""
+scalar LocalDateTime
+
+input LocalDateTimeFilterInput {
+  after: LocalDateTime
+
+  before: LocalDateTime
+}
+
 type Mutation {
   addBookmark(sessionId: String!): Bookmarks!
 
   removeBookmark(sessionId: String!): Bookmarks!
+}
+
+enum OrderByDirection {
+  ASCENDING
+
+  DESCENDING
 }
 
 type PageInfo {
@@ -51,11 +103,11 @@ type Query {
 
   session(id: String!): Session!
 
-  sessions(after: String, filter: SessionFilterInput, first: Int, orderBy: SessionOrderByInput): SessionConnection!
+  sessions(first: Int, after: String, filter: SessionFilterInput, orderBy: SessionOrderByInput): SessionConnection!
 
   speaker(id: String!): Speaker!
 
-  speakers: [Speaker!]!
+  speakers(first: Int, after: String): SpeakerConnection!
 
   venue(id: String!): Venue!
 
@@ -88,17 +140,11 @@ type Session {
   """
   language: String
 
-  room: Room
-
-  rooms: [Room!]!
-
   """
   A shorter version of description for use when real estate is scarce like watches for an example.
   This field might have the same value as description if a shortDescription is not available
   """
   shortDescription: String
-
-  speakers: [Speaker!]!
 
   startInstant: Instant! @deprecated(reason: "use startsAt instead")
 
@@ -112,12 +158,34 @@ type Session {
   One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format
   """
   type: String!
+
+  room: Room
+
+  rooms: [Room!]!
+
+  speakers: [Speaker!]!
 }
 
 type SessionConnection {
   nodes: [Session!]!
 
   pageInfo: PageInfo!
+}
+
+enum SessionField {
+  STARTS_AT
+}
+
+input SessionFilterInput {
+  endsAt: LocalDateTimeFilterInput
+
+  startsAt: LocalDateTimeFilterInput
+}
+
+input SessionOrderByInput {
+  direction: OrderByDirection!
+
+  field: SessionField!
 }
 
 type Social {
@@ -145,17 +213,26 @@ type Speaker {
 
   photoUrl: String
 
-  sessions: [Session!]!
-
   socials: [Social!]!
+
+  sessions: [Session!]!
 }
+
+type SpeakerConnection {
+  nodes: [Speaker!]!
+
+  pageInfo: PageInfo!
+}
+
+"""
+Built-in String
+"""
+scalar String
 
 type Venue {
   address: String
 
   coordinates: String @deprecated(reason: "use latitude and longitude instead")
-
-  description(language: String): String!
 
   descriptionFr: String! @deprecated(reason: "use description(language: \"fr\") instead")
 
@@ -170,57 +247,289 @@ type Venue {
   longitude: Float
 
   name: String!
+
+  description(language: String): String!
 }
 
-enum ConferenceField {
-  DAYS
-}
+type __Directive {
+  """
+  The __Directive type represents a Directive that a server supports.
+  """
+  name: String!
 
-enum OrderByDirection {
-  ASCENDING
+  description: String
 
-  DESCENDING
-}
+  isRepeatable: Boolean!
 
-enum SessionField {
-  STARTS_AT
+  locations: [__DirectiveLocation!]!
+
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
+
+  onOperation: Boolean @deprecated(reason: "Use `locations`.")
+
+  onFragment: Boolean @deprecated(reason: "Use `locations`.")
+
+  onField: Boolean @deprecated(reason: "Use `locations`.")
 }
 
 """
-A type representing a formatted kotlinx.datetime.Instant
+An enum describing valid locations where a directive can be placed
 """
-scalar Instant
+enum __DirectiveLocation {
+  """
+  Indicates the directive is valid on queries.
+  """
+  QUERY
 
-"""
-A type representing a formatted kotlinx.datetime.LocalDate
-"""
-scalar LocalDate
+  """
+  Indicates the directive is valid on mutations.
+  """
+  MUTATION
 
-"""
-A type representing a formatted kotlinx.datetime.LocalDateTime
-"""
-scalar LocalDateTime
+  """
+  Indicates the directive is valid on subscriptions.
+  """
+  SUBSCRIPTION
 
-input ConferenceOrderByInput {
-  direction: OrderByDirection!
+  """
+  Indicates the directive is valid on fields.
+  """
+  FIELD
 
-  field: ConferenceField!
+  """
+  Indicates the directive is valid on fragment definitions.
+  """
+  FRAGMENT_DEFINITION
+
+  """
+  Indicates the directive is valid on fragment spreads.
+  """
+  FRAGMENT_SPREAD
+
+  """
+  Indicates the directive is valid on inline fragments.
+  """
+  INLINE_FRAGMENT
+
+  """
+  Indicates the directive is valid on variable definitions.
+  """
+  VARIABLE_DEFINITION
+
+  """
+  Indicates the directive is valid on a schema SDL definition.
+  """
+  SCHEMA
+
+  """
+  Indicates the directive is valid on a scalar SDL definition.
+  """
+  SCALAR
+
+  """
+  Indicates the directive is valid on an object SDL definition.
+  """
+  OBJECT
+
+  """
+  Indicates the directive is valid on a field SDL definition.
+  """
+  FIELD_DEFINITION
+
+  """
+  Indicates the directive is valid on a field argument SDL definition.
+  """
+  ARGUMENT_DEFINITION
+
+  """
+  Indicates the directive is valid on an interface SDL definition.
+  """
+  INTERFACE
+
+  """
+  Indicates the directive is valid on an union SDL definition.
+  """
+  UNION
+
+  """
+  Indicates the directive is valid on an enum SDL definition.
+  """
+  ENUM
+
+  """
+  Indicates the directive is valid on an enum value SDL definition.
+  """
+  ENUM_VALUE
+
+  """
+  Indicates the directive is valid on an input object SDL definition.
+  """
+  INPUT_OBJECT
+
+  """
+  Indicates the directive is valid on an input object field SDL definition.
+  """
+  INPUT_FIELD_DEFINITION
 }
 
-input LocalDateTimeFilterInput {
-  after: LocalDateTime
+type __EnumValue {
+  name: String!
 
-  before: LocalDateTime
+  description: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
 }
 
-input SessionFilterInput {
-  endsAt: LocalDateTimeFilterInput
+type __Field {
+  name: String!
 
-  startsAt: LocalDateTimeFilterInput
+  description: String
+
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
+
+  type: __Type!
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
 }
 
-input SessionOrderByInput {
-  direction: OrderByDirection!
+type __InputValue {
+  name: String!
 
-  field: SessionField!
+  description: String
+
+  type: __Type!
+
+  defaultValue: String
+
+  isDeprecated: Boolean
+
+  deprecationReason: String
+}
+
+"""
+A GraphQL Introspection defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, the entry points for query, mutation, and subscription operations.
+"""
+type __Schema {
+  description: String
+
+  """
+  A list of all types supported by this server.
+  """
+  types: [__Type!]!
+
+  """
+  The type that query operations will be rooted at.
+  """
+  queryType: __Type!
+
+  """
+  If this server supports mutation, the type that mutation operations will be rooted at.
+  """
+  mutationType: __Type
+
+  """
+  'A list of all directives supported by this server.
+  """
+  directives: [__Directive!]!
+
+  """
+  'If this server support subscription, the type that subscription operations will be rooted at.
+  """
+  subscriptionType: __Type
+}
+
+type __Type {
+  kind: __TypeKind!
+
+  name: String
+
+  description: String
+
+  fields(includeDeprecated: Boolean = false): [__Field!]
+
+  interfaces: [__Type!]
+
+  possibleTypes: [__Type!]
+
+  enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
+
+  inputFields(includeDeprecated: Boolean = false): [__InputValue!]
+
+  ofType: __Type
+
+  specifiedByUrl: String
+}
+
+"""
+An enum describing what kind of type a given __Type is
+"""
+enum __TypeKind {
+  """
+  Indicates this type is a scalar. 'specifiedByUrl' is a valid field
+  """
+  SCALAR
+
+  """
+  Indicates this type is an object. `fields` and `interfaces` are valid fields.
+  """
+  OBJECT
+
+  """
+  Indicates this type is an interface. `fields` and `possibleTypes` are valid fields.
+  """
+  INTERFACE
+
+  """
+  Indicates this type is a union. `possibleTypes` is a valid field.
+  """
+  UNION
+
+  """
+  Indicates this type is an enum. `enumValues` is a valid field.
+  """
+  ENUM
+
+  """
+  Indicates this type is an input object. `inputFields` is a valid field.
+  """
+  INPUT_OBJECT
+
+  """
+  Indicates this type is a list. `ofType` is a valid field.
+  """
+  LIST
+
+  """
+  Indicates this type is a non-null. `ofType` is a valid field.
+  """
+  NON_NULL
+}
+
+"""
+Directs the executor to include this field or fragment only when the `if` argument is true
+"""
+directive @include ("Included when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Directs the executor to skip this field or fragment when the `if` argument is true.
+"""
+directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Marks the field, argument, input field or enum value as deprecated
+"""
+directive @deprecated ("The reason for the deprecation" reason: String = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|ENUM_VALUE|INPUT_FIELD_DEFINITION
+
+"""
+Exposes a URL that specifies the behaviour of this scalar.
+"""
+directive @specifiedBy ("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
+
+schema {
+  query: Query
+  mutation: Mutation
 }

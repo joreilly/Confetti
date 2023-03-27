@@ -15,7 +15,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -140,30 +139,31 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             }
     }
 
-    private fun responseData(showLoading: Boolean, forceRefresh: Boolean): Flow<ResponseData?> = flow {
-        if (showLoading) {
-            emit(null)
-        }
-        val fetchPolicy = if (forceRefresh) {
-            FetchPolicy.NetworkOnly
-        } else {
-            FetchPolicy.CacheFirst
-        }
-
-        // get initial data
-        coroutineScope {
-            val bookmarksResponse = async {
-                repository.bookmarks(conference!!, uid, tokenProvider, fetchPolicy)
+    private fun responseData(showLoading: Boolean, forceRefresh: Boolean): Flow<ResponseData?> =
+        flow {
+            if (showLoading) {
+                emit(null)
             }
-            val sessionsResponse = async {
-                repository.conferenceData(conference!!, fetchPolicy)
+            val fetchPolicy = if (forceRefresh) {
+                FetchPolicy.NetworkOnly
+            } else {
+                FetchPolicy.CacheFirst
             }
 
-            ResponseData(bookmarksResponse.await(), sessionsResponse.await())
-        }.also {
-            emit(it)
+            // get initial data
+            coroutineScope {
+                val bookmarksResponse = async {
+                    repository.bookmarks(conference!!, uid, tokenProvider, fetchPolicy)
+                }
+                val sessionsResponse = async {
+                    repository.conferenceData(conference!!, fetchPolicy)
+                }
+
+                ResponseData(bookmarksResponse.await(), sessionsResponse.await())
+            }.also {
+                emit(it)
+            }
         }
-    }
 
     fun Flow<ResponseData?>.uiState() = flatMapLatest { responseData ->
         if (responseData == null) {
@@ -204,7 +204,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         val timeZone = sessionsData.config.timezone.toTimeZone()
         val sessionsMap =
             sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
-        val speakers = sessionsData.speakers.map { it.speakerDetails }
+        val speakers = sessionsData.speakers.nodes.map { it.speakerDetails }
         val rooms = sessionsData.rooms.map { it.roomDetails }
 
         val confDates = sessionsMap.keys.toList().sorted()
@@ -232,7 +232,6 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         )
     }
 }
-
 
 
 sealed interface SessionsUiState {

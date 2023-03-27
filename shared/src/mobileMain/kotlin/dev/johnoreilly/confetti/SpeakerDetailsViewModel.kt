@@ -4,7 +4,9 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.stateIn
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 
 
 class SpeakerDetailsViewModel(
@@ -26,7 +28,8 @@ class SpeakerDetailsViewModel(
     val speaker: StateFlow<UiState> = flow {
         // FixMe: add .speaker(id)
         val response = repository.conferenceData(conference = conference, FetchPolicy.CacheOnly)
-        val details = response.data?.speakers?.map { it.speakerDetails }?.firstOrNull { it.id == speakerId }
+        val details = response.data?.speakers?.nodes?.map { it.speakerDetails }
+            ?.firstOrNull { it.id == speakerId }
 
         if (details != null) {
             emit(Success(details))

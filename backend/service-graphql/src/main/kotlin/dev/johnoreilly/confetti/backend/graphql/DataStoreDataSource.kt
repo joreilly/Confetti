@@ -1,6 +1,16 @@
 package dev.johnoreilly.confetti.backend.graphql
 
-import dev.johnoreilly.confetti.backend.datastore.*
+import dev.johnoreilly.confetti.backend.datastore.DComparatorGe
+import dev.johnoreilly.confetti.backend.datastore.DComparatorLe
+import dev.johnoreilly.confetti.backend.datastore.DConfig
+import dev.johnoreilly.confetti.backend.datastore.DFilter
+import dev.johnoreilly.confetti.backend.datastore.DLink
+import dev.johnoreilly.confetti.backend.datastore.DOrderBy
+import dev.johnoreilly.confetti.backend.datastore.DPartner
+import dev.johnoreilly.confetti.backend.datastore.DPartnerGroup
+import dev.johnoreilly.confetti.backend.datastore.DSession
+import dev.johnoreilly.confetti.backend.datastore.DSpeaker
+import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 
@@ -155,9 +165,26 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
         )
     }
 
-    override fun speakers(): List<Speaker> {
-        return _speakers
+    override fun speakers(
+        first: Int,
+        after: String?,
+    ): SpeakerConnection {
+        val page = datastore.readSpeakers(conf = conf, limit = first, cursor = after)
+        return SpeakerConnection(
+            nodes = page.items.map { it.toSpeaker() },
+            pageInfo = PageInfo(endCursor = page.nextPageCursor)
+        )
     }
+
+    override fun speakers(
+        ids: List<String>,
+    ): List<Speaker> {
+        return datastore.readSpeakers(
+            conf = conf,
+            ids = ids,
+        ).map { it.toSpeaker() }
+    }
+
 
     override fun venues(): List<Venue> {
         return _venues

@@ -46,7 +46,10 @@ class RootQuery : Query {
         first: Int? = 10,
         after: String? = null,
         filter: SessionFilter? = null,
-        orderBy: SessionOrderBy? = SessionOrderBy(field = SessionField.STARTS_AT, direction = OrderByDirection.ASCENDING)
+        orderBy: SessionOrderBy? = SessionOrderBy(
+            field = SessionField.STARTS_AT,
+            direction = OrderByDirection.ASCENDING
+        )
     ): SessionConnection {
         return dfe.source().sessions(
             first ?: 10,
@@ -56,8 +59,12 @@ class RootQuery : Query {
         )
     }
 
-    fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
-        return dfe.source().speakers()
+    fun speakers(
+        dfe: DataFetchingEnvironment,
+        first: Int? = 10,
+        after: String? = null,
+    ): SpeakerConnection {
+        return dfe.source().speakers(first ?: 10, after)
     }
 
     fun speaker(dfe: DataFetchingEnvironment, id: String): Speaker {
@@ -199,9 +206,7 @@ This field might have the same value as description if a shortDescription is not
     val type: String,
 ) {
     fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
-        return dfe.source().speakers().filter {
-            speakerIds.contains(it.id)
-        }
+        return dfe.source().speakers(speakerIds.toList())
     }
 
     fun room(dfe: DataFetchingEnvironment): Room? {
@@ -220,6 +225,11 @@ This field might have the same value as description if a shortDescription is not
         }
     }
 }
+
+data class SpeakerConnection(
+    val nodes: List<Speaker>,
+    val pageInfo: PageInfo,
+)
 
 data class Speaker(
     val id: String,

@@ -16,7 +16,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -93,7 +92,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         val timeZone = sessionsData.config.timezone.toTimeZone()
         val sessionsMap =
             sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
-        val speakers = sessionsData.speakers.map { it.speakerDetails }
+        val speakers = sessionsData.speakers.nodes.map { it.speakerDetails }
         val rooms = sessionsData.rooms.map { it.roomDetails }
 
         val confDates = sessionsMap.keys.toList().sorted()

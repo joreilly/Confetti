@@ -22,9 +22,9 @@ open class SpeakersViewModel : KMMViewModel(), KoinComponent {
 
     val speakers: StateFlow<SpeakersUiState> = flow {
         repository.conferenceData(conference, FetchPolicy.CacheOnly)
-            .data?.speakers?.map {
-            it.speakerDetails
-        }.let {
+            .data?.speakers?.nodes?.map {
+                it.speakerDetails
+            }.let {
             it?.let {
                 emit(SpeakersUiState.Success(conference, it))
             }

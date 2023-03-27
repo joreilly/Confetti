@@ -189,3 +189,12 @@ dependencies {
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.horologist.compose.tools)
 }
+
+tasks.register<PlayStoreScreenshotTask>("generateImages") {
+    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen[Colors: Confetti]_reference.png")
+    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen[Colors: Confetti]_reference.png")
+    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen[Colors: Confetti]_reference.png")
+    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen[Colors: Confetti]_reference.png")
+    selectedImages.from("snapshot/TileScreenshotTest/tile[Colors: Confetti]_reference.png")
+    output.set(file("../fastlane/metadata/android/en-US/images/wearScreenshots"))
+}

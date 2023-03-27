@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.wear.screenshots
+package dev.johnoreilly.confetti.wear
 
 import dev.johnoreilly.confetti.GetConferencesQuery.Conference
 import dev.johnoreilly.confetti.fragment.SessionDetails

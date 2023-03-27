@@ -7,9 +7,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
+import dev.johnoreilly.confetti.wear.TestFixtures.sessionDetails
+import dev.johnoreilly.confetti.wear.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.sessionDetails
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsTileRenderer

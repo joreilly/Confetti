@@ -1,17 +1,24 @@
 @file:OptIn(ExperimentalHorologistApi::class)
 
-package dev.johnoreilly.confetti.wear.sessions
+package dev.johnoreilly.confetti.wear.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.wear.compose.material.CardDefaults
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.tools.ThemeValues
+import com.google.android.horologist.compose.tools.WearPreview
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
+import dev.johnoreilly.confetti.wear.ConfettiPreviewThemes
+import dev.johnoreilly.confetti.wear.TestFixtures
+import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 
 @Composable
 fun SessionCard(
@@ -27,7 +34,7 @@ fun SessionCard(
         TitleCard(
             modifier = Modifier.fillMaxWidth(),
             onClick = { sessionSelected(session.id) },
-            title = { Text(session.title) }
+            title = { Text(session.title) },
         ) {
             if (speakers.isNotEmpty()) {
                 Text(speakers)
@@ -48,6 +55,16 @@ fun SessionCard(
                 )
             }
         }
+    }
+}
+
+@WearPreview
+@Composable
+fun SessionCardPreview(
+    @PreviewParameter(ConfettiPreviewThemes::class) themeValues: ThemeValues
+) {
+    ConfettiTheme(colors = themeValues.colors) {
+        SessionCard(session = TestFixtures.sessionDetails, sessionSelected = {})
     }
 }
 

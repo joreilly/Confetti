@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.Typography
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 
@@ -31,34 +32,45 @@ val ColorScheme = Colors(
 /**
  * Confetti theme.
  */
-@Suppress("DEPRECATION")
 @Composable
 fun ConfettiTheme(
     mobileTheme: Theme? = null,
     content: @Composable () -> Unit
 ) {
-    val material = MaterialTheme.typography
-    val typography = remember(material) {
-        val platformStyle = PlatformTextStyle(includeFontPadding = false)
-        material.copy(
-            display1 = material.display1.copy(platformStyle = platformStyle),
-            display2 = material.display2.copy(platformStyle = platformStyle),
-            display3 = material.display3.copy(platformStyle = platformStyle),
-            title1 = material.title1.copy(platformStyle = platformStyle),
-            title2 = material.title2.copy(platformStyle = platformStyle),
-            title3 = material.title3.copy(platformStyle = platformStyle),
-            body1 = material.body1.copy(platformStyle = platformStyle),
-            body2 = material.body2.copy(platformStyle = platformStyle),
-            button = material.button.copy(platformStyle = platformStyle),
-            caption1 = material.caption1.copy(platformStyle = platformStyle),
-            caption2 = material.caption2.copy(platformStyle = platformStyle),
-            caption3 = material.caption3.copy(platformStyle = platformStyle),
-        )
-    }
     val colors = remember(mobileTheme) {
         mobileTheme?.toMaterialThemeColors() ?: ColorScheme
     }
-    MaterialTheme(colors = colors, content = content, typography = typography)
+    ConfettiTheme(colors = colors, content = content)
+}
+
+@Composable
+fun ConfettiTheme(
+    colors: Colors,
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(colors = colors, typography = MaterialTheme.typography.withPlatformStyle()) {
+            content()
+    }
+}
+
+@Suppress("DEPRECATION")
+@Composable
+private fun Typography.withPlatformStyle() = remember(this) {
+    val platformStyle = PlatformTextStyle(includeFontPadding = false)
+    this.copy(
+        display1 = this.display1.copy(platformStyle = platformStyle),
+        display2 = this.display2.copy(platformStyle = platformStyle),
+        display3 = this.display3.copy(platformStyle = platformStyle),
+        title1 = this.title1.copy(platformStyle = platformStyle),
+        title2 = this.title2.copy(platformStyle = platformStyle),
+        title3 = this.title3.copy(platformStyle = platformStyle),
+        body1 = this.body1.copy(platformStyle = platformStyle),
+        body2 = this.body2.copy(platformStyle = platformStyle),
+        button = this.button.copy(platformStyle = platformStyle),
+        caption1 = this.caption1.copy(platformStyle = platformStyle),
+        caption2 = this.caption2.copy(platformStyle = platformStyle),
+        caption3 = this.caption3.copy(platformStyle = platformStyle),
+    )
 }
 
 fun Colors.toTileColors(): androidx.wear.tiles.material.Colors =

@@ -43,6 +43,8 @@ import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
+import dev.johnoreilly.confetti.wear.FixedTimeSource
+import dev.johnoreilly.confetti.wear.TestFixtures
 import dev.johnoreilly.confetti.wear.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.proto.Theme
@@ -82,9 +84,9 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
 
     @Parameter(1)
     @JvmField
-    var mobileTheme: Theme? = null
+    var mobileTheme: ? = null
 
-    var record = true
+    var record = false
 
     var fakeImageLoader = FakeImageLoader.Never
 
@@ -113,7 +115,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     }
 
     fun takeScreenshot(
-        round: Boolean = true,
+        round: Boolean = resources.configuration.isScreenRound,
         timeText: @Composable () -> Unit = {
             TimeText(
                 timeSource = FixedTimeSource

@@ -4,19 +4,13 @@
 package dev.johnoreilly.confetti.wear
 
 import androidx.core.graphics.drawable.toDrawable
-import androidx.wear.compose.material.ListHeader
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.Colors
+import androidx.wear.compose.material.MaterialTheme
 import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.base.ui.components.StandardChip
-import com.google.android.horologist.base.ui.components.StandardChipType
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
-import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures
-import dev.johnoreilly.confetti.wear.sessions.SessionCard
 import okio.Path.Companion.toPath
 import org.junit.Before
 import org.junit.Test
@@ -26,6 +20,7 @@ class ThemeTest : ScreenshotTest() {
     init {
         // useful for illustrative purpose only
         tolerance = 0.2f
+        record = true
     }
 
     @Before
@@ -45,44 +40,51 @@ class ThemeTest : ScreenshotTest() {
     @Config(
         qualifiers = "+h400dp-notround"
     )
-    fun themeTest() = takeScrollableScreenshot(
-        timeTextMode = TimeTextMode.OnTop,
+    fun themeTest() = takeScreenshot(
         checks = {
+        },
+        timeText = {}
+    ) {
+        ThemePreview()
+    }
+
+    @Test
+    @Config(
+        qualifiers = "+notround"
+    )
+    fun swatchesTest() = takeScreenshot(
+        checks = {
+        },
+        timeText = {}
+    ) {
+        ThemeSwatches()
+    }
+
+    @Test
+    @Config(
+        qualifiers = "+h400dp-notround"
+    )
+    fun themeTestMaterial() = takeScreenshot(
+        checks = {
+        },
+        timeText = {}
+    ) {
+        MaterialTheme(colors = Colors()) {
+            ThemePreview()
         }
-    ) { columnState ->
-        ScalingLazyColumn(columnState = columnState) {
-            item {
-                ListHeader {
-                    Text("List Header")
-                }
-            }
-            item {
-                Text("Confetti: building a Kotlin Multiplatform conference app in 40min")
-            }
-            item {
-                SessionSpeakerChip(
-                    conference = "kotlinconf2023",
-                    speaker = TestFixtures.JohnOreilly.speakerDetails,
-                    navigateToSpeaker = {}
-                )
-            }
-            item {
-                StandardChip(
-                    label = "Secondary Chip",
-                    secondaryLabel = "with secondary label",
-                    onClick = { /*TODO*/ },
-                    chipType = StandardChipType.Secondary
-                )
-            }
-            // Breaks screenshot tests
-//            item {
-//                PlaceholderChip(
-//                    modifier = Modifier.fillMaxWidth(),
-//                )
-//            }
-            item {
-                SessionCard(TestFixtures.sessionDetails) {}
-            }
+    }
+
+    @Test
+    @Config(
+        qualifiers = "+notround"
+    )
+    fun swatchesTestMaterial() = takeScreenshot(
+        checks = {
+        },
+        timeText = {}
+    ) {
+        MaterialTheme(colors = Colors()) {
+            ThemeSwatches()
         }
     }
 }

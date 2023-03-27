@@ -10,8 +10,8 @@ import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.network.http.HttpInterceptor
 import com.apollographql.apollo3.network.http.HttpInterceptorChain
 import dev.johnoreilly.confetti.di.getDatabaseName
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlinx.atomicfu.locks.reentrantLock
+import kotlinx.atomicfu.locks.withLock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
@@ -32,7 +32,7 @@ inline fun TokenProvider(
 
 class ApolloClientCache : KoinComponent {
     val _clients = mutableMapOf<String, ApolloClient>()
-    val mutex = Mutex(false)
+    val mutex = reentrantLock()
     private val tokenProvider = get<TokenProvider>()
 
     private val httpInterceptor = object : HttpInterceptor {
@@ -51,7 +51,7 @@ class ApolloClientCache : KoinComponent {
 
     }
 
-    suspend fun getClient(conference: String): ApolloClient {
+    fun getClient(conference: String): ApolloClient {
         return mutex.withLock {
             _clients.getOrPut(conference) {
                 clientFor(conference, conference != "all")

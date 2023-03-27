@@ -174,5 +174,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.play.services.auth)
 
+    implementation(libs.apollo.compose.paging.support)
+
     coreLibraryDesugaring(libs.desugar)
 }

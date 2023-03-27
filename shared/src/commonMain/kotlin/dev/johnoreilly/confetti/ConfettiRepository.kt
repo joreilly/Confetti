@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti
 import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Mutation
+import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
@@ -128,6 +129,19 @@ class ConfettiRepository : KoinComponent {
     ): ApolloResponse<GetConferenceDataQuery.Data> =
         apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
             .fetchPolicy(fetchPolicy).execute()
+
+    suspend fun speakersCall(
+        conference: String,
+        first: Int,
+        after: String?,
+    ): ApolloCall<GetSpeakersQuery.Data> =
+        apolloClientCache.getClient(conference).query(
+            GetSpeakersQuery(
+                first = Optional.present(first),
+                after = Optional.presentIfNotNull(after)
+            )
+        )
+
 
     suspend fun bookmarks(
         conference: String,

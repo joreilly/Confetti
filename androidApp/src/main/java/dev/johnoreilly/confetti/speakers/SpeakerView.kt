@@ -1,19 +1,19 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package dev.johnoreilly.confetti.speakers
 
 import android.annotation.SuppressLint
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,19 +24,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SpeakersUiState
-import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
-import org.koin.androidx.compose.getViewModel
-
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SpeakersRoute(
@@ -47,10 +47,11 @@ fun SpeakersRoute(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit
 ) {
-    val viewModel: SpeakersViewModel = getViewModel<SpeakersViewModel>().apply {
+    val viewModel: SpeakersAndroidViewModel = koinViewModel<SpeakersAndroidViewModel>().apply {
         configure(conference = conference)
     }
-    val uiState by viewModel.speakers.collectAsStateWithLifecycle()
+    val speakers: LazyPagingItems<SpeakerDetails> = viewModel.speakers.collectAsLazyPagingItems()
+    val state = speakers.loadState
 
     ConfettiScaffold(
         title = stringResource(R.string.speakers),
@@ -60,17 +61,17 @@ fun SpeakersRoute(
         onSignIn = onSignIn,
         onSignOut = onSignOut,
     ) {
-        when (val uiState1 = uiState) {
-            is SpeakersUiState.Success -> {
+        when (state.refresh) {
+            is LoadState.NotLoading -> {
                 if (appState.isExpandedScreen) {
-                    SpeakerGridView(uiState1.conference, uiState1.speakers, navigateToSpeaker)
+                    SpeakerGridView(conference, speakers, navigateToSpeaker)
                 } else {
-                    SpeakerListView(uiState1.conference, uiState1.speakers, navigateToSpeaker)
+                    SpeakerListView(conference, speakers, navigateToSpeaker)
                 }
             }
 
-            is SpeakersUiState.Loading -> LoadingView()
-            is SpeakersUiState.Error -> ErrorView {
+            is LoadState.Loading -> LoadingView()
+            is LoadState.Error -> ErrorView {
 
             }
         }
@@ -82,7 +83,7 @@ fun SpeakersRoute(
 @Composable
 fun SpeakerGridView(
     conference: String,
-    speakers: List<SpeakerDetails>,
+    speakers: LazyPagingItems<SpeakerDetails>,
     navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
     LazyVerticalGrid(
@@ -92,8 +93,8 @@ fun SpeakerGridView(
         // content padding
         contentPadding = PaddingValues(8.dp),
         content = {
-            items(speakers.size) { index ->
-                val speaker = speakers[index]
+            items(speakers) { speaker ->
+                if (speaker == null) return@items
                 Column(
                     modifier = Modifier.padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -121,6 +122,11 @@ fun SpeakerGridView(
 
                 }
             }
+            item {
+                if (speakers.loadState.append == LoadState.Loading) {
+                    LoadingItem()
+                }
+            }
         }
     )
 }
@@ -130,23 +136,18 @@ fun SpeakerGridView(
 @Composable
 fun SpeakerListView(
     conference: String,
-    speakers: List<SpeakerDetails>,
+    speakers: LazyPagingItems<SpeakerDetails>,
     navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
     Column {
-        if (speakers.isNotEmpty()) {
-            LazyColumn {
-                items(speakers) { speaker ->
-                    SpeakerItemView(conference, speaker, navigateToSpeaker)
-                }
+        LazyColumn {
+            items(speakers) { speaker ->
+                if (speaker != null) SpeakerItemView(conference, speaker, navigateToSpeaker)
             }
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
-            ) {
-                CircularProgressIndicator()
+            item {
+                if (speakers.loadState.append == LoadState.Loading) {
+                    LoadingItem()
+                }
             }
         }
     }
@@ -188,5 +189,62 @@ fun SpeakerItemView(
                 style = TextStyle(color = Color.DarkGray, fontSize = 14.sp)
             )
         }
+    }
+}
+
+@Composable
+private fun LoadingItem() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+// Copied from the Paging library, but with LazyGridScope instead of LazyListScope
+private fun <T : Any> LazyGridScope.items(
+    items: LazyPagingItems<T>,
+    key: ((item: T) -> Any)? = null,
+    itemContent: @Composable LazyGridItemScope.(value: T?) -> Unit
+) {
+    items(
+        count = items.itemCount,
+        key = if (key == null) null else { index ->
+            val item = items.peek(index)
+            if (item == null) {
+                PagingPlaceholderKey(index)
+            } else {
+                key(item)
+            }
+        }
+    ) { index ->
+        itemContent(items[index])
+    }
+}
+
+// Copied from the Paging library (as it is private)
+@SuppressLint("BanParcelableUsage")
+private data class PagingPlaceholderKey(private val index: Int) : Parcelable {
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(index)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object {
+        @Suppress("unused")
+        @JvmField
+        val CREATOR: Parcelable.Creator<PagingPlaceholderKey> =
+            object : Parcelable.Creator<PagingPlaceholderKey> {
+                override fun createFromParcel(parcel: Parcel) =
+                    PagingPlaceholderKey(parcel.readInt())
+
+                override fun newArray(size: Int) = arrayOfNulls<PagingPlaceholderKey?>(size)
+            }
     }
 }

@@ -59,7 +59,7 @@ fun SpeakersRoute(
         onSwitchConference = onSwitchConference,
         onSignIn = onSignIn,
         onSignOut = onSignOut,
-    ) {
+    ) { _, _ ->
         when (val uiState1 = uiState) {
             is SpeakersUiState.Success -> {
                 if (appState.isExpandedScreen) {
@@ -75,7 +75,6 @@ fun SpeakersRoute(
             }
         }
     }
-
 }
 
 

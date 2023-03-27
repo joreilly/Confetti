@@ -51,6 +51,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
@@ -91,7 +92,7 @@ fun SearchView(
         onSwitchConference = onSwitchConference,
         onSignIn = onSignIn,
         onSignOut = onSignOut,
-    ) {
+    ) { _, user ->
         Column {
             SearchTextField(
                 modifier = Modifier
@@ -112,6 +113,7 @@ fun SearchView(
                         addBookmark = addBookmark,
                         removeBookmark = removeBookmark,
                         onSignIn = onSignIn,
+                        user = user
                     )
                     speakerItems(
                         conference = conference,
@@ -122,6 +124,7 @@ fun SearchView(
             }
         }
     }
+
 }
 
 private fun LazyListScope.speakerItems(
@@ -152,6 +155,7 @@ private fun LazyListScope.sessionItems(
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     onSignIn: () -> Unit,
+    user: User?
 ) {
     // Shows header if and only if there are session results.
     if (sessions.isNotEmpty()) {
@@ -168,6 +172,7 @@ private fun LazyListScope.sessionItems(
             addBookmark = { sessionId -> addBookmark(sessionId) },
             removeBookmark = { sessionId -> removeBookmark(sessionId) },
             onNavigateToSignIn = onSignIn,
+            user = user,
         )
     }
 }

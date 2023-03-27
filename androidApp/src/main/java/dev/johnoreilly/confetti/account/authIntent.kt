@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun rememberFirebaseAuthLauncher(
-    onAuthComplete: (User) -> Unit,
+    onAuthComplete: () -> Unit,
     onAuthError: (Exception) -> Unit,
     authentication: Authentication,
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
@@ -26,7 +26,8 @@ fun rememberFirebaseAuthLauncher(
         try {
             val idToken = task.getResult(ApiException::class.java)!!.idToken!!
             scope.launch {
-                onAuthComplete(authentication.signIn(idToken))
+                authentication.signIn(idToken)
+                onAuthComplete()
             }
         } catch (e: Exception) {
             onAuthError(e)

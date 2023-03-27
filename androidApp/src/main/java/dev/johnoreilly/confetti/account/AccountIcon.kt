@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import org.koin.androidx.compose.getViewModel
 
@@ -33,20 +34,19 @@ fun AccountIcon(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onShowSettings: () -> Unit,
-    viewModel: AccountViewModel = getViewModel()
+    user: User?,
+    viewModel: AccountViewModel = getViewModel(),
 ) {
     val accountUiState = viewModel.uiState.collectAsState().value
     AccountIcon(
         onSwitchConference = onSwitchConference,
         onSignIn = onSignIn,
-        onSignOut = {
-            viewModel.signOut()
-            onSignOut()
-        },
+        onSignOut = onSignOut,
         onShowSettings = onShowSettings,
         installOnWear = viewModel::installOnWear,
         updateWearTheme = viewModel::updateWearTheme,
-        uiState = accountUiState
+        uiState = accountUiState,
+        user = user,
     )
 }
 
@@ -59,9 +59,9 @@ private fun AccountIcon(
     updateWearTheme: () -> Unit,
     installOnWear: () -> Unit,
     uiState: UiState,
+    user: User?,
 ) {
     var showMenu by remember { mutableStateOf(false) }
-    val user = uiState.user
 
     IconButton(onClick = { showMenu = !showMenu }) {
         when {
@@ -153,10 +153,22 @@ private fun AccountIconPreview() {
                 onSwitchConference = {},
                 onSignIn = {},
                 onSignOut = {},
+                onShowSettings = {},
                 updateWearTheme = {},
                 installOnWear = {},
-                onShowSettings = {},
-                uiState = accountUiState
+                uiState = accountUiState,
+                user = object: User {
+                    override val name: String
+                        get() = "Foo"
+                    override val email: String?
+                        get() = "foo@bar.com"
+                    override val photoUrl: String?
+                        get() = null
+                    override val uid: String
+                        get() = "123"
+
+                    override suspend fun idToken(forceRefresh: Boolean): String? = null
+                }
             )
         }
     }

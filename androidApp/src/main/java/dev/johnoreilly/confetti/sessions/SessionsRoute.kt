@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package dev.johnoreilly.confetti.sessions
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +19,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SessionsView(
+fun SessionsRoute(
     conference: String,
     appState: ConfettiAppState,
     navigateToSession: (SessionDetailsKey) -> Unit,
@@ -35,9 +32,9 @@ fun SessionsView(
     }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var refreshing by remember { mutableStateOf(false) }
-    val refreshScope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     fun refresh() {
-        refreshScope.launch {
+        scope.launch {
             refreshing = true
             viewModel.refresh()
             refreshing = false
@@ -51,7 +48,7 @@ fun SessionsView(
         onSwitchConference = onSwitchConferenceSelected,
         onSignIn = navigateToSignIn,
         onSignOut = onSignOut,
-    ) {
+    ) { snackbarHostState, user ->
         if (appState.isExpandedScreen) {
             SessionListGridView(
                 uiState = uiState,
@@ -67,6 +64,7 @@ fun SessionsView(
                 removeBookmark = { viewModel.removeBookmark(it) },
                 onRefresh = ::refresh,
                 onNavigateToSignIn = navigateToSignIn,
+                user
             )
         }
 
@@ -74,7 +72,7 @@ fun SessionsView(
             .collectAsStateWithLifecycle(initialValue = 0)
         LaunchedEffect(addErrorCount) {
             if (addErrorCount > 0) {
-                it.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = "Error while adding bookmark",
                     duration = SnackbarDuration.Short,
                 )
@@ -85,7 +83,7 @@ fun SessionsView(
             .collectAsStateWithLifecycle(initialValue = 0)
         LaunchedEffect(removeErrorCount) {
             if (removeErrorCount > 0) {
-                it.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = "Error while removing bookmark",
                     duration = SnackbarDuration.Short,
                 )

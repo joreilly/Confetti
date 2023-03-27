@@ -28,7 +28,7 @@ fun SignInRoute(onBackClick: () -> Unit) {
     ) {
         var error: String? by remember { mutableStateOf(null) }
         val launcher = rememberFirebaseAuthLauncher(
-            onAuthComplete = { _ ->
+            onAuthComplete = {
                 onBackClick()
             },
             onAuthError = {

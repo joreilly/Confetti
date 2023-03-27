@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.horologist.data.apphelper.AppHelperNodeStatus
 import dev.johnoreilly.confetti.ApolloClientCache
+import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

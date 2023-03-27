@@ -16,12 +16,15 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dev.johnoreilly.confetti.R
+import org.koin.compose.koinInject
 
 
 @Composable
 fun SignInRoute(onBackClick: () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
     ) {
         var error: String? by remember { mutableStateOf(null) }
         val launcher = rememberFirebaseAuthLauncher(
@@ -31,7 +34,8 @@ fun SignInRoute(onBackClick: () -> Unit) {
             onAuthError = {
                 it.printStackTrace()
                 error = "Something went wrong"
-            }
+            },
+            koinInject()
         )
 
         val context = LocalContext.current

@@ -172,6 +172,5 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance)
     implementation(libs.play.services.auth)
-    implementation(libs.firebase.mpp.auth)
     coreLibraryDesugaring(libs.desugar)
 }

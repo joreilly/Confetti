@@ -86,21 +86,12 @@ object Sessionize {
                 imageUrl = null,
                 floorPlanUrl = null
             ),
-            partners = listOf(
-                DPartner(name = "Roquefort", logoUrl = "https://www.fromages.com/media/uploads/fromage/liste_27_1.png", url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
-                DPartner(name = "Comté", logoUrl = "https://www.fromages.com/media/uploads/fromage/liste_808_1.png", url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
-                DPartner(name = "Camembert", logoUrl = "https://www.fromages.com/media/uploads/fromage/liste_75_1.png", url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
-            )
+            partnerGroups = partnerGroups("https://raw.githubusercontent.com/paug/AndroidMakersApp/ce800d6eefa4f83d34690161637d7f98918ee4a3/data/sponsors.json")
         )
     }
 
-    private suspend fun import(url: String, config: DConfig, venue: DVenue, partners: List<DPartner> = emptyList()): Int {
+    private suspend fun import(url: String, config: DConfig, venue: DVenue, partnerGroups: List<DPartnerGroup> = emptyList()): Int {
         val data = getJsonUrl(url)
-        val day1 = LocalDate(2023, 4, 27)
-        val day2 = LocalDate(2023, 4, 28)
-        var time = day1.atTime(9, 30)
-        var roomIndex = 0
-        val fakeRooms = listOf("moebius", "blin", "202", "204")
 
         val categories = data.asMap["categories"].asList.map { it.asMap }
             .flatMap {
@@ -113,34 +104,29 @@ object Sessionize {
         val sessions = data.asMap["sessions"].asList.map {
             it.asMap
         }.mapNotNull {
-            var start = time
-            if (start > LocalDateTime(2023, 4, 27, 18, 0)) {
-                start = day2.atTime(9,30)
+            if (it.get("startsAt") == null || it.get("endsAt") == null){
+                /**
+                 * Guard against sessions that are not scheduled.
+                 */
+                return@mapNotNull null
             }
-            val end  = start.toInstant(TimeZone.UTC).plus(1.hours).toLocalDateTime(TimeZone.UTC)
-
             DSession(
                 id = it.get("id").asString,
                 type = if (it.get("isServiceSession").cast()) "service" else "talk",
                 title = it.get("title").asString,
                 description = it.get("description")?.asString,
                 language = "en-US",
-                start = start,
-                end = end,
+                start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
+                end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
                 complexity = null,
                 feedbackId = null,
                 tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
                     categories.get(categoryId)?.asString
                 },
-                rooms = listOf(fakeRooms.get(roomIndex++)),
+                rooms = listOf(it.get("roomId").toString()),
                 speakers = it.get("speakers").asList.map { it.asString },
                 shortDescription = null,
-            ).also {
-                time = end
-                if (roomIndex >= fakeRooms.size) {
-                    roomIndex = 0
-                }
-            }
+            )
         }
 
         var rooms = data.asMap["rooms"].asList.map { it.asMap }.map {
@@ -173,7 +159,7 @@ object Sessionize {
             sessions = sessions.sortedBy { it.start },
             rooms = rooms,
             speakers = speakers,
-            partnerGroups = listOf(DPartnerGroup("1", partners)),
+            partnerGroups = partnerGroups,
             config = config,
             venues = listOf(venue)
         )

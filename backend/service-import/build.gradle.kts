@@ -3,6 +3,7 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 plugins {
   kotlin("multiplatform")
   id("com.google.cloud.tools.appengine")
+  id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 configureCompilerOptions(17)

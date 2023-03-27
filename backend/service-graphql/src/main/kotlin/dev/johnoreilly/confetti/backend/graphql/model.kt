@@ -102,8 +102,6 @@ class RootQuery : Query {
             DOrderBy(orderBy1.field.value, orderBy1.direction.toDDirection())
         ).map {
             it.toConference()
-        }.filter {
-            it.id != ConferenceId.AndroidMakers2023.id
         }
     }
 }

@@ -112,7 +112,6 @@ multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-setti
 okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
-org-eclipse-jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "org-eclipse-jgit" }
 play-services-auth = "com.google.android.gms:play-services-auth:20.4.1"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = "com.android.tools.build:gradle:7.4.2"

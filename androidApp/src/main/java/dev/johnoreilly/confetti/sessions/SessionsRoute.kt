@@ -27,28 +27,32 @@ fun SessionsRoute(
     onSignOut: () -> Unit,
     onSwitchConferenceSelected: () -> Unit,
 ) {
-    val viewModel: SessionsViewModel = getViewModel<SessionsViewModel>().apply {
-        configure(conference)
-    }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    var refreshing by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
-    fun refresh() {
-        scope.launch {
-            refreshing = true
-            viewModel.refresh()
-            refreshing = false
-        }
-    }
-
     ConfettiScaffold(
         conference = conference,
-        title = (uiState as? SessionsUiState.Success)?.conferenceName,
         appState = appState,
         onSwitchConference = onSwitchConferenceSelected,
         onSignIn = navigateToSignIn,
         onSignOut = onSignOut,
-    ) { snackbarHostState, user ->
+    ) {
+        val snackbarHostState = it.snackbarHostState
+        val user = it.user
+
+        val viewModel: SessionsViewModel = getViewModel<SessionsViewModel>().apply {
+            configure(conference, user?.uid, user)
+        }
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        var refreshing by remember { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
+        fun refresh() {
+            scope.launch {
+                refreshing = true
+                viewModel.refresh()
+                refreshing = false
+            }
+        }
+
+        it.title.value = (uiState as? SessionsUiState.Success)?.conferenceName
+
         if (appState.isExpandedScreen) {
             SessionListGridView(
                 uiState = uiState,

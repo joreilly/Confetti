@@ -92,7 +92,8 @@ fun SearchView(
         onSwitchConference = onSwitchConference,
         onSignIn = onSignIn,
         onSignOut = onSignOut,
-    ) { _, user ->
+    ) {
+        val user = it.user
         Column {
             SearchTextField(
                 modifier = Modifier

@@ -4,6 +4,7 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.GoogleAuthProvider
 import dev.gitlive.firebase.auth.auth
+import dev.johnoreilly.confetti.TokenProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -11,12 +12,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 
-interface User {
+interface User: TokenProvider {
     val name: String
     val email: String?
     val photoUrl: String?
     val uid: String
-    suspend fun idToken(forceRefresh: Boolean): String?
 }
 
 interface Authentication {
@@ -48,7 +48,7 @@ class DefaultUser(
     override val uid: String,
     private val user_: FirebaseUser?
 ): User {
-    override suspend fun idToken(forceRefresh: Boolean): String? {
+    override suspend fun token(forceRefresh: Boolean): String? {
         return user_?.getIdToken(forceRefresh)
     }
 }

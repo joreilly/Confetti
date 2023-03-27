@@ -24,8 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -39,18 +41,23 @@ import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.settings.SettingsDialog
 import org.koin.compose.koinInject
 
+class ScaffoldState(
+    val title: MutableState<String?>,
+    val snackbarHostState: SnackbarHostState,
+    val user: User?
+)
 /**
  * A wrapper for some content view that handles the different layouts (mobile/tablet, etc...)
  */
 @Composable
 fun ConfettiScaffold(
-    title: String?,
+    title: String? = null,
     conference: String,
     appState: ConfettiAppState,
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
-    content: @Composable (SnackbarHostState, User?) -> Unit,
+    content: @Composable (ScaffoldState) -> Unit,
 ) {
     val authentication = koinInject<Authentication>()
     fun signOut() {
@@ -59,8 +66,10 @@ fun ConfettiScaffold(
     }
     val user by authentication.currentUser.collectAsStateWithLifecycle()
 
+    val titleState = remember(title) { mutableStateOf(title) }
+
     ConfettiScaffold(
-        title = title,
+        title = titleState.value,
         conference = conference,
         appState = appState,
         onSwitchConference = onSwitchConference,
@@ -68,7 +77,7 @@ fun ConfettiScaffold(
         onSignOut = ::signOut,
         user = user
         ) {
-        content(it, user)
+        content(ScaffoldState(titleState, it, user))
     }
 }
 

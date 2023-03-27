@@ -167,7 +167,7 @@ private fun AccountIconPreview() {
                     override val uid: String
                         get() = "123"
 
-                    override suspend fun idToken(forceRefresh: Boolean): String? = null
+                    override suspend fun token(forceRefresh: Boolean): String? = null
                 }
             )
         }

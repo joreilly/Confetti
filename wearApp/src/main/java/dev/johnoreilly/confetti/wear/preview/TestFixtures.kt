@@ -1,6 +1,6 @@
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.preview
 
-import dev.johnoreilly.confetti.GetConferencesQuery.Conference
+import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.wear.proto.Theme
@@ -12,7 +12,7 @@ object TestFixtures {
 
     // Generate from FetchDataTest.fetchConferences
     val conferences = listOf(
-        Conference(
+        GetConferencesQuery.Conference(
             "kotlinconf2023",
             listOf(
                 LocalDate.parse("2023-04-12"),
@@ -21,32 +21,32 @@ object TestFixtures {
             ),
             "KotlinConf 2023"
         ),
-        Conference(
+        GetConferencesQuery.Conference(
             "fosdem2023",
             listOf(LocalDate.parse("2023-02-04"), LocalDate.parse("2023-02-05")),
             "Fosdem 2023"
         ),
-        Conference(
+        GetConferencesQuery.Conference(
             "droidconlondon2022",
             listOf(LocalDate.parse("2022-10-27"), LocalDate.parse("2022-10-28")),
             "droidcon London"
         ),
-        Conference(
+        GetConferencesQuery.Conference(
             "devfestnantes",
             listOf(LocalDate.parse("2022-10-20"), LocalDate.parse("2022-10-21")),
             "DevFest Nantes"
         ),
-        Conference(
+        GetConferencesQuery.Conference(
             "graphqlsummit2022",
             listOf(LocalDate.parse("2022-10-04"), LocalDate.parse("2022-10-05")),
             "GraphQL Summit"
         ),
-        Conference(
+        GetConferencesQuery.Conference(
             "frenchkit2022",
             listOf(LocalDate.parse("2022-09-29"), LocalDate.parse("2022-09-30")),
             "FrenchKit"
         ),
-        Conference(
+        GetConferencesQuery.Conference(
             "droidconsf",
             listOf(LocalDate.parse("2022-06-02"), LocalDate.parse("2022-06-03")),
             "droidcon SF"

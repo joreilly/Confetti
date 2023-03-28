@@ -8,7 +8,7 @@ import androidx.core.graphics.drawable.toDrawable
 import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
-import dev.johnoreilly.confetti.wear.TestFixtures
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import okio.Path.Companion.toPath
 import org.junit.Test

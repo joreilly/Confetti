@@ -9,6 +9,7 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.compose.tools.ThemeValues
 import com.google.android.horologist.compose.tools.WearPreview
+import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewThemes
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 
 @WearPreview

@@ -195,7 +195,7 @@ fun mobileThemes(
 
     val defaultBackgroundTheme = BackgroundTheme(
         color = colorScheme.surface,
-        tonalElevation = 2.dp
+        tonalElevation = BackgroundTheme.DEFAULT_TONAL_ELEVATION,
     )
     val backgroundTheme = if (androidTheme) {
         if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme

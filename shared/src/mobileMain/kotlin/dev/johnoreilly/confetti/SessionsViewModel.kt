@@ -74,14 +74,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         val bookmarksData = bookmarksResponse.data
         val sessionsData = sessionsResponse.data
 
-        if (
-            bookmarksResponse.exception != null
-            || bookmarksResponse.hasErrors()
-            || sessionsResponse.exception != null
-            || sessionsResponse.hasErrors()
-            || sessionsData == null
-            || bookmarksData == null
-        ) {
+        if (sessionsData == null || bookmarksData == null) {
             bookmarksResponse.exception?.printStackTrace()
             sessionsResponse.exception?.printStackTrace()
             bookmarksResponse.errors?.let { println(it) }

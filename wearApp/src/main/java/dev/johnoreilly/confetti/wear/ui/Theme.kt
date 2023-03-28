@@ -11,24 +11,6 @@ import androidx.wear.compose.material.Typography
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 
-
-/**
- * Dark Android theme color scheme
- */
-val ColorScheme = Colors(
-    primary = Green80,
-    onPrimary = Green20,
-    secondary = DarkGreen80,
-    onSecondary = DarkGreen20,
-    error = Red80,
-    onError = Red20,
-    background = Black,
-    onBackground = DarkGreenGray90,
-    surface = DarkGreenGray10,
-    onSurface = DarkGreenGray90,
-    onSurfaceVariant = GreenGray80,
-)
-
 /**
  * Confetti theme.
  */
@@ -38,7 +20,7 @@ fun ConfettiTheme(
     content: @Composable () -> Unit
 ) {
     val colors = remember(mobileTheme) {
-        mobileTheme?.toMaterialThemeColors() ?: ColorScheme
+        mobileTheme?.toMaterialThemeColors() ?: Colors()
     }
     ConfettiTheme(colors = colors, content = content)
 }

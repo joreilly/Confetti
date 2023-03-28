@@ -42,7 +42,7 @@ fun ThemeSwatches() {
         Text(
             text = "onSecondary / secondaryVariant",
             color = MaterialTheme.colors.onSecondary,
-            modifier = Modifier.background(MaterialTheme.colors.onSecondary)
+            modifier = Modifier.background(MaterialTheme.colors.secondaryVariant)
         )
         Text(
             text = "onSurface / surface",

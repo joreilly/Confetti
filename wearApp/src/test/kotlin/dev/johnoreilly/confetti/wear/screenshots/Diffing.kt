@@ -4,7 +4,13 @@ import android.graphics.Bitmap
 import android.util.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.test.SemanticsNodeInteraction
 import com.quickbird.snapshot.Diffing
+import com.quickbird.snapshot.FileSnapshotting
+import com.quickbird.snapshot.FileStoring
+import com.quickbird.snapshot.Snapshotting
+import com.quickbird.snapshot.bitmap
+import com.quickbird.snapshot.fileSnapshotting
 import okio.Buffer
 import okio.ByteString
 
@@ -64,3 +70,7 @@ fun Diffing.Companion.bitmapWithTolerance(tolerance: Float, colorDiffing: Diffin
 fun Bitmap.asByteString(): ByteString = Buffer().apply {
     compress(Bitmap.CompressFormat.PNG, 0, outputStream())
 }.readByteString()
+
+
+fun Snapshotting<SemanticsNodeInteraction, Bitmap>.fileSnapshottingX()
+    = FileSnapshotting(fileStoring = FileStoring.bitmap, snapshotting = this)

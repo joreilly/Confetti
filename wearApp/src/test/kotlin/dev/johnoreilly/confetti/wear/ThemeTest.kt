@@ -50,7 +50,7 @@ class ThemeTest : ScreenshotTest() {
 
     @Test
     @Config(
-        qualifiers = "+notround"
+        qualifiers = "+w250dp-h250dp-notround"
     )
     fun swatchesTest() = takeScreenshot(
         checks = {
@@ -58,33 +58,5 @@ class ThemeTest : ScreenshotTest() {
         timeText = {}
     ) {
         ThemeSwatches()
-    }
-
-    @Test
-    @Config(
-        qualifiers = "+h400dp-notround"
-    )
-    fun themeTestMaterial() = takeScreenshot(
-        checks = {
-        },
-        timeText = {}
-    ) {
-        MaterialTheme(colors = Colors()) {
-            ThemePreview()
-        }
-    }
-
-    @Test
-    @Config(
-        qualifiers = "+notround"
-    )
-    fun swatchesTestMaterial() = takeScreenshot(
-        checks = {
-        },
-        timeText = {}
-    ) {
-        MaterialTheme(colors = Colors()) {
-            ThemeSwatches()
-        }
     }
 }

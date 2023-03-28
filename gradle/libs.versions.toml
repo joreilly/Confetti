@@ -2,12 +2,11 @@
 accompanist = "0.30.0"
 activity-compose = "1.7.0"
 androidx-lifecycle = "2.6.1"
-androidx-datastore = "1.1.0-alpha02"
+androidx-datastore = "1.1.0-alpha01"
 apollo = "4.0.0-SNAPSHOT"
 compose = "1.4.0"
 compose-compiler = "1.4.4-dev-k1.8.20-RC-88d9f3a8232"
 compose-material-3 = "1.0.1"
-compose-wear-material3 = "1.0.0-alpha01"
 horologist = "0.3.10"
 junit = "4.13"
 kmp-nativecoroutines = "1.0.0-ALPHA-5-kotlin-1.8.20-RC"
@@ -34,7 +33,6 @@ accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-
 accompanist-testharness = { module = "com.google.accompanist:accompanist-testharness", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.1.1"
-androidx-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "compose-wear-material3" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }

@@ -20,7 +20,6 @@ class ThemeTest : ScreenshotTest() {
     init {
         // useful for illustrative purpose only
         tolerance = 0.2f
-        record = true
     }
 
     @Before

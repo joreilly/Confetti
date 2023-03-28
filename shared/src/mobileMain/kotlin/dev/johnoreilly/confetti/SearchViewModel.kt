@@ -77,8 +77,8 @@ class SearchViewModel(
             }
     }
 
-    fun configure(conference: String) {
-        sessionsViewModel.configure(conference)
+    fun configure(conference: String, uid: String?, tokenProvider: TokenProvider?) {
+        sessionsViewModel.configure(conference, uid, tokenProvider)
         speakersViewModel.configure(conference)
     }
 

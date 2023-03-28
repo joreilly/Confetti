@@ -4,49 +4,72 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.GoogleAuthProvider
 import dev.gitlive.firebase.auth.auth
-import kotlinx.coroutines.flow.Flow
+import dev.johnoreilly.confetti.TokenProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 
-class User(
-    val name: String,
-    val email: String?,
-    val photoUrl: String?,
-)
-
-private fun FirebaseUser.toUser(): User {
-    return User(
-        displayName ?: "",
-        email ,
-        photoURL.toString()
-    )
+interface User: TokenProvider {
+    val name: String
+    val email: String?
+    val photoUrl: String?
+    val uid: String
 }
 
-class Authentication {
-    suspend fun idToken(forceRefresh: Boolean = false): String? {
-        return Firebase.auth.currentUser?.getIdToken(forceRefresh)
-    }
-
-    fun currentUser(): User? {
-        return Firebase.auth.currentUser?.toUser()
-    }
-
-    val currentUserFlow: Flow<User?> = Firebase.auth.authStateChanged.map {it?.toUser() }
-        .onStart {
-            emit(currentUser())
-        }
+interface Authentication {
+    /**
+     * A state flow that returns the current user
+     */
+    val currentUser: StateFlow<User?>
 
     /**
-     * @throws
+     * Sign in to firebase. A successful call returns [SignInSuccess] and triggers the emission
+     * of a new [currentUser]
      */
-    suspend fun signIn(idToken: String): User {
+    suspend fun signIn(idToken: String): SignInResult
+
+    /**
+     * Sign out of firebase. triggers the emission of a new [currentUser]
+     */
+    fun signOut()
+}
+
+sealed interface SignInResult
+object SignInSuccess : SignInResult
+class SignInError(val e: Exception) : SignInResult
+
+class DefaultUser(
+    override val name: String,
+    override val email: String?,
+    override val photoUrl: String?,
+    override val uid: String,
+    private val user_: FirebaseUser?
+): User {
+    override suspend fun token(forceRefresh: Boolean): String? {
+        return user_?.getIdToken(forceRefresh)
+    }
+}
+
+class DefaultAuthentication(
+    val coroutineScope: CoroutineScope
+) : Authentication {
+    override val currentUser: StateFlow<User?> = Firebase.auth.authStateChanged.map { it?.toUser() }
+        .stateIn(coroutineScope, SharingStarted.Eagerly, Firebase.auth.currentUser?.toUser())
+
+    override suspend fun signIn(idToken: String): SignInResult {
         val credential = GoogleAuthProvider.credential(idToken, null)
-        val authResult = Firebase.auth.signInWithCredential(credential)
-        return authResult.user!!.toUser()
+        return try {
+            Firebase.auth.signInWithCredential(credential)
+            SignInSuccess
+        } catch (e: Exception) {
+            SignInError(e)
+        }
     }
 
-    fun signOut() {
+    override fun signOut() {
         // The underlying function is only blocking on JS so it should be OK to block here
         runBlocking {
             Firebase.auth.signOut()
@@ -54,3 +77,12 @@ class Authentication {
     }
 }
 
+private fun FirebaseUser.toUser(): User {
+    return DefaultUser(
+        name = displayName ?: "",
+        email = email,
+        photoUrl = photoURL.toString(),
+        uid = uid,
+        user_ = this
+    )
+}

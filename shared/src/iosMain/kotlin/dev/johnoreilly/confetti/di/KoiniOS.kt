@@ -26,4 +26,4 @@ actual fun platformModule() = module {
     }
 }
 
-actual fun getDatabaseName(conference: String) = "$conference.db"
+actual fun getDatabaseName(conference: String, uid: String?) = "$conference$uid.db"

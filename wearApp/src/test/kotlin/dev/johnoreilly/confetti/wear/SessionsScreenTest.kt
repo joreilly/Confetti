@@ -7,9 +7,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.wear.TestFixtures.sessionDetails
+import dev.johnoreilly.confetti.wear.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.sessionDetails
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.sessions.SessionListView
 import dev.johnoreilly.confetti.wear.sessions.SessionsUiState
 import org.junit.Test

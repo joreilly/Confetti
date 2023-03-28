@@ -14,8 +14,6 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.Icon
-import androidx.wear.compose.material.ListHeader
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
@@ -27,7 +25,8 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.Session
-import dev.johnoreilly.confetti.wear.sessions.SessionCard
+import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -56,9 +55,7 @@ fun HomeListView(
                 val sessions = uiState.currentSessions
 
                 item {
-                    ListHeader {
-                        Text(uiState.conferenceName, style = MaterialTheme.typography.title2)
-                    }
+                    SectionHeader(uiState.conferenceName)
                 }
 
                 if (sessions.isNotEmpty()) {
@@ -72,9 +69,7 @@ fun HomeListView(
                 }
 
                 item {
-                    ListHeader {
-                        Text("Conference Days")
-                    }
+                    SectionHeader("Conference Days")
                 }
 
                 items(uiState.confDates.size) {
@@ -90,13 +85,12 @@ fun HomeListView(
             is HomeUiState.Loading -> {
                 item {
                     val chipPlaceholderState = rememberPlaceholderState { false }
-                    ListHeader {
-                        Text("",
-                            style = MaterialTheme.typography.title2,
-                            modifier = Modifier
+                    SectionHeader(
+                        "",
+                        modifier = Modifier
                             .fillMaxWidth(0.75f)
-                            .placeholder(chipPlaceholderState))
-                    }
+                            .placeholder(chipPlaceholderState)
+                    )
                 }
 
                 item {
@@ -104,9 +98,7 @@ fun HomeListView(
                 }
 
                 item {
-                    ListHeader {
-                        Text("Conference Days")
-                    }
+                    SectionHeader("Conference Days")
                 }
 
                 items(2) {

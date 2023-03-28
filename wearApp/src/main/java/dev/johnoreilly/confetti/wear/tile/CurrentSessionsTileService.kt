@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.wear.tile
 
+import androidx.wear.compose.material.Colors
 import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.ResourceBuilders
@@ -15,7 +16,6 @@ import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.wear.complication.nextSessionOrNull
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
-import dev.johnoreilly.confetti.wear.ui.ColorScheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
@@ -37,7 +37,7 @@ class CurrentSessionsTileService : SuspendingTileService() {
         val conference = repository.getConference()
         val data = repository.conferenceData(conference, FetchPolicy.CacheOnly).data
         val theme =
-            phoneSettingsSync.settingsFlow.first().theme?.toMaterialThemeColors() ?: ColorScheme
+            phoneSettingsSync.settingsFlow.first().theme?.toMaterialThemeColors() ?: Colors()
 
         renderer.updateTheme(theme)
 

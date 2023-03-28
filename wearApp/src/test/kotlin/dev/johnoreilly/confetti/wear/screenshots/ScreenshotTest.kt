@@ -40,9 +40,14 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import com.quickbird.snapshot.Diffing
+import com.quickbird.snapshot.FileSnapshotting
+import com.quickbird.snapshot.FileSnapshottingNames
 import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
+import com.quickbird.snapshot.snapshot
+import dev.johnoreilly.confetti.wear.FixedTimeSource
+import dev.johnoreilly.confetti.wear.TestFixtures
 import dev.johnoreilly.confetti.wear.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.proto.Theme
@@ -54,6 +59,7 @@ import okio.Path
 import org.junit.After
 import org.junit.Assume.assumeTrue
 import org.junit.Rule
+import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
@@ -70,11 +76,16 @@ import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
     qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
 )
 @GraphicsMode(NATIVE)
-abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
+abstract class ScreenshotTest : KoinTest {
     var tolerance: Float = 0f
 
     @get:Rule
     val rule = createComposeRule()
+
+    @get:Rule
+    val testName: TestName = TestName()
+
+    private val directoryName = this::class.simpleName!!
 
     @Parameter(0)
     @JvmField
@@ -84,6 +95,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     @JvmField
     var mobileTheme: Theme? = null
 
+    // Flip to true to record
     var record = false
 
     var fakeImageLoader = FakeImageLoader.Never
@@ -113,7 +125,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
     }
 
     fun takeScreenshot(
-        round: Boolean = true,
+        round: Boolean = resources.configuration.isScreenRound,
         timeText: @Composable () -> Unit = {
             TimeText(
                 timeSource = FixedTimeSource
@@ -176,7 +188,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
             ).fileSnapshotting
 
             // Flip to true to record
-            snapshotting.snapshot(rule.onRoot(), record = record)
+            snapshotting.snapshot(rule.onRoot())
         }
     }
 
@@ -219,8 +231,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
                 }
             ).fileSnapshotting
 
-            // Flip to true to record
-            snapshotting.snapshot(rule.onRoot(), record = record)
+            snapshotting.snapshot(rule.onRoot())
         }
     }
 
@@ -269,6 +280,21 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
         snapshotTransformer = A11ySnapshotTransformer()
     }
 
+    suspend fun FileSnapshotting<SemanticsNodeInteraction, Bitmap>.snapshot(
+        value: SemanticsNodeInteraction,
+        fileSnapshottingNames: FileSnapshottingNames = FileSnapshottingNames.default
+    ) = with(fileSnapshottingNames) {
+        val methodName = testName.methodName.replace("\\W+".toRegex(), "_")
+        snapshot(
+            value = value,
+            record = record,
+            fileName = methodName + "_$referenceFilePrefix",
+            diffFileName = methodName + "_$diffFilePrefix",
+            directoryName = directoryName,
+            path = parentDirectory
+        )
+    }
+
     enum class TimeTextMode {
         OnTop,
         Off,
@@ -279,7 +305,7 @@ abstract class ScreenshotTest : JUnitFileSnapshotTest(), KoinTest {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "Colors: {0}")
         fun params() = listOf(
-            arrayOf("Confetti", null),
+            arrayOf("Material", null),
             arrayOf("Phone-1", TestFixtures.MobileTheme),
         )
 

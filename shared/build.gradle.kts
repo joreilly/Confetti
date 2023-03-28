@@ -32,6 +32,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "ConfettiKit"
+            isStatic = true
         }
     }
 
@@ -72,6 +73,7 @@ kotlin {
         val mobileMain by getting {
             dependencies {
                 implementation(libs.kmm.viewmodel)
+                implementation(libs.firebase.mpp.auth)
             }
         }
 

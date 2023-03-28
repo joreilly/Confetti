@@ -41,7 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.account.Authentication
+import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.sessionSpeakerLocation
@@ -63,7 +64,8 @@ fun SessionListView(
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     onRefresh: () -> Unit,
-    onNavigateToSignIn: () -> Unit
+    onNavigateToSignIn: () -> Unit,
+    user: User?
 ) {
     val pagerState = rememberPagerState()
 
@@ -115,7 +117,8 @@ fun SessionListView(
                                         isBookmarked = uiState.bookmarks.contains(session.id),
                                         addBookmark = addBookmark,
                                         removeBookmark = removeBookmark,
-                                        onNavigateToSignIn = onNavigateToSignIn
+                                        onNavigateToSignIn = onNavigateToSignIn,
+                                        user,
                                     )
                                 }
                             }
@@ -169,6 +172,7 @@ fun SessionItemView(
     addBookmark: (String) -> Unit,
     removeBookmark: (String) -> Unit,
     onNavigateToSignIn: () -> Unit = {},
+    user: User?,
 ) {
 
     var modifier = Modifier.fillMaxSize()
@@ -197,8 +201,6 @@ fun SessionItemView(
         }
 
 
-        val authentication = get<Authentication>()
-        val user by remember { mutableStateOf(authentication.currentUser()) }
         var showDialog by remember { mutableStateOf(false) }
 
         if (isBookmarked) {

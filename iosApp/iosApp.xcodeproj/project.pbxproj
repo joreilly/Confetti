@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
+		1129322F29D1B960000D8593 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1129322E29D1B960000D8593 /* FirebaseAnalytics */; };
+		1129323129D1B960000D8593 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1129323029D1B960000D8593 /* FirebaseAuth */; };
 		1A709207294E65D000DAF22F /* KMMViewModelCore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A709206294E65D000DAF22F /* KMMViewModelCore */; };
 		1A709209294E65D000DAF22F /* KMMViewModelSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1A709208294E65D000DAF22F /* KMMViewModelSwiftUI */; };
 		1A70920B294E666E00DAF22F /* KMMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A70920A294E666E00DAF22F /* KMMViewModel.swift */; };
@@ -86,12 +88,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1129322F29D1B960000D8593 /* FirebaseAnalytics in Frameworks */,
 				1AEAB76C28FBF52D00B06D90 /* SwiftUIFlowLayout in Frameworks */,
 				1A709209294E65D000DAF22F /* KMMViewModelSwiftUI in Frameworks */,
 				1AF3DECF28E79A4500A2EA02 /* AsyncAlgorithms in Frameworks */,
 				1AE9649A29463EE40080CE1F /* KMPNativeCoroutinesCore in Frameworks */,
 				1AE9649829463EE40080CE1F /* KMPNativeCoroutinesAsync in Frameworks */,
 				1A709207294E65D000DAF22F /* KMMViewModelCore in Frameworks */,
+				1129323129D1B960000D8593 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +227,8 @@
 				1AE9649929463EE40080CE1F /* KMPNativeCoroutinesCore */,
 				1A709206294E65D000DAF22F /* KMMViewModelCore */,
 				1A709208294E65D000DAF22F /* KMMViewModelSwiftUI */,
+				1129322E29D1B960000D8593 /* FirebaseAnalytics */,
+				1129323029D1B960000D8593 /* FirebaseAuth */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Confetti.app */;
@@ -261,6 +267,7 @@
 				1AEAB76A28FBF52D00B06D90 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
 				1AE9649629463EE40080CE1F /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */,
 				1A709205294E65D000DAF22F /* XCRemoteSwiftPackageReference "KMM-ViewModel" */,
+				1129322D29D1B960000D8593 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -616,6 +623,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1129322D29D1B960000D8593 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		1A709205294E65D000DAF22F /* XCRemoteSwiftPackageReference "KMM-ViewModel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rickclephas/KMM-ViewModel.git";
@@ -651,6 +666,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1129322E29D1B960000D8593 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1129322D29D1B960000D8593 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		1129323029D1B960000D8593 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1129322D29D1B960000D8593 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
 		1A709206294E65D000DAF22F /* KMMViewModelCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A709205294E65D000DAF22F /* XCRemoteSwiftPackageReference "KMM-ViewModel" */;

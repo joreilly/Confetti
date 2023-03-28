@@ -75,7 +75,6 @@ fun SpeakersRoute(
             }
         }
     }
-
 }
 
 

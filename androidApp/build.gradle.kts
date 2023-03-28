@@ -171,8 +171,6 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance)
-    implementation(libs.firebase.auth.ktx)
     implementation(libs.play.services.auth)
-
     coreLibraryDesugaring(libs.desugar)
 }

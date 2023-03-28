@@ -24,18 +24,63 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.account.AccountIcon
+import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.settings.SettingsDialog
+import org.koin.compose.koinInject
 
+class ScaffoldState(
+    val title: MutableState<String?>,
+    val snackbarHostState: SnackbarHostState,
+    val user: User?
+)
 /**
  * A wrapper for some content view that handles the different layouts (mobile/tablet, etc...)
  */
+@Composable
+fun ConfettiScaffold(
+    title: String? = null,
+    conference: String,
+    appState: ConfettiAppState,
+    onSwitchConference: () -> Unit,
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit,
+    content: @Composable (ScaffoldState) -> Unit,
+) {
+    val authentication = koinInject<Authentication>()
+    fun signOut() {
+        authentication.signOut()
+        onSignOut()
+    }
+    val user by authentication.currentUser.collectAsStateWithLifecycle()
+
+    val titleState = remember(title) { mutableStateOf(title) }
+
+    ConfettiScaffold(
+        title = titleState.value,
+        conference = conference,
+        appState = appState,
+        onSwitchConference = onSwitchConference,
+        onSignIn = onSignIn,
+        onSignOut = ::signOut,
+        user = user
+        ) {
+        content(ScaffoldState(titleState, it, user))
+    }
+}
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,6 +91,7 @@ fun ConfettiScaffold(
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
+    user: User?,
     content: @Composable (SnackbarHostState) -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -94,6 +140,7 @@ fun ConfettiScaffold(
                             onSignIn = onSignIn,
                             onSignOut = onSignOut,
                             onShowSettings = { appState.setShowSettingsDialog(true) },
+                            user = user
                         )
                     },
                     scrollBehavior = scrollBehavior,

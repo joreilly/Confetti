@@ -4,26 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.horologist.data.apphelper.AppHelperNodeStatus
 import dev.johnoreilly.confetti.ApolloClientCache
+import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class AccountViewModel(
-    val authentication: Authentication,
-    val apolloClientCache: ApolloClientCache,
     val wearSettingsSync: WearSettingsSync
 ) : ViewModel() {
 
-    val uiState: StateFlow<UiState> =
-        combine(authentication.currentUserFlow, wearSettingsSync.wearNodes) { user, wearNodes ->
-            UiState(user, wearNodes)
-        }
+    val uiState: StateFlow<UiState> = wearSettingsSync.wearNodes.map { UiState(it) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UiState())
-
-    fun signOut() {
-        apolloClientCache.clear()
-        authentication.signOut()
-    }
 
     fun installOnWear() {
         viewModelScope.launch {
@@ -41,7 +33,6 @@ class AccountViewModel(
 }
 
 data class UiState(
-    val user: User? = null,
     val wearNodes: List<AppHelperNodeStatus> = listOf()
 ) {
     val isInstalledOnWear: Boolean

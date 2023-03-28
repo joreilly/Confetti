@@ -82,4 +82,4 @@ actual fun platformModule() = module {
 
 val Context.settingsStore by preferencesDataStore("settings")
 
-actual fun getDatabaseName(conference: String) = "$conference.db"
+actual fun getDatabaseName(conference: String, uid: String?) = "$conference$uid.db"

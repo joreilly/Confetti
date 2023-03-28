@@ -29,4 +29,4 @@ actual fun platformModule() = module {
     }
 }
 
-actual fun getDatabaseName(conference: String) = "jdbc:sqlite:$conference.db"
+actual fun getDatabaseName(conference: String, uid: String?) = "jdbc:sqlite:$conference$uid.db"

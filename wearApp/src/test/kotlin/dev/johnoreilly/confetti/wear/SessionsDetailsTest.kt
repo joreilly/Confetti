@@ -12,10 +12,10 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.AndroidDateService
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.JohnUrl
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.MartinUrl
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsUiState
 import kotlinx.datetime.TimeZone

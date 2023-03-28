@@ -5,15 +5,15 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.wear.compose.material.Colors
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.sessionDetails
-import dev.johnoreilly.confetti.wear.screenshots.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsTileRenderer
-import dev.johnoreilly.confetti.wear.ui.ColorScheme
 import org.junit.Test
 
 class TileScreenshotTest : ScreenshotTest() {
@@ -31,7 +31,7 @@ class TileScreenshotTest : ScreenshotTest() {
             )
         }
 
-        val colors = mobileTheme?.toMaterialThemeColors() ?: ColorScheme
+        val colors = mobileTheme?.toMaterialThemeColors() ?: Colors()
 
         val renderer = remember { CurrentSessionsTileRenderer(context).apply {
             updateTheme(colors)

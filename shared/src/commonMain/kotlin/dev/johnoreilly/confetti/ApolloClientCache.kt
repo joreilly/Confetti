@@ -20,6 +20,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.atomicfu.locks.reentrantLock
+import kotlinx.atomicfu.locks.withLock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
@@ -36,7 +38,7 @@ class TokenProviderContext(val tokenProvider: TokenProvider): ExecutionContext.E
 
 class ApolloClientCache : KoinComponent {
     val _clients = mutableMapOf<String, ApolloClient>()
-    val mutex = Mutex(false)
+    val mutex = reentrantLock()
 
     private val tokenProviderInterceptor = object : ApolloInterceptor {
         override fun <D : Operation.Data> intercept(
@@ -65,7 +67,8 @@ class ApolloClientCache : KoinComponent {
             }
         }
     }
-    suspend fun getClient(conference: String): ApolloClient {
+
+fun getClient(conference: String): ApolloClient {
         return mutex.withLock {
             _clients.getOrPut(conference) {
                 clientFor(conference, "none", conference != "all")

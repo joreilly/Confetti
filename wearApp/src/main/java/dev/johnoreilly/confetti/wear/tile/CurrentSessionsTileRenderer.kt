@@ -27,7 +27,6 @@ import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.MainActivity
-import dev.johnoreilly.confetti.wear.ui.ColorScheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.toTileColors
@@ -42,7 +41,8 @@ class CurrentSessionsTileRenderer(
     SingleTileLayoutRenderer<CurrentSessionsData, CurrentSessionsData>(context) {
     val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
-    private var colors: androidx.wear.compose.material.Colors = ColorScheme
+    private var colors: androidx.wear.compose.material.Colors =
+        androidx.wear.compose.material.Colors()
 
     override fun createTheme(): Colors = colors.toTileColors()
 

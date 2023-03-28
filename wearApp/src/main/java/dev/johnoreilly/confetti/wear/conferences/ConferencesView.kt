@@ -10,8 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.ListHeader
-import androidx.wear.compose.material.Text
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.StandardChip
 import com.google.android.horologist.composables.PlaceholderChip
@@ -20,6 +18,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -60,9 +59,7 @@ fun ConferencesView(
         modifier = modifier.fillMaxSize(), columnState = columnState
     ) {
         item {
-            ListHeader {
-                Text("Conferences")
-            }
+            SectionHeader("Conferences")
         }
 
         when (uiState) {

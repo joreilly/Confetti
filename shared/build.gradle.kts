@@ -51,6 +51,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.atomicfu)
                 api(libs.kotlinx.datetime)
 
                 api(libs.bundles.multiplatform.settings)

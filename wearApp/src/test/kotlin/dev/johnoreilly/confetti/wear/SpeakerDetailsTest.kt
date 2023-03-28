@@ -10,9 +10,9 @@ import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
-import dev.johnoreilly.confetti.wear.TestFixtures.JohnOreilly
-import dev.johnoreilly.confetti.wear.TestFixtures.JohnUrl
-import dev.johnoreilly.confetti.wear.TestFixtures.MartinUrl
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnOreilly
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsView
 import okio.Path.Companion.toPath

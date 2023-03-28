@@ -10,7 +10,7 @@ import androidx.compose.ui.test.assertTouchHeightIsEqualTo
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import dev.johnoreilly.confetti.wear.TestFixtures.conferences
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.conferences
 import dev.johnoreilly.confetti.wear.conferences.ConferencesUiState
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest

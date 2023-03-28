@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.wear.compose.material.Colors

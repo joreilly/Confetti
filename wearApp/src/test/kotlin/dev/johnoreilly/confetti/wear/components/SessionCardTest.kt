@@ -4,7 +4,7 @@ package dev.johnoreilly.confetti.wear.components
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
-import dev.johnoreilly.confetti.wear.TestFixtures
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import org.junit.Test
 

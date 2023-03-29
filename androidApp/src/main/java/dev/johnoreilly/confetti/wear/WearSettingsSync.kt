@@ -71,6 +71,20 @@ class WearSettingsSync(
         emit(phoneDataLayerRegistry.connectedNodes())
     }.catch { emit(listOf()) }
 
+    fun updateWearTheme() {
+        if (job != null) {
+            // already updating
+            return
+        }
+
+        // coroutineScope at this point is a app-global scope
+        job = coroutineScope.launch {
+            updateWearThemeInternal()
+            job = null
+        }
+    }
+
+    private suspend fun updateWearThemeInternal() {
 
     suspend fun clearWearTheme() {
         if (isAvailable()) {

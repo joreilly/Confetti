@@ -71,8 +71,6 @@ fun ConfettiScaffold(
         onSignOut()
     }
 
-    val coroutineScope = rememberCoroutineScope()
-
     val wearSettingNodeState =
         wearSettingSync.wearNodes.collectAsStateWithLifecycle(emptyList()).value
     val wearSettingsUIState = WearUiState(wearSettingNodeState)
@@ -80,12 +78,6 @@ fun ConfettiScaffold(
     fun installOnWear() {
         wearSettingNodeState.filter { !it.isAppInstalled }.forEach {
             wearSettingSync.installOnWearNode(it.id)
-        }
-    }
-
-    fun updateWearTheme() {
-        coroutineScope.launch {
-            wearSettingSync.updateWearTheme()
         }
     }
 
@@ -102,7 +94,7 @@ fun ConfettiScaffold(
         onSignIn = onSignIn,
         onSignOut = ::signOut,
         user = user,
-        updateWearTheme = ::updateWearTheme,
+        updateWearTheme = wearSettingSync::updateWearTheme,
         installOnWear = ::installOnWear,
         wearSettingsUiState = wearSettingsUIState,
     ) {

@@ -47,6 +47,10 @@ fun SpeakersRoute(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit
 ) {
+    val viewModel: SpeakersViewModel = getViewModel<SpeakersViewModel>().apply {
+        configure(conference)
+    }
+    val uiState = viewModel.speakers.collectAsStateWithLifecycle().value
     ConfettiScaffold(
         title = stringResource(R.string.speakers),
         conference = conference,
@@ -55,10 +59,6 @@ fun SpeakersRoute(
         onSignIn = onSignIn,
         onSignOut = onSignOut,
     ) {
-        val viewModel: SpeakersViewModel = getViewModel<SpeakersViewModel>().apply {
-            configure(conference)
-        }
-        val uiState = viewModel.speakers.collectAsStateWithLifecycle().value
         when (val uiState1 = uiState) {
             is SpeakersUiState.Success -> {
                 if (appState.isExpandedScreen) {

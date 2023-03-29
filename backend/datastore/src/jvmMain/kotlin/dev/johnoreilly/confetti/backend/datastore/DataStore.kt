@@ -585,32 +585,11 @@ class DataStore {
         return items
     }
 
-    fun readSpeakers(
-        conf: String,
-        ids: List<String>
-    ): List<DSpeaker> {
-        val keys = ids.map {
-            keyFactory.setKind(KIND_SPEAKER).addAncestor(PathElement.of(KIND_SPEAKER, conf))
-                .newKey(it)
-        }
-
-        return datastore.get(keys).map { it.toSpeaker() }
-    }
-
-    fun readSpeakers(
-        conf: String,
-        limit: Int,
-        cursor: String?,
-    ): DPage<DSpeaker> {
+    fun readSpeakers(conf: String): List<DSpeaker> {
         log("readSpeakers")
         val query: EntityQuery? = Query.newEntityQueryBuilder()
             .setKind(KIND_SPEAKER)
-            .setLimit(limit)
-            .apply {
-                if (cursor != null) {
-                    setStartCursor(Cursor.fromUrlSafe(cursor))
-                }
-            }
+            .setLimit(100)
             .setFilter(
                 StructuredQuery.PropertyFilter.hasAncestor(
                     keyFactory.setKind(KIND_CONF).newKey(conf)
@@ -624,11 +603,7 @@ class DataStore {
             items.add(it.toSpeaker())
         }
 
-        val nextPageCursor = when (result.moreResults) {
-            QueryResultBatch.MoreResultsType.NO_MORE_RESULTS -> null
-            else -> result.cursorAfter.toUrlSafe()
-        }
-        return DPage(items, nextPageCursor = nextPageCursor)
+        return items
     }
 
     fun updateDays() {

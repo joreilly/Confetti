@@ -22,6 +22,7 @@ fun DConfig.toConference(): Conference {
         days = days,
     )
 }
+
 class DataStoreDataSource(private val conf: String, private val uid: String? = null) : DataSource {
     private val datastore = DataStore()
 
@@ -55,7 +56,7 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
     }
 
     private val _speakers by lazy {
-        datastore.readSpeakers(conf).map { it.toSpeaker() }
+        datastore.readSpeakers(conf).map { it.toSpeaker() }.sortedBy { it.name }
     }
 
     private val sessionCache = mutableMapOf<String, Session>()
@@ -119,7 +120,12 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
                     add(DFilter("end", DComparatorLe, it.toString()))
                 }
             },
-            orderBy = orderBy?.let { DOrderBy(field = it.field.value, direction = it.direction.toDDirection()) }
+            orderBy = orderBy?.let {
+                DOrderBy(
+                    field = it.field.value,
+                    direction = it.direction.toDDirection()
+                )
+            }
         )
 
         val sessions = page.items.map {it.toSession() }
@@ -165,24 +171,27 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
         )
     }
 
-    override fun speakers(
-        first: Int,
-        after: String?,
-    ): SpeakerConnection {
-        val page = datastore.readSpeakers(conf = conf, limit = first, cursor = after)
+    override fun speakers(first: Int, after: String?): SpeakerConnection {
+        val drop = if (after == null) {
+            0
+        } else {
+            _speakers.indexOfFirst { it.id == after }
+                .also {
+                    if (it == -1) {
+                        return SpeakerConnection(emptyList(), PageInfo(null))
+                    }
+                } + 1
+        }
         return SpeakerConnection(
-            nodes = page.items.map { it.toSpeaker() },
-            pageInfo = PageInfo(endCursor = page.nextPageCursor)
+            nodes = _speakers.drop(drop).take(first),
+            pageInfo = PageInfo(endCursor = _speakers.getOrNull(drop + first)?.id)
         )
     }
 
     override fun speakers(
         ids: List<String>,
     ): List<Speaker> {
-        return datastore.readSpeakers(
-            conf = conf,
-            ids = ids,
-        ).map { it.toSpeaker() }
+        return _speakers.filter { it.id in ids }
     }
 
 
@@ -212,6 +221,7 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             name = key
         )
     }
+
     override fun partnerGroups(): List<PartnerGroup> {
         return datastore.readPartnerGroups(conf).map {
             it.toPartnerGroup()

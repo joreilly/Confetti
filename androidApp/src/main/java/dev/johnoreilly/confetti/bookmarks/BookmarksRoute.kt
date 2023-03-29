@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.bookmarks
 
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue

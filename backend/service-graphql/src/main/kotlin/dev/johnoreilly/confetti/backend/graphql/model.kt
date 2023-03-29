@@ -59,7 +59,12 @@ class RootQuery : Query {
         )
     }
 
-    fun speakers(
+    @Deprecated("Use speakersPage instead")
+    fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
+        return dfe.source().speakers(first = 100, after = null).nodes
+    }
+
+    fun speakersPage(
         dfe: DataFetchingEnvironment,
         first: Int? = 10,
         after: String? = null,

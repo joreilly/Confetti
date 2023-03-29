@@ -7,7 +7,7 @@ query GetConferenceData($first: Int! = 1000, $after: String = null) {
             endCursor
         }
     }
-    speakers(first: 1000) {
+    speakers: speakersPage(first: 1000) {
         nodes {
             ...SpeakerDetails
         }
@@ -38,7 +38,7 @@ query GetSessions($first: Int! = 1000, $after: String = null) {
 }
 
 query GetSpeakers($first: Int! = 1000, $after: String = null) {
-    speakers(first: $first, after: $after) {
+    speakers: speakersPage(first: $first, after: $after) {
         nodes {
             ...SpeakerDetails
         }

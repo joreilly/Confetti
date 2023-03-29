@@ -107,7 +107,9 @@ type Query {
 
   speaker(id: String!): Speaker!
 
-  speakers(first: Int, after: String): SpeakerConnection!
+  speakers: [Speaker!]! @deprecated(reason: "Use speakersPage instead")
+
+  speakersPage(first: Int, after: String): SpeakerConnection!
 
   venue(id: String!): Venue!
 

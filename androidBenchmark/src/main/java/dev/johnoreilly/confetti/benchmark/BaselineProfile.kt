@@ -33,18 +33,14 @@ class BaselineProfile {
 
             val sessionList = device.findObject(By.scrollable(true))
 
-            device.downDownUpUp(sessionList)
+            device.downUp(sessionList)
         }
     }
 
-    fun UiDevice.downDownUpUp(element: UiObject2) {
+    fun UiDevice.downUp(element: UiObject2) {
         element.setGestureMargin(displayWidth / 4)
 
         element.fling(Direction.DOWN)
-        waitForIdle()
-        element.fling(Direction.DOWN)
-        waitForIdle()
-        element.fling(Direction.UP)
         waitForIdle()
         element.fling(Direction.UP)
         waitForIdle()

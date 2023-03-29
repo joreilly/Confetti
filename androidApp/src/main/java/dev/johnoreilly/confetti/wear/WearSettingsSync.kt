@@ -20,9 +20,11 @@ import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import okio.Buffer
 
@@ -32,6 +34,8 @@ class WearSettingsSync(
     val context: Context,
     val coroutineScope: CoroutineScope
 ) {
+    private var job: Job? = null
+
     val settingsDataStore by lazy { dataLayerRegistry.protoDataStore<WearSettings>(coroutineScope) }
 
     suspend fun isAvailable(): Boolean {
@@ -115,7 +119,21 @@ class WearSettingsSync(
         }
     }
 
-    suspend fun installOnWearNode(nodeId: String) {
+    // public non-suspend function to be called from button callbacks, etc...
+    fun installOnWearNode(nodeId: String) {
+        if (job != null) {
+            // already installing, skip
+            return
+        }
+
+        // coroutineScope at this point is a app-global scope
+        job = coroutineScope.launch {
+            installOnWearNodeInternal(nodeId)
+            job = null
+        }
+    }
+
+    private suspend fun installOnWearNodeInternal(nodeId: String) {
         try {
             phoneDataLayerRegistry.installOnNode(nodeId)
         } catch (rie: Exception) {

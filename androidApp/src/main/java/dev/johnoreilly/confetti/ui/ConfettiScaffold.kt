@@ -78,10 +78,8 @@ fun ConfettiScaffold(
     val wearSettingsUIState = WearUiState(wearSettingNodeState)
 
     fun installOnWear() {
-        coroutineScope.launch {
-            wearSettingNodeState.filter { !it.isAppInstalled }.forEach {
-                wearSettingSync.installOnWearNode(it.id)
-            }
+        wearSettingNodeState.filter { !it.isAppInstalled }.forEach {
+            wearSettingSync.installOnWearNode(it.id)
         }
     }
 

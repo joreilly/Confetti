@@ -15,10 +15,15 @@ object Sessionize {
     private val kotlinConf2023 = "https://sessionize.com/api/v2/rje6khfn/view/All"
     private val androidMakers2023 = "https://sessionize.com/api/v2/72i2tw4v/view/All"
 
+    data class SessionizeData(
+        val rooms: List<DRoom>,
+        val sessions: List<DSession>,
+        val speakers: List<DSpeaker>,
+    )
 
     suspend fun importDroidConLondon2022(): Int {
-        return import(
-            droidConLondon2022,
+        return writeData(
+            getData(droidConLondon2022),
             config = DConfig(
                 id = ConferenceId.DroidConLondon2022.id,
                 name = "droidcon London",
@@ -41,8 +46,10 @@ object Sessionize {
     }
 
     suspend fun importKotlinConf2023(): Int {
-        return import(
-            kotlinConf2023,
+        return writeData(
+            getData(kotlinConf2023).let {
+                it.copy(sessions = it.sessions.filter { it.start.date.dayOfMonth != 12 })
+            },
             config = DConfig(
                 id = ConferenceId.KotlinConf2023.id,
                 name = "KotlinConf 2023",
@@ -65,8 +72,8 @@ object Sessionize {
     }
 
     suspend fun importAndroidMakers2023(): Int {
-        return import(
-            androidMakers2023,
+        return writeData(
+            getData(androidMakers2023),
             config = DConfig(
                 id = ConferenceId.AndroidMakers2023.id,
                 name = "Android Makers 2023",
@@ -90,7 +97,23 @@ object Sessionize {
         )
     }
 
-    private suspend fun import(url: String, config: DConfig, venue: DVenue, partnerGroups: List<DPartnerGroup> = emptyList()): Int {
+    private fun writeData(
+        sessionizeData: SessionizeData,
+        config: DConfig,
+        venue: DVenue,
+        partnerGroups: List<DPartnerGroup> = emptyList()
+    ): Int {
+        return DataStore().write(
+            sessions = sessionizeData.sessions.sortedBy { it.start },
+            rooms = sessionizeData.rooms,
+            speakers = sessionizeData.speakers,
+            partnerGroups = partnerGroups,
+            config = config,
+            venues = listOf(venue)
+        )
+    }
+
+    private suspend fun getData(url: String): SessionizeData {
         val data = getJsonUrl(url)
 
         val categories = data.asMap["categories"].asList.map { it.asMap }
@@ -136,7 +159,7 @@ object Sessionize {
             )
         }
         if (rooms.isEmpty()) {
-           rooms = sessions.flatMap { it.rooms }.distinct().map { DRoom(id = it, name = it) }
+            rooms = sessions.flatMap { it.rooms }.distinct().map { DRoom(id = it, name = it) }
         }
         val speakers = data.asMap["speakers"].asList.map { it.asMap }.map {
             DSpeaker(
@@ -155,13 +178,11 @@ object Sessionize {
                 }
             )
         }
-        return DataStore().write(
-            sessions = sessions.sortedBy { it.start },
+
+        return SessionizeData(
             rooms = rooms,
-            speakers = speakers,
-            partnerGroups = partnerGroups,
-            config = config,
-            venues = listOf(venue)
+            sessions = sessions,
+            speakers = speakers
         )
     }
 }

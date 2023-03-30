@@ -6,6 +6,7 @@ package dev.johnoreilly.confetti.di
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.AppViewModel
+import dev.johnoreilly.confetti.BookmarksViewModel
 import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.ConfettiRepository
@@ -16,6 +17,7 @@ import dev.johnoreilly.confetti.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.account.AccountViewModel
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
@@ -24,7 +26,6 @@ import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
-import dev.johnoreilly.confetti.auth.DefaultAuthentication
 
 val appModule = module {
     viewModelOf(::SessionsViewModel)
@@ -36,6 +37,7 @@ val appModule = module {
     viewModelOf(::AccountViewModel)
     viewModelOf(::SettingsViewModel)
     viewModelOf(::SearchViewModel)
+    viewModelOf(::BookmarksViewModel)
 
     single {
         ConfettiRepository().apply {

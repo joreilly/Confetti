@@ -168,6 +168,7 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             id = id,
             name = name,
             bio = bio,
+            tagline = tagline,
             company = company,
             socials = links.map { it.toSocial() },
             photoUrl = photoUrl,

@@ -369,6 +369,7 @@ class DataStore {
             id = key.name,
             name = getString("name"),
             bio = getStringOrNull("bio"),
+            tagline = getStringOrNull("tagline"),
             company = getStringOrNull("company"),
             links = getList<StringValue>("links").map {
                 Json.parseToJsonElement(it.get()).toAny().asMap.toLink()
@@ -472,6 +473,7 @@ class DataStore {
         )
             .set("name", name.toValue())
             .set("bio", bio.toValue(excludeFromIndex = true))
+            .set("tagline", tagline.toValue(excludeFromIndex = true))
             .set("company", company.toValue())
             .set("photoUrl", photoUrl.toValue())
             .set("companyLogoUrl", companyLogoUrl.toValue())

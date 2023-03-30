@@ -115,6 +115,7 @@ object GraphQLSummit {
                             name = "${it.get("firstName")} ${it.get("lastName")}",
                             company = it.get("company")?.asString,
                             bio = it.get("biography")?.asString,
+                            tagline = null,
                             photoUrl = it.get("profileImageUri")?.asString,
                             links = emptyList(),
                             city = null,

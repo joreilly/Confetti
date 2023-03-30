@@ -225,6 +225,7 @@ data class Speaker(
     val id: String,
     val name: String,
     val bio: String?,
+    val tagline: String?,
     val company: String?,
     val companyLogoUrl: String?,
     val city: String?,

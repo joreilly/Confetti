@@ -47,6 +47,9 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
     private val _speakers by lazy {
         datastore.readSpeakers(conf).map { it.toSpeaker() }
     }
+
+    private val sessionCache = mutableMapOf<String, Session>()
+
     override fun rooms(): List<Room> {
         return _rooms
     }
@@ -109,8 +112,11 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             orderBy = orderBy?.let { DOrderBy(field = it.field.value, direction = it.direction.toDDirection()) }
         )
 
+        val sessions = page.items.map {it.toSession() }
+
+        sessionCache.putAll(sessions.associateBy { it.id })
         return SessionConnection(
-            nodes = page.items.map {it.toSession() },
+            nodes = sessions,
             pageInfo = PageInfo(endCursor = page.nextPageCursor)
         )
     }
@@ -118,10 +124,15 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
     override fun sessions(
         ids: List<String>,
     ): List<Session> {
-        return datastore.readSessions(
+        if (sessionCache.keys.containsAll(ids)) {
+            return ids.mapNotNull { sessionCache.get(it) }
+        }
+        val sessions = datastore.readSessions(
             conf = conf,
             ids = ids,
         ).map { it.toSession() }
+        sessionCache.putAll(sessions.associateBy { it.id })
+        return sessions
     }
 
     private fun DSession.toSession(): Session {

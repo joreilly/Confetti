@@ -9,6 +9,9 @@ fragment SessionDetails on Session {
     id
     title
     start
+    room {
+        name
+    }
     speakers {
         name
     }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,7 +20,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.component.SessionListTabRow
 import org.koin.androidx.compose.getViewModel
-
 
 
 class MainActivity : ComponentActivity() {
@@ -43,9 +41,7 @@ fun SessionListScreen(viewModel: ConfettiViewModel = getViewModel()) {
 
     when (val state = uiState) {
         SessionsUiState.Loading ->
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center)) {
+            Column(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
                 CircularProgressIndicator()
             }
 
@@ -87,7 +83,6 @@ fun SessionListView(uiState: SessionsUiState.Success) {
 
 }
 
-
 @Composable
 fun SessionView(session: SessionDetails) {
     Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
@@ -95,22 +90,3 @@ fun SessionView(session: SessionDetails) {
         Text(session.sessionSpeakerInfo(), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

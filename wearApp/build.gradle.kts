@@ -95,7 +95,7 @@ android {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-benchmark.pro"))
-            matchingFallbacks.addAll(listOf("release", "debug"))
+            matchingFallbacks.addAll(listOf("release"))
         }
         create("githubRelease") {
             isShrinkResources = true

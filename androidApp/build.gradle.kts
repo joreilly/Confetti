@@ -115,7 +115,7 @@ android {
                     "proguard-benchmark.pro"
                 )
             )
-            matchingFallbacks.addAll(listOf("release", "debug"))
+            matchingFallbacks.addAll(listOf("release"))
         }
         getByName("debug") {
             signingConfig = signingConfigs.getByName("confetti")

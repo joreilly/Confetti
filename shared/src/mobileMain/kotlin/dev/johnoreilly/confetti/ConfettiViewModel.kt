@@ -7,6 +7,27 @@ import kotlinx.coroutines.flow.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 sealed interface SessionsUiState {
     object Loading : SessionsUiState
 
@@ -18,8 +39,12 @@ sealed interface SessionsUiState {
 }
 
 
+
+
+
 class ConfettiViewModel: KMMViewModel() {
     private val repository = ConfettiRepository()
+
 
     @NativeCoroutinesState
     val uiState: StateFlow<SessionsUiState> = repository.sessions.map { sessions ->
@@ -39,5 +64,3 @@ class ConfettiViewModel: KMMViewModel() {
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionsUiState.Loading)
 
 }
-
-

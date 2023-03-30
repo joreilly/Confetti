@@ -24,8 +24,6 @@ import org.koin.androidx.compose.getViewModel
 
 
 
-
-
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,15 +37,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-
 @Composable
 fun SessionListScreen(viewModel: ConfettiViewModel = getViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (val state = uiState) {
         SessionsUiState.Loading ->
-            Column(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center)) {
                 CircularProgressIndicator()
             }
 
@@ -71,14 +69,12 @@ fun SessionListView(uiState: SessionsUiState.Success) {
                 val sessionsMap = uiState.sessionsByStartTimeList[page]
                 LazyColumn {
                     sessionsMap.forEach { sessions ->
-
                         item {
                             Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                                 Text(sessions.key, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
                                 Divider()
                             }
                         }
-
 
                         items(sessions.value) { session ->
                             SessionView(session)
@@ -94,12 +90,16 @@ fun SessionListView(uiState: SessionsUiState.Success) {
 
 @Composable
 fun SessionView(session: SessionDetails) {
-    Column(Modifier.padding(16.dp)) {
-        Text(session.title)
-        Text(session.sessionSpeakerInfo(), fontWeight = FontWeight.Bold)
-        Text(session.room.name)
+    Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Text(session.title, style = MaterialTheme.typography.bodyLarge)
+        Text(session.sessionSpeakerInfo(), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
     }
 }
+
+
+
+
+
 
 
 

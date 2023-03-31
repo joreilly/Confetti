@@ -10,8 +10,9 @@
    height="80">](https://apps.apple.com/us/app/confetti/id1660211390)
 
 
-KMM GraphQL project to allow viewing of conference information. Includes:
+Kotlin Multiplatform GraphQL project to allow viewing of conference information developed in the open by [contributors](https://github.com/joreilly/Confetti/graphs/contributors).
 
+Includes:
 
 - SwiftUI iOS client
 - Jetpack Compose Android client
@@ -48,3 +49,11 @@ Requires XCode 14 or later for iOS client.
 
 The API is available at https://confetti-app.dev/graphiql
 You can query the list of conferences with `conferences.id` and chose what conference to query by passing a `"conference"` HTTP header 
+
+
+### Contributors
+
+
+<a href="https://github.com/joreilly/Confetti/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=joreilly/Confetti" />
+</a>

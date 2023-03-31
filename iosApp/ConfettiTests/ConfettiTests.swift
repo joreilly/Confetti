@@ -22,14 +22,14 @@ final class ConfettiTests: XCTestCase {
     }
 
     
-//     func testGetSessions() async throws {
-//         let viewModel = SessionsViewModel()
-//         viewModel.configure(conference: "test", uid: nil, tokenProvider: nil)
-//
-//         let sessionsUIStateSequence = asyncSequence(for: viewModel.uiStateFlow)
-//         let uiState = try await sessionsUIStateSequence.first(where: { $0 is SessionsUiStateSuccess })
-//         let sessions = (uiState as! SessionsUiStateSuccess).sessionsByStartTimeList
-//         XCTAssert(!sessions.isEmpty)
-//     }
+    func testGetSessions() async throws {
+        let viewModel = SessionsViewModel()
+        viewModel.configure(conference: "test", uid: nil, tokenProvider: nil)
+
+        let sessionsUIStateSequence = asyncSequence(for: viewModel.uiStateFlow)
+        let uiState = try await sessionsUIStateSequence.first(where: { $0 is SessionsUiStateSuccess })
+        let sessions = (uiState as! SessionsUiStateSuccess).sessionsByStartTimeList
+        XCTAssert(!sessions.isEmpty)
+    }
 
 }

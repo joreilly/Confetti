@@ -7,8 +7,10 @@ query GetConferenceData($first: Int! = 1000, $after: String = null) {
             endCursor
         }
     }
-    speakers {
-        ...SpeakerDetails
+    speakers: speakersPage(first: 1000) {
+        nodes {
+            ...SpeakerDetails
+        }
     }
     rooms {
         ...RoomDetails
@@ -32,6 +34,17 @@ query GetSessions($first: Int! = 1000, $after: String = null) {
     }
     config {
         timezone
+    }
+}
+
+query GetSpeakers($first: Int! = 1000, $after: String = null) {
+    speakers: speakersPage(first: $first, after: $after) {
+        nodes {
+            ...SpeakerDetails
+        }
+        pageInfo {
+            endCursor
+        }
     }
 }
 

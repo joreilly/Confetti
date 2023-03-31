@@ -7,7 +7,10 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.SpeakerDetailsDestination
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 
 
 class SpeakerDetailsViewModel(
@@ -22,7 +25,8 @@ class SpeakerDetailsViewModel(
         if (speakerId != null && conference != null) {
             // FixMe: add .speaker(id)
             val response = repository.conferenceData(conference = conference, FetchPolicy.CacheOnly)
-            emit(response.data?.speakers?.map { it.speakerDetails }?.firstOrNull { it.id == speakerId })
+            emit(response.data?.speakers?.nodes?.map { it.speakerDetails }
+                ?.firstOrNull { it.id == speakerId })
         }
     }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)

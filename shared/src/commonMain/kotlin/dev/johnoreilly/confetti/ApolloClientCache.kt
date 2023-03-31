@@ -5,23 +5,17 @@ import com.apollographql.apollo3.api.ApolloRequest
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.ExecutionContext
 import com.apollographql.apollo3.api.Operation
-import com.apollographql.apollo3.api.http.HttpRequest
-import com.apollographql.apollo3.api.http.HttpResponse
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.interceptor.ApolloInterceptor
 import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
-import com.apollographql.apollo3.network.http.HttpInterceptor
-import com.apollographql.apollo3.network.http.HttpInterceptorChain
 import dev.johnoreilly.confetti.di.getDatabaseName
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.atomicfu.locks.reentrantLock
 import kotlinx.atomicfu.locks.withLock
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
@@ -30,10 +24,11 @@ interface TokenProvider {
 }
 
 
-class TokenProviderContext(val tokenProvider: TokenProvider): ExecutionContext.Element{
+class TokenProviderContext(val tokenProvider: TokenProvider) : ExecutionContext.Element {
     override val key: ExecutionContext.Key<*>
         get() = Key
-    companion object Key: ExecutionContext.Key<TokenProviderContext>
+
+    companion object Key : ExecutionContext.Key<TokenProviderContext>
 }
 
 class ApolloClientCache : KoinComponent {
@@ -55,7 +50,8 @@ class ApolloClientCache : KoinComponent {
             if (token == null) {
                 return chain.proceed(request)
             }
-            val newRequest = request.newBuilder().addHttpHeader("Authorization", "Bearer $token").build()
+            val newRequest =
+                request.newBuilder().addHttpHeader("Authorization", "Bearer $token").build()
             return chain.proceed(newRequest)
         }
     }
@@ -68,7 +64,7 @@ class ApolloClientCache : KoinComponent {
         }
     }
 
-fun getClient(conference: String): ApolloClient {
+    fun getClient(conference: String): ApolloClient {
         return mutex.withLock {
             _clients.getOrPut(conference) {
                 clientFor(conference, "none", conference != "all")
@@ -86,6 +82,7 @@ fun getClient(conference: String): ApolloClient {
             .chain(sqlNormalizedCacheFactory)
 
         return get<ApolloClient.Builder>()
+            // .serverUrl("http://10.0.2.2:8080/graphql")
             .serverUrl("https://confetti-app.dev/graphql")
             .addHttpHeader("conference", conference)
             .ignorePartialData(true)

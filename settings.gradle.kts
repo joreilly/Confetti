@@ -22,7 +22,12 @@ pluginManagement {
                     }
                 }
                 filter {
-                    includeGroup("com.apollographql.apollo3")
+                    // Use the snapshots repository for Apollo 4.0.0-SNAPSHOT, but not for 3.x, which is a dependency of 4.0.0
+                    includeVersionByRegex(
+                        "com\\.apollographql\\.apollo3",
+                        ".+",
+                        "4\\.0\\.0-SNAPSHOT"
+                    )
                 }
             }
         }

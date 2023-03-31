@@ -86,6 +86,7 @@ fragment SpeakerDetails on Speaker {
     id
     name
     photoUrl
+    tagline
     company
     companyLogoUrl
     city

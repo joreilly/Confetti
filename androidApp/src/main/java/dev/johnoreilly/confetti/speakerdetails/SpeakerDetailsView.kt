@@ -94,10 +94,18 @@ fun SpeakerDetailsView(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                         .verticalScroll(state = scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+
+                    speaker.tagline?.let { city ->
+                        Text(
+                            text = city,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                    Spacer(modifier = Modifier.size(16.dp))
 
                     val imageUrl = speaker.photoUrl ?: ""
                     if (imageUrl.isNotEmpty()) {

@@ -23,7 +23,7 @@ struct SessionSpeakerInfo: View {
                     Text("\(speaker.name ), \(speaker.company ?? "")")
                         .bold()
                         .font(.title3)
-                    Text(speaker.city ?? "")
+                    Text(speaker.tagline ?? "")
                         .bold()
                     Spacer(minLength: 10)
                     Text(speaker.bio ?? "")

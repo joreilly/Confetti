@@ -22,6 +22,13 @@ Includes:
 - GraphQL backend
 
 
+### Contributors
+
+<a href="https://github.com/joreilly/Confetti/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=joreilly/Confetti" />
+</a>
+
+
 Related posts:
 * [Swift/Kotlin ViewModel alignment in a Kotlin Multiplatform project](https://johnoreilly.dev/posts/swift-kotlin-viewmodel-kmm-comparison/)
 * [Using KMM-ViewModel library to share VM between iOS and Android](https://johnoreilly.dev/posts/kmm-viewmodel/)
@@ -51,9 +58,3 @@ The API is available at https://confetti-app.dev/graphiql
 You can query the list of conferences with `conferences.id` and chose what conference to query by passing a `"conference"` HTTP header 
 
 
-### Contributors
-
-
-<a href="https://github.com/joreilly/Confetti/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=joreilly/Confetti" />
-</a>

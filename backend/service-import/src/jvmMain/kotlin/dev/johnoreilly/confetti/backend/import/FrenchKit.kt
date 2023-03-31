@@ -49,6 +49,7 @@ object FrenchKit {
                 name = it.get("firstName").asString,
                 photoUrl = it.get("imageURL").asString,
                 bio = null,
+                tagline = null,
                 city = null,
                 company = null,
                 companyLogoUrl = null,

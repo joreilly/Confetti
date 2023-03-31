@@ -187,6 +187,7 @@ object DevFestNantes {
                 id = speaker.get("key").asString,
                 name = speaker.get("name").asString,
                 bio = speaker.get("bio")?.asString,
+                tagline = null,
                 company = speaker.get("company")?.asString,
                 links = speaker.get("socials").asMap.entries.map {
                     val handle = it.value.asString.trim()

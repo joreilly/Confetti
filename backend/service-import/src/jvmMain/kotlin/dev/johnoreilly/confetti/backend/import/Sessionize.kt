@@ -167,6 +167,7 @@ object Sessionize {
                 name = it.get("fullName").asString,
                 photoUrl = it.get("profilePicture")?.asString,
                 bio = it.get("bio")?.asString,
+                tagline = it.get("tagLine")?.asString,
                 city = null,
                 company = null,
                 companyLogoUrl = null,

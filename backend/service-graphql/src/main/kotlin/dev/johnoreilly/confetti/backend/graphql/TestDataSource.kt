@@ -27,6 +27,7 @@ class TestDataSource : DataSource {
             id = "speaker0",
             name = "speaker 0",
             bio = "Bio updated at $nowInstant",
+            tagline = null,
             company = null,
             companyLogoUrl = null,
             city = null,

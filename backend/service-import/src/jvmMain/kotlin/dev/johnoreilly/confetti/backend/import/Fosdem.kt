@@ -73,6 +73,7 @@ object Fosdem {
                                 id = it.attributes.get("id").asString,
                                 name = it.textContent,
                                 bio = null,
+                                tagline = null,
                                 company = null,
                                 links = emptyList(),
                                 companyLogoUrl = null,

@@ -22,71 +22,28 @@ import dev.johnoreilly.confetti.ui.component.SessionListTabRow
 import org.koin.androidx.compose.getViewModel
 
 
-class MainActivity : ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        setContent {
-            ConfettiTheme {
-                SessionListScreen()
-            }
-        }
-    }
-}
 
-@Composable
-fun SessionListScreen(viewModel: ConfettiViewModel = getViewModel()) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (val state = uiState) {
-        SessionsUiState.Loading ->
-            Column(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)) {
-                CircularProgressIndicator()
-            }
 
-        is SessionsUiState.Success -> {
-            SessionListView(state)
-        }
-    }
-}
 
-@Composable
-fun SessionListView(uiState: SessionsUiState.Success) {
-    val pagerState = rememberPagerState()
 
-    Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = { Text(uiState.conferenceName) }) }
-    ) {
-        Column(Modifier.padding(it)) {
-            SessionListTabRow(pagerState, uiState)
 
-            HorizontalPager(pageCount = uiState.confDates.size, state = pagerState) { page ->
-                val sessionsMap = uiState.sessionsByStartTimeList[page]
-                LazyColumn {
-                    sessionsMap.forEach { sessions ->
-                        item {
-                            Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                                Text(sessions.key, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                                Divider()
-                            }
-                        }
 
-                        items(sessions.value) { session ->
-                            SessionView(session)
-                        }
-                    }
-                }
-            }
-        }
-    }
 
-}
 
-@Composable
-fun SessionView(session: SessionDetails) {
-    Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-        Text(session.title, style = MaterialTheme.typography.bodyLarge)
-        Text(session.sessionSpeakerInfo(), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -121,12 +121,16 @@ class DefaultApplication {
             } else {
                 println("Enabling Apollo reporting for graph $graph")
                 @OptIn(ApolloExperimental::class)
-                SchemaUploader.uploadSchema(
-                    key = apolloKey,
-                    sdl = schema.print(),
-                    graph = graph,
-                    variant = "current"
-                )
+                try {
+                    SchemaUploader.uploadSchema(
+                        key = apolloKey,
+                        sdl = schema.print(),
+                        graph = graph,
+                        variant = "current"
+                    )
+                } catch(e: Exception) {
+                    println("Cannot enable Apollo reporting: ${e.message}")
+                }
             }
         } else {
             println("Skipping Apollo reporting")

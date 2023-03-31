@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.sessions
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +42,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
@@ -53,7 +53,6 @@ import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.get
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -90,18 +89,20 @@ fun SessionListView(
                             .clipToBounds()
                     ) {
                         LazyColumn {
-                            sessions.forEach {
-                                item {
+                            sessions.forEach { (startTime, sessions) ->
+                                stickyHeader {
                                     Column(
-                                        Modifier.padding(
-                                            start = 16.dp,
-                                            end = 16.dp,
-                                            top = 16.dp,
-                                            bottom = 8.dp
-                                        )
+                                        Modifier
+                                            .background(MaterialTheme.colorScheme.surface)
+                                            .padding(
+                                                start = 16.dp,
+                                                end = 16.dp,
+                                                top = 16.dp,
+                                                bottom = 8.dp
+                                            )
                                     ) {
                                         Text(
-                                            it.key,
+                                            startTime,
                                             fontWeight = FontWeight.Bold,
                                             color = MaterialTheme.colorScheme.primary
                                         )
@@ -109,7 +110,7 @@ fun SessionListView(
                                     }
                                 }
 
-                                items(it.value) { session ->
+                                items(sessions) { session ->
                                     SessionItemView(
                                         conference = uiState.conference,
                                         session = session,

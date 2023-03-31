@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,7 +21,10 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
@@ -37,15 +39,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
-import dev.johnoreilly.confetti.sessionSpeakerLocation
+import dev.johnoreilly.confetti.sessionSpeakers
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
@@ -164,6 +164,7 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SessionItemView(
     conference: String,
@@ -175,69 +176,70 @@ fun SessionItemView(
     onNavigateToSignIn: () -> Unit = {},
     user: User?,
 ) {
-
     var modifier = Modifier.fillMaxSize()
     if (!session.isBreak()) {
         modifier = modifier.clickable(onClick = {
             sessionSelected(SessionDetailsKey(conference, session.id))
         })
     }
-    Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-        Column(modifier = Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = session.title, style = TextStyle(fontSize = 16.sp))
+
+    var showDialog by remember { mutableStateOf(false) }
+    ListItem(
+        modifier = modifier,
+        headlineText = {
+            Text(session.title)
+        },
+        overlineText = session.room?.let {
+            {
+                Text(modifier = Modifier.padding(bottom = 4.dp), text = session.room!!.name)
             }
-
-            session.room?.let {
-                Row(
-                    modifier = Modifier.padding(top = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        session.sessionSpeakerLocation(),
-                        style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold
-                    )
-                }
+        },
+        supportingText = session.sessionSpeakers()?.let { speakers ->
+            {
+                Text(modifier = Modifier.padding(top = 4.dp), text = speakers)
             }
-        }
-
-
-        var showDialog by remember { mutableStateOf(false) }
-
-        if (isBookmarked) {
-            Icon(
-                imageVector = Icons.Outlined.Bookmark,
-                contentDescription = "remove bookmark",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .clickable {
+        },
+        trailingContent = {
+            if (isBookmarked) {
+                IconButton(
+                    onClick = {
                         if (user != null) {
                             removeBookmark(session.id)
                         } else {
                             showDialog = true
                         }
                     }
-                    .padding(8.dp))
-        } else {
-            Icon(
-                imageVector = Icons.Outlined.BookmarkAdd,
-                contentDescription = "add bookmark",
-                modifier = Modifier
-                    .clickable {
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Bookmark,
+                        contentDescription = "remove bookmark",
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                }
+
+            } else {
+                IconButton(
+                    onClick = {
                         if (user != null) {
                             addBookmark(session.id)
                         } else {
                             showDialog = true
                         }
                     }
-                    .padding(8.dp))
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.BookmarkAdd,
+                        contentDescription = "add bookmark",
+                    )
+                }
+            }
         }
+    )
 
-        if (showDialog) {
-            SignInDialog(
-                onDismissRequest = { showDialog = false },
-                onSignInClicked = onNavigateToSignIn
-            )
-        }
+    if (showDialog) {
+        SignInDialog(
+            onDismissRequest = { showDialog = false },
+            onSignInClicked = onNavigateToSignIn
+        )
     }
 }

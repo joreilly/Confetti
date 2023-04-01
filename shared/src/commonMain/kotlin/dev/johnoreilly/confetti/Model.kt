@@ -14,6 +14,14 @@ fun SessionDetails.sessionSpeakerLocation(): String {
     return text
 }
 
+fun SessionDetails.sessionSpeakers(): String? {
+    return if (speakers.isNotEmpty()) {
+        speakers.joinToString(", ") { it.speakerDetails.name }
+    } else {
+        null
+    }
+}
+
 
 fun SpeakerDetails.fullNameAndCompany(): String {
     return name + if (company.isNullOrBlank()) "" else ", " + this.company

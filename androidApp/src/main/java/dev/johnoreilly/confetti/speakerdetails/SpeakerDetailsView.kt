@@ -20,7 +20,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -51,7 +50,12 @@ internal fun SpeakerDetailsRoute(
     when (val uiState1 = uiState) {
         is SpeakerDetailsViewModel.Loading -> LoadingView()
         is SpeakerDetailsViewModel.Error -> ErrorView()
-        is SpeakerDetailsViewModel.Success -> SpeakerDetailsView(conference, uiState1.details, navigateToSession, onBackClick)
+        is SpeakerDetailsViewModel.Success -> SpeakerDetailsView(
+            conference,
+            uiState1.details,
+            navigateToSession,
+            onBackClick
+        )
     }
 
 }
@@ -87,63 +91,61 @@ fun SpeakerDetailsView(
                 )
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-        Column(modifier = Modifier.padding(padding).padding(bottom = 16.dp)) {
-            speaker?.let { speaker ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .verticalScroll(state = scrollState),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    speaker.tagline?.let { city ->
-                        Text(
-                            text = city,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(16.dp))
-
-                    val imageUrl = speaker.photoUrl ?: ""
-                    if (imageUrl.isNotEmpty()) {
-                        AsyncImage(
-                            model = imageUrl,
-                            contentDescription = speaker.name,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .size(240.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                        )
-                    }
-                    Spacer(modifier = Modifier.size(24.dp))
-
+        Column(modifier = Modifier.padding(padding)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .verticalScroll(state = scrollState),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                speaker.tagline?.let { city ->
                     Text(
-                        text = speaker.bio ?: "",
-                        style = MaterialTheme.typography.bodyLarge
+                        text = city,
+                        style = MaterialTheme.typography.titleMedium
                     )
-
-                    Spacer(modifier = Modifier.size(24.dp))
-                    Row(
-                        Modifier.padding(top = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        speaker.socials.forEach { socialsItem ->
-                            SocialIcon(
-                                modifier = Modifier.size(24.dp),
-                                socialItem = socialsItem,
-                                onClick = {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
-                                    context.startActivity(intent)
-                                }
-                            )
-                        }
-                    }
-
-                    SpeakerTalks(conference, speaker.sessions, navigateToSession)
                 }
+                Spacer(modifier = Modifier.size(16.dp))
+
+                val imageUrl = speaker.photoUrl ?: ""
+                if (imageUrl.isNotEmpty()) {
+                    AsyncImage(
+                        model = imageUrl,
+                        contentDescription = speaker.name,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(240.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                }
+                Spacer(modifier = Modifier.size(24.dp))
+
+                Text(
+                    text = speaker.bio ?: "",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                Spacer(modifier = Modifier.size(16.dp))
+                Row(
+                    Modifier.padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    speaker.socials.forEach { socialsItem ->
+                        SocialIcon(
+                            modifier = Modifier.size(24.dp),
+                            socialItem = socialsItem,
+                            onClick = {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
+                                context.startActivity(intent)
+                            }
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.size(16.dp))
+
+                SpeakerTalks(conference, speaker.sessions, navigateToSession)
             }
         }
     }
@@ -160,9 +162,13 @@ fun SpeakerTalks(
         Divider()
         Spacer(modifier = Modifier.size(8.dp))
         sessions.forEach { session ->
-            Row(Modifier.fillMaxWidth().clickable {
-                navigateToSession(SessionDetailsKey(conference, session.id))
-            }.padding(vertical = 8.dp)) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        navigateToSession(SessionDetailsKey(conference, session.id))
+                    }
+                    .padding(vertical = 8.dp)) {
                 Text(session.title, style = MaterialTheme.typography.bodyLarge)
             }
         }

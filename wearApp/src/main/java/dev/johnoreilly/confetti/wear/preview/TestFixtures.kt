@@ -10,17 +10,19 @@ import kotlinx.datetime.LocalDateTime
 object TestFixtures {
     val sessionTime = LocalDateTime.parse("2023-04-13T14:00")
 
+    val kotlinConf2023 = GetConferencesQuery.Conference(
+        "kotlinconf2023",
+        listOf(
+            LocalDate.parse("2023-04-12"),
+            LocalDate.parse("2023-04-13"),
+            LocalDate.parse("2023-04-14")
+        ),
+        "KotlinConf 2023"
+    )
+
     // Generate from FetchDataTest.fetchConferences
     val conferences = listOf(
-        GetConferencesQuery.Conference(
-            "kotlinconf2023",
-            listOf(
-                LocalDate.parse("2023-04-12"),
-                LocalDate.parse("2023-04-13"),
-                LocalDate.parse("2023-04-14")
-            ),
-            "KotlinConf 2023"
-        ),
+        kotlinConf2023,
         GetConferencesQuery.Conference(
             "fosdem2023",
             listOf(LocalDate.parse("2023-02-04"), LocalDate.parse("2023-02-05")),

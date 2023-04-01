@@ -191,10 +191,11 @@ dependencies {
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {
-    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen[Colors: Confetti]_reference.png")
-    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen[Colors: Confetti]_reference.png")
-    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen[Colors: Confetti]_reference.png")
-    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen[Colors: Confetti]_reference.png")
-    selectedImages.from("snapshot/TileScreenshotTest/tile[Colors: Confetti]_reference.png")
+    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/ConferenceHomeScreenTest/conferenceHomeScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/TileScreenshotTest/tile_Colors_Material__reference.png")
     output.set(file("../fastlane/metadata/android/en-US/images/wearScreenshots"))
 }

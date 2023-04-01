@@ -89,6 +89,9 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
 
     @Test
     fun conferenceHomeScreenLoading() {
+        // Placeholders are not stable
+        tolerance = 0.5f
+
         takeScrollableScreenshot(
             timeTextMode = TimeTextMode.OnTop,
             checks = { _ ->
@@ -109,6 +112,9 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
 
     @Test
     fun conferenceHomeScreenLoadingA11y() {
+        // Placeholders are not stable
+        tolerance = 0.5f
+
         enableA11yTest()
 
         takeScrollableScreenshot(

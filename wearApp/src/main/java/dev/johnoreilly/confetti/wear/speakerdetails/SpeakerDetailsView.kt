@@ -37,7 +37,7 @@ fun SpeakerDetailsView(speaker: SpeakerDetails?, columnState: ScalingLazyColumnS
         modifier = Modifier.fillMaxSize(),
         columnState = columnState
     ) {
-        speaker?.let { speaker ->
+        if (speaker != null) {
             item {
                 SectionHeader(text = speaker.name,)
             }
@@ -52,6 +52,15 @@ fun SpeakerDetailsView(speaker: SpeakerDetails?, columnState: ScalingLazyColumnS
                         modifier = Modifier
                             .size(80.dp)
                             .clip(RoundedCornerShape(16.dp))
+                    )
+                }
+            }
+
+            val tagline = speaker.tagline
+            if (tagline != null) {
+                item {
+                    Text(
+                        text = tagline
                     )
                 }
             }

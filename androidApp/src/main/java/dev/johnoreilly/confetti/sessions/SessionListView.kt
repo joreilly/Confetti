@@ -16,6 +16,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -53,6 +55,7 @@ import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
+import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
@@ -95,23 +98,24 @@ fun SessionListView(
                         LazyColumn {
                             sessions.forEach { (startTime, sessions) ->
                                 stickyHeader {
-                                    Column(
-                                        Modifier
-                                            .background(MaterialTheme.colorScheme.surface)
-                                            .padding(
-                                                start = 16.dp,
-                                                end = 16.dp,
-                                                top = 16.dp,
-                                                bottom = 8.dp
-                                            )
-                                    ) {
-                                        Text(
-                                            startTime,
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.primary
-                                        )
-                                        Divider()
-                                    }
+                                    ConfettiHeader(icon = Icons.Filled.AccessTime, text = startTime)
+//                                    Column(
+//                                        Modifier
+//                                            .background(MaterialTheme.colorScheme.surface)
+//                                            .padding(
+//                                                start = 16.dp,
+//                                                end = 16.dp,
+//                                                top = 16.dp,
+//                                                bottom = 8.dp
+//                                            )
+//                                    ) {
+//                                        Text(
+//                                            startTime,
+//                                            fontWeight = FontWeight.Bold,
+//                                            color = MaterialTheme.colorScheme.primary
+//                                        )
+//                                        Divider()
+//                                    }
                                 }
 
                                 items(sessions) { session ->

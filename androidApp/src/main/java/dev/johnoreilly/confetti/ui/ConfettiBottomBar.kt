@@ -19,7 +19,6 @@ internal fun ConfettiBottomBar(
 ) {
     NavigationBar(
         contentColor = ConfettiNavigationDefaults.navigationContentColor(),
-        tonalElevation = 0.dp,
     ) {
         TopLevelDestination.values.forEach { destination ->
             val route = destination.route(conference)

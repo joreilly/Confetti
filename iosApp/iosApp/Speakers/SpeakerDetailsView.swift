@@ -27,6 +27,11 @@ struct SpeakerDetailsView: View {
                 HStack {
                     SessionSpeakerSocialInfo(speaker: speaker)
                 }
+                Spacer()
+                Text("Sessions").font(.headline)
+                ForEach(speaker.sessions, id: \.self) { session in
+                    Text(session.title).font(.body)
+                }
             }
             .padding()
         }

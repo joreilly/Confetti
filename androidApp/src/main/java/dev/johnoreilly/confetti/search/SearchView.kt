@@ -20,6 +20,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.MicExternalOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
@@ -167,7 +168,7 @@ private fun LazyListScope.sessionItems(
     // Shows header if and only if there are session results.
     if (sessions.isNotEmpty()) {
         stickyHeader {
-            HeaderView(Icons.Filled.MicExternalOn, "Sessions")
+            HeaderView(Icons.Filled.Event, "Sessions")
         }
     }
     items(sessions) { session ->
@@ -200,13 +201,12 @@ private fun HeaderView(
             .fillMaxWidth(),
     ) {
         Column {
+            Divider()
             Row(
                 modifier = Modifier
                     .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 16.dp,
-                        bottom = 8.dp
+                        horizontal = 16.dp,
+                        vertical = 8.dp,
                     ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {

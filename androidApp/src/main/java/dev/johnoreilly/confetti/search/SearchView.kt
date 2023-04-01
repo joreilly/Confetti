@@ -1,14 +1,16 @@
 @file:OptIn(
     ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalLayoutApi::class
 )
 
 package dev.johnoreilly.confetti.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -17,14 +19,12 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.MicExternalOn
+import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,13 +32,11 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -46,9 +44,7 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auth.User
@@ -62,9 +58,7 @@ import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ConfettiTypography
 import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.component.BackgroundTheme
-import dev.johnoreilly.confetti.ui.component.ConfettiBackground
-import dev.johnoreilly.confetti.ui.component.LocalBackgroundTheme
+import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.utils.rememberRunnable
 
 @Composable
@@ -86,6 +80,7 @@ fun SearchView(
     loading: Boolean,
 ) {
     ConfettiScaffold(
+        modifier = Modifier.imePadding(),
         title = stringResource(R.string.search),
         conference = conference,
         appState = appState,
@@ -105,7 +100,9 @@ fun SearchView(
             if (loading) {
                 LoadingView()
             } else if (search.isNotBlank()) {
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier.imeNestedScroll(),
+                ) {
                     sessionItems(
                         conference = conference,
                         sessions = sessions,
@@ -136,7 +133,7 @@ private fun LazyListScope.speakerItems(
     // Shows header if and only if there are speaker results.
     if (speakers.isNotEmpty()) {
         stickyHeader {
-            HeaderView(Icons.Filled.Person, "Speakers")
+            ConfettiHeader(icon = Icons.Filled.Person, text = "Speakers")
         }
     }
     items(speakers) { speaker ->
@@ -161,7 +158,7 @@ private fun LazyListScope.sessionItems(
     // Shows header if and only if there are session results.
     if (sessions.isNotEmpty()) {
         stickyHeader {
-            HeaderView(Icons.Filled.MicExternalOn, "Sessions")
+            ConfettiHeader(icon = Icons.Filled.Event, text = "Sessions")
         }
     }
     items(sessions) { session ->
@@ -175,49 +172,6 @@ private fun LazyListScope.sessionItems(
             onNavigateToSignIn = onSignIn,
             user = user,
         )
-    }
-}
-
-@Composable
-private fun HeaderView(
-    icon: ImageVector,
-    text: String,
-) {
-    val tonalElevation = LocalBackgroundTheme.current.tonalElevation
-    ConfettiBackground(
-        tonalElevation = if (tonalElevation == Dp.Unspecified) {
-            BackgroundTheme.DEFAULT_TONAL_ELEVATION
-        } else {
-            tonalElevation
-        },
-        modifier = Modifier
-            .fillMaxWidth(),
-    ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 16.dp,
-                        bottom = 8.dp
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(end = 8.dp),
-                    imageVector = icon,
-                    contentDescription = null,
-                )
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-            Divider()
-        }
     }
 }
 

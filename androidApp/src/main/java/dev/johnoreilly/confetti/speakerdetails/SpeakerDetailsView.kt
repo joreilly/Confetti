@@ -11,9 +11,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +33,7 @@ import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.SocialIcon
 import org.koin.androidx.compose.getViewModel
 
@@ -91,13 +95,17 @@ fun SpeakerDetailsView(
                 )
             )
         },
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+    ) { innerPadding ->
+        val contentPaddings = remember { PaddingValues(horizontal = 16.dp, vertical = 8.dp) }
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .verticalScroll(state = scrollState),
+            ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .verticalScroll(state = scrollState),
+                    .padding(contentPaddings),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 speaker.tagline?.let { city ->
@@ -127,6 +135,7 @@ fun SpeakerDetailsView(
                 )
 
                 Spacer(modifier = Modifier.size(16.dp))
+
                 Row(
                     Modifier.padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -142,11 +151,16 @@ fun SpeakerDetailsView(
                         )
                     }
                 }
-
-                Spacer(modifier = Modifier.size(16.dp))
-
-                SpeakerTalks(conference, speaker.sessions, navigateToSession)
             }
+
+            Spacer(modifier = Modifier.size(16.dp))
+
+            SpeakerTalks(
+                modifier = Modifier.padding(contentPaddings),
+                conference = conference,
+                sessions = speaker.sessions,
+                navigateToSession = navigateToSession,
+            )
         }
     }
 }
@@ -156,22 +170,27 @@ fun SpeakerTalks(
     conference: String,
     sessions: List<SpeakerDetails.Session>,
     navigateToSession: (SessionDetailsKey) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(Modifier.fillMaxWidth()) {
-        Text("Sessions", style = MaterialTheme.typography.headlineSmall)
-        Divider()
+
+        ConfettiHeader(icon = Icons.Filled.Event, text = "Sessions")
+
         Spacer(modifier = Modifier.size(8.dp))
-        sessions.forEach { session ->
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        navigateToSession(SessionDetailsKey(conference, session.id))
-                    }
-                    .padding(vertical = 8.dp)) {
-                Text(session.title, style = MaterialTheme.typography.bodyLarge)
+
+        Column(modifier) {
+            sessions.forEach { session ->
+                Row(
+                    Modifier
+                        .padding()
+                        .fillMaxWidth()
+                        .clickable {
+                            navigateToSession(SessionDetailsKey(conference, session.id))
+                        }
+                        .padding(vertical = 8.dp)) {
+                    Text(session.title, style = MaterialTheme.typography.bodyLarge)
+                }
             }
         }
     }
 }
-

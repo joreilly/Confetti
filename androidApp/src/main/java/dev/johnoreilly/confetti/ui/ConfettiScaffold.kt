@@ -51,6 +51,7 @@ class ScaffoldState(
  */
 @Composable
 fun ConfettiScaffold(
+    modifier: Modifier = Modifier,
     title: String? = null,
     conference: String,
     appState: ConfettiAppState,
@@ -69,6 +70,7 @@ fun ConfettiScaffold(
     val titleState = remember(title) { mutableStateOf(title) }
 
     ConfettiScaffold(
+        modifier = modifier,
         title = titleState.value,
         conference = conference,
         appState = appState,
@@ -85,6 +87,7 @@ fun ConfettiScaffold(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfettiScaffold(
+    modifier: Modifier = Modifier,
     title: String?,
     conference: String,
     appState: ConfettiAppState,
@@ -104,7 +107,7 @@ fun ConfettiScaffold(
         )
     }
 
-    Row {
+    Row(modifier = modifier) {
         // The default behaviour is to keep top bar always visible.
         var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         if (appState.shouldShowNavRail) {

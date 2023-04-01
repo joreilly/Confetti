@@ -1,14 +1,17 @@
 @file:OptIn(
     ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalLayoutApi::class
 )
 
 package dev.johnoreilly.confetti.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -86,6 +89,7 @@ fun SearchView(
     loading: Boolean,
 ) {
     ConfettiScaffold(
+        modifier = Modifier.imePadding(),
         title = stringResource(R.string.search),
         conference = conference,
         appState = appState,
@@ -105,7 +109,9 @@ fun SearchView(
             if (loading) {
                 LoadingView()
             } else if (search.isNotBlank()) {
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier.imeNestedScroll(),
+                ) {
                     sessionItems(
                         conference = conference,
                         sessions = sessions,

@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,8 +40,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -53,6 +56,7 @@ import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.get
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -176,70 +180,82 @@ fun SessionItemView(
     onNavigateToSignIn: () -> Unit = {},
     user: User?,
 ) {
+
     var modifier = Modifier.fillMaxSize()
     if (!session.isBreak()) {
         modifier = modifier.clickable(onClick = {
             sessionSelected(SessionDetailsKey(conference, session.id))
         })
     }
+    Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Column(modifier = Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(text = session.title, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold))
+            }
 
-    var showDialog by remember { mutableStateOf(false) }
-    ListItem(
-        modifier = modifier,
-        headlineText = {
-            Text(session.title)
-        },
-        overlineText = session.room?.let {
-            {
-                Text(modifier = Modifier.padding(bottom = 4.dp), text = session.room!!.name)
+            session.room?.let {
+                Row(
+                    modifier = Modifier.padding(top = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        session.sessionSpeakers() ?: "",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.padding(top = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        it.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
+                }
+
             }
-        },
-        supportingText = session.sessionSpeakers()?.let { speakers ->
-            {
-                Text(modifier = Modifier.padding(top = 4.dp), text = speakers)
-            }
-        },
-        trailingContent = {
-            if (isBookmarked) {
-                IconButton(
-                    onClick = {
+
+        }
+
+
+        var showDialog by remember { mutableStateOf(false) }
+
+        if (isBookmarked) {
+            Icon(
+                imageVector = Icons.Outlined.Bookmark,
+                contentDescription = "remove bookmark",
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .clickable {
                         if (user != null) {
                             removeBookmark(session.id)
                         } else {
                             showDialog = true
                         }
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Bookmark,
-                        contentDescription = "remove bookmark",
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                }
-
-            } else {
-                IconButton(
-                    onClick = {
+                    .padding(8.dp))
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.BookmarkAdd,
+                contentDescription = "add bookmark",
+                modifier = Modifier
+                    .clickable {
                         if (user != null) {
                             addBookmark(session.id)
                         } else {
                             showDialog = true
                         }
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.BookmarkAdd,
-                        contentDescription = "add bookmark",
-                    )
-                }
-            }
+                    .padding(8.dp))
         }
-    )
 
-    if (showDialog) {
-        SignInDialog(
-            onDismissRequest = { showDialog = false },
-            onSignInClicked = onNavigateToSignIn
-        )
+        if (showDialog) {
+            SignInDialog(
+                onDismissRequest = { showDialog = false },
+                onSignInClicked = onNavigateToSignIn
+            )
+        }
     }
 }

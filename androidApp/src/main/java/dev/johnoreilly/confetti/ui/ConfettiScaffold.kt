@@ -115,9 +115,12 @@ fun ConfettiScaffold(
                 modifier = Modifier.safeDrawingPadding()
             )
         } else {
+            // The scrollBehaviour combined with a pager seems to cause issues when a fling happens.
+            // For now, we will keep the default behaviour until we figure out how to workaround it.
+            // ---
             // If NavRail is not visible (i.e., phones), we collapse the top bar while scrolling.
             // That gives more space for the user to see the screen content.
-            scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+            // scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         }
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),

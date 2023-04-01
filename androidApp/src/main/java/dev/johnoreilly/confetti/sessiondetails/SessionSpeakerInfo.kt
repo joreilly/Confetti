@@ -46,7 +46,7 @@ fun SessionSpeakerInfo(
                     fontWeight = FontWeight.Bold
                 )
 
-                speaker.city?.let { city ->
+                speaker.tagline?.let { city ->
                     Text(
                         text = city,
                         style = MaterialTheme.typography.titleSmall

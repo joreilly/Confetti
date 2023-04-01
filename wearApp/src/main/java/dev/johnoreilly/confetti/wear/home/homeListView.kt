@@ -102,7 +102,7 @@ fun HomeListView(
                 }
 
                 items(2) {
-                    PlaceholderChip()
+                    PlaceholderChip(contentDescription = "")
                 }
             }
 

@@ -99,23 +99,6 @@ fun SessionListView(
                             sessions.forEach { (startTime, sessions) ->
                                 stickyHeader {
                                     ConfettiHeader(icon = Icons.Filled.AccessTime, text = startTime)
-//                                    Column(
-//                                        Modifier
-//                                            .background(MaterialTheme.colorScheme.surface)
-//                                            .padding(
-//                                                start = 16.dp,
-//                                                end = 16.dp,
-//                                                top = 16.dp,
-//                                                bottom = 8.dp
-//                                            )
-//                                    ) {
-//                                        Text(
-//                                            startTime,
-//                                            fontWeight = FontWeight.Bold,
-//                                            color = MaterialTheme.colorScheme.primary
-//                                        )
-//                                        Divider()
-//                                    }
                                 }
 
                                 items(sessions) { session ->

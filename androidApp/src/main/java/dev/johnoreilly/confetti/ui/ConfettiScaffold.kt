@@ -105,8 +105,6 @@ fun ConfettiScaffold(
     }
 
     Row {
-        // var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
         // The default behaviour is to keep top bar always visible.
         var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         if (appState.shouldShowNavRail) {

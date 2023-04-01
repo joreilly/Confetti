@@ -18,12 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SpeakersUiState
 import dev.johnoreilly.confetti.SpeakersViewModel
@@ -171,9 +174,13 @@ fun SpeakerItemView(
         leadingContent = speaker.photoUrl?.let { photoUrl ->
             {
                 AsyncImage(
-                    model = photoUrl,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(photoUrl)
+                        .crossfade(true)
+                        .build(),
                     contentDescription = speaker.name,
                     contentScale = ContentScale.Fit,
+                    placeholder = painterResource(R.drawable.ic_person_black_24dp),
                     modifier = Modifier
                         .size(64.dp)
                         .clip(CircleShape)

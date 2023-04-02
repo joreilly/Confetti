@@ -17,22 +17,40 @@ abstract class PlayStoreScreenshotTask : DefaultTask() {
 
     @TaskAction
     fun generateImages() {
+        selectedImages.forEach {
+            checkSourceScreenshotExists(it)
+        }
+
+        deleteAllExisting()
+
+        selectedImages.forEachIndexed { index, file ->
+            copyScreenshot(file, index)
+        }
+    }
+
+    private fun checkSourceScreenshotExists(it: java.io.File) {
+        check(it.exists()) {
+            "Source file $it does not exist"
+        }
+    }
+
+    private fun deleteAllExisting() {
         val existing = output.asFileTree.files
         logger.info("Deleting " + existing.map { it.name })
         project.delete(existing)
+    }
 
-        selectedImages.forEachIndexed { index, file ->
-            val sourceImage = ImageIO.read(file)
-            val destImage = BufferedImage(sourceImage.width, sourceImage.height, sourceImage.type)
-            val g = destImage.createGraphics()
+    private fun copyScreenshot(file: java.io.File, index: Int) {
+        val sourceImage = ImageIO.read(file)
+        val destImage = BufferedImage(sourceImage.width, sourceImage.height, sourceImage.type)
+        val g = destImage.createGraphics()
 
-            g.setColor(Color.BLACK)
-            g.fillRect(0, 0, destImage.width, destImage.height)
+        g.setColor(Color.BLACK)
+        g.fillRect(0, 0, destImage.width, destImage.height)
 
-            g.drawImage(sourceImage, null, 0, 0)
+        g.drawImage(sourceImage, null, 0, 0)
 
-            val destinationName = "${'a' + index}_${file.name.replace("\\W+.*".toRegex(), "")}.png"
-            ImageIO.write(destImage, "png", output.file(destinationName).get().asFile)
-        }
+        val destinationName = "${'a' + index}_${file.name.replace("\\W+.*".toRegex(), "")}.png"
+        ImageIO.write(destImage, "png", output.file(destinationName).get().asFile)
     }
 }

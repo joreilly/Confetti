@@ -52,7 +52,6 @@ fun SpeakersRoute(
         configure(conference = conference)
     }
     val uiState by viewModel.speakers.collectAsStateWithLifecycle()
-
     ConfettiScaffold(
         title = stringResource(R.string.speakers),
         conference = conference,

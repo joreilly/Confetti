@@ -15,7 +15,6 @@ import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.SpeakersViewModel
-import dev.johnoreilly.confetti.account.AccountViewModel
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.settings.SettingsViewModel
@@ -34,7 +33,6 @@ val appModule = module {
     viewModelOf(::SpeakersViewModel)
     viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)
-    viewModelOf(::AccountViewModel)
     viewModelOf(::SettingsViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::BookmarksViewModel)

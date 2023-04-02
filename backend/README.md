@@ -12,6 +12,8 @@ You can explore the API using the [sandbox]:
 https://confetti-app.dev/sandbox
 ```
 
+![sandbox](https://user-images.githubusercontent.com/3974977/229364452-21c8e97e-fed1-47b0-8a41-d679884e579d.png)
+
 For an example, the following query (used in the screenshot above) returns the 100 first sessions:
 
 ```graphql
@@ -53,4 +55,5 @@ Setting and reading bookmarks requires to be authenticated. Authentication is ha
 Authorization: Bearer ${firebaseIdToken}
 ```
 
+![Headers](https://user-images.githubusercontent.com/3974977/229364454-40695db2-d25e-41aa-bdda-49bcd8e50f63.png)
 

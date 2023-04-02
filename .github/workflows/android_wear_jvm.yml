@@ -23,11 +23,11 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
 
+    - name: Wear Unit Tests
+      run: ./gradlew :androidApp:test :wearApp:test
+
     - name: Build
       run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug
-
-    - name: Wear Unit Tests
-      run: ./gradlew :wearApp:testDebugUnitTest
 
   build-jvm:
     runs-on: ubuntu-22.04

@@ -24,12 +24,6 @@ class AccountViewModel(
             }
         }
     }
-
-    fun updateWearTheme() {
-        viewModelScope.launch {
-            wearSettingsSync.updateWearTheme()
-        }
-    }
 }
 
 data class UiState(

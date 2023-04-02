@@ -42,7 +42,7 @@ Requires XCode 14 or later for iOS client.
 
 ### Screenshots
 
-<img width="1054" alt="Mobile Screenshots of Confetti screens" src="https://user-images.githubusercontent.com/6302/196694566-20a8edc0-a120-4305-8ff2-d18d543f47a2.png">
+<img width="1204" alt="Screenshot 2023-04-02 at 14 17 32" src="https://user-images.githubusercontent.com/6302/229355328-07738ff7-ffc4-4c68-9e2e-7b905d76f679.png">
 
 
 ![Tablet Screenshot of Confetti](https://user-images.githubusercontent.com/6302/227476725-edd577f5-2abd-4660-a777-decef84fbb9b.png)

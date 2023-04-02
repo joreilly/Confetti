@@ -35,6 +35,7 @@ query {
 
 The API uses the value of the `"conference"` HTTP header to return data for a specific conference:
 
+![Headers](https://user-images.githubusercontent.com/3974977/229364454-40695db2-d25e-41aa-bdda-49bcd8e50f63.png)
 
 To get a list of available conferences at a given point in time, use the root `conferences` field:
 
@@ -55,5 +56,4 @@ Setting and reading bookmarks requires to be authenticated. Authentication is ha
 Authorization: Bearer ${firebaseIdToken}
 ```
 
-![Headers](https://user-images.githubusercontent.com/3974977/229364454-40695db2-d25e-41aa-bdda-49bcd8e50f63.png)
 

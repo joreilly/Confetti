@@ -1,0 +1,20 @@
+name: Android, Wear and JVM CI
+
+on: pull_request
+
+# Cancel any current or previous job from the same PR
+concurrency:
+  group: android-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        lfs: 'true'
+
+    - name: Check GIT lfs images
+      run: |
+        ./.github/scripts/git-lfs-check.sh

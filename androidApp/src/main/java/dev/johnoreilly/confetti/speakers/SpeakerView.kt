@@ -166,7 +166,7 @@ fun SpeakerItemView(
         headlineText = {
             Text(text = speaker.name)
         },
-        supportingText = speaker.company?.let { company ->
+        supportingText = speaker.tagline?.let { company ->
             {
                 Text(company)
             }

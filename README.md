@@ -9,8 +9,7 @@ height="80">](https://play.google.com/store/apps/details?id=dev.johnoreilly.conf
 alt="Get it on App Store"
 height="80">](https://apps.apple.com/us/app/confetti/id1660211390)
 
-Kotlin Multiplatform GraphQL project to allow viewing of conference information developed in the
-open by [contributors](https://github.com/joreilly/Confetti/graphs/contributors).
+Kotlin Multiplatform GraphQL project (backend and clients) to allow viewing of conference information for a range of conferences.
 
 Includes:
 

@@ -29,7 +29,7 @@ Includes:
 </a>
 
 
-Related posts:
+### Related posts
 
 * [Swift/Kotlin ViewModel alignment in a Kotlin Multiplatform project](https://johnoreilly.dev/posts/swift-kotlin-viewmodel-kmm-comparison/)
 * [Using KMM-ViewModel library to share VM between iOS and Android](https://johnoreilly.dev/posts/kmm-viewmodel/)
@@ -42,7 +42,7 @@ Requires XCode 14 or later for iOS client.
 
 ### Screenshots
 
-<img width="1204" alt="Screenshot 2023-04-02 at 14 17 32" src="https://user-images.githubusercontent.com/6302/229355328-07738ff7-ffc4-4c68-9e2e-7b905d76f679.png">
+<img width="1203" alt="Screenshot 2023-04-02 at 14 28 02" src="https://user-images.githubusercontent.com/6302/229355816-b1f6b769-4c7f-49a1-9fba-4c9cb1f6955d.png">
 
 
 ![Tablet Screenshot of Confetti](https://user-images.githubusercontent.com/6302/227476725-edd577f5-2abd-4660-a777-decef84fbb9b.png)

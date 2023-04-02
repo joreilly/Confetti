@@ -28,8 +28,11 @@ fun BookmarksRoute(
     val loading by viewModel
         .loading
         .collectAsStateWithLifecycle(initialValue = true)
-    val sessions by viewModel
-        .sessions
+    val pastSessions by viewModel
+        .pastSessions
+        .collectAsStateWithLifecycle(initialValue = emptyList())
+    val upcomingSessions by viewModel
+        .upcomingSessions
         .collectAsStateWithLifecycle(initialValue = emptyList())
     val bookmarks by viewModel
         .bookmarks
@@ -41,7 +44,8 @@ fun BookmarksRoute(
         onSwitchConference = onSwitchConference,
         onSignIn = onSignIn,
         onSignOut = onSignOut,
-        sessions = sessions,
+        pastSessions = pastSessions,
+        upcomingSessions = upcomingSessions,
         bookmarks = bookmarks,
         addBookmark = viewModel::addBookmark,
         removeBookmark = viewModel::removeBookmark,

@@ -1,11 +1,16 @@
 package dev.johnoreilly.confetti
 
 import com.rickclephas.kmm.viewmodel.KMMViewModel
+import dev.johnoreilly.confetti.utils.DateService
+import dev.johnoreilly.confetti.utils.createCurrentLocalDateTimeFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
+import kotlin.time.Duration.Companion.minutes
 
 class BookmarksViewModel(
+    private val dateService: DateService,
     // TODO: Remove dependency between view models.
     private val sessionsViewModel: SessionsViewModel,
 ) : KMMViewModel() {
@@ -21,7 +26,7 @@ class BookmarksViewModel(
     val bookmarks = loadedSessions
         .map { state -> state.bookmarks }
 
-    val sessions = loadedSessions
+    private val sessions = loadedSessions
         .map { state ->
             state
                 .sessionsByStartTimeList
@@ -30,6 +35,23 @@ class BookmarksViewModel(
         }
         .combine(bookmarks) { sessions, bookmarks ->
             sessions.filter { session -> session.id in bookmarks }
+        }
+
+    private val currentDateTimeFlow = dateService
+        .createCurrentLocalDateTimeFlow(delay = 15.minutes)
+
+    val pastSessions = sessions
+        .combine(currentDateTimeFlow) { sessions, now ->
+            sessions.filter { session ->
+                session.endsAt < now
+            }
+        }
+
+    val upcomingSessions = sessions
+        .combine(currentDateTimeFlow) { sessions, now ->
+            sessions.filter { session ->
+                session.endsAt >= now
+            }
         }
 
     fun configure(conference: String, uid: String?, tokenProvider: TokenProvider?) {

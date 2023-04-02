@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+
       - uses: apollographql/update-graphql-schema@4b4517cad731e2564488f203de81937dcc4ef92e #main
         with:
           key: ${{ secrets.APOLLO_KEY }}

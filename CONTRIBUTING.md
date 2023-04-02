@@ -28,7 +28,7 @@ For Android, open the root project in Android Studio. Useful tasks:
 * `./gradlew :androidApp:assembleDebug` 
 * `./gradlew :wearApp:assembleDebug` 
 
-For iOS, open the `iosApp/iosApp.xcodeproj` in xCode and run the app.
+For iOS, open the `iosApp/iosApp.xcodeproj` in Xcode and run the app.
 
 ## API docs 
 

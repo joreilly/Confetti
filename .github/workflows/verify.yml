@@ -15,6 +15,13 @@ jobs:
       with:
         lfs: 'true'
 
+    - uses: gradle/wrapper-validation-action@v1
+
+    - name: Validate Renovate
+      uses: rinchsan/renovate-config-validator@v0.0.12
+      with:
+        pattern: 'renovate.json'
+
     - name: Check GIT lfs images
       run: |
         ./.github/scripts/git-lfs-check.sh

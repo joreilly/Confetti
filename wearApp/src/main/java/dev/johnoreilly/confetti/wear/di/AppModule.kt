@@ -14,6 +14,7 @@ import dev.johnoreilly.confetti.wear.WearAppViewModel
 import dev.johnoreilly.confetti.wear.auth.ConfettiGoogleSignOutViewModel
 import dev.johnoreilly.confetti.wear.conferences.ConferencesViewModel
 import dev.johnoreilly.confetti.wear.data.auth.GoogleSignInAuthUserRepository
+import dev.johnoreilly.confetti.wear.data.auth.MobileAuthRepository
 import dev.johnoreilly.confetti.wear.home.HomeViewModel
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewModel
 import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
@@ -40,6 +41,7 @@ val appModule = module {
     viewModelOf(::WearAppViewModel)
     singleOf(::PhoneSettingsSync)
     single { GoogleSignIn.getClient(get<Context>(), GoogleSignInOptions.DEFAULT_SIGN_IN) }
+    single { MobileAuthRepository(get(), get(), get()) }
     singleOf(::GoogleSignInAuthUserRepository) { bind<GoogleSignInEventListener>() }
     singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }
 }

@@ -38,8 +38,8 @@ interface Authentication {
 }
 
 sealed interface SignInResult
-object SignInSuccess : SignInResult
-class SignInError(val e: Exception) : SignInResult
+data class SignInSuccess(val user: FirebaseUser) : SignInResult
+data class SignInError(val e: Exception) : SignInResult
 
 class DefaultUser(
     override val name: String,
@@ -62,8 +62,8 @@ class DefaultAuthentication(
     override suspend fun signIn(idToken: String): SignInResult {
         val credential = GoogleAuthProvider.credential(idToken, null)
         return try {
-            Firebase.auth.signInWithCredential(credential)
-            SignInSuccess
+            val auth = Firebase.auth.signInWithCredential(credential)
+            SignInSuccess(auth.user!!)
         } catch (e: Exception) {
             SignInError(e)
         }
@@ -77,7 +77,7 @@ class DefaultAuthentication(
     }
 }
 
-private fun FirebaseUser.toUser(): User {
+fun FirebaseUser.toUser(): User {
     return DefaultUser(
         name = displayName ?: "",
         email = email,

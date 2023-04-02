@@ -15,8 +15,9 @@ import com.google.android.horologist.data.ProtoDataStoreHelper.protoDataStore
 import com.google.android.horologist.data.WearDataLayerRegistry
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.BuildConfig
-import dev.johnoreilly.confetti.ui.colorScheme
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.wear.proto.Theme
+import dev.johnoreilly.confetti.wear.proto.UserAuth
 import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -135,4 +136,20 @@ class WearSettingsSync(
     fun Color.hex(): String {
         return "0x" + Buffer().writeInt(this.toArgb()).readByteString().hex()
     }
+
+    suspend fun updateAuthToken(user: User?) {
+        if (isAvailable()) {
+            settingsDataStore.updateData {
+                it.copy(userAuth = user?.toUserAuth())
+            }
+        }
+    }
 }
+
+private fun User.toUserAuth(): UserAuth =
+    UserAuth(
+        name = this.name,
+        uid = this.uid,
+        photoUrl = this.photoUrl,
+        email = this.email
+    )

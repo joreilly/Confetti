@@ -7,19 +7,22 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.wear.data.auth.GoogleSignInAuthUserRepository
+import dev.johnoreilly.confetti.wear.data.auth.MobileAuthRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class SettingsViewModel(
-    userRepository: GoogleSignInAuthUserRepository,
-    private val repository: ConfettiRepository
+    userRepository: MobileAuthRepository,
 ) : ViewModel() {
     val uiState: StateFlow<SettingsUiState> =
         userRepository.authState.map {
             SettingsUiState.Success(it)
         }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsUiState.Loading)
+}
 
+enum class SettingsSource {
+    Mobile, Local
 }

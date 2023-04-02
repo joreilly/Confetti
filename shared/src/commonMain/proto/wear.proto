@@ -3,6 +3,8 @@ syntax = "proto3";
 option java_package = "dev.johnoreilly.confetti.wear.proto";
 option java_multiple_files = true;
 
+import "google/protobuf/wrappers.proto";
+
 message Theme {
   uint32 primary = 1;
   uint32 primaryVariant = 2;
@@ -19,8 +21,16 @@ message Theme {
   uint32 onError = 13;
 }
 
+message UserAuth {
+  string name = 1;
+  string uid = 2;
+  .google.protobuf.StringValue photoUrl = 3;
+  .google.protobuf.StringValue email = 4;
+}
+
 message WearSettings {
   reserved 1;
   string conference = 2;
   Theme theme = 3;
+  UserAuth userAuth = 4;
 }

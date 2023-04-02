@@ -33,6 +33,7 @@ fun SignInRoute(onBackClick: () -> Unit) {
                 it.printStackTrace()
                 error = "Something went wrong"
             },
+            koinInject(),
             koinInject()
         )
 

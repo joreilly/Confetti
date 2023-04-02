@@ -10,10 +10,12 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.StandardChip
+import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.data.auth.AuthSource
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -42,26 +44,43 @@ fun SettingsListView(
         }
 
         item {
-            val authUser = (uiState as? SettingsUiState.Success)?.authUser
-            if (authUser == null) {
-                StandardChip(
-                    label = "Sign In",
-                    onClick = navigateToGoogleSignIn,
-                )
-            } else {
-                StandardChip(
-                    modifier = Modifier.clearAndSetSemantics {
-                        contentDescription = "Logged in as " + authUser.displayName
-                        onClick("Sign Out") {
-                            navigateToGoogleSignOut()
-                            true
-                        }
-                    },
-                    label = "Sign Out",
-                    icon = authUser.avatarUri,
-                    largeIcon = true,
-                    onClick = navigateToGoogleSignOut
-                )
+            when (uiState) {
+                is SettingsUiState.Loading -> {
+                    PlaceholderChip()
+                }
+
+                is SettingsUiState.Success -> {
+                    val authAndSource = uiState.authAndSource
+                    if (authAndSource == null) {
+                        StandardChip(
+                            label = "Sign In",
+                            onClick = navigateToGoogleSignIn,
+                        )
+                    } else if (authAndSource.source == AuthSource.GoogleSignIn) {
+                        StandardChip(
+                            modifier = Modifier.clearAndSetSemantics {
+                                contentDescription =
+                                    "Logged in as " + authAndSource.user.displayName
+                                onClick("Sign Out") {
+                                    navigateToGoogleSignOut()
+                                    true
+                                }
+                            },
+                            label = "Sign Out",
+                            icon = authAndSource.user.avatarUri,
+                            largeIcon = true,
+                            onClick = navigateToGoogleSignOut
+                        )
+                    } else {
+                        StandardChip(
+                            enabled = false,
+                            label = authAndSource.user.displayName ?: "Signed In",
+                            icon = authAndSource.user.avatarUri,
+                            largeIcon = true,
+                            onClick = navigateToGoogleSignOut
+                        )
+                    }
+                }
             }
         }
     }

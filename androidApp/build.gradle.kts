@@ -165,6 +165,7 @@ dependencies {
     implementation(libs.horologist.datalayer.phone)
 
     implementation(libs.kmm.viewmodel)
+    implementation(libs.firebase.mpp.auth)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.services)

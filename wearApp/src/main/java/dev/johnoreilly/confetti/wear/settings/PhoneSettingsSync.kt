@@ -29,19 +29,18 @@ class PhoneSettingsSync(
 
 fun Theme.toMaterialThemeColors(): Colors {
     return Colors(
-        primary = toColor(primary),
-        primaryVariant = toColor(primaryVariant),
-        secondary = toColor(secondary),
-        secondaryVariant = toColor(secondaryVariant),
-        surface = toColor(surface),
-        error = toColor(error),
-        onPrimary = toColor(onPrimary),
-        onSecondary = toColor(onSecondary),
-        onBackground = toColor(onBackground),
-        onSurface = toColor(onSurface),
-        onSurfaceVariant = toColor(onSurfaceVariant),
-        onError = toColor(onError),
+        primary = Color(primary),
+        primaryVariant = Color(primaryVariant),
+        secondary = Color(secondary),
+        secondaryVariant = Color(secondaryVariant),
+        surface = Color(surface),
+        error = Color(error),
+        onPrimary = Color(onPrimary),
+        onSecondary = Color(onSecondary),
+        onBackground = Color(onBackground),
+        onSurface = Color(onSurface),
+        onSurfaceVariant = Color(onSurfaceVariant),
+        onError = Color(onError),
     )
 }
 
-private fun toColor(primary1: Long) = Color(primary1.toULong())

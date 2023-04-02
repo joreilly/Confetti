@@ -44,7 +44,6 @@ fun AccountIcon(
         onSignOut = onSignOut,
         onShowSettings = onShowSettings,
         installOnWear = viewModel::installOnWear,
-        updateWearTheme = viewModel::updateWearTheme,
         uiState = accountUiState,
         user = user,
     )
@@ -56,7 +55,6 @@ private fun AccountIcon(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onShowSettings: () -> Unit,
-    updateWearTheme: () -> Unit,
     installOnWear: () -> Unit,
     uiState: UiState,
     user: User?,
@@ -130,15 +128,6 @@ private fun AccountIcon(
                 }
             )
         }
-        if (uiState.isInstalledOnWear) {
-            DropdownMenuItem(
-                text = { Text("Update Wear Theme") },
-                onClick = {
-                    showMenu = false
-                    updateWearTheme()
-                }
-            )
-        }
     }
 }
 
@@ -154,7 +143,6 @@ private fun AccountIconPreview() {
                 onSignIn = {},
                 onSignOut = {},
                 onShowSettings = {},
-                updateWearTheme = {},
                 installOnWear = {},
                 uiState = accountUiState,
                 user = object: User {

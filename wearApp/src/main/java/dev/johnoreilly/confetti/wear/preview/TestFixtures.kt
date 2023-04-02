@@ -112,18 +112,17 @@ The talk will cover
     )
 
     val MobileTheme = Theme(
-        primary = -32579010567340032,
-        primaryVariant = -46196668235776,
-        secondary = -26389284088971264,
-        secondaryVariant = -22011707392000,
-        background = 0,
-        surface = -847740644884480,
-        error = -19673445591678976,
-        onPrimary = -4294967296,
-        onSecondary = -4294967296,
-        onBackground = -63021691516747776,
-        onSurface = -63021691516747776,
-        onSurfaceVariant = -50027452646293504,
-        onError = -4294967296
+        primary = 0xff8c4190L.toInt(),
+        primaryVariant = 0xffffd5fcL.toInt(),
+        secondary = 0xffa23f16L.toInt(),
+        secondaryVariant = 0xffffebfbL.toInt(),
+        surface = 0xfffcfcfcL.toInt(),
+        error = 0xffba1b1bL.toInt(),
+        onPrimary = 0xffffffffL.toInt(),
+        onSecondary = 0xffffffffL.toInt(),
+        onBackground = 0xff201a1bL.toInt(),
+        onSurface = 0xff201a1bL.toInt(),
+        onSurfaceVariant = 0xff4e444cL.toInt(),
+        onError = 0xffffffffL.toInt(),
     )
 }

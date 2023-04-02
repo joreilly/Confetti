@@ -55,7 +55,9 @@ type Query {
 
   speaker(id: String!): Speaker!
 
-  speakers: [Speaker!]!
+  speakers: [Speaker!]! @deprecated(reason: "Use speakersPage instead")
+
+  speakersPage(after: String, first: Int): SpeakerConnection!
 
   venue(id: String!): Venue!
 
@@ -150,6 +152,12 @@ type Speaker {
   socials: [Social!]!
 
   tagline: String
+}
+
+type SpeakerConnection {
+  nodes: [Speaker!]!
+
+  pageInfo: PageInfo!
 }
 
 type Venue {

@@ -2,14 +2,13 @@ package dev.johnoreilly.confetti.wear.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 
@@ -20,7 +19,7 @@ fun SocialIcon(
     contentDescription: String,
     onClick: () -> Unit
 ) {
-    val iconTint = (if (isSystemInDarkTheme()) Color.White else Color.Black).copy(alpha = 0.5f)
+    val iconTint = MaterialTheme.colors.onSurface.copy(alpha = 0.75f)
     Icon(
         modifier = modifier
             .size(24.dp)

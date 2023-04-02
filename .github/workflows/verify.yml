@@ -2,11 +2,6 @@ name: Github CI
 
 on: pull_request
 
-# Cancel any current or previous job from the same PR
-concurrency:
-  group: android-${{ github.head_ref }}
-  cancel-in-progress: true
-
 jobs:
   verify:
     runs-on: ubuntu-22.04

@@ -306,7 +306,8 @@ abstract class ScreenshotTest : KoinTest {
         @ParameterizedRobolectricTestRunner.Parameters(name = "Colors: {0}")
         fun params() = listOf(
             arrayOf("Material", null),
-            arrayOf("Phone-1", TestFixtures.MobileTheme),
+            arrayOf("MobileDefault", TestFixtures.MobileTheme),
+            arrayOf("MobileAndroid", TestFixtures.AndroidTheme),
         )
 
         fun loadTestBitmap(path: Path): Bitmap = FileSystem.RESOURCES.read(path) {

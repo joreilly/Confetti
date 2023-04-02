@@ -112,17 +112,32 @@ The talk will cover
     )
 
     val MobileTheme = Theme(
-        primary = 0xff8c4190L.toInt(),
-        primaryVariant = 0xffffd5fcL.toInt(),
-        secondary = 0xffa23f16L.toInt(),
-        secondaryVariant = 0xffffebfbL.toInt(),
-        surface = 0xfffcfcfcL.toInt(),
-        error = 0xffba1b1bL.toInt(),
-        onPrimary = 0xffffffffL.toInt(),
-        onSecondary = 0xffffffffL.toInt(),
-        onBackground = 0xff201a1bL.toInt(),
-        onSurface = 0xff201a1bL.toInt(),
-        onSurfaceVariant = 0xff4e444cL.toInt(),
-        onError = 0xffffffffL.toInt(),
+        primary = 0xffffa8ffL.toInt(),
+        primaryVariant = 0xff702776L.toInt(),
+        secondary = 0xffffb599L.toInt(),
+        secondaryVariant = 0xff812800L.toInt(),
+        surface = 0xff201a1bL.toInt(),
+        error = 0xffffb4a9L.toInt(),
+        onPrimary = 0xff560a5eL.toInt(),
+        onSecondary = 0xff5d1900L.toInt(),
+        onBackground = 0xffecdfe0L.toInt(),
+        onSurface = 0xffecdfe0L.toInt(),
+        onSurfaceVariant = 0xffd0c2ccL.toInt(),
+        onError = 0xff680003L.toInt(),
+    )
+
+    val AndroidTheme = Theme(
+        primary = 0xff0ee37cL.toInt(),
+        primaryVariant = 0xff005227L.toInt(),
+        secondary = 0xffb7ccb8L.toInt(),
+        secondaryVariant = 0xff394b3cL.toInt(),
+        surface = 0xff1a1c1aL.toInt(),
+        error = 0xffffb4a9L.toInt(),
+        onPrimary = 0xff003919L.toInt(),
+        onSecondary = 0xff223526L.toInt(),
+        onBackground = 0xffe2e3deL.toInt(),
+        onSurface = 0xffe2e3deL.toInt(),
+        onSurfaceVariant = 0xffc1c9bfL.toInt(),
+        onError = 0xff680003L.toInt(),
     )
 }

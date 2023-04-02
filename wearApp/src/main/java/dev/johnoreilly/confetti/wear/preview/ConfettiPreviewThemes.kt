@@ -9,6 +9,7 @@ class ConfettiPreviewThemes : PreviewParameterProvider<ThemeValues> {
     override val values: Sequence<ThemeValues>
         get() = listOf(
             ThemeValues("Material", 0, Colors()),
-            ThemeValues("Mobile", 2, TestFixtures.MobileTheme.toMaterialThemeColors())
+            ThemeValues("MobileDefault", 1, TestFixtures.MobileTheme.toMaterialThemeColors()),
+            ThemeValues("MobileAndroid", 2, TestFixtures.AndroidTheme.toMaterialThemeColors())
         ).asSequence()
 }

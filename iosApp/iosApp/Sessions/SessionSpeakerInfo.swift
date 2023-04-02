@@ -17,10 +17,10 @@ struct SessionSpeakerInfo: View {
                     }
                     .frame(width: 60, height: 60)
                 }
-                Spacer()
+                Spacer().frame(width: 10)
 
                 VStack(alignment: .leading) {
-                    Text("\(speaker.name ), \(speaker.company ?? "")")
+                    Text(speaker.name)
                         .bold()
                         .font(.title3)
                     Text(speaker.tagline ?? "")
@@ -32,6 +32,7 @@ struct SessionSpeakerInfo: View {
                         SessionSpeakerSocialInfo(speaker: speaker)
                     }
                 }
+                Spacer()
             }
             .padding(.vertical, 8)
         }

@@ -34,7 +34,7 @@ struct SpeakerView: View {
             }
             VStack(alignment: .leading) {
                 Text(speaker.name).font(.headline)
-                Text(speaker.company ?? "").font(.subheadline)
+                Text(speaker.tagline ?? "").font(.subheadline)
             }
         }
     }

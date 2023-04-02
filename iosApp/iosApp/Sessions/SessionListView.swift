@@ -14,7 +14,6 @@ struct SessionListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Spacer().frame(height: 16)
 
                 Picker(selection: $selectedDateIndex, label: Text("Date")) {
                     ForEach(0..<sessionUiState.formattedConfDates.count, id: \.self) { i in
@@ -25,7 +24,13 @@ struct SessionListView: View {
 
                 List {
                     ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
-                        Section(header: Text(key).foregroundColor(Color("Title"))) {
+                        
+                        Section(header: HStack {
+                            Image(systemName: "clock")
+                            Text(key).font(.headline)
+                          }) {
+
+                                                        
                             let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
                             ForEach(sessions, id: \.self) { session in
                                 VStack {
@@ -42,6 +47,7 @@ struct SessionListView: View {
                     }
                 }
             }
+            .listStyle(.plain)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -68,12 +74,11 @@ struct SessionView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(session.title)
+            Text(session.title).font(.headline)
             if session.room != nil {
-                Spacer().frame(height: 8)
-                Text(session.sessionSpeakerLocation()).font(.system(size: 14)).bold()
+                Text(session.sessionSpeakers() ?? "").font(.subheadline)
+                Text(session.room?.name ?? "").font(.subheadline).foregroundColor(.gray)
             }
-            Spacer()
         }
     }
 }

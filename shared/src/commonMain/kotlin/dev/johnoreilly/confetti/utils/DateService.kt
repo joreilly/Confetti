@@ -8,6 +8,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
 interface DateService {
     fun format(localDateTime: LocalDateTime, timeZone: TimeZone, format: String): String
@@ -15,7 +16,7 @@ interface DateService {
     fun now(): LocalDateTime
 }
 
-fun DateService.createCurrentLocalDateTimeFlow(delay: Duration): Flow<LocalDateTime> =
+fun DateService.createCurrentLocalDateTimeFlow(delay: Duration = 5.minutes): Flow<LocalDateTime> =
     flow {
         emit(now())
         while (currentCoroutineContext().isActive) {

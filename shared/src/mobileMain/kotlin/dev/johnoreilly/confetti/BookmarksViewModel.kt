@@ -38,7 +38,7 @@ class BookmarksViewModel(
         }
 
     private val currentDateTimeFlow = dateService
-        .createCurrentLocalDateTimeFlow(delay = 15.minutes)
+        .createCurrentLocalDateTimeFlow()
 
     val pastSessions = sessions
         .combine(currentDateTimeFlow) { sessions, now ->

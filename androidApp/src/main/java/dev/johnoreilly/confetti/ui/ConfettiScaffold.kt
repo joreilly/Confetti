@@ -94,7 +94,6 @@ fun ConfettiScaffold(
         onSignIn = onSignIn,
         onSignOut = ::signOut,
         user = user,
-        updateWearTheme = wearSettingSync::updateWearTheme,
         installOnWear = ::installOnWear,
         wearSettingsUiState = wearSettingsUIState,
     ) {
@@ -114,7 +113,6 @@ fun ConfettiScaffold(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     user: User?,
-    updateWearTheme: () -> Unit,
     installOnWear: () -> Unit,
     wearSettingsUiState: WearUiState,
     content: @Composable (SnackbarHostState) -> Unit,
@@ -169,7 +167,6 @@ fun ConfettiScaffold(
                             onSignOut = onSignOut,
                             onShowSettings = { appState.setShowSettingsDialog(true) },
                             user = user,
-                            updateWearTheme = updateWearTheme,
                             installOnWear = installOnWear,
                             wearSettingsUiState = wearSettingsUiState,
                         )

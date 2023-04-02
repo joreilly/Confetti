@@ -105,15 +105,6 @@ fun AccountIcon(
                 }
             )
         }
-        if (wearSettingsUiState.isInstalledOnWear) {
-            DropdownMenuItem(
-                text = { Text("Update Wear Theme") },
-                onClick = {
-                    showMenu = false
-                    updateWearTheme()
-                }
-            )
-        }
     }
 }
 

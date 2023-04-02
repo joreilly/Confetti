@@ -2,11 +2,13 @@
 
 package dev.johnoreilly.confetti.settings
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.horologist.data.apphelper.AppHelperNodeStatus
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.ui.colorScheme
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.flow.*
@@ -14,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     val appSettings: AppSettings,
-    val wearSettingsSync: WearSettingsSync
+    val wearSettingsSync: WearSettingsSync,
+    val applicationContext: Context
 ) : ViewModel() {
 
     private val settings = appSettings.settings
@@ -28,10 +31,10 @@ class SettingsViewModel(
             wearSettingsSync.settingsFlow
         ) { themeBrand, darkThemeConfig, useDynamicColor, wearNodes, wearSettings ->
             UserEditableSettings(
-                    brand = ThemeBrand.valueOf(themeBrand),
-                    useDynamicColor = useDynamicColor,
-                    darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfig),
-                    wearStatus = buildWearStatus(wearNodes, wearSettings)
+                brand = ThemeBrand.valueOf(themeBrand),
+                useDynamicColor = useDynamicColor,
+                darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfig),
+                wearStatus = buildWearStatus(wearNodes, wearSettings)
             )
         }.stateIn(
             scope = viewModelScope,
@@ -73,8 +76,17 @@ class SettingsViewModel(
 
     fun updateWearTheme(active: Boolean) {
         viewModelScope.launch {
+            val settings = userEditableSettings.first()
+
+            val theme = colorScheme(
+                androidTheme = settings?.brand == ThemeBrand.ANDROID,
+                darkTheme = true,
+                disableDynamicTheming = settings?.useDynamicColor ?: false,
+                context = applicationContext
+            )
+
             if (active) {
-                wearSettingsSync.updateWearTheme()
+                wearSettingsSync.updateWearTheme(theme)
             } else {
                 wearSettingsSync.clearWearTheme()
             }
@@ -105,11 +117,11 @@ data class UserEditableSettings(
 )
 
 sealed interface WearStatus {
-    object Unavailable: WearStatus
-    data class NotInstalled(val nodeId: String): WearStatus
+    object Unavailable : WearStatus
+    data class NotInstalled(val nodeId: String) : WearStatus
     data class Paired(
         val wearSettings: WearSettings
-    ): WearStatus
+    ) : WearStatus
 }
 
 enum class ThemeBrand {

@@ -5,6 +5,7 @@ package dev.johnoreilly.confetti.wear
 import android.content.Context
 import android.os.Build
 import android.util.Log
+import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.google.android.gms.common.GoogleApiAvailability
@@ -75,10 +76,8 @@ class WearSettingsSync(
         }
     }
 
-    suspend fun updateWearTheme() {
+    suspend fun updateWearTheme(theme: ColorScheme) {
         if (isAvailable()) {
-            val theme = colorScheme(false, false, false, context)
-
             if (BuildConfig.DEBUG) {
                 println("primary = ${theme.primary.hex()}L.toInt(),")
                 println("primaryContainer = ${theme.primaryContainer.hex()}L.toInt(),")

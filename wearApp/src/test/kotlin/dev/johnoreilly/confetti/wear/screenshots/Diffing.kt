@@ -59,11 +59,12 @@ fun Diffing.Companion.bitmapWithTolerance(tolerance: Float, colorDiffing: Diffin
                     setPixel(x, y, diffColor.toArgb())
                 }
             }
-            val toleratedDiffs = ceil(tolerance * originalBytes.size).toInt()
+            val pixelCount = originalBitmap.width * originalBitmap.height
+            val toleratedDiffs = ceil(tolerance * pixelCount).toInt()
             if (differentCount <= toleratedDiffs) {
                 null
             } else {
-                val diffPercent = differentCount.toDouble() / originalBytes.size
+                val diffPercent = differentCount.toDouble() / pixelCount
                 println("$diffPercent")
                 diffBitmap
             }

@@ -38,6 +38,7 @@ fun SessionSpeakerChip(
                 contentDescription = speaker.name,
             )
         },
+        secondaryLabel = speaker.tagline,
         onClick = { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) }
     )
 }

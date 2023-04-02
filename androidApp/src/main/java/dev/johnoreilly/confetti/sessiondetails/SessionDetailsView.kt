@@ -40,7 +40,6 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.utils.format
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @Composable
 fun SessionDetailsRoute(conference: String, sessionId: String, onBackClick: () -> Unit) {
@@ -101,7 +100,7 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit, share: () -
                     if (session.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.size(16.dp))
                         FlowRow {
-                            session.tags.forEach { tag ->
+                            session.tags.distinct().forEach { tag ->
                                 Box(Modifier.padding(bottom = 8.dp)) {
                                     Chip(tag)
                                 }

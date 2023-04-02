@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.sessions
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,13 +16,18 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
@@ -41,15 +47,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
-import dev.johnoreilly.confetti.sessionSpeakerLocation
+import dev.johnoreilly.confetti.sessionSpeakers
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
+import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
@@ -90,26 +96,12 @@ fun SessionListView(
                             .clipToBounds()
                     ) {
                         LazyColumn {
-                            sessions.forEach {
-                                item {
-                                    Column(
-                                        Modifier.padding(
-                                            start = 16.dp,
-                                            end = 16.dp,
-                                            top = 16.dp,
-                                            bottom = 8.dp
-                                        )
-                                    ) {
-                                        Text(
-                                            it.key,
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.primary
-                                        )
-                                        Divider()
-                                    }
+                            sessions.forEach { (startTime, sessions) ->
+                                stickyHeader {
+                                    ConfettiHeader(icon = Icons.Filled.AccessTime, text = startTime)
                                 }
 
-                                items(it.value) { session ->
+                                items(sessions) { session ->
                                     SessionItemView(
                                         conference = uiState.conference,
                                         session = session,
@@ -163,6 +155,7 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SessionItemView(
     conference: String,
@@ -184,7 +177,7 @@ fun SessionItemView(
     Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = session.title, style = TextStyle(fontSize = 16.sp))
+                Text(text = session.title, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold))
             }
 
             session.room?.let {
@@ -193,11 +186,24 @@ fun SessionItemView(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        session.sessionSpeakerLocation(),
-                        style = TextStyle(fontSize = 14.sp), fontWeight = FontWeight.Bold
+                        session.sessionSpeakers() ?: "",
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
+
+                Row(
+                    modifier = Modifier.padding(top = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        it.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
+                }
+
             }
+
         }
 
 

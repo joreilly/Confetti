@@ -37,22 +37,40 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.utils.format
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun SessionDetailsRoute(conference: String, sessionId: String, onBackClick: () -> Unit) {
+fun SessionDetailsRoute(
+    conference: String,
+    sessionId: String,
+    onBackClick: () -> Unit,
+    onSpeakerClick: (key: SpeakerDetailsKey) -> Unit
+) {
     val viewModel: SessionDetailsViewModel = getViewModel<SessionDetailsViewModel>().apply {
         configure(conference, sessionId)
     }
     val session by viewModel.session.collectAsStateWithLifecycle()
     val share = rememberShareDetails(session)
-    SessionDetailView(session, onBackClick, share)
+    SessionDetailView(
+        session = session,
+        popBack = onBackClick,
+        share = share,
+        onSpeakerClick = { speakerId ->
+            onSpeakerClick(SpeakerDetailsKey(conference = conference, speakerId = speakerId))
+        }
+    )
 }
 
 @Composable
-fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit, share: () -> Unit) {
+fun SessionDetailView(
+    session: SessionDetails?,
+    popBack: () -> Unit,
+    share: () -> Unit,
+    onSpeakerClick: (speakerId: String) -> Unit
+) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
@@ -114,7 +132,8 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit, share: () -
                             onSocialLinkClick = { socialItem, _ ->
                                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.url))
                                 context.startActivity(intent)
-                            }
+                            },
+                            onSpeakerClick = onSpeakerClick
                         )
                     }
                 }

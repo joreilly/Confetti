@@ -64,7 +64,12 @@ fun ConfettiApp(
             onSignOut = ::onSignOut,
             onSwitchConferenceSelected = ::onSwitchConference
         )
-        sessionDetailsGraph(appState::onBackClick)
+        sessionDetailsGraph(
+            appState::onBackClick,
+            navigateToSpeakerDetails = { key ->
+                appState.navigate(key.route)
+            }
+        )
         speakersGraph(
             appState = appState,
             navigateToSpeaker = { appState.navigate(it.route) },

@@ -49,3 +49,9 @@ appengine {
 }
 
 tasks.named("appengineStage").dependsOn("bootJar")
+
+tasks.register("updateSchema", JavaExec::class) {
+  classpath(configurations.getByName("runtimeClasspath"))
+  classpath(tasks.named("jar"))
+  mainClass.set("dev.johnoreilly.confetti.backend.UpdateSchemaKt")
+}

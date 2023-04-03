@@ -4,11 +4,11 @@ activity-compose = "1.7.0"
 androidx-lifecycle = "2.6.1"
 apollo = "3.7.5"
 compose = "1.4.0"
-compose-compiler = "1.4.3-dev-k1.8.20-Beta-15b4f4328eb"
+compose-compiler = "1.4.4-dev-k1.8.20-f6ae19e64ff"
 compose-material-3 = "1.0.1"
 junit = "4.13"
-kmp-nativecoroutines = "1.0.0-ALPHA-3"
-kmm-viewmodel = "1.0.0-ALPHA-3"
+kmp-nativecoroutines = "1.0.0-ALPHA-6"
+kmm-viewmodel = "1.0.0-ALPHA-5"
 koin-android = "3.4.0"
 koin-android-compose = "3.4.3"
 koin-core = "3.4.0"
@@ -108,5 +108,5 @@ kmp-nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.re
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version = "1.8.20-Beta-1.0.9" }
+ksp = { id = "com.google.devtools.ksp", version = "1.8.20-1.0.10" }
 spring-boot = { id = "org.springframework.boot", version = "2.5.6" }

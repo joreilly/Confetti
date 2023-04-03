@@ -4,21 +4,21 @@ Built-in Boolean
 scalar Boolean
 
 """
-Built-in ID
-"""
-scalar ID
-
-"""
 A type representing a formatted kotlinx.datetime.LocalDateTime
 """
 scalar LocalDateTime
 
 type Query {
+  hello: String!
+
+  """
+  All the Android Makers sessions!
+  """
   sessions: [Session!]!
 }
 
 type Room {
-  id: ID!
+  id: String!
 
   name: String!
 }
@@ -26,25 +26,25 @@ type Room {
 type Session {
   description: String
 
-  end: LocalDateTime!
-
-  id: ID!
-
-  start: LocalDateTime!
+  id: String!
 
   title: String!
 
-  type: String!
+  end: LocalDateTime!
 
   room: Room!
 
   speakers: [Speaker!]!
+
+  start: LocalDateTime!
 }
 
 type Speaker {
-  id: ID!
+  id: String!
 
   name: String!
+
+  tagline: String
 }
 
 """

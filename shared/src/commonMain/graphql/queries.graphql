@@ -1,0 +1,19 @@
+# ...Kotlin class (GetSessionsQuery.kt) will be generated from this
+query GetSessions {
+    sessions {
+        ...SessionDetails
+    }
+}
+
+# ...Kotlin data class (SessionDetails.kt) will be generated from this
+fragment SessionDetails on Session {
+    id
+    title
+    start
+    room {
+        name
+    }
+    speakers {
+        name
+    }
+}

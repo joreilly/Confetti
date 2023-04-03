@@ -128,7 +128,7 @@ class DefaultApplication {
                         graph = graph,
                         variant = "current"
                     )
-                } catch(e: Exception) {
+                } catch (e: Exception) {
                     println("Cannot enable Apollo reporting: ${e.message}")
                 }
             }
@@ -142,24 +142,11 @@ class DefaultApplication {
     private fun GraphQLSchema.print(): String {
         return SchemaPrinter(
             SchemaPrinter.Options.defaultOptions()
-                .includeIntrospectionTypes(false)
+                .includeIntrospectionTypes(true)
                 .includeScalarTypes(true)
-                .includeSchemaDefinition(false)
-                .includeSchemaElement {
-                    when (it) {
-                        is GraphQLDirective -> !setOf(
-                            "include",
-                            "skip",
-                            "specifiedBy",
-                            "deprecated"
-                        ).contains(
-                            it.name
-                        )
-
-                        else -> true
-                    }
-                }
+                .includeSchemaDefinition(true)
                 .includeDirectiveDefinitions(true)
+                .includeSchemaElement { true }
         ).print(this)
     }
 
@@ -334,7 +321,8 @@ class DefaultApplication {
                         headers.put("Cache-Control", "public, max-age=$maxAge")
                     }
 
-                    var newExtensions: Map<Any, Any?>? = graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
+                    var newExtensions: Map<Any, Any?>? =
+                        graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
                     if (newExtensions?.isEmpty() == true) {
                         newExtensions = null
                     }
@@ -423,7 +411,8 @@ class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
     }
 }
 
-class BadConferenceException(val conference: String) : Exception("Unknown conference: '$conference', use Query.conferences without a header to get the list of possible values.")
+class BadConferenceException(val conference: String) :
+    Exception("Unknown conference: '$conference', use Query.conferences without a header to get the list of possible values.")
 
 @Component
 class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {

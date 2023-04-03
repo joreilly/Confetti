@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -82,7 +83,7 @@ fun SpeakerDetailsView(
                     Text(
                         modifier = Modifier.padding(PaddingValues(start = 16.dp, end = 16.dp)),
                         text = speaker.name,
-                        maxLines = 1, overflow = TextOverflow.Ellipsis
+                        textAlign = TextAlign.Center
                     )
                 },
                 navigationIcon = {

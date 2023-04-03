@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import dev.johnoreilly.confetti.navigation.urlDecoded
 import dev.johnoreilly.confetti.navigation.urlEncoded
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailsRoute
+import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 
 private const val base = "session_details"
 private const val sessionIdArg = "sessionIdArg"
@@ -29,12 +30,15 @@ class SessionDetailsKey(val conference: String, val sessionId: String) {
     val route: String = "$base/${conference.urlEncoded()}/${sessionId.urlEncoded()}"
 }
 
-fun NavGraphBuilder.sessionDetailsGraph(onBackClick: () -> Unit) {
+fun NavGraphBuilder.sessionDetailsGraph(
+    onBackClick: () -> Unit,
+    navigateToSpeakerDetails: (SpeakerDetailsKey) -> Unit
+) {
     composable(
         route = pattern,
         arguments = arguments
     ) {
         val key = SessionDetailsKey(it)
-        SessionDetailsRoute(key.conference, key.sessionId, onBackClick)
+        SessionDetailsRoute(key.conference, key.sessionId, onBackClick, navigateToSpeakerDetails)
     }
 }

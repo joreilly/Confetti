@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.sessiondetails
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -27,6 +29,7 @@ import dev.johnoreilly.confetti.ui.component.SocialIcon
 fun SessionSpeakerInfo(
     modifier: Modifier = Modifier,
     speaker: SpeakerDetails,
+    onSpeakerClick: (speakerId: String) -> Unit,
     onSocialLinkClick: (SpeakerDetails.Social, SpeakerDetails) -> Unit
 ) {
     Column(modifier.padding(top = 16.dp, bottom = 8.dp)) {
@@ -34,7 +37,10 @@ fun SessionSpeakerInfo(
             AsyncImage(
                 modifier = Modifier
                     .size(64.dp)
-                    .clip(CircleShape),
+                    .clip(CircleShape)
+                    .clickable(role = Role.Button) {
+                        onSpeakerClick(speaker.id)
+                    },
                 placeholder = painterResource(R.drawable.ic_person_black_24dp),
                 error = painterResource(R.drawable.ic_person_black_24dp),
                 model = ImageRequest.Builder(LocalContext.current)

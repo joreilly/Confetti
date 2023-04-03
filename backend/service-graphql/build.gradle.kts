@@ -47,7 +47,9 @@ appengine {
     version = "GCLOUD_CONFIG"
   }
 }
-
+springBoot {
+  mainClass.set("dev.johnoreilly.confetti.backend.MainKt")
+}
 tasks.named("appengineStage").dependsOn("bootJar")
 
 tasks.register("updateSchema", JavaExec::class) {

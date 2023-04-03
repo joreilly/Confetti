@@ -32,15 +32,18 @@ fun SessionSpeakerInfo(
     onSpeakerClick: (speakerId: String) -> Unit,
     onSocialLinkClick: (SpeakerDetails.Social, SpeakerDetails) -> Unit
 ) {
-    Column(modifier.padding(top = 16.dp, bottom = 8.dp)) {
+    Column(
+        modifier
+            .clickable(role = Role.Button) {
+                onSpeakerClick(speaker.id)
+            }
+            .padding(top = 16.dp, bottom = 8.dp),
+    ) {
         Row {
             AsyncImage(
                 modifier = Modifier
                     .size(64.dp)
-                    .clip(CircleShape)
-                    .clickable(role = Role.Button) {
-                        onSpeakerClick(speaker.id)
-                    },
+                    .clip(CircleShape),
                 placeholder = painterResource(R.drawable.ic_person_black_24dp),
                 error = painterResource(R.drawable.ic_person_black_24dp),
                 model = ImageRequest.Builder(LocalContext.current)

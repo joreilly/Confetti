@@ -2,35 +2,70 @@
 
 package dev.johnoreilly.confetti.sessions
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowColumn
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkAdd
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.SessionsUiState
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.ui.SignInDialog
 
 @Composable
 fun SessionListGridView(
     uiState: SessionsUiState,
     sessionSelected: (SessionDetailsKey) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
+    onNavigateToSignIn: () -> Unit,
+    user: User?,
     onRefresh: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
@@ -62,7 +97,7 @@ fun SessionListGridView(
                         }
 
                         val timeInfoWidth = 90.dp
-                        val sessionInfoWidth = 240.dp
+                        val sessionInfoWidth = 280.dp
 
                         Column {
                             Row(
@@ -91,12 +126,17 @@ fun SessionListGridView(
                                 sessionsByStartTime.forEach {
                                     item {
                                         SessionGridRow(
-                                            uiState.conference,
-                                            it,
-                                            rooms,
-                                            sessionInfoWidth,
-                                            timeInfoWidth,
-                                            sessionSelected
+                                            conference = uiState.conference,
+                                            sessionByTimeList = it,
+                                            rooms = rooms,
+                                            bookmarks = uiState.bookmarks,
+                                            sessionInfoWidth = sessionInfoWidth,
+                                            timeInfoWidth = timeInfoWidth,
+                                            sessionSelected = sessionSelected,
+                                            addBookmark = addBookmark,
+                                            removeBookmark = removeBookmark,
+                                            onNavigateToSignIn = onNavigateToSignIn,
+                                            user = user,
                                         )
                                     }
                                 }
@@ -114,10 +154,15 @@ fun SessionListGridView(
 fun SessionGridRow(
     conference: String,
     sessionByTimeList: Map.Entry<String, List<SessionDetails>>,
+    bookmarks: Set<String>,
     rooms: List<RoomDetails>,
     sessionInfoWidth: Dp,
     timeInfoWidth: Dp,
-    sessionSelected: (SessionDetailsKey) -> Unit
+    sessionSelected: (SessionDetailsKey) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
+    onNavigateToSignIn: () -> Unit,
+    user: User?
 ) {
     Row {
         Text(
@@ -138,58 +183,155 @@ fun SessionGridRow(
             Surface(
                 modifier = Modifier
                     .width(sessionInfoWidth)
-                    .height(180.dp)
+                    .height(220.dp)
                     .padding(bottom = 16.dp)
                     .border(BorderStroke(1.dp, MaterialTheme.colorScheme.primary)),
                 color = MaterialTheme.colorScheme.secondaryContainer
             ) {
-                Column(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .clickable(onClick = {
-                            sessionSelected(SessionDetailsKey(conference, session.id))
-                        }),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = session.title,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                    Spacer(Modifier.height(16.dp))
-
-                    Spacer(modifier = Modifier.weight(1f))
-                    session.speakers.forEach { speaker ->
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(2.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                Box(Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable(onClick = {
+                                sessionSelected(SessionDetailsKey(conference, session.id))
+                            }),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            modifier = Modifier.align(Alignment.Start),
+                            text = session.title,
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Start,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
-                        {
-                            if (speaker.speakerDetails.photoUrl?.isNotEmpty() == true) {
-                                AsyncImage(
-                                    model = speaker.speakerDetails.photoUrl,
-                                    contentDescription = speaker.speakerDetails.name,
-                                    contentScale = ContentScale.Fit,
-                                    modifier = Modifier
-                                        .size(20.dp)
-                                        .clip(RoundedCornerShape(16.dp))
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = speaker.speakerDetails.name,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                        }
+                        Spacer(modifier = Modifier.weight(1f))
+                        Speakers(session = session)
                     }
-
+                    Bookmark(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        bookmarks = bookmarks,
+                        session = session,
+                        user = user,
+                        removeBookmark = removeBookmark,
+                        addBookmark = addBookmark,
+                        onNavigateToSignIn = onNavigateToSignIn
+                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalLayoutApi::class)
+private fun Speakers(session: SessionDetails) {
+    if (session.speakers.count() < 4) {
+        session.speakers.forEach { speaker ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (speaker.speakerDetails.photoUrl?.isNotEmpty() == true) {
+                    AsyncImage(
+                        model = speaker.speakerDetails.photoUrl,
+                        contentDescription = speaker.speakerDetails.name,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = speaker.speakerDetails.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+            }
+        }
+    } else {
+        FlowColumn(modifier = Modifier.fillMaxWidth(), maxItemsInEachColumn = 2) {
+            session.speakers.forEach { speaker ->
+                Row {
+                    AsyncImage(
+                        model = speaker.speakerDetails.photoUrl,
+                        contentDescription = speaker.speakerDetails.name,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = speaker.speakerDetails.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Bookmark(
+    modifier: Modifier = Modifier,
+    bookmarks: Set<String>,
+    session: SessionDetails,
+    user: User?,
+    removeBookmark: (sessionId: String) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    onNavigateToSignIn: () -> Unit
+) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    val isBookmarked = bookmarks.contains(session.id)
+    if (isBookmarked) {
+        IconButton(
+            modifier = modifier,
+            onClick = {
+                if (user != null) {
+                    removeBookmark(session.id)
+                } else {
+                    showDialog = true
+                }
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Bookmark,
+                contentDescription = "remove bookmark",
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    } else {
+        IconButton(
+            modifier = modifier,
+            onClick = {
+                if (user != null) {
+                    addBookmark(session.id)
+                } else {
+                    showDialog = true
+                }
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.BookmarkAdd,
+                contentDescription = "add bookmark",
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+    if (showDialog) {
+        SignInDialog(
+            onDismissRequest = { showDialog = false },
+            onSignInClicked = onNavigateToSignIn
+        )
     }
 }

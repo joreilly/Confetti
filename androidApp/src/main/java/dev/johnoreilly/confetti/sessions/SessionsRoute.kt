@@ -58,14 +58,18 @@ fun SessionsRoute(
                 uiState = uiState,
                 sessionSelected = navigateToSession,
                 onRefresh = ::refresh,
+                addBookmark = viewModel::addBookmark,
+                removeBookmark = viewModel::removeBookmark,
+                onNavigateToSignIn = navigateToSignIn,
+                user = user
             )
         } else {
             SessionListView(
                 uiState = uiState,
                 refreshing = refreshing,
                 sessionSelected = navigateToSession,
-                addBookmark = { viewModel.addBookmark(it) },
-                removeBookmark = { viewModel.removeBookmark(it) },
+                addBookmark = viewModel::addBookmark,
+                removeBookmark = viewModel::removeBookmark,
                 onRefresh = ::refresh,
                 onNavigateToSignIn = navigateToSignIn,
                 user

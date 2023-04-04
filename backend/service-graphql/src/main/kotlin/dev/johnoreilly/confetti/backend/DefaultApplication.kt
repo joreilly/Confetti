@@ -14,7 +14,6 @@ import com.expediagroup.graphql.generator.TopLevelObject
 import com.expediagroup.graphql.generator.hooks.SchemaGeneratorHooks
 import com.expediagroup.graphql.generator.toSchema
 import com.expediagroup.graphql.server.execution.GraphQLRequestParser
-import com.expediagroup.graphql.server.operations.Query
 import com.expediagroup.graphql.server.spring.GraphQLConfigurationProperties
 import com.expediagroup.graphql.server.spring.execution.DefaultSpringGraphQLContextFactory
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLRequestParser
@@ -35,6 +34,7 @@ import graphql.GraphQLContext
 import graphql.execution.AsyncSerialExecutionStrategy
 import graphql.language.StringValue
 import graphql.schema.*
+import graphql.schema.GraphqlTypeComparatorRegistry.AS_IS_REGISTRY
 import graphql.schema.idl.SchemaPrinter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -89,6 +89,27 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KType
 
 
+internal fun GraphQLSchema.print(): String {
+    return SchemaPrinter(
+        SchemaPrinter.Options.defaultOptions()
+            .setComparators(AS_IS_REGISTRY)
+            .includeIntrospectionTypes(true)
+            .includeScalarTypes(true)
+            .includeSchemaDefinition(true)
+            .includeDirectiveDefinitions(true)
+            .includeSchemaElement { true }
+    ).print(this)
+}
+
+fun buildSchema(): GraphQLSchema {
+    return toSchema(
+        config = config,
+        queries = topLevelQuery,
+        mutations = topLevelMutation,
+        subscriptions = emptyList()
+    )
+}
+
 @OptIn(ExperimentalCoroutinesApi::class)
 @SpringBootApplication
 class DefaultApplication {
@@ -101,16 +122,8 @@ class DefaultApplication {
 
     @Bean
     @Primary
-    fun schema(
-        query: Query,
-        schemaConfig: SchemaGeneratorConfig
-    ): GraphQLSchema {
-        val schema = toSchema(
-            config = schemaConfig,
-            queries = listOf(TopLevelObject(query, RootQuery::class)),
-            mutations = listOf(TopLevelObject(RootMutation(), RootMutation::class)),
-            subscriptions = emptyList()
-        )
+    fun schema(): GraphQLSchema {
+        val schema = buildSchema()
 
         println(schema.print())
 
@@ -128,7 +141,7 @@ class DefaultApplication {
                         graph = graph,
                         variant = "current"
                     )
-                } catch(e: Exception) {
+                } catch (e: Exception) {
                     println("Cannot enable Apollo reporting: ${e.message}")
                 }
             }
@@ -139,29 +152,7 @@ class DefaultApplication {
         return schema
     }
 
-    private fun GraphQLSchema.print(): String {
-        return SchemaPrinter(
-            SchemaPrinter.Options.defaultOptions()
-                .includeIntrospectionTypes(false)
-                .includeScalarTypes(true)
-                .includeSchemaDefinition(false)
-                .includeSchemaElement {
-                    when (it) {
-                        is GraphQLDirective -> !setOf(
-                            "include",
-                            "skip",
-                            "specifiedBy",
-                            "deprecated"
-                        ).contains(
-                            it.name
-                        )
 
-                        else -> true
-                    }
-                }
-                .includeDirectiveDefinitions(true)
-        ).print(this)
-    }
 
 //    @Bean
 //    fun corsWebFilter(): CorsWebFilter {
@@ -334,7 +325,8 @@ class DefaultApplication {
                         headers.put("Cache-Control", "public, max-age=$maxAge")
                     }
 
-                    var newExtensions: Map<Any, Any?>? = graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
+                    var newExtensions: Map<Any, Any?>? =
+                        graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
                     if (newExtensions?.isEmpty() == true) {
                         newExtensions = null
                     }
@@ -423,7 +415,8 @@ class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
     }
 }
 
-class BadConferenceException(val conference: String) : Exception("Unknown conference: '$conference', use Query.conferences without a header to get the list of possible values.")
+class BadConferenceException(val conference: String) :
+    Exception("Unknown conference: '$conference', use Query.conferences without a header to get the list of possible values.")
 
 @Component
 class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
@@ -562,3 +555,12 @@ object LocalDateTimeCoercing : Coercing<LocalDateTime, String> {
     }
 }
 
+
+
+internal val topLevelQuery = listOf(TopLevelObject(RootQuery(), RootQuery::class))
+internal val topLevelMutation = listOf(TopLevelObject(RootMutation(), RootMutation::class))
+internal val config = SchemaGeneratorConfig(
+    supportedPackages = listOf("dev.johnoreilly.confetti.backend"),
+    hooks = CustomSchemaGeneratorHooks(),
+    additionalTypes = setOf(graphqlInstantType, graphqlLocalDateType, graphqlLocalDateTimeType)
+)

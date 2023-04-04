@@ -9,6 +9,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,6 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -202,43 +205,74 @@ fun SessionGridRow(
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                         Spacer(modifier = Modifier.weight(1f))
-                        session.speakers.forEach { speaker ->
-                            Row(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(2.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                if (speaker.speakerDetails.photoUrl?.isNotEmpty() == true) {
-                                    AsyncImage(
-                                        model = speaker.speakerDetails.photoUrl,
-                                        contentDescription = speaker.speakerDetails.name,
-                                        contentScale = ContentScale.Fit,
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .clip(RoundedCornerShape(16.dp))
-                                    )
-                                }
-
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = speaker.speakerDetails.name,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-
-                            }
-                        }
+                        Speakers(session = session)
                     }
-                Bookmark(
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    bookmarks = bookmarks,
-                    session = session,
-                    user = user,
-                    removeBookmark = removeBookmark,
-                    addBookmark = addBookmark,
-                    onNavigateToSignIn = onNavigateToSignIn
+                    Bookmark(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        bookmarks = bookmarks,
+                        session = session,
+                        user = user,
+                        removeBookmark = removeBookmark,
+                        addBookmark = addBookmark,
+                        onNavigateToSignIn = onNavigateToSignIn
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalLayoutApi::class)
+private fun Speakers(session: SessionDetails) {
+    if (session.speakers.count() < 4) {
+        session.speakers.forEach { speaker ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (speaker.speakerDetails.photoUrl?.isNotEmpty() == true) {
+                    AsyncImage(
+                        model = speaker.speakerDetails.photoUrl,
+                        contentDescription = speaker.speakerDetails.name,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = speaker.speakerDetails.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
+
+            }
+        }
+    } else {
+        FlowColumn(modifier = Modifier.fillMaxWidth(), maxItemsInEachColumn = 2) {
+            session.speakers.forEach { speaker ->
+                Row {
+                    AsyncImage(
+                        model = speaker.speakerDetails.photoUrl,
+                        contentDescription = speaker.speakerDetails.name,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = speaker.speakerDetails.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
                 }
             }
         }

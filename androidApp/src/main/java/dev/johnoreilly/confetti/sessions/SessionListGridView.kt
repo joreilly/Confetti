@@ -8,7 +8,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -95,7 +94,7 @@ fun SessionListGridView(
                         }
 
                         val timeInfoWidth = 90.dp
-                        val sessionInfoWidth = 240.dp
+                        val sessionInfoWidth = 280.dp
 
                         Column {
                             Row(
@@ -181,7 +180,7 @@ fun SessionGridRow(
             Surface(
                 modifier = Modifier
                     .width(sessionInfoWidth)
-                    .height(180.dp)
+                    .height(220.dp)
                     .padding(bottom = 16.dp)
                     .border(BorderStroke(1.dp, MaterialTheme.colorScheme.primary)),
                 color = MaterialTheme.colorScheme.secondaryContainer
@@ -196,13 +195,12 @@ fun SessionGridRow(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
+                            modifier = Modifier.align(Alignment.Start),
                             text = session.title,
                             fontSize = 16.sp,
-                            textAlign = TextAlign.Center,
+                            textAlign = TextAlign.Start,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
-                        Spacer(Modifier.height(16.dp))
-
                         Spacer(modifier = Modifier.weight(1f))
                         session.speakers.forEach { speaker ->
                             Row(
@@ -232,15 +230,15 @@ fun SessionGridRow(
                             }
                         }
                     }
-                    Bookmark(
-                        modifier = Modifier.align(Alignment.BottomEnd).padding(end = 4.dp),
-                        bookmarks = bookmarks,
-                        session = session,
-                        user = user,
-                        removeBookmark = removeBookmark,
-                        addBookmark = addBookmark,
-                        onNavigateToSignIn = onNavigateToSignIn
-                    )
+                Bookmark(
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    bookmarks = bookmarks,
+                    session = session,
+                    user = user,
+                    removeBookmark = removeBookmark,
+                    addBookmark = addBookmark,
+                    onNavigateToSignIn = onNavigateToSignIn
+                )
                 }
             }
         }
@@ -248,7 +246,7 @@ fun SessionGridRow(
 }
 
 @Composable
-private fun BoxScope.Bookmark(
+private fun Bookmark(
     modifier: Modifier = Modifier,
     bookmarks: Set<String>,
     session: SessionDetails,

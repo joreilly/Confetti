@@ -7,7 +7,7 @@ on:
       - 'main'
     paths:
       - 'backend/**'
-      - 'landing-page'
+      - 'landing-page/**'
       - 'build.gradle.kts'
       - 'settings.gradle.kts'
       - 'gradle/libs.versions.toml'

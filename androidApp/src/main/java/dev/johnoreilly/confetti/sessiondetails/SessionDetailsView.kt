@@ -39,6 +39,7 @@ import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.utils.format
+import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
 
@@ -110,6 +111,23 @@ fun SessionDetailView(
                     )
 
                     Spacer(modifier = Modifier.size(16.dp))
+
+                    Text(
+                        text = session.startsAt.toTimeString(),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+
+                    session.room?.name?.let { roomName ->
+                        Text(
+                            text = roomName,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
                     Text(
                         text = session.sessionDescription ?: "",
                         style = MaterialTheme.typography.bodyMedium
@@ -142,6 +160,11 @@ fun SessionDetailView(
     }
 }
 
+private fun LocalDateTime.toTimeString(): String {
+    val timeFormatter = DateTimeFormatter.ofPattern("hh:mm")
+    return timeFormatter.format(this)
+}
+
 
 @Composable
 fun Chip(name: String) {
@@ -169,7 +192,6 @@ private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
         if (details == null) return@remember {}
 
         val dateFormatter = DateTimeFormatter.ofPattern("dd/MM")
-        val timeFormatter = DateTimeFormatter.ofPattern("hh:mm")
 
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -177,8 +199,8 @@ private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
 
             val room = details.room?.name ?: "Unknown"
             val date = dateFormatter.format(details.startsAt)
-            val startsAt = timeFormatter.format(details.startsAt)
-            val endsAt = timeFormatter.format(details.endsAt)
+            val startsAt = details.startsAt.toTimeString()
+            val endsAt = details.endsAt.toTimeString()
             val schedule = "$date $startsAt-$endsAt"
             val speakers = details
                 .speakers

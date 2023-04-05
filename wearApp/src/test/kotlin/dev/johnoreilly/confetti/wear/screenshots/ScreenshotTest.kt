@@ -43,7 +43,6 @@ import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.FileSnapshotting
 import com.quickbird.snapshot.FileSnapshottingNames
-import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
 import com.quickbird.snapshot.snapshot

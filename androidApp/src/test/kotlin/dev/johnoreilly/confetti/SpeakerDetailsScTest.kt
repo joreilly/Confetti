@@ -13,9 +13,11 @@ import dev.johnoreilly.confetti.test.screenshot.createScreenshotTestRule
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -31,7 +33,7 @@ import org.robolectric.annotation.GraphicsMode
 class SpeakerDetailsScTest : KoinTest {
 
     @get:Rule
-    val screenshotTestRule = createScreenshotTestRule()
+    val screenshotTestRule = createScreenshotTestRule(record = false)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
@@ -59,6 +61,11 @@ class SpeakerDetailsScTest : KoinTest {
             //}
             Box(modifier = Modifier.size(20.dp).background(Color.Blue))
         }
+    }
+
+    @After
+    fun stop() {
+        stopKoin()
     }
 
 }

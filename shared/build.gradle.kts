@@ -137,6 +137,15 @@ android {
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     namespace = "dev.johnoreilly.confetti.shared"
 }
 

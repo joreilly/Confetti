@@ -30,7 +30,6 @@ fun commonModule() = module {
     singleOf(::ConfettiRepository)
     singleOf(::AppSettings)
     singleOf(::ApolloClientCache)
-    single { TokenProvider { null } }
 }
 
-expect fun getDatabaseName(conference: String): String
+expect fun getDatabaseName(conference: String, uid: String?): String

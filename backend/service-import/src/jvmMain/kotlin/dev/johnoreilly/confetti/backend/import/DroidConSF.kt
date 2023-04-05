@@ -104,6 +104,7 @@ object DroidConSF {
                         id = it.id,
                         name = it.name,
                         bio = null,
+                        tagline = null,
                         company = null,
                         links = emptyList(),
                         photoUrl = null,

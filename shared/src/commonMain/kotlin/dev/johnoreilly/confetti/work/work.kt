@@ -6,7 +6,6 @@ import com.apollographql.apollo3.cache.normalized.writeToCacheAsynchronously
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.GetConferencesQuery
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
@@ -54,7 +53,7 @@ private suspend fun fetchConference(
 
 
 private fun extractImages(data: GetConferenceDataQuery.Data): Set<String> {
-    return data.speakers.flatMap {
+    return data.speakers.nodes.flatMap {
         listOfNotNull(
             it.speakerDetails.photoUrl,
             it.speakerDetails.companyLogoUrl

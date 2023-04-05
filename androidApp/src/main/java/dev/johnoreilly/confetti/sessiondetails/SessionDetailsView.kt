@@ -37,23 +37,41 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.utils.format
+import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @Composable
-fun SessionDetailsRoute(conference: String, sessionId: String, onBackClick: () -> Unit) {
+fun SessionDetailsRoute(
+    conference: String,
+    sessionId: String,
+    onBackClick: () -> Unit,
+    onSpeakerClick: (key: SpeakerDetailsKey) -> Unit
+) {
     val viewModel: SessionDetailsViewModel = getViewModel<SessionDetailsViewModel>().apply {
         configure(conference, sessionId)
     }
     val session by viewModel.session.collectAsStateWithLifecycle()
     val share = rememberShareDetails(session)
-    SessionDetailView(session, onBackClick, share)
+    SessionDetailView(
+        session = session,
+        popBack = onBackClick,
+        share = share,
+        onSpeakerClick = { speakerId ->
+            onSpeakerClick(SpeakerDetailsKey(conference = conference, speakerId = speakerId))
+        }
+    )
 }
 
 @Composable
-fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit, share: () -> Unit) {
+fun SessionDetailView(
+    session: SessionDetails?,
+    popBack: () -> Unit,
+    share: () -> Unit,
+    onSpeakerClick: (speakerId: String) -> Unit
+) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
@@ -93,6 +111,23 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit, share: () -
                     )
 
                     Spacer(modifier = Modifier.size(16.dp))
+
+                    Text(
+                        text = session.startsAt.toTimeString(session.endsAt),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+
+                    session.room?.name?.let { roomName ->
+                        Text(
+                            text = roomName,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
                     Text(
                         text = session.sessionDescription ?: "",
                         style = MaterialTheme.typography.bodyMedium
@@ -101,7 +136,7 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit, share: () -
                     if (session.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.size(16.dp))
                         FlowRow {
-                            session.tags.forEach { tag ->
+                            session.tags.distinct().forEach { tag ->
                                 Box(Modifier.padding(bottom = 8.dp)) {
                                     Chip(tag)
                                 }
@@ -115,13 +150,22 @@ fun SessionDetailView(session: SessionDetails?, popBack: () -> Unit, share: () -
                             onSocialLinkClick = { socialItem, _ ->
                                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.url))
                                 context.startActivity(intent)
-                            }
+                            },
+                            onSpeakerClick = onSpeakerClick
                         )
                     }
                 }
             }
         }
     }
+}
+
+private fun LocalDateTime.toTimeString(endsAt: LocalDateTime): String {
+    val startTimeFormatter = DateTimeFormatter.ofPattern("MMM d hh:mm")
+    val endTimeFormatter = DateTimeFormatter.ofPattern("hh:mm")
+    val startTimeDate = startTimeFormatter.format(this)
+    val endsAtTime = endTimeFormatter.format(endsAt)
+    return "$startTimeDate - $endsAtTime"
 }
 
 

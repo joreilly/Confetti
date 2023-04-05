@@ -17,15 +17,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SpeakersUiState
 import dev.johnoreilly.confetti.SpeakersViewModel
@@ -51,7 +52,6 @@ fun SpeakersRoute(
         configure(conference = conference)
     }
     val uiState by viewModel.speakers.collectAsStateWithLifecycle()
-
     ConfettiScaffold(
         title = stringResource(R.string.speakers),
         conference = conference,
@@ -75,7 +75,6 @@ fun SpeakersRoute(
             }
         }
     }
-
 }
 
 
@@ -137,7 +136,7 @@ fun SpeakerListView(
         if (speakers.isNotEmpty()) {
             LazyColumn {
                 items(speakers) { speaker ->
-                    SpeakerView(conference, speaker, navigateToSpeaker)
+                    SpeakerItemView(conference, speaker, navigateToSpeaker)
                 }
             }
         } else {
@@ -154,40 +153,38 @@ fun SpeakerListView(
 
 
 @Composable
-fun SpeakerView(
+fun SpeakerItemView(
     conference: String,
     speaker: SpeakerDetails,
     navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
-    Row(
+    ListItem(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) })
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (speaker.photoUrl?.isNotEmpty() == true) {
-            AsyncImage(
-                model = speaker.photoUrl,
-                contentDescription = speaker.name,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape)
-            )
-        } else {
-            Spacer(modifier = Modifier.size(60.dp))
+            .clickable(onClick = { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) }),
+        headlineText = {
+            Text(text = speaker.name)
+        },
+        supportingText = speaker.tagline?.let { company ->
+            {
+                Text(company)
+            }
+        },
+        leadingContent = speaker.photoUrl?.let { photoUrl ->
+            {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(photoUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = speaker.name,
+                    contentScale = ContentScale.Fit,
+                    placeholder = painterResource(R.drawable.ic_person_black_24dp),
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape)
+                )
+            }
         }
-
-        Spacer(modifier = Modifier.size(12.dp))
-
-        Column {
-            Text(text = speaker.name, style = TextStyle(fontSize = 20.sp))
-            Text(
-                text = speaker.company ?: "",
-                style = TextStyle(color = Color.DarkGray, fontSize = 14.sp)
-            )
-        }
-    }
+    )
 }
-

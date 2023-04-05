@@ -7,7 +7,7 @@ on:
       - 'main'
     paths:
       - 'backend/**'
-      - 'landing-page'
+      - 'landing-page/**'
       - 'build.gradle.kts'
       - 'settings.gradle.kts'
       - 'gradle/libs.versions.toml'
@@ -25,6 +25,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        lfs: 'true'
 
     - uses: actions/setup-java@v3
       with:
@@ -35,9 +37,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
 
     - name: Build
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :setupCredentials appengineDeploy uploadLandingPage
+      run: ./gradlew :setupCredentials appengineDeploy uploadLandingPage
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         FIREBASE_SERVICES_JSON: ${{ secrets.FIREBASE_SERVICES_JSON }}

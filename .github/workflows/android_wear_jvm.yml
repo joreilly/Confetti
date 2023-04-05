@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
+      with:
+        lfs: 'true'
 
     - uses: actions/setup-java@v3
       with:
@@ -21,20 +23,18 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
 
-    - name: Build
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :androidApp:assembleDebug :wearApp:assembleDebug
-
     - name: Wear Unit Tests
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :wearApp:testDebugUnitTest
+      run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest
+
+    - name: Build
+      run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug
 
   build-jvm:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+        with:
+          lfs: 'true'
 
       - uses: actions/setup-java@v3
         with:
@@ -45,6 +45,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: :shared:runJvmMain
+        run: ./gradlew :shared:runJvmMain

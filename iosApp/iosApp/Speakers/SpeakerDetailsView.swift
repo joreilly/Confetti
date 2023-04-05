@@ -9,6 +9,7 @@ struct SpeakerDetailsView: View {
         ScrollView {
             VStack(alignment: .center) {
                 Text(speaker.name).font(.title)
+                Text(speaker.tagline ?? "").font(.subheadline)
                 
                 AsyncImage(url: URL(string: speaker.photoUrl ?? "")) { image in
                      image.resizable()
@@ -25,6 +26,11 @@ struct SpeakerDetailsView: View {
                 
                 HStack {
                     SessionSpeakerSocialInfo(speaker: speaker)
+                }
+                Spacer()
+                Text("Sessions").font(.headline)
+                ForEach(speaker.sessions, id: \.self) { session in
+                    Text(session.title).font(.body)
                 }
             }
             .padding()

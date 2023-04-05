@@ -1,8 +1,7 @@
 package dev.johnoreilly.confetti.account
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,22 +15,25 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dev.johnoreilly.confetti.R
+import org.koin.compose.koinInject
 
 
 @Composable
 fun SignInRoute(onBackClick: () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         var error: String? by remember { mutableStateOf(null) }
         val launcher = rememberFirebaseAuthLauncher(
-            onAuthComplete = { _ ->
+            onAuthComplete = {
                 onBackClick()
             },
             onAuthError = {
                 it.printStackTrace()
                 error = "Something went wrong"
-            }
+            },
+            koinInject()
         )
 
         val context = LocalContext.current

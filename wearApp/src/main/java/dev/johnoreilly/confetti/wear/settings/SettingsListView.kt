@@ -5,13 +5,15 @@ package dev.johnoreilly.confetti.wear.settings
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.wear.compose.material.ListHeader
-import androidx.wear.compose.material.Text
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.StandardChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -29,9 +31,7 @@ fun SettingsListView(
         columnState = columnState,
     ) {
         item {
-            ListHeader {
-                Text(text = "Settings")
-            }
+            SectionHeader(text = "Settings")
         }
 
         item {
@@ -50,10 +50,17 @@ fun SettingsListView(
                 )
             } else {
                 StandardChip(
+                    modifier = Modifier.clearAndSetSemantics {
+                        contentDescription = "Logged in as " + authUser.displayName
+                        onClick("Sign Out") {
+                            navigateToGoogleSignOut()
+                            true
+                        }
+                    },
                     label = "Sign Out",
                     icon = authUser.avatarUri,
                     largeIcon = true,
-                    onClick = navigateToGoogleSignOut,
+                    onClick = navigateToGoogleSignOut
                 )
             }
         }

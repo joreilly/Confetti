@@ -1,4 +1,3 @@
-
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
@@ -23,7 +22,12 @@ pluginManagement {
                     }
                 }
                 filter {
-                    includeGroup("com.apollographql.apollo3")
+                    // Use the snapshots repository for Apollo 4.0.0-SNAPSHOT, but not for 3.x, which is a dependency of 4.0.0
+                    includeVersionByRegex(
+                        "com\\.apollographql\\.apollo3",
+                        ".+",
+                        "4\\.0\\.0-SNAPSHOT"
+                    )
                 }
             }
         }
@@ -52,8 +56,6 @@ include(":wearApp")
 include(":wearBenchmark")
 include(":compose-desktop")
 
-val javaVersion = System.getProperty("java.version")?.split(".")?.firstOrNull()?.toInt() ?: Int.MAX_VALUE
-
-check (javaVersion >= 17) {
-    "This project needs to be run with Java 17 or higher (found: $javaVersion)."
+check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+    "This project needs to be run with Java 17 or higher (found: ${JavaVersion.current()})."
 }

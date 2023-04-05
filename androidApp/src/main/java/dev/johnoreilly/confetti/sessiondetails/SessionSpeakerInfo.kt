@@ -1,30 +1,44 @@
 package dev.johnoreilly.confetti.sessiondetails
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.ui.component.SocialIcon
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
+import dev.johnoreilly.confetti.ui.component.SocialIcon
 
 @Composable
 fun SessionSpeakerInfo(
     modifier: Modifier = Modifier,
     speaker: SpeakerDetails,
+    onSpeakerClick: (speakerId: String) -> Unit,
     onSocialLinkClick: (SpeakerDetails.Social, SpeakerDetails) -> Unit
 ) {
-    Column(modifier.padding(top = 16.dp)) {
+    Column(
+        modifier
+            .clickable(role = Role.Button) {
+                onSpeakerClick(speaker.id)
+            }
+            .padding(top = 16.dp, bottom = 8.dp),
+    ) {
         Row {
             AsyncImage(
                 modifier = Modifier
@@ -39,14 +53,18 @@ fun SessionSpeakerInfo(
                 contentDescription = speaker.name,
             )
 
-            Column(Modifier.padding(horizontal = 8.dp)) {
+            Column(
+                Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(horizontal = 16.dp)
+            ) {
                 Text(
                     text = speaker.fullNameAndCompany(),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
 
-                speaker.city?.let { city ->
+                speaker.tagline?.let { city ->
                     Text(
                         text = city,
                         style = MaterialTheme.typography.titleSmall

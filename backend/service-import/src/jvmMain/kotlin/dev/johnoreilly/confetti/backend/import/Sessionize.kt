@@ -15,10 +15,15 @@ object Sessionize {
     private val kotlinConf2023 = "https://sessionize.com/api/v2/rje6khfn/view/All"
     private val androidMakers2023 = "https://sessionize.com/api/v2/72i2tw4v/view/All"
 
+    data class SessionizeData(
+        val rooms: List<DRoom>,
+        val sessions: List<DSession>,
+        val speakers: List<DSpeaker>,
+    )
 
     suspend fun importDroidConLondon2022(): Int {
-        return import(
-            droidConLondon2022,
+        return writeData(
+            getData(droidConLondon2022),
             config = DConfig(
                 id = ConferenceId.DroidConLondon2022.id,
                 name = "droidcon London",
@@ -41,8 +46,10 @@ object Sessionize {
     }
 
     suspend fun importKotlinConf2023(): Int {
-        return import(
-            kotlinConf2023,
+        return writeData(
+            getData(kotlinConf2023).let {
+                it.copy(sessions = it.sessions.filter { it.start.date.dayOfMonth != 12 })
+            },
             config = DConfig(
                 id = ConferenceId.KotlinConf2023.id,
                 name = "KotlinConf 2023",
@@ -65,8 +72,8 @@ object Sessionize {
     }
 
     suspend fun importAndroidMakers2023(): Int {
-        return import(
-            androidMakers2023,
+        return writeData(
+            getData(androidMakers2023),
             config = DConfig(
                 id = ConferenceId.AndroidMakers2023.id,
                 name = "Android Makers 2023",
@@ -86,21 +93,28 @@ object Sessionize {
                 imageUrl = null,
                 floorPlanUrl = null
             ),
-            partners = listOf(
-                DPartner(name = "Roquefort", logoUrl = "https://www.fromages.com/media/uploads/fromage/liste_27_1.png", url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
-                DPartner(name = "Comté", logoUrl = "https://www.fromages.com/media/uploads/fromage/liste_808_1.png", url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
-                DPartner(name = "Camembert", logoUrl = "https://www.fromages.com/media/uploads/fromage/liste_75_1.png", url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
-            )
+            partnerGroups = partnerGroups("https://raw.githubusercontent.com/paug/AndroidMakersApp/ce800d6eefa4f83d34690161637d7f98918ee4a3/data/sponsors.json")
         )
     }
 
-    private suspend fun import(url: String, config: DConfig, venue: DVenue, partners: List<DPartner> = emptyList()): Int {
+    private fun writeData(
+        sessionizeData: SessionizeData,
+        config: DConfig,
+        venue: DVenue,
+        partnerGroups: List<DPartnerGroup> = emptyList()
+    ): Int {
+        return DataStore().write(
+            sessions = sessionizeData.sessions.sortedBy { it.start },
+            rooms = sessionizeData.rooms,
+            speakers = sessionizeData.speakers,
+            partnerGroups = partnerGroups,
+            config = config,
+            venues = listOf(venue)
+        )
+    }
+
+    private suspend fun getData(url: String): SessionizeData {
         val data = getJsonUrl(url)
-        val day1 = LocalDate(2023, 4, 27)
-        val day2 = LocalDate(2023, 4, 28)
-        var time = day1.atTime(9, 30)
-        var roomIndex = 0
-        val fakeRooms = listOf("moebius", "blin", "202", "204")
 
         val categories = data.asMap["categories"].asList.map { it.asMap }
             .flatMap {
@@ -113,34 +127,29 @@ object Sessionize {
         val sessions = data.asMap["sessions"].asList.map {
             it.asMap
         }.mapNotNull {
-            var start = time
-            if (start > LocalDateTime(2023, 4, 27, 18, 0)) {
-                start = day2.atTime(9,30)
+            if (it.get("startsAt") == null || it.get("endsAt") == null){
+                /**
+                 * Guard against sessions that are not scheduled.
+                 */
+                return@mapNotNull null
             }
-            val end  = start.toInstant(TimeZone.UTC).plus(1.hours).toLocalDateTime(TimeZone.UTC)
-
             DSession(
                 id = it.get("id").asString,
                 type = if (it.get("isServiceSession").cast()) "service" else "talk",
                 title = it.get("title").asString,
                 description = it.get("description")?.asString,
                 language = "en-US",
-                start = start,
-                end = end,
+                start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
+                end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
                 complexity = null,
                 feedbackId = null,
                 tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
                     categories.get(categoryId)?.asString
                 },
-                rooms = listOf(fakeRooms.get(roomIndex++)),
+                rooms = listOf(it.get("roomId").toString()),
                 speakers = it.get("speakers").asList.map { it.asString },
                 shortDescription = null,
-            ).also {
-                time = end
-                if (roomIndex >= fakeRooms.size) {
-                    roomIndex = 0
-                }
-            }
+            )
         }
 
         var rooms = data.asMap["rooms"].asList.map { it.asMap }.map {
@@ -150,7 +159,7 @@ object Sessionize {
             )
         }
         if (rooms.isEmpty()) {
-           rooms = sessions.flatMap { it.rooms }.distinct().map { DRoom(id = it, name = it) }
+            rooms = sessions.flatMap { it.rooms }.distinct().map { DRoom(id = it, name = it) }
         }
         val speakers = data.asMap["speakers"].asList.map { it.asMap }.map {
             DSpeaker(
@@ -158,6 +167,7 @@ object Sessionize {
                 name = it.get("fullName").asString,
                 photoUrl = it.get("profilePicture")?.asString,
                 bio = it.get("bio")?.asString,
+                tagline = it.get("tagLine")?.asString,
                 city = null,
                 company = null,
                 companyLogoUrl = null,
@@ -169,13 +179,11 @@ object Sessionize {
                 }
             )
         }
-        return DataStore().write(
-            sessions = sessions.sortedBy { it.start },
+
+        return SessionizeData(
             rooms = rooms,
-            speakers = speakers,
-            partnerGroups = listOf(DPartnerGroup("1", partners)),
-            config = config,
-            venues = listOf(venue)
+            sessions = sessions,
+            speakers = speakers
         )
     }
 }

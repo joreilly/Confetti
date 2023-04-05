@@ -22,19 +22,24 @@ class TestDataSource : DataSource {
 
     private val nowInstant = Clock.System.now().toLocalDateTime(TimeZone.UTC)
 
-    private val speakers = listOf(
-        Speaker(
-            id = "speaker0",
-            name = "speaker 0",
-            bio = "Bio updated at $nowInstant",
-            company = null,
-            companyLogoUrl = null,
-            city = null,
-            socials = emptyList(),
-            photoUrl = null,
-            sessionIds = emptyList()
-        )
-    )
+    private val speakers = buildList {
+        repeat(100) {
+            add(
+                Speaker(
+                    id = "speaker$it",
+                    name = "Speaker $it",
+                    bio = "Bio updated at $nowInstant",
+                    tagline = null,
+                    company = null,
+                    companyLogoUrl = null,
+                    city = null,
+                    socials = emptyList(),
+                    photoUrl = null,
+                    sessionIds = listOf("session0", "session1")
+                )
+            )
+        }
+    }
 
     private val start = LocalDateTime(2032, 1, 1, 12, 0, 0)
 
@@ -56,7 +61,7 @@ class TestDataSource : DataSource {
                     id = "session$it",
                     title = "#$it - ${nowInstant}",
                     shortDescription = "shortDescription updated at $nowInstant",
-                    speakerIds = speakers.map { it.id }.toSet(),
+                    speakerIds = speakers.subList(0, 2).map { it.id }.toSet(),
                     description = "Description  updated at $nowInstant",
                     language = null,
                     tags = emptyList(),
@@ -77,11 +82,28 @@ class TestDataSource : DataSource {
     }
 
     override fun sessions(ids: List<String>): List<Session> {
-        return emptyList()
+        return sessions(first = 2, after = null, filter = null, orderBy = null).nodes
     }
 
-    override fun speakers(): List<Speaker> {
-        return speakers
+    override fun speakers(ids: List<String>): List<Speaker> {
+        return speakers.filter { it.id in ids }
+    }
+
+    override fun speakers(first: Int, after: String?): SpeakerConnection {
+        val drop = if (after == null) {
+            0
+        } else {
+            speakers.indexOfFirst { it.id == after }
+                .also {
+                    if (it == -1) {
+                        return SpeakerConnection(emptyList(), PageInfo(null))
+                    }
+                } + 1
+        }
+        return SpeakerConnection(
+            nodes = speakers.drop(drop).take(first),
+            pageInfo = PageInfo(endCursor = speakers.getOrNull(drop + first)?.id)
+        )
     }
 
     override fun venues(): List<Venue> {

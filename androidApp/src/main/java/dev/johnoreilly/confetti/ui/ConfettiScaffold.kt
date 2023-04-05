@@ -6,74 +6,115 @@
 package dev.johnoreilly.confetti.ui
 
 import android.annotation.SuppressLint
-import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType.Companion.KeyUp
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.account.AccountIcon
+import dev.johnoreilly.confetti.account.WearUiState
+import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.settings.SettingsDialog
+import dev.johnoreilly.confetti.wear.WearSettingsSync
+import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
+
+class ScaffoldState(
+    val title: MutableState<String?>,
+    val snackbarHostState: SnackbarHostState,
+    val user: User?
+)
 
 /**
  * A wrapper for some content view that handles the different layouts (mobile/tablet, etc...)
  */
+@Composable
+fun ConfettiScaffold(
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    conference: String,
+    appState: ConfettiAppState,
+    onSwitchConference: () -> Unit,
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit,
+    content: @Composable (ScaffoldState) -> Unit,
+) {
+    val authentication = koinInject<Authentication>()
+    val wearSettingSync = koinInject<WearSettingsSync>()
+    fun signOut() {
+        authentication.signOut()
+        onSignOut()
+    }
+
+    val wearSettingNodeState =
+        wearSettingSync.wearNodes.collectAsStateWithLifecycle(emptyList()).value
+    val wearSettingsUIState = WearUiState(wearSettingNodeState)
+
+    fun installOnWear() {
+        wearSettingNodeState.filter { !it.isAppInstalled }.forEach {
+            wearSettingSync.installOnWearNode(it.id)
+        }
+    }
+
+    val user by authentication.currentUser.collectAsStateWithLifecycle()
+
+    val titleState = remember(title) { mutableStateOf(title) }
+
+    ConfettiScaffold(
+        modifier = modifier,
+        title = titleState.value,
+        conference = conference,
+        appState = appState,
+        onSwitchConference = onSwitchConference,
+        onSignIn = onSignIn,
+        onSignOut = ::signOut,
+        user = user,
+        installOnWear = ::installOnWear,
+        wearSettingsUiState = wearSettingsUIState,
+    ) {
+        content(ScaffoldState(titleState, it, user))
+    }
+}
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfettiScaffold(
+    modifier: Modifier = Modifier,
     title: String?,
     conference: String,
     appState: ConfettiAppState,
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
-    search: String? = null,
-    onSearch: (String) -> Unit = {},
+    user: User?,
+    installOnWear: () -> Unit,
+    wearSettingsUiState: WearUiState,
     content: @Composable (SnackbarHostState) -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -86,7 +127,7 @@ fun ConfettiScaffold(
         )
     }
 
-    Row {
+    Row(modifier = modifier) {
         // The default behaviour is to keep top bar always visible.
         var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         if (appState.shouldShowNavRail) {
@@ -97,66 +138,43 @@ fun ConfettiScaffold(
                 modifier = Modifier.safeDrawingPadding()
             )
         } else {
+            // The scrollBehaviour combined with a pager seems to cause issues when a fling happens.
+            // For now, we will keep the default behaviour until we figure out how to workaround it.
+            // ---
             // If NavRail is not visible (i.e., phones), we collapse the top bar while scrolling.
             // That gives more space for the user to see the screen content.
-            scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+            // scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         }
-        var isSearching by remember { mutableStateOf(false) }
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState)
             },
             topBar = {
-                // Animates the transition when starting a search.
-                AnimatedContent(targetState = isSearching, label = "search") { shouldShowSearch ->
-                    if (shouldShowSearch) {
-                        // Wraps search in a top-bar to maintain same appearance and sizing.
-                        CenterAlignedTopAppBar(
-                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                containerColor = Color.Transparent
-                            ),
-                            title = {
-                                SearchTextField(
-                                    value = search.orEmpty(),
-                                    onValueChange = onSearch,
-                                    onCloseSearch = {
-                                        isSearching = false
-                                    }
-                                )
-                            },
-                            scrollBehavior = scrollBehavior,
+                CenterAlignedTopAppBar(
+                    title = {
+                        if (title != null) {
+                            Text(text = title, fontSize = titleFontSize)
+                        }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
+                    actions = {
+                        AccountIcon(
+                            onSwitchConference = onSwitchConference,
+                            onSignIn = onSignIn,
+                            onSignOut = onSignOut,
+                            onShowSettings = { appState.setShowSettingsDialog(true) },
+                            user = user,
+                            installOnWear = installOnWear,
+                            wearSettingsUiState = wearSettingsUiState,
                         )
-                    } else {
-                        CenterAlignedTopAppBar(
-                            title = {
-                                if (title != null) {
-                                    Text(text = title, fontSize = titleFontSize)
-                                }
-                            },
-                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                containerColor = Color.Transparent
-                            ),
-                            navigationIcon = {
-                                AccountIcon(
-                                    onSwitchConference = onSwitchConference,
-                                    onSignIn = onSignIn,
-                                    onSignOut = onSignOut,
-                                    onShowSettings = { appState.setShowSettingsDialog(true) },
-                                )
-                            },
-                            actions = {
-                                IconButton(onClick = { isSearching = true }) {
-                                    Icon(Icons.Filled.Search, contentDescription = "Search")
-                                }
-                            },
-                            scrollBehavior = scrollBehavior,
-                        )
-                    }
-                }
+                    },
+                    scrollBehavior = scrollBehavior,
+                )
 
             },
-            containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { innerPadding ->
             Column(
@@ -178,81 +196,3 @@ fun ConfettiScaffold(
         }
     }
 }
-
-@Composable
-private fun SearchTextField(
-    modifier: Modifier = Modifier,
-    value: String = "",
-    onValueChange: (String) -> Unit,
-    onCloseSearch: () -> Unit = {},
-) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusRequester = remember { FocusRequester() }
-
-    val closeSearch = remember {
-        {
-            keyboardController?.hide()
-            onValueChange("")
-            onCloseSearch()
-        }
-    }
-
-    DisposableEffect(Unit) {
-        focusRequester.requestFocus()
-        onDispose { onValueChange("") }
-    }
-
-    BackHandler {
-        // Closes search if the user presses back before closing the app.
-        closeSearch()
-    }
-
-    TextField(
-        modifier = modifier
-            .focusRequester(focusRequester)
-            .interceptKey(Key.Enter) {
-                keyboardController?.hide()
-            }
-            .fillMaxWidth(),
-        value = value,
-        onValueChange = onValueChange,
-        placeholder = { Text("Search") },
-        leadingIcon = { Icon(Icons.Filled.Search, "Search") },
-        trailingIcon = {
-            IconButton(onClick = { closeSearch() }) {
-                Icon(
-                    Icons.Filled.Close,
-                    contentDescription = "Close Search"
-                )
-            }
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(
-            onSearch = { keyboardController?.hide() }
-        ),
-        colors = TextFieldDefaults.textFieldColors( // hide the indicator
-            focusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-        ),
-        textStyle = ConfettiTypography.bodyLarge,
-        shape = ShapeDefaults.Large,
-        singleLine = true,
-    )
-}
-
-/**
- * [Modifier] to intercept [key] events and fires [onKeyEvent] callback when the key is released.
- *
- * The [key] parameter represents the key to be intercepted
- * The [onKeyEvent] listener is an optional listener to when the key event happens.
- *
- * The intercepted key is not passed to any child composable.
- */
-fun Modifier.interceptKey(key: Key, onKeyEvent: () -> Unit = {}): Modifier =
-    onPreviewKeyEvent { event ->
-        if (event.key == key && event.type == KeyUp) {
-            onKeyEvent()
-        }
-        event.key == key
-    }

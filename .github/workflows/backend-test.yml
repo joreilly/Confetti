@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        lfs: 'true'
 
     - uses: actions/setup-java@v3
       with:
@@ -23,6 +25,4 @@ jobs:
       uses: gradle/gradle-build-action@v2
 
     - name: Build
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :backend:service-graphql:build :backend:service-import:build :backend:service-import:fatJar
+      run: ./gradlew :backend:service-graphql:build :backend:service-import:build :backend:service-import:fatJar

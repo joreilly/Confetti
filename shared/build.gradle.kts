@@ -32,6 +32,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "ConfettiKit"
+            isStatic = true
         }
     }
 
@@ -50,6 +51,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.atomicfu)
                 api(libs.kotlinx.datetime)
 
                 api(libs.bundles.multiplatform.settings)
@@ -57,6 +59,9 @@ kotlin {
 
                 api(libs.apollo.runtime)
                 api(libs.bundles.apollo)
+
+                // Multiplatform Logging
+                api(libs.napier)
             }
         }
         val commonTest by getting {
@@ -68,6 +73,7 @@ kotlin {
         val mobileMain by getting {
             dependencies {
                 implementation(libs.kmm.viewmodel)
+                implementation(libs.firebase.mpp.auth)
             }
         }
 

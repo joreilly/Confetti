@@ -14,7 +14,6 @@ import com.expediagroup.graphql.generator.TopLevelObject
 import com.expediagroup.graphql.generator.hooks.SchemaGeneratorHooks
 import com.expediagroup.graphql.generator.toSchema
 import com.expediagroup.graphql.server.execution.GraphQLRequestParser
-import com.expediagroup.graphql.server.operations.Query
 import com.expediagroup.graphql.server.spring.GraphQLConfigurationProperties
 import com.expediagroup.graphql.server.spring.execution.DefaultSpringGraphQLContextFactory
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLRequestParser
@@ -35,6 +34,7 @@ import graphql.GraphQLContext
 import graphql.execution.AsyncSerialExecutionStrategy
 import graphql.language.StringValue
 import graphql.schema.*
+import graphql.schema.GraphqlTypeComparatorRegistry.AS_IS_REGISTRY
 import graphql.schema.idl.SchemaPrinter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -56,22 +56,59 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.buffer
 import okio.source
+import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.condition.SearchStrategy
+import org.springframework.boot.autoconfigure.web.ErrorProperties
+import org.springframework.boot.autoconfigure.web.ServerProperties
+import org.springframework.boot.autoconfigure.web.WebProperties
+import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler
 import org.springframework.boot.runApplication
+import org.springframework.boot.web.error.ErrorAttributeOptions
+import org.springframework.boot.web.reactive.error.DefaultErrorAttributes
+import org.springframework.boot.web.reactive.error.ErrorAttributes
+import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
+import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
+import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
+import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
 import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.reactive.function.server.json
+import org.springframework.web.reactive.result.view.ViewResolver
+import org.springframework.web.server.ServerWebExchange
 import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 
+
+internal fun GraphQLSchema.print(): String {
+    return SchemaPrinter(
+        SchemaPrinter.Options.defaultOptions()
+            .setComparators(AS_IS_REGISTRY)
+            .includeIntrospectionTypes(true)
+            .includeScalarTypes(true)
+            .includeSchemaDefinition(true)
+            .includeDirectiveDefinitions(true)
+            .includeSchemaElement { true }
+    ).print(this)
+}
+
+fun buildSchema(): GraphQLSchema {
+    return toSchema(
+        config = config,
+        queries = topLevelQuery,
+        mutations = topLevelMutation,
+        subscriptions = emptyList()
+    )
+}
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @SpringBootApplication
@@ -85,16 +122,8 @@ class DefaultApplication {
 
     @Bean
     @Primary
-    fun schema(
-        query: Query,
-        schemaConfig: SchemaGeneratorConfig
-    ): GraphQLSchema {
-        val schema = toSchema(
-            config = schemaConfig,
-            queries = listOf(TopLevelObject(query, RootQuery::class)),
-            mutations = listOf(TopLevelObject(RootMutation(), RootMutation::class)),
-            subscriptions = emptyList()
-        )
+    fun schema(): GraphQLSchema {
+        val schema = buildSchema()
 
         println(schema.print())
 
@@ -105,12 +134,16 @@ class DefaultApplication {
             } else {
                 println("Enabling Apollo reporting for graph $graph")
                 @OptIn(ApolloExperimental::class)
-                SchemaUploader.uploadSchema(
-                    key = apolloKey,
-                    sdl = schema.print(),
-                    graph = graph,
-                    variant = "current"
-                )
+                try {
+                    SchemaUploader.uploadSchema(
+                        key = apolloKey,
+                        sdl = schema.print(),
+                        graph = graph,
+                        variant = "current"
+                    )
+                } catch (e: Exception) {
+                    println("Cannot enable Apollo reporting: ${e.message}")
+                }
             }
         } else {
             println("Skipping Apollo reporting")
@@ -119,29 +152,7 @@ class DefaultApplication {
         return schema
     }
 
-    private fun GraphQLSchema.print(): String {
-        return SchemaPrinter(
-            SchemaPrinter.Options.defaultOptions()
-                .includeIntrospectionTypes(false)
-                .includeScalarTypes(true)
-                .includeSchemaDefinition(false)
-                .includeSchemaElement {
-                    when (it) {
-                        is GraphQLDirective -> !setOf(
-                            "include",
-                            "skip",
-                            "specifiedBy",
-                            "deprecated"
-                        ).contains(
-                            it.name
-                        )
 
-                        else -> true
-                    }
-                }
-                .includeDirectiveDefinitions(true)
-        ).print(this)
-    }
 
 //    @Bean
 //    fun corsWebFilter(): CorsWebFilter {
@@ -160,6 +171,55 @@ class DefaultApplication {
     @Primary
     fun parser(objectMapper: ObjectMapper): GraphQLRequestParser<ServerRequest> {
         return MySpringGraphQLRequestParser(objectMapper)
+    }
+
+    @Bean
+    @Order(-2)
+    fun errorWebExceptionHandler(
+        errorAttributes: ErrorAttributes?,
+        webProperties: WebProperties,
+        serverProperties: ServerProperties,
+        viewResolvers: ObjectProvider<ViewResolver?>,
+        serverCodecConfigurer: ServerCodecConfigurer,
+        applicationContext: ApplicationContext?
+    ): ErrorWebExceptionHandler? {
+        serverProperties.error.includeMessage = ErrorProperties.IncludeAttribute.ALWAYS
+        val exceptionHandler = DefaultErrorWebExceptionHandler(
+            errorAttributes,
+            webProperties.resources,
+            serverProperties.error,
+            applicationContext
+        )
+        exceptionHandler.setViewResolvers(viewResolvers.orderedStream().toList())
+        exceptionHandler.setMessageWriters(serverCodecConfigurer.writers)
+        exceptionHandler.setMessageReaders(serverCodecConfigurer.readers)
+        return exceptionHandler
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean(value = [ErrorAttributes::class], search = SearchStrategy.CURRENT)
+    fun errorAttributes(): DefaultErrorAttributes? {
+        return object : DefaultErrorAttributes() {
+            private var throwable: Throwable? = null
+
+            override fun getErrorAttributes(
+                request: ServerRequest?,
+                options: ErrorAttributeOptions?
+            ): MutableMap<String, Any> {
+                val options1 = if (throwable is BadConferenceException) {
+                    options?.including(ErrorAttributeOptions.Include.MESSAGE)
+                } else {
+                    options
+                }
+                return super.getErrorAttributes(request, options1)
+            }
+
+            override fun storeErrorInformation(error: Throwable?, exchange: ServerWebExchange?) {
+                throwable = error
+                super.storeErrorInformation(error, exchange)
+            }
+        }
     }
 
     @Bean
@@ -265,7 +325,8 @@ class DefaultApplication {
                         headers.put("Cache-Control", "public, max-age=$maxAge")
                     }
 
-                    var newExtensions: Map<Any, Any?>? = graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
+                    var newExtensions: Map<Any, Any?>? =
+                        graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
                     if (newExtensions?.isEmpty() == true) {
                         newExtensions = null
                     }
@@ -354,6 +415,9 @@ class MySpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
     }
 }
 
+class BadConferenceException(val conference: String) :
+    Exception("Unknown conference: '$conference', use Query.conferences without a header to get the list of possible values.")
+
 @Component
 class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
     override suspend fun generateContext(request: ServerRequest): GraphQLContext {
@@ -369,6 +433,9 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
             ?.substring("bearer_".length)
             ?.firebaseUid()
 
+        if (ConferenceId.values().find { it.id == conference } == null && conference != "all") {
+            throw BadConferenceException(conference)
+        }
         val source = when (conference) {
             ConferenceId.TestConference.id -> TestDataSource()
             else -> DataStoreDataSource(conference, uid)
@@ -487,3 +554,13 @@ object LocalDateTimeCoercing : Coercing<LocalDateTime, String> {
         throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
     }
 }
+
+
+
+internal val topLevelQuery = listOf(TopLevelObject(RootQuery(), RootQuery::class))
+internal val topLevelMutation = listOf(TopLevelObject(RootMutation(), RootMutation::class))
+internal val config = SchemaGeneratorConfig(
+    supportedPackages = listOf("dev.johnoreilly.confetti.backend"),
+    hooks = CustomSchemaGeneratorHooks(),
+    additionalTypes = setOf(graphqlInstantType, graphqlLocalDateType, graphqlLocalDateTimeType)
+)

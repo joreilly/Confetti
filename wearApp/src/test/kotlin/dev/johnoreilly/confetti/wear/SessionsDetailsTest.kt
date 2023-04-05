@@ -12,9 +12,10 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.AndroidDateService
-import dev.johnoreilly.confetti.wear.TestFixtures.JohnUrl
-import dev.johnoreilly.confetti.wear.TestFixtures.MartinUrl
-import dev.johnoreilly.confetti.wear.TestFixtures.sessionDetails
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
+import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsUiState
 import kotlinx.datetime.TimeZone
@@ -91,5 +92,29 @@ class SessionsDetailsTest : ScreenshotTest() {
             columnState = columnState,
             formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
+    }
+
+    @Test
+    fun sessionDetailsScreenA11y() {
+        enableA11yTest()
+
+        takeScrollableScreenshot(
+            timeTextMode = TimeTextMode.OnTop,
+            checks = {
+                rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+            }
+        ) { columnState ->
+            SessionDetailView(
+                uiState = SessionDetailsUiState.Success(
+                    "wearconf",
+                    SessionDetailsKey("fosdem", "14997"),
+                    sessionDetails,
+                    TimeZone.UTC
+                ),
+                navigateToSpeaker = {},
+                columnState = columnState,
+                formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
+            )
+        }
     }
 }

@@ -95,7 +95,7 @@ android {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-benchmark.pro"))
-            matchingFallbacks.addAll(listOf("release", "debug"))
+            matchingFallbacks.addAll(listOf("release"))
         }
         create("githubRelease") {
             isShrinkResources = true
@@ -189,4 +189,22 @@ dependencies {
     testImplementation(libs.snapshot.jvm)
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.horologist.compose.tools)
+}
+
+tasks.register<PlayStoreScreenshotTask>("generateImages") {
+    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/TileScreenshotTest/tile_Colors_Material__reference.png")
+    selectedImages.from("snapshot/ConferenceHomeScreenTest/conferenceHomeScreen_Colors_Material__reference.png")
+    output.set(file("../fastlane/metadata/android/en-US/images/wearScreenshots"))
+}
+
+tasks.register<ReadmeScreenshotTask>("readmeScreenshot") {
+    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen_Colors_Material__reference.png")
+    output.set(file("images/wearScreenshots.png"))
 }

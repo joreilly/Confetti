@@ -115,7 +115,7 @@ android {
                     "proguard-benchmark.pro"
                 )
             )
-            matchingFallbacks.addAll(listOf("release", "debug"))
+            matchingFallbacks.addAll(listOf("release"))
         }
         getByName("debug") {
             signingConfig = signingConfigs.getByName("confetti")
@@ -171,8 +171,6 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance)
-    implementation(libs.firebase.auth.ktx)
     implementation(libs.play.services.auth)
-
     coreLibraryDesugaring(libs.desugar)
 }

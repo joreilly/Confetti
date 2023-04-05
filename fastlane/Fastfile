@@ -4,8 +4,8 @@ default_platform :android
 
 platform :android do
 
-    versionNum = 79
-    wearVersionNum = 80
+    versionNum = 113
+    wearVersionNum = 114
 
 
     before_all do
@@ -111,7 +111,7 @@ platform :android do
             skip_upload_metadata: true,
             skip_upload_images: true,
             skip_upload_screenshots: true,
-            version_code: 1001086
+            skip_upload_changelogs: true
         )
     end
 

@@ -21,13 +21,27 @@ At the time of writing, in order to build the Confetti app, you'll need:
 * Android Studio Electric Eel or higher. 
 * Xcode 14.2+ for the iOS app
 
-Open the root project in Android Studio. Useful tasks:
+
+## Mobile & watch apps
+For Android, open the root project in Android Studio. Useful tasks:
 
 * `./gradlew :androidApp:assembleDebug` 
 * `./gradlew :wearApp:assembleDebug` 
+
+For iOS, open the `iosApp/iosApp.xcodeproj` in Xcode and run the app.
+
+## API docs 
+
+API docs are available at [backend/README.md](backend/README.md)
+
+## Backend
+
+You can run the backend locally with the following task:
+
 * `./gradle :backend:service-graphql:bootRun` 
 
 When running `bootRun`, you will only be able to use the "test" conference as access to the real data requires additional credentials.
+
 
 Happy hacking!
 

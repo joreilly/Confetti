@@ -2,33 +2,58 @@
 
 package dev.johnoreilly.confetti.settings
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.horologist.data.apphelper.AppHelperNodeStatus
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.ui.colorScheme
 import dev.johnoreilly.confetti.wear.WearSettingsSync
+import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(val appSettings: AppSettings, val wearSettingsSync: WearSettingsSync) : ViewModel() {
+class SettingsViewModel(
+    val appSettings: AppSettings,
+    val wearSettingsSync: WearSettingsSync,
+    val applicationContext: Context
+) : ViewModel() {
 
     private val settings = appSettings.settings
 
-    val userEditableSettings: StateFlow<UserEditableSettings> =
-        combine(settings.getStringFlow(brandKey, ThemeBrand.DEFAULT.toString()),
+    val userEditableSettings: StateFlow<UserEditableSettings?> =
+        combine(
+            settings.getStringFlow(brandKey, ThemeBrand.DEFAULT.toString()),
             settings.getStringFlow(darkThemeConfigKey, DarkThemeConfig.FOLLOW_SYSTEM.toString()),
             settings.getBooleanFlow(useDynamicColorKey, false),
-        ) { themeBrand, darkThemeConfig, useDynamicColor ->
+            wearSettingsSync.wearNodes,
+            wearSettingsSync.settingsFlow
+        ) { themeBrand, darkThemeConfig, useDynamicColor, wearNodes, wearSettings ->
             UserEditableSettings(
-                    brand = ThemeBrand.valueOf(themeBrand),
-                    useDynamicColor = useDynamicColor,
-                    darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfig),
+                brand = ThemeBrand.valueOf(themeBrand),
+                useDynamicColor = useDynamicColor,
+                darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfig),
+                wearStatus = buildWearStatus(wearNodes, wearSettings)
             )
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,
-            initialValue = UserEditableSettings(ThemeBrand.DEFAULT, false, DarkThemeConfig.FOLLOW_SYSTEM),
+            initialValue = null,
         )
+
+    private fun buildWearStatus(
+        wearNodes: List<AppHelperNodeStatus>,
+        wearSettings: WearSettings
+    ): WearStatus {
+        return if (wearNodes.isEmpty()) {
+            WearStatus.Unavailable
+        } else if (wearNodes.find { it.isAppInstalled } == null) {
+            WearStatus.NotInstalled(wearNodes.first().id)
+        } else {
+            WearStatus.Paired(wearSettings)
+        }
+    }
 
 
     fun updateThemeBrand(themeBrand: ThemeBrand) {
@@ -49,11 +74,31 @@ class SettingsViewModel(val appSettings: AppSettings, val wearSettingsSync: Wear
         }
     }
 
-    fun updateWearTheme() {
+    fun updateWearTheme(active: Boolean) {
         viewModelScope.launch {
-            wearSettingsSync.updateWearTheme()
+            val settings = userEditableSettings.first()
+
+            val theme = colorScheme(
+                androidTheme = settings?.brand == ThemeBrand.ANDROID,
+                darkTheme = true,
+                disableDynamicTheming = settings?.useDynamicColor ?: false,
+                context = applicationContext
+            )
+
+            if (active) {
+                wearSettingsSync.updateWearTheme(theme)
+            } else {
+                wearSettingsSync.clearWearTheme()
+            }
         }
     }
+
+    fun installOnWatch(nodeId: String) {
+        viewModelScope.launch {
+            wearSettingsSync.installOnWearNode(nodeId)
+        }
+    }
+
     companion object {
         const val brandKey = "brandKey"
         const val useDynamicColorKey = "useDynamicColorKey"
@@ -68,7 +113,16 @@ data class UserEditableSettings(
     val brand: ThemeBrand,
     val useDynamicColor: Boolean,
     val darkThemeConfig: DarkThemeConfig,
+    val wearStatus: WearStatus
 )
+
+sealed interface WearStatus {
+    object Unavailable : WearStatus
+    data class NotInstalled(val nodeId: String) : WearStatus
+    data class Paired(
+        val wearSettings: WearSettings
+    ) : WearStatus
+}
 
 enum class ThemeBrand {
     DEFAULT, ANDROID

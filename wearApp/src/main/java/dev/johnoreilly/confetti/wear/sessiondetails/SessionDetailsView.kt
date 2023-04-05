@@ -7,21 +7,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.utils.AndroidDateService
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
@@ -69,22 +67,11 @@ fun SessionDetailView(
                 val description = session.descriptionParagraphs()
 
                 item {
-                    Row(
-                        modifier = Modifier
-                            .padding(horizontal = 20.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Text(
-                            text = session.title,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colors.primary,
-                            style = MaterialTheme.typography.title3
-                        )
-                    }
+                    SectionHeader(text = session.title)
                 }
 
                 item {
-                    val time = remember(session) {
+                    val time = remember(session.startsAt) {
                         formatter(session.startsAt)
                     }
                     Text(time)

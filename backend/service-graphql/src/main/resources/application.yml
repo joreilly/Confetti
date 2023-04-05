@@ -1,2 +1,5 @@
 graphql:
   packages: "dev.johnoreilly.confetti.backend"
+
+  playground:
+    enabled: true

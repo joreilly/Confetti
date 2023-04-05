@@ -8,7 +8,7 @@ import androidx.navigation.navArgument
 import dev.johnoreilly.confetti.navigation.urlDecoded
 import dev.johnoreilly.confetti.navigation.urlEncoded
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.sessions.SessionsView
+import dev.johnoreilly.confetti.sessions.SessionsRoute
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 
 private const val base = "sessions"
@@ -39,7 +39,7 @@ fun NavGraphBuilder.sessionsGraph(
             }
         )
     ) { backStackEntry ->
-        SessionsView(
+        SessionsRoute(
             conference = SessionsKey(backStackEntry).conference,
             appState = appState,
             navigateToSession = navigateToSession,

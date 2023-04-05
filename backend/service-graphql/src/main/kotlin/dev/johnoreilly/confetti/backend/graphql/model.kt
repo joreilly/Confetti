@@ -46,7 +46,10 @@ class RootQuery : Query {
         first: Int? = 10,
         after: String? = null,
         filter: SessionFilter? = null,
-        orderBy: SessionOrderBy? = SessionOrderBy(field = SessionField.STARTS_AT, direction = OrderByDirection.ASCENDING)
+        orderBy: SessionOrderBy? = SessionOrderBy(
+            field = SessionField.STARTS_AT,
+            direction = OrderByDirection.ASCENDING
+        )
     ): SessionConnection {
         return dfe.source().sessions(
             first ?: 10,
@@ -56,8 +59,17 @@ class RootQuery : Query {
         )
     }
 
+    @Deprecated("Use speakersPage instead")
     fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
-        return dfe.source().speakers()
+        return dfe.source().speakers(first = 100, after = null).nodes
+    }
+
+    fun speakersPage(
+        dfe: DataFetchingEnvironment,
+        first: Int? = 10,
+        after: String? = null,
+    ): SpeakerConnection {
+        return dfe.source().speakers(first ?: 10, after)
     }
 
     fun speaker(dfe: DataFetchingEnvironment, id: String): Speaker {
@@ -102,8 +114,6 @@ class RootQuery : Query {
             DOrderBy(orderBy1.field.value, orderBy1.direction.toDDirection())
         ).map {
             it.toConference()
-        }.filter {
-            it.id != ConferenceId.AndroidMakers2023.id
         }
     }
 }
@@ -201,9 +211,7 @@ This field might have the same value as description if a shortDescription is not
     val type: String,
 ) {
     fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
-        return dfe.source().speakers().filter {
-            speakerIds.contains(it.id)
-        }
+        return dfe.source().speakers(speakerIds.toList())
     }
 
     fun room(dfe: DataFetchingEnvironment): Room? {
@@ -223,10 +231,16 @@ This field might have the same value as description if a shortDescription is not
     }
 }
 
+data class SpeakerConnection(
+    val nodes: List<Speaker>,
+    val pageInfo: PageInfo,
+)
+
 data class Speaker(
     val id: String,
     val name: String,
     val bio: String?,
+    val tagline: String?,
     val company: String?,
     val companyLogoUrl: String?,
     val city: String?,

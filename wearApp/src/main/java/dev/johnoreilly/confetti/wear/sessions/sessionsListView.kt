@@ -10,17 +10,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.ListHeader
-import androidx.wear.compose.material.Text
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.type.Session
+import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -71,13 +71,11 @@ fun SessionListView(
 
                 sessions.forEachIndexed { index, sessionsAtTime ->
                     item {
-                        ListHeader {
-                            val time = sessionsAtTime.time.toJavaLocalDateTime()
-                            if (index == 0) {
-                                Text(dayFormatter.format(time))
-                            } else {
-                                Text(timeFormatter.format(time))
-                            }
+                        val time = sessionsAtTime.time.toJavaLocalDateTime()
+                        if (index == 0) {
+                            SectionHeader(dayFormatter.format(time))
+                        } else {
+                            SectionHeader(timeFormatter.format(time))
                         }
                     }
 

@@ -39,6 +39,7 @@ import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.utils.format
+import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
 
@@ -110,6 +111,23 @@ fun SessionDetailView(
                     )
 
                     Spacer(modifier = Modifier.size(16.dp))
+
+                    Text(
+                        text = session.startsAt.toTimeString(session.endsAt),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+
+                    session.room?.name?.let { roomName ->
+                        Text(
+                            text = roomName,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
                     Text(
                         text = session.sessionDescription ?: "",
                         style = MaterialTheme.typography.bodyMedium
@@ -140,6 +158,14 @@ fun SessionDetailView(
             }
         }
     }
+}
+
+private fun LocalDateTime.toTimeString(endsAt: LocalDateTime): String {
+    val startTimeFormatter = DateTimeFormatter.ofPattern("MMM d hh:mm")
+    val endTimeFormatter = DateTimeFormatter.ofPattern("hh:mm")
+    val startTimeDate = startTimeFormatter.format(this)
+    val endsAtTime = endTimeFormatter.format(endsAt)
+    return "$startTimeDate - $endsAtTime"
 }
 
 

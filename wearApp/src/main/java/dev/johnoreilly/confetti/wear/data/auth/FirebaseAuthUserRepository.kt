@@ -15,16 +15,15 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthUserRepository(
-    val phoneSettingsSync: PhoneSettingsSync,
     val auth: FirebaseAuth,
     val googleSignIn: GoogleSignInClient
 ) : AuthUserRepository, GoogleSignInEventListener {
@@ -38,11 +37,7 @@ class FirebaseAuthUserRepository(
         auth.addAuthStateListener(listener)
 
         awaitClose { auth.removeAuthStateListener(listener) }
-    }.map { FirebaseUserMapper.map(it) }
-
-    val remoteAuth = phoneSettingsSync.settingsFlow.map {
-        it.authToken
-    }
+    }.conflate().map { FirebaseUserMapper.map(it) }
 
     override suspend fun onSignedIn(account: GoogleSignInAccount) {
         val idToken = account.idToken

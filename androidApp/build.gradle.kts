@@ -68,6 +68,12 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
@@ -173,4 +179,12 @@ dependencies {
     implementation(libs.firebase.performance)
     implementation(libs.play.services.auth)
     coreLibraryDesugaring(libs.desugar)
+
+    testImplementation(libs.snapshot.jvm)
+    testImplementation(libs.snapshot.android)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.compose.ui.test.junit4)
+    testImplementation(libs.koin.test)
 }

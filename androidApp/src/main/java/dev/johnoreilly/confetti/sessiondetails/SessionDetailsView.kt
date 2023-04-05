@@ -96,15 +96,17 @@ fun SessionDetailView(
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
+            val horizontalPadding = 16.dp
             session?.let { session ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .padding(vertical = 8.dp)
                         .verticalScroll(state = scrollState)
                 ) {
 
                     Text(
+                        modifier = Modifier.padding(horizontal = horizontalPadding),
                         text = session.title,
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleLarge
@@ -113,6 +115,7 @@ fun SessionDetailView(
                     Spacer(modifier = Modifier.size(16.dp))
 
                     Text(
+                        modifier = Modifier.padding(horizontal = horizontalPadding),
                         text = session.startsAt.toTimeString(session.endsAt),
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.labelLarge
@@ -120,6 +123,7 @@ fun SessionDetailView(
 
                     session.room?.name?.let { roomName ->
                         Text(
+                            modifier = Modifier.padding(horizontal = horizontalPadding),
                             text = roomName,
                             color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.labelLarge
@@ -129,13 +133,14 @@ fun SessionDetailView(
                     Spacer(modifier = Modifier.size(16.dp))
 
                     Text(
+                        modifier = Modifier.padding(horizontal = horizontalPadding),
                         text = session.sessionDescription ?: "",
                         style = MaterialTheme.typography.bodyMedium
                     )
 
                     if (session.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.size(16.dp))
-                        FlowRow {
+                        FlowRow(modifier = Modifier.padding(horizontal = horizontalPadding)) {
                             session.tags.distinct().forEach { tag ->
                                 Box(Modifier.padding(bottom = 8.dp)) {
                                     Chip(tag)

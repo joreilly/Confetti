@@ -47,6 +47,7 @@ import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
 import com.quickbird.snapshot.snapshot
+import dev.johnoreilly.confetti.test.screenshot.SnapshotTransformer
 import dev.johnoreilly.confetti.test.screenshot.bitmapWithTolerance
 import dev.johnoreilly.confetti.test.screenshot.highlightWithRed
 import dev.johnoreilly.confetti.wear.FixedTimeSource

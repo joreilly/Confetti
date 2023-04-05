@@ -14,16 +14,20 @@ import com.quickbird.snapshot.fileSnapshotting
 import com.quickbird.snapshot.snapshot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
 import org.junit.rules.RuleChain
 import org.junit.rules.TestName
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-
-fun createScreenshotTestRule(): ScreenshotTestRule {
-    return ScreenshotTestRuleImpl()
+/**
+ * Create screenshot testing rule for robolectric native graphics tests.
+ * To use this you should enable native graphics feature from Robolectric
+ *
+ * @param record Set this to true if you want to record the screenshots. Default value is false.
+ */
+fun createScreenshotTestRule(record: Boolean = false): ScreenshotTestRule {
+    return ScreenshotTestRuleImpl(record = record)
 }
 
 interface ScreenshotTestRule: TestRule {
@@ -32,21 +36,20 @@ interface ScreenshotTestRule: TestRule {
      *
      * @param tolerance This is the percentage difference allowed for the test to pass.
      * @param snapshotTransformer
-     * @param record Set this to true if you want to record the test
      */
     fun setConfiguration(
         tolerance: Float = 0.1f,
         snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None,
-        record: Boolean = false
     )
 
+    @ExperimentalCoroutinesApi
     fun takeScreenshot(
         checks: suspend () -> Unit = {},
         content: @Composable () -> Unit
     )
 }
 
-class ScreenshotTestRuleImpl : ScreenshotTestRule {
+class ScreenshotTestRuleImpl(private val record: Boolean = false) : ScreenshotTestRule {
 
     private val composeTestRule = createComposeRule()
     private val testName: TestName = TestName()
@@ -54,18 +57,15 @@ class ScreenshotTestRuleImpl : ScreenshotTestRule {
     private val directoryName = this::class.simpleName!!
     private var tolerance: Float = 0.1f
     private var snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None
-    private var record: Boolean = false
     override fun setConfiguration(
         tolerance: Float,
         snapshotTransformer: SnapshotTransformer,
-        record: Boolean
     ) {
         this.tolerance = tolerance
         this.snapshotTransformer = snapshotTransformer
-        this.record = record
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @ExperimentalCoroutinesApi
     override fun takeScreenshot(
         checks: suspend () -> Unit,
         content: @Composable () -> Unit

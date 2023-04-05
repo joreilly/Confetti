@@ -7,6 +7,7 @@
 package dev.johnoreilly.confetti.di
 
 import android.content.Context
+import androidx.core.app.NotificationManagerCompat
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.WorkManager
 import coil.ImageLoader
@@ -27,6 +28,8 @@ import dev.johnoreilly.confetti.shared.BuildConfig
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.work.RefreshWorker
+import dev.johnoreilly.confetti.work.SessionNotificationSender
+import dev.johnoreilly.confetti.work.SessionNotificationWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
@@ -63,9 +66,12 @@ actual fun platformModule() = module {
         }
     }
     single { androidContext().settingsStore }
+    single { NotificationManagerCompat.from(androidContext()) }
     singleOf(::DataStoreSettings) { bind<FlowSettings>() }
     single { get<FlowSettings>().toBlockingObservableSettings() }
     workerOf(::RefreshWorker)
+    workerOf(::SessionNotificationWorker)
+    singleOf(::SessionNotificationSender)
     single { WorkManager.getInstance(androidContext()) }
 
     single<CoroutineScope> { CoroutineScope(Dispatchers.Default) }

@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti
 
 import dev.johnoreilly.confetti.di.initKoin
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 
 @Suppress("UNUSED_PARAMETER")
@@ -14,7 +13,7 @@ suspend fun main(args: Array<String>) {
     try {
         withTimeout(60000L) {
             println("Sessions")
-            val sessions = repo.sessions("droidconlondon2022").first {
+            val sessions = repo.sessionsFlow("droidconlondon2022").first {
                 // First emission is a cache miss, ignore it
                 it.exception == null
             }

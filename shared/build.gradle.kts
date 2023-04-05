@@ -104,7 +104,6 @@ kotlin {
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
 
-                implementation(libs.snapshot.jvm)
                 implementation(libs.snapshot.android)
 
                 implementation(libs.junit)

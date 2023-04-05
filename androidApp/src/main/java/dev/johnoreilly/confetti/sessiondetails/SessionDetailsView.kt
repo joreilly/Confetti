@@ -113,7 +113,7 @@ fun SessionDetailView(
                     Spacer(modifier = Modifier.size(16.dp))
 
                     Text(
-                        text = session.startsAt.toTimeString(),
+                        text = session.startsAt.toTimeString(session.endsAt),
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.labelLarge
                     )
@@ -160,9 +160,12 @@ fun SessionDetailView(
     }
 }
 
-private fun LocalDateTime.toTimeString(): String {
-    val timeFormatter = DateTimeFormatter.ofPattern("hh:mm")
-    return timeFormatter.format(this)
+private fun LocalDateTime.toTimeString(endsAt: LocalDateTime): String {
+    val startTimeFormatter = DateTimeFormatter.ofPattern("MMM d hh:mm")
+    val endTimeFormatter = DateTimeFormatter.ofPattern("hh:mm")
+    val startTimeDate = startTimeFormatter.format(this)
+    val endsAtTime = endTimeFormatter.format(endsAt)
+    return "$startTimeDate - $endsAtTime"
 }
 
 
@@ -192,6 +195,7 @@ private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
         if (details == null) return@remember {}
 
         val dateFormatter = DateTimeFormatter.ofPattern("dd/MM")
+        val timeFormatter = DateTimeFormatter.ofPattern("hh:mm")
 
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -199,8 +203,8 @@ private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
 
             val room = details.room?.name ?: "Unknown"
             val date = dateFormatter.format(details.startsAt)
-            val startsAt = details.startsAt.toTimeString()
-            val endsAt = details.endsAt.toTimeString()
+            val startsAt = timeFormatter.format(details.startsAt)
+            val endsAt = timeFormatter.format(details.endsAt)
             val schedule = "$date $startsAt-$endsAt"
             val speakers = details
                 .speakers

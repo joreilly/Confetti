@@ -6,6 +6,7 @@ import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.quickbird.snapshot.Diffing
@@ -46,7 +47,7 @@ interface ScreenshotTestRule: TestRule {
 
     @ExperimentalCoroutinesApi
     fun takeScreenshot(
-        checks: suspend () -> Unit = {},
+        checks: suspend (rule: ComposeContentTestRule) -> Unit = {},
         content: @Composable () -> Unit
     )
 }
@@ -69,9 +70,10 @@ class ScreenshotTestRuleImpl(
 
     @ExperimentalCoroutinesApi
     override fun takeScreenshot(
-        checks: suspend () -> Unit,
+        checks: suspend (rule: ComposeContentTestRule) -> Unit,
         content: @Composable () -> Unit
     ) {
+        print("Starting sc test")
         runTest {
             lateinit var view: View
 
@@ -82,8 +84,8 @@ class ScreenshotTestRuleImpl(
 
             composeTestRule.awaitIdle()
 
-            checks()
-
+            checks(composeTestRule)
+            println("Snapshotting")
             val snapshotting = Snapshotting(
                 diffing = Diffing.bitmapWithTolerance(
                     tolerance = tolerance,
@@ -99,24 +101,23 @@ class ScreenshotTestRuleImpl(
                 }
             ).fileSnapshotting
 
-            snapshotting.snapshot(
+            snapshotting.saveOrVerifySnapshot(
                 value = composeTestRule.onRoot(),
             )
         }
     }
 
-    private suspend fun FileSnapshotting<SemanticsNodeInteraction, Bitmap>.snapshot(
+    private suspend fun FileSnapshotting<SemanticsNodeInteraction, Bitmap>.saveOrVerifySnapshot(
         value: SemanticsNodeInteraction,
-        fileSnapshottingNames: FileSnapshottingNames = FileSnapshottingNames.default
-    ) = with(fileSnapshottingNames) {
+    ) {
         val methodName = testName.methodName.replace("\\W+".toRegex(), "_")
+        println("Recorded screenshot to :$directoryName")
         snapshot(
-            value = value,
+            value,
+            directoryName = "snapshots",
+            fileName = methodName,
             record = record,
-            fileName = methodName + "_$referenceFilePrefix",
-            diffFileName = methodName + "_$diffFilePrefix",
-            directoryName = directoryName,
-            path = parentDirectory
+            diffFileName = methodName + "_diff",
         )
     }
 

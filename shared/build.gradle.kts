@@ -103,6 +103,14 @@ kotlin {
                 api(libs.multiplatform.settings.datastore)
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
+
+                implementation(libs.snapshot.jvm)
+                implementation(libs.snapshot.android)
+
+                implementation(libs.junit)
+                implementation(libs.robolectric)
+                implementation(libs.compose.ui.test.junit4)
+                implementation(libs.koin.test)
             }
         }
 

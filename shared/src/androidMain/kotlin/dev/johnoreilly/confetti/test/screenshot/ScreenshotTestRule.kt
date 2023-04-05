@@ -9,6 +9,8 @@ import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.quickbird.snapshot.Diffing
+import com.quickbird.snapshot.FileSnapshotting
+import com.quickbird.snapshot.FileSnapshottingNames
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
 import com.quickbird.snapshot.snapshot
@@ -25,20 +27,20 @@ import org.junit.runners.model.Statement
  * To use this you should enable native graphics feature from Robolectric
  *
  * @param record Set this to true if you want to record the screenshots. Default value is false.
+ * @param tolerance Set this to determine the percent difference allowed for the images to differ.
+ * The default is set to 1%.
  */
-fun createScreenshotTestRule(record: Boolean = false): ScreenshotTestRule {
-    return ScreenshotTestRuleImpl(record = record)
+fun createScreenshotTestRule(record: Boolean = false, tolerance: Float = 0.1f): ScreenshotTestRule {
+    return ScreenshotTestRuleImpl(record = record, tolerance = tolerance)
 }
 
 interface ScreenshotTestRule: TestRule {
     /**
      * Set configuration properties important for the screenshot testing rule.
      *
-     * @param tolerance This is the percentage difference allowed for the test to pass.
      * @param snapshotTransformer
      */
     fun setConfiguration(
-        tolerance: Float = 0.1f,
         snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None,
     )
 
@@ -49,19 +51,19 @@ interface ScreenshotTestRule: TestRule {
     )
 }
 
-class ScreenshotTestRuleImpl(private val record: Boolean = false) : ScreenshotTestRule {
+class ScreenshotTestRuleImpl(
+    private val record: Boolean = false,
+    private val tolerance: Float
+) : ScreenshotTestRule {
 
     private val composeTestRule = createComposeRule()
     private val testName: TestName = TestName()
 
     private val directoryName = this::class.simpleName!!
-    private var tolerance: Float = 0.1f
     private var snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None
     override fun setConfiguration(
-        tolerance: Float,
         snapshotTransformer: SnapshotTransformer,
     ) {
-        this.tolerance = tolerance
         this.snapshotTransformer = snapshotTransformer
     }
 
@@ -97,13 +99,25 @@ class ScreenshotTestRuleImpl(private val record: Boolean = false) : ScreenshotTe
                 }
             ).fileSnapshotting
 
-            // Flip to true to record
             snapshotting.snapshot(
-                composeTestRule.onRoot(),
-                directoryName = directoryName,
-                record = record
+                value = composeTestRule.onRoot(),
             )
         }
+    }
+
+    private suspend fun FileSnapshotting<SemanticsNodeInteraction, Bitmap>.snapshot(
+        value: SemanticsNodeInteraction,
+        fileSnapshottingNames: FileSnapshottingNames = FileSnapshottingNames.default
+    ) = with(fileSnapshottingNames) {
+        val methodName = testName.methodName.replace("\\W+".toRegex(), "_")
+        snapshot(
+            value = value,
+            record = record,
+            fileName = methodName + "_$referenceFilePrefix",
+            diffFileName = methodName + "_$diffFilePrefix",
+            directoryName = directoryName,
+            path = parentDirectory
+        )
     }
 
     override fun apply(base: Statement, description: Description): Statement {

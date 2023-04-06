@@ -1,11 +1,6 @@
 package dev.johnoreilly.confetti
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.test.junit4.ComposeContentTestRule
-import coil.compose.LocalImageLoader
 import dev.johnoreilly.confetti.screenshot.RNGScreenshotTestRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -14,7 +9,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
-// TODO: Add qualifiers
 @RunWith(RobolectricTestRunner::class)
 @Config(
     sdk = [30],
@@ -51,13 +45,4 @@ class ScreenshotTestRule(
     record: Boolean,
     tolerance: Float,
     a11yEnabled: Boolean
-): RNGScreenshotTestRule(record, tolerance, a11yEnabled) {
-    @ExperimentalCoroutinesApi
-    override fun takeScreenshot(
-        checks: suspend (rule: ComposeContentTestRule) -> Unit,
-        content: @Composable () -> Unit
-    ) {
-
-        super.takeScreenshot(checks, content)
-    }
-}
+): RNGScreenshotTestRule(record, tolerance, a11yEnabled)

@@ -29,7 +29,6 @@ import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import dev.johnoreilly.confetti.screenshot.RNGScreenshotTestRule
 import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
-import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,7 +38,6 @@ import org.junit.Rule
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
-import org.robolectric.ParameterizedRobolectricTestRunner
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
@@ -88,13 +86,6 @@ abstract class BaseScreenshotTest(
 
 
     companion object {
-        @JvmStatic
-        @ParameterizedRobolectricTestRunner.Parameters(name = "Colors: {0}")
-        fun params() = listOf(
-            arrayOf("Material", null),
-            arrayOf("MobileDefault", TestFixtures.MobileTheme),
-            arrayOf("MobileAndroid", TestFixtures.AndroidTheme),
-        )
 
         fun loadTestBitmap(path: Path): Bitmap = FileSystem.RESOURCES.read(path) {
             BitmapFactory.decodeStream(this.inputStream())
@@ -244,5 +235,4 @@ class ScreenshotTestRule(
             content(columnState)
         }
     }
-
 }

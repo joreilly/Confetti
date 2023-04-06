@@ -51,7 +51,7 @@ import dev.johnoreilly.confetti.screenshot.bitmapWithTolerance
 import dev.johnoreilly.confetti.screenshot.highlightWithRed
 import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.a11y.A11ySnapshotTransformer
+import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -103,7 +103,7 @@ abstract class ScreenshotTest : KoinTest {
 
     var fakeImageLoader = FakeImageLoader.Never
 
-    var snapshotTransformer: dev.johnoreilly.confetti.screenshot.SnapshotTransformer = dev.johnoreilly.confetti.screenshot.SnapshotTransformer.None
+    var snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None
 
     val resources: Resources
         get() = applicationContext.resources

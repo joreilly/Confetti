@@ -11,10 +11,10 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.FileSnapshotting
-import com.quickbird.snapshot.FileSnapshottingNames
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
 import com.quickbird.snapshot.snapshot
+import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.rules.RuleChain
@@ -23,19 +23,7 @@ import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-/**
- * Create screenshot testing rule for robolectric native graphics tests.
- * To use this you should enable native graphics feature from Robolectric
- *
- * @param record Set this to true if you want to record the screenshots. Default value is false.
- * @param tolerance Set this to determine the percent difference allowed for the images to differ.
- * The default is set to 1%.
- */
-fun createScreenshotTestRule(record: Boolean = false, tolerance: Float = 0.1f): ScreenshotTestRule {
-    return ScreenshotTestRuleImpl(record = record, tolerance = tolerance)
-}
-
-interface ScreenshotTestRule: TestRule {
+interface ScreenshotTestRule : TestRule {
     /**
      * Set configuration properties important for the screenshot testing rule.
      *
@@ -52,21 +40,28 @@ interface ScreenshotTestRule: TestRule {
     )
 }
 
-class ScreenshotTestRuleImpl(
+abstract class RNGScreenshotTestRule(
     private val record: Boolean = false,
-    private val tolerance: Float
+    private val tolerance: Float,
+    a11y: Boolean
 ) : ScreenshotTestRule {
 
     private val composeTestRule = createComposeRule()
     private val testName: TestName = TestName()
 
     private val directoryName = this::class.simpleName!!
-    private var snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None
+    private var snapshotTransformer: SnapshotTransformer = if (a11y) {
+        A11ySnapshotTransformer()
+    } else {
+        SnapshotTransformer.None
+    }
+
     override fun setConfiguration(
         snapshotTransformer: SnapshotTransformer,
     ) {
         this.snapshotTransformer = snapshotTransformer
     }
+
 
     @ExperimentalCoroutinesApi
     override fun takeScreenshot(

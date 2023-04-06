@@ -79,7 +79,6 @@ abstract class RNGScreenshotTestRule(
             composeTestRule.awaitIdle()
 
             checks(composeTestRule)
-            println("Snapshotting")
             val snapshotting = Snapshotting(
                 diffing = Diffing.bitmapWithTolerance(
                     tolerance = tolerance,
@@ -105,7 +104,6 @@ abstract class RNGScreenshotTestRule(
         value: SemanticsNodeInteraction,
     ) {
         val methodName = testName.methodName.replace("\\W+".toRegex(), "_")
-        println("Recorded screenshot to :$directoryName")
         snapshot(
             value,
             directoryName = "snapshots",

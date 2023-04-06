@@ -8,8 +8,8 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInScreen
 import com.google.android.horologist.compose.navscaffold.composable
 import com.google.android.horologist.compose.navscaffold.scrollable
+import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
 import dev.johnoreilly.confetti.wear.auth.GoogleSignInPromptScreen
-import dev.johnoreilly.confetti.wear.auth.GoogleSignOutScreen
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import org.koin.androidx.compose.getViewModel
 
@@ -71,7 +71,7 @@ fun NavGraphBuilder.authGraph(
             }
         )
     ) {
-        GoogleSignOutScreen(
+        FirebaseSignOutScreen(
             navigateUp = navigateUp,
         )
     }

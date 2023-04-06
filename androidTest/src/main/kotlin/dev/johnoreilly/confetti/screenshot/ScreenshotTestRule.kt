@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.test.screenshot
+package dev.johnoreilly.confetti.screenshot
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -73,7 +73,6 @@ class ScreenshotTestRuleImpl(
         checks: suspend (rule: ComposeContentTestRule) -> Unit,
         content: @Composable () -> Unit
     ) {
-        print("Starting sc test")
         runTest {
             lateinit var view: View
 
@@ -127,6 +126,7 @@ class ScreenshotTestRuleImpl(
                 RuleChain.outerRule(testName)
                     .around(composeTestRule)
                     .apply(base, description)
+                    .evaluate()
             }
         }
     }

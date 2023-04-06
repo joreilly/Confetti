@@ -33,7 +33,7 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
                 key("appName", "androidApp")
             }
         } else {
-            Firebase.crashlytics.setCrashlyticsCollectionEnabled(false)
+            //Firebase.crashlytics.setCrashlyticsCollectionEnabled(false)
         }
 
         // Initialize Logging.

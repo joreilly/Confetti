@@ -142,6 +142,7 @@ kotlin {
 
 dependencies {
     implementation(project(":shared"))
+    testImplementation(project(":androidTest"))
 
     implementation(libs.compose.compiler)
     implementation(libs.compose.ui)
@@ -187,4 +188,5 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)
     testImplementation(libs.koin.test)
+    debugImplementation(libs.compose.ui.manifest)
 }

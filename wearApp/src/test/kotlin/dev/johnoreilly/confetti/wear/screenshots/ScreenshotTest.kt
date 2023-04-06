@@ -46,9 +46,9 @@ import com.quickbird.snapshot.FileSnapshottingNames
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
 import com.quickbird.snapshot.snapshot
-import dev.johnoreilly.confetti.test.screenshot.SnapshotTransformer
-import dev.johnoreilly.confetti.test.screenshot.bitmapWithTolerance
-import dev.johnoreilly.confetti.test.screenshot.highlightWithRed
+import dev.johnoreilly.confetti.screenshot.SnapshotTransformer
+import dev.johnoreilly.confetti.screenshot.bitmapWithTolerance
+import dev.johnoreilly.confetti.screenshot.highlightWithRed
 import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.a11y.A11ySnapshotTransformer
@@ -103,7 +103,7 @@ abstract class ScreenshotTest : KoinTest {
 
     var fakeImageLoader = FakeImageLoader.Never
 
-    var snapshotTransformer: SnapshotTransformer = SnapshotTransformer.None
+    var snapshotTransformer: dev.johnoreilly.confetti.screenshot.SnapshotTransformer = dev.johnoreilly.confetti.screenshot.SnapshotTransformer.None
 
     val resources: Resources
         get() = applicationContext.resources

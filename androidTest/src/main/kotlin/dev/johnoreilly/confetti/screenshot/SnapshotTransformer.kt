@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.test.screenshot
+package dev.johnoreilly.confetti.screenshot
 
 import android.graphics.Bitmap
 import androidx.compose.ui.test.SemanticsNodeInteraction

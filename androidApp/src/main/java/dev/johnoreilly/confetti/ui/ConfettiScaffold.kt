@@ -129,7 +129,7 @@ fun ConfettiScaffold(
 
     Row(modifier = modifier) {
         // The default behaviour is to keep top bar always visible.
-        var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+        val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         if (appState.shouldShowNavRail) {
             ConfettiNavRail(
                 conference = conference,

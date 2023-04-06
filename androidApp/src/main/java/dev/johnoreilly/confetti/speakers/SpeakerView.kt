@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -91,10 +92,11 @@ fun SpeakerGridView(
         // content padding
         contentPadding = PaddingValues(8.dp),
         content = {
-            items(speakers.size) { index ->
-                val speaker = speakers[index]
+            items(speakers) { speaker ->
                 Column(
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier
+                        .clickable { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id))}
+                        .padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (speaker.photoUrl?.isNotEmpty() == true) {

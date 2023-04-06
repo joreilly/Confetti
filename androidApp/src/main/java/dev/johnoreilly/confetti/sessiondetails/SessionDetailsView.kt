@@ -161,8 +161,8 @@ fun SessionDetailView(
 }
 
 private fun LocalDateTime.toTimeString(endsAt: LocalDateTime): String {
-    val startTimeFormatter = DateTimeFormatter.ofPattern("MMM d hh:mm")
-    val endTimeFormatter = DateTimeFormatter.ofPattern("hh:mm")
+    val startTimeFormatter = DateTimeFormatter.ofPattern("MMM d HH:mm")
+    val endTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     val startTimeDate = startTimeFormatter.format(this)
     val endsAtTime = endTimeFormatter.format(endsAt)
     return "$startTimeDate - $endsAtTime"

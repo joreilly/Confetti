@@ -85,7 +85,7 @@ class ApolloClientCache : KoinComponent {
             // .serverUrl("http://10.0.2.2:8080/graphql")
             .serverUrl("https://confetti-app.dev/graphql")
             .addHttpHeader("conference", conference)
-            .ignorePartialData(true)
+//            .ignorePartialData(true)
             .normalizedCache(
                 memoryFirstThenSqlCacheFactory,
                 writeToCacheAsynchronously = writeToCacheAsynchronously

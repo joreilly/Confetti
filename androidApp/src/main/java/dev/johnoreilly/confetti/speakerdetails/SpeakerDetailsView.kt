@@ -67,7 +67,7 @@ internal fun SpeakerDetailsRoute(
 
 
 @Composable
-public fun SpeakerDetailsView(
+fun SpeakerDetailsView(
     conference: String,
     speaker: SpeakerDetails,
     navigateToSession: (SessionDetailsKey) -> Unit,

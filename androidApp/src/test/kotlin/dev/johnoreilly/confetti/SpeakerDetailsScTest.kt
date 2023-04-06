@@ -8,12 +8,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
 
 
-class SpeakerDetailsScTest : BaseScreenshotTest(false) {
+class SpeakerDetailsScTest : BaseScreenshotTest(false, a11yEnabled = true) {
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `GIVEN SpeakerDetailsView SHOULD show consistent UI`() {
+    fun screenshotDetailsA11y() {
         val mockSpeaker = SpeakerDetails(
             id = "",
             name = "Some Speaker",

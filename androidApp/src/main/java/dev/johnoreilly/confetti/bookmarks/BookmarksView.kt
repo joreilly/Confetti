@@ -4,6 +4,11 @@ package dev.johnoreilly.confetti.bookmarks
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -147,7 +152,10 @@ private fun BookmarksHorizontalPager(
                 upcomingSessions
             }
 
-        LazyColumn {
+        LazyColumn(
+            contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
+                .asPaddingValues()
+        ) {
             items(displayedSessions) { session ->
                 SessionItemView(
                     conference = conference,

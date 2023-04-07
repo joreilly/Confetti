@@ -1,22 +1,20 @@
-@file:OptIn(
-    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalComposeUiApi::class
-)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package dev.johnoreilly.confetti.ui
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -28,8 +26,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -41,7 +37,6 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.settings.SettingsDialog
 import dev.johnoreilly.confetti.wear.WearSettingsSync
-import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 class ScaffoldState(
@@ -129,7 +124,7 @@ fun ConfettiScaffold(
 
     Row(modifier = modifier) {
         // The default behaviour is to keep top bar always visible.
-        var scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+        val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         if (appState.shouldShowNavRail) {
             ConfettiNavRail(
                 conference = conference,
@@ -182,10 +177,20 @@ fun ConfettiScaffold(
                     .padding(innerPadding)
                     .fillMaxHeight()
             ) {
-                Box(modifier = Modifier.weight(1f)) {
+                val shouldShowBottomBar = appState.shouldShowBottomBar
+                // If the bottom bar is shown, we must properly inform our content() that the
+                // navigation bar insets have been consumed already.
+                val consumedInsetsModifier = if (shouldShowBottomBar) {
+                    Modifier.consumeWindowInsets(NavigationBarDefaults.windowInsets)
+                } else {
+                    Modifier
+                }
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .then(consumedInsetsModifier)) {
                     content(snackbarHostState)
                 }
-                if (appState.shouldShowBottomBar) {
+                if (shouldShowBottomBar) {
                     ConfettiBottomBar(
                         conference = conference,
                         onNavigateToDestination = appState::navigateToTopLevelDestination,

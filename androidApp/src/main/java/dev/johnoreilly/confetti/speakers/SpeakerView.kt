@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,6 +37,7 @@ import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.utils.plus
 import org.koin.androidx.compose.getViewModel
 
 
@@ -85,16 +87,16 @@ fun SpeakerGridView(
     navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
     LazyVerticalGrid(
-        modifier = Modifier.padding(16.dp),
         columns = GridCells.Adaptive(200.dp),
-
-        // content padding
-        contentPadding = PaddingValues(8.dp),
+        contentPadding = PaddingValues(16.dp).plus(
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom).asPaddingValues()
+        ),
         content = {
-            items(speakers.size) { index ->
-                val speaker = speakers[index]
+            items(speakers) { speaker ->
                 Column(
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier
+                        .clickable { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id))}
+                        .padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (speaker.photoUrl?.isNotEmpty() == true) {

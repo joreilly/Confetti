@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.backend.graphql
 
+import com.expediagroup.graphql.generator.annotations.GraphQLDeprecated
 import com.expediagroup.graphql.generator.annotations.GraphQLDescription
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import com.expediagroup.graphql.server.operations.Mutation
@@ -100,11 +101,21 @@ class RootQuery : Query {
         return dfe.source().conference()
     }
 
+    @GraphQLDeprecated("Use bookmarkConnection instead")
     fun bookmarks(dfe: DataFetchingEnvironment): Bookmarks? {
         if (dfe.uid() == null) {
             return null
         }
         return Bookmarks(dfe.source().bookmarks().toList())
+    }
+
+    fun bookmarkConnection(dfe: DataFetchingEnvironment): BookmarkConnection? {
+        if (dfe.uid() == null) {
+            return null
+        }
+        return BookmarkConnection(
+            nodes = dfe.source().sessions(dfe.source().bookmarks().toList())
+        )
     }
 
     fun conferences(orderBy: ConferenceOrderBy? = null): List<Conference> {
@@ -117,6 +128,10 @@ class RootQuery : Query {
         }
     }
 }
+
+class  BookmarkConnection(
+    val nodes: List<Session>
+)
 
 class Bookmarks(val sessionIds: List<String>) {
     val id = "Bookmarks"

@@ -165,7 +165,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             }
         }
 
-    fun Flow<ResponseData?>.uiState() = flatMapLatest { responseData ->
+    private fun Flow<ResponseData?>.uiState() = flatMapLatest { responseData ->
         if (responseData == null) {
             flowOf(SessionsUiState.Loading)
         } else {

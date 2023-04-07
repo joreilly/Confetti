@@ -18,15 +18,15 @@ pluginManagement {
             exclusiveContent {
                 forRepository {
                     maven {
-                        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                        url = uri("https://repo.repsy.io/mvn/mbonnin/default")
                     }
                 }
                 filter {
-                    // Use the snapshots repository for Apollo 4.0.0-SNAPSHOT, but not for 3.x, which is a dependency of 4.0.0
+                    // Use the snapshots repository for Apollo 4.0.0-dev.*, but not for 3.x, which is a dependency of 4.0.0
                     includeVersionByRegex(
                         "com\\.apollographql\\.apollo3",
                         ".+",
-                        "4\\.0\\.0-SNAPSHOT"
+                        "4\\.0\\.0-dev.*"
                     )
                 }
             }

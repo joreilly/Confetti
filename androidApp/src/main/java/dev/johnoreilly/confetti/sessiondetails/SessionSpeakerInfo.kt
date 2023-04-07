@@ -37,7 +37,8 @@ fun SessionSpeakerInfo(
             .clickable(role = Role.Button) {
                 onSpeakerClick(speaker.id)
             }
-            .padding(top = 16.dp, bottom = 8.dp),
+            .padding(top = 16.dp, bottom = 8.dp)
+            .padding(horizontal = 16.dp)
     ) {
         Row {
             AsyncImage(

@@ -1,9 +1,9 @@
 [versions]
-accompanist = "0.30.0"
+accompanist = "0.30.1"
 activity-compose = "1.7.0"
 androidx-lifecycle = "2.6.1"
 androidx-datastore = "1.1.0-alpha01"
-apollo = "4.0.0-SNAPSHOT"
+apollo = "4.0.0-dev.2"
 compose = "1.4.0"
 compose-compiler = "1.4.4-dev-k1.8.20-f6ae19e64ff"
 compose-material-3 = "1.0.1"
@@ -45,7 +45,7 @@ apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo3:apollo-no
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime" }
 apollo-annotations = { module = "com.apollographql.apollo3:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo3:apollo-tooling", version.ref = "apollo" }
-atomicfu = "org.jetbrains.kotlinx:atomicfu:0.20.1"
+atomicfu = "org.jetbrains.kotlinx:atomicfu:0.20.2"
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
 coil-base = "io.coil-kt:coil-base:2.3.0"
 coil-compose = "io.coil-kt:coil-compose:2.3.0"
@@ -71,7 +71,7 @@ firebase-bom = "com.google.firebase:firebase-bom:31.2.3"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.8.0"
-google-cloud-bom = "com.google.cloud:libraries-bom:26.11.0"
+google-cloud-bom = "com.google.cloud:libraries-bom:26.12.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.14.2"
 google-services = "com.google.gms:google-services:4.3.15"
@@ -87,6 +87,7 @@ horologist-compose-tools = { module = "com.google.android.horologist:horologist-
 horologist-datalayer = { module = "com.google.android.horologist:horologist-datalayer", version.ref = "horologist" }
 horologist-datalayer-phone = { module = "com.google.android.horologist:horologist-datalayer-phone", version.ref = "horologist" }
 horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist" }
+horologist-auth-data-phone = { module = "com.google.android.horologist:horologist-auth-data-phone", version.ref = "horologist" }
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.53.0"
@@ -126,7 +127,7 @@ plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serializat
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.20-1.0.10" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.5" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.3" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.4" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -141,7 +142,7 @@ test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-alpha02"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1"
 wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha07"
 wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha07"
-wire-runtime = "com.squareup.wire:wire-runtime:4.5.3"
+wire-runtime = "com.squareup.wire:wire-runtime:4.5.4"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 napier = "io.github.aakira:napier:2.6.1"
 

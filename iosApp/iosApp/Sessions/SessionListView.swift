@@ -79,6 +79,14 @@ struct SessionView: View {
                 Text(session.sessionSpeakers() ?? "").font(.subheadline)
                 Text(session.room?.name ?? "").font(.subheadline).foregroundColor(.gray)
             }
+            if session.isLightning() {
+                Text("Lightning / \(session.startsAt.time)-\(session.endsAt.time)")
+                    .colorInvert()
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.primary)
+                    .cornerRadius(8)
+            }
         }
     }
 }

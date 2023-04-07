@@ -33,6 +33,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.SessionDetailsViewModel
@@ -96,15 +98,17 @@ fun SessionDetailView(
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
+            val horizontalPadding = 16.dp
             session?.let { session ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .padding(vertical = 8.dp)
                         .verticalScroll(state = scrollState)
                 ) {
 
                     Text(
+                        modifier = Modifier.padding(horizontal = horizontalPadding),
                         text = session.title,
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.titleLarge
@@ -113,29 +117,32 @@ fun SessionDetailView(
                     Spacer(modifier = Modifier.size(16.dp))
 
                     Text(
+                        modifier = Modifier.padding(horizontal = horizontalPadding),
                         text = session.startsAt.toTimeString(session.endsAt),
                         color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                     )
 
                     session.room?.name?.let { roomName ->
                         Text(
+                            modifier = Modifier.padding(horizontal = horizontalPadding, vertical = 2.dp),
                             text = roomName,
                             color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.labelLarge
+                            style = MaterialTheme.typography.labelLarge.copy(fontStyle = FontStyle.Italic)
                         )
                     }
 
                     Spacer(modifier = Modifier.size(16.dp))
 
                     Text(
+                        modifier = Modifier.padding(horizontal = horizontalPadding),
                         text = session.sessionDescription ?: "",
                         style = MaterialTheme.typography.bodyMedium
                     )
 
                     if (session.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.size(16.dp))
-                        FlowRow {
+                        FlowRow(modifier = Modifier.padding(horizontal = horizontalPadding)) {
                             session.tags.distinct().forEach { tag ->
                                 Box(Modifier.padding(bottom = 8.dp)) {
                                     Chip(tag)
@@ -161,8 +168,8 @@ fun SessionDetailView(
 }
 
 private fun LocalDateTime.toTimeString(endsAt: LocalDateTime): String {
-    val startTimeFormatter = DateTimeFormatter.ofPattern("MMM d hh:mm")
-    val endTimeFormatter = DateTimeFormatter.ofPattern("hh:mm")
+    val startTimeFormatter = DateTimeFormatter.ofPattern("MMM d HH:mm")
+    val endTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
     val startTimeDate = startTimeFormatter.format(this)
     val endsAtTime = endTimeFormatter.format(endsAt)
     return "$startTimeDate - $endsAtTime"

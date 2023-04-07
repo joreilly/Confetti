@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.compose") version "1.3.1"
+    id("org.jetbrains.compose") version "1.4.0-rc03"
     application
 }
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("io.github.qdsfdhvh:image-loader:1.2.10")
+    implementation("io.github.qdsfdhvh:image-loader:1.3.1")
     implementation(project(":shared"))
 }
 

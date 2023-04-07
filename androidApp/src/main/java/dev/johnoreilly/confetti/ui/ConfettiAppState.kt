@@ -36,8 +36,7 @@ class ConfettiAppState(
         private set
 
     val shouldShowBottomBar: Boolean
-        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact ||
-            windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact
+        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
 
     val shouldShowNavRail: Boolean
         get() = !shouldShowBottomBar

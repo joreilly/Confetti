@@ -11,12 +11,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowColumn
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,6 +31,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,10 +60,12 @@ import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
+import dev.johnoreilly.confetti.utils.plus
 
 @Composable
 fun SessionListGridView(
@@ -85,11 +94,7 @@ fun SessionListGridView(
                     state = pagerState,
                 ) { page ->
 
-                    Row(
-                        Modifier
-                            .padding(bottom = 60.dp)
-                            .horizontalScroll(rememberScrollState())
-                    ) {
+                    Row(Modifier.horizontalScroll(rememberScrollState())) {
                         val sessionsByStartTime = uiState.sessionsByStartTimeList[page]
 
                         val rooms = uiState.rooms.filter { room ->
@@ -120,8 +125,11 @@ fun SessionListGridView(
 
                             LazyColumn(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(end = 16.dp)
+                                    .fillMaxWidth(),
+                                contentPadding = PaddingValues(end = 16.dp).plus(
+                                    WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
+                                        .asPaddingValues()
+                                )
                             ) {
                                 sessionsByStartTime.forEach {
                                     item {
@@ -191,10 +199,10 @@ fun SessionGridRow(
                 Box(Modifier.fillMaxSize()) {
                     Column(
                         modifier = Modifier
-                            .padding(16.dp)
                             .clickable(onClick = {
                                 sessionSelected(SessionDetailsKey(conference, session.id))
-                            }),
+                            })
+                            .padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
@@ -206,6 +214,19 @@ fun SessionGridRow(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Speakers(session = session)
+                        if (session.isLightning()) {
+                            Surface(
+                                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                                shape = MaterialTheme.shapes.small,
+                                color = MaterialTheme.colorScheme.primaryContainer
+                            ) {
+                                Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
+                                    Icon(Icons.Default.Bolt, "lightning")
+                                    Spacer(Modifier.width(4.dp))
+                                    Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
+                                }
+                            }
+                        }
                     }
                     Bookmark(
                         modifier = Modifier.align(Alignment.CenterEnd),

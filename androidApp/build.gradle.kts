@@ -181,7 +181,6 @@ dependencies {
     implementation(libs.play.services.auth)
     coreLibraryDesugaring(libs.desugar)
 
-    testImplementation(libs.snapshot.jvm)
     testImplementation(libs.snapshot.android)
 
     testImplementation(libs.junit)

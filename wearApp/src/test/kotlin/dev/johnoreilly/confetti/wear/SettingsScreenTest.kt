@@ -8,13 +8,15 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
+import coil.Coil.setImageLoader
 import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.data.common.model.AuthUser
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
+import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
-import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import dev.johnoreilly.confetti.wear.settings.SettingsListView
 import dev.johnoreilly.confetti.wear.settings.SettingsUiState
 import okio.Path.Companion.toPath
@@ -22,11 +24,10 @@ import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
 
-class SettingsScreenTest : BaseScreenshotTest(
-    tolerance = 0.05f,
-    record = false,
-    a11yEnabled = true
-) {
+class SettingsScreenTest : ScreenshotTest() {
+    init {
+        tolerance = 0.05f
+    }
 
     @Before
     fun loadImages() {
@@ -46,9 +47,9 @@ class SettingsScreenTest : BaseScreenshotTest(
 
     @OptIn(ExperimentalHorologistApi::class)
     @Test
-    fun loggedOutSettings() = screenshotTestRule.takeScrollableScreenshot(
+    fun loggedOutSettings() = takeScrollableScreenshot(
         timeTextMode = TimeTextMode.OnTop,
-        checks = {_, rule ->
+        checks = {
             rule.onNodeWithText("Sign In").assertIsDisplayed()
         }
     ) { columnState ->
@@ -65,9 +66,9 @@ class SettingsScreenTest : BaseScreenshotTest(
     }
 
     @Test
-    fun loggedInSettings() = screenshotTestRule.takeScrollableScreenshot(
+    fun loggedInSettings() = takeScrollableScreenshot(
         timeTextMode = TimeTextMode.OnTop,
-        checks = { _, rule ->
+        checks = {
             rule.onNodeWithContentDescription("Logged in as John O'Reilly")
                 .assertHasClickAction()
                 .assertIsDisplayed()
@@ -92,13 +93,13 @@ class SettingsScreenTest : BaseScreenshotTest(
 
         // allow more tolerance as A11y tests are mainly for illustrating the
         // current observable behaviour
-        //tolerance = 0.10f
+        tolerance = 0.10f
 
-        //snapshotTransformer = A11ySnapshotTransformer()
+        snapshotTransformer = A11ySnapshotTransformer()
 
-        screenshotTestRule.takeScrollableScreenshot(
+        takeScrollableScreenshot(
             timeTextMode = TimeTextMode.OnTop,
-            checks = { _, rule ->
+            checks = {
                 rule.onNodeWithContentDescription("Logged in as John O'Reilly")
                     .assertHasClickAction()
                     .assertIsDisplayed()

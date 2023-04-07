@@ -20,9 +20,9 @@ import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutViewModel
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksViewModel
 import dev.johnoreilly.confetti.wear.conferences.ConferencesViewModel
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
-import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
 import dev.johnoreilly.confetti.wear.home.HomeViewModel
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewModel
+import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewModel

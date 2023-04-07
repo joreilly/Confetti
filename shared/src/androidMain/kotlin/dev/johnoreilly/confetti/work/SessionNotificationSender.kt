@@ -147,7 +147,7 @@ class SessionNotificationSender(
     }
 
     companion object {
-        private val FETCH_POLICY = FetchPolicy.NetworkOnly
+        private val FETCH_POLICY = FetchPolicy.CacheAndNetwork
         private val CHANNEL_ID = "SessionNotification"
         private val GROUP = "dev.johnoreilly.confetti.SESSIONS_ALERT"
         private val SUMMARY_ID = 0

@@ -30,8 +30,6 @@ class SessionNotificationSender(
 ) {
 
     suspend fun sendNotification() {
-        Log.d("marcello", "notify")
-
         // If there is no user signed-in, no reason to process all sessions.
         val user = authentication.currentUser.value ?: return
 

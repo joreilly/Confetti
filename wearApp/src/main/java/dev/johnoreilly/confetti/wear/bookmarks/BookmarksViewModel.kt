@@ -85,7 +85,7 @@ class BookmarksViewModel(
                             it.endsAt > now
                         }
 
-                        BookmarksUiState.Success(conference, upcoming, past)
+                        return@map BookmarksUiState.Success(conference, upcoming, past)
                     }
                 }
 

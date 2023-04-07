@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowColumn
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,7 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -64,6 +65,7 @@ import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
+import dev.johnoreilly.confetti.utils.plus
 
 @Composable
 fun SessionListGridView(
@@ -92,13 +94,7 @@ fun SessionListGridView(
                     state = pagerState,
                 ) { page ->
 
-                    Row(
-                        Modifier
-                            .windowInsetsPadding(
-                                WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-                            )
-                            .horizontalScroll(rememberScrollState())
-                    ) {
+                    Row(Modifier.horizontalScroll(rememberScrollState())) {
                         val sessionsByStartTime = uiState.sessionsByStartTimeList[page]
 
                         val rooms = uiState.rooms.filter { room ->
@@ -129,8 +125,11 @@ fun SessionListGridView(
 
                             LazyColumn(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(end = 16.dp)
+                                    .fillMaxWidth(),
+                                contentPadding = PaddingValues(end = 16.dp).plus(
+                                    WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
+                                        .asPaddingValues()
+                                )
                             ) {
                                 sessionsByStartTime.forEach {
                                     item {

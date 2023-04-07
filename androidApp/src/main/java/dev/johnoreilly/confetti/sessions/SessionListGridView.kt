@@ -191,10 +191,10 @@ fun SessionGridRow(
                 Box(Modifier.fillMaxSize()) {
                     Column(
                         modifier = Modifier
-                            .padding(16.dp)
                             .clickable(onClick = {
                                 sessionSelected(SessionDetailsKey(conference, session.id))
-                            }),
+                            })
+                            .padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(

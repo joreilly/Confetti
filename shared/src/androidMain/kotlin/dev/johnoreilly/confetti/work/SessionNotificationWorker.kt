@@ -34,6 +34,10 @@ class SessionNotificationWorker(
             )
         }
 
+        fun cancelWorkRequest(workManager: WorkManager) {
+            workManager.cancelUniqueWork(TAG)
+        }
+
         private fun createPeriodicWorkRequest(): PeriodicWorkRequest =
             PeriodicWorkRequestBuilder<SessionNotificationWorker>(INTERVAL.toJavaDuration())
                 .setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())

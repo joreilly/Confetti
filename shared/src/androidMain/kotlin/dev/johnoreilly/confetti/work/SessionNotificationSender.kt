@@ -34,7 +34,7 @@ class SessionNotificationSender(
 
         val user = authentication.currentUser.value
 
-        val conferences = repository.conferences(FETCH_POLICY)
+        val conferences = repository.conferences(FetchPolicy.CacheAndNetwork)
             .data
             ?.conferences
             .orEmpty()
@@ -44,7 +44,7 @@ class SessionNotificationSender(
                 conference = conference.id,
                 uid = user?.uid,
                 tokenProvider = user,
-                fetchPolicy = FETCH_POLICY,
+                fetchPolicy = FetchPolicy.CacheAndNetwork,
             )
                 .data
                 ?.bookmarks
@@ -57,7 +57,7 @@ class SessionNotificationSender(
                 conference = conference.id,
                 uid = user?.uid,
                 tokenProvider = user,
-                fetchPolicy = FETCH_POLICY,
+                fetchPolicy = FetchPolicy.CacheAndNetwork,
             )
                 .data
                 ?.sessions
@@ -147,7 +147,6 @@ class SessionNotificationSender(
     }
 
     companion object {
-        private val FETCH_POLICY = FetchPolicy.CacheAndNetwork
         private val CHANNEL_ID = "SessionNotification"
         private val GROUP = "dev.johnoreilly.confetti.SESSIONS_ALERT"
         private val SUMMARY_ID = 0

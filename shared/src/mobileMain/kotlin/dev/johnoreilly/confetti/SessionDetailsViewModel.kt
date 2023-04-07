@@ -5,7 +5,9 @@ import com.rickclephas.kmm.viewmodel.stateIn
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class SessionDetailsViewModel(
     repository: ConfettiRepository
@@ -19,8 +21,8 @@ class SessionDetailsViewModel(
     private lateinit var conference: String
 
     val session: StateFlow<SessionDetails?> = flow {
-        val response = repository.sessionDetails(conference = conference, sessionId = sessionId)
-        emit(response.data?.session?.sessionDetails)
+        emitAll(repository.sessionDetails(conference = conference, sessionId = sessionId)
+            .map { it.data?.session?.sessionDetails })
     }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 }

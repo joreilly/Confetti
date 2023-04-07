@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -153,7 +154,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             // get initial data
             coroutineScope {
                 val bookmarksResponse = async {
-                    repository.bookmarks(conference!!, uid, tokenProvider, fetchPolicy)
+                    repository.bookmarks(conference!!, uid, tokenProvider, fetchPolicy).first()
                 }
                 val sessionsResponse = async {
                     repository.conferenceData(conference!!, fetchPolicy)

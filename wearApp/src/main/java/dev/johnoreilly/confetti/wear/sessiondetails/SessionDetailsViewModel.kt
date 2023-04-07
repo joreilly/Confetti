@@ -24,9 +24,9 @@ class SessionDetailsViewModel(
     private val sessionId: SessionDetailsKey =
         SessionDetailsDestination.fromNavArgs(savedStateHandle)
 
-    val session: StateFlow<SessionDetailsUiState> = flow {
-        val sessionDetails = repository.sessionDetails(sessionId.conference, sessionId.sessionId)
-        val value = if (sessionDetails.data != null) {
+    val session: StateFlow<SessionDetailsUiState> = repository.sessionDetails(sessionId.conference, sessionId.sessionId).map {
+        val sessionDetails = it
+        if (sessionDetails.data != null) {
             SessionDetailsUiState.Success(
                 sessionId.conference,
                 sessionId,
@@ -36,8 +36,6 @@ class SessionDetailsViewModel(
         } else {
             SessionDetailsUiState.Error
         }
-
-        emit(value)
     }
         .stateIn(
             viewModelScope,

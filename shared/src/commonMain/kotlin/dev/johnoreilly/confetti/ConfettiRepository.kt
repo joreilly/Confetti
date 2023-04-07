@@ -86,11 +86,11 @@ class ConfettiRepository : KoinComponent {
         uid: String?,
         tokenProvider: TokenProvider?,
         fetchPolicy: FetchPolicy
-    ): ApolloResponse<GetBookmarksQuery.Data> =
+    ): Flow<ApolloResponse<GetBookmarksQuery.Data>> =
         apolloClientCache.getClient(conference, uid).query(GetBookmarksQuery())
             .tokenProvider(tokenProvider)
             .fetchPolicy(fetchPolicy)
-            .execute()
+            .toFlow()
 
     fun watchBookmarks(
         conference: String,
@@ -150,11 +150,15 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    suspend fun sessionDetails(
+    fun sessionDetails(
         conference: String,
-        sessionId: String
-    ): ApolloResponse<GetSessionQuery.Data> =
-        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).execute()
+        sessionId: String,
+        fetchPolicy: FetchPolicy = FetchPolicy.CacheAndNetwork
+    ): Flow<ApolloResponse<GetSessionQuery.Data>> =
+        apolloClientCache.getClient(conference)
+            .query(GetSessionQuery(sessionId))
+            .fetchPolicy(fetchPolicy)
+            .toFlow()
 
     suspend fun conferenceData(
         conference: String,

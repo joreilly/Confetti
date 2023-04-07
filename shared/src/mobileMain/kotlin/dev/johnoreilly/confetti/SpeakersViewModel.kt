@@ -21,7 +21,7 @@ open class SpeakersViewModel : KMMViewModel(), KoinComponent {
     }
 
     val speakers: StateFlow<SpeakersUiState> = flow {
-        repository.conferenceData(conference, FetchPolicy.CacheOnly)
+        repository.conferenceData(conference, FetchPolicy.CacheFirst)
             .data?.speakers?.nodes?.map {
                 it.speakerDetails
             }.let {

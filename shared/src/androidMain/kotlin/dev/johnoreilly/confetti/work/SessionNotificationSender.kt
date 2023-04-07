@@ -15,6 +15,7 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.shared.R
 import dev.johnoreilly.confetti.utils.DateService
+import kotlinx.coroutines.flow.first
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -57,7 +58,7 @@ class SessionNotificationSender(
             uid = user.uid,
             tokenProvider = user,
             fetchPolicy = FetchPolicy.CacheFirst,
-        )
+        ).first()
             .data
             ?.bookmarks
             ?.sessionIds

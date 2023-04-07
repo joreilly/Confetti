@@ -39,7 +39,7 @@ class SessionNotificationSender(
             conference = conferenceId,
             uid = user.uid,
             tokenProvider = user,
-            fetchPolicy = FetchPolicy.CacheAndNetwork,
+            fetchPolicy = FetchPolicy.CacheFirst,
         )
             .data
             ?.sessions
@@ -56,7 +56,7 @@ class SessionNotificationSender(
             conference = conferenceId,
             uid = user.uid,
             tokenProvider = user,
-            fetchPolicy = FetchPolicy.CacheAndNetwork,
+            fetchPolicy = FetchPolicy.CacheFirst,
         )
             .data
             ?.bookmarks
@@ -68,13 +68,19 @@ class SessionNotificationSender(
         }
 
         val intervalRange = createIntervalRange()
-        val sessionsToNotify = bookmarkedSessions.filter { session ->
+        var sessionsToNotify = bookmarkedSessions.filter { session ->
             session.startsAt in intervalRange
         }
 
         if (sessionsToNotify.isNotEmpty()) {
             createNotificationChannel()
-            sendNotification(SUMMARY_ID, createSummaryNotification(sessionsToNotify.count()))
+
+            // If there are multiple notifications, we create a summary to group them.
+            if (sessionsToNotify.count() > 1) {
+                sendNotification(SUMMARY_ID, createSummaryNotification(sessionsToNotify))
+            }
+
+            // We reverse the teams to show early sessions first.
             for ((id, session) in sessionsToNotify.reversed().withIndex()) {
                 sendNotification(id, createNotification(session))
             }
@@ -112,26 +118,36 @@ class SessionNotificationSender(
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setLargeIcon(largeIcon)
             .setContentTitle(session.title)
-            .setContentText("Room: ${session.room?.name.orEmpty()}")
+            .setContentText("Starts at ${session.startsAt.time} in ${session.room?.name.orEmpty()}")
             .setGroup(GROUP)
             .setAutoCancel(true)
             .build()
     }
 
-    private fun createSummaryNotification(upcomingSessionsCount: Int): Notification {
+    private fun createSummaryNotification(sessions: List<SessionDetails>): Notification {
         val largeIcon = BitmapFactory.decodeResource(
             context.resources,
             R.mipmap.ic_launcher_round
         )
 
+        // Apply scope function is failing with an error:
+        // InboxStyle.apply can only be called from within the same library group prefix.
+        val style = NotificationCompat.InboxStyle()
+            .setBigContentTitle("${sessions.count()} upcoming sessions")
+
+        // We only show up to a limited number of sessions to avoid pollute the user notifications.
+        for (session in sessions.take(4)) {
+            style.addLine(session.title)
+        }
+
         return NotificationCompat
             .Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setLargeIcon(largeIcon)
-            .setContentTitle("$upcomingSessionsCount upcoming sessions")
             .setGroup(GROUP)
             .setGroupSummary(true)
             .setAutoCancel(true)
+            .setStyle(style)
             .build()
     }
 

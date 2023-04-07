@@ -107,6 +107,15 @@ class RootQuery : Query {
         return Bookmarks(dfe.source().bookmarks().toList())
     }
 
+    fun bookmarkConnection(dfe: DataFetchingEnvironment): BookmarkConnection? {
+        if (dfe.uid() == null) {
+            return null
+        }
+        return BookmarkConnection(
+            nodes = dfe.source().sessions(dfe.source().bookmarks().toList())
+        )
+    }
+
     fun conferences(orderBy: ConferenceOrderBy? = null): List<Conference> {
         val orderBy1 =
             orderBy ?: ConferenceOrderBy(ConferenceField.DAYS, OrderByDirection.DESCENDING)
@@ -117,6 +126,10 @@ class RootQuery : Query {
         }
     }
 }
+
+class  BookmarkConnection(
+    val nodes: List<Session>
+)
 
 class Bookmarks(val sessionIds: List<String>) {
     val id = "Bookmarks"

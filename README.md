@@ -23,10 +23,9 @@ Includes:
 
 ### Contributors
 
-<a href="https://github.com/joreilly/Confetti/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=joreilly/Confetti" />
+<a href="https://github.com/joreilly/confetti/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=joreilly/confetti" />
 </a>
-
 
 ### Related posts
 

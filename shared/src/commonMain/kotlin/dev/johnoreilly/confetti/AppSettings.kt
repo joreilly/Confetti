@@ -23,6 +23,16 @@ class AppSettings(val settings: FlowSettings) {
         )
     }
 
+    val experimentalFeaturesEnabledFlow = settings
+        .getBooleanFlow(EXPERIMENTAL_FEATURES_ENABLED, false)
+
+    suspend fun isExperimentalFeaturesEnabled() =
+        settings.getBoolean(EXPERIMENTAL_FEATURES_ENABLED, false)
+
+    suspend fun setExperimentalFeaturesEnabled(value: Boolean) {
+        settings.putBoolean(EXPERIMENTAL_FEATURES_ENABLED, value)
+    }
+
     suspend fun getConference(): String {
         return settings.getString(CONFERENCE_SETTING, CONFERENCE_NOT_SET)
     }
@@ -43,6 +53,7 @@ class AppSettings(val settings: FlowSettings) {
     }
 
     companion object {
+        const val EXPERIMENTAL_FEATURES_ENABLED = "experimental_features_enabled"
         const val ENABLED_LANGUAGES_SETTING = "enabled_languages_2"
         const val CONFERENCE_SETTING = "conference"
         const val GUEST_MODE = "guest_mode"

@@ -59,8 +59,18 @@ class ConfettiRepository : KoinComponent {
         return response.data != null
     }
 
-    suspend fun addBookmark(conference: String, uid: String?, tokenProvider: TokenProvider?, sessionId: String): Boolean {
-        return modifyBookmarks(conference, uid, tokenProvider, AddBookmarkMutation(sessionId)) { sessionIds, id ->
+    suspend fun addBookmark(
+        conference: String,
+        uid: String?,
+        tokenProvider: TokenProvider?,
+        sessionId: String
+    ): Boolean {
+        return modifyBookmarks(
+            conference,
+            uid,
+            tokenProvider,
+            AddBookmarkMutation(sessionId)
+        ) { sessionIds, id ->
             AddBookmarkMutation.Data {
                 addBookmark = buildBookmarks {
                     this.id = id
@@ -70,8 +80,18 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    suspend fun removeBookmark(conference: String, uid: String?, tokenProvider: TokenProvider?, sessionId: String): Boolean {
-        return modifyBookmarks(conference, uid, tokenProvider, RemoveBookmarkMutation(sessionId)) { sessionIds, id ->
+    suspend fun removeBookmark(
+        conference: String,
+        uid: String?,
+        tokenProvider: TokenProvider?,
+        sessionId: String
+    ): Boolean {
+        return modifyBookmarks(
+            conference,
+            uid,
+            tokenProvider,
+            RemoveBookmarkMutation(sessionId)
+        ) { sessionIds, id ->
             RemoveBookmarkMutation.Data {
                 removeBookmark = buildBookmarks {
                     this.id = id
@@ -96,7 +116,7 @@ class ConfettiRepository : KoinComponent {
         conference: String,
         uid: String?,
         tokenProvider: TokenProvider?,
-        initialData: GetBookmarksQuery.Data?
+        initialData: GetBookmarksQuery.Data?,
     ): Flow<ApolloResponse<GetBookmarksQuery.Data>> = flow {
         val values = apolloClientCache.getClient(conference, uid).query(GetBookmarksQuery())
             .tokenProvider(tokenProvider)
@@ -164,10 +184,19 @@ class ConfettiRepository : KoinComponent {
             .fetchPolicy(fetchPolicy).execute()
 
 
-    suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
+    fun sessionsFlow(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
 
-
+    suspend fun sessions(
+        conference: String,
+        uid: String?,
+        tokenProvider: TokenProvider?,
+        fetchPolicy: FetchPolicy
+    ): ApolloResponse<GetSessionsQuery.Data> =
+        apolloClientCache.getClient(conference, uid).query(GetSessionsQuery())
+            .tokenProvider(tokenProvider)
+            .fetchPolicy(fetchPolicy)
+            .execute()
 
     suspend fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
         return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())

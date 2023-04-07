@@ -33,10 +33,22 @@ class SessionNotificationSender(
         Log.d("marcello", "notify")
 
         val user = authentication.currentUser.value ?: return
-        val conference = repository.getConference()
+        val conferenceId = repository.getConference()
+
+        val conferenceDates = repository.conferenceData(conferenceId, FetchPolicy.CacheAndNetwork)
+            .data
+            ?.sessions
+            ?.nodes
+            ?.map { session -> session.sessionDetails.startsAt.date }
+            .orEmpty()
+
+        // If conference has not started yet, no reason to process all sessions.
+        if (dateService.now().date !in conferenceDates) {
+            return
+        }
 
         val bookmarks = repository.bookmarks(
-            conference = conference,
+            conference = conferenceId,
             uid = user?.uid,
             tokenProvider = user,
             fetchPolicy = FetchPolicy.CacheAndNetwork,
@@ -47,7 +59,7 @@ class SessionNotificationSender(
             .orEmpty()
 
         val sessions = repository.sessions(
-            conference = conference,
+            conference = conferenceId,
             uid = user?.uid,
             tokenProvider = user,
             fetchPolicy = FetchPolicy.CacheAndNetwork,

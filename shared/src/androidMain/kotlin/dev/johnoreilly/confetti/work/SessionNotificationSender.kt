@@ -32,9 +32,10 @@ class SessionNotificationSender(
     suspend fun sendNotification() {
         Log.d("marcello", "notify")
 
+        // If there is no user signed-in, no reason to process all sessions.
         val user = authentication.currentUser.value ?: return
-        val conferenceId = repository.getConference()
 
+        val conferenceId = repository.getConference()
         val conferenceDates = repository.conferenceData(conferenceId, FetchPolicy.CacheAndNetwork)
             .data
             ?.sessions
@@ -42,7 +43,7 @@ class SessionNotificationSender(
             ?.map { session -> session.sessionDetails.startsAt.date }
             .orEmpty()
 
-        // If conference has not started yet, no reason to process all sessions.
+        // If currente date is not in the conference range, no reason to process all sessions.
         if (dateService.now().date !in conferenceDates) {
             return
         }

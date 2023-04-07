@@ -25,6 +25,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,6 +54,7 @@ import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
@@ -206,6 +208,19 @@ fun SessionGridRow(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Speakers(session = session)
+                        if (session.isLightning()) {
+                            Surface(
+                                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                                shape = MaterialTheme.shapes.small,
+                                color = MaterialTheme.colorScheme.primaryContainer
+                            ) {
+                                Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
+                                    Icon(Icons.Default.Bolt, "lightning")
+                                    Spacer(Modifier.width(4.dp))
+                                    Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
+                                }
+                            }
+                        }
                     }
                     Bookmark(
                         modifier = Modifier.align(Alignment.CenterEnd),

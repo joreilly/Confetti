@@ -1,6 +1,8 @@
 package dev.johnoreilly.confetti.auth
 
 import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.FirebaseAuthException
+import dev.gitlive.firebase.auth.FirebaseAuthInvalidUserException
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.GoogleAuthProvider
 import dev.gitlive.firebase.auth.auth
@@ -49,7 +51,12 @@ class DefaultUser(
     private val user_: FirebaseUser?
 ): User {
     override suspend fun token(forceRefresh: Boolean): String? {
-        return user_?.getIdToken(forceRefresh)
+        return try {
+            user_?.getIdToken(forceRefresh)
+        } catch (e: FirebaseAuthException) {
+            // TODO log to firebase
+            null
+        }
     }
 }
 
@@ -64,7 +71,11 @@ class DefaultAuthentication(
         return try {
             Firebase.auth.signInWithCredential(credential)
             SignInSuccess
+        } catch (e: FirebaseAuthException) {
+            // TODO log to firebase
+            SignInError(e)
         } catch (e: Exception) {
+            // TODO log serious error
             SignInError(e)
         }
     }

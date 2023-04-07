@@ -36,15 +36,21 @@ class SessionNotificationSender(
         val user = authentication.currentUser.value ?: return
 
         val conferenceId = repository.getConference()
-        val conferenceDates = repository.conferenceData(conferenceId, FetchPolicy.CacheAndNetwork)
+
+        val sessions = repository.sessions(
+            conference = conferenceId,
+            uid = user.uid,
+            tokenProvider = user,
+            fetchPolicy = FetchPolicy.CacheAndNetwork,
+        )
             .data
             ?.sessions
             ?.nodes
-            ?.map { session -> session.sessionDetails.startsAt.date }
+            ?.map { it.sessionDetails }
             .orEmpty()
 
-        // If currente date is not in the conference range, no reason to process all sessions.
-        if (dateService.now().date !in conferenceDates) {
+        // If current date is not in the conference range, no reason to process all sessions.
+        if (sessions.any { session -> session.startsAt.date == dateService.now().date }) {
             return
         }
 
@@ -57,18 +63,6 @@ class SessionNotificationSender(
             .data
             ?.bookmarks
             ?.sessionIds
-            .orEmpty()
-
-        val sessions = repository.sessions(
-            conference = conferenceId,
-            uid = user.uid,
-            tokenProvider = user,
-            fetchPolicy = FetchPolicy.CacheAndNetwork,
-        )
-            .data
-            ?.sessions
-            ?.nodes
-            ?.map { it.sessionDetails }
             .orEmpty()
 
         val bookmarkedSessions = sessions.filter { session ->

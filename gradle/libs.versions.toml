@@ -1,5 +1,5 @@
 [versions]
-accompanist = "0.30.0"
+accompanist = "0.30.1"
 activity-compose = "1.7.0"
 androidx-lifecycle = "2.6.1"
 androidx-datastore = "1.1.0-alpha01"

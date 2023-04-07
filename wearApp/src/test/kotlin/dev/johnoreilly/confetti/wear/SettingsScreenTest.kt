@@ -34,15 +34,13 @@ class SettingsScreenTest : ScreenshotTest() {
         val johnBitmap = loadTestBitmap("john.jpg".toPath())
 
 
-        val fakeImageLoader = FakeImageLoader {
+        fakeImageLoader = FakeImageLoader {
             SuccessResult(
                 drawable = johnBitmap.toDrawable(resources),
                 dataSource = DataSource.MEMORY,
                 request = it
             )
         }
-
-        setImageLoader(fakeImageLoader)
     }
 
     @OptIn(ExperimentalHorologistApi::class)

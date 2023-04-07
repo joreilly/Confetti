@@ -37,6 +37,7 @@ import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.utils.plus
 import org.koin.androidx.compose.getViewModel
 
 
@@ -86,11 +87,10 @@ fun SpeakerGridView(
     navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
     LazyVerticalGrid(
-        modifier = Modifier.padding(16.dp),
         columns = GridCells.Adaptive(200.dp),
-
-        // content padding
-        contentPadding = PaddingValues(8.dp),
+        contentPadding = PaddingValues(16.dp).plus(
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom).asPaddingValues()
+        ),
         content = {
             items(speakers) { speaker ->
                 Column(

@@ -8,10 +8,15 @@ package dev.johnoreilly.confetti.search
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -102,6 +107,9 @@ fun SearchView(
             } else if (search.isNotBlank()) {
                 LazyColumn(
                     modifier = Modifier.imeNestedScroll(),
+                    contentPadding = WindowInsets.safeDrawing
+                        .only(WindowInsetsSides.Bottom)
+                        .asPaddingValues()
                 ) {
                     sessionItems(
                         conference = conference,

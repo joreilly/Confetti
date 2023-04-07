@@ -32,7 +32,7 @@ class SessionNotificationSender(
     suspend fun sendNotification() {
         Log.d("marcello", "notify")
 
-        val user = authentication.currentUser.value
+        val user = authentication.currentUser.value ?: return
         val conference = repository.getConference()
 
         val bookmarks = repository.bookmarks(

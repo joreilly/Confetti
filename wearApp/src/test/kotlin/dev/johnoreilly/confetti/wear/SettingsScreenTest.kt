@@ -53,7 +53,8 @@ class SettingsScreenTest : ScreenshotTest() {
             conferenceCleared = { },
             navigateToGoogleSignIn = { },
             navigateToGoogleSignOut = { },
-            columnState = columnState
+            columnState = columnState,
+            onRefreshClick = {}
         )
     }
 
@@ -71,7 +72,8 @@ class SettingsScreenTest : ScreenshotTest() {
             conferenceCleared = { },
             navigateToGoogleSignIn = { },
             navigateToGoogleSignOut = { },
-            columnState = columnState
+            columnState = columnState,
+            onRefreshClick = {}
         )
     }
 
@@ -98,7 +100,8 @@ class SettingsScreenTest : ScreenshotTest() {
                 conferenceCleared = { },
                 navigateToGoogleSignIn = { },
                 navigateToGoogleSignOut = { },
-                columnState = columnState
+                columnState = columnState,
+                onRefreshClick = {}
             )
         }
     }

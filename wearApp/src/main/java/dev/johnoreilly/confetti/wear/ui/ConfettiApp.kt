@@ -6,6 +6,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import dev.johnoreilly.confetti.wear.WearAppViewModel
+import dev.johnoreilly.confetti.wear.auth.navigation.SignInDestination
+import dev.johnoreilly.confetti.wear.auth.navigation.SignOutDestination
+import dev.johnoreilly.confetti.wear.auth.navigation.authGraph
+import dev.johnoreilly.confetti.wear.bookmarks.navigation.BookmarksDestination
+import dev.johnoreilly.confetti.wear.bookmarks.navigation.bookmarksGraph
 import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
 import dev.johnoreilly.confetti.wear.conferences.navigation.conferencesGraph
 import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
@@ -17,9 +22,6 @@ import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.wear.sessions.navigation.sessionsGraph
 import dev.johnoreilly.confetti.wear.settings.navigation.SettingsDestination
 import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
-import dev.johnoreilly.confetti.wear.auth.navigation.SignInDestination
-import dev.johnoreilly.confetti.wear.auth.navigation.SignOutDestination
-import dev.johnoreilly.confetti.wear.auth.navigation.authGraph
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.SpeakerDetailsDestination
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.speakerDetailsGraph
 import org.koin.androidx.compose.getViewModel
@@ -79,6 +81,12 @@ fun ConfettiApp(
                         ConferencesDestination,
                         ConferencesDestination.route
                     )
+                },
+                navigateToBookmarks = {
+                    onNavigateToDestination(
+                        BookmarksDestination,
+                        BookmarksDestination.createNavigationRoute(it)
+                    )
                 }
             )
 
@@ -101,6 +109,15 @@ fun ConfettiApp(
             )
 
             speakerDetailsGraph()
+
+            bookmarksGraph(
+                navigateToSession = {
+                    onNavigateToDestination(
+                        SessionDetailsDestination,
+                        SessionDetailsDestination.createNavigationRoute(it)
+                    )
+                }
+            )
 
             settingsGraph(
                 onSwitchConferenceSelected = {

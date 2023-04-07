@@ -12,15 +12,13 @@ import androidx.compose.ui.test.assertTouchHeightIsEqualTo
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.onAllNodesWithContentDescription
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.printToLog
-import androidx.compose.ui.test.printToString
 import androidx.compose.ui.unit.dp
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import dev.johnoreilly.confetti.wear.home.HomeListView
+import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
+import dev.johnoreilly.confetti.wear.home.HomeScreen
 import dev.johnoreilly.confetti.wear.home.HomeUiState
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.kotlinConf2023
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import org.junit.Test
@@ -38,17 +36,46 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                 rule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
             }
         ) { columnState ->
-            HomeListView(
+            HomeScreen(
                 uiState = HomeUiState.Success(
                     kotlinConf2023.id,
                     kotlinConf2023.name,
                     kotlinConf2023.days,
-                    listOf()
+                ),
+                bookmarksUiState = BookmarksUiState.NotLoggedIn,
+                sessionSelected = {},
+                daySelected = {},
+                onSettingsClick = {},
+                onBookmarksClick = {},
+                columnState = columnState
+            )
+        }
+    }
+
+    @Test
+    fun conferenceHomeScreenWithBookmarks() {
+        takeScrollableScreenshot(
+            timeTextMode = TimeTextMode.OnTop,
+            checks = { _ ->
+                rule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
+            }
+        ) { columnState ->
+            HomeScreen(
+                uiState = HomeUiState.Success(
+                    kotlinConf2023.id,
+                    kotlinConf2023.name,
+                    kotlinConf2023.days,
+                ),
+                bookmarksUiState = BookmarksUiState.Success(
+                    kotlinConf2023.id, listOf(
+                        TestFixtures.sessionDetails,
+                        TestFixtures.sessionDetails.copy(title = "Adopting Kotlin at Google scale")
+                    ), listOf()
                 ),
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},
-                onRefreshClick = {},
+                onBookmarksClick = {},
                 columnState = columnState
             )
         }
@@ -71,17 +98,17 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                     .assertTouchHeightIsEqualTo(52.dp)
             }
         ) { columnState ->
-            HomeListView(
+            HomeScreen(
                 uiState = HomeUiState.Success(
                     kotlinConf2023.id,
                     kotlinConf2023.name,
                     kotlinConf2023.days,
-                    listOf()
                 ),
+                bookmarksUiState = BookmarksUiState.NotLoggedIn,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},
-                onRefreshClick = {},
+                onBookmarksClick = {},
                 columnState = columnState
             )
         }
@@ -99,12 +126,13 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                     .assertIsDisplayed()
             }
         ) { columnState ->
-            HomeListView(
+            HomeScreen(
                 uiState = HomeUiState.Loading,
+                bookmarksUiState = BookmarksUiState.Loading,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},
-                onRefreshClick = {},
+                onBookmarksClick = {},
                 columnState = columnState
             )
         }
@@ -130,12 +158,13 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                     .assertAll(isNotEnabled())
             }
         ) { columnState ->
-            HomeListView(
+            HomeScreen(
                 uiState = HomeUiState.Loading,
+                bookmarksUiState = BookmarksUiState.Loading,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},
-                onRefreshClick = {},
+                onBookmarksClick = {},
                 columnState = columnState
             )
         }

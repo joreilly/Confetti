@@ -21,6 +21,7 @@ import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -134,25 +135,11 @@ fun SessionDetailsLongText() {
 @WearPreviewFontSizes
 @Composable
 fun SessionDetailsViewPreview() {
-    val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
-
     ConfettiTheme {
         SessionDetailView(SessionDetailsUiState.Success(
-            conference = "wearconf",
+            conference = TestFixtures.kotlinConf2023.id,
             sessionId = SessionDetailsKey("", ""),
-            session = SessionDetails(
-                "1",
-                "Wear it's at",
-                "Talk",
-                sessionTime,
-                sessionTime,
-                "Be aWear of what's coming",
-                "en",
-                listOf(),
-                SessionDetails.Room("Main Hall"),
-                listOf(),
-                Session.type.name
-            ),
+            session = TestFixtures.sessionDetails,
             timeZone = TimeZone.UTC
         ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),

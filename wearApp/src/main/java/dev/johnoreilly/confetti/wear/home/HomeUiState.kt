@@ -5,13 +5,12 @@ import kotlinx.datetime.LocalDate
 
 sealed interface HomeUiState {
     object NoneSelected : HomeUiState
-    object Error : HomeUiState
+    data class Error(val message: String) : HomeUiState
     object Loading : HomeUiState
 
     data class Success(
         val conference: String,
         val conferenceName: String,
-        val confDates: List<LocalDate>,
-        val currentSessions: List<SessionDetails>,
+        val confDates: List<LocalDate>
     ) : HomeUiState
 }

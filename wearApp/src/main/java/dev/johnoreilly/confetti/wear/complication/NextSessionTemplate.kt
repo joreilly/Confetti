@@ -13,6 +13,7 @@ import com.google.android.horologist.tiles.complication.TypedComplicationTemplat
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.type.Session
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toKotlinInstant
 
@@ -20,21 +21,8 @@ import kotlinx.datetime.toKotlinInstant
 class NextSessionTemplate(context: Context) :
     TypedComplicationTemplate<NextSessionComplicationData>(context) {
     override fun previewData(): NextSessionComplicationData {
-        val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
         return NextSessionComplicationData(
-            SessionDetails(
-                "1",
-                "Wear it's at",
-                "Talk",
-                sessionTime,
-                sessionTime,
-                "Be aWear of what's coming",
-                "en",
-                listOf(),
-                SessionDetails.Room("Main Hall"),
-                listOf(),
-                Session.type.name
-            ),
+            TestFixtures.sessionDetails,
             launchIntent = null
         )
     }

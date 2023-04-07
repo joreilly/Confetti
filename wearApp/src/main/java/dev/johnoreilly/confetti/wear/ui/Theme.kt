@@ -31,7 +31,7 @@ fun ConfettiTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(colors = colors, typography = MaterialTheme.typography.withPlatformStyle()) {
-            content()
+        content()
     }
 }
 

@@ -86,8 +86,8 @@ class SessionNotificationSender(
     private fun createIntervalRange(): ClosedRange<LocalDateTime> {
         val now = dateService.now()
         val timeZone = TimeZone.currentSystemDefault()
-        val past = now.toInstant(timeZone) - INTERVAL
-        return past.toLocalDateTime(timeZone)..now
+        val future = (now.toInstant(timeZone) + INTERVAL).toLocalDateTime(timeZone)
+        return now..future
     }
 
     private fun createNotificationChannel() {

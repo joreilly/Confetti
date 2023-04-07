@@ -33,38 +33,30 @@ class SessionNotificationSender(
         Log.d("marcello", "notify")
 
         val user = authentication.currentUser.value
+        val conference = repository.getConference()
 
-        val conferences = repository.conferences(FetchPolicy.CacheAndNetwork)
+        val bookmarks = repository.bookmarks(
+            conference = conference,
+            uid = user?.uid,
+            tokenProvider = user,
+            fetchPolicy = FetchPolicy.CacheAndNetwork,
+        )
             .data
-            ?.conferences
+            ?.bookmarks
+            ?.sessionIds
             .orEmpty()
 
-        val bookmarks = conferences.map { conference ->
-            repository.bookmarks(
-                conference = conference.id,
-                uid = user?.uid,
-                tokenProvider = user,
-                fetchPolicy = FetchPolicy.CacheAndNetwork,
-            )
-                .data
-                ?.bookmarks
-                ?.sessionIds
-                .orEmpty()
-        }.flatten()
-
-        val sessions = conferences.map { conference ->
-            repository.sessions(
-                conference = conference.id,
-                uid = user?.uid,
-                tokenProvider = user,
-                fetchPolicy = FetchPolicy.CacheAndNetwork,
-            )
-                .data
-                ?.sessions
-                ?.nodes
-                ?.map { it.sessionDetails }
-                .orEmpty()
-        }.flatten()
+        val sessions = repository.sessions(
+            conference = conference,
+            uid = user?.uid,
+            tokenProvider = user,
+            fetchPolicy = FetchPolicy.CacheAndNetwork,
+        )
+            .data
+            ?.sessions
+            ?.nodes
+            ?.map { it.sessionDetails }
+            .orEmpty()
 
         val bookmarkedSessions = sessions.filter { session ->
             bookmarks.contains(session.id)

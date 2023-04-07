@@ -3,6 +3,10 @@ schema {
   mutation: Mutation
 }
 
+type BookmarkConnection {
+  nodes: [Session!]!
+}
+
 type Bookmarks {
   id: String!
 
@@ -81,6 +85,8 @@ type PartnerGroup {
 }
 
 type Query {
+  bookmarkConnection: BookmarkConnection
+
   bookmarks: Bookmarks
 
   conferences(orderBy: ConferenceOrderByInput): [Conference!]!

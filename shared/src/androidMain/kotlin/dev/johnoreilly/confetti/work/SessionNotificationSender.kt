@@ -50,7 +50,7 @@ class SessionNotificationSender(
 
         val bookmarks = repository.bookmarks(
             conference = conferenceId,
-            uid = user?.uid,
+            uid = user.uid,
             tokenProvider = user,
             fetchPolicy = FetchPolicy.CacheAndNetwork,
         )
@@ -61,7 +61,7 @@ class SessionNotificationSender(
 
         val sessions = repository.sessions(
             conference = conferenceId,
-            uid = user?.uid,
+            uid = user.uid,
             tokenProvider = user,
             fetchPolicy = FetchPolicy.CacheAndNetwork,
         )

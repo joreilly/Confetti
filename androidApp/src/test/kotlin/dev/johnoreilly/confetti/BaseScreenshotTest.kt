@@ -1,6 +1,10 @@
 package dev.johnoreilly.confetti
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import dev.johnoreilly.confetti.di.KoinTestApp
 import dev.johnoreilly.confetti.screenshot.RNGScreenshotTestRule
@@ -65,6 +69,7 @@ class ScreenshotTestRule(
             checks,
             content = {
                 ConfettiTheme {
+                    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background))
                     content()
                 }
             }

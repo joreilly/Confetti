@@ -16,19 +16,19 @@ class SpeakerDetailsScTest : BaseScreenshotTest(false, a11yEnabled = true) {
     fun screenshotDetailsA11y() {
         val mockSpeaker = SpeakerDetails(
             id = "",
-            name = "Some Speaker",
+            name = "Ben Zweber",
             photoUrl = "",
             tagline = "",
-            company = "Some Company",
+            company = "Big Nerd Ranch",
             companyLogoUrl = "",
             city = "Some City",
-            bio = "Some bio",
+            bio = "Ben is an Android Solution architect who has an obsession with Kotin and Android",
             sessions = emptyList(),
             socials = emptyList()
         )
         screenshotTestRule.takeScreenshot(
             checks = {
-                it.onNodeWithText("Some Speaker").assertExists()
+                it.onNodeWithText("Ben Zweber").assertExists()
             }
         ) {
             ConfettiTheme {

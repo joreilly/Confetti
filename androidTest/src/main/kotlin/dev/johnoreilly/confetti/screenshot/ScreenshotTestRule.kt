@@ -43,13 +43,13 @@ interface ScreenshotTestRule : TestRule {
 abstract class RNGScreenshotTestRule(
     private val record: Boolean = false,
     private val tolerance: Float,
-    a11y: Boolean
+    a11y: Boolean,
+    private val directoryName: String,
 ) : ScreenshotTestRule {
 
     private val composeTestRule = createComposeRule()
     private val testName: TestName = TestName()
 
-    private val directoryName = this::class.simpleName!!
     private var snapshotTransformer: SnapshotTransformer = if (a11y) {
         A11ySnapshotTransformer()
     } else {
@@ -106,7 +106,7 @@ abstract class RNGScreenshotTestRule(
         val methodName = testName.methodName.replace("\\W+".toRegex(), "_")
         snapshot(
             value,
-            directoryName = "snapshots",
+            directoryName = directoryName,
             fileName = methodName,
             record = record,
             diffFileName = methodName + "_diff",

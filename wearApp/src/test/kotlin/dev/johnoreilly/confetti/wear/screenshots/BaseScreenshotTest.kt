@@ -81,7 +81,8 @@ abstract class BaseScreenshotTest(
         a11yEnabled = a11yEnabled,
         imageLoader = fakeImageLoader,
         theme = mobileTheme,
-        resources = resources
+        resources = resources,
+        directoryName = this::class.simpleName!!
     )
 
 
@@ -111,8 +112,17 @@ private fun createScreenshotTestRule(
     imageLoader: FakeImageLoader,
     resources: Resources,
     theme: Theme?,
+    directoryName: String,
 ): ScreenshotTestRule {
-    return ScreenshotTestRule(record, tolerance, a11yEnabled, theme, imageLoader, resources)
+    return ScreenshotTestRule(
+        record = record,
+        tolerance = tolerance,
+        a11yEnabled = a11yEnabled,
+        mobileTheme = theme,
+        fakeImageLoader = imageLoader,
+        resources = resources,
+        directoryName = directoryName
+    )
 }
 
 class ScreenshotTestRule(
@@ -122,7 +132,8 @@ class ScreenshotTestRule(
     private val mobileTheme: Theme? = null,
     private val fakeImageLoader: FakeImageLoader,
     private val resources: Resources,
-) : RNGScreenshotTestRule(record, tolerance, a11yEnabled) {
+    directoryName: String
+) : RNGScreenshotTestRule(record, tolerance, a11yEnabled, directoryName = directoryName) {
 
     @Composable
     fun FakeImageLoader.apply(content: @Composable () -> Unit) {

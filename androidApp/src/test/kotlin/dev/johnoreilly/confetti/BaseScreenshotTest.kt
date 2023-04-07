@@ -28,7 +28,8 @@ abstract class BaseScreenshotTest(
     val screenshotTestRule = createScreenshotTestRule(
         record = record,
         tolerance = tolerance,
-        a11yEnabled = a11yEnabled
+        a11yEnabled = a11yEnabled,
+        directoryName = this::class.simpleName!!
     )
 
     @After
@@ -40,16 +41,18 @@ abstract class BaseScreenshotTest(
 private fun createScreenshotTestRule(
     record: Boolean,
     tolerance: Float = 0.1f,
-    a11yEnabled: Boolean = false
+    a11yEnabled: Boolean = false,
+    directoryName: String
 ): RNGScreenshotTestRule {
-    return ScreenshotTestRule(record, tolerance, a11yEnabled)
+    return ScreenshotTestRule(record, tolerance, a11yEnabled, directoryName)
 }
 
 class ScreenshotTestRule(
     record: Boolean,
     tolerance: Float,
-    a11yEnabled: Boolean
-) : RNGScreenshotTestRule(record, tolerance, a11yEnabled) {
+    a11yEnabled: Boolean,
+    directoryName: String,
+) : RNGScreenshotTestRule(record, tolerance, a11yEnabled, directoryName) {
     @ExperimentalCoroutinesApi
     override fun takeScreenshot(
         checks: suspend (rule: ComposeContentTestRule) -> Unit,

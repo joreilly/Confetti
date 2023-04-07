@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
+import dev.johnoreilly.confetti.di.KoinTestApp
 import dev.johnoreilly.confetti.screenshot.RNGScreenshotTestRule
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -9,12 +10,14 @@ import org.junit.After
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
 @RunWith(RobolectricTestRunner::class)
 @Config(
+    application = KoinTestApp::class,
     sdk = [30],
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
@@ -22,7 +25,7 @@ abstract class BaseScreenshotTest(
     record: Boolean,
     tolerance: Float = 0.01f,
     a11yEnabled: Boolean = false
-) {
+): KoinTest {
 
     @get:Rule
     val screenshotTestRule = createScreenshotTestRule(
@@ -33,7 +36,7 @@ abstract class BaseScreenshotTest(
     )
 
     @After
-    fun stop() {
+    fun teardown() {
         stopKoin()
     }
 }

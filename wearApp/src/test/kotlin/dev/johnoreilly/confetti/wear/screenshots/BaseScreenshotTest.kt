@@ -37,7 +37,6 @@ import okio.Path
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
-import org.koin.test.KoinTest
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
@@ -54,7 +53,7 @@ abstract class BaseScreenshotTest(
     record: Boolean,
     tolerance: Float = 0.01f,
     a11yEnabled: Boolean = false
-): KoinTest {
+) {
 
     private var fakeImageLoader = FakeImageLoader.Never
     var mobileTheme: Theme? = null

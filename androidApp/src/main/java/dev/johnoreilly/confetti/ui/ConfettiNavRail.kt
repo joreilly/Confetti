@@ -10,10 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import dev.johnoreilly.confetti.navigation.BookmarksTopLevelDestination
-import dev.johnoreilly.confetti.navigation.SearchTopLevelDestination
-import dev.johnoreilly.confetti.navigation.SessionsTopLevelDestination
-import dev.johnoreilly.confetti.navigation.SpeakersTopLevelDestination
 import dev.johnoreilly.confetti.navigation.TopLevelDestination
 
 
@@ -30,15 +26,10 @@ internal fun ConfettiNavRail(
         containerColor = Color.Transparent,
         contentColor = ConfettiNavigationDefaults.navigationContentColor(),
     ) {
-        listOf(
-            SessionsTopLevelDestination,
-            SpeakersTopLevelDestination,
-            BookmarksTopLevelDestination,
-            SearchTopLevelDestination
-        ).forEach { destination ->
+        TopLevelDestination.values.forEach { destination ->
             val route = destination.route(conference)
             val selected =
-                currentDestination?.hierarchy?.any { it.route == route } == true
+                currentDestination?.hierarchy?.any { it.route == destination.routePattern } == true
             NavigationRailItem(
                 selected = selected,
                 onClick = { onNavigateToDestination(route) },

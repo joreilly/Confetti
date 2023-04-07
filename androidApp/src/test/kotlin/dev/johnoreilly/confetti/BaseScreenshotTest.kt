@@ -1,6 +1,10 @@
 package dev.johnoreilly.confetti
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import dev.johnoreilly.confetti.screenshot.RNGScreenshotTestRule
+import dev.johnoreilly.confetti.ui.ConfettiTheme
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -45,4 +49,19 @@ class ScreenshotTestRule(
     record: Boolean,
     tolerance: Float,
     a11yEnabled: Boolean
-): RNGScreenshotTestRule(record, tolerance, a11yEnabled)
+) : RNGScreenshotTestRule(record, tolerance, a11yEnabled) {
+    @ExperimentalCoroutinesApi
+    override fun takeScreenshot(
+        checks: suspend (rule: ComposeContentTestRule) -> Unit,
+        content: @Composable () -> Unit
+    ) {
+        super.takeScreenshot(
+            checks,
+            content = {
+                ConfettiTheme {
+                    content()
+                }
+            }
+        )
+    }
+}

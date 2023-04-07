@@ -26,7 +26,10 @@ fun SettingsRoute(
         },
         navigateToGoogleSignIn = navigateToGoogleSignIn,
         navigateToGoogleSignOut = navigateToGoogleSignOut,
-        columnState = columnState
+        onRefreshClick = {
+            viewModel.refresh()
+        },
+        columnState = columnState,
     )
 }
 

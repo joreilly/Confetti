@@ -24,6 +24,7 @@ fun SettingsListView(
     conferenceCleared: () -> Unit,
     navigateToGoogleSignIn: () -> Unit,
     navigateToGoogleSignOut: () -> Unit,
+    onRefreshClick: () -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     ScalingLazyColumn(
@@ -38,6 +39,13 @@ fun SettingsListView(
             StandardChip(
                 label = "Change Conference",
                 onClick = conferenceCleared,
+            )
+        }
+
+        item {
+            StandardChip(
+                label = "Refresh",
+                onClick = onRefreshClick,
             )
         }
 
@@ -77,7 +85,8 @@ fun SettingsListViewPreview() {
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToGoogleSignIn = { },
             navigateToGoogleSignOut = { },
-            uiState = SettingsUiState.Success(null)
+            uiState = SettingsUiState.Success(null),
+            onRefreshClick = {}
         )
     }
 }

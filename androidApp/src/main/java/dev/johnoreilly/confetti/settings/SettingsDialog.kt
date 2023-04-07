@@ -48,6 +48,7 @@ fun SettingsDialog(
         onChangeDarkThemeConfig = viewModel::updateDarkThemeConfig,
         onUpdateWearTheme = viewModel::updateWearTheme,
         onInstallOnWatch = viewModel::installOnWatch,
+        onChangeUseExperimentalFeatures = viewModel::updateUseExperimentalFeatures,
     )
 }
 
@@ -57,6 +58,7 @@ fun SettingsDialog(
     userEditableSettings: UserEditableSettings?,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
     onDismiss: () -> Unit,
+    onChangeUseExperimentalFeatures: (value: Boolean) -> Unit,
     onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
@@ -91,6 +93,7 @@ fun SettingsDialog(
                     onChangeThemeBrand = onChangeThemeBrand,
                     onChangeDynamicColorPreference = onChangeDynamicColorPreference,
                     onChangeDarkThemeConfig = onChangeDarkThemeConfig,
+                    onChangeUseExperimentalFeatures = onChangeUseExperimentalFeatures,
                 )
 
                 Row(
@@ -148,6 +151,7 @@ fun SettingsDialog(
 private fun SettingsPanel(
     settings: UserEditableSettings?,
     supportDynamicColor: Boolean,
+    onChangeUseExperimentalFeatures: (value: Boolean) -> Unit,
     onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
@@ -167,20 +171,19 @@ private fun SettingsPanel(
             )
         }
         if (settings.brand == ThemeBrand.DEFAULT && supportDynamicColor) {
-            SettingsDialogSectionTitle(text = stringResource(R.string.dynamic_color_preference))
-            Column(Modifier.selectableGroup()) {
-                SettingsDialogThemeChooserRow(
-                    text = stringResource(R.string.dynamic_color_yes),
-                    selected = settings.useDynamicColor,
-                    onClick = { onChangeDynamicColorPreference(true) },
-                )
-                SettingsDialogThemeChooserRow(
-                    text = stringResource(R.string.dynamic_color_no),
-                    selected = !settings.useDynamicColor,
-                    onClick = { onChangeDynamicColorPreference(false) },
-                )
-            }
+            BooleanSettings(
+                title = stringResource(R.string.dynamic_color_preference),
+                value = settings.useDynamicColor,
+                onValueChange = { value -> onChangeDynamicColorPreference(value) }
+            )
         }
+
+        BooleanSettings(
+            title = stringResource(R.string.use_experimental_features),
+            value = settings.useExperimentalFeatures,
+            onValueChange = { value -> onChangeUseExperimentalFeatures(value) }
+        )
+
         SettingsDialogSectionTitle(text = stringResource(R.string.dark_mode_preference))
         Column(Modifier.selectableGroup()) {
             SettingsDialogThemeChooserRow(
@@ -199,6 +202,27 @@ private fun SettingsPanel(
                 onClick = { onChangeDarkThemeConfig(DarkThemeConfig.DARK) },
             )
         }
+    }
+}
+
+@Composable
+private fun BooleanSettings(
+    title: String,
+    value: Boolean,
+    onValueChange: (Boolean) -> Unit,
+) {
+    SettingsDialogSectionTitle(text = title)
+    Column(Modifier.selectableGroup()) {
+        SettingsDialogThemeChooserRow(
+            text = stringResource(R.string.settings_boolean_true),
+            selected = value,
+            onClick = { onValueChange(true) },
+        )
+        SettingsDialogThemeChooserRow(
+            text = stringResource(R.string.settings_boolean_false),
+            selected = !value,
+            onClick = { onValueChange(false) },
+        )
     }
 }
 
@@ -283,4 +307,3 @@ private fun TextLink(text: String, url: String) {
             },
     )
 }
-

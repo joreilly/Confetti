@@ -27,7 +27,7 @@ class SpeakerDetailsViewModel(
 
     val speaker: StateFlow<UiState> = flow {
         // FixMe: add .speaker(id)
-        val response = repository.conferenceData(conference = conference, FetchPolicy.CacheOnly)
+        val response = repository.conferenceData(conference = conference, FetchPolicy.CacheFirst)
         val details = response.data?.speakers?.nodes?.map { it.speakerDetails }
             ?.firstOrNull { it.id == speakerId }
 

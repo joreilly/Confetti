@@ -13,8 +13,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.wear.WearAppViewModel
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutViewModel
+import dev.johnoreilly.confetti.wear.bookmarks.BookmarksViewModel
 import dev.johnoreilly.confetti.wear.conferences.ConferencesViewModel
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.home.HomeViewModel
@@ -35,6 +38,7 @@ val appModule = module {
     viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)
     viewModelOf(::ConferencesViewModel)
+    viewModelOf(::BookmarksViewModel)
     viewModelOf(::SessionsViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::SettingsViewModel)
@@ -43,6 +47,7 @@ val appModule = module {
     viewModelOf(::GoogleSignInViewModel)
     viewModelOf(::WearAppViewModel)
     singleOf(::PhoneSettingsSync)
+    singleOf(::DefaultAuthentication) { bind<Authentication>() }
     single {
         GoogleSignIn.getClient(
             get<Context>(), GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

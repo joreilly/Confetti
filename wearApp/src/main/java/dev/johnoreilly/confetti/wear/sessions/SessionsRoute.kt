@@ -43,7 +43,7 @@ fun SessionsRoute(
         }
     }
 
-    SessionListView(
+    SessionsScreen(
         uiState = uiState,
         sessionSelected = {
             navigateToSession(it)
@@ -53,7 +53,7 @@ fun SessionsRoute(
 }
 
 @Composable
-fun SessionListView(
+fun SessionsScreen(
     uiState: SessionsUiState,
     sessionSelected: (SessionDetailsKey) -> Unit,
     columnState: ScalingLazyColumnState
@@ -106,7 +106,7 @@ fun SessionListViewPreview() {
     val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
 
     ConfettiTheme {
-        SessionListView(
+        SessionsScreen(
             uiState = SessionsUiState.Success(
                 ConferenceDayKey("wearconf", sessionTime.date),
                 sessionsByTime = listOf(

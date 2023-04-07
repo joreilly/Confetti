@@ -22,19 +22,28 @@ class SettingsViewModel(
 
     private val settings = appSettings.settings
 
+    private val wearStatusFlow =
+        combine(
+            wearSettingsSync.wearNodes,
+            wearSettingsSync.settingsFlow,
+        ) { wearNodes, wearSettings ->
+            buildWearStatus(wearNodes, wearSettings)
+        }
+
     val userEditableSettings: StateFlow<UserEditableSettings?> =
         combine(
             settings.getStringFlow(brandKey, ThemeBrand.DEFAULT.toString()),
             settings.getStringFlow(darkThemeConfigKey, DarkThemeConfig.FOLLOW_SYSTEM.toString()),
             settings.getBooleanFlow(useDynamicColorKey, false),
-            wearSettingsSync.wearNodes,
-            wearSettingsSync.settingsFlow
-        ) { themeBrand, darkThemeConfig, useDynamicColor, wearNodes, wearSettings ->
+            appSettings.experimentalFeaturesEnabledFlow,
+            wearStatusFlow,
+            ) { themeBrand, darkThemeConfig, useDynamicColor, useExperimentalFeatures, wearStatus ->
             UserEditableSettings(
                 brand = ThemeBrand.valueOf(themeBrand),
+                useExperimentalFeatures = useExperimentalFeatures,
                 useDynamicColor = useDynamicColor,
                 darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfig),
-                wearStatus = buildWearStatus(wearNodes, wearSettings)
+                wearStatus = wearStatus,
             )
         }.stateIn(
             scope = viewModelScope,
@@ -55,7 +64,6 @@ class SettingsViewModel(
         }
     }
 
-
     fun updateThemeBrand(themeBrand: ThemeBrand) {
         viewModelScope.launch {
             settings.putString(brandKey, themeBrand.toString())
@@ -71,6 +79,12 @@ class SettingsViewModel(
     fun updateDynamicColorPreference(useDynamicColor: Boolean) {
         viewModelScope.launch {
             settings.putBoolean(useDynamicColorKey, useDynamicColor)
+        }
+    }
+
+    fun updateUseExperimentalFeatures(value: Boolean) {
+        viewModelScope.launch {
+            appSettings.setExperimentalFeaturesEnabled(value)
         }
     }
 
@@ -113,6 +127,7 @@ data class UserEditableSettings(
     val brand: ThemeBrand,
     val useDynamicColor: Boolean,
     val darkThemeConfig: DarkThemeConfig,
+    val useExperimentalFeatures: Boolean,
     val wearStatus: WearStatus
 )
 
@@ -131,5 +146,3 @@ enum class ThemeBrand {
 enum class DarkThemeConfig {
     FOLLOW_SYSTEM, LIGHT, DARK
 }
-
-

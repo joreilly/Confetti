@@ -39,7 +39,8 @@ fun NavGraphBuilder.conferenceHomeGraph(
     navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (ConferenceDayKey) -> Unit,
     navigateToSettings: () -> Unit,
-    navigateToConferenceList: () -> Unit
+    navigateToConferenceList: () -> Unit,
+    navigateToBookmarks: (String) -> Unit
 ) {
     scrollable(
         route = ConferenceHomeDestination.route,
@@ -61,7 +62,8 @@ fun NavGraphBuilder.conferenceHomeGraph(
             navigateToDay = navigateToDay,
             navigateToSettings = navigateToSettings,
             columnState = it.columnState,
-            navigateToConferenceList = navigateToConferenceList
+            navigateToConferenceList = navigateToConferenceList,
+            navigateToBookmarks = navigateToBookmarks
         )
     }
 }

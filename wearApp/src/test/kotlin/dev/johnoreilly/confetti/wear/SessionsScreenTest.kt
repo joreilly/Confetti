@@ -10,7 +10,7 @@ import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
-import dev.johnoreilly.confetti.wear.sessions.SessionListView
+import dev.johnoreilly.confetti.wear.sessions.SessionsScreen
 import dev.johnoreilly.confetti.wear.sessions.SessionsUiState
 import org.junit.Test
 
@@ -26,7 +26,7 @@ class SessionsScreenTest : ScreenshotTest() {
             rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         }
     ) { columnState ->
-        SessionListView(
+        SessionsScreen(
             uiState = SessionsUiState.Success(
                 ConferenceDayKey("wearconf", sessionTime.date),
                 sessionsByTime = listOf(
@@ -51,7 +51,7 @@ class SessionsScreenTest : ScreenshotTest() {
                 rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
             }
         ) { columnState ->
-            SessionListView(
+            SessionsScreen(
                 uiState = SessionsUiState.Success(
                     ConferenceDayKey("wearconf", sessionTime.date),
                     sessionsByTime = listOf(

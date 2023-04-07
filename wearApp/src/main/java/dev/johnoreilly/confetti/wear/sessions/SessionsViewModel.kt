@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.datetime.TimeZone
 import java.util.TreeMap
 
 class SessionsViewModel(
@@ -25,7 +24,7 @@ class SessionsViewModel(
 
     val uiState: StateFlow<SessionsUiState> = flow {
         // TODO query for a single day
-        val resultsFlow = repository.sessions(conferenceDay.conference)
+        val resultsFlow = repository.sessionsFlow(conferenceDay.conference)
 
         val sessions = resultsFlow.map {
             if (it.data != null) {

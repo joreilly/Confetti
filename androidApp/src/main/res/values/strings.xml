@@ -23,5 +23,8 @@
     <string name="dynamic_color_yes">Yes</string>
     <string name="dynamic_color_no">No</string>
     <string name="dismiss_dialog_button_text">OK</string>
+    <string name="use_experimental_features">Use Experimental Features</string>
+    <string name="settings_boolean_true">Yes</string>
+    <string name="settings_boolean_false">No</string>
 
 </resources>

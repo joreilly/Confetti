@@ -9,10 +9,15 @@ import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.cache.normalized.optimisticUpdates
 import com.apollographql.apollo3.cache.normalized.watch
+import com.apollographql.apollo3.exception.DefaultApolloException
+import com.benasher44.uuid.uuid4
 import dev.johnoreilly.confetti.type.buildBookmarks
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -59,8 +64,18 @@ class ConfettiRepository : KoinComponent {
         return response.data != null
     }
 
-    suspend fun addBookmark(conference: String, uid: String?, tokenProvider: TokenProvider?, sessionId: String): Boolean {
-        return modifyBookmarks(conference, uid, tokenProvider, AddBookmarkMutation(sessionId)) { sessionIds, id ->
+    suspend fun addBookmark(
+        conference: String,
+        uid: String?,
+        tokenProvider: TokenProvider?,
+        sessionId: String
+    ): Boolean {
+        return modifyBookmarks(
+            conference,
+            uid,
+            tokenProvider,
+            AddBookmarkMutation(sessionId)
+        ) { sessionIds, id ->
             AddBookmarkMutation.Data {
                 addBookmark = buildBookmarks {
                     this.id = id
@@ -70,8 +85,18 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    suspend fun removeBookmark(conference: String, uid: String?, tokenProvider: TokenProvider?, sessionId: String): Boolean {
-        return modifyBookmarks(conference, uid, tokenProvider, RemoveBookmarkMutation(sessionId)) { sessionIds, id ->
+    suspend fun removeBookmark(
+        conference: String,
+        uid: String?,
+        tokenProvider: TokenProvider?,
+        sessionId: String
+    ): Boolean {
+        return modifyBookmarks(
+            conference,
+            uid,
+            tokenProvider,
+            RemoveBookmarkMutation(sessionId)
+        ) { sessionIds, id ->
             RemoveBookmarkMutation.Data {
                 removeBookmark = buildBookmarks {
                     this.id = id
@@ -81,22 +106,42 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
+    /**
+     * ignores all errors unless the Flow terminates without an emission in which case it will emit an error
+     */
+    private  fun <D: Operation.Data>  Flow<ApolloResponse<D>>.itemsOrError(operation: Operation<D>): Flow<ApolloResponse<D>> {
+        var hasValidResponse = false
+        return this.onEach {
+            if (it.data != null) {
+                hasValidResponse = true
+            }
+        }.filter {
+            it.data != null
+        }.onCompletion {
+            if (!hasValidResponse) {
+                emit(ApolloResponse.Builder(operation, uuid4(), DefaultApolloException("The flow terminated without a valid item")).build())
+            }
+        }
+    }
+
     suspend fun bookmarks(
         conference: String,
         uid: String?,
         tokenProvider: TokenProvider?,
         fetchPolicy: FetchPolicy
-    ): ApolloResponse<GetBookmarksQuery.Data> =
-        apolloClientCache.getClient(conference, uid).query(GetBookmarksQuery())
+    ): Flow<ApolloResponse<GetBookmarksQuery.Data>> {
+        return apolloClientCache.getClient(conference, uid).query(GetBookmarksQuery())
             .tokenProvider(tokenProvider)
             .fetchPolicy(fetchPolicy)
-            .execute()
+            .toFlow()
+            .itemsOrError(GetBookmarksQuery())
+    }
 
     fun watchBookmarks(
         conference: String,
         uid: String?,
         tokenProvider: TokenProvider?,
-        initialData: GetBookmarksQuery.Data?
+        initialData: GetBookmarksQuery.Data?,
     ): Flow<ApolloResponse<GetBookmarksQuery.Data>> = flow {
         val values = apolloClientCache.getClient(conference, uid).query(GetBookmarksQuery())
             .tokenProvider(tokenProvider)
@@ -150,11 +195,15 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    suspend fun sessionDetails(
+    fun sessionDetails(
         conference: String,
-        sessionId: String
-    ): ApolloResponse<GetSessionQuery.Data> =
-        apolloClientCache.getClient(conference).query(GetSessionQuery(sessionId)).execute()
+        sessionId: String,
+        fetchPolicy: FetchPolicy = FetchPolicy.CacheAndNetwork
+    ): Flow<ApolloResponse<GetSessionQuery.Data>> =
+        apolloClientCache.getClient(conference)
+            .query(GetSessionQuery(sessionId))
+            .fetchPolicy(fetchPolicy)
+            .toFlow()
 
     suspend fun conferenceData(
         conference: String,
@@ -164,10 +213,19 @@ class ConfettiRepository : KoinComponent {
             .fetchPolicy(fetchPolicy).execute()
 
 
-    suspend fun sessions(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
+    fun sessionsFlow(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
 
-
+    suspend fun sessions(
+        conference: String,
+        uid: String?,
+        tokenProvider: TokenProvider?,
+        fetchPolicy: FetchPolicy
+    ): ApolloResponse<GetSessionsQuery.Data> =
+        apolloClientCache.getClient(conference, uid).query(GetSessionsQuery())
+            .tokenProvider(tokenProvider)
+            .fetchPolicy(fetchPolicy)
+            .execute()
 
     suspend fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
         return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())

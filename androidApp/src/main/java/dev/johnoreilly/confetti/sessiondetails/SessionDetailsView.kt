@@ -33,6 +33,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.SessionDetailsViewModel
@@ -118,15 +120,15 @@ fun SessionDetailView(
                         modifier = Modifier.padding(horizontal = horizontalPadding),
                         text = session.startsAt.toTimeString(session.endsAt),
                         color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                     )
 
                     session.room?.name?.let { roomName ->
                         Text(
-                            modifier = Modifier.padding(horizontal = horizontalPadding),
+                            modifier = Modifier.padding(horizontal = horizontalPadding, vertical = 2.dp),
                             text = roomName,
                             color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.labelLarge
+                            style = MaterialTheme.typography.labelLarge.copy(fontStyle = FontStyle.Italic)
                         )
                     }
 

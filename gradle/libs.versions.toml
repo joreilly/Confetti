@@ -127,7 +127,7 @@ plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serializat
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.20-1.0.10" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.5" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.3" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.4" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -142,7 +142,7 @@ test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-alpha02"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1"
 wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha07"
 wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha07"
-wire-runtime = "com.squareup.wire:wire-runtime:4.5.3"
+wire-runtime = "com.squareup.wire:wire-runtime:4.5.4"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 napier = "io.github.aakira:napier:2.6.1"
 

@@ -49,7 +49,12 @@ class DefaultUser(
     private val user_: FirebaseUser?
 ): User {
     override suspend fun token(forceRefresh: Boolean): String? {
-        return user_?.getIdToken(forceRefresh)
+        return try {
+            user_?.getIdToken(forceRefresh)
+        } catch (e: Exception) {
+            // TODO log
+            null
+        }
     }
 }
 

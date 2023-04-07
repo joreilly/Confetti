@@ -9,13 +9,24 @@ dependencyResolutionManagement {
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
-            // For Apollo Kotlin snapshots
-            maven {
-                url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            }
             mavenCentral()
             google()
             gradlePluginPortal()
+            exclusiveContent {
+                forRepository {
+                    maven {
+                        url = uri("https://repo.repsy.io/mvn/mbonnin/default")
+                    }
+                }
+                filter {
+                    // Use the snapshots repository for Apollo 4.0.0-dev.*, but not for 3.x, which is a dependency of 4.0.0
+                    includeVersionByRegex(
+                        "com\\.apollographql\\.apollo3",
+                        ".+",
+                        "4\\.0\\.0-dev.*"
+                    )
+                }
+            }
         }
     }
 }

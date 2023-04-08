@@ -17,7 +17,7 @@ object StartupDestination : ConfettiNavigationDestination {
 fun NavGraphBuilder.initialLoadingGraph(
     navigateToConferences: () -> Unit,
     navigateToHome: (String) -> Unit,
-    appUiState: AppUiState?
+    appUiState: AppUiState
 ) {
     composable(
         route = StartupDestination.route,

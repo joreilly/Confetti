@@ -10,9 +10,9 @@ import dev.johnoreilly.confetti.wear.AppUiState
 fun InitialLoadingRoute(
     navigateToConferences: () -> Unit,
     navigateToHome: (String) -> Unit,
-    appUiState: AppUiState?
+    appUiState: AppUiState
 ) {
-    when (appUiState?.defaultConference) {
+    when (appUiState.defaultConference) {
         null -> {
             // TODO splash?
         }

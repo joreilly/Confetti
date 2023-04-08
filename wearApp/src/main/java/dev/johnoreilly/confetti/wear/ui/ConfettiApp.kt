@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -48,7 +49,7 @@ fun ConfettiApp(
 
     val appState by viewModel.appState.collectAsStateWithLifecycle()
 
-    ConfettiTheme(appState?.settings?.theme) {
+    ConfettiTheme(appState.settings.theme) {
         WearNavScaffold(
             startDestination = StartupDestination.route,
             navController = navController

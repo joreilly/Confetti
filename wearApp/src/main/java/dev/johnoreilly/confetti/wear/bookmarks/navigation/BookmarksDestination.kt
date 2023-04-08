@@ -9,7 +9,8 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.compose.navscaffold.scrollable
+import androidx.wear.compose.navigation.composable
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksRoute
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
@@ -37,7 +38,7 @@ object BookmarksDestination : ConfettiNavigationDestination {
 fun NavGraphBuilder.bookmarksGraph(
     navigateToSession: (SessionDetailsKey) -> Unit
 ) {
-    scrollable(
+    composable(
         route = BookmarksDestination.route,
         arguments = listOf(
             navArgument(BookmarksDestination.conferenceArg) { type = NavType.StringType }
@@ -51,7 +52,7 @@ fun NavGraphBuilder.bookmarksGraph(
     ) {
         BookmarksRoute(
             navigateToSession = navigateToSession,
-            columnState = it.columnState
+            columnState = ScalingLazyColumnDefaults.belowTimeText().create()
         )
     }
 }

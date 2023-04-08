@@ -9,7 +9,8 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.compose.navscaffold.scrollable
+import androidx.wear.compose.navigation.composable
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.home.HomeRoute
@@ -39,10 +40,9 @@ fun NavGraphBuilder.conferenceHomeGraph(
     navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (ConferenceDayKey) -> Unit,
     navigateToSettings: () -> Unit,
-    navigateToConferenceList: () -> Unit,
     navigateToBookmarks: (String) -> Unit
 ) {
-    scrollable(
+    composable(
         route = ConferenceHomeDestination.route,
         arguments = listOf(
             navArgument(ConferenceHomeDestination.conferenceArg) {
@@ -61,8 +61,7 @@ fun NavGraphBuilder.conferenceHomeGraph(
             navigateToSession = navigateToSession,
             navigateToDay = navigateToDay,
             navigateToSettings = navigateToSettings,
-            columnState = it.columnState,
-            navigateToConferenceList = navigateToConferenceList,
+            columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToBookmarks = navigateToBookmarks
         )
     }

@@ -28,6 +28,7 @@ import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewModel
+import dev.johnoreilly.confetti.wear.startup.SplashViewModel
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
@@ -41,6 +42,7 @@ val appModule = module {
     viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)
     viewModelOf(::ConferencesViewModel)
+    viewModelOf(::SplashViewModel)
     viewModelOf(::BookmarksViewModel)
     viewModelOf(::SessionsViewModel)
     viewModelOf(::HomeViewModel)

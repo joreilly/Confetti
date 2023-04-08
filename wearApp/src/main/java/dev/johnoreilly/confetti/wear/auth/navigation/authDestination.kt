@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInScreen
-import com.google.android.horologist.compose.navscaffold.composable
+import androidx.wear.compose.navigation.composable
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import org.koin.androidx.compose.getViewModel

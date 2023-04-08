@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import com.google.android.horologist.compose.navscaffold.WearNavScaffold
 import dev.johnoreilly.confetti.wear.WearAppViewModel
 import dev.johnoreilly.confetti.wear.auth.navigation.SignInDestination
@@ -49,24 +50,35 @@ fun ConfettiApp(
     val appState by viewModel.appState.collectAsStateWithLifecycle()
 
     ConfettiTheme(appState.settings.theme) {
-        WearNavScaffold(
+        SwipeDismissableNavHost(
             startDestination = StartupDestination.route,
             navController = navController
         ) {
             initialLoadingGraph(
+                navigateToSession = {
+                    onNavigateToDestination(
+                        SessionDetailsDestination,
+                        SessionDetailsDestination.createNavigationRoute(it)
+                    )
+                },
+                navigateToSettings = {
+                    onNavigateToDestination(SettingsDestination)
+                },
+                navigateToDay = {
+                    onNavigateToDestination(
+                        SessionsDestination,
+                        SessionsDestination.createNavigationRoute(it)
+                    )
+                },
+                navigateToBookmarks = {
+                    onNavigateToDestination(
+                        BookmarksDestination,
+                        BookmarksDestination.createNavigationRoute(it)
+                    )
+                },
                 navigateToConferences = {
-                    onNavigateToDestination(
-                        ConferencesDestination,
-                        ConferencesDestination.route
-                    )
-                },
-                navigateToHome = {
-                    onNavigateToDestination(
-                        ConferenceHomeDestination,
-                        ConferenceHomeDestination.createNavigationRoute(it)
-                    )
-                },
-                appUiState = appState
+                    onNavigateToDestination(ConferencesDestination)
+                }
             )
 
             conferencesGraph(
@@ -92,12 +104,6 @@ fun ConfettiApp(
                     onNavigateToDestination(
                         SessionsDestination,
                         SessionsDestination.createNavigationRoute(it)
-                    )
-                },
-                navigateToConferenceList = {
-                    onNavigateToDestination(
-                        ConferencesDestination,
-                        ConferencesDestination.route
                     )
                 },
                 navigateToBookmarks = {

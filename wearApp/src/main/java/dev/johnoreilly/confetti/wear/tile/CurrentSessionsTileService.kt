@@ -45,7 +45,7 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
         renderer.colors.value = theme?.toMaterialThemeColors() ?: Colors()
 
-        val conference = conferenceFlow.first()
+        val conference = phoneSettingsSync.conferenceFlow.first()
 
         if (conference.isBlank()) {
             return ConfettiTileData.NoConference
@@ -102,13 +102,6 @@ class CurrentSessionsTileService : SuspendingTileService() {
         super.onTileLeaveEvent(requestParams)
 
         analyticsLogger.logEvent(TileAnalyticsEvent(TileAnalyticsEvent.Type.Leave, getConference()))
-    }
-
-    val conferenceFlow = combine(
-        phoneSettingsSync.settingsFlow,
-        repository.getConferenceFlow()
-    ) { phoneSettings, wearConference ->
-        phoneSettings.conference.ifBlank { wearConference }
     }
 
     private fun getConference(): String = runBlocking {

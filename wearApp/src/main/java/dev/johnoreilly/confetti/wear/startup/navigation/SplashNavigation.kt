@@ -3,9 +3,11 @@
 package dev.johnoreilly.confetti.wear.startup.navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.wear.compose.navigation.composable
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.compose.navscaffold.composable
-import dev.johnoreilly.confetti.wear.AppUiState
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.startup.InitialLoadingRoute
 
@@ -15,17 +17,22 @@ object StartupDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.initialLoadingGraph(
-    navigateToConferences: () -> Unit,
-    navigateToHome: (String) -> Unit,
-    appUiState: AppUiState
+    navigateToSession: (SessionDetailsKey) -> Unit,
+    navigateToDay: (ConferenceDayKey) -> Unit,
+    navigateToSettings: () -> Unit,
+    navigateToBookmarks: (String) -> Unit,
+    navigateToConferences: () -> Unit
 ) {
     composable(
         route = StartupDestination.route,
     ) {
         InitialLoadingRoute(
-            navigateToConferences = navigateToConferences,
-            navigateToHome = navigateToHome,
-            appUiState = appUiState
+            columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            navigateToSession = navigateToSession,
+            navigateToDay = navigateToDay,
+            navigateToSettings = navigateToSettings,
+            navigateToBookmarks = navigateToBookmarks,
+            navigateToConferences = navigateToConferences
         )
     }
 }

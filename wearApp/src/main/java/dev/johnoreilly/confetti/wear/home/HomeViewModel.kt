@@ -28,40 +28,56 @@ class HomeViewModel(
     private val conference: String =
         ConferenceHomeDestination.fromNavArgs(savedStateHandle)
 
-    val uiState: StateFlow<HomeUiState> = conferenceDataFlow(conference)
+    val uiState: StateFlow<HomeUiState> = conferenceDataFlow(conference, repository)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), HomeUiState.Loading)
 
-    val bookmarksUiState: StateFlow<BookmarksUiState> = authentication.currentUser.flatMapLatest { user ->
-        if (user != null) {
-            fetchBookmarkedSessions(repository, conference, user, FetchPolicy.CacheFirst)
-        } else {
-            flowOf(BookmarksUiState.NotLoggedIn)
-        }
-    }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), BookmarksUiState.Loading)
+    val bookmarksUiState: StateFlow<BookmarksUiState> =
+        bookmarksUiStateFlow(conference, authentication, repository)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), BookmarksUiState.Loading)
 
-    private fun conferenceDataFlow(conference: String) =
-        repository.conferenceHomeData(conference).toFlow().map {
-            val conferenceData = it.data
-
-            if (conferenceData != null) {
-                toUiState(conferenceData, conference)
-            } else if (it.hasErrors()) {
-                HomeUiState.Error(it.errors.toString())
-            } else {
-                HomeUiState.Loading
+    companion object {
+        fun bookmarksUiStateFlow(
+            conference: String,
+            authentication: Authentication,
+            repository: ConfettiRepository
+        ) =
+            authentication.currentUser.flatMapLatest { user ->
+                if (conference.isEmpty()) {
+                    flowOf(BookmarksUiState.NotLoggedIn)
+                } else if (user != null) {
+                    fetchBookmarkedSessions(repository, conference, user, FetchPolicy.CacheFirst)
+                } else {
+                    flowOf(BookmarksUiState.NotLoggedIn)
+                }
             }
-        }
 
-    private fun toUiState(
-        conferenceData: GetConferenceDataQuery.Data,
-        actualConference: String
-    ): HomeUiState.Success {
-        return HomeUiState.Success(
-            actualConference,
-            conferenceData.config.name,
-            conferenceData.config.days,
-        )
+        fun conferenceDataFlow(conference: String, repository: ConfettiRepository) =
+            if (conference.isNotEmpty()) {
+                repository.conferenceHomeData(conference).toFlow().map {
+                    val conferenceData = it.data
+
+                    if (conferenceData != null) {
+                        toUiState(conferenceData, conference)
+                    } else if (it.hasErrors()) {
+                        HomeUiState.Error(it.errors.toString())
+                    } else {
+                        HomeUiState.Loading
+                    }
+                }
+            } else {
+                flowOf(HomeUiState.NoConference)
+            }
+
+        fun toUiState(
+            conferenceData: GetConferenceDataQuery.Data,
+            actualConference: String
+        ): HomeUiState.Success {
+            return HomeUiState.Success(
+                actualConference,
+                conferenceData.config.name,
+                conferenceData.config.days,
+            )
+        }
     }
 }
 

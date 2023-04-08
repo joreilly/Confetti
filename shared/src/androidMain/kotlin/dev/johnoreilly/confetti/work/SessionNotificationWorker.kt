@@ -21,8 +21,16 @@ class SessionNotificationWorker(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        notifier.sendNotification()
-        return Result.success()
+        if (runAttemptCount > 3) {
+            return Result.failure()
+        }
+
+        return try {
+            notifier.sendNotification()
+            Result.success()
+        } catch (e: Throwable) {
+            Result.retry()
+        }
     }
 
     companion object {

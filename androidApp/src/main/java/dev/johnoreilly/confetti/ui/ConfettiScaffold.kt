@@ -35,7 +35,7 @@ import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.account.WearUiState
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
-import dev.johnoreilly.confetti.settings.SettingsDialog
+import dev.johnoreilly.confetti.settings.navigation.SettingsKey
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import org.koin.compose.koinInject
 
@@ -116,12 +116,6 @@ fun ConfettiScaffold(
     val titleFontSize =
         if (appState.isExpandedScreen) 40.sp else MaterialTheme.typography.titleLarge.fontSize
 
-    if (appState.shouldShowSettingsDialog) {
-        SettingsDialog(
-            onDismiss = { appState.setShowSettingsDialog(false) },
-        )
-    }
-
     Row(modifier = modifier) {
         // The default behaviour is to keep top bar always visible.
         val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -160,7 +154,7 @@ fun ConfettiScaffold(
                             onSwitchConference = onSwitchConference,
                             onSignIn = onSignIn,
                             onSignOut = onSignOut,
-                            onShowSettings = { appState.setShowSettingsDialog(true) },
+                            onShowSettings = { appState.navigate(SettingsKey.route) },
                             user = user,
                             installOnWear = installOnWear,
                             wearSettingsUiState = wearSettingsUiState,

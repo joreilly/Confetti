@@ -6,18 +6,22 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.horologist.data.apphelper.AppHelperNodeStatus
+import com.google.firebase.ktx.Firebase
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.ui.colorScheme
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class SettingsViewModel(
     val appSettings: AppSettings,
     val wearSettingsSync: WearSettingsSync,
-    val applicationContext: Context
+    val applicationContext: Context,
+    val authentication: Authentication,
 ) : ViewModel() {
 
     private val settings = appSettings.settings
@@ -29,6 +33,24 @@ class SettingsViewModel(
         ) { wearNodes, wearSettings ->
             buildWearStatus(wearNodes, wearSettings)
         }
+
+    class DeveloperSettings(
+        val token: String?
+    )
+
+    val developerSettings: StateFlow<DeveloperSettings?> = appSettings.developerModeFlow().flatMapLatest {
+        if (!it) {
+            flowOf(null)
+        } else {
+            authentication.currentUser.map {
+                DeveloperSettings(token = it?.token(false))
+            }
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = null,
+    )
 
     val userEditableSettings: StateFlow<UserEditableSettings?> =
         combine(
@@ -110,6 +132,13 @@ class SettingsViewModel(
     fun installOnWatch(nodeId: String) {
         viewModelScope.launch {
             wearSettingsSync.installOnWearNode(nodeId)
+        }
+    }
+
+
+    fun enableDeveloperMode() {
+        viewModelScope.launch {
+            appSettings.setDeveloperMode(true)
         }
     }
 

@@ -18,6 +18,7 @@ import dev.johnoreilly.confetti.initial_loading.navigation.initialLoadingGraph
 import dev.johnoreilly.confetti.search.navigation.searchGraph
 import dev.johnoreilly.confetti.sessiondetails.navigation.sessionDetailsGraph
 import dev.johnoreilly.confetti.sessions.navigation.sessionsGraph
+import dev.johnoreilly.confetti.settings.navigation.settingsGraph
 import dev.johnoreilly.confetti.speakerdetails.navigation.speakerDetailsGraph
 import dev.johnoreilly.confetti.speakers.navigation.speakersGraph
 import org.koin.androidx.compose.get
@@ -99,6 +100,7 @@ fun ConfettiApp(
             onSignOut = ::onSignOut,
             onSwitchConferenceSelected = ::onSwitchConference
         )
+        settingsGraph()
     }
 
     val analyticsLogger: AnalyticsLogger = get()

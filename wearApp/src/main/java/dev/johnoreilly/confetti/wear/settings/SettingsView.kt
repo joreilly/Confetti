@@ -5,8 +5,8 @@ package dev.johnoreilly.confetti.wear.settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -28,6 +28,12 @@ fun SettingsRoute(
         navigateToGoogleSignOut = navigateToGoogleSignOut,
         onRefreshClick = {
             viewModel.refresh()
+        },
+        onEnableDeveloperMode = {
+            viewModel.enableDeveloperMode()
+        },
+        onRefreshToken = {
+            viewModel.refreshToken()
         },
         columnState = columnState,
     )

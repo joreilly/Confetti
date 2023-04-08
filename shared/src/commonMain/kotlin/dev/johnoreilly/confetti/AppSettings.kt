@@ -48,15 +48,18 @@ class AppSettings(val settings: FlowSettings) {
     private fun getEnabledLanguagesSetFromString(settingsString: String?) =
         settingsString?.split(",")?.toSet() ?: emptySet()
 
-    suspend fun updateGuestMode(guestMode: Boolean) {
-        settings.putBoolean(GUEST_MODE, guestMode)
+    fun developerModeFlow() =
+        settings.getBooleanFlow(DEVELOPER_MODE, false)
+
+    suspend fun setDeveloperMode(b: Boolean) {
+        settings.putBoolean(DEVELOPER_MODE, b)
     }
 
     companion object {
+        const val DEVELOPER_MODE = "developer_mode"
         const val EXPERIMENTAL_FEATURES_ENABLED = "experimental_features_enabled"
         const val ENABLED_LANGUAGES_SETTING = "enabled_languages_2"
         const val CONFERENCE_SETTING = "conference"
-        const val GUEST_MODE = "guest_mode"
         const val CONFERENCE_NOT_SET = ""
     }
 }

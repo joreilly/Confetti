@@ -9,12 +9,19 @@ import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.apollographql.apollo3.exception.ApolloException
+import com.apollographql.apollo3.exception.ApolloHttpException
+import com.apollographql.apollo3.exception.DefaultApolloException
 import com.apollographql.apollo3.interceptor.ApolloInterceptor
 import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
 import dev.johnoreilly.confetti.di.getDatabaseName
 import kotlinx.atomicfu.locks.reentrantLock
 import kotlinx.atomicfu.locks.withLock
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -39,21 +46,40 @@ class ApolloClientCache : KoinComponent {
         override fun <D : Operation.Data> intercept(
             request: ApolloRequest<D>,
             chain: ApolloInterceptorChain
-        ): Flow<ApolloResponse<D>> {
+        ): Flow<ApolloResponse<D>> = flow {
             val tokenProvider = request.executionContext[TokenProviderContext]?.tokenProvider
             if (tokenProvider == null) {
-                return chain.proceed(request)
+                emitAll(chain.proceed(request))
+                return@flow
             }
-            val token = runBlocking {
-                tokenProvider.token(false)
-            }
+
+            val token =  tokenProvider.token(false)
+
             if (token == null) {
-                return chain.proceed(request)
+                emitAll(chain.proceed(request))
+                return@flow
             }
-            val newRequest =
-                request.newBuilder().addHttpHeader("Authorization", "Bearer $token").build()
-            return chain.proceed(newRequest)
+            val newRequest = request.newBuilder().addHttpHeader("Authorization", "Bearer $token").build()
+
+            val flow = chain.proceed(newRequest).onEach {
+                val exception = it.exception
+                if (exception is ApolloHttpException && exception.statusCode == 401) {
+                    throw exception
+                }
+            }.catch {
+                val token2 =  tokenProvider.token(true)
+                if (token2 != null) {
+                    val newRequest2 = request.newBuilder().addHttpHeader("Authorization", "Bearer $token2").build()
+                    emitAll(chain.proceed(newRequest2))
+                } else {
+                    emit(ApolloResponse.Builder(request.operation, request.requestUuid, it as ApolloException).build())
+                }
+            }
+
+            emitAll(flow)
         }
+
+
     }
 
     fun getClient(conference: String, uid: String?): ApolloClient {

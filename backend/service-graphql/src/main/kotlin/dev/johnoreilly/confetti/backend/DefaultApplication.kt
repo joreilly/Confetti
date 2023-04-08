@@ -24,6 +24,7 @@ import com.expediagroup.graphql.server.types.GraphQLServerRequest
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.MapType
 import com.fasterxml.jackson.databind.type.TypeFactory
+import com.google.firebase.auth.FirebaseAuthException
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootMutation
@@ -43,6 +44,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -301,49 +303,52 @@ class DefaultApplication {
         val isNotWebSocketRequest = headers { isWebSocketHeaders(it) }.not()
 
         (isEndpointRequest and isNotWebSocketRequest).invoke { serverRequest ->
-            var graphQLResponse = graphQLServer.execute(serverRequest)
-            if (graphQLResponse != null) {
-
-                if (graphQLResponse is GraphQLResponse<*>) {
-                    val tracing = graphQLResponse.extensions?.get("tracing")
-                    if (tracing != null) {
-                        if (!channel.trySend(tracing).isSuccess) {
-                            println("Cannot send trace: buffer full")
+            try {
+                var graphQLResponse = graphQLServer.execute(serverRequest)
+                if (graphQLResponse != null) {
+                    if (graphQLResponse is GraphQLResponse<*>) {
+                        val tracing = graphQLResponse.extensions?.get("tracing")
+                        if (tracing != null) {
+                            if (!channel.trySend(tracing).isSuccess) {
+                                println("Cannot send trace: buffer full")
+                            }
                         }
                     }
-                }
-                val headers = mutableMapOf<String, String>()
-                if (graphQLResponse is GraphQLResponse<*>) {
-                    var maxAge = graphQLResponse.extensions?.get("maxAge")?.cast<Int>() ?: 0
-                    if (!graphQLResponse.canBeCached()) {
-                        maxAge = 0
-                    }
-
-                    if (maxAge == 0) {
-                        headers.put("Cache-Control", "no-store")
-                    } else {
-                        headers.put("Cache-Control", "public, max-age=$maxAge")
-                    }
-
-                    var newExtensions: Map<Any, Any?>? =
-                        graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
-                    if (newExtensions?.isEmpty() == true) {
-                        newExtensions = null
-                    }
-                    graphQLResponse = graphQLResponse.copy(
-                        extensions = newExtensions
-                    )
-                }
-
-                ok().json()
-                    .apply {
-                        headers.entries.forEach {
-                            header(it.key, it.value)
+                    val headers = mutableMapOf<String, String>()
+                    if (graphQLResponse is GraphQLResponse<*>) {
+                        var maxAge = graphQLResponse.extensions?.get("maxAge")?.cast<Int>() ?: 0
+                        if (!graphQLResponse.canBeCached()) {
+                            maxAge = 0
                         }
+
+                        if (maxAge == 0) {
+                            headers.put("Cache-Control", "no-store")
+                        } else {
+                            headers.put("Cache-Control", "public, max-age=$maxAge")
+                        }
+
+                        var newExtensions: Map<Any, Any?>? =
+                            graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
+                        if (newExtensions?.isEmpty() == true) {
+                            newExtensions = null
+                        }
+                        graphQLResponse = graphQLResponse.copy(
+                            extensions = newExtensions
+                        )
                     }
-                    .bodyValueAndAwait(graphQLResponse)
-            } else {
-                badRequest().buildAndAwait()
+
+                    ok().json()
+                        .apply {
+                            headers.entries.forEach {
+                                header(it.key, it.value)
+                            }
+                        }
+                        .bodyValueAndAwait(graphQLResponse)
+                } else {
+                    badRequest().buildAndAwait()
+                }
+            } catch (e: FirebaseAuthException) {
+                status(401).bodyValue(e.message).awaitSingle()
             }
         }
     }
@@ -429,9 +434,13 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
             conference = ConferenceId.KotlinConf2023.id
         }
 
-        val uid = request.headers().firstHeader("authorization")
-            ?.substring("bearer_".length)
-            ?.firebaseUid()
+        val uid = try {
+            request.headers().firstHeader("authorization")
+                ?.substring("bearer_".length)
+                ?.firebaseUid()
+        } catch (e: FirebaseAuthException) {
+            throw e
+        }
 
         if (ConferenceId.values().find { it.id == conference } == null && conference != "all") {
             throw BadConferenceException(conference)

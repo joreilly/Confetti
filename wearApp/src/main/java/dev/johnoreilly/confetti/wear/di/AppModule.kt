@@ -47,7 +47,15 @@ val appModule = module {
     viewModelOf(::GoogleSignInViewModel)
     viewModelOf(::WearAppViewModel)
     singleOf(::PhoneSettingsSync)
-    singleOf(::DefaultAuthentication) { bind<Authentication>() }
+    single {
+        try {
+            DefaultAuthentication(get())
+        } catch (ise: IllegalStateException) {
+            // We wont have firebase when running in Robolectric
+            // TODO override just in robolectric
+            Authentication.Disabled
+        }
+    }
     single {
         GoogleSignIn.getClient(
             get<Context>(), GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

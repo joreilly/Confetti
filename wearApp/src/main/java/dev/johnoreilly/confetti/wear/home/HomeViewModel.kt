@@ -12,9 +12,7 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksViewModel.Companion.fetchBookmarkedSessions
 import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
-import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -25,19 +23,15 @@ import kotlinx.coroutines.flow.stateIn
 class HomeViewModel(
     savedStateHandle: SavedStateHandle,
     private val repository: ConfettiRepository,
-    private val authentication: Authentication,
-    private val phoneSettingsSync: PhoneSettingsSync
+    authentication: Authentication,
 ) : ViewModel() {
-
-    private val conferenceParam: String =
+    private val conference: String =
         ConferenceHomeDestination.fromNavArgs(savedStateHandle)
 
-    val uiState: StateFlow<HomeUiState> = conferenceDataFlow()
+    val uiState: StateFlow<HomeUiState> = conferenceDataFlow(conference)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), HomeUiState.Loading)
 
-    val bookmarksUiState: StateFlow<BookmarksUiState> = conferenceIdFlow().flatMapLatest { conference ->
-        // TODO this isn't safe for switching accounts
-        val user = authentication.currentUser.value
+    val bookmarksUiState: StateFlow<BookmarksUiState> = authentication.currentUser.flatMapLatest { user ->
         if (user != null) {
             fetchBookmarkedSessions(repository, conference, user, FetchPolicy.CacheFirst)
         } else {
@@ -46,16 +40,7 @@ class HomeViewModel(
     }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), BookmarksUiState.Loading)
 
-    private fun conferenceDataFlow(): Flow<HomeUiState> =
-        conferenceIdFlow().flatMapLatest { actualConference ->
-            if (actualConference.isEmpty()) {
-                flowOf(HomeUiState.NoneSelected)
-            } else {
-                conferenceDataFlow(actualConference)
-            }
-        }
-
-    private suspend fun conferenceDataFlow(conference: String) =
+    private fun conferenceDataFlow(conference: String) =
         repository.conferenceHomeData(conference).toFlow().map {
             val conferenceData = it.data
 
@@ -77,12 +62,6 @@ class HomeViewModel(
             conferenceData.config.name,
             conferenceData.config.days,
         )
-    }
-
-    private fun conferenceIdFlow(): Flow<String> = if (conferenceParam.isEmpty()) {
-        phoneSettingsSync.conferenceFlow
-    } else {
-        flowOf(conferenceParam)
     }
 }
 

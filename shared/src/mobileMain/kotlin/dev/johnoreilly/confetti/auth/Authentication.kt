@@ -2,12 +2,12 @@ package dev.johnoreilly.confetti.auth
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseAuthException
-import dev.gitlive.firebase.auth.FirebaseAuthInvalidUserException
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.GoogleAuthProvider
 import dev.gitlive.firebase.auth.auth
 import dev.johnoreilly.confetti.TokenProvider
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -37,6 +37,16 @@ interface Authentication {
      * Sign out of firebase. triggers the emission of a new [currentUser]
      */
     fun signOut()
+
+    object Disabled: Authentication {
+        override val currentUser: StateFlow<User?> = MutableStateFlow(null)
+
+        override suspend fun signIn(idToken: String): SignInResult =
+            SignInError(Exception("Firebase is not available"))
+
+        override fun signOut() {
+        }
+    }
 }
 
 sealed interface SignInResult

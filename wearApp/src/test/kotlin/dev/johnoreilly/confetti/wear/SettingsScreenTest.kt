@@ -54,7 +54,9 @@ class SettingsScreenTest : ScreenshotTest() {
             navigateToGoogleSignIn = { },
             navigateToGoogleSignOut = { },
             columnState = columnState,
-            onRefreshClick = {}
+            onRefreshClick = {},
+            onRefreshToken = {},
+            onEnableDeveloperMode = {}
         )
     }
 
@@ -73,7 +75,9 @@ class SettingsScreenTest : ScreenshotTest() {
             navigateToGoogleSignIn = { },
             navigateToGoogleSignOut = { },
             columnState = columnState,
-            onRefreshClick = {}
+            onRefreshClick = {},
+            onRefreshToken = {},
+            onEnableDeveloperMode = {}
         )
     }
 
@@ -101,7 +105,9 @@ class SettingsScreenTest : ScreenshotTest() {
                 navigateToGoogleSignIn = { },
                 navigateToGoogleSignOut = { },
                 columnState = columnState,
-                onRefreshClick = {}
+                onRefreshClick = {},
+                onRefreshToken = {},
+                onEnableDeveloperMode = {}
             )
         }
     }

@@ -1,7 +1,6 @@
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -148,7 +147,7 @@ fun ConfettiApp(
 
             authGraph(
                 navigateUp = { navController.popBackStack() },
-                navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) },
+                onAuthChanged = { viewModel.updateSurfaces() }
             )
         }
     }

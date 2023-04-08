@@ -10,12 +10,7 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.complication.DataTemplates.longText
 import com.google.android.horologist.tiles.complication.DataTemplates.shortText
 import com.google.android.horologist.tiles.complication.TypedComplicationTemplate
-import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.toKotlinInstant
 
 @OptIn(ExperimentalHorologistApi::class)
 class NextSessionTemplate(context: Context) :
@@ -23,6 +18,7 @@ class NextSessionTemplate(context: Context) :
     override fun previewData(): NextSessionComplicationData {
         return NextSessionComplicationData(
             TestFixtures.sessionDetails,
+            TestFixtures.kotlinConf2023Config,
             launchIntent = null
         )
     }
@@ -35,18 +31,18 @@ class NextSessionTemplate(context: Context) :
 
     override fun renderShortText(data: NextSessionComplicationData): ShortTextComplicationData =
         shortText(
-            title = data.sessionDetails?.title ?: "None",
+            title = data.sessionDetails?.title ?: data.conference?.name ?: "Confetti",
             text = data.sessionDetails?.room?.name.orEmpty(),
-            icon = R.drawable.ic_person_black_24dp,
+            icon = null, //R.mipmap.ic_launcher,
             launchIntent = data.launchIntent
         )
 
     override fun renderLongText(data: NextSessionComplicationData): LongTextComplicationData? {
         return longText(
-            title = data.sessionDetails?.title ?: "None",
+            title = data.sessionDetails?.title ?: data.conference?.name ?: "Confetti",
             text = data.sessionDetails?.room?.name.orEmpty(),
             launchIntent = data.launchIntent,
-            icon = null
+            icon = null //Icon.createWithResource(context, R.mipmap.ic_launcher)
         )
     }
 }

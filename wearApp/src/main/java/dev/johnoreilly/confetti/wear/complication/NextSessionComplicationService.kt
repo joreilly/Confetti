@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.wear.complication
 
+import android.app.PendingIntent
 import android.app.PendingIntent.*
 import android.content.Intent
 import androidx.core.net.toUri
@@ -11,13 +12,17 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.complication.DataComplicationService
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.toTimeZone
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
+import dev.johnoreilly.confetti.wear.MainActivity
+import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.todayIn
 import org.koin.android.ext.android.inject
+import java.time.Instant
 
 class NextSessionComplicationService :
     DataComplicationService<NextSessionComplicationData, NextSessionTemplate>() {
@@ -25,47 +30,82 @@ class NextSessionComplicationService :
 
     private val repository: ConfettiRepository by inject()
 
+    private val phoneSettingsSync: PhoneSettingsSync by inject()
+
+    private val authentication: Authentication by inject()
+
     override suspend fun data(request: ComplicationRequest): NextSessionComplicationData {
-        val conference = repository.getConference()
-        val data = repository.conferenceData(conference, FetchPolicy.CacheOnly).data
+        val conference = conferenceFlow.first()
+        val user = authentication.currentUser.value
 
-        val nextSession =  if (data == null) {
-            null
-        } else {
-            data.sessions.nodes.map { it.sessionDetails }
-                .nextSessionOrNull(data.config.timezone.toTimeZone())
+        if (conference.isBlank()) {
+            return NextSessionComplicationData(launchIntent = appIntent())
         }
 
-        val launchIntent = if (nextSession != null) {
-            val sessionDetailIntent = Intent(
-                Intent.ACTION_VIEW,
-                "confetti://confetti/session/".toUri()
-            )
+        if (user != null) {
+            val responseData = repository.bookmarkedSessionsQuery(
+                conference, user.uid, user, FetchPolicy.CacheOnly
+            ).execute().data
 
-            getActivity(
-                this,
-                0,
-                sessionDetailIntent,
-                FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
-            )
-        } else {
-            null
+            if (responseData != null) {
+                val timeZone = responseData.config.timezone.toTimeZone()
+                val now = Instant.now().toKotlinInstant().toLocalDateTime(timeZone)
+
+                val bookmarks =
+                    responseData.bookmarkConnection?.nodes?.map { it.sessionDetails }?.filter {
+                        it.startsAt > now
+                    }?.sortedBy { it.startsAt }.orEmpty()
+
+                val sessionDetails = bookmarks.firstOrNull()
+                return NextSessionComplicationData(
+                    conference = responseData.config,
+                    sessionDetails = sessionDetails,
+                    launchIntent = if (sessionDetails != null) sessionIntent(
+                        responseData.config.id,
+                        sessionDetails
+                    ) else appIntent()
+                )
+            }
         }
 
-        return NextSessionComplicationData(nextSession, launchIntent)
+        return NextSessionComplicationData(launchIntent = appIntent())
+    }
+
+    private fun sessionIntent(conference: String, sessionDetails: SessionDetails): PendingIntent? {
+        val sessionDetailIntent = Intent(
+            Intent.ACTION_VIEW,
+            "confetti://confetti/session/${conference}/${sessionDetails.id}".toUri()
+        )
+
+        return getActivity(
+            this,
+            0,
+            sessionDetailIntent,
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        )
+    }
+
+    private fun appIntent(): PendingIntent? {
+        val appIntent = Intent(
+            this,
+            MainActivity::class.java
+        )
+
+        return getActivity(
+            this,
+            0,
+            appIntent,
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        )
     }
 
     override fun previewData(type: ComplicationType): NextSessionComplicationData =
         renderer.previewData()
-}
 
-fun List<SessionDetails>.nextSessionOrNull(timeZone: TimeZone): SessionDetails?  {
-        val today = Clock.System.todayIn(timeZone)
-        val now = Clock.System.now().toLocalDateTime(timeZone)
-
-        return filter {
-            it.startsAt > now && it.startsAt.date == today
-        }.minByOrNull {
-            it.startsAt
-        }
+    val conferenceFlow = combine(
+        phoneSettingsSync.settingsFlow,
+        repository.getConferenceFlow()
+    ) { phoneSettings, wearConference ->
+        phoneSettings.conference.ifBlank { wearConference }
     }
+}

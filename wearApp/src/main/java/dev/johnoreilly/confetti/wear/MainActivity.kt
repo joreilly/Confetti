@@ -11,6 +11,8 @@ import com.google.firebase.FirebaseApp
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.wear.auth.navigation.SignInDestination
+import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject
@@ -54,7 +56,8 @@ class MainActivity : ComponentActivity() {
         }
 
     fun navigateFromTileLaunch() {
-        if (intent.getAndRemoveKey("tile") == "session") {
+        val tileButton = intent.getAndRemoveKey("tile")
+        if (tileButton == "session") {
             val conference = intent.getAndRemoveKey("conference")
             val sessionId = intent.getAndRemoveKey("session")
 
@@ -65,6 +68,10 @@ class MainActivity : ComponentActivity() {
                     )
                 )
             }
+        } else if (tileButton == "login") {
+            navController.navigate(SignInDestination.route)
+        } else if (tileButton == "conferences") {
+            navController.navigate(ConferencesDestination.route)
         }
     }
 }

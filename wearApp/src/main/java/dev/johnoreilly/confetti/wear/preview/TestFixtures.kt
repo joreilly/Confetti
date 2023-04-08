@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.wear.preview
 
+import dev.johnoreilly.confetti.GetBookmarkedSessionsQuery
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -12,6 +13,7 @@ object TestFixtures {
 
     val kotlinConf2023 = GetConferencesQuery.Conference(
         "kotlinconf2023",
+        "",
         listOf(
             LocalDate.parse("2023-04-12"),
             LocalDate.parse("2023-04-13"),
@@ -20,36 +22,49 @@ object TestFixtures {
         "KotlinConf 2023"
     )
 
+    val kotlinConf2023Config = GetBookmarkedSessionsQuery.Config(
+        kotlinConf2023.id,
+        "",
+        kotlinConf2023.days,
+        kotlinConf2023.name
+    )
+
     // Generate from FetchDataTest.fetchConferences
     val conferences = listOf(
         kotlinConf2023,
         GetConferencesQuery.Conference(
             "fosdem2023",
+            "",
             listOf(LocalDate.parse("2023-02-04"), LocalDate.parse("2023-02-05")),
             "Fosdem 2023"
         ),
         GetConferencesQuery.Conference(
             "droidconlondon2022",
+            "",
             listOf(LocalDate.parse("2022-10-27"), LocalDate.parse("2022-10-28")),
             "droidcon London"
         ),
         GetConferencesQuery.Conference(
             "devfestnantes",
+            "",
             listOf(LocalDate.parse("2022-10-20"), LocalDate.parse("2022-10-21")),
             "DevFest Nantes"
         ),
         GetConferencesQuery.Conference(
             "graphqlsummit2022",
+            "",
             listOf(LocalDate.parse("2022-10-04"), LocalDate.parse("2022-10-05")),
             "GraphQL Summit"
         ),
         GetConferencesQuery.Conference(
             "frenchkit2022",
+            "",
             listOf(LocalDate.parse("2022-09-29"), LocalDate.parse("2022-09-30")),
             "FrenchKit"
         ),
         GetConferencesQuery.Conference(
             "droidconsf",
+            "",
             listOf(LocalDate.parse("2022-06-02"), LocalDate.parse("2022-06-03")),
             "droidcon SF"
         )

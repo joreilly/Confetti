@@ -65,7 +65,7 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
         ProcessLifecycleOwner.get().lifecycleScope.launch {
             get<AppSettings>().experimentalFeaturesEnabledFlow.collect { isEnabled ->
                 if (isEnabled) {
-                    SessionNotificationWorker.startWorkRequest(workManager)
+                    SessionNotificationWorker.startPeriodicWorkRequest(workManager)
                 } else {
                     SessionNotificationWorker.cancelWorkRequest(workManager)
                 }

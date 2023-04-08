@@ -12,13 +12,17 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.SuspendingTileService
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.toTimeZone
-import dev.johnoreilly.confetti.wear.complication.nextSessionOrNull
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.toKotlinInstant
+import kotlinx.datetime.toLocalDateTime
 import org.koin.android.ext.android.inject
+import java.time.Instant
 
 class CurrentSessionsTileService : SuspendingTileService() {
     private val renderer = CurrentSessionsTileRenderer(this)
@@ -29,26 +33,47 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
     private val phoneSettingsSync: PhoneSettingsSync by inject()
 
+    private val authentication: Authentication by inject()
+
     override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
         return renderer.produceRequestedResources(tileState(), requestParams)
     }
 
-    private suspend fun tileState(): CurrentSessionsData {
-        val conference = repository.getConference()
-        val data = repository.conferenceData(conference, FetchPolicy.CacheOnly).data
-        val theme =
-            phoneSettingsSync.settingsFlow.first().theme?.toMaterialThemeColors() ?: Colors()
+    private suspend fun tileState(): ConfettiTileData {
+        val theme = phoneSettingsSync.settingsFlow.first().theme
+        val user = authentication.currentUser.value
 
-        renderer.updateTheme(theme)
+        renderer.colors.value = theme?.toMaterialThemeColors() ?: Colors()
 
-        val nextSession = data?.sessions?.nodes?.map { it.sessionDetails }
-            ?.nextSessionOrNull(data.config.timezone.toTimeZone())
+        val conference = conferenceFlow.first()
 
-        return CurrentSessionsData(
-            conference,
-            nextSession?.startsAt,
-            nextSession?.let { listOf(it) }.orEmpty()
-        )
+        if (conference.isBlank()) {
+            return ConfettiTileData.NoConference
+        }
+
+        val responseData = repository.bookmarkedSessionsQuery(
+            conference, user?.uid, user, FetchPolicy.CacheOnly
+        ).execute().data
+
+        if (user == null) {
+            return ConfettiTileData.NotLoggedIn(
+                responseData?.config,
+            )
+        }
+
+        return if (responseData != null) {
+            val timeZone = responseData.config.timezone.toTimeZone()
+            val now = Instant.now().toKotlinInstant().toLocalDateTime(timeZone)
+
+            val bookmarks =
+                responseData.bookmarkConnection?.nodes?.map { it.sessionDetails }?.filter {
+                    it.startsAt > now
+                }?.sortedBy { it.startsAt }.orEmpty()
+
+            ConfettiTileData.CurrentSessionsData(responseData.config, bookmarks)
+        } else {
+            ConfettiTileData.NoConference
+        }
     }
 
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
@@ -77,6 +102,13 @@ class CurrentSessionsTileService : SuspendingTileService() {
         super.onTileLeaveEvent(requestParams)
 
         analyticsLogger.logEvent(TileAnalyticsEvent(TileAnalyticsEvent.Type.Leave, getConference()))
+    }
+
+    val conferenceFlow = combine(
+        phoneSettingsSync.settingsFlow,
+        repository.getConferenceFlow()
+    ) { phoneSettings, wearConference ->
+        phoneSettings.conference.ifBlank { wearConference }
     }
 
     private fun getConference(): String = runBlocking {

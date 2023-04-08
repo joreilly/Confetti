@@ -22,6 +22,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun FirebaseSignOutScreen(
     navigateUp: () -> Unit,
+    onAuthChanged: () -> Unit,
     viewModel: FirebaseSignOutViewModel = getViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -40,6 +41,9 @@ fun FirebaseSignOutScreen(
         }
 
         GoogleSignOutScreenState.Success -> {
+            SideEffect {
+                onAuthChanged()
+            }
             ConfirmationDialog(
                 onTimeout = navigateUp
             ) {

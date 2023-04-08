@@ -6,6 +6,10 @@ query GetBookmarks {
 
 query GetBookmarkedSessions {
     config {
+        id
+        timezone
+        days
+        name
         timezone
     }
     bookmarkConnection {

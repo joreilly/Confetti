@@ -179,6 +179,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
 
     debugImplementation(libs.compose.ui.manifest)
+    debugImplementation(libs.androidx.complications.rendering)
 
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)

@@ -60,8 +60,10 @@ query GetSession($id: String!){
 query GetConferences{
     conferences {
         id
+        timezone
         days
         name
+        timezone
     }
 }
 

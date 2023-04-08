@@ -95,10 +95,10 @@ private fun ConferencesViewPreview() {
         ConfettiBackground {
             ConferencesView(
                 conferenceList = listOf(
-                    GetConferencesQuery.Conference("0", emptyList(), "Droidcon San Francisco 2022"),
-                    GetConferencesQuery.Conference("1", emptyList(), "FrenchKit 2022"),
-                    GetConferencesQuery.Conference("2", emptyList(), "Droidcon London 2022"),
-                    GetConferencesQuery.Conference("3", emptyList(), "DevFest Ukraine 2023"),
+                    GetConferencesQuery.Conference("0", "", emptyList(), "Droidcon San Francisco 2022"),
+                    GetConferencesQuery.Conference("1", "", emptyList(), "FrenchKit 2022"),
+                    GetConferencesQuery.Conference("2", "", emptyList(), "Droidcon London 2022"),
+                    GetConferencesQuery.Conference("3", "", emptyList(), "DevFest Ukraine 2023"),
                 )
             ) {}
         }

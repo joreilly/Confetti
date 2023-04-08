@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear.di
 
 import android.content.Context
+import androidx.wear.tiles.TileService
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
@@ -18,6 +19,7 @@ import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.wear.WearAppViewModel
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutViewModel
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksViewModel
+import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.conferences.ConferencesViewModel
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.home.HomeViewModel
@@ -26,6 +28,7 @@ import dev.johnoreilly.confetti.wear.sessions.SessionsViewModel
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewModel
+import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -47,6 +50,9 @@ val appModule = module {
     viewModelOf(::GoogleSignInViewModel)
     viewModelOf(::WearAppViewModel)
     singleOf(::PhoneSettingsSync)
+    single { TileService.getUpdater(androidContext()) }
+    singleOf(::ComplicationUpdater)
+    singleOf(::TileUpdater)
     single {
         try {
             DefaultAuthentication(get())

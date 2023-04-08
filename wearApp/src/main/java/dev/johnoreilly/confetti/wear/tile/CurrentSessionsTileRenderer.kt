@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.wear.tiles.ActionBuilders.AndroidActivity
 import androidx.wear.tiles.ActionBuilders.AndroidStringExtra
 import androidx.wear.tiles.ActionBuilders.LaunchAction
-import androidx.wear.tiles.ColorBuilders.argb
+import androidx.wear.tiles.ColorBuilders
 import androidx.wear.tiles.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.tiles.LayoutElementBuilders
 import androidx.wear.tiles.ModifiersBuilders.Clickable
@@ -25,47 +25,107 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.MainActivity
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
+import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.*
+import dev.johnoreilly.confetti.wear.ui.previews.WearLargeRoundDevicePreview
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.toTileColors
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.toJavaLocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.wear.compose.material.Colors as WearComposeColors
 
 class CurrentSessionsTileRenderer(
     context: Context
 ) :
-    SingleTileLayoutRenderer<CurrentSessionsData, CurrentSessionsData>(context) {
-    val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+    SingleTileLayoutRenderer<ConfettiTileData, ConfettiTileData>(context) {
+    val colors = MutableStateFlow(WearComposeColors())
 
-    private var colors: androidx.wear.compose.material.Colors =
-        androidx.wear.compose.material.Colors()
-
-    override fun createTheme(): Colors = colors.toTileColors()
+    override fun createTheme(): Colors = colors.value.toTileColors()
 
     override fun renderTile(
+        state: ConfettiTileData,
+        deviceParameters: DeviceParameters
+    ): LayoutElementBuilders.LayoutElement = when (state) {
+        is CurrentSessionsData -> renderBookmarksTile(state, deviceParameters)
+        is NotLoggedIn -> renderLoginTile(state, deviceParameters)
+        is NoConference -> renderNoConferenceTile(state, deviceParameters)
+    }
+
+    fun renderBookmarksTile(
         state: CurrentSessionsData,
         deviceParameters: DeviceParameters
     ): LayoutElementBuilders.LayoutElement = PrimaryLayout.Builder(deviceParameters)
         .setPrimaryLabelTextContent(
-            timeLabel(state)
+            conferenceLabel(state.conference.name)
         )
         .setContent(
-            sessionsList(state, state.sessions, deviceParameters)
+            sessionsList(state, state.bookmarks, deviceParameters)
         )
         .setPrimaryChipContent(
             CompactChip.Builder(
                 context,
-                "Browse",
-                browseClickable(state.conference),
+                "Bookmarks",
+                browseClickable(state.conference.id),
                 deviceParameters
             )
                 .setChipColors(ChipColors.primaryChipColors(theme))
                 .build()
         )
+        .build()
+
+    fun renderLoginTile(
+        state: NotLoggedIn,
+        deviceParameters: DeviceParameters
+    ): LayoutElementBuilders.LayoutElement = PrimaryLayout.Builder(deviceParameters)
+        .setPrimaryLabelTextContent(
+            conferenceLabel(state.conference?.name ?: "Confetti")
+        )
+        .setContent(
+            message("Not Logged In")
+        )
+        .setPrimaryChipContent(
+            CompactChip.Builder(
+                context,
+                "Login",
+                loginClickable(),
+                deviceParameters
+            )
+                .setChipColors(ChipColors.primaryChipColors(theme))
+                .build()
+        )
+        .build()
+
+    fun renderNoConferenceTile(
+        state: NoConference,
+        deviceParameters: DeviceParameters
+    ): LayoutElementBuilders.LayoutElement = PrimaryLayout.Builder(deviceParameters)
+        .setPrimaryLabelTextContent(
+            conferenceLabel("Confetti")
+        )
+        .setContent(
+            message("No Conference Selected")
+        )
+        .setPrimaryChipContent(
+            CompactChip.Builder(
+                context,
+                "Conferences",
+                conferencesClickable(),
+                deviceParameters
+            )
+                .setChipColors(ChipColors.primaryChipColors(theme))
+                .build()
+        )
+        .build()
+
+    fun conferenceLabel(state: String) = Text.Builder(context, state)
+        .setTypography(Typography.TYPOGRAPHY_TITLE2)
+        .setColor(ColorBuilders.argb(theme.primary))
+        .build()
+
+    fun message(state: String) = Text.Builder(context, state)
+        .setTypography(Typography.TYPOGRAPHY_BODY1)
+        .setColor(ColorBuilders.argb(theme.primary))
         .build()
 
     fun sessionsList(
@@ -81,21 +141,12 @@ class CurrentSessionsTileRenderer(
             }
             .build()
 
-    fun timeLabel(state: CurrentSessionsData) = Text.Builder(
-        context,
-        state.sessionTime?.toJavaLocalDateTime()?.toLocalTime()?.format(timeFormatter)
-            ?: "None"
-    )
-        .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-        .setColor(argb(theme.primary))
-        .build()
-
     private fun sessionChip(
         state: CurrentSessionsData,
         sessionDetails: SessionDetails,
         deviceParameters: DeviceParameters
     ): LayoutElementBuilders.LayoutElement =
-        Chip.Builder(context, sessionClickable(state.conference, sessionDetails), deviceParameters)
+        Chip.Builder(context, sessionClickable(state.conference.id, sessionDetails), deviceParameters)
             .setChipColors(ChipColors.secondaryChipColors(theme))
             .setPrimaryLabelContent(sessionDetails.title)
             .setSecondaryLabelContent(sessionDetails.room?.name ?: "No Room")
@@ -159,37 +210,90 @@ class CurrentSessionsTileRenderer(
             )
             .build()
 
-    fun updateTheme(theme: androidx.wear.compose.material.Colors) {
-        this.colors = theme
+    private fun conferencesClickable(
+    ): Clickable =
+        Clickable.Builder()
+            .setOnClick(
+                LaunchAction.Builder()
+                    .setAndroidActivity(
+                        AndroidActivity.Builder()
+                            .setClassName(MainActivity::class.java.name)
+                            .setPackageName(context.packageName)
+                            .addKeyToExtraMapping(
+                                "tile", AndroidStringExtra.Builder()
+                                    .setValue("conferences")
+                                    .build()
+                            )
+                            .build()
+                    )
+                    .build()
+            )
+            .build()
+
+    private fun loginClickable(
+    ): Clickable =
+        Clickable.Builder()
+            .setOnClick(
+                LaunchAction.Builder()
+                    .setAndroidActivity(
+                        AndroidActivity.Builder()
+                            .setClassName(MainActivity::class.java.name)
+                            .setPackageName(context.packageName)
+                            .addKeyToExtraMapping(
+                                "tile", AndroidStringExtra.Builder()
+                                    .setValue("login")
+                                    .build()
+                            )
+                            .build()
+                    )
+                    .build()
+            )
+            .build()
+}
+
+@WearLargeRoundDevicePreview
+@Composable
+fun LoginTilePreview() {
+    val context = LocalContext.current
+
+    val tileState = remember {
+        NotLoggedIn(
+            TestFixtures.kotlinConf2023Config
+        )
     }
+    val renderer = remember { CurrentSessionsTileRenderer(context) }
+
+    TileLayoutPreview(
+        tileState, tileState, renderer
+    )
+}
+
+@WearLargeRoundDevicePreview
+@Composable
+fun NoConferenceTilePreview() {
+    val context = LocalContext.current
+
+    val tileState = remember {
+        NoConference
+    }
+    val renderer = remember { CurrentSessionsTileRenderer(context) }
+
+    TileLayoutPreview(
+        tileState, tileState, renderer
+    )
 }
 
 @WearPreviewDevices
 @WearPreviewFontSizes
 @Composable
-fun CurrentSessionsTilePreview() {
+fun BookmarksTilePreview() {
     val context = LocalContext.current
-
-    val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
 
     val tileState = remember {
         CurrentSessionsData(
-            "wearconf",
-            sessionTime,
+            TestFixtures.kotlinConf2023Config,
             listOf(
-                SessionDetails(
-                    "1",
-                    "Wear it's at",
-                    "Talk",
-                    sessionTime,
-                    sessionTime,
-                    "Be aWear of what's coming",
-                    "en",
-                    listOf(),
-                    SessionDetails.Room("Main Hall"),
-                    listOf(),
-                    Session.type.name
-                )
+                TestFixtures.sessionDetails
             )
         )
     }

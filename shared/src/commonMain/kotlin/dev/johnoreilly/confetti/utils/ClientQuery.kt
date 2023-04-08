@@ -5,6 +5,7 @@ import com.apollographql.apollo3.api.Error
 import com.apollographql.apollo3.api.Query
 import com.apollographql.apollo3.exception.ApolloException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.runningFold
 
 object ClientQuery {
@@ -19,6 +20,8 @@ object ClientQuery {
 
         if (next.data != null) {
             QueryResult.Success(mapper(next.data!!))
+        } else if (next.exception != null && previous is QueryResult.Loading) {
+            QueryResult.Error(next.exception!!)
         } else {
             previous
         }

@@ -8,7 +8,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
-import coil.Coil.setImageLoader
 import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
@@ -43,7 +42,6 @@ class SettingsScreenTest : ScreenshotTest() {
         }
     }
 
-    @OptIn(ExperimentalHorologistApi::class)
     @Test
     fun loggedOutSettings() = takeScrollableScreenshot(
         timeTextMode = TimeTextMode.OnTop,
@@ -84,7 +82,6 @@ class SettingsScreenTest : ScreenshotTest() {
         )
     }
 
-    @OptIn(ExperimentalHorologistApi::class)
     @Test
     fun loggedInSettingsA11y() {
         assumeTrue(mobileTheme == null)

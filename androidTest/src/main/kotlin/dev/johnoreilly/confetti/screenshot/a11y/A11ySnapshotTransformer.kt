@@ -30,7 +30,7 @@ import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import dev.johnoreilly.confetti.screenshot.SnapshotTransformer
 
-class A11ySnapshotTransformer : dev.johnoreilly.confetti.screenshot.SnapshotTransformer {
+class A11ySnapshotTransformer : SnapshotTransformer {
     lateinit var elements: List<AccessibilityState.Element>
 
     val colors = listOf(

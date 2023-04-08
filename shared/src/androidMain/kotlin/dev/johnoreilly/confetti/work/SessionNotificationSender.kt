@@ -31,7 +31,7 @@ class SessionNotificationSender(
 ) {
 
     suspend fun sendNotification() {
-        // If there is no user signed-in, no reason to process all sessions.
+        // If there is no signed-in user, skip.
         val user = authentication.currentUser.value ?: return
 
         val conferenceId = repository.getConference()
@@ -48,7 +48,12 @@ class SessionNotificationSender(
             ?.map { it.sessionDetails }
             .orEmpty()
 
-        // If current date is not in the conference range, no reason to process all sessions.
+        // If there are no available sessions, skip.
+        if (sessions.isEmpty()) {
+            return
+        }
+
+        // If current date is not in the conference range, skip.
         if (sessions.any { session -> session.startsAt.date == dateService.now().date }) {
             return
         }
@@ -64,33 +69,30 @@ class SessionNotificationSender(
             ?.sessionIds
             .orEmpty()
 
-        val bookmarkedSessions = sessions.filter { session ->
-            bookmarks.contains(session.id)
-        }
-
         val intervalRange = createIntervalRange()
-        val sessionsToNotify = bookmarkedSessions.filter { session ->
-            session.startsAt in intervalRange
+        val upcomingSessions = sessions.filter { session ->
+            bookmarks.contains(session.id) && session.startsAt in intervalRange
         }
 
-        if (sessionsToNotify.isNotEmpty()) {
+        if (upcomingSessions.isNotEmpty()) {
             createNotificationChannel()
 
             // If there are multiple notifications, we create a summary to group them.
-            if (sessionsToNotify.count() > 1) {
-                sendNotification(SUMMARY_ID, createSummaryNotification(sessionsToNotify))
+            if (upcomingSessions.count() > 1) {
+                sendNotification(SUMMARY_ID, createSummaryNotification(upcomingSessions))
             }
 
-            // We reverse the teams to show early sessions first.
-            for ((id, session) in sessionsToNotify.reversed().withIndex()) {
+            // We reverse the sessions to show early sessions first.
+            for ((id, session) in upcomingSessions.reversed().withIndex()) {
                 sendNotification(id, createNotification(session))
             }
         }
     }
 
-    private fun createIntervalRange(): ClosedRange<LocalDateTime> {
+    private fun createIntervalRange(
+        timeZone: TimeZone = TimeZone.currentSystemDefault(),
+    ): ClosedRange<LocalDateTime> {
         val now = dateService.now()
-        val timeZone = TimeZone.currentSystemDefault()
         val future = (now.toInstant(timeZone) + INTERVAL).toLocalDateTime(timeZone)
         return now..future
     }

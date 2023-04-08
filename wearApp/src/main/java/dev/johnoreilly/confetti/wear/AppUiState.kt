@@ -4,7 +4,7 @@ import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.wear.proto.WearSettings
 
 data class AppUiState(
-    val defaultConference: String = "",
+    val defaultConference: String? = null,
     val settings: WearSettings = WearSettings(),
     val user: User? = null
 )

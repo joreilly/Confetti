@@ -74,18 +74,21 @@ class SessionNotificationSender(
             bookmarks.contains(session.id) && session.startsAt in intervalRange
         }
 
-        if (upcomingSessions.isNotEmpty()) {
-            createNotificationChannel()
+        // If there are no bookmarked upcoming sessions, skip.
+        if (upcomingSessions.isEmpty()) {
+            return
+        }
 
-            // If there are multiple notifications, we create a summary to group them.
-            if (upcomingSessions.count() > 1) {
-                sendNotification(SUMMARY_ID, createSummaryNotification(upcomingSessions))
-            }
+        createNotificationChannel()
 
-            // We reverse the sessions to show early sessions first.
-            for ((id, session) in upcomingSessions.reversed().withIndex()) {
-                sendNotification(id, createNotification(session))
-            }
+        // If there are multiple notifications, we create a summary to group them.
+        if (upcomingSessions.count() > 1) {
+            sendNotification(SUMMARY_ID, createSummaryNotification(upcomingSessions))
+        }
+
+        // We reverse the sessions to show early sessions first.
+        for ((id, session) in upcomingSessions.reversed().withIndex()) {
+            sendNotification(id, createNotification(session))
         }
     }
 

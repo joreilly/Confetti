@@ -137,6 +137,17 @@ class ConfettiRepository : KoinComponent {
             .itemsOrError(GetBookmarksQuery())
     }
 
+    fun bookmarkedSessionsQuery(
+        conference: String,
+        uid: String?,
+        tokenProvider: TokenProvider?,
+        fetchPolicy: FetchPolicy
+    ): ApolloCall<GetBookmarkedSessionsQuery.Data> {
+        return apolloClientCache.getClient(conference, uid).query(GetBookmarkedSessionsQuery())
+            .tokenProvider(tokenProvider)
+            .fetchPolicy(fetchPolicy)
+    }
+
     fun watchBookmarks(
         conference: String,
         uid: String?,

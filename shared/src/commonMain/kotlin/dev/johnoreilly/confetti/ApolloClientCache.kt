@@ -56,7 +56,7 @@ class ApolloClientCache : KoinComponent {
         }
     }
 
-    suspend fun getClient(conference: String, uid: String?): ApolloClient {
+    fun getClient(conference: String, uid: String?): ApolloClient {
         return mutex.withLock {
             _clients.getOrPut("$conference-$uid") {
                 clientFor(conference, uid, true)

@@ -4,6 +4,17 @@ query GetBookmarks {
     }
 }
 
+query GetBookmarkedSessions {
+    config {
+        timezone
+    }
+    bookmarkConnection {
+        nodes {
+            ...SessionDetails
+        }
+    }
+}
+
 mutation AddBookmark($sessionId: String!) {
     addBookmark(sessionId: $sessionId) {
         sessionIds

@@ -69,7 +69,7 @@ class SessionNotificationSender(
         }
 
         val intervalRange = createIntervalRange()
-        var sessionsToNotify = bookmarkedSessions.filter { session ->
+        val sessionsToNotify = bookmarkedSessions.filter { session ->
             session.startsAt in intervalRange
         }
 

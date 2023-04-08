@@ -72,6 +72,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 
+@Deprecated("Please use BaseScreenshotTest instead")
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,

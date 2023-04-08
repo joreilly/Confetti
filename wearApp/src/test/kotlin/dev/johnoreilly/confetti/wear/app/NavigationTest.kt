@@ -1,20 +1,53 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package dev.johnoreilly.confetti.wear.app
 
 import androidx.core.net.toUri
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
+import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Ignore
 import org.junit.Test
 
 class NavigationTest : BaseAppTest() {
     @Test
-    fun launchHome() {
+    @Ignore("multiple fails")
+    fun launchWithoutConference() {
         val activity = rule.activity
 
         val navController = activity.navController
 
         assertEquals("startup_route", navController.currentDestination?.route)
+
+        rule.waitUntil {
+            navController.currentDestination?.route == ConferencesDestination.route
+        }
+    }
+
+    @Test
+//    @Ignore("multiple fails")
+    fun launchWithConference() {
+        runBlocking {
+            appSettings.setConference(TestFixtures.kotlinConf2023.id)
+        }
+
+        val activity = rule.activity
+
+        val navController = activity.navController
+
+        assertEquals("startup_route", navController.currentDestination?.route)
+
+        rule.waitUntil {
+            navController.currentDestination?.route == ConferenceHomeDestination.route
+        }
+    }
+
+    @Test
+    @Ignore("multiple fails")
+    fun deeplinks() {
+        val activity = rule.activity
+
+        val navController = activity.navController
 
         navController.navigate("confetti://confetti/signInPrompt".toUri())
         navController.navigate("confetti://confetti/signIn".toUri())

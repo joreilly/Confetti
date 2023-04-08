@@ -24,6 +24,7 @@ import com.expediagroup.graphql.server.types.GraphQLServerRequest
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.MapType
 import com.fasterxml.jackson.databind.type.TypeFactory
+import com.google.firebase.auth.FirebaseAuthException
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootMutation
@@ -429,9 +430,13 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
             conference = ConferenceId.KotlinConf2023.id
         }
 
-        val uid = request.headers().firstHeader("authorization")
-            ?.substring("bearer_".length)
-            ?.firebaseUid()
+        val uid = try {
+            request.headers().firstHeader("authorization")
+                ?.substring("bearer_".length)
+                ?.firebaseUid()
+        } catch (e: FirebaseAuthException) {
+            throw e
+        }
 
         if (ConferenceId.values().find { it.id == conference } == null && conference != "all") {
             throw BadConferenceException(conference)

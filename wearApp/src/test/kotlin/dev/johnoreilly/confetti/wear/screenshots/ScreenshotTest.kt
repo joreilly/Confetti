@@ -29,6 +29,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToString
 import androidx.test.core.app.ApplicationProvider
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
@@ -261,7 +262,12 @@ abstract class ScreenshotTest : KoinTest {
                 PositionIndicator(scalingLazyListState = columnState.state)
             },
             checks = {
-                checks(columnState)
+                try {
+                    checks(columnState)
+                } catch (e: AssertionError) {
+                    println("State at failure: ${rule.onRoot().printToString()}")
+                    throw e
+                }
             }
         ) {
             columnState = columnStateFactory.create()

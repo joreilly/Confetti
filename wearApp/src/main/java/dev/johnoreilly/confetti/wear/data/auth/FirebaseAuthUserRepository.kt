@@ -12,6 +12,7 @@ import com.google.android.horologist.auth.data.googlesignin.GoogleSignInEventLis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -27,17 +28,11 @@ class FirebaseAuthUserRepository(
     val auth: FirebaseAuth,
     val googleSignIn: GoogleSignInClient
 ) : AuthUserRepository, GoogleSignInEventListener {
-    val localAuthState: Flow<AuthUser?> = callbackFlow {
-        val currentUser = auth.currentUser
+    val firebaseAuthFlow: Flow<FirebaseUser?> = auth
+        .currentUserFlow()
 
-        trySendBlocking(currentUser)
-        val listener = AuthStateListener {
-            trySendBlocking(it.currentUser)
-        }
-        auth.addAuthStateListener(listener)
-
-        awaitClose { auth.removeAuthStateListener(listener) }
-    }.conflate().map { FirebaseUserMapper.map(it) }
+    val localAuthState: Flow<AuthUser?> = firebaseAuthFlow
+        .map { FirebaseUserMapper.map(it) }
 
     override suspend fun onSignedIn(account: GoogleSignInAccount) {
         val idToken = account.idToken
@@ -55,4 +50,18 @@ class FirebaseAuthUserRepository(
 
     override suspend fun getAuthenticated(): AuthUser? =
         FirebaseUserMapper.map(auth.currentUser)
+
+    companion object {
+        fun FirebaseAuth.currentUserFlow() = callbackFlow {
+            val currentUser = this@currentUserFlow.currentUser
+
+            trySendBlocking(currentUser)
+            val listener = AuthStateListener {
+                trySendBlocking(it.currentUser)
+            }
+            this@currentUserFlow.addAuthStateListener(listener)
+
+            awaitClose { this@currentUserFlow.removeAuthStateListener(listener) }
+        }.conflate()
+    }
 }

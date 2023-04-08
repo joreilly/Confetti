@@ -7,25 +7,45 @@ import androidx.lifecycle.viewModelScope
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
+import dev.johnoreilly.confetti.wear.data.auth.FirebaseUserMapper
 import dev.johnoreilly.confetti.work.RefreshWorker
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class SettingsViewModel(
     userRepository: FirebaseAuthUserRepository,
+    val appSettings: AppSettings,
     val workManager: WorkManager,
     private val phoneSettingsSync: PhoneSettingsSync
 ) : ViewModel() {
     val uiState: StateFlow<SettingsUiState> =
-        userRepository.localAuthState.map {
-            SettingsUiState.Success(it)
+        combine(
+            userRepository.firebaseAuthFlow,
+            appSettings.developerModeFlow(),
+        ) { firebaseUser, developerMode ->
+            val authUser = FirebaseUserMapper.map(firebaseUser)
+
+            if (developerMode) {
+                val token = firebaseUser?.getIdToken(false)?.await()
+                SettingsUiState.Success(
+                    developerMode = developerMode,
+                    authUser = authUser,
+                    firebaseUser = firebaseUser,
+                    token = token
+                )
+            } else {
+                SettingsUiState.Success(developerMode = developerMode, authUser = authUser)
+            }
         }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsUiState.Loading)
 
@@ -42,6 +62,18 @@ class SettingsViewModel(
                     RefreshWorker.oneOff(conference)
                 )
             }
+        }
+    }
+
+    fun enableDeveloperMode() {
+        viewModelScope.launch {
+            appSettings.setDeveloperMode(true)
+        }
+    }
+
+    fun refreshToken() {
+        viewModelScope.launch {
+            Firebase.auth.currentUser?.getIdToken(true)?.await()
         }
     }
 }

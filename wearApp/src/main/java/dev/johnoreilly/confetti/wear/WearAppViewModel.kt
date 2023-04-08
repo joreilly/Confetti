@@ -22,8 +22,16 @@ class WearAppViewModel(
     ) { phoneSettings, wearConference, user ->
         val defaultConference = phoneSettings.conference.ifBlank { wearConference }
 
-        AppUiState(defaultConference, phoneSettings, user)
+        AppUiState(
+            defaultConference = defaultConference,
+            settings = phoneSettings,
+            user = user
+        )
     }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            AppUiState(user = authentication.currentUser.value)
+        )
 }
 

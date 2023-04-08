@@ -51,6 +51,8 @@ val appModule = module {
         try {
             DefaultAuthentication(get())
         } catch (ise: IllegalStateException) {
+            // We wont have firebase when running in Robolectric
+            // TODO override just in robolectric
             Authentication.Disabled
         }
     }

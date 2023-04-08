@@ -30,8 +30,6 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
             Firebase.crashlytics.setCustomKeys {
                 key("appName", "wearApp")
             }
-        } else {
-            Firebase.auth
         }
 
         // Initialize Logging.

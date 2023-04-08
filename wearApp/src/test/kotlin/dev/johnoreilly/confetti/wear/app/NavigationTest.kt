@@ -14,7 +14,7 @@ class NavigationTest : BaseAppTest() {
 
         val navController = activity.navController
 
-        assertEquals("conference_route/{conference}", navController.currentDestination?.route)
+        assertEquals("startup_route", navController.currentDestination?.route)
 
         navController.navigate("confetti://confetti/signInPrompt".toUri())
         navController.navigate("confetti://confetti/signIn".toUri())

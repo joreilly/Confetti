@@ -47,7 +47,13 @@ val appModule = module {
     viewModelOf(::GoogleSignInViewModel)
     viewModelOf(::WearAppViewModel)
     singleOf(::PhoneSettingsSync)
-    singleOf(::DefaultAuthentication) { bind<Authentication>() }
+    single {
+        try {
+            DefaultAuthentication(get())
+        } catch (ise: IllegalStateException) {
+            Authentication.Disabled
+        }
+    }
     single {
         GoogleSignIn.getClient(
             get<Context>(), GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.wear
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.crashlytics.ktx.setCustomKeys
 import com.google.firebase.ktx.Firebase
@@ -29,6 +30,8 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
             Firebase.crashlytics.setCustomKeys {
                 key("appName", "wearApp")
             }
+        } else {
+            Firebase.auth
         }
 
         // Initialize Logging.

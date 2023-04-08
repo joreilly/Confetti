@@ -8,7 +8,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.google.firebase.FirebaseApp
-import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
@@ -18,7 +17,6 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavHostController
-    private val repository: ConfettiRepository by inject()
     private val analyticsLogger: AnalyticsLogger by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {

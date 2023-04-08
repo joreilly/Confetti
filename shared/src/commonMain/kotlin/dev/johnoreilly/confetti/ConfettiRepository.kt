@@ -227,7 +227,7 @@ class ConfettiRepository : KoinComponent {
             .fetchPolicy(fetchPolicy)
             .execute()
 
-    suspend fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
+    fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
         return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
     }
 }

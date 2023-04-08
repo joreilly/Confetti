@@ -24,6 +24,8 @@ import dev.johnoreilly.confetti.wear.settings.navigation.SettingsDestination
 import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.SpeakerDetailsDestination
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.speakerDetailsGraph
+import dev.johnoreilly.confetti.wear.startup.navigation.StartupDestination
+import dev.johnoreilly.confetti.wear.startup.navigation.initialLoadingGraph
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -46,11 +48,27 @@ fun ConfettiApp(
 
     val appState by viewModel.appState.collectAsStateWithLifecycle()
 
-    ConfettiTheme(appState.settings.theme) {
+    ConfettiTheme(appState?.settings?.theme) {
         WearNavScaffold(
-            startDestination = ConferenceHomeDestination.route,
+            startDestination = StartupDestination.route,
             navController = navController
         ) {
+            initialLoadingGraph(
+                navigateToConferences = {
+                    onNavigateToDestination(
+                        ConferencesDestination,
+                        ConferencesDestination.route
+                    )
+                },
+                navigateToHome = {
+                    onNavigateToDestination(
+                        ConferenceHomeDestination,
+                        ConferenceHomeDestination.createNavigationRoute(it)
+                    )
+                },
+                appUiState = appState
+            )
+
             conferencesGraph(
                 navigateToConference = {
                     onNavigateToDestination(

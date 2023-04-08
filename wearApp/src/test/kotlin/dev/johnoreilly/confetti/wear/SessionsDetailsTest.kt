@@ -12,6 +12,7 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.AndroidDateService
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
@@ -60,15 +61,15 @@ class SessionsDetailsTest : ScreenshotTest() {
         }
     ) { columnState ->
         SessionDetailView(
-            uiState = SessionDetailsUiState.Success(
-                "wearconf",
-                SessionDetailsKey("fosdem", "14997"),
-                sessionDetails,
-                TimeZone.UTC
+            sessionId = SessionDetailsKey("fosdem", "14997"),
+            uiState = QueryResult.Success(
+                SessionDetailsUiState(
+                    sessionDetails,
+                    TimeZone.UTC
+                )
             ),
             navigateToSpeaker = {},
             columnState = columnState,
-            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
 
@@ -82,15 +83,15 @@ class SessionsDetailsTest : ScreenshotTest() {
         }
     ) { columnState ->
         SessionDetailView(
-            uiState = SessionDetailsUiState.Success(
-                "wearconf",
-                SessionDetailsKey("fosdem", "14997"),
-                sessionDetails,
-                TimeZone.UTC
+            sessionId = SessionDetailsKey("fosdem", "14997"),
+            uiState = QueryResult.Success(
+                SessionDetailsUiState(
+                    sessionDetails,
+                    TimeZone.UTC
+                )
             ),
             navigateToSpeaker = {},
             columnState = columnState,
-            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
 
@@ -105,15 +106,15 @@ class SessionsDetailsTest : ScreenshotTest() {
             }
         ) { columnState ->
             SessionDetailView(
-                uiState = SessionDetailsUiState.Success(
-                    "wearconf",
-                    SessionDetailsKey("fosdem", "14997"),
-                    sessionDetails,
-                    TimeZone.UTC
+                sessionId = SessionDetailsKey("fosdem", "14997"),
+                uiState = QueryResult.Success(
+                    SessionDetailsUiState(
+                        sessionDetails,
+                        TimeZone.UTC
+                    )
                 ),
                 navigateToSpeaker = {},
                 columnState = columnState,
-                formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
             )
         }
     }

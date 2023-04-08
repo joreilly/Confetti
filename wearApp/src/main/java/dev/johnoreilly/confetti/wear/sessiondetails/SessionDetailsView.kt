@@ -17,8 +17,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
-import dev.johnoreilly.confetti.type.Session
-import dev.johnoreilly.confetti.utils.AndroidDateService
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -26,9 +25,10 @@ import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.previews.WearSmallRoundDevicePreview
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
 import org.koin.androidx.compose.getViewModel
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun SessionDetailsRoute(
@@ -38,33 +38,29 @@ fun SessionDetailsRoute(
 ) {
     val uiState by viewModel.session.collectAsStateWithLifecycle()
     SessionDetailView(
+        sessionId = viewModel.sessionId,
         uiState = uiState,
         columnState = columnState,
-        navigateToSpeaker = navigateToSpeaker,
-        formatter = {
-            viewModel.formatter.format(
-                it,
-                (uiState as SessionDetailsUiState.Success).timeZone,
-                "eeee HH:mm"
-            )
-        }
+        navigateToSpeaker = navigateToSpeaker
     )
 }
 
 @Composable
 fun SessionDetailView(
-    uiState: SessionDetailsUiState,
+    sessionId: SessionDetailsKey,
+    uiState: QueryResult<SessionDetailsUiState>,
     columnState: ScalingLazyColumnState,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit,
-    formatter: (LocalDateTime) -> String
+    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
+    val timeFormatter = remember { DateTimeFormatter.ofPattern("eeee HH:mm") }
+
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState
     ) {
         when (uiState) {
-            is SessionDetailsUiState.Success -> {
-                val session = uiState.session
+            is QueryResult.Success -> {
+                val session = uiState.result.session
                 val description = session.descriptionParagraphs()
 
                 item {
@@ -73,7 +69,7 @@ fun SessionDetailView(
 
                 item {
                     val time = remember(session.startsAt) {
-                        formatter(session.startsAt)
+                        timeFormatter.format(session.startsAt.toJavaLocalDateTime())
                     }
                     Text(time)
                 }
@@ -84,7 +80,7 @@ fun SessionDetailView(
 
                 items(session.speakers) { speaker ->
                     SessionSpeakerChip(
-                        conference = uiState.conference,
+                        conference = sessionId.conference,
                         speaker = speaker.speakerDetails,
                         navigateToSpeaker = navigateToSpeaker
                     )
@@ -102,31 +98,17 @@ private fun SessionDetails?.descriptionParagraphs(): List<String> =
 @WearSmallRoundDevicePreview
 @Composable
 fun SessionDetailsLongText() {
-    val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
-
     ConfettiTheme {
         SessionDetailView(
-            uiState = SessionDetailsUiState.Success(
-                conference = "wearconf",
-                sessionId = SessionDetailsKey("", ""),
-                session = SessionDetails(
-                    "1",
-                    "This is a really long talk title that seems to go forever.",
-                    "Talk",
-                    sessionTime,
-                    sessionTime,
-                    "Be aWear of what's coming, don't walk, run to attend this session.",
-                    "en",
-                    listOf(),
-                    SessionDetails.Room("Main Hall"),
-                    listOf(),
-                    Session.type.name
-                ),
-                timeZone = TimeZone.UTC
+            sessionId = SessionDetailsKey(TestFixtures.sessionDetails.id, "1"),
+            uiState = QueryResult.Success(
+                SessionDetailsUiState(
+                    session = TestFixtures.sessionDetails,
+                    timeZone = TimeZone.UTC
+                )
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToSpeaker = {},
-            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
 }
@@ -136,15 +118,16 @@ fun SessionDetailsLongText() {
 @Composable
 fun SessionDetailsViewPreview() {
     ConfettiTheme {
-        SessionDetailView(SessionDetailsUiState.Success(
-            conference = TestFixtures.kotlinConf2023.id,
-            sessionId = SessionDetailsKey("", ""),
-            session = TestFixtures.sessionDetails,
-            timeZone = TimeZone.UTC
-        ),
+        SessionDetailView(
+            sessionId = SessionDetailsKey(TestFixtures.sessionDetails.id, "1"),
+            uiState = QueryResult.Success(
+                SessionDetailsUiState(
+                    session = TestFixtures.sessionDetails,
+                    timeZone = TimeZone.UTC
+                )
+            ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             navigateToSpeaker = {},
-            formatter = { AndroidDateService().format(it, TimeZone.UTC, "eeee HH:mm") }
         )
     }
 }

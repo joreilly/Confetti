@@ -109,7 +109,7 @@ class ConfettiRepository : KoinComponent {
     /**
      * ignores all errors unless the Flow terminates without an emission in which case it will emit an error
      */
-    private  fun <D: Operation.Data>  Flow<ApolloResponse<D>>.itemsOrError(operation: Operation<D>): Flow<ApolloResponse<D>> {
+    private fun <D: Operation.Data>  Flow<ApolloResponse<D>>.itemsOrError(operation: Operation<D>): Flow<ApolloResponse<D>> {
         var hasValidResponse = false
         return this.onEach {
             if (it.data != null) {
@@ -124,7 +124,7 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    suspend fun bookmarks(
+    fun bookmarks(
         conference: String,
         uid: String?,
         tokenProvider: TokenProvider?,
@@ -206,14 +206,21 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
+    fun sessionDetailsQuery(
+        conference: String,
+        sessionId: String,
+        fetchPolicy: FetchPolicy = FetchPolicy.CacheAndNetwork
+    ): ApolloCall<GetSessionQuery.Data> =
+        apolloClientCache.getClient(conference)
+            .query(GetSessionQuery(sessionId))
+            .fetchPolicy(fetchPolicy)
+
     fun sessionDetails(
         conference: String,
         sessionId: String,
         fetchPolicy: FetchPolicy = FetchPolicy.CacheAndNetwork
     ): Flow<ApolloResponse<GetSessionQuery.Data>> =
-        apolloClientCache.getClient(conference)
-            .query(GetSessionQuery(sessionId))
-            .fetchPolicy(fetchPolicy)
+        sessionDetailsQuery(conference, sessionId, fetchPolicy)
             .toFlow()
 
     suspend fun conferenceData(

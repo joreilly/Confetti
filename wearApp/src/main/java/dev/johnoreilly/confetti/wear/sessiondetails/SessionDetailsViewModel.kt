@@ -6,40 +6,27 @@ import androidx.lifecycle.viewModelScope
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.toTimeZone
-import dev.johnoreilly.confetti.utils.DateService
+import dev.johnoreilly.confetti.utils.ClientQuery.toUiState
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.datetime.TimeZone
 
 class SessionDetailsViewModel(
     savedStateHandle: SavedStateHandle,
-    repository: ConfettiRepository,
-    val formatter: DateService
+    repository: ConfettiRepository
 ) : ViewModel() {
-    private val sessionId: SessionDetailsKey =
+    val sessionId: SessionDetailsKey =
         SessionDetailsDestination.fromNavArgs(savedStateHandle)
 
-    val session: StateFlow<SessionDetailsUiState> = repository.sessionDetails(sessionId.conference, sessionId.sessionId).map {
-        val sessionDetails = it
-        if (sessionDetails.data != null) {
-            SessionDetailsUiState.Success(
-                sessionId.conference,
-                sessionId,
-                sessionDetails.data!!.session.sessionDetails,
-                sessionDetails.data!!.config.timezone.toTimeZone()
-            )
-        } else {
-            SessionDetailsUiState.Error
-        }
-    }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            SessionDetailsUiState.Loading
-        )
+    val session: StateFlow<QueryResult<SessionDetailsUiState>> =
+        repository.sessionDetailsQuery(sessionId.conference, sessionId.sessionId)
+            .toUiState {
+                SessionDetailsUiState(
+                    it.session.sessionDetails,
+                    it.config.timezone.toTimeZone()
+                )
+            }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), QueryResult.Loading)
 }

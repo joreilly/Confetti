@@ -213,8 +213,15 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
         confDates.forEach { confDate ->
             val sessions = sessionsMap[confDate] ?: emptyList()
-            val sessionsByStartTime =
-                sessions.groupBy { getSessionTime(it, timeZone) }
+
+            val sessionsByStartTime = sessions
+                .groupBy { getSessionTime(it, timeZone) }
+                .mapValues {
+                    rooms.mapNotNull { room ->
+                        it.value.find { session -> session.room?.name == room.name }
+                    }
+                }
+
             sessionsByStartTimeList.add(sessionsByStartTime)
         }
 

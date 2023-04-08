@@ -11,6 +11,7 @@ import com.google.android.horologist.data.WearDataLayerRegistry
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.proto.WearSettings
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onEmpty
 
@@ -19,6 +20,9 @@ class PhoneSettingsSync(
     val repository: ConfettiRepository
 ) {
     val settingsFlow = dataLayerRegistry.protoFlow<WearSettings>(PairedPhone).onEmpty {
+        emit(WearSettings())
+    }.catch {
+        // Fails on robolectric
         emit(WearSettings())
     }
 

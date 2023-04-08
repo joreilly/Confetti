@@ -5,7 +5,6 @@ import com.apollographql.apollo3.api.Error
 import com.apollographql.apollo3.api.Query
 import com.apollographql.apollo3.exception.ApolloException
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.runningFold
 
 object ClientQuery {
@@ -14,14 +13,16 @@ object ClientQuery {
         initial: QueryResult<T> = QueryResult.Loading,
         mapper: (D) -> T
     ): Flow<QueryResult<T>> = toFlow().runningFold(initial) { previous, next ->
-        if (next.hasErrors()) {
-            onError(next.errors.orEmpty(), next.exception)
+        val apolloException = next.exception
+
+        if (next.hasErrors() || apolloException != null) {
+            onError(next.errors.orEmpty(), apolloException)
         }
 
         if (next.data != null) {
             QueryResult.Success(mapper(next.data!!))
-        } else if (next.exception != null && previous is QueryResult.Loading) {
-            QueryResult.Error(next.exception!!)
+        } else if (apolloException != null && previous is QueryResult.Loading) {
+            QueryResult.Error(apolloException)
         } else {
             previous
         }

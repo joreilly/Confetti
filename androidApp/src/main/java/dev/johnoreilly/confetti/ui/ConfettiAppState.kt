@@ -32,9 +32,6 @@ class ConfettiAppState(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    var shouldShowSettingsDialog by mutableStateOf(false)
-        private set
-
     val shouldShowBottomBar: Boolean
         get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
 
@@ -75,10 +72,5 @@ class ConfettiAppState(
     fun onBackClick() {
         navController.popBackStack()
     }
-
-    fun setShowSettingsDialog(shouldShow: Boolean) {
-        shouldShowSettingsDialog = shouldShow
-    }
-
 }
 

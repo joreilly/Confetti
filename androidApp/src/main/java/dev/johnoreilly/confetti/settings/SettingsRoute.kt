@@ -1,15 +1,18 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package dev.johnoreilly.confetti.settings
 
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
@@ -18,15 +21,19 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.BuildConfig
@@ -35,13 +42,12 @@ import dev.johnoreilly.confetti.ui.supportsDynamicTheming
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SettingsDialog(
-    onDismiss: () -> Unit,
+fun SettingsRoute(
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val userEditableSettings by viewModel.userEditableSettings.collectAsStateWithLifecycle()
-    SettingsDialog(
-        onDismiss = onDismiss,
+    val developerSettings by viewModel.developerSettings.collectAsStateWithLifecycle()
+    SettingsScreen(
         userEditableSettings = userEditableSettings,
         onChangeThemeBrand = viewModel::updateThemeBrand,
         onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
@@ -49,24 +55,25 @@ fun SettingsDialog(
         onUpdateWearTheme = viewModel::updateWearTheme,
         onInstallOnWatch = viewModel::installOnWatch,
         onChangeUseExperimentalFeatures = viewModel::updateUseExperimentalFeatures,
+        developerSettings = developerSettings,
+        onEnableDeveloperMode = viewModel::enableDeveloperMode
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SettingsDialog(
+fun SettingsScreen(
     userEditableSettings: UserEditableSettings?,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onDismiss: () -> Unit,
     onChangeUseExperimentalFeatures: (value: Boolean) -> Unit,
     onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
     onUpdateWearTheme: (Boolean) -> Unit,
     onInstallOnWatch: (String) -> Unit,
+    developerSettings: SettingsViewModel.DeveloperSettings?,
+    onEnableDeveloperMode: () -> Unit
 ) {
-    val configuration = LocalConfiguration.current
-
+    val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     /**
      * usePlatformDefaultWidth = false is use as a temporary fix to allow
      * height recalculation during recomposition. This, however, causes
@@ -74,56 +81,103 @@ fun SettingsDialog(
      * is configured below. This should be removed when there's fix to
      * https://issuetracker.google.com/issues/221643630
      */
-    AlertDialog(
-        properties = DialogProperties(usePlatformDefaultWidth = false),
-        modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 80.dp),
-        onDismissRequest = { onDismiss() },
-        title = {
-            Text(
-                text = stringResource(R.string.settings_title),
-                style = MaterialTheme.typography.titleLarge,
+    Scaffold(
+        modifier = Modifier.fillMaxWidth(),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.settings_title),
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
+                ),
+                scrollBehavior = scrollBehavior,
             )
         },
-        text = {
-            Divider()
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                SettingsPanel(
-                    settings = userEditableSettings,
-                    supportDynamicColor = supportDynamicColor,
-                    onChangeThemeBrand = onChangeThemeBrand,
-                    onChangeDynamicColorPreference = onChangeDynamicColorPreference,
-                    onChangeDarkThemeConfig = onChangeDarkThemeConfig,
-                    onChangeUseExperimentalFeatures = onChangeUseExperimentalFeatures,
-                )
+    ) {
+        Column(
+            Modifier
+                .clipToBounds()
+                .padding(it)
+        ) {
+            Divider(Modifier.padding(top = 8.dp))
 
-                Row(
-                    modifier = Modifier.padding(top = 16.dp),
-                ) {
-                    when (val wearStatus = userEditableSettings?.wearStatus) {
-                        is WearStatus.NotInstalled -> {
-                            Button(onClick = { onInstallOnWatch(wearStatus.nodeId) }) {
-                                Text("Install on Watch")
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                item {
+                    Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+                        SettingsPanel(
+                            settings = userEditableSettings,
+                            supportDynamicColor = supportDynamicColor,
+                            onChangeThemeBrand = onChangeThemeBrand,
+                            onChangeDynamicColorPreference = onChangeDynamicColorPreference,
+                            onChangeDarkThemeConfig = onChangeDarkThemeConfig,
+                            onChangeUseExperimentalFeatures = onChangeUseExperimentalFeatures,
+                        )
+                    }
+                }
+
+                item {
+                    Row(
+                        modifier = Modifier
+                            .padding(top = 16.dp, start = 8.dp, end = 8.dp),
+                    ) {
+                        when (val wearStatus = userEditableSettings?.wearStatus) {
+                            is WearStatus.NotInstalled -> {
+                                Button(onClick = { onInstallOnWatch(wearStatus.nodeId) }) {
+                                    Text("Install on Watch")
+                                }
                             }
-                        }
 
-                        is WearStatus.Paired -> {
-                            CheckboxWithLabel(
-                                checked = wearStatus.wearSettings.theme != null,
-                                onCheckedChange = { onUpdateWearTheme(it) },
-                                text = "Update Wear Theme"
-                            )
-                        }
+                            is WearStatus.Paired -> {
+                                CheckboxWithLabel(
+                                    checked = wearStatus.wearSettings.theme != null,
+                                    onCheckedChange = { onUpdateWearTheme(it) },
+                                    text = "Update Wear Theme"
+                                )
+                            }
 
-                        else -> {
-                            Text("No paired Watch")
+                            else -> {
+                                Text("No paired Watch")
+                            }
                         }
                     }
                 }
 
-                Divider(Modifier.padding(top = 8.dp))
+                if (developerSettings != null) {
+                    item {
+                        Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+                            SettingsDialogSectionTitle(text = stringResource(R.string.developerSettings))
+                            Text(
+                                "Token: ${developerSettings.token}",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                }
+            }
 
+            Divider(Modifier.padding(top = 8.dp))
+
+            var developerModeCount by remember { mutableStateOf(0) }
+            Box(modifier = Modifier.run {
+                if (developerSettings == null) {
+                    clickable {
+                        developerModeCount++
+                        if (developerModeCount > 8) {
+                            onEnableDeveloperMode()
+                        }
+                    }
+                } else {
+                    this
+                }
+            }) {
                 Row(
-                    modifier = Modifier.padding(top = 16.dp),
+                    modifier = Modifier
+                        .padding(top = 16.dp),
                 ) {
                     Column(
                         Modifier.fillMaxWidth(),
@@ -133,18 +187,8 @@ fun SettingsDialog(
                     }
                 }
             }
-        },
-        confirmButton = {
-            Text(
-                text = stringResource(R.string.dismiss_dialog_button_text),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .clickable { onDismiss() },
-            )
-        },
-    )
+        }
+    }
 }
 
 @Composable

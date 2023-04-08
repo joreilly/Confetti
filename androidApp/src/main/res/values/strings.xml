@@ -26,5 +26,6 @@
     <string name="use_experimental_features">Use Experimental Features</string>
     <string name="settings_boolean_true">Yes</string>
     <string name="settings_boolean_false">No</string>
+    <string name="developerSettings">Developer Settings\n</string>
 
 </resources>

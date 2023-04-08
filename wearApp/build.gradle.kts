@@ -133,6 +133,7 @@ dependencies {
 
 dependencies {
     implementation(project(":shared"))
+    testImplementation(project(":androidTest"))
 
     implementation(libs.coil.compose)
     implementation(libs.compose.ui.tooling)

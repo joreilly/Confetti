@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.wear
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.crashlytics.ktx.setCustomKeys
 import com.google.firebase.ktx.Firebase
@@ -19,15 +20,25 @@ import org.koin.androidx.workmanager.koin.workManagerFactory
 
 class ConfettiApplication : Application(), ImageLoaderFactory {
 
+    private val isFirebaseInstalled
+        get() = try {
+            FirebaseApp.getInstance()
+            true
+        } catch (ise: IllegalStateException) {
+            false
+        }
+
     override fun newImageLoader(): ImageLoader = get()
 
     override fun onCreate() {
         super.onCreate()
 
-        if (!BuildConfig.DEBUG) {
-            Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
-            Firebase.crashlytics.setCustomKeys {
-                key("appName", "wearApp")
+        if (isFirebaseInstalled) {
+            if (!BuildConfig.DEBUG) {
+                Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
+                Firebase.crashlytics.setCustomKeys {
+                    key("appName", "wearApp")
+                }
             }
         }
 

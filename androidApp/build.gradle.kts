@@ -68,6 +68,12 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
@@ -136,6 +142,7 @@ kotlin {
 
 dependencies {
     implementation(project(":shared"))
+    testImplementation(project(":androidTest"))
 
     implementation(libs.compose.compiler)
     implementation(libs.compose.ui)
@@ -173,4 +180,12 @@ dependencies {
     implementation(libs.firebase.performance)
     implementation(libs.play.services.auth)
     coreLibraryDesugaring(libs.desugar)
+
+    testImplementation(libs.snapshot.android)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.compose.ui.test.junit4)
+    testImplementation(libs.koin.test)
+    debugImplementation(libs.compose.ui.manifest)
 }

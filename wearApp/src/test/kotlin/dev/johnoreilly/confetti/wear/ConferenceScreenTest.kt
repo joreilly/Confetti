@@ -10,9 +10,10 @@ import androidx.compose.ui.test.assertTouchHeightIsEqualTo
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import dev.johnoreilly.confetti.wear.preview.TestFixtures.conferences
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.conferences.ConferencesUiState
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.conferences
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import org.junit.Test
 
@@ -23,15 +24,17 @@ class ConferenceScreenTest : ScreenshotTest() {
 
     @Test
     fun conferencesScreen() {
-        takeScrollableScreenshot (
+        takeScrollableScreenshot(
             timeTextMode = TimeTextMode.OnTop,
             checks = { columnState ->
                 rule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
             }
         ) { columnState ->
             ConferencesView(
-                uiState = ConferencesUiState.Success(
-                    conferences
+                uiState = QueryResult.Success(
+                    ConferencesUiState(
+                        conferences
+                    )
                 ),
                 navigateToConference = {},
                 columnState = columnState
@@ -57,8 +60,10 @@ class ConferenceScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             ConferencesView(
-                uiState = ConferencesUiState.Success(
-                    conferences
+                uiState = QueryResult.Success(
+                    ConferencesUiState(
+                        conferences
+                    )
                 ),
                 navigateToConference = {},
                 columnState = columnState

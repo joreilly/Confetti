@@ -54,6 +54,7 @@ fun ConfettiApp(
             startDestination = StartupDestination.route,
             navController = navController
         ) {
+            println("SwipeDismissableNavHost")
             initialLoadingGraph(
                 navigateToSession = {
                     onNavigateToDestination(

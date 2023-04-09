@@ -16,7 +16,6 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.toKotlinInstant
@@ -45,7 +44,7 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
         renderer.colors.value = theme?.toMaterialThemeColors() ?: Colors()
 
-        val conference = conferenceFlow.first()
+        val conference = phoneSettingsSync.conferenceFlow.first()
 
         if (conference.isBlank()) {
             return ConfettiTileData.NoConference
@@ -102,13 +101,6 @@ class CurrentSessionsTileService : SuspendingTileService() {
         super.onTileLeaveEvent(requestParams)
 
         analyticsLogger.logEvent(TileAnalyticsEvent(TileAnalyticsEvent.Type.Leave, getConference()))
-    }
-
-    val conferenceFlow = combine(
-        phoneSettingsSync.settingsFlow,
-        repository.getConferenceFlow()
-    ) { phoneSettings, wearConference ->
-        phoneSettings.conference.ifBlank { wearConference }
     }
 
     private fun getConference(): String = runBlocking {

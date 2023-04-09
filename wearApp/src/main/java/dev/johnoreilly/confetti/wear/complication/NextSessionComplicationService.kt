@@ -35,7 +35,7 @@ class NextSessionComplicationService :
     private val authentication: Authentication by inject()
 
     override suspend fun data(request: ComplicationRequest): NextSessionComplicationData {
-        val conference = conferenceFlow.first()
+        val conference = phoneSettingsSync.conferenceFlow.first()
         val user = authentication.currentUser.value
 
         if (conference.isBlank()) {
@@ -101,11 +101,4 @@ class NextSessionComplicationService :
 
     override fun previewData(type: ComplicationType): NextSessionComplicationData =
         renderer.previewData()
-
-    val conferenceFlow = combine(
-        phoneSettingsSync.settingsFlow,
-        repository.getConferenceFlow()
-    ) { phoneSettings, wearConference ->
-        phoneSettings.conference.ifBlank { wearConference }
-    }
 }

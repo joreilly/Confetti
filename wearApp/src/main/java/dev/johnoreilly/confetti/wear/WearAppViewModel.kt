@@ -23,16 +23,9 @@ class WearAppViewModel(
         complicationUpdater.update()
     }
 
-    val conferenceFlow = combine(
-        phoneSettingsSync.settingsFlow,
-        repository.getConferenceFlow()
-    ) { phoneSettings, wearConference ->
-        phoneSettings.conference.ifBlank { wearConference }
-    }
-
     val appState = combine(
         phoneSettingsSync.settingsFlow,
-        conferenceFlow,
+        phoneSettingsSync.conferenceFlow,
         authentication.currentUser
     ) { phoneSettings, defaultConference, user ->
         AppUiState(

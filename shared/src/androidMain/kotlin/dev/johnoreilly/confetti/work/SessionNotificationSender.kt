@@ -79,11 +79,11 @@ class SessionNotificationSender(
         }
 
         val sessionsTimeZone = TimeZone.of(sessionsResponse.data?.config?.timezone.orEmpty())
-        val now = dateService.nowInstant()
+        val timeZonedNow = dateService.nowInstant()
         val upcomingSessions = bookmarkedSessions.filter { session ->
-            val startsAt = session.startsAt.toInstant(sessionsTimeZone)
-            val nowUntilStartsAt = now.until(startsAt, DateTimeUnit.MINUTE)
-            nowUntilStartsAt in 0..INTERVAL.inWholeMinutes
+            val timeZonedStartsAt = session.startsAt.toInstant(sessionsTimeZone)
+            val untilInMinutes = timeZonedNow.until(timeZonedStartsAt, DateTimeUnit.MINUTE)
+            untilInMinutes in 0..INTERVAL.inWholeMinutes
         }
 
         // If there are no bookmarked upcoming sessions, skip.

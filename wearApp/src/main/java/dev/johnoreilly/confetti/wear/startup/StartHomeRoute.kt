@@ -13,13 +13,13 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.wear.home.HomeScreenContent
-import dev.johnoreilly.confetti.wear.home.HomeUiState
+import dev.johnoreilly.confetti.utils.QueryResult
+import dev.johnoreilly.confetti.wear.home.HomeScreen
 import org.koin.androidx.compose.getViewModel
 
 // FIXME: use https://developer.android.com/develop/ui/views/launch/splash-screen#suspend-drawing to avoid the progressbar
 @Composable
-fun InitialLoadingRoute(
+fun StartHomeRoute(
     columnState: ScalingLazyColumnState,
     navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (ConferenceDayKey) -> Unit,
@@ -27,28 +27,32 @@ fun InitialLoadingRoute(
     navigateToBookmarks: (String) -> Unit,
     navigateToConferences: () -> Unit,
 ) {
-    val viewModel: SplashViewModel = getViewModel()
+    val viewModel: StartViewModel = getViewModel()
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     val bookmarksUiState by viewModel.bookmarksUiState.collectAsStateWithLifecycle()
 
-    val lifecycle = LocalLifecycleOwner.current
-    LaunchedEffect(uiState) {
-        println("uiState $uiState")
-        lifecycle.repeatOnLifecycle(state = Lifecycle.State.RESUMED) {
-            if (uiState is HomeUiState.NoConference) {
+    if (uiState is QueryResult.None) {
+        val lifecycle = LocalLifecycleOwner.current
+        LaunchedEffect(uiState) {
+            // If we don't have a conference to show,
+            // and we are the top of the navigation stack
+            // then send the user to select a conference
+            lifecycle.repeatOnLifecycle(state = Lifecycle.State.RESUMED) {
                 navigateToConferences()
             }
         }
     }
 
-    HomeScreenContent(
+    HomeScreen(
         uiState = uiState,
         bookmarksUiState = bookmarksUiState,
-        navigateToSession = navigateToSession,
-        navigateToDay = navigateToDay,
-        navigateToSettings = navigateToSettings,
-        navigateToBookmarks = navigateToBookmarks,
-        columnState = columnState
+        columnState = columnState,
+        daySelected = navigateToDay,
+        onBookmarksClick = navigateToBookmarks,
+        onSettingsClick = navigateToSettings,
+        sessionSelected = {
+            navigateToSession(it)
+        }
     )
 }

@@ -32,6 +32,8 @@ import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
@@ -40,7 +42,6 @@ import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 import java.time.format.DateTimeFormatter
 
@@ -48,10 +49,10 @@ import java.time.format.DateTimeFormatter
 fun HomeScreen(
     uiState: QueryResult<HomeUiState>,
     bookmarksUiState: QueryResult<BookmarksUiState>,
-    sessionSelected: (sessionId: String) -> Unit,
-    daySelected: (sessionId: LocalDate) -> Unit,
+    sessionSelected: (SessionDetailsKey) -> Unit,
+    daySelected: (ConferenceDayKey) -> Unit,
     onSettingsClick: () -> Unit,
-    onBookmarksClick: () -> Unit,
+    onBookmarksClick: (String) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
@@ -74,7 +75,7 @@ fun HomeScreen(
             }
         }
 
-        if (bookmarksUiState !is QueryResult.NotLoggedIn) {
+        if (bookmarksUiState !is QueryResult.None) {
             item {
                 SectionHeader("Bookmarked Sessions")
             }
@@ -83,7 +84,11 @@ fun HomeScreen(
         if (bookmarksUiState is QueryResult.Success) {
             items(bookmarksUiState.result.upcoming.take(3)) { session ->
                 key(session.id) {
-                    SessionCard(session, sessionSelected)
+                    SessionCard(session, sessionSelected = {
+                        if (uiState is QueryResult.Success) {
+                            sessionSelected(SessionDetailsKey(uiState.result.conference, it))
+                        }
+                    })
                 }
             }
 
@@ -96,7 +101,11 @@ fun HomeScreen(
             item {
                 OutlinedChip(
                     label = { Text("All Bookmarks") },
-                    onClick = { onBookmarksClick() }
+                    onClick = {
+                        if (uiState is QueryResult.Success) {
+                            onBookmarksClick(uiState.result.conference)
+                        }
+                    }
                 )
             }
         } else if (uiState is QueryResult.Loading) {
@@ -112,7 +121,7 @@ fun HomeScreen(
                 val date = uiState.result.confDates[it]
                 StandardChip(
                     label = dayFormatter.format(date.toJavaLocalDate()),
-                    onClick = { daySelected(date) },
+                    onClick = { daySelected(ConferenceDayKey(uiState.result.conference, date)) },
                     chipType = StandardChipType.Secondary
                 )
             }

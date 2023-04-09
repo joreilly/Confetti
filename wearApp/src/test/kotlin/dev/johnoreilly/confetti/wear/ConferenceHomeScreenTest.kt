@@ -45,7 +45,7 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                         kotlinConf2023.days,
                     )
                 ),
-                bookmarksUiState = QueryResult.NotLoggedIn,
+                bookmarksUiState = QueryResult.None,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},
@@ -113,7 +113,7 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                         kotlinConf2023.days,
                     )
                 ),
-                bookmarksUiState = QueryResult.NotLoggedIn,
+                bookmarksUiState = QueryResult.None,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},

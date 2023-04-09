@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             navController = rememberSwipeDismissableNavController()
 
-            ConfettiApp(navController)
+            ConfettiApp(navController, intent)
 
             LaunchedEffect(Unit) {
                 navigateFromTileLaunch()

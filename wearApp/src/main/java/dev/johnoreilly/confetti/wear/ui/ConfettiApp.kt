@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.wear.ui
 
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -24,13 +25,14 @@ import dev.johnoreilly.confetti.wear.settings.navigation.SettingsDestination
 import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.SpeakerDetailsDestination
 import dev.johnoreilly.confetti.wear.speakerdetails.navigation.speakerDetailsGraph
-import dev.johnoreilly.confetti.wear.startup.navigation.StartupDestination
-import dev.johnoreilly.confetti.wear.startup.navigation.initialLoadingGraph
+import dev.johnoreilly.confetti.wear.startup.navigation.StartHomeDestination
+import dev.johnoreilly.confetti.wear.startup.navigation.startHomeGraph
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ConfettiApp(
-    navController: NavHostController
+    navController: NavHostController,
+    intent: Intent?
 ) {
     fun onNavigateToDestination(destination: ConfettiNavigationDestination, route: String? = null) {
         if (destination is ConferenceHomeDestination) {
@@ -50,23 +52,35 @@ fun ConfettiApp(
 
     ConfettiTheme(appState.settings.theme) {
         WearNavScaffold(
-            startDestination = StartupDestination.route,
+            startDestination = StartHomeDestination.route,
             navController = navController
         ) {
-            initialLoadingGraph(
+            startHomeGraph(
+                intent = intent,
+                navigateToSession = {
+                    onNavigateToDestination(
+                        SessionDetailsDestination,
+                        SessionDetailsDestination.createNavigationRoute(it)
+                    )
+                },
+                navigateToSettings = {
+                    onNavigateToDestination(SettingsDestination)
+                },
+                navigateToDay = {
+                    onNavigateToDestination(
+                        SessionsDestination,
+                        SessionsDestination.createNavigationRoute(it)
+                    )
+                },
+                navigateToBookmarks = {
+                    onNavigateToDestination(
+                        BookmarksDestination,
+                        BookmarksDestination.createNavigationRoute(it)
+                    )
+                },
                 navigateToConferences = {
-                    onNavigateToDestination(
-                        ConferencesDestination,
-                        ConferencesDestination.route
-                    )
-                },
-                navigateToHome = {
-                    onNavigateToDestination(
-                        ConferenceHomeDestination,
-                        ConferenceHomeDestination.createNavigationRoute(it)
-                    )
-                },
-                appUiState = appState
+                    onNavigateToDestination(ConferencesDestination)
+                }
             )
 
             conferencesGraph(

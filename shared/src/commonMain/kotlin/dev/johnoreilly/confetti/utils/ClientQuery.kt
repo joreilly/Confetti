@@ -5,6 +5,7 @@ import com.apollographql.apollo3.api.Error
 import com.apollographql.apollo3.api.Query
 import com.apollographql.apollo3.exception.ApolloException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.runningFold
 
 object ClientQuery {
@@ -26,6 +27,10 @@ object ClientQuery {
         } else {
             previous
         }
+    }.filterNot {
+        // Loading will be added by a QueryResult.Loading from stateIn in viewModel
+        // avoid here as it will cause stale results to be replaced by loading on screen
+        it is QueryResult.Loading
     }
 }
 
@@ -36,7 +41,7 @@ sealed interface QueryResult<out T> {
 
     object Loading : QueryResult<Nothing>
 
-    object NotLoggedIn : QueryResult<Nothing>
+    object None : QueryResult<Nothing>
 
     data class Success<T>(
         val result: T

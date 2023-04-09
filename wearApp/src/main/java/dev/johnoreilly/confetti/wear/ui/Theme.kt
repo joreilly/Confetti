@@ -35,7 +35,6 @@ fun ConfettiTheme(
     }
 }
 
-@Suppress("DEPRECATION")
 @Composable
 private fun Typography.withPlatformStyle() = remember(this) {
     val platformStyle = PlatformTextStyle(includeFontPadding = false)

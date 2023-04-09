@@ -2,8 +2,8 @@ package dev.johnoreilly.confetti.wear.app
 
 import androidx.core.net.toUri
 import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
-import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
+import dev.johnoreilly.confetti.wear.startup.navigation.StartHomeDestination
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Ignore
@@ -17,7 +17,7 @@ class NavigationTest : BaseAppTest() {
 
         val navController = activity.navController
 
-        assertEquals("startup_route", navController.currentDestination?.route)
+        assertEquals(StartHomeDestination.route, navController.currentDestination?.route)
 
         rule.waitUntil {
             navController.currentDestination?.route == ConferencesDestination.route
@@ -35,10 +35,10 @@ class NavigationTest : BaseAppTest() {
 
         val navController = activity.navController
 
-        assertEquals("startup_route", navController.currentDestination?.route)
+        assertEquals(StartHomeDestination.route, navController.currentDestination?.route)
 
         rule.waitUntil {
-            navController.currentDestination?.route == ConferenceHomeDestination.route
+            navController.currentDestination?.route == StartHomeDestination.route
         }
     }
 

@@ -39,7 +39,7 @@ class BookmarksViewModel(
     val uiState: StateFlow<QueryResult<BookmarksUiState>> =
         authentication.currentUser.flatMapLatest { user ->
             if (user == null) {
-                flowOf(QueryResult.NotLoggedIn)
+                flowOf(QueryResult.None)
             } else {
                 // Assume this is a good point to refresh
                 val fetchPolicy = FetchPolicy.CacheAndNetwork

@@ -36,20 +36,14 @@ fun HomeRoute(
         uiState = uiState,
         bookmarksUiState = bookmarksUiState,
         sessionSelected = {
-            if (uiState is QueryResult.Success) {
-                navigateToSession(SessionDetailsKey(uiState.result.conference, it))
-            }
+            navigateToSession(it)
         },
         daySelected = {
-            if (uiState is QueryResult.Success) {
-                navigateToDay(ConferenceDayKey(uiState.result.conference, it))
-            }
+            navigateToDay(it)
         },
         onSettingsClick = navigateToSettings,
         onBookmarksClick = {
-            if (uiState is QueryResult.Success) {
-                navigateToBookmarks(uiState.result.conference)
-            }
+            navigateToBookmarks(it)
         },
         columnState = columnState,
     )

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.utils.ClientQuery.toUiState
 import dev.johnoreilly.confetti.utils.QueryResult
@@ -29,31 +30,44 @@ class HomeViewModel(
         ConferenceHomeDestination.fromNavArgs(savedStateHandle)
 
     val uiState: StateFlow<QueryResult<HomeUiState>> =
-        repository.conferenceHomeData(conference).toUiState {
-            HomeUiState(
-                it.config.id,
-                it.config.name,
-                it.config.days,
-            )
-        }
+        homeUiStateFlow(repository, conference)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), QueryResult.Loading)
 
     val bookmarksUiState: StateFlow<QueryResult<BookmarksUiState>> =
-        authentication.currentUser.flatMapLatest { user ->
-            if (user != null) {
-                repository.bookmarkedSessionsQuery(
-                    conference,
-                    user.uid,
-                    user,
-                    FetchPolicy.CacheFirst
-                ).toUiState {
-                    it.toUiState()
-                }
-            } else {
-                flowOf(QueryResult.NotLoggedIn)
-            }
-        }
+        bookmarksUiStateFlow(authentication, repository, conference)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), QueryResult.Loading)
 
+    companion object {
+        fun homeUiStateFlow(repository: ConfettiRepository, conference: String) =
+            repository.conferenceHomeData(conference).toUiState {
+                it.toUiState()
+            }
+
+        fun bookmarksUiStateFlow(
+            authentication: Authentication,
+            repository: ConfettiRepository,
+            conference: String
+        ) =
+            authentication.currentUser.flatMapLatest { user ->
+                if (user != null) {
+                    repository.bookmarkedSessionsQuery(
+                        conference,
+                        user.uid,
+                        user,
+                        FetchPolicy.CacheFirst
+                    ).toUiState {
+                        it.toUiState()
+                    }
+                } else {
+                    flowOf(QueryResult.None)
+                }
+            }
+
+        fun GetConferenceDataQuery.Data.toUiState() = HomeUiState(
+            config.id,
+            config.name,
+            config.days,
+        )
+    }
 }
 

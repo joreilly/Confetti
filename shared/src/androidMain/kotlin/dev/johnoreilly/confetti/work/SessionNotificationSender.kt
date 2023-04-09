@@ -69,9 +69,9 @@ class SessionNotificationSender(
             ?.sessionIds
             .orEmpty()
 
-        val intervalRange = createIntervalRange()
+        val intervalRangeFromNow = createIntervalRangeFromNow()
         val upcomingSessions = sessions.filter { session ->
-            bookmarks.contains(session.id) && session.startsAt in intervalRange
+            bookmarks.contains(session.id) && session.startsAt in intervalRangeFromNow
         }
 
         // If there are no bookmarked upcoming sessions, skip.
@@ -92,9 +92,11 @@ class SessionNotificationSender(
         }
     }
 
-    private fun createIntervalRange(
-        timeZone: TimeZone = TimeZone.currentSystemDefault(),
-    ): ClosedRange<LocalDateTime> {
+    /**
+     * Creates an interval from [DateService.now] up to [INTERVAL], with the device time zone.
+     */
+    private fun createIntervalRangeFromNow(): ClosedRange<LocalDateTime> {
+        val timeZone = TimeZone.currentSystemDefault()
         val now = dateService.now()
         val future = (now.toInstant(timeZone) + INTERVAL).toLocalDateTime(timeZone)
         return now..future

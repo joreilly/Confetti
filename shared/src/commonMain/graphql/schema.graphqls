@@ -87,7 +87,7 @@ type PartnerGroup {
 type Query {
   bookmarkConnection: BookmarkConnection
 
-  bookmarks: Bookmarks
+  bookmarks: Bookmarks @deprecated(reason: "Use bookmarkConnection instead")
 
   conferences(orderBy: ConferenceOrderByInput): [Conference!]!
 

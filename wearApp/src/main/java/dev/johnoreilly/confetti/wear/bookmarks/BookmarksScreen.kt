@@ -14,6 +14,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -42,7 +43,7 @@ fun BookmarksRoute(
 
 @Composable
 fun BookmarksScreen(
-    uiState: BookmarksUiState,
+    uiState: QueryResult<BookmarksUiState>,
     sessionSelected: (SessionDetailsKey) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
@@ -51,21 +52,21 @@ fun BookmarksScreen(
         columnState = columnState,
     ) {
         when (uiState) {
-            is BookmarksUiState.Success -> {
+            is QueryResult.Success -> {
                 item { SectionHeader(text = "Upcoming Sessions") }
 
-                items(uiState.upcoming) { session ->
+                items(uiState.result.upcoming) { session ->
                     SessionCard(session) {
                         sessionSelected(
                             SessionDetailsKey(
-                                conference = uiState.conference,
+                                conference = uiState.result.conference,
                                 sessionId = it
                             )
                         )
                     }
                 }
 
-                if (uiState.upcoming.isEmpty()) {
+                if (!uiState.result.hasUpcomingBookmarks) {
                     item {
                         Text("No upcoming sessions")
                     }
@@ -73,18 +74,18 @@ fun BookmarksScreen(
 
                 item { SectionHeader(text = "Past Sessions") }
 
-                items(uiState.past) { session ->
+                items(uiState.result.past) { session ->
                     SessionCard(session) {
                         sessionSelected(
                             SessionDetailsKey(
-                                conference = uiState.conference,
+                                conference = uiState.result.conference,
                                 sessionId = it
                             )
                         )
                     }
                 }
 
-                if (uiState.past.isEmpty()) {
+                if (uiState.result.past.isEmpty()) {
                     item {
                         Text("No past sessions")
                     }
@@ -104,10 +105,12 @@ fun BookmarksScreen(
 fun BookmarksPreview() {
     ConfettiTheme {
         BookmarksScreen(
-            uiState = BookmarksUiState.Success(
-                conference = TestFixtures.kotlinConf2023.id,
-                upcoming = listOf(TestFixtures.sessionDetails),
-                past = listOf(),
+            uiState = QueryResult.Success(
+                BookmarksUiState(
+                    conference = TestFixtures.kotlinConf2023.id,
+                    upcoming = listOf(TestFixtures.sessionDetails),
+                    past = listOf(),
+                )
             ),
             sessionSelected = {},
             columnState = ScalingLazyColumnDefaults.belowTimeText().create()

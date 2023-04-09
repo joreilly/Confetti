@@ -112,6 +112,7 @@ fun SpeakerDetailsView(
                 speaker.tagline?.let { city ->
                     Text(
                         text = city,
+                        textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium
                     )
                 }

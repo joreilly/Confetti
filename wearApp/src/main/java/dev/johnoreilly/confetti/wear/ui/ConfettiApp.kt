@@ -94,12 +94,6 @@ fun ConfettiApp(
                         SessionsDestination.createNavigationRoute(it)
                     )
                 },
-                navigateToConferenceList = {
-                    onNavigateToDestination(
-                        ConferencesDestination,
-                        ConferencesDestination.route
-                    )
-                },
                 navigateToBookmarks = {
                     onNavigateToDestination(
                         BookmarksDestination,

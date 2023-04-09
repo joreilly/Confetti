@@ -32,6 +32,7 @@ import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
@@ -45,8 +46,8 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun HomeScreen(
-    uiState: HomeUiState,
-    bookmarksUiState: BookmarksUiState,
+    uiState: QueryResult<HomeUiState>,
+    bookmarksUiState: QueryResult<BookmarksUiState>,
     sessionSelected: (sessionId: String) -> Unit,
     daySelected: (sessionId: LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
@@ -60,9 +61,9 @@ fun HomeScreen(
         columnState = columnState,
     ) {
         item {
-            if (uiState is HomeUiState.Success) {
-                ConferenceTitle(uiState.conferenceName)
-            } else if (uiState is HomeUiState.Loading) {
+            if (uiState is QueryResult.Success) {
+                ConferenceTitle(uiState.result.conferenceName)
+            } else if (uiState is QueryResult.Loading) {
                 val chipPlaceholderState = rememberPlaceholderState { false }
                 SectionHeader(
                     "",
@@ -73,20 +74,20 @@ fun HomeScreen(
             }
         }
 
-        if (bookmarksUiState !is BookmarksUiState.NotLoggedIn) {
+        if (bookmarksUiState !is QueryResult.NotLoggedIn) {
             item {
                 SectionHeader("Bookmarked Sessions")
             }
         }
 
-        if (bookmarksUiState is BookmarksUiState.Success) {
-            items(bookmarksUiState.upcoming.take(3)) { session ->
+        if (bookmarksUiState is QueryResult.Success) {
+            items(bookmarksUiState.result.upcoming.take(3)) { session ->
                 key(session.id) {
                     SessionCard(session, sessionSelected)
                 }
             }
 
-            if (!bookmarksUiState.hasUpcomingBookmarks) {
+            if (!bookmarksUiState.result.hasUpcomingBookmarks) {
                 item {
                     Text("No upcoming sessions")
                 }
@@ -98,24 +99,24 @@ fun HomeScreen(
                     onClick = { onBookmarksClick() }
                 )
             }
-        } else if (uiState is HomeUiState.Loading) {
+        } else if (uiState is QueryResult.Loading) {
             // TODO placeholders
         }
 
         item {
             SectionHeader("Conference Days")
         }
-        if (uiState is HomeUiState.Success) {
-            items(uiState.confDates.size) {
+        if (uiState is QueryResult.Success) {
+            items(uiState.result.confDates.size) {
                 // TODO format date
-                val date = uiState.confDates[it]
+                val date = uiState.result.confDates[it]
                 StandardChip(
                     label = dayFormatter.format(date.toJavaLocalDate()),
                     onClick = { daySelected(date) },
                     chipType = StandardChipType.Secondary
                 )
             }
-        } else if (uiState is HomeUiState.Loading) {
+        } else if (uiState is QueryResult.Loading) {
             items(2) {
                 PlaceholderChip(contentDescription = "")
             }
@@ -150,17 +151,21 @@ fun ConferenceTitle(conferenceName: String) {
 fun HomeListViewPreview() {
     ConfettiTheme {
         HomeScreen(
-            uiState = HomeUiState.Success(
-                conference = TestFixtures.kotlinConf2023.id,
-                conferenceName = TestFixtures.kotlinConf2023.name,
-                confDates = TestFixtures.kotlinConf2023.days,
+            uiState = QueryResult.Success(
+                HomeUiState(
+                    conference = TestFixtures.kotlinConf2023.id,
+                    conferenceName = TestFixtures.kotlinConf2023.name,
+                    confDates = TestFixtures.kotlinConf2023.days,
+                )
             ),
-            bookmarksUiState = BookmarksUiState.Success(
-                conference = TestFixtures.kotlinConf2023.id,
-                upcoming = listOf(
-                    TestFixtures.sessionDetails
-                ),
-                past = listOf()
+            bookmarksUiState = QueryResult.Success(
+                BookmarksUiState(
+                    conference = TestFixtures.kotlinConf2023.id,
+                    upcoming = listOf(
+                        TestFixtures.sessionDetails
+                    ),
+                    past = listOf()
+                )
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
             sessionSelected = {},

@@ -15,6 +15,7 @@ import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.home.HomeScreen
 import dev.johnoreilly.confetti.wear.home.HomeUiState
@@ -37,12 +38,14 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             HomeScreen(
-                uiState = HomeUiState.Success(
-                    kotlinConf2023.id,
-                    kotlinConf2023.name,
-                    kotlinConf2023.days,
+                uiState = QueryResult.Success(
+                    HomeUiState(
+                        kotlinConf2023.id,
+                        kotlinConf2023.name,
+                        kotlinConf2023.days,
+                    )
                 ),
-                bookmarksUiState = BookmarksUiState.NotLoggedIn,
+                bookmarksUiState = QueryResult.NotLoggedIn,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},
@@ -61,16 +64,20 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             HomeScreen(
-                uiState = HomeUiState.Success(
-                    kotlinConf2023.id,
-                    kotlinConf2023.name,
-                    kotlinConf2023.days,
+                uiState = QueryResult.Success(
+                    HomeUiState(
+                        kotlinConf2023.id,
+                        kotlinConf2023.name,
+                        kotlinConf2023.days,
+                    )
                 ),
-                bookmarksUiState = BookmarksUiState.Success(
-                    kotlinConf2023.id, listOf(
-                        TestFixtures.sessionDetails,
-                        TestFixtures.sessionDetails.copy(title = "Adopting Kotlin at Google scale")
-                    ), listOf()
+                bookmarksUiState = QueryResult.Success(
+                    BookmarksUiState(
+                        kotlinConf2023.id, listOf(
+                            TestFixtures.sessionDetails,
+                            TestFixtures.sessionDetails.copy(title = "Adopting Kotlin at Google scale")
+                        ), listOf()
+                    )
                 ),
                 sessionSelected = {},
                 daySelected = {},
@@ -99,12 +106,14 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             HomeScreen(
-                uiState = HomeUiState.Success(
-                    kotlinConf2023.id,
-                    kotlinConf2023.name,
-                    kotlinConf2023.days,
+                uiState = QueryResult.Success(
+                    HomeUiState(
+                        kotlinConf2023.id,
+                        kotlinConf2023.name,
+                        kotlinConf2023.days,
+                    )
                 ),
-                bookmarksUiState = BookmarksUiState.NotLoggedIn,
+                bookmarksUiState = QueryResult.NotLoggedIn,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},
@@ -127,8 +136,8 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             HomeScreen(
-                uiState = HomeUiState.Loading,
-                bookmarksUiState = BookmarksUiState.Loading,
+                uiState = QueryResult.Loading,
+                bookmarksUiState = QueryResult.Loading,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},
@@ -159,8 +168,8 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             HomeScreen(
-                uiState = HomeUiState.Loading,
-                bookmarksUiState = BookmarksUiState.Loading,
+                uiState = QueryResult.Loading,
+                bookmarksUiState = QueryResult.Loading,
                 sessionSelected = {},
                 daySelected = {},
                 onSettingsClick = {},

@@ -36,6 +36,8 @@ sealed interface QueryResult<out T> {
 
     object Loading : QueryResult<Nothing>
 
+    object NotLoggedIn : QueryResult<Nothing>
+
     data class Success<T>(
         val result: T
     ) : QueryResult<T>

@@ -7,17 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.ConfettiRepository
-import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.utils.ClientQuery.toUiState
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
-import dev.johnoreilly.confetti.wear.bookmarks.BookmarksViewModel.Companion.fetchBookmarkedSessions
+import dev.johnoreilly.confetti.wear.bookmarks.BookmarksViewModel.Companion.toUiState
 import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class HomeViewModel(
@@ -28,40 +28,32 @@ class HomeViewModel(
     private val conference: String =
         ConferenceHomeDestination.fromNavArgs(savedStateHandle)
 
-    val uiState: StateFlow<HomeUiState> = conferenceDataFlow(conference)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), HomeUiState.Loading)
-
-    val bookmarksUiState: StateFlow<BookmarksUiState> = authentication.currentUser.flatMapLatest { user ->
-        if (user != null) {
-            fetchBookmarkedSessions(repository, conference, user, FetchPolicy.CacheFirst)
-        } else {
-            flowOf(BookmarksUiState.NotLoggedIn)
+    val uiState: StateFlow<QueryResult<HomeUiState>> =
+        repository.conferenceHomeData(conference).toUiState {
+            HomeUiState(
+                it.config.id,
+                it.config.name,
+                it.config.days,
+            )
         }
-    }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), BookmarksUiState.Loading)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), QueryResult.Loading)
 
-    private fun conferenceDataFlow(conference: String) =
-        repository.conferenceHomeData(conference).toFlow().map {
-            val conferenceData = it.data
-
-            if (conferenceData != null) {
-                toUiState(conferenceData, conference)
-            } else if (it.hasErrors()) {
-                HomeUiState.Error(it.errors.toString())
+    val bookmarksUiState: StateFlow<QueryResult<BookmarksUiState>> =
+        authentication.currentUser.flatMapLatest { user ->
+            if (user != null) {
+                repository.bookmarkedSessionsQuery(
+                    conference,
+                    user.uid,
+                    user,
+                    FetchPolicy.CacheFirst
+                ).toUiState {
+                    it.toUiState()
+                }
             } else {
-                HomeUiState.Loading
+                flowOf(QueryResult.NotLoggedIn)
             }
         }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), QueryResult.Loading)
 
-    private fun toUiState(
-        conferenceData: GetConferenceDataQuery.Data,
-        actualConference: String
-    ): HomeUiState.Success {
-        return HomeUiState.Success(
-            actualConference,
-            conferenceData.config.name,
-            conferenceData.config.days,
-        )
-    }
 }
 

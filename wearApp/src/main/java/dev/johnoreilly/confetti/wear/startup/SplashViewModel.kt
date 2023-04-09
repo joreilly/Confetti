@@ -8,8 +8,6 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.home.HomeUiState
-import dev.johnoreilly.confetti.wear.home.HomeViewModel.Companion.bookmarksUiStateFlow
-import dev.johnoreilly.confetti.wear.home.HomeViewModel.Companion.conferenceDataFlow
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted

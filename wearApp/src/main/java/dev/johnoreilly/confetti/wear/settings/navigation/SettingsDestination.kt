@@ -5,8 +5,7 @@ package dev.johnoreilly.confetti.wear.settings.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import androidx.wear.compose.navigation.composable
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
 import dev.johnoreilly.confetti.wear.settings.SettingsRoute
 
@@ -20,7 +19,7 @@ fun NavGraphBuilder.settingsGraph(
     navigateToGoogleSignIn: () -> Unit,
     navigateToGoogleSignOut: () -> Unit,
 ) {
-    composable(
+    scrollable(
         route = SettingsDestination.route,
         deepLinks = listOf(
             navDeepLink {
@@ -30,7 +29,7 @@ fun NavGraphBuilder.settingsGraph(
         )
     ) {
         SettingsRoute(
-            ScalingLazyColumnDefaults.belowTimeText().create(),
+            it.columnState,
             onSwitchConferenceSelected,
             navigateToGoogleSignIn,
             navigateToGoogleSignOut

@@ -10,8 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import androidx.wear.compose.navigation.composable
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
@@ -46,7 +45,7 @@ object SessionDetailsDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.sessionDetailsGraph(navigateToSpeaker: (SpeakerDetailsKey) -> Unit) {
-    composable(
+    scrollable(
         route = SessionDetailsDestination.route,
         arguments = listOf(
             navArgument(SessionDetailsDestination.conferenceArg) { type = NavType.StringType },
@@ -59,6 +58,6 @@ fun NavGraphBuilder.sessionDetailsGraph(navigateToSpeaker: (SpeakerDetailsKey) -
             }
         )
     ) {
-        SessionDetailsRoute(ScalingLazyColumnDefaults.belowTimeText().create(), navigateToSpeaker)
+        SessionDetailsRoute(it.columnState, navigateToSpeaker)
     }
 }

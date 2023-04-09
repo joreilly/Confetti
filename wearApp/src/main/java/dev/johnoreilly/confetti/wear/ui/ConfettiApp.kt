@@ -50,7 +50,7 @@ fun ConfettiApp(
     val appState by viewModel.appState.collectAsStateWithLifecycle()
 
     ConfettiTheme(appState.settings.theme) {
-        SwipeDismissableNavHost(
+        WearNavScaffold(
             startDestination = StartupDestination.route,
             navController = navController
         ) {

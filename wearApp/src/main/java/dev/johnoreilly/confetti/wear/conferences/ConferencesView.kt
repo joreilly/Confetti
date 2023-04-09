@@ -17,9 +17,9 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.BuildConfig
-import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -99,27 +99,7 @@ fun ConferencesViewPreview() {
         ConferencesView(
             uiState = QueryResult.Success(
                 ConferencesUiState(
-                    listOf(
-                        GetConferencesQuery.Conference(
-                            "0",
-                            "",
-                            emptyList(),
-                            "Droidcon San Francisco 2022"
-                        ),
-                        GetConferencesQuery.Conference("1", "", emptyList(), "FrenchKit 2022"),
-                        GetConferencesQuery.Conference(
-                            "2",
-                            "",
-                            emptyList(),
-                            "Droidcon London 2022"
-                        ),
-                        GetConferencesQuery.Conference(
-                            "3",
-                            "",
-                            emptyList(),
-                            "DevFest Ukraine 2023"
-                        ),
-                    )
+                    TestFixtures.conferences
                 )
             ),
             navigateToConference = {},

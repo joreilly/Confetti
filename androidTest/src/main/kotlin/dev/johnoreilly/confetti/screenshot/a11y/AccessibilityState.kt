@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.johnoreilly.confetti.wear.a11y
+package dev.johnoreilly.confetti.screenshot.a11y
 
 import android.graphics.Rect
 

@@ -43,13 +43,15 @@ import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import com.quickbird.snapshot.Diffing
 import com.quickbird.snapshot.FileSnapshotting
 import com.quickbird.snapshot.FileSnapshottingNames
-import com.quickbird.snapshot.JUnitFileSnapshotTest
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
 import com.quickbird.snapshot.snapshot
+import dev.johnoreilly.confetti.screenshot.SnapshotTransformer
+import dev.johnoreilly.confetti.screenshot.bitmapWithTolerance
+import dev.johnoreilly.confetti.screenshot.highlightWithRed
 import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.a11y.A11ySnapshotTransformer
+import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -70,6 +72,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 
+@Deprecated("Please use BaseScreenshotTest instead")
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,

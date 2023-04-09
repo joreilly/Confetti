@@ -13,8 +13,8 @@ import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.data.common.model.AuthUser
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
+import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
-import dev.johnoreilly.confetti.wear.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import dev.johnoreilly.confetti.wear.settings.SettingsListView
 import dev.johnoreilly.confetti.wear.settings.SettingsUiState
@@ -31,6 +31,7 @@ class SettingsScreenTest : ScreenshotTest() {
     @Before
     fun loadImages() {
         val johnBitmap = loadTestBitmap("john.jpg".toPath())
+
 
         fakeImageLoader = FakeImageLoader {
             SuccessResult(

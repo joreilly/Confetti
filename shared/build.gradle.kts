@@ -128,6 +128,7 @@ android {
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
+
     namespace = "dev.johnoreilly.confetti.shared"
 }
 

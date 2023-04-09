@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.johnoreilly.confetti.wear.a11y
+package dev.johnoreilly.confetti.screenshot.a11y
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -28,7 +28,7 @@ import androidx.compose.ui.semantics.SemanticsNode
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.SemanticsNodeInteraction
-import dev.johnoreilly.confetti.wear.screenshots.SnapshotTransformer
+import dev.johnoreilly.confetti.screenshot.SnapshotTransformer
 
 class A11ySnapshotTransformer : SnapshotTransformer {
     lateinit var elements: List<AccessibilityState.Element>

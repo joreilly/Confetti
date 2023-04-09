@@ -17,8 +17,9 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.BuildConfig
-import dev.johnoreilly.confetti.GetConferencesQuery
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -34,7 +35,7 @@ fun ConferencesRoute(
 
     if (!BuildConfig.DEBUG) {
         ReportDrawnWhen {
-            uiState !is ConferencesUiState.Loading
+            uiState !is QueryResult.Loading
         }
     }
 
@@ -50,7 +51,7 @@ fun ConferencesRoute(
 
 @Composable
 fun ConferencesView(
-    uiState: ConferencesUiState,
+    uiState: QueryResult<ConferencesUiState>,
     navigateToConference: (String) -> Unit,
     columnState: ScalingLazyColumnState,
     modifier: Modifier = Modifier
@@ -63,7 +64,7 @@ fun ConferencesView(
         }
 
         when (uiState) {
-            is ConferencesUiState.Loading -> {
+            is QueryResult.Loading -> {
                 items(5) {
                     PlaceholderChip(
                         modifier = Modifier.fillMaxWidth(),
@@ -71,8 +72,8 @@ fun ConferencesView(
                 }
             }
 
-            is ConferencesUiState.Success -> {
-                items(uiState.conferences) { conference ->
+            is QueryResult.Success -> {
+                items(uiState.result.conferences) { conference ->
                     StandardChip(
                         modifier = Modifier.fillMaxWidth(),
                         label = conference.name,
@@ -96,12 +97,9 @@ fun ConferencesView(
 fun ConferencesViewPreview() {
     ConfettiTheme {
         ConferencesView(
-            uiState = ConferencesUiState.Success(
-                listOf(
-                    GetConferencesQuery.Conference("0", "", emptyList(), "Droidcon San Francisco 2022"),
-                    GetConferencesQuery.Conference("1", "", emptyList(), "FrenchKit 2022"),
-                    GetConferencesQuery.Conference("2", "", emptyList(), "Droidcon London 2022"),
-                    GetConferencesQuery.Conference("3", "", emptyList(), "DevFest Ukraine 2023"),
+            uiState = QueryResult.Success(
+                ConferencesUiState(
+                    TestFixtures.conferences
                 )
             ),
             navigateToConference = {},

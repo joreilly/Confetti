@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.wear.screenshots
+package dev.johnoreilly.confetti.screenshot
 
 import android.graphics.Bitmap
 import android.util.Size
@@ -10,11 +10,9 @@ import com.quickbird.snapshot.FileSnapshotting
 import com.quickbird.snapshot.FileStoring
 import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.bitmap
-import com.quickbird.snapshot.fileSnapshotting
 import okio.Buffer
 import okio.ByteString
 import kotlin.math.ceil
-import kotlin.math.roundToInt
 
 val Diffing.Companion.highlightWithRed
     get() = Diffing<Color> { first, second ->

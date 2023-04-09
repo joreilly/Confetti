@@ -54,7 +54,7 @@ class SessionNotificationSender(
         }
 
         // If current date is not in the conference range, skip.
-        if (sessions.any { session -> session.startsAt.date == dateService.now().date }) {
+        if (sessions.none { session -> session.startsAt.date == dateService.now().date }) {
             return
         }
 

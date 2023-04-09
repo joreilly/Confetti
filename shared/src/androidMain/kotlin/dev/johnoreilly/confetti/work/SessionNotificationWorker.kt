@@ -40,33 +40,32 @@ class SessionNotificationWorker(
 
         private val TAG = SessionNotificationWorker::class.java.simpleName
 
+        fun startOneTimeWorkRequest(workManager: WorkManager) {
+            val workRequest = OneTimeWorkRequestBuilder<SessionNotificationWorker>()
+                .build()
+
+            workManager.enqueueUniqueWork(
+                TAG,
+                ExistingWorkPolicy.REPLACE,
+                workRequest,
+            )
+        }
+
         fun startPeriodicWorkRequest(workManager: WorkManager) {
+            val workRequest =
+                PeriodicWorkRequestBuilder<SessionNotificationWorker>(INTERVAL.toJavaDuration())
+                    .setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())
+                    .build()
+
             workManager.enqueueUniquePeriodicWork(
                 TAG,
                 ExistingPeriodicWorkPolicy.UPDATE,
-                createPeriodicWorkRequest(),
+                workRequest,
             )
         }
 
         fun cancelWorkRequest(workManager: WorkManager) {
             workManager.cancelUniqueWork(TAG)
         }
-
-        private fun createPeriodicWorkRequest(): PeriodicWorkRequest =
-            PeriodicWorkRequestBuilder<SessionNotificationWorker>(INTERVAL.toJavaDuration())
-                .setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())
-                .build()
-
-        fun startOneTimeWorkRequest(workManager: WorkManager) {
-            workManager.enqueueUniqueWork(
-                TAG,
-                ExistingWorkPolicy.REPLACE,
-                createOneTimeWorkRequest(),
-            )
-        }
-
-        private fun createOneTimeWorkRequest(): OneTimeWorkRequest =
-            OneTimeWorkRequestBuilder<SessionNotificationWorker>()
-                .build()
     }
 }

@@ -15,11 +15,14 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.shared.R
 import dev.johnoreilly.confetti.utils.DateService
+import dev.johnoreilly.confetti.utils.nowInstant
 import kotlinx.coroutines.flow.first
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.until
 import kotlin.time.Duration.Companion.minutes
 
 class SessionNotificationSender(
@@ -36,16 +39,18 @@ class SessionNotificationSender(
 
         val conferenceId = repository.getConference()
 
-        val sessions = repository.sessions(
+        val sessionsResponse = repository.sessions(
             conference = conferenceId,
             uid = user.uid,
             tokenProvider = user,
             fetchPolicy = FetchPolicy.CacheFirst,
         )
+
+        val sessions = sessionsResponse
             .data
             ?.sessions
             ?.nodes
-            ?.map { it.sessionDetails }
+            ?.map { query -> query.sessionDetails }
             .orEmpty()
 
         // If there are no available sessions, skip.
@@ -69,9 +74,16 @@ class SessionNotificationSender(
             ?.sessionIds
             .orEmpty()
 
-        val intervalRangeFromNow = createIntervalRangeFromNow()
-        val upcomingSessions = sessions.filter { session ->
-            bookmarks.contains(session.id) && session.startsAt in intervalRangeFromNow
+        val bookmarkedSessions = sessions.filter { session ->
+            bookmarks.contains(session.id)
+        }
+
+        val sessionsTimeZone = TimeZone.of(sessionsResponse.data?.config?.timezone.orEmpty())
+        val now = dateService.nowInstant()
+        val upcomingSessions = bookmarkedSessions.filter { session ->
+            val startsAt = session.startsAt.toInstant(sessionsTimeZone)
+            val nowUntilStartsAt = now.until(startsAt, DateTimeUnit.MINUTE)
+            nowUntilStartsAt in 0..INTERVAL.inWholeMinutes
         }
 
         // If there are no bookmarked upcoming sessions, skip.

@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
@@ -229,14 +230,15 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             dateService.format(date.atTime(0, 0), timeZone, "MMM dd, yyyy")
         }
         return SessionsUiState.Success(
-            conference!!,
-            dateService.now(),
-            conferenceName,
-            formattedConfDates,
-            sessionsByStartTimeList,
-            speakers,
-            rooms,
-            bookmarksData.bookmarks?.sessionIds.orEmpty().toSet(),
+            conference = conference!!,
+            now = dateService.now(),
+            conferenceName = conferenceName,
+            confDates = confDates,
+            formattedConfDates = formattedConfDates,
+            sessionsByStartTimeList = sessionsByStartTimeList,
+            speakers = speakers,
+            rooms = rooms,
+            bookmarks = bookmarksData.bookmarks?.sessionIds.orEmpty().toSet(),
         )
     }
 }
@@ -250,6 +252,7 @@ sealed interface SessionsUiState {
         val conference: String,
         val now: LocalDateTime,
         val conferenceName: String,
+        val confDates: List<LocalDate>,
         val formattedConfDates: List<String>,
         val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,
         val speakers: List<SpeakerDetails>,

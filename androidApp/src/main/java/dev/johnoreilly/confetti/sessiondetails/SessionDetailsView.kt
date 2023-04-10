@@ -131,15 +131,15 @@ fun SessionDetailView(
                     }
                     Bookmark(
                         isBookmarked = isBookmarked,
-                        onBookmarkClick = {
+                        onBookmarkChange = { shouldAdd ->
                             if (!isUserLoggedIn) {
                                 showDialog = true
                                 return@Bookmark
                             }
-                            if (isBookmarked) {
-                                removeBookmark()
-                            } else {
+                            if (shouldAdd) {
                                 addBookmark()
+                            } else {
+                                removeBookmark()
                             }
                         }
                     )

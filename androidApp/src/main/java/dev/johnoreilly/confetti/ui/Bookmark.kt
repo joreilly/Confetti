@@ -15,23 +15,23 @@ import androidx.compose.ui.unit.dp
 fun Bookmark(
     isBookmarked: Boolean,
     modifier: Modifier = Modifier,
-    onBookmarkClick: () -> Unit,
+    onBookmarkChange: (Boolean) -> Unit,
 ) {
+
+    val iconModifier = modifier
+        .clickable { onBookmarkChange(!isBookmarked) }
+        .padding(8.dp)
 
     if (isBookmarked) {
         Icon(
             imageVector = Icons.Outlined.Bookmark,
             contentDescription = "remove bookmark",
             tint = MaterialTheme.colorScheme.primary,
-            modifier = modifier
-                .clickable { onBookmarkClick() }
-                .padding(8.dp))
+            modifier = iconModifier)
     } else {
         Icon(
             imageVector = Icons.Outlined.BookmarkAdd,
             contentDescription = "add bookmark",
-            modifier = Modifier
-                .clickable { onBookmarkClick() }
-                .padding(8.dp))
+            modifier = iconModifier)
     }
 }

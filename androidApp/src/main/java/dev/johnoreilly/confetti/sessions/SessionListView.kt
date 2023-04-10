@@ -270,15 +270,15 @@ fun SessionItemView(
 
         Bookmark(
             isBookmarked = isBookmarked,
-            onBookmarkClick = {
+            onBookmarkChange = { shouldAdd ->
                 if (user == null) {
                     showDialog = true
                     return@Bookmark
                 }
-                if (isBookmarked) {
-                    removeBookmark(session.id)
-                } else {
+                if (shouldAdd) {
                     addBookmark(session.id)
+                } else {
+                    removeBookmark(session.id)
                 }
             }
         )

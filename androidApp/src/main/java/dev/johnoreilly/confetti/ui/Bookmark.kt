@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Bookmark(
     isBookmarked: Boolean,
+    modifier: Modifier = Modifier,
     onBookmarkClick: () -> Unit,
 ) {
 
@@ -22,7 +23,7 @@ fun Bookmark(
             imageVector = Icons.Outlined.Bookmark,
             contentDescription = "remove bookmark",
             tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
+            modifier = modifier
                 .clickable { onBookmarkClick() }
                 .padding(8.dp))
     } else {

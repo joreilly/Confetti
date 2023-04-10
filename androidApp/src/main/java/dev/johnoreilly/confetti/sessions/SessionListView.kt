@@ -31,6 +31,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,14 +70,20 @@ fun SessionListView(
     onNavigateToSignIn: () -> Unit,
     user: User?
 ) {
-    val pagerState = rememberPagerState()
-
     when (uiState) {
         SessionsUiState.Error -> ErrorView(onRefresh)
         SessionsUiState.Loading -> LoadingView()
         is SessionsUiState.Success -> {
             val state = rememberPullRefreshState(refreshing, onRefresh)
             Column {
+                val initialPage by remember {
+                    derivedStateOf {
+                        val indexOfNow = uiState.confDates.indexOf(uiState.now.date)
+                        if (indexOfNow == -1) 0 else indexOfNow
+                    }
+                }
+
+                val pagerState = rememberPagerState(initialPage)
 
                 SessionListTabRow(pagerState, uiState)
 

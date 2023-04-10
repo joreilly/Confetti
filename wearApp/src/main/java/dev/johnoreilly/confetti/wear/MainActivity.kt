@@ -34,6 +34,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             navController = rememberSwipeDismissableNavController()
 
+            // This shouldn't be needed, but allows robolectric tests to run successfully
+            // TODO remove once a solution is found or a fix in koin?
             CompositionLocalProvider(
                 LocalKoinScope provides KoinPlatformTools.defaultContext().get().scopeRegistry.rootScope,
                 LocalKoinApplication provides KoinPlatformTools.defaultContext().get()

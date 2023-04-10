@@ -2,7 +2,6 @@
 
 package dev.johnoreilly.confetti.sessions
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -111,10 +110,15 @@ fun SessionListView(
                                 .flatten()
                                 .withIndex()
                                 .minByOrNull { (_, session) ->
-                                    val nowInMillis = uiState.now.time.toMillisecondOfDay()
-                                    val startsAtInMillis =
-                                        session.startsAt.time.toMillisecondOfDay()
-                                    abs(nowInMillis - startsAtInMillis)
+                                    val timeOfNowInMillis = uiState
+                                        .now
+                                        .time
+                                        .toMillisecondOfDay()
+                                    val timeOfSessionStartInMillis = session
+                                        .startsAt
+                                        .time
+                                        .toMillisecondOfDay()
+                                    abs(timeOfNowInMillis - timeOfSessionStartInMillis)
                                 }
 
                             // Count the number of sticky headers until the initial item.

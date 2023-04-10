@@ -34,10 +34,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
@@ -155,7 +157,7 @@ fun SessionDetailView(
                     }
 
                     ConfettiHeader(
-                        text = "Speakers",
+                        text = stringResource(R.string.speakers),
                         icon = Icons.Filled.Person,
                     )
 

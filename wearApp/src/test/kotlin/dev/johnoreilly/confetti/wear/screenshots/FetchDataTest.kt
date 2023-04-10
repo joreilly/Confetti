@@ -8,7 +8,6 @@ import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.apollographql.apollo3.cache.normalized.sql.ApolloInitializer
 import dev.johnoreilly.confetti.ApolloClientCache
-import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.GetSessionsQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -35,7 +34,6 @@ import org.robolectric.annotation.GraphicsMode
 @Ignore("For manual runs")
 class FetchDataTest : KoinTest {
 
-    val confettiRepository: ConfettiRepository by inject()
     val apolloClientCache: ApolloClientCache by inject()
 
     @Before
@@ -54,13 +52,11 @@ class FetchDataTest : KoinTest {
         stopKoin()
     }
 
-    fun GetConferencesQuery.Conference.inspect() {
-        "Conference(\"${id}\", listOf(${
-            days.joinToString(",") {
-                "LocalDate.parse(\"$it\")"
-            }
-        }), \"${name}\")"
-    }
+    fun GetConferencesQuery.Conference.inspect() = "Conference(\"${id}\", listOf(${
+        days.joinToString(",") {
+            "LocalDate.parse(\"$it\")"
+        }
+    }), \"${name}\")"
 
     @Test
     fun fetchConferences() = runTest {
@@ -113,7 +109,7 @@ class FetchDataTest : KoinTest {
         sessionDescription = ""${""}"$sessionDescription""${""}",
         language = ${language.quoted()},
         speakers = listOf(
-            ${speakers.joinToString(",\n") { it.inspect() } }
+            ${speakers.joinToString(",\n") { it.inspect() }}
         ),
         room = SessionDetails.Room(name = "${room?.name}"),
         tags = listOf(${tags.joinToString(", ") { it }}),

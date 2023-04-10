@@ -47,12 +47,12 @@ import com.quickbird.snapshot.Snapshotting
 import com.quickbird.snapshot.fileSnapshotting
 import com.quickbird.snapshot.snapshot
 import dev.johnoreilly.confetti.screenshot.SnapshotTransformer
+import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.screenshot.bitmapWithTolerance
 import dev.johnoreilly.confetti.screenshot.highlightWithRed
 import dev.johnoreilly.confetti.wear.FixedTimeSource
-import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.proto.Theme
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -184,9 +184,11 @@ abstract class ScreenshotTest : KoinTest {
                     colorDiffing = Diffing.highlightWithRed
                 ),
                 snapshot = { node: SemanticsNodeInteraction ->
-                    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888).apply {
-                        view.draw(Canvas(this))
-                    }
+                    val bitmap =
+                        Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+                            .apply {
+                                view.draw(Canvas(this))
+                            }
                     snapshotTransformer.transform(node, bitmap)
                 }
             ).fileSnapshotting

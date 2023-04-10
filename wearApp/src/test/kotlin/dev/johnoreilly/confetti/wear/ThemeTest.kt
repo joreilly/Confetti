@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalHorologistApi::class)
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
 
 import androidx.core.graphics.drawable.toDrawable
-import androidx.wear.compose.material.Colors
-import androidx.wear.compose.material.MaterialTheme
 import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi

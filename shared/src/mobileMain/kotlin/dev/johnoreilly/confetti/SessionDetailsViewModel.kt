@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class SessionDetailsViewModel(
@@ -47,10 +49,14 @@ class SessionDetailsViewModel(
 
     val isBookmarked =  flow {
         val response = repository.bookmarks(conference, uid, tokenProvider, FetchPolicy.CacheFirst).first()
+
+        fun GetBookmarksQuery.Bookmarks?.hasSessionId(): Boolean {
+            return this?.sessionIds.orEmpty().toSet().contains(sessionId)
+        }
         emitAll(
             repository.watchBookmarks(conference, uid, tokenProvider, response.data)
-                .map { it.data?.bookmarks?.sessionIds.orEmpty().toSet() }
-                .map { it.contains(sessionId) }
+                .onStart { emit(response.data?.bookmarks.hasSessionId()) }
+                .map { it.data?.bookmarks.hasSessionId() }
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 

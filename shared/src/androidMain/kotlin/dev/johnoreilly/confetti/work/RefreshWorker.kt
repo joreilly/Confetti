@@ -21,6 +21,7 @@ import coil.request.ImageRequest
 import dev.johnoreilly.confetti.ApolloClientCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.supervisorScope
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -33,11 +34,13 @@ class RefreshWorker(
 ) : CoroutineWorker(appContext, workerParams), KoinComponent {
     private val apolloClientCache: ApolloClientCache by inject()
     private val imageLoader: ImageLoader by inject()
+    private val conferenceSetting: ConferenceSetting by inject()
 
     override suspend fun doWork(): Result = try {
-        val conference = workerParams.inputData.getString(ConferenceKey)
+        val conference = workerParams.inputData.getString(ConferenceKey) ?:
+            conferenceSetting.selectedConference().first()
 
-        if (conference == null) {
+        if (conference.isBlank()) {
             Result.failure()
         } else {
             val fetchConferences = workerParams.inputData.getBoolean(FetchConferencesKey, false)
@@ -60,7 +63,6 @@ class RefreshWorker(
         WorkNotificationId,
         createNotification(appContext, id)
     )
-
 
     private suspend fun cacheImages(images: Set<String>) {
         val dispatcher = Dispatchers.IO.limitedParallelism(3)
@@ -100,8 +102,7 @@ class RefreshWorker(
 
         fun dailyRefresh(): PeriodicWorkRequest =
             PeriodicWorkRequestBuilder<RefreshWorker>(
-                Duration.ofMinutes(1)
-            //Duration.ofDays(1)
+                Duration.ofDays(1)
             )
                 .setInputData(
                     workDataOf(

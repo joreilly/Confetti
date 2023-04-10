@@ -45,8 +45,9 @@ actual fun platformModule() = module {
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .apply {
-                // TODO enable based on debug flag
-                eventListenerFactory(LoggingEventListener.Factory())
+                if (BuildConfig.DEBUG) {
+                    eventListenerFactory(LoggingEventListener.Factory())
+                }
             }
             .build()
     }

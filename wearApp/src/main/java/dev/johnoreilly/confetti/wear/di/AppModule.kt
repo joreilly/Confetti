@@ -30,6 +30,8 @@ import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.wear.startup.StartViewModel
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
+import dev.johnoreilly.confetti.wear.work.WearConferenceSetting
+import dev.johnoreilly.confetti.work.ConferenceSetting
 import dev.johnoreilly.confetti.work.RefreshWorker
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
@@ -79,5 +81,6 @@ val appModule = module {
     }
     singleOf(::FirebaseAuthUserRepository) { bind<GoogleSignInEventListener>() }
     singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }
+    singleOf(::WearConferenceSetting) { bind<ConferenceSetting>() }
     workerOf(::RefreshWorker)
 }

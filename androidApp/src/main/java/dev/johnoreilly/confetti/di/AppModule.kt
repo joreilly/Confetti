@@ -19,11 +19,9 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.WearSettingsSync
-import dev.johnoreilly.confetti.work.RefreshWorker
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
-import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -59,5 +57,4 @@ val appModule = module {
     single<WearSettingsSync> {
         WearSettingsSync(get(), get(), androidContext(), get())
     }
-    workerOf(::RefreshWorker)
 }

@@ -17,8 +17,7 @@ import kotlinx.coroutines.launch
 class ConferencesViewModel(
     private val tileUpdater: TileUpdater,
     private val complicationUpdater: ComplicationUpdater,
-    private val repository: ConfettiRepository,
-    private val refresh: ConferenceRefresh
+    private val repository: ConfettiRepository
 ) : ViewModel() {
     val conferenceList: StateFlow<QueryResult<ConferencesUiState>> = repository.conferencesQuery()
         .toUiState {
@@ -36,7 +35,5 @@ class ConferencesViewModel(
             tileUpdater.updateAll()
             complicationUpdater.update()
         }
-
-        refresh.refresh(conference)
     }
 }

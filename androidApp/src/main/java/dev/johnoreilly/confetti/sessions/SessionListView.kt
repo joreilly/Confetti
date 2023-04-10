@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.sessions
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -57,6 +59,7 @@ import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -91,14 +94,48 @@ fun SessionListView(
                     pageCount = uiState.formattedConfDates.size,
                     state = pagerState,
                 ) { page ->
-
                     val sessions = uiState.sessionsByStartTimeList[page]
+
+                    val initialItem by remember {
+                        derivedStateOf {
+                            // Retrieves the initial item matching an hour block, including the
+                            // aggregated index (ignores time grouping).
+                            val initialItem = sessions
+                                .values
+                                .flatten()
+                                .withIndex()
+                                .minByOrNull { (_, session) ->
+                                    abs(uiState.now.hour - session.startsAt.hour) +
+                                        abs(uiState.now.minute - session.startsAt.minute)
+                                }
+
+                            // Count the number of sticky headers until the initial item.
+                            val stickyHeader = sessions
+                                .entries
+                                .withIndex()
+                                .firstOrNull {
+                                    it.value.value.contains(initialItem?.value)
+                                }
+
+                            val stickyHeaderIndex = stickyHeader?.index ?: 0
+                            val initialItemIndex = initialItem?.index ?: 0
+
+                            // Sum the index of the initial item and the sticky headers.
+                            stickyHeaderIndex + initialItemIndex
+                        }
+                    }
+
+                    val listState = rememberLazyListState(
+                        initialFirstVisibleItemIndex = initialItem,
+                        initialFirstVisibleItemScrollOffset = initialItem,
+                    )
+
                     Box(
                         Modifier
                             .pullRefresh(state)
                             .clipToBounds()
                     ) {
-                        LazyColumn {
+                        LazyColumn(state = listState) {
                             sessions.forEach { (startTime, sessions) ->
                                 stickyHeader {
                                     ConfettiHeader(icon = Icons.Filled.AccessTime, text = startTime)
@@ -179,7 +216,10 @@ fun SessionItemView(
     Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = session.title, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold))
+                Text(
+                    text = session.title,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                )
             }
 
             session.room?.let { room ->

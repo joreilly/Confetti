@@ -141,7 +141,10 @@ private fun LazyListScope.speakerItems(
     // Shows header if and only if there are speaker results.
     if (speakers.isNotEmpty()) {
         stickyHeader {
-            ConfettiHeader(icon = Icons.Filled.Person, text = "Speakers")
+            ConfettiHeader(
+                icon = Icons.Filled.Person,
+                text = stringResource(R.string.speakers),
+            )
         }
     }
     items(speakers) { speaker ->
@@ -166,7 +169,10 @@ private fun LazyListScope.sessionItems(
     // Shows header if and only if there are session results.
     if (sessions.isNotEmpty()) {
         stickyHeader {
-            ConfettiHeader(icon = Icons.Filled.Event, text = "Sessions")
+            ConfettiHeader(
+                icon = Icons.Filled.Event,
+                text = stringResource(R.string.sessions),
+            )
         }
     }
     items(sessions) { session ->

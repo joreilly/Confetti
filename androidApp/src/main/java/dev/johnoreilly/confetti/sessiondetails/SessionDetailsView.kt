@@ -24,10 +24,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +50,7 @@ import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.Bookmark
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.utils.format
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.getViewModel
 import org.koin.compose.koinInject
@@ -65,6 +70,12 @@ fun SessionDetailsRoute(
     }
     val session by viewModel.session.collectAsStateWithLifecycle()
     val isBookmarked by viewModel.isBookmarked.collectAsStateWithLifecycle()
+
+    val addErrorCount by viewModel.addErrorChannel.receiveAsFlow()
+        .collectAsStateWithLifecycle(initialValue = 0)
+    val removeErrorCount by viewModel.removeErrorChannel.receiveAsFlow()
+        .collectAsStateWithLifecycle(initialValue = 0)
+
     val share = rememberShareDetails(session)
     SessionDetailView(
         session = session,
@@ -75,6 +86,8 @@ fun SessionDetailsRoute(
         isUserLoggedIn = user != null,
         isBookmarked = isBookmarked,
         navigateToSignIn = navigateToSignIn,
+        addErrorCount = addErrorCount,
+        removeErrorCount = removeErrorCount,
         onSpeakerClick = { speakerId ->
             onSpeakerClick(SpeakerDetailsKey(conference = conference, speakerId = speakerId))
         }
@@ -91,11 +104,14 @@ fun SessionDetailView(
     navigateToSignIn: () -> Unit,
     isUserLoggedIn: Boolean,
     isBookmarked: Boolean,
+    addErrorCount: Int,
+    removeErrorCount: Int,
     onSpeakerClick: (speakerId: String) -> Unit
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         topBar = {
@@ -129,7 +145,8 @@ fun SessionDetailView(
                     )
                 }
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) {
         Column(modifier = Modifier.padding(it)) {
             val horizontalPadding = 16.dp
@@ -201,6 +218,24 @@ fun SessionDetailView(
                 SignInDialog(
                     onDismissRequest = { showDialog = false },
                     onSignInClicked = navigateToSignIn
+                )
+            }
+        }
+
+        LaunchedEffect(addErrorCount) {
+            if (addErrorCount > 0) {
+                snackbarHostState.showSnackbar(
+                    message = "Error while adding bookmark",
+                    duration = SnackbarDuration.Short,
+                )
+            }
+        }
+
+        LaunchedEffect(removeErrorCount) {
+            if (removeErrorCount > 0) {
+                snackbarHostState.showSnackbar(
+                    message = "Error while removing bookmark",
+                    duration = SnackbarDuration.Short,
                 )
             }
         }

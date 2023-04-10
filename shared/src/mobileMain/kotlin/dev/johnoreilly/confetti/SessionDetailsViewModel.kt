@@ -5,6 +5,7 @@ import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmm.viewmodel.stateIn
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll
@@ -33,6 +34,11 @@ class SessionDetailsViewModel(
     private var uid: String? = null
     private var tokenProvider: TokenProvider? = null
 
+    private var addErrorCount = 1
+    private var removeErrorCount = 1
+    val addErrorChannel = Channel<Int>()
+    val removeErrorChannel = Channel<Int>()
+
     val session: StateFlow<SessionDetails?> = flow {
         emitAll(repository.sessionDetails(conference = conference, sessionId = sessionId)
             .map { it.data?.session?.sessionDetails })
@@ -50,13 +56,19 @@ class SessionDetailsViewModel(
 
     fun addBookmark() {
         viewModelScope.coroutineScope.launch {
-            repository.addBookmark(conference, uid, tokenProvider, sessionId)
+            val success = repository.addBookmark(conference, uid, tokenProvider, sessionId)
+            if (!success) {
+                addErrorChannel.send(addErrorCount++)
+            }
         }
     }
 
     fun removeBookmark() {
         viewModelScope.coroutineScope.launch {
-            repository.removeBookmark(conference, uid, tokenProvider, sessionId)
+            val success = repository.removeBookmark(conference, uid, tokenProvider, sessionId)
+            if (!success) {
+                removeErrorChannel.send(removeErrorCount++)
+            }
         }
     }
 }

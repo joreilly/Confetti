@@ -98,7 +98,7 @@ fun SessionListView(
                         derivedStateOf {
                             // If initial page is null, we are in the wrong date and should not
                             // consider the current hour.
-                            if (initialPageIndex == -1) return@derivedStateOf 0
+                            if (initialPageIndex != page) return@derivedStateOf 0
 
                             // Retrieves the initial item matching an hour block, including the
                             // aggregated index (ignores time grouping).

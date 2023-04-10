@@ -1,28 +1,62 @@
 package dev.johnoreilly.confetti
 
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.rickclephas.kmm.viewmodel.KMMViewModel
+import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmm.viewmodel.stateIn
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class SessionDetailsViewModel(
-    repository: ConfettiRepository
+    private val repository: ConfettiRepository
 ) : KMMViewModel() {
-    fun configure(conference: String, sessionId: String) {
+    fun configure(
+        conference: String,
+        sessionId: String,
+        uid: String?,
+        tokenProvider: TokenProvider?,
+    ) {
         this.conference = conference
         this.sessionId = sessionId
+        this.uid = uid
+        this.tokenProvider = tokenProvider
     }
 
     private lateinit var sessionId: String
     private lateinit var conference: String
+    private var uid: String? = null
+    private var tokenProvider: TokenProvider? = null
 
     val session: StateFlow<SessionDetails?> = flow {
         emitAll(repository.sessionDetails(conference = conference, sessionId = sessionId)
             .map { it.data?.session?.sessionDetails })
     }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    val isBookmarked =  flow {
+        val response = repository.bookmarks(conference, uid, tokenProvider, FetchPolicy.CacheFirst).first()
+        emitAll(
+            repository.watchBookmarks(conference, uid, tokenProvider, response.data)
+                .map { it.data?.bookmarks?.sessionIds.orEmpty().toSet() }
+                .map { it.contains(sessionId) }
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    fun addBookmark() {
+        viewModelScope.coroutineScope.launch {
+            repository.addBookmark(conference, uid, tokenProvider, sessionId)
+        }
+    }
+
+    fun removeBookmark() {
+        viewModelScope.coroutineScope.launch {
+            repository.removeBookmark(conference, uid, tokenProvider, sessionId)
+        }
+    }
 }

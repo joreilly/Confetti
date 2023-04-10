@@ -29,7 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -38,11 +40,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.SessionDetailsViewModel
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
+import dev.johnoreilly.confetti.ui.Bookmark
+import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.getViewModel
+import org.koin.compose.koinInject
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -53,15 +59,22 @@ fun SessionDetailsRoute(
     navigateToSignIn: () -> Unit,
     onSpeakerClick: (key: SpeakerDetailsKey) -> Unit
 ) {
+    val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
     val viewModel: SessionDetailsViewModel = getViewModel<SessionDetailsViewModel>().apply {
-        configure(conference, sessionId)
+        configure(conference, sessionId, user?.uid, user)
     }
     val session by viewModel.session.collectAsStateWithLifecycle()
+    val isBookmarked by viewModel.isBookmarked.collectAsStateWithLifecycle()
     val share = rememberShareDetails(session)
     SessionDetailView(
         session = session,
         popBack = onBackClick,
         share = share,
+        addBookmark = viewModel::addBookmark,
+        removeBookmark = viewModel::removeBookmark,
+        isUserLoggedIn = user != null,
+        isBookmarked = isBookmarked,
+        navigateToSignIn = navigateToSignIn,
         onSpeakerClick = { speakerId ->
             onSpeakerClick(SpeakerDetailsKey(conference = conference, speakerId = speakerId))
         }
@@ -73,10 +86,16 @@ fun SessionDetailView(
     session: SessionDetails?,
     popBack: () -> Unit,
     share: () -> Unit,
+    addBookmark: () -> Unit,
+    removeBookmark: () -> Unit,
+    navigateToSignIn: () -> Unit,
+    isUserLoggedIn: Boolean,
+    isBookmarked: Boolean,
     onSpeakerClick: (speakerId: String) -> Unit
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -94,6 +113,20 @@ fun SessionDetailView(
                     IconButton(onClick = { share() }) {
                         Icon(Icons.Filled.Share, contentDescription = "Share")
                     }
+                    Bookmark(
+                        isBookmarked = isBookmarked,
+                        onBookmarkClick = {
+                            if (!isUserLoggedIn) {
+                                showDialog = true
+                                return@Bookmark
+                            }
+                            if (isBookmarked) {
+                                removeBookmark()
+                            } else {
+                                addBookmark()
+                            }
+                        }
+                    )
                 }
             )
         }
@@ -163,6 +196,12 @@ fun SessionDetailView(
                         )
                     }
                 }
+            }
+            if (showDialog) {
+                SignInDialog(
+                    onDismissRequest = { showDialog = false },
+                    onSignInClicked = navigateToSignIn
+                )
             }
         }
     }

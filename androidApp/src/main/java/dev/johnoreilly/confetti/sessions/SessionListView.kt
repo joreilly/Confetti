@@ -78,20 +78,13 @@ fun SessionListView(
         is SessionsUiState.Success -> {
             val state = rememberPullRefreshState(refreshing, onRefresh)
             Column {
-                val initialPage by remember {
-                    derivedStateOf {
-                        val initialPage = uiState
-                            .confDates
-                            .withIndex()
-                            .minByOrNull { (_, sessionDate) ->
-                                abs(uiState.now.dayOfYear - sessionDate.dayOfYear)
-                            }
-
-                        initialPage?.index ?: 0
-                    }
+                val initialPageIndex by remember {
+                    derivedStateOf { uiState.confDates.indexOf(uiState.now.date) }
                 }
 
-                val pagerState = rememberPagerState(initialPage)
+                val pagerState = rememberPagerState(
+                    initialPage = if (initialPageIndex == -1) 0 else initialPageIndex
+                )
 
                 SessionListTabRow(pagerState, uiState)
 
@@ -101,8 +94,12 @@ fun SessionListView(
                 ) { page ->
                     val sessions = uiState.sessionsByStartTimeList[page]
 
-                    val initialItem by remember {
+                    val initialItemIndex by remember {
                         derivedStateOf {
+                            // If initial page is null, we are in the wrong date and should not
+                            // consider the current hour.
+                            if (initialPageIndex == -1) return@derivedStateOf 0
+
                             // Retrieves the initial item matching an hour block, including the
                             // aggregated index (ignores time grouping).
                             val initialItem = sessions
@@ -137,10 +134,7 @@ fun SessionListView(
                         }
                     }
 
-                    val listState = rememberLazyListState(
-                        initialFirstVisibleItemIndex = initialItem,
-                        initialFirstVisibleItemScrollOffset = initialItem,
-                    )
+                    val listState = rememberLazyListState(initialItemIndex)
 
                     Box(
                         Modifier

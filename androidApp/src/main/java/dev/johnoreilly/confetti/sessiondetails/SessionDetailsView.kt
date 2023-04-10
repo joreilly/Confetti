@@ -50,6 +50,7 @@ fun SessionDetailsRoute(
     conference: String,
     sessionId: String,
     onBackClick: () -> Unit,
+    navigateToSignIn: () -> Unit,
     onSpeakerClick: (key: SpeakerDetailsKey) -> Unit
 ) {
     val viewModel: SessionDetailsViewModel = getViewModel<SessionDetailsViewModel>().apply {

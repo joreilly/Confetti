@@ -32,6 +32,7 @@ class SessionDetailsKey(val conference: String, val sessionId: String) {
 
 fun NavGraphBuilder.sessionDetailsGraph(
     onBackClick: () -> Unit,
+    navigateToSignIn: () -> Unit,
     navigateToSpeakerDetails: (SpeakerDetailsKey) -> Unit
 ) {
     composable(
@@ -39,6 +40,12 @@ fun NavGraphBuilder.sessionDetailsGraph(
         arguments = arguments
     ) {
         val key = SessionDetailsKey(it)
-        SessionDetailsRoute(key.conference, key.sessionId, onBackClick, navigateToSpeakerDetails)
+        SessionDetailsRoute(
+            key.conference,
+            key.sessionId,
+            onBackClick,
+            navigateToSignIn,
+            navigateToSpeakerDetails
+        )
     }
 }

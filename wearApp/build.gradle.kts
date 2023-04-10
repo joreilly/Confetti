@@ -186,6 +186,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)
     testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
     testImplementation(libs.accompanist.testharness)
     testImplementation(libs.snapshot.android)
     testImplementation(libs.snapshot.jvm)

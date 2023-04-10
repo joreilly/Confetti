@@ -11,7 +11,6 @@ import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl

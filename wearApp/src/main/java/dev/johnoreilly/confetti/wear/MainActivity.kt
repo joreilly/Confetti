@@ -1,9 +1,12 @@
+@file:OptIn(KoinInternalApi::class)
+
 package dev.johnoreilly.confetti.wear
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
@@ -16,6 +19,10 @@ import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestinati
 import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject
+import org.koin.compose.LocalKoinApplication
+import org.koin.compose.LocalKoinScope
+import org.koin.core.annotation.KoinInternalApi
+import org.koin.mp.KoinPlatformTools
 
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavHostController
@@ -27,14 +34,21 @@ class MainActivity : ComponentActivity() {
         setContent {
             navController = rememberSwipeDismissableNavController()
 
-            ConfettiApp(navController, intent)
+            // This shouldn't be needed, but allows robolectric tests to run successfully
+            // TODO remove once a solution is found or a fix in koin?
+            CompositionLocalProvider(
+                LocalKoinScope provides KoinPlatformTools.defaultContext().get().scopeRegistry.rootScope,
+                LocalKoinApplication provides KoinPlatformTools.defaultContext().get()
+            ) {
+                ConfettiApp(navController, intent)
 
-            LaunchedEffect(Unit) {
-                navigateFromTileLaunch()
-            }
+                LaunchedEffect(Unit) {
+                    navigateFromTileLaunch()
+                }
 
-            LaunchedEffect(Unit) {
-                logNavigationEvents()
+                LaunchedEffect(Unit) {
+                    logNavigationEvents()
+                }
             }
         }
     }

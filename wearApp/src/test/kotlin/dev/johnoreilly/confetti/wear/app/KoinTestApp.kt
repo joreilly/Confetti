@@ -1,9 +1,10 @@
 package dev.johnoreilly.confetti.wear.app
 
 import android.app.Application
-import dev.johnoreilly.confetti.di.initKoin
-import dev.johnoreilly.confetti.wear.di.appModule
-import org.koin.android.ext.koin.androidContext
+import androidx.work.Configuration
+import androidx.work.testing.WorkManagerTestInitHelper
+import dev.johnoreilly.confetti.wear.ConfettiApplication.Companion.initWearApp
+import org.koin.androidx.workmanager.factory.KoinWorkerFactory
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
@@ -12,10 +13,14 @@ class KoinTestApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initKoin {
-            androidContext(this@KoinTestApp)
-            modules(appModule)
-            modules(emptyList())
+        initWearApp(this) {
+            // Workmanager uses singleton config
+            // So override for tests
+            val workConfiguration = Configuration.Builder()
+                .setWorkerFactory(KoinWorkerFactory())
+                .build()
+
+            WorkManagerTestInitHelper.initializeTestWorkManager(this@KoinTestApp, workConfiguration)
         }
     }
 

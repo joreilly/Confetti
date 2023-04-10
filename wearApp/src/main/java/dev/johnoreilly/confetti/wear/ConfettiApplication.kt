@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.wear
 
 import android.app.Application
+import android.content.Context
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.google.firebase.FirebaseApp
@@ -17,6 +18,7 @@ import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.dsl.KoinAppDeclaration
 
 class ConfettiApplication : Application(), ImageLoaderFactory {
 
@@ -45,14 +47,22 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
         // Initialize Logging.
         Napier.base(DebugAntilog())
 
-        initKoin {
-            androidLogger()
-            androidContext(this@ConfettiApplication)
-            modules(appModule)
-
+        val androidContext = this@ConfettiApplication
+        initWearApp(androidContext) {
             workManagerFactory()
         }
 
         setupDailyRefresh(get())
+    }
+
+    companion object {
+        fun initWearApp(androidContext: Context, extraDeclaration: KoinAppDeclaration = {}) {
+            initKoin {
+                androidLogger()
+                androidContext(androidContext)
+                modules(appModule)
+                extraDeclaration()
+            }
+        }
     }
 }

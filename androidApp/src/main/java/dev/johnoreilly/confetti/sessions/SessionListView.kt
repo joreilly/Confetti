@@ -81,8 +81,14 @@ fun SessionListView(
             Column {
                 val initialPage by remember {
                     derivedStateOf {
-                        val indexOfNow = uiState.confDates.indexOf(uiState.now.date)
-                        if (indexOfNow == -1) 0 else indexOfNow
+                        val initialPage = uiState
+                            .confDates
+                            .withIndex()
+                            .minByOrNull { (_, sessionDate) ->
+                                abs(uiState.now.dayOfYear - sessionDate.dayOfYear)
+                            }
+
+                        initialPage?.index ?: 0
                     }
                 }
 

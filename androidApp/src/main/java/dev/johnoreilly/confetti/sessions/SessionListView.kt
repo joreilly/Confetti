@@ -111,8 +111,10 @@ fun SessionListView(
                                 .flatten()
                                 .withIndex()
                                 .minByOrNull { (_, session) ->
-                                    abs(uiState.now.hour - session.startsAt.hour) +
-                                        abs(uiState.now.minute - session.startsAt.minute)
+                                    val nowInMillis = uiState.now.time.toMillisecondOfDay()
+                                    val startsAtInMillis =
+                                        session.startsAt.time.toMillisecondOfDay()
+                                    abs(nowInMillis - startsAtInMillis)
                                 }
 
                             // Count the number of sticky headers until the initial item.

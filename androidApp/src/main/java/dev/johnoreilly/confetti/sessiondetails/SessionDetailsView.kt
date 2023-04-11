@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,13 +34,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
+import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.getViewModel
@@ -149,9 +153,16 @@ fun SessionDetailView(
                                 }
                             }
                         }
+                        Spacer(modifier = Modifier.size(16.dp))
                     }
 
+                    ConfettiHeader(
+                        text = stringResource(R.string.speakers),
+                        icon = Icons.Filled.Person,
+                    )
+
                     Spacer(modifier = Modifier.size(16.dp))
+
                     session.speakers.forEach { speaker ->
                         SessionSpeakerInfo(speaker = speaker.speakerDetails,
                             onSocialLinkClick = { socialItem, _ ->

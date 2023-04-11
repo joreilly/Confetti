@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.compose") version "1.4.0-rc03"
+    id("org.jetbrains.compose") version "1.4.0"
     application
 }
 

@@ -67,6 +67,7 @@ fun ConfettiApp(
         )
         sessionDetailsGraph(
             appState::onBackClick,
+            navigateToSignIn = ::onSignIn,
             navigateToSpeakerDetails = { key ->
                 appState.navigate(key.route)
             }

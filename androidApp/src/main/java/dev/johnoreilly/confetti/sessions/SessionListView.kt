@@ -20,8 +20,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.outlined.Bookmark
-import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -51,6 +49,7 @@ import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.sessionSpeakers
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
+import dev.johnoreilly.confetti.ui.Bookmark
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
@@ -269,34 +268,20 @@ fun SessionItemView(
 
         var showDialog by remember { mutableStateOf(false) }
 
-        if (isBookmarked) {
-            Icon(
-                imageVector = Icons.Outlined.Bookmark,
-                contentDescription = "remove bookmark",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .clickable {
-                        if (user != null) {
-                            removeBookmark(session.id)
-                        } else {
-                            showDialog = true
-                        }
-                    }
-                    .padding(8.dp))
-        } else {
-            Icon(
-                imageVector = Icons.Outlined.BookmarkAdd,
-                contentDescription = "add bookmark",
-                modifier = Modifier
-                    .clickable {
-                        if (user != null) {
-                            addBookmark(session.id)
-                        } else {
-                            showDialog = true
-                        }
-                    }
-                    .padding(8.dp))
-        }
+        Bookmark(
+            isBookmarked = isBookmarked,
+            onBookmarkChange = { shouldAdd ->
+                if (user == null) {
+                    showDialog = true
+                    return@Bookmark
+                }
+                if (shouldAdd) {
+                    addBookmark(session.id)
+                } else {
+                    removeBookmark(session.id)
+                }
+            }
+        )
 
         if (showDialog) {
             SignInDialog(

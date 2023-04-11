@@ -40,7 +40,6 @@ import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.utils.plus
 import org.koin.androidx.compose.getViewModel
 
-
 @Composable
 fun SpeakersRoute(
     conference: String,
@@ -95,7 +94,7 @@ fun SpeakerGridView(
             items(speakers) { speaker ->
                 Column(
                     modifier = Modifier
-                        .clickable { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id))}
+                        .clickable { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) }
                         .padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

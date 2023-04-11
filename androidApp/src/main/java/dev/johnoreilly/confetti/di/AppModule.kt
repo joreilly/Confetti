@@ -17,7 +17,9 @@ import dev.johnoreilly.confetti.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
+import dev.johnoreilly.confetti.sessions.HomeViewModel
 import dev.johnoreilly.confetti.settings.SettingsViewModel
+import dev.johnoreilly.confetti.splash.SplashReadyStatus
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
@@ -36,6 +38,7 @@ val appModule = module {
     viewModelOf(::SettingsViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::BookmarksViewModel)
+    viewModelOf(::HomeViewModel)
 
     single {
         ConfettiRepository().apply {
@@ -44,6 +47,7 @@ val appModule = module {
             }
         }
     }
+    single<SplashReadyStatus> { SplashReadyStatus() }
 
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
 

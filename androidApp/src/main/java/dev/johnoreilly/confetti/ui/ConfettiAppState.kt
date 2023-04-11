@@ -1,9 +1,10 @@
 package dev.johnoreilly.confetti.ui
 
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -52,7 +53,6 @@ class ConfettiAppState(
             // avoid building up a large stack of destinations
             // on the back stack as users select items
             popUpTo(navController.graph.findStartDestination().id) {
-                inclusive = true
                 saveState = true
             }
             // Avoid multiple copies of the same destination when

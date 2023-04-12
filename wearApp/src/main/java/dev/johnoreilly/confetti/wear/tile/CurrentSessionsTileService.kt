@@ -88,7 +88,6 @@ class CurrentSessionsTileService : SuspendingTileService() {
     }
 
     private fun handleClick(uri: String) {
-        println("starting " + uri)
         TaskStackBuilder.create(this)
             .addNextIntentWithParentStack(Intent(
                 Intent.ACTION_VIEW,

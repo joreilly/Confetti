@@ -5,11 +5,8 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.ParameterizedRobolectricTestRunner
 
 
-@RunWith(ParameterizedRobolectricTestRunner::class)
 class SpeakerDetailsScTest : BaseScreenshotTest(false, a11yEnabled = true) {
 
 

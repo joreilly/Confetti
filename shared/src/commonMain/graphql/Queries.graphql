@@ -37,6 +37,12 @@ query GetSessions($first: Int! = 1000, $after: String = null) {
     }
 }
 
+query GetSpeaker($id: String!) {
+    speaker(id: $id) {
+        ...SpeakerDetails
+    }
+}
+
 query GetSpeakers($first: Int! = 1000, $after: String = null) {
     speakers: speakersPage(first: $first, after: $after) {
         nodes {

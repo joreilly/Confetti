@@ -228,11 +228,10 @@ class ConfettiRepository : KoinComponent {
 
     suspend fun conferenceData(
         conference: String,
-        fetchPolicy: FetchPolicy
+        fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst
     ): ApolloResponse<GetConferenceDataQuery.Data> =
         apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
             .fetchPolicy(fetchPolicy).execute()
-
 
     fun sessionsFlow(conference: String): Flow<ApolloResponse<GetSessionsQuery.Data>> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery()).toFlow()
@@ -250,5 +249,9 @@ class ConfettiRepository : KoinComponent {
 
     fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
         return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
+    }
+
+    fun speakerQuery(conference: String, id: String): ApolloCall<GetSpeakerQuery.Data> {
+        return apolloClientCache.getClient(conference).query(GetSpeakerQuery(id))
     }
 }

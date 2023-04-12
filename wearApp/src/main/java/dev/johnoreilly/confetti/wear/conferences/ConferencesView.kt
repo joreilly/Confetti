@@ -10,8 +10,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.material.ChipDefaults
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.StandardChip
+import com.google.android.horologist.base.ui.components.StandardChipType
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
@@ -68,6 +70,7 @@ fun ConferencesView(
                 items(5) {
                     PlaceholderChip(
                         modifier = Modifier.fillMaxWidth(),
+                        colors = ChipDefaults.secondaryChipColors()
                     )
                 }
             }
@@ -80,6 +83,7 @@ fun ConferencesView(
                         onClick = {
                             navigateToConference(conference.id)
                         },
+                        chipType = StandardChipType.Secondary
                     )
                 }
             }

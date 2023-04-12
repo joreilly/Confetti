@@ -3,11 +3,13 @@ package dev.johnoreilly.confetti
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsView
-import dev.johnoreilly.confetti.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.ParameterizedRobolectricTestRunner
 
 
+@RunWith(ParameterizedRobolectricTestRunner::class)
 class SpeakerDetailsScTest : BaseScreenshotTest(false, a11yEnabled = true) {
 
 
@@ -26,19 +28,19 @@ class SpeakerDetailsScTest : BaseScreenshotTest(false, a11yEnabled = true) {
             sessions = emptyList(),
             socials = emptyList()
         )
-        screenshotTestRule.takeScreenshot(
+        takeScreenshot(
+            darkTheme = true,
+            disableDynamicTheming = true,
             checks = {
                 it.onNodeWithText("Ben Zweber").assertExists()
             }
         ) {
-            ConfettiTheme {
-                SpeakerDetailsView(
-                    conference = "droidCon",
-                    speaker = mockSpeaker,
-                    navigateToSession = {},
-                    popBack = {}
-                )
-            }
+            SpeakerDetailsView(
+                conference = "droidCon",
+                speaker = mockSpeaker,
+                navigateToSession = {},
+                popBack = {}
+            )
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.wear.tiles.ActionBuilders.AndroidActivity
 import androidx.wear.tiles.ActionBuilders.AndroidStringExtra
 import androidx.wear.tiles.ActionBuilders.LaunchAction
+import androidx.wear.tiles.ActionBuilders.LoadAction
 import androidx.wear.tiles.ColorBuilders
 import androidx.wear.tiles.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.tiles.LayoutElementBuilders
@@ -27,6 +28,7 @@ import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.MainActivity
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
+import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.*
 import dev.johnoreilly.confetti.wear.ui.previews.WearLargeRoundDevicePreview
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
@@ -146,7 +148,11 @@ class CurrentSessionsTileRenderer(
         sessionDetails: SessionDetails,
         deviceParameters: DeviceParameters
     ): LayoutElementBuilders.LayoutElement =
-        Chip.Builder(context, sessionClickable(state.conference.id, sessionDetails), deviceParameters)
+        Chip.Builder(
+            context,
+            sessionClickable(state.conference.id, sessionDetails),
+            deviceParameters
+        )
             .setChipColors(ChipColors.secondaryChipColors(theme))
             .setPrimaryLabelContent(sessionDetails.title)
             .setSecondaryLabelContent(sessionDetails.room?.name ?: "No Room")
@@ -157,97 +163,30 @@ class CurrentSessionsTileRenderer(
         sessionDetails: SessionDetails
     ): Clickable =
         Clickable.Builder()
-            .setOnClick(
-                LaunchAction.Builder()
-                    .setAndroidActivity(
-                        AndroidActivity.Builder()
-                            .setClassName(MainActivity::class.java.name)
-                            .setPackageName(context.packageName)
-                            .addKeyToExtraMapping(
-                                "session", AndroidStringExtra.Builder()
-                                    .setValue(sessionDetails.id)
-                                    .build()
-                            )
-                            .addKeyToExtraMapping(
-                                "conference", AndroidStringExtra.Builder()
-                                    .setValue(conference)
-                                    .build()
-                            )
-                            .addKeyToExtraMapping(
-                                "tile", AndroidStringExtra.Builder()
-                                    .setValue("session")
-                                    .build()
-                            )
-                            .build()
-                    )
-                    .build()
-            )
+            .setOnClick(LoadAction.Builder().build())
+            .setId("session/{${conference}}/{${sessionDetails.id}}")
             .build()
 
     private fun browseClickable(
         conference: String
     ): Clickable =
         Clickable.Builder()
-            .setOnClick(
-                LaunchAction.Builder()
-                    .setAndroidActivity(
-                        AndroidActivity.Builder()
-                            .setClassName(MainActivity::class.java.name)
-                            .setPackageName(context.packageName)
-                            .addKeyToExtraMapping(
-                                "conference", AndroidStringExtra.Builder()
-                                    .setValue(conference)
-                                    .build()
-                            )
-                            .addKeyToExtraMapping(
-                                "tile", AndroidStringExtra.Builder()
-                                    .setValue("browse")
-                                    .build()
-                            )
-                            .build()
-                    )
-                    .build()
-            )
+            .setOnClick(LoadAction.Builder().build())
+            .setId("conferenceHome/${conference}")
             .build()
 
     private fun conferencesClickable(
     ): Clickable =
         Clickable.Builder()
-            .setOnClick(
-                LaunchAction.Builder()
-                    .setAndroidActivity(
-                        AndroidActivity.Builder()
-                            .setClassName(MainActivity::class.java.name)
-                            .setPackageName(context.packageName)
-                            .addKeyToExtraMapping(
-                                "tile", AndroidStringExtra.Builder()
-                                    .setValue("conferences")
-                                    .build()
-                            )
-                            .build()
-                    )
-                    .build()
-            )
+            .setOnClick(LoadAction.Builder().build())
+            .setId("conferences")
             .build()
 
     private fun loginClickable(
     ): Clickable =
         Clickable.Builder()
-            .setOnClick(
-                LaunchAction.Builder()
-                    .setAndroidActivity(
-                        AndroidActivity.Builder()
-                            .setClassName(MainActivity::class.java.name)
-                            .setPackageName(context.packageName)
-                            .addKeyToExtraMapping(
-                                "tile", AndroidStringExtra.Builder()
-                                    .setValue("login")
-                                    .build()
-                            )
-                            .build()
-                    )
-                    .build()
-            )
+            .setOnClick(LoadAction.Builder().build())
+            .setId("signIn")
             .build()
 }
 

@@ -2,6 +2,9 @@
 
 package dev.johnoreilly.confetti.wear.tile
 
+import android.content.Intent
+import androidx.core.app.TaskStackBuilder
+import androidx.core.net.toUri
 import androidx.wear.compose.material.Colors
 import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
@@ -76,7 +79,22 @@ class CurrentSessionsTileService : SuspendingTileService() {
     }
 
     override suspend fun tileRequest(requestParams: RequestBuilders.TileRequest): TileBuilders.Tile {
+        val lastClickableId = requestParams.currentState.lastClickableId
+        if (lastClickableId.isNotBlank()) {
+            handleClick("confetti://confetti/$lastClickableId")
+        }
+
         return renderer.renderTimeline(tileState(), requestParams)
+    }
+
+    private fun handleClick(uri: String) {
+        println("starting " + uri)
+        TaskStackBuilder.create(this)
+            .addNextIntentWithParentStack(Intent(
+                Intent.ACTION_VIEW,
+                uri.toUri()
+            ))
+            .startActivities()
     }
 
     override fun onTileAddEvent(requestParams: EventBuilders.TileAddEvent) {

@@ -43,10 +43,6 @@ class MainActivity : ComponentActivity() {
                 ConfettiApp(navController, intent)
 
                 LaunchedEffect(Unit) {
-                    navigateFromTileLaunch()
-                }
-
-                LaunchedEffect(Unit) {
                     logNavigationEvents()
                 }
             }
@@ -68,26 +64,6 @@ class MainActivity : ComponentActivity() {
         } catch (ise: IllegalStateException) {
             false
         }
-
-    fun navigateFromTileLaunch() {
-        val tileButton = intent.getAndRemoveKey("tile")
-        if (tileButton == "session") {
-            val conference = intent.getAndRemoveKey("conference")
-            val sessionId = intent.getAndRemoveKey("session")
-
-            if (conference != null && sessionId != null) {
-                navController.navigate(
-                    SessionDetailsDestination.createNavigationRoute(
-                        SessionDetailsKey(conference, sessionId)
-                    )
-                )
-            }
-        } else if (tileButton == "login") {
-            navController.navigate(SignInDestination.route)
-        } else if (tileButton == "conferences") {
-            navController.navigate(ConferencesDestination.route)
-        }
-    }
 }
 
 private fun Intent.getAndRemoveKey(key: String): String? =

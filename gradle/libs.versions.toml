@@ -23,7 +23,7 @@ lifecycle-livedata-ktx = "2.6.1"
 multiplatform-settings = "1.0.0"
 nav-compose = "2.5.3"
 okio = "3.3.0"
-robolectric = "4.10-alpha-1"
+robolectric = "4.10"
 snapshot-android = "v1.0.2"
 work-runtime-ktx = "2.8.1"
 

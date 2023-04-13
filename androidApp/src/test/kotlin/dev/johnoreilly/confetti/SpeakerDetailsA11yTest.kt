@@ -7,12 +7,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
 
 
-class SpeakerDetailsScTest : BaseScreenshotTest(false, a11yEnabled = false) {
+class SpeakerDetailsScA11yTest : BaseScreenshotTest(false, a11yEnabled = true) {
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun screenshotDetails() {
+    fun screenshotDetailsA11y() {
         val mockSpeaker = SpeakerDetails(
             id = "",
             name = "Ben Zweber",

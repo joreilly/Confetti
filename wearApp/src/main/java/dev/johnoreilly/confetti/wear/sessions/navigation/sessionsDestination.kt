@@ -51,12 +51,13 @@ fun NavGraphBuilder.sessionsGraph(
     scrollable(
         route = SessionsDestination.route,
         arguments = listOf(
-            navArgument(SessionsDestination.dateArg) { type = NavType.StringType }
+            navArgument(SessionsDestination.dateArg) { type = NavType.StringType },
+            navArgument(SessionsDestination.conferenceArg) { type = NavType.StringType }
         ),
         deepLinks = listOf(
             navDeepLink {
                 uriPattern =
-                    "confetti://confetti/sessions/{${SessionsDestination.dateArg}}"
+                    "confetti://confetti/sessions/{${SessionsDestination.conferenceArg}}/{${SessionsDestination.dateArg}}"
             }
         )
     ) {

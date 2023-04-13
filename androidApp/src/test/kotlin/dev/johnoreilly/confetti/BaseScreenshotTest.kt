@@ -29,7 +29,7 @@ abstract class BaseScreenshotTest(
     record: Boolean,
     tolerance: Float = 0.01f,
     a11yEnabled: Boolean = false
-): KoinTest {
+) : KoinTest {
 
     @get:Rule
     val screenshotTestRule = createScreenshotTestRule(
@@ -38,6 +38,26 @@ abstract class BaseScreenshotTest(
         a11yEnabled = a11yEnabled,
         directoryName = this::class.simpleName!!
     )
+
+    @ExperimentalCoroutinesApi
+    fun takeScreenshot(
+        darkTheme: Boolean,
+        disableDynamicTheming: Boolean,
+        checks: suspend (rule: ComposeContentTestRule) -> Unit,
+        content: @Composable () -> Unit
+    ) {
+        screenshotTestRule.takeScreenshot(checks = checks) {
+            ConfettiTheme(
+                darkTheme = darkTheme,
+                androidTheme = true,
+                disableDynamicTheming = disableDynamicTheming
+            ) {
+                Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                    content()
+                }
+            }
+        }
+    }
 
     @After
     fun teardown() {
@@ -67,12 +87,7 @@ class ScreenshotTestRule(
     ) {
         super.takeScreenshot(
             checks,
-            content = {
-                ConfettiTheme {
-                    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background))
-                    content()
-                }
-            }
+            content = content
         )
     }
 }

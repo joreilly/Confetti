@@ -22,6 +22,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+    if: github.repository == 'joreilly/Confetti'
 
     steps:
     - uses: actions/checkout@v3

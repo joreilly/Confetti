@@ -10,6 +10,7 @@ import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnOreilly
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
@@ -55,7 +56,7 @@ class SpeakerDetailsTest : ScreenshotTest() {
         }
     ) { columnState ->
         SpeakerDetailsView(
-            speaker = JohnOreilly.speakerDetails,
+            uiState = QueryResult.Success(JohnOreilly.speakerDetails),
             columnState = columnState,
         )
     }
@@ -71,7 +72,7 @@ class SpeakerDetailsTest : ScreenshotTest() {
             }
         ) { columnState ->
             SpeakerDetailsView(
-                speaker = JohnOreilly.speakerDetails,
+                uiState = QueryResult.Success(JohnOreilly.speakerDetails),
                 columnState = columnState,
             )
         }

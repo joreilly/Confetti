@@ -1,4 +1,6 @@
 extend type Session @typePolicy(keyFields: "id")
 extend type Bookmarks @typePolicy(keyFields: "id")
+extend type Speaker @typePolicy(keyFields: "id")
 
 extend type Query @fieldPolicy(forField: "session", keyArgs: "id")
+extend type Query @fieldPolicy(forField: "speaker", keyArgs: "id")

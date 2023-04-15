@@ -12,6 +12,7 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.utils.ClientQuery.toUiState
 import dev.johnoreilly.confetti.utils.QueryResult
+import dev.johnoreilly.confetti.utils.nowAtTimeZone
 import dev.johnoreilly.confetti.wear.bookmarks.navigation.BookmarksDestination
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
@@ -22,9 +23,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.datetime.toKotlinInstant
-import kotlinx.datetime.toLocalDateTime
-import java.time.Instant
+import kotlinx.datetime.LocalDateTime
 
 class BookmarksViewModel(
     private val tileUpdater: TileUpdater,
@@ -64,13 +63,14 @@ class BookmarksViewModel(
 
             val timeZone = this.config.timezone.toTimeZone()
 
-            val now = Instant.now().toKotlinInstant().toLocalDateTime(timeZone)
+            val now = LocalDateTime.nowAtTimeZone(timeZone)
 
             val (upcoming, past) = allSessions.partition {
                 it.endsAt > now
             }
 
-            return BookmarksUiState(this.config.id, upcoming, past)
+            return BookmarksUiState(this.config.id, upcoming, past, now)
         }
+
     }
 }

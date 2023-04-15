@@ -7,12 +7,16 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionTime
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
+import dev.johnoreilly.confetti.wear.sessions.SessionAtTime
 import dev.johnoreilly.confetti.wear.sessions.SessionsScreen
 import dev.johnoreilly.confetti.wear.sessions.SessionsUiState
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test
+import java.time.LocalDateTime
 
 class SessionsScreenTest : ScreenshotTest() {
     init {
@@ -27,14 +31,17 @@ class SessionsScreenTest : ScreenshotTest() {
         }
     ) { columnState ->
         SessionsScreen(
-            uiState = SessionsUiState.Success(
-                ConferenceDayKey("wearconf", sessionTime.date),
-                sessionsByTime = listOf(
-                    SessionsUiState.SessionAtTime(
-                        sessionTime,
-                        listOf(sessionDetails)
-                    )
-                )
+            uiState = QueryResult.Success(
+                SessionsUiState(
+                    ConferenceDayKey("wearconf", sessionTime.date),
+                    sessionsByTime = listOf(
+                        SessionAtTime(
+                            sessionTime,
+                            listOf(sessionDetails)
+                        )
+                    ),
+                    LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                ),
             ),
             sessionSelected = {},
             columnState = columnState
@@ -52,14 +59,17 @@ class SessionsScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             SessionsScreen(
-                uiState = SessionsUiState.Success(
-                    ConferenceDayKey("wearconf", sessionTime.date),
-                    sessionsByTime = listOf(
-                        SessionsUiState.SessionAtTime(
-                            sessionTime,
-                            listOf(sessionDetails)
-                        )
-                    )
+                uiState = QueryResult.Success(
+                    SessionsUiState(
+                        ConferenceDayKey("wearconf", sessionTime.date),
+                        sessionsByTime = listOf(
+                            SessionAtTime(
+                                sessionTime,
+                                listOf(sessionDetails)
+                            )
+                        ),
+                        LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                    ),
                 ),
                 sessionSelected = {},
                 columnState = columnState

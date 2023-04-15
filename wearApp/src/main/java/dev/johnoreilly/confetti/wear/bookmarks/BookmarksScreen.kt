@@ -50,11 +50,6 @@ fun BookmarksScreen(
     sessionSelected: (SessionDetailsKey) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
-    val now = remember {
-        // TODO get with the right timezone
-        null
-        // LocalDateTime.now().toKotlinLocalDateTime()
-    }
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState,
@@ -73,7 +68,8 @@ fun BookmarksScreen(
                                     sessionId = it
                                 )
                             )
-                        }, currentTime = now
+                        },
+                        currentTime = uiState.result.now
                     )
                 }
 
@@ -95,7 +91,7 @@ fun BookmarksScreen(
                                     sessionId = it
                                 )
                             )
-                        }, currentTime = now
+                        }, currentTime = uiState.result.now
                     )
                 }
 
@@ -124,6 +120,7 @@ fun BookmarksPreview() {
                     conference = TestFixtures.kotlinConf2023.id,
                     upcoming = listOf(TestFixtures.sessionDetails),
                     past = listOf(),
+                    now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                 )
             ),
             sessionSelected = {},

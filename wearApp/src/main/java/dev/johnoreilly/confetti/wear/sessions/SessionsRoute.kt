@@ -19,6 +19,7 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.type.Session
+import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
@@ -26,6 +27,7 @@ import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
 
@@ -39,7 +41,7 @@ fun SessionsRoute(
 
     if (!BuildConfig.DEBUG) {
         ReportDrawnWhen {
-            uiState is SessionsUiState.Success
+            uiState is QueryResult.Success
         }
     }
 
@@ -54,25 +56,20 @@ fun SessionsRoute(
 
 @Composable
 fun SessionsScreen(
-    uiState: SessionsUiState,
+    uiState: QueryResult<SessionsUiState>,
     sessionSelected: (SessionDetailsKey) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("eeee H:mm") }
     val timeFormatter = remember { DateTimeFormatter.ofPattern("H:mm") }
-    val now = remember {
-        // TODO get with the right timezone
-        null
-        // LocalDateTime.now().toKotlinLocalDateTime()
-    }
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState,
     ) {
         when (uiState) {
-            is SessionsUiState.Success -> {
-                val sessions = uiState.sessionsByTime
+            is QueryResult.Success -> {
+                val sessions = uiState.result.sessionsByTime
 
                 sessions.forEachIndexed { index, sessionsAtTime ->
                     item {
@@ -88,11 +85,11 @@ fun SessionsScreen(
                         SessionCard(session, sessionSelected = {
                             sessionSelected(
                                 SessionDetailsKey(
-                                    conference = uiState.conferenceDay.conference,
+                                    conference = uiState.result.conferenceDay.conference,
                                     sessionId = it
                                 )
                             )
-                        }, now)
+                        }, uiState.result.now)
                     }
                 }
             }
@@ -112,27 +109,30 @@ fun SessionListViewPreview() {
 
     ConfettiThemeFixed {
         SessionsScreen(
-            uiState = SessionsUiState.Success(
-                ConferenceDayKey("wearconf", sessionTime.date),
-                sessionsByTime = listOf(
-                    SessionsUiState.SessionAtTime(
-                        sessionTime,
-                        listOf(
-                            SessionDetails(
-                                "1",
-                                "Wear it's at",
-                                "Talk",
-                                sessionTime,
-                                sessionTime,
-                                "Be aWear of what's coming",
-                                "en",
-                                listOf(),
-                                SessionDetails.Room("Main Hall"),
-                                listOf(),
-                                Session.type.name
+            uiState = QueryResult.Success(
+                SessionsUiState(
+                    ConferenceDayKey("wearconf", sessionTime.date),
+                    sessionsByTime = listOf(
+                        SessionAtTime(
+                            sessionTime,
+                            listOf(
+                                SessionDetails(
+                                    "1",
+                                    "Wear it's at",
+                                    "Talk",
+                                    sessionTime,
+                                    sessionTime,
+                                    "Be aWear of what's coming",
+                                    "en",
+                                    listOf(),
+                                    SessionDetails.Room("Main Hall"),
+                                    listOf(),
+                                    Session.type.name
+                                )
                             )
                         )
-                    )
+                    ),
+                    now = java.time.LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                 )
             ),
             sessionSelected = {},

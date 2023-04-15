@@ -22,7 +22,9 @@ import dev.johnoreilly.confetti.wear.home.HomeUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.kotlinConf2023
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test
+import java.time.LocalDateTime
 
 class ConferenceHomeScreenTest : ScreenshotTest() {
     init {
@@ -73,10 +75,13 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                 ),
                 bookmarksUiState = QueryResult.Success(
                     BookmarksUiState(
-                        kotlinConf2023.id, listOf(
+                        kotlinConf2023.id,
+                        listOf(
                             TestFixtures.sessionDetails,
                             TestFixtures.sessionDetails.copy(title = "Adopting Kotlin at Google scale")
-                        ), listOf()
+                        ),
+                        listOf(),
+                        LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                     )
                 ),
                 sessionSelected = {},

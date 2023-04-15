@@ -17,5 +17,6 @@ class AndroidDateService: DateService {
     override fun now(): LocalDateTime = java.time.LocalDateTime.now().toKotlinLocalDateTime()
 }
 
+// TODO these should call a method on DateService
 fun LocalDateTime.Companion.nowAtTimeZone(timeZone: TimeZone) =
     Instant.now().toKotlinInstant().toLocalDateTime(timeZone)

@@ -23,7 +23,8 @@ class SpeakerDetailsScA11yTest : BaseScreenshotTest(false, a11yEnabled = true) {
             city = "Some City",
             bio = "Ben is an Android Solution architect who has an obsession with Kotin and Android",
             sessions = emptyList(),
-            socials = emptyList()
+            socials = emptyList(),
+            __typename = "Speaker"
         )
         takeScreenshot(
             darkTheme = true,

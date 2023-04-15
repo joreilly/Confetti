@@ -31,6 +31,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToString
 import androidx.test.core.app.ApplicationProvider
+import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
@@ -54,7 +55,8 @@ import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.proto.Theme
-import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
+import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okio.FileSystem
@@ -150,7 +152,7 @@ abstract class ScreenshotTest : KoinTest {
                         modifier = Modifier
                             .background(Color.Transparent)
                     ) {
-                        ConfettiTheme(mobileTheme = mobileTheme) {
+                        ConfettiThemeFixed(mobileTheme?.toMaterialThemeColors() ?: Colors()) {
                             Scaffold(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -214,7 +216,7 @@ abstract class ScreenshotTest : KoinTest {
                             .background(Color.Transparent),
                         contentAlignment = Alignment.Center
                     ) {
-                        ConfettiTheme(mobileTheme = mobileTheme) {
+                        ConfettiThemeFixed(mobileTheme?.toMaterialThemeColors() ?: Colors()) {
                             content()
                         }
                     }

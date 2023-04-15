@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.test.core.app.ApplicationProvider
+import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
@@ -30,7 +31,8 @@ import dev.johnoreilly.confetti.screenshot.RNGScreenshotTestRule
 import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.proto.Theme
-import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
+import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okio.FileSystem
 import okio.Path
@@ -50,7 +52,7 @@ import kotlin.test.AfterTest
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class BaseScreenshotTest(
-    record: Boolean,
+    record: Boolean = false,
     tolerance: Float = 0.01f,
     a11yEnabled: Boolean = false
 ) {
@@ -165,7 +167,7 @@ class ScreenshotTestRule(
                     modifier = Modifier
                         .background(Color.Transparent)
                 ) {
-                    ConfettiTheme(mobileTheme = mobileTheme) {
+                    ConfettiThemeFixed(mobileTheme?.toMaterialThemeColors() ?: Colors()) {
                         Scaffold(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -202,7 +204,7 @@ class ScreenshotTestRule(
                         .background(Color.Transparent),
                     contentAlignment = Alignment.Center
                 ) {
-                    ConfettiTheme(mobileTheme = mobileTheme) {
+                    ConfettiThemeFixed(mobileTheme?.toMaterialThemeColors() ?: Colors()) {
                         content()
                     }
                 }

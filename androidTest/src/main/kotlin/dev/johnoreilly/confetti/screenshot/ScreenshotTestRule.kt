@@ -47,7 +47,7 @@ abstract class RNGScreenshotTestRule(
     private val directoryName: String,
 ) : ScreenshotTestRule {
 
-    private val composeTestRule = createComposeRule()
+    val composeTestRule = createComposeRule()
     private val testName: TestName = TestName()
 
     private var snapshotTransformer: SnapshotTransformer = if (a11y) {

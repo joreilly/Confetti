@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -21,10 +22,14 @@ import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewThemes
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
+import kotlinx.datetime.toKotlinLocalDateTime
+import java.time.LocalDateTime
 
 @Composable
 fun ThemePreview() {
+    val now = remember { LocalDateTime.of(2020, 1, 1, 1, 1).toKotlinLocalDateTime() }
+
     LazyColumn {
         item {
             ListHeader {
@@ -59,7 +64,11 @@ fun ThemePreview() {
         //                )
         //            }
         item {
-            SessionCard(TestFixtures.sessionDetails) {}
+            SessionCard(
+                session = TestFixtures.sessionDetails,
+                sessionSelected = {},
+                currentTime = now
+            )
         }
     }
 }
@@ -69,7 +78,7 @@ fun ThemePreview() {
 fun ThemePreview(
     @PreviewParameter(ConfettiPreviewThemes::class) themeValues: ThemeValues
 ) {
-    ConfettiTheme(colors = themeValues.colors) {
+    ConfettiThemeFixed(colors = themeValues.colors) {
         Box(modifier = Modifier.size(221.dp, 400.dp)) {
             ThemePreview()
         }

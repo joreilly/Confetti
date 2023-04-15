@@ -76,7 +76,7 @@ fun MainLayout() {
     val currentSession: MutableState<SessionDetails?> = remember { mutableStateOf(null) }
 
     val sessionList = remember { mutableStateOf<List<SessionDetails>?>(emptyList()) }
-    val conference = "kotlinconf2023"
+    val conference = "androidmakers2023"
 
     LaunchedEffect(conference) {
         val conferenceData = repository.conferenceData(conference, FetchPolicy.CacheFirst)

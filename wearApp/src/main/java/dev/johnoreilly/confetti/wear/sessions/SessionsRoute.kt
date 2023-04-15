@@ -61,7 +61,11 @@ fun SessionsScreen(
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("eeee H:mm") }
     val timeFormatter = remember { DateTimeFormatter.ofPattern("H:mm") }
-    val now = remember { java.time.LocalDateTime.now().toKotlinLocalDateTime() }
+    val now = remember {
+        // TODO get with the right timezone
+        null
+        // LocalDateTime.now().toKotlinLocalDateTime()
+    }
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),

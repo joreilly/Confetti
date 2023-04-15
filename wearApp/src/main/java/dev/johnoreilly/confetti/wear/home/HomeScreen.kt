@@ -58,7 +58,11 @@ fun HomeScreen(
     columnState: ScalingLazyColumnState
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
-    val now = remember { LocalDateTime.now().toKotlinLocalDateTime() }
+    val now = remember {
+        // TODO get with the right timezone
+        null
+        // LocalDateTime.now().toKotlinLocalDateTime()
+    }
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),

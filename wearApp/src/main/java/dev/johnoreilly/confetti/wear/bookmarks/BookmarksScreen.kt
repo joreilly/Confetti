@@ -50,7 +50,11 @@ fun BookmarksScreen(
     sessionSelected: (SessionDetailsKey) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
-    val now = remember { LocalDateTime.now().toKotlinLocalDateTime() }
+    val now = remember {
+        // TODO get with the right timezone
+        null
+        // LocalDateTime.now().toKotlinLocalDateTime()
+    }
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState,

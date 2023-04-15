@@ -10,14 +10,14 @@ import androidx.wear.compose.material.Text
 import com.google.android.horologist.compose.tools.ThemeValues
 import com.google.android.horologist.compose.tools.WearPreview
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewThemes
-import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 
 @WearPreview
 @Composable
 fun ThemeColourPreview(
     @PreviewParameter(ConfettiPreviewThemes::class) themeValues: ThemeValues
 ) {
-    ConfettiTheme(colors = themeValues.colors) {
+    ConfettiThemeFixed(colors = themeValues.colors) {
         ThemeSwatches()
     }
 }

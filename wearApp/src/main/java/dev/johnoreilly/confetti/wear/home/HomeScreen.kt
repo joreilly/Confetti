@@ -39,10 +39,12 @@ import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toKotlinLocalDateTime
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -56,6 +58,7 @@ fun HomeScreen(
     columnState: ScalingLazyColumnState
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
+    val now = remember { LocalDateTime.now().toKotlinLocalDateTime() }
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -88,7 +91,7 @@ fun HomeScreen(
                         if (uiState is QueryResult.Success) {
                             sessionSelected(SessionDetailsKey(uiState.result.conference, it))
                         }
-                    })
+                    }, now)
                 }
             }
 
@@ -158,7 +161,7 @@ fun ConferenceTitle(conferenceName: String) {
 @WearPreviewFontSizes
 @Composable
 fun HomeListViewPreview() {
-    ConfettiTheme {
+    ConfettiThemeFixed {
         HomeScreen(
             uiState = QueryResult.Success(
                 HomeUiState(

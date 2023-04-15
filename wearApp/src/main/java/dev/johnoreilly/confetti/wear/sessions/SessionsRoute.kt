@@ -21,11 +21,12 @@ import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
-import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
 
@@ -60,6 +61,7 @@ fun SessionsScreen(
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("eeee H:mm") }
     val timeFormatter = remember { DateTimeFormatter.ofPattern("H:mm") }
+    val now = remember { java.time.LocalDateTime.now().toKotlinLocalDateTime() }
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -80,14 +82,14 @@ fun SessionsScreen(
                     }
 
                     items(sessionsAtTime.sessions) { session ->
-                        SessionCard(session) {
+                        SessionCard(session, sessionSelected = {
                             sessionSelected(
                                 SessionDetailsKey(
                                     conference = uiState.conferenceDay.conference,
                                     sessionId = it
                                 )
                             )
-                        }
+                        }, now)
                     }
                 }
             }
@@ -105,7 +107,7 @@ fun SessionsScreen(
 fun SessionListViewPreview() {
     val sessionTime = LocalDateTime(2022, 12, 25, 12, 30)
 
-    ConfettiTheme {
+    ConfettiThemeFixed {
         SessionsScreen(
             uiState = SessionsUiState.Success(
                 ConferenceDayKey("wearconf", sessionTime.date),

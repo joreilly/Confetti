@@ -90,11 +90,17 @@ class RefreshWorker(
         val FetchConferencesKey = "fetchConferences"
         val FetchImagesKey = "fetchImages"
 
-        fun oneOff(conference: String): OneTimeWorkRequest =
+        fun oneOff(
+            conference: String,
+            fetchConferences: Boolean = false,
+            fetchImages: Boolean = false
+        ): OneTimeWorkRequest =
             OneTimeWorkRequestBuilder<RefreshWorker>()
                 .setInputData(
                     workDataOf(
-                        ConferenceKey to conference
+                        ConferenceKey to conference,
+                        FetchConferencesKey to fetchConferences,
+                        FetchImagesKey to fetchImages
                     )
                 )
                 .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)

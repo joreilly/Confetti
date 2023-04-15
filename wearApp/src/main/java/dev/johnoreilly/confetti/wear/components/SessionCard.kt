@@ -40,7 +40,7 @@ import java.time.format.FormatStyle
 fun SessionCard(
     session: SessionDetails,
     sessionSelected: (sessionId: String) -> Unit,
-    currentTime: LocalDateTime?,
+    currentTime: LocalDateTime,
     modifier: Modifier = Modifier,
     timeDisplay: @Composable () -> Unit = {
         SessionTime(session, currentTime)
@@ -92,10 +92,10 @@ fun SpeakerLabel(speaker: SessionDetails.Speaker) {
 @Composable
 fun SessionTime(
     session: SessionDetails,
-    currentTime: LocalDateTime?
+    currentTime: LocalDateTime
 ) {
     val timeFormatted = remember { DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT) }
-    if (currentTime != null && currentTime in session.startsAt..session.endsAt) {
+    if (currentTime in session.startsAt..session.endsAt) {
         Text("Now", color = MaterialTheme.colors.error)
     } else {
         Text(timeFormatted.format(session.startsAt.toJavaLocalDateTime()))

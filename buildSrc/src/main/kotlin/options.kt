@@ -13,7 +13,7 @@ private fun Int.toJavaVersion(): String = when(this) {
     8 -> "1.8"
     else -> toString()
 }
-fun Project.configureCompilerOptions(jvmVersion: Int = 11) {
+fun Project.configureCompilerOptions(jvmVersion: Int = 17) {
     tasks.withType(KotlinCompile::class.java).configureEach {
         it.kotlinOptions {
             (this as? KotlinJvmOptions)?.let {

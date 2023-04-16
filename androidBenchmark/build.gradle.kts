@@ -13,12 +13,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = org.gradle.api.JavaVersion.VERSION_17
+        targetCompatibility = org.gradle.api.JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_17.majorVersion
     }
 
     buildTypes {
@@ -32,12 +32,6 @@ android {
     targetProjectPath(":androidApp")
     experimentalProperties["android.experimental.self-instrumenting"] = true
 
-    variantFilter {
-        if (buildType.name.contains("release") || buildType.name.contains("debug")) {
-            ignore = true
-        }
-    }
-
     namespace = "dev.johnoreilly.confetti.benchmark"
 }
 
@@ -50,6 +44,6 @@ dependencies {
 
 androidComponents {
     beforeVariants(selector().all()) { variant ->
-        variant.enabled = variant.buildType == "benchmark"
+        variant.enable = variant.buildType == "benchmark"
     }
 }

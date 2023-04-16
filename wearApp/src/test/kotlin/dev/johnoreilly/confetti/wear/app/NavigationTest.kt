@@ -11,6 +11,10 @@ class NavigationTest : BaseAppTest() {
 
         val navController = activity.navController
 
+        rule.waitUntil {
+            navController.currentDestination?.route != null
+        }
+
         navController.navigate("confetti://confetti/signIn".toUri())
         navController.navigate("confetti://confetti/signOut".toUri())
         navController.navigate("confetti://confetti/settings".toUri())

@@ -17,6 +17,10 @@ class AppTest : BaseAppTest() {
 
         val navController = activity.navController
 
+        rule.waitUntil {
+            navController.currentDestination?.route != null
+        }
+
         assertEquals(StartHomeDestination.route, navController.currentDestination?.route)
 
         // We got navigated to the conferences screen to select a screen
@@ -35,6 +39,10 @@ class AppTest : BaseAppTest() {
         val activity = rule.activity
 
         val navController = activity.navController
+
+        rule.waitUntil {
+            navController.currentDestination?.route != null
+        }
 
         assertEquals(StartHomeDestination.route, navController.currentDestination?.route)
 

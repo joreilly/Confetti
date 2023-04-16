@@ -33,18 +33,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             navController = rememberSwipeDismissableNavController()
 
-            val viewModel: WearAppViewModel = getViewModel()
-
-            splashScreen.setKeepOnScreenCondition {
-                viewModel.waitingOnThemeOrData
-            }
-
             // TODO https://github.com/InsertKoinIO/koin/issues/1557
             CompositionLocalProvider(
                 LocalKoinScope provides KoinPlatformTools.defaultContext()
                     .get().scopeRegistry.rootScope,
                 LocalKoinApplication provides KoinPlatformTools.defaultContext().get()
             ) {
+                val viewModel: WearAppViewModel = getViewModel()
+
+                splashScreen.setKeepOnScreenCondition {
+                    viewModel.waitingOnThemeOrData
+                }
+
                 ConfettiApp(navController, viewModel)
 
                 LaunchedEffect(Unit) {

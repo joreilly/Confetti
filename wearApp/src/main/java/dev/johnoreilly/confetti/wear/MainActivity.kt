@@ -2,23 +2,20 @@
 
 package dev.johnoreilly.confetti.wear
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.google.firebase.FirebaseApp
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
-import dev.johnoreilly.confetti.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.wear.auth.navigation.SignInDestination
-import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject
+import org.koin.androidx.compose.getViewModel
 import org.koin.compose.LocalKoinApplication
 import org.koin.compose.LocalKoinScope
 import org.koin.core.annotation.KoinInternalApi
@@ -29,18 +26,26 @@ class MainActivity : ComponentActivity() {
     private val analyticsLogger: AnalyticsLogger by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
 
         setContent {
             navController = rememberSwipeDismissableNavController()
 
-            // This shouldn't be needed, but allows robolectric tests to run successfully
-            // TODO remove once a solution is found or a fix in koin?
+            val viewModel: WearAppViewModel = getViewModel()
+
+            splashScreen.setKeepOnScreenCondition {
+                viewModel.waitingOnThemeOrData
+            }
+
+            // TODO https://github.com/InsertKoinIO/koin/issues/1557
             CompositionLocalProvider(
-                LocalKoinScope provides KoinPlatformTools.defaultContext().get().scopeRegistry.rootScope,
+                LocalKoinScope provides KoinPlatformTools.defaultContext()
+                    .get().scopeRegistry.rootScope,
                 LocalKoinApplication provides KoinPlatformTools.defaultContext().get()
             ) {
-                ConfettiApp(navController, intent)
+                ConfettiApp(navController, viewModel)
 
                 LaunchedEffect(Unit) {
                     logNavigationEvents()
@@ -65,8 +70,3 @@ class MainActivity : ComponentActivity() {
             false
         }
 }
-
-private fun Intent.getAndRemoveKey(key: String): String? =
-    getStringExtra(key).also {
-        removeExtra(key)
-    }

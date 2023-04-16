@@ -2,7 +2,6 @@
 
 package dev.johnoreilly.confetti.wear.startup.navigation
 
-import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -35,7 +34,6 @@ object StartHomeDestination : ConfettiNavigationDestination {
 }
 
 fun NavGraphBuilder.startHomeGraph(
-    intent: Intent? = null,
     navigateToSession: (SessionDetailsKey) -> Unit,
     navigateToDay: (ConferenceDayKey) -> Unit,
     navigateToSettings: () -> Unit,
@@ -59,7 +57,7 @@ fun NavGraphBuilder.startHomeGraph(
             navigateToDay = navigateToDay,
             navigateToSettings = navigateToSettings,
             navigateToBookmarks = navigateToBookmarks,
-            navigateToConferences = navigateToConferences
+            navigateToConferences = navigateToConferences,
         )
     }
 }

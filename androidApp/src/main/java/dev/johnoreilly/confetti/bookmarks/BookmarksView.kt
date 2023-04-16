@@ -21,9 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
+import dev.johnoreilly.confetti.DateSessionsMap
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auth.User
-import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.ConfettiAppState
@@ -39,8 +39,8 @@ import java.time.format.DateTimeFormatter
 fun BookmarksView(
     conference: String,
     appState: ConfettiAppState,
-    pastSessions: List<SessionDetails>,
-    upcomingSessions: List<SessionDetails>,
+    pastSessions: DateSessionsMap,
+    upcomingSessions: DateSessionsMap,
     navigateToSession: (SessionDetailsKey) -> Unit,
     onSwitchConference: () -> Unit,
     onSignIn: () -> Unit,
@@ -83,8 +83,8 @@ fun BookmarksView(
 
 @Composable
 private fun BookmarksContent(
-    pastSessions: List<SessionDetails>,
-    upcomingSessions: List<SessionDetails>,
+    pastSessions: DateSessionsMap,
+    upcomingSessions: DateSessionsMap,
     conference: String,
     navigateToSession: (SessionDetailsKey) -> Unit,
     bookmarks: Set<String>,
@@ -136,8 +136,8 @@ private fun BookmarksTabRow(pagerState: PagerState) {
 @Composable
 private fun BookmarksHorizontalPager(
     pagerState: PagerState,
-    pastSessions: List<SessionDetails>,
-    upcomingSessions: List<SessionDetails>,
+    pastSessions: DateSessionsMap,
+    upcomingSessions: DateSessionsMap,
     conference: String,
     navigateToSession: (SessionDetailsKey) -> Unit,
     bookmarks: Set<String>,
@@ -161,9 +161,8 @@ private fun BookmarksHorizontalPager(
             contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
                 .asPaddingValues()
         ) {
-            val sessionsByDate = displayedSessions.groupBy { it.startsAt }
 
-            sessionsByDate.forEach { (dateTime, sessions) ->
+            displayedSessions.forEach { (dateTime, sessions) ->
                 stickyHeader {
                     ConfettiHeader(
                         icon = Icons.Filled.AccessTime,

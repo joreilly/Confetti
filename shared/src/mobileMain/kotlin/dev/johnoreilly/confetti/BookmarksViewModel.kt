@@ -4,10 +4,8 @@ import com.rickclephas.kmm.viewmodel.KMMViewModel
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.createCurrentLocalDateTimeFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
-import kotlin.time.Duration.Companion.minutes
 
 class BookmarksViewModel(
     private val dateService: DateService,
@@ -44,14 +42,14 @@ class BookmarksViewModel(
         .combine(currentDateTimeFlow) { sessions, now ->
             sessions.filter { session ->
                 session.endsAt < now
-            }
+            }.groupBy { it.startsAt }
         }
 
     val upcomingSessions = sessions
         .combine(currentDateTimeFlow) { sessions, now ->
             sessions.filter { session ->
                 session.endsAt >= now
-            }
+            }.groupBy { it.startsAt }
         }
 
     fun configure(conference: String, uid: String?, tokenProvider: TokenProvider?) {

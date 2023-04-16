@@ -30,10 +30,10 @@ fun BookmarksRoute(
         .collectAsStateWithLifecycle(initialValue = true)
     val pastSessions by viewModel
         .pastSessions
-        .collectAsStateWithLifecycle(initialValue = emptyList())
+        .collectAsStateWithLifecycle(initialValue = emptyMap())
     val upcomingSessions by viewModel
         .upcomingSessions
-        .collectAsStateWithLifecycle(initialValue = emptyList())
+        .collectAsStateWithLifecycle(initialValue = emptyMap())
     val bookmarks by viewModel
         .bookmarks
         .collectAsStateWithLifecycle(initialValue = emptySet())

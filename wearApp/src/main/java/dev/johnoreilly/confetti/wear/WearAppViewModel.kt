@@ -7,6 +7,7 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
@@ -18,11 +19,6 @@ class WearAppViewModel(
     phoneSettingsSync: PhoneSettingsSync,
     authentication: Authentication,
 ) : ViewModel() {
-    fun updateSurfaces() {
-        tileUpdater.updateAll()
-        complicationUpdater.update()
-    }
-
     val appState = combine(
         phoneSettingsSync.settingsFlow,
         phoneSettingsSync.conferenceFlow,
@@ -37,7 +33,15 @@ class WearAppViewModel(
         .stateIn(
             viewModelScope,
             SharingStarted.Eagerly,
-            AppUiState(user = authentication.currentUser.value)
+            null
         )
+
+    fun updateSurfaces() {
+        tileUpdater.updateAll()
+        complicationUpdater.update()
+    }
+
+    val waitingOnThemeOrData: Boolean
+        get() = appState.value == null
 }
 

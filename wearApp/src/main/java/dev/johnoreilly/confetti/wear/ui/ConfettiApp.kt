@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.wear.ui
 
-import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -32,7 +31,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun ConfettiApp(
     navController: NavHostController,
-    intent: Intent?
+    viewModel: WearAppViewModel = getViewModel()
 ) {
     fun onNavigateToDestination(destination: ConfettiNavigationDestination, route: String? = null) {
         if (destination is ConferenceHomeDestination) {
@@ -46,117 +45,117 @@ fun ConfettiApp(
         }
     }
 
-    val viewModel: WearAppViewModel = getViewModel()
-
     val appState by viewModel.appState.collectAsStateWithLifecycle()
+    val settings = appState?.settings
 
-    ConfettiTheme(appState.settings.theme) {
-        WearNavScaffold(
-            startDestination = StartHomeDestination.route,
-            navController = navController
-        ) {
-            startHomeGraph(
-                intent = intent,
-                navigateToSession = {
-                    onNavigateToDestination(
-                        SessionDetailsDestination,
-                        SessionDetailsDestination.createNavigationRoute(it)
-                    )
-                },
-                navigateToSettings = {
-                    onNavigateToDestination(SettingsDestination)
-                },
-                navigateToDay = {
-                    onNavigateToDestination(
-                        SessionsDestination,
-                        SessionsDestination.createNavigationRoute(it)
-                    )
-                },
-                navigateToBookmarks = {
-                    onNavigateToDestination(
-                        BookmarksDestination,
-                        BookmarksDestination.createNavigationRoute(it)
-                    )
-                },
-                navigateToConferences = {
-                    onNavigateToDestination(ConferencesDestination)
-                }
-            )
+    if (settings != null) {
+        ConfettiTheme(settings.theme) {
+            WearNavScaffold(
+                startDestination = StartHomeDestination.route,
+                navController = navController
+            ) {
+                startHomeGraph(
+                    navigateToSession = {
+                        onNavigateToDestination(
+                            SessionDetailsDestination,
+                            SessionDetailsDestination.createNavigationRoute(it)
+                        )
+                    },
+                    navigateToSettings = {
+                        onNavigateToDestination(SettingsDestination)
+                    },
+                    navigateToDay = {
+                        onNavigateToDestination(
+                            SessionsDestination,
+                            SessionsDestination.createNavigationRoute(it)
+                        )
+                    },
+                    navigateToBookmarks = {
+                        onNavigateToDestination(
+                            BookmarksDestination,
+                            BookmarksDestination.createNavigationRoute(it)
+                        )
+                    },
+                    navigateToConferences = {
+                        onNavigateToDestination(ConferencesDestination)
+                    }
+                )
 
-            conferencesGraph(
-                navigateToConference = {
-                    onNavigateToDestination(
-                        ConferenceHomeDestination,
-                        ConferenceHomeDestination.createNavigationRoute(it)
-                    )
-                }
-            )
+                conferencesGraph(
+                    navigateToConference = {
+                        onNavigateToDestination(
+                            ConferenceHomeDestination,
+                            ConferenceHomeDestination.createNavigationRoute(it)
+                        )
+                    }
+                )
 
-            conferenceHomeGraph(
-                navigateToSession = {
-                    onNavigateToDestination(
-                        SessionDetailsDestination,
-                        SessionDetailsDestination.createNavigationRoute(it)
-                    )
-                },
-                navigateToSettings = {
-                    onNavigateToDestination(SettingsDestination)
-                },
-                navigateToDay = {
-                    onNavigateToDestination(
-                        SessionsDestination,
-                        SessionsDestination.createNavigationRoute(it)
-                    )
-                },
-                navigateToBookmarks = {
-                    onNavigateToDestination(
-                        BookmarksDestination,
-                        BookmarksDestination.createNavigationRoute(it)
-                    )
-                }
-            )
+                conferenceHomeGraph(
+                    navigateToSession = {
+                        onNavigateToDestination(
+                            SessionDetailsDestination,
+                            SessionDetailsDestination.createNavigationRoute(it)
+                        )
+                    },
+                    navigateToSettings = {
+                        onNavigateToDestination(SettingsDestination)
+                    },
+                    navigateToDay = {
+                        onNavigateToDestination(
+                            SessionsDestination,
+                            SessionsDestination.createNavigationRoute(it)
+                        )
+                    },
+                    navigateToBookmarks = {
+                        onNavigateToDestination(
+                            BookmarksDestination,
+                            BookmarksDestination.createNavigationRoute(it)
+                        )
+                    }
+                )
 
-            sessionsGraph(
-                navigateToSession = {
-                    onNavigateToDestination(
-                        SessionDetailsDestination,
-                        SessionDetailsDestination.createNavigationRoute(it)
-                    )
-                }
-            )
+                sessionsGraph(
+                    navigateToSession = {
+                        onNavigateToDestination(
+                            SessionDetailsDestination,
+                            SessionDetailsDestination.createNavigationRoute(it)
+                        )
+                    }
+                )
 
-            sessionDetailsGraph(
-                navigateToSpeaker = {
-                    onNavigateToDestination(
-                        SpeakerDetailsDestination,
-                        SpeakerDetailsDestination.createNavigationRoute(it)
-                    )
-                }
-            )
+                sessionDetailsGraph(
+                    navigateToSpeaker = {
+                        onNavigateToDestination(
+                            SpeakerDetailsDestination,
+                            SpeakerDetailsDestination.createNavigationRoute(it)
+                        )
+                    }
+                )
 
-            speakerDetailsGraph()
+                speakerDetailsGraph()
 
-            bookmarksGraph(
-                navigateToSession = {
-                    onNavigateToDestination(
-                        SessionDetailsDestination,
-                        SessionDetailsDestination.createNavigationRoute(it)
-                    )
-                }
-            )
+                bookmarksGraph(
+                    navigateToSession = {
+                        onNavigateToDestination(
+                            SessionDetailsDestination,
+                            SessionDetailsDestination.createNavigationRoute(it)
+                        )
+                    }
+                )
 
-            settingsGraph(
-                onSwitchConferenceSelected = {
-                    onNavigateToDestination(ConferencesDestination)
-                },
-                navigateToGoogleSignOut = { onNavigateToDestination(SignOutDestination) },
-                navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) }
-            )
+                settingsGraph(
+                    onSwitchConferenceSelected = {
+                        onNavigateToDestination(ConferencesDestination)
+                    },
+                    navigateToGoogleSignOut = { onNavigateToDestination(SignOutDestination) },
+                    navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) }
+                )
 
-            authGraph(
-                navigateUp = { navController.popBackStack() },
-                onAuthChanged = { viewModel.updateSurfaces() }
-            )
+                authGraph(
+                    navigateUp = { navController.popBackStack() },
+                    onAuthChanged = { viewModel.updateSurfaces() }
+                )
+            }
         }
     }
 }

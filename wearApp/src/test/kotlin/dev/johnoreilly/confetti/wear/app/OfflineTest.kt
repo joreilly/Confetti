@@ -16,6 +16,10 @@ class OfflineTest : BaseAppTest() {
 
         val navController = activity.navController
 
+        rule.waitUntil {
+            navController.currentDestination?.route != null
+        }
+
         assertEquals("start_route/{conference}", navController.currentDestination?.route)
 
         ShadowSettings.setAirplaneMode(true)

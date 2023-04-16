@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.ui.component.SocialIcon
@@ -45,8 +44,8 @@ fun SessionSpeakerInfo(
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape),
-                placeholder = painterResource(R.drawable.ic_person_black_24dp),
-                error = painterResource(R.drawable.ic_person_black_24dp),
+                placeholder = painterResource(dev.johnoreilly.confetti.shared.R.drawable.ic_person_black_24dp),
+                error = painterResource(dev.johnoreilly.confetti.shared.R.drawable.ic_person_black_24dp),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(speaker.photoUrl)
                     .crossfade(true)

@@ -39,6 +39,8 @@ android {
             ignore = true
         }
     }
+
+    namespace = "dev.johnoreilly.confetti.benchmark"
 }
 
 dependencies {

@@ -125,6 +125,10 @@ android {
         targetSdk = AndroidSdk.target
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }

@@ -181,7 +181,7 @@ fun SpeakerItemView(
                         .build(),
                     contentDescription = speaker.name,
                     contentScale = ContentScale.Fit,
-                    placeholder = painterResource(R.drawable.ic_person_black_24dp),
+                    placeholder = painterResource(dev.johnoreilly.confetti.shared.R.drawable.ic_person_black_24dp),
                     modifier = Modifier
                         .size(64.dp)
                         .clip(CircleShape)

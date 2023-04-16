@@ -41,35 +41,35 @@ fun SocialIcon(
     when (socialItem.name.lowercase()) {
         "github" -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.github,
+            resourceId = dev.johnoreilly.confetti.shared.R.drawable.github,
             contentDescription = "Github",
             onClick = onClick
         )
 
         "linkedin" -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.ic_network_linkedin,
+            resourceId = dev.johnoreilly.confetti.shared.R.drawable.ic_network_linkedin,
             contentDescription = "LinkedIn",
             onClick = onClick
         )
 
         "twitter" -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.ic_network_twitter,
+            resourceId = dev.johnoreilly.confetti.shared.R.drawable.ic_network_twitter,
             contentDescription = "Twitter",
             onClick = onClick
         )
 
         "facebook" -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.ic_network_facebook,
+            resourceId = dev.johnoreilly.confetti.shared.R.drawable.ic_network_facebook,
             contentDescription = "Facebook",
             onClick = onClick
         )
 
         else -> SocialIcon(
             modifier = modifier,
-            resourceId = R.drawable.ic_network_web,
+            resourceId = dev.johnoreilly.confetti.shared.R.drawable.ic_network_web,
             contentDescription = "Web",
             onClick = onClick
         )

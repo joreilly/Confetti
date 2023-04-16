@@ -12,7 +12,7 @@ import androidx.wear.compose.material.ChipDefaults
 import coil.compose.AsyncImage
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.base.ui.components.StandardChip
-import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.shared.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey

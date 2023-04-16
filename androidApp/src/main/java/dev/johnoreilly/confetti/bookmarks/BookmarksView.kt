@@ -161,13 +161,13 @@ private fun BookmarksHorizontalPager(
             contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
                 .asPaddingValues()
         ) {
-            val grouped = displayedSessions.groupBy { it.startsAt }
+            val sessionsByDate = displayedSessions.groupBy { it.startsAt }
 
-            grouped.forEach { (localTime, sessions) ->
+            sessionsByDate.forEach { (dateTime, sessions) ->
                 stickyHeader {
                     ConfettiHeader(
                         icon = Icons.Filled.AccessTime,
-                        text = DateTimeFormatter.ofPattern("MMM d, HH:mm").format(localTime)
+                        text = DateTimeFormatter.ofPattern("MMM d, HH:mm").format(dateTime)
                     )
                 }
 

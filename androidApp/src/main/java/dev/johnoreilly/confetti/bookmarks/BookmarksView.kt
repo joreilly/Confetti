@@ -14,6 +14,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,8 +29,11 @@ import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
+import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun BookmarksView(
@@ -156,17 +161,28 @@ private fun BookmarksHorizontalPager(
             contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
                 .asPaddingValues()
         ) {
-            items(displayedSessions) { session ->
-                SessionItemView(
-                    conference = conference,
-                    session = session,
-                    sessionSelected = navigateToSession,
-                    isBookmarked = bookmarks.contains(session.id),
-                    addBookmark = { sessionId -> addBookmark(sessionId) },
-                    removeBookmark = { sessionId -> removeBookmark(sessionId) },
-                    onNavigateToSignIn = onSignIn,
-                    user = user,
-                )
+            val grouped = displayedSessions.groupBy { it.startsAt }
+
+            grouped.forEach { (localTime, sessions) ->
+                stickyHeader {
+                    ConfettiHeader(
+                        icon = Icons.Filled.AccessTime,
+                        text = DateTimeFormatter.ofPattern("MMM d, HH:mm").format(localTime)
+                    )
+                }
+
+                items(sessions) { session ->
+                    SessionItemView(
+                        conference = conference,
+                        session = session,
+                        sessionSelected = navigateToSession,
+                        isBookmarked = bookmarks.contains(session.id),
+                        addBookmark = { sessionId -> addBookmark(sessionId) },
+                        removeBookmark = { sessionId -> removeBookmark(sessionId) },
+                        onNavigateToSignIn = onSignIn,
+                        user = user,
+                    )
+                }
             }
         }
     }

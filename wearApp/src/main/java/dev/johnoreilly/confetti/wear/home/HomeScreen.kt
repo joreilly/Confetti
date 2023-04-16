@@ -58,11 +58,6 @@ fun HomeScreen(
     columnState: ScalingLazyColumnState
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
-    val now = remember {
-        // TODO get with the right timezone
-        null
-        // LocalDateTime.now().toKotlinLocalDateTime()
-    }
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -89,6 +84,8 @@ fun HomeScreen(
         }
 
         if (bookmarksUiState is QueryResult.Success) {
+            val now = bookmarksUiState.result.now
+
             items(bookmarksUiState.result.upcoming.take(3)) { session ->
                 key(session.id) {
                     SessionCard(session, sessionSelected = {
@@ -180,7 +177,8 @@ fun HomeListViewPreview() {
                     upcoming = listOf(
                         TestFixtures.sessionDetails
                     ),
-                    past = listOf()
+                    past = listOf(),
+                    now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                 )
             ),
             columnState = ScalingLazyColumnDefaults.belowTimeText().create(),

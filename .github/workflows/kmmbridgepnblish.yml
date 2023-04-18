@@ -4,4 +4,5 @@ on: workflow_dispatch
 jobs:
   call-kmmbridge-publish:
     uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuild.yml@v0.8
-    
+    with:
+      jvmVersion: 17

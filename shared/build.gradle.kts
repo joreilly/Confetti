@@ -179,7 +179,7 @@ kmmbridge {
     frameworkName.set("ConfettiKit")
     githubReleaseVersions()
     spm()
-    versionPrefix.set("0.7")
+    versionPrefix.set("0.8")
 }
 
 kotlin.sourceSets.all {

@@ -1,5 +1,4 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-@file:Suppress("UnstableApiUsage")
+@file:OptIn(ExperimentalHorologistApi::class) @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear.surfaces
 
@@ -12,23 +11,18 @@ import dev.johnoreilly.confetti.wear.complication.ComplicationRendererPreview
 import dev.johnoreilly.confetti.wear.complication.NextSessionComplicationData
 import dev.johnoreilly.confetti.wear.complication.NextSessionTemplate
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import org.junit.Test
 import org.robolectric.annotation.Config
-
 
 @Config(
     application = KoinTestApp::class,
     sdk = [30],
     qualifiers = "w221dp-h221dp-small-notlong-notround-watch-xhdpi-keyshidden-nonav"
 )
-class ComplicationScreenshotTest : ScreenshotTest() {
-    init {
-        record = true
-    }
-
+class ComplicationScreenshotTest : BaseScreenshotTest() {
     @Test
-    fun session() = takeComponentScreenshot {
+    fun session() = screenshotTestRule.takeComponentScreenshot {
         val data = remember {
             NextSessionComplicationData(
                 sessionDetails = TestFixtures.sessionDetails,

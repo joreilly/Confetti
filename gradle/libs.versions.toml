@@ -10,9 +10,9 @@ compose-material-3 = "1.0.1"
 horologist = "0.4.2"
 junit = "4.13"
 kmp-nativecoroutines = "1.0.0-ALPHA-7"
-kmm-viewmodel = "1.0.0-ALPHA-5"
+kmm-viewmodel = "1.0.0-ALPHA-6"
 koin-android = "3.4.0"
-koin-android-compose = "3.4.3"
+koin-android-compose = "3.4.4"
 koin-core = "3.4.0"
 kotlin = "1.8.20"
 kotlin-coroutines = "1.6.4"
@@ -105,8 +105,8 @@ kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-cor
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
-ktor-cio = "io.ktor:ktor-server-cio:2.2.4"
-ktor-status-pages = "io.ktor:ktor-server-status-pages:2.2.4"
+ktor-cio = "io.ktor:ktor-server-cio:2.3.0"
+ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.0"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material-3" }
 material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material-3" }

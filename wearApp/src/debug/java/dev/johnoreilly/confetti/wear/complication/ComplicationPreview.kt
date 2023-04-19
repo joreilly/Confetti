@@ -61,7 +61,7 @@ public fun <D> ComplicationRendererPreview(
     val localDensity = LocalDensity.current
 
     val rowHeight = with(localDensity) {
-        100.dp.toPx()
+        50.dp.toPx()
     }.toInt()
 
     val gap = with(localDensity) {

@@ -60,10 +60,12 @@ class NextSessionComplicationService :
                 return NextSessionComplicationData(
                     conference = responseData.config,
                     sessionDetails = sessionDetails,
-                    launchIntent = if (sessionDetails != null) sessionIntent(
-                        responseData.config.id,
-                        sessionDetails
-                    ) else appIntent()
+//                    launchIntent = if (sessionDetails != null) sessionIntent(
+//                        responseData.config.id,
+//                        sessionDetails
+//                    ) else appIntent()
+                    // TODO currently failing to launch
+                    launchIntent = appIntent()
                 )
             }
         }

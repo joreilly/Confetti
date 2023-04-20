@@ -64,7 +64,7 @@ compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", versio
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 desugar = "com.android.tools:desugar_jdk_libs:2.0.2"
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
-federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.0"
+federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.1"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.1.1" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }

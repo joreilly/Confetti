@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Confetti</string>
+
+
+    <string name="schedule">Programme</string>
+    <string name="sessions">Sessions</string>
+    <string name="speakers">Intervenants</string>
+    <string name="rooms">Salles</string>
+    <string name="google_sign_out_success_message">Déconnecté !</string>
+    <string name="google_sign_in_prompt_message">Enregistrez vous pour sauvegarder vos signets.</string>
+    <string name="google_sign_in_prompt_already_signed_in_message">Déjà enregistré!</string>
+    <string name="upcoming_sessions">Sessions à venir</string>
+    <string name="past_sessions">Sessions passées</string>
+    <string name="settings">Paramètres</string>
+    <string name="no_upcoming">Pas de sessions à venir</string>
+    <string name="no_past">Pas de sessions passées</string>
+    <string name="all_bookmarks">Tous les signets</string>
+    <string name="now">Maintenant</string>
+    <string name="conference_days">Jours de conférence</string>
+</resources>

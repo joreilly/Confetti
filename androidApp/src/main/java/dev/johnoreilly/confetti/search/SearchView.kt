@@ -220,7 +220,7 @@ private fun SearchTextField(
             .fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
-        placeholder = { Text("What are you looking for?") },
+        placeholder = { Text(stringResource(id = R.string.search_placeholder)) },
         leadingIcon = { Icon(Icons.Filled.Search, "Search") },
         trailingIcon = {
             if (value.isNotBlank()) {

@@ -21,11 +21,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.GetConferencesQuery
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.sessions.navigation.SessionsKey
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.ErrorView
@@ -66,7 +68,7 @@ fun ConferencesView(conferenceList: List<GetConferencesQuery.Conference>, naviga
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Choose Conference", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(id = R.string.choose_conference), style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.size(24.dp))
         LazyColumn {
             items(conferenceList) { conference ->

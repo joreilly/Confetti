@@ -23,11 +23,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SpeakerDetailsViewModel
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
@@ -176,7 +178,7 @@ fun SpeakerTalks(
 ) {
     Column(Modifier.fillMaxWidth()) {
 
-        ConfettiHeader(icon = Icons.Filled.Event, text = "Sessions")
+        ConfettiHeader(icon = Icons.Filled.Event, text = stringResource(id = R.string.sessions))
 
         Spacer(modifier = Modifier.size(8.dp))
 

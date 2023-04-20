@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.Text
@@ -14,6 +15,7 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
@@ -56,7 +58,7 @@ fun BookmarksScreen(
     ) {
         when (uiState) {
             is QueryResult.Success -> {
-                item { SectionHeader(text = "Upcoming Sessions") }
+                item { SectionHeader(text = stringResource(R.string.upcoming_sessions)) }
 
                 items(uiState.result.upcoming) { session ->
                     SessionCard(
@@ -75,11 +77,11 @@ fun BookmarksScreen(
 
                 if (!uiState.result.hasUpcomingBookmarks) {
                     item {
-                        Text("No upcoming sessions")
+                        Text(stringResource(id = R.string.no_upcoming))
                     }
                 }
 
-                item { SectionHeader(text = "Past Sessions") }
+                item { SectionHeader(text = stringResource(id = R.string.past_sessions)) }
 
                 items(uiState.result.past) { session ->
                     SessionCard(
@@ -97,7 +99,7 @@ fun BookmarksScreen(
 
                 if (uiState.result.past.isEmpty()) {
                     item {
-                        Text("No past sessions")
+                        Text(stringResource(id = R.string.no_past))
                     }
                 }
             }

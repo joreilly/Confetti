@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dev.johnoreilly.confetti.R
@@ -49,7 +50,7 @@ fun SignInRoute(onBackClick: () -> Unit) {
                 launcher.launch(googleSignInClient.signInIntent)
             }
         ) {
-            Text(text = "Sign in with Google")
+            Text(text = stringResource(id = R.string.sign_in_google))
         }
     }
 }

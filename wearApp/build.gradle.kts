@@ -165,6 +165,10 @@ dependencies {
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
 
+    implementation(libs.androidx.protolayout.proto)
+    implementation(libs.androidx.protolayout.expression)
+    implementation(libs.androidx.protolayout.expression.pipeline)
+
     implementation(libs.horologist.auth.composables)
     implementation(libs.horologist.auth.ui)
     implementation(libs.horologist.auth.data)

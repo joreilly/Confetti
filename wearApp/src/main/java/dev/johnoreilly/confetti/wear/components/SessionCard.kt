@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -26,6 +27,7 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
 import com.google.android.horologist.compose.tools.ThemeValues
 import com.google.android.horologist.compose.tools.WearPreview
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewThemes
@@ -96,7 +98,7 @@ fun SessionTime(
 ) {
     val timeFormatted = remember { DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT) }
     if (currentTime in session.startsAt..session.endsAt) {
-        Text("Now", color = MaterialTheme.colors.error)
+        Text(stringResource(id = R.string.now), color = MaterialTheme.colors.error)
     } else {
         Text(timeFormatted.format(session.startsAt.toJavaLocalDateTime()))
     }

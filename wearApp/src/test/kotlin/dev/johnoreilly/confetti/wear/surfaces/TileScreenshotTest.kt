@@ -1,7 +1,7 @@
 @file:OptIn(ExperimentalHorologistApi::class)
 @file:Suppress("UnstableApiUsage")
 
-package dev.johnoreilly.confetti.wear
+package dev.johnoreilly.confetti.wear.surfaces
 
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext

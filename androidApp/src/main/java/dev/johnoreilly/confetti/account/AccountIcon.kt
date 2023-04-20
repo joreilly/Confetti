@@ -20,9 +20,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 
@@ -67,7 +69,7 @@ fun AccountIcon(
     ) {
         if (user != null) {
             DropdownMenuItem(
-                text = { Text("Sign out") },
+                text = { Text(stringResource(id = R.string.sign_out)) },
                 onClick = {
                     onSignOut()
                     showMenu = false
@@ -75,7 +77,7 @@ fun AccountIcon(
             )
         } else {
             DropdownMenuItem(
-                text = { Text("Sign in") },
+                text = { Text(stringResource(id = R.string.sign_in_lowercase)) },
                 onClick = {
                     showMenu = false
                     onSignIn()
@@ -83,14 +85,14 @@ fun AccountIcon(
             )
         }
         DropdownMenuItem(
-            text = { Text("Switch Conference") },
+            text = { Text(stringResource(id = R.string.switch_conference)) },
             onClick = {
                 showMenu = false
                 onSwitchConference()
             }
         )
         DropdownMenuItem(
-            text = { Text("Settings") },
+            text = { Text(stringResource(id = R.string.settings_title)) },
             onClick = {
                 showMenu = false
                 onShowSettings()
@@ -98,7 +100,7 @@ fun AccountIcon(
         )
         if (wearSettingsUiState.showInstallOnWear) {
             DropdownMenuItem(
-                text = { Text("Install on Wear") },
+                text = { Text(stringResource(id = R.string.install_wear)) },
                 onClick = {
                     showMenu = false
                     installOnWear()

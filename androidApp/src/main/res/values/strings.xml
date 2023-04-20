@@ -27,6 +27,21 @@
     <string name="settings_boolean_true">Yes</string>
     <string name="settings_boolean_false">No</string>
     <string name="developerSettings">Developer Settings\n</string>
+    <string name="oops">Oops something went wrong</string>
+    <string name="retry">Retry</string>
+    <string name="update_wear">Update Wear Theme</string>
+    <string name="sign_in_for_bookmarks">In order to save your bookmarks, you\'ll need to sign in.</string>
+    <string name="cancel">CANCEL</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_in_lowercase">Sign in</string>
+    <string name="switch_conference">Switch Conference</string>
+    <string name="install_wear">Install on Wear</string>
+    <string name="choose_conference">Choose Conference</string>
+    <string name="search_placeholder">What are you looking for?</string>
+    <string name="install_on_watch">Install on Watch</string>
+    <string name="no_paired_watch">No paired Watch</string>
 
     <!-- Android Auto -->
     <string name="auto_more">More</string>

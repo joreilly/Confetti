@@ -50,7 +50,7 @@ import com.google.android.horologist.tiles.complication.ComplicationTemplate
  */
 @SuppressLint("NewApi", "ResourceType")
 @Composable
-public fun <D> ComplicationRendererPreview(
+fun <D> ComplicationRendererPreview(
     complicationRenderer: ComplicationTemplate<D>,
     data: D = complicationRenderer.previewData(),
     foregroundColor: Color = Color(0xffeea19a),
@@ -61,7 +61,11 @@ public fun <D> ComplicationRendererPreview(
     val localDensity = LocalDensity.current
 
     val rowHeight = with(localDensity) {
-        100.dp.toPx()
+        50.dp.toPx()
+    }.toInt()
+
+    val wideWidth = with(localDensity) {
+        200.dp.toPx()
     }.toInt()
 
     val gap = with(localDensity) {
@@ -94,7 +98,7 @@ public fun <D> ComplicationRendererPreview(
                     )
                 val rowStart = (index * (rowHeight + gap))
                 if (complicationType == ComplicationType.LONG_TEXT) {
-                    drawable.setBounds(0, rowStart, rowHeight * 2, rowStart + rowHeight)
+                    drawable.setBounds(0, rowStart, wideWidth, rowStart + rowHeight)
                 } else {
                     drawable.setBounds(0, rowStart, rowHeight, rowStart + rowHeight)
                 }

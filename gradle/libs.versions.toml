@@ -2,17 +2,17 @@
 accompanist = "0.30.1"
 activity-compose = "1.7.0"
 androidx-lifecycle = "2.6.1"
-androidx-datastore = "1.1.0-alpha01"
+androidx-datastore = "1.1.0-alpha04"
 apollo = "4.0.0-dev.2"
-compose = "1.4.0"
-compose-compiler = "1.4.5"
+compose = "1.5.0-alpha03"
+compose-compiler = "1.4.6"
 compose-material-3 = "1.0.1"
 horologist = "0.4.2"
 junit = "4.13"
-kmp-nativecoroutines = "1.0.0-ALPHA-6"
-kmm-viewmodel = "1.0.0-ALPHA-5"
+kmp-nativecoroutines = "1.0.0-ALPHA-7"
+kmm-viewmodel = "1.0.0-ALPHA-6"
 koin-android = "3.4.0"
-koin-android-compose = "3.4.3"
+koin-android-compose = "3.4.4"
 koin-core = "3.4.0"
 kotlin = "1.8.20"
 kotlin-coroutines = "1.6.4"
@@ -23,6 +23,8 @@ lifecycle-livedata-ktx = "2.6.1"
 multiplatform-settings = "1.0.0"
 nav-compose = "2.5.3"
 okio = "3.3.0"
+protolayout-expression = "1.0.0-alpha08"
+protolayout-proto = "1.0.0-alpha08"
 robolectric = "4.10"
 snapshot-android = "v1.0.2"
 work-runtime-ktx = "2.8.1"
@@ -32,12 +34,15 @@ accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive",
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-testharness = { module = "com.google.accompanist:accompanist-testharness", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.0-alpha12"
-androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.0-alpha07"
+androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.0-alpha13"
+androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.0-alpha08"
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout-expression" }
+androidx-protolayout-expression-pipeline = { module = "androidx.wear.protolayout:protolayout-expression-pipeline", version.ref = "protolayout-expression" }
+androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-proto", version.ref = "protolayout-proto" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters" }
@@ -63,17 +68,17 @@ compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref 
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-desugar = "com.android.tools:desugar_jdk_libs:2.0.2"
+desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
-federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.0"
+federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.1"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.1.1" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
-firebase-bom = "com.google.firebase:firebase-bom:31.2.3"
+firebase-bom = "com.google.firebase:firebase-bom:31.5.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.8.1"
-google-cloud-bom = "com.google.cloud:libraries-bom:26.12.0"
+google-cloud-bom = "com.google.cloud:libraries-bom:26.13.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.14.3"
 google-services = "com.google.gms:google-services:4.3.15"
@@ -106,9 +111,9 @@ kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-cor
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
-ktor-cio = "io.ktor:ktor-server-cio:2.2.4"
-ktor-okhttp = "io.ktor:ktor-client-okhttp:2.2.4"
-ktor-status-pages = "io.ktor:ktor-server-status-pages:2.2.4"
+ktor-cio = "io.ktor:ktor-server-cio:2.3.0"
+ktor-okhttp = "io.ktor:ktor-client-okhttp:2.3.0"
+ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.0"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material-3" }
 material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material-3" }
@@ -118,19 +123,19 @@ multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-setti
 okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
-play-services-auth = "com.google.android.gms:play-services-auth:20.4.1"
+play-services-auth = "com.google.android.gms:play-services-auth:20.5.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = "com.android.tools.build:gradle:8.0.0"
 plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-appengine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.5"
-plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
+plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.5" }
 plugin-google-services = "com.google.gms:google-services:4.3.15"
 plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.7"
 plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin", version.ref = "kmp-nativecoroutines" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
-plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.20-1.0.10" }
-plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.5" }
+plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.20-1.0.11" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.6" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.5" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
@@ -143,9 +148,9 @@ test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"
 test-runner = "androidx.test:runner:1.5.2"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-alpha02"
-wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.0-alpha07"
-wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha07"
-wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha07"
+wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.0-alpha08"
+wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha09"
+wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha09"
 wire-runtime = "com.squareup.wire:wire-runtime:4.5.5"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 napier = "io.github.aakira:napier:2.6.1"

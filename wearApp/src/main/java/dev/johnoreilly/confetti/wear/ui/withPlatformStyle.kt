@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable

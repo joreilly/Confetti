@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
@@ -26,6 +27,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
 import dev.johnoreilly.confetti.BuildConfig
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
@@ -51,7 +53,7 @@ fun SettingsListView(
         columnState = columnState,
     ) {
         item {
-            SectionHeader(text = "Settings")
+            SectionHeader(text = stringResource(id = R.string.settings))
         }
 
         item {

@@ -9,5 +9,13 @@
     <string name="google_sign_out_success_message">Signed out successfully!</string>
     <string name="google_sign_in_prompt_message">Sign in to save your session bookmarks.</string>
     <string name="google_sign_in_prompt_already_signed_in_message">Already signed-in!</string>
+    <string name="upcoming_sessions">Upcoming Sessions</string>
+    <string name="past_sessions">Past Sessions</string>
+    <string name="settings">Settings</string>
+    <string name="no_upcoming">No upcoming sessions</string>
+    <string name="no_past">No past sessions</string>
+    <string name="all_bookmarks">All Bookmarks</string>
+    <string name="now">Now</string>
+    <string name="conference_days">Conference Days</string>
 
 </resources>

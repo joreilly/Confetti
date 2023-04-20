@@ -127,7 +127,7 @@ fun SettingsScreen(
                         when (val wearStatus = userEditableSettings?.wearStatus) {
                             is WearStatus.NotInstalled -> {
                                 Button(onClick = { onInstallOnWatch(wearStatus.nodeId) }) {
-                                    Text("Install on Watch")
+                                    Text(stringResource(id = R.string.install_on_watch))
                                 }
                             }
 
@@ -135,12 +135,12 @@ fun SettingsScreen(
                                 CheckboxWithLabel(
                                     checked = wearStatus.wearSettings.theme != null,
                                     onCheckedChange = { onUpdateWearTheme(it) },
-                                    text = "Update Wear Theme"
+                                    text = stringResource(id = R.string.update_wear)
                                 )
                             }
 
                             else -> {
-                                Text("No paired Watch")
+                                Text(stringResource(id = R.string.no_paired_watch))
                             }
                         }
                     }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +33,7 @@ import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.QueryResult
@@ -98,13 +100,13 @@ fun HomeScreen(
 
             if (!bookmarksUiState.result.hasUpcomingBookmarks) {
                 item {
-                    Text("No upcoming sessions")
+                    Text(stringResource(id = R.string.no_upcoming))
                 }
             }
 
             item {
                 OutlinedChip(
-                    label = { Text("All Bookmarks") },
+                    label = { Text(stringResource(id = R.string.all_bookmarks)) },
                     onClick = {
                         if (uiState is QueryResult.Success) {
                             onBookmarksClick(uiState.result.conference)
@@ -117,7 +119,7 @@ fun HomeScreen(
         }
 
         item {
-            SectionHeader("Conference Days")
+            SectionHeader(stringResource(id = R.string.conference_days))
         }
         if (uiState is QueryResult.Success) {
             items(uiState.result.confDates.size) {

@@ -76,7 +76,7 @@ object Sessionize {
             getData(androidMakers2023),
             config = DConfig(
                 id = ConferenceId.AndroidMakers2023.id,
-                name = "Android Makers 2023",
+                name = "Android Makers by droidcon",
                 timeZone = "Europe/Paris",
                 days = listOf(LocalDate(2023, 4, 27), LocalDate(2023, 4, 28))
             ),
@@ -88,9 +88,9 @@ object Sessionize {
                     "en" to "Cool venue",
                     "fr" to "Venue fraiche",
                 ),
-                latitude = null,
-                longitude = null,
-                imageUrl = null,
+                latitude = 48.8188958,
+                longitude = 2.3193016,
+                imageUrl = "https://www.beffroidemontrouge.com/wp-content/uploads/2019/09/moebius-1.jpg",
                 floorPlanUrl = null
             ),
             partnerGroups = partnerGroups("https://raw.githubusercontent.com/paug/AndroidMakersApp/ce800d6eefa4f83d34690161637d7f98918ee4a3/data/sponsors.json")

@@ -3,6 +3,6 @@ on: workflow_dispatch
 
 jobs:
   call-kmmbridge-publish:
-    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuild.yml@v0.8
+    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuild.yml@b795422fddc0bbedd1239857aa46c0d9520889c2
     with:
-      jvmVersion: 17
+      jvmVersion: '17'

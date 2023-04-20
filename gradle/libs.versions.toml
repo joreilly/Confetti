@@ -2,7 +2,7 @@
 accompanist = "0.30.1"
 activity-compose = "1.7.0"
 androidx-lifecycle = "2.6.1"
-androidx-datastore = "1.1.0-alpha01"
+androidx-datastore = "1.1.0-alpha04"
 apollo = "4.0.0-dev.2"
 compose = "1.5.0-alpha03"
 compose-compiler = "1.4.6"
@@ -34,7 +34,7 @@ accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive",
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-testharness = { module = "com.google.accompanist:accompanist-testharness", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.0-alpha12"
+androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.0-alpha13"
 androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.0-alpha08"
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
@@ -67,13 +67,13 @@ compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref 
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-desugar = "com.android.tools:desugar_jdk_libs:2.0.2"
+desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
 federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.0"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.1.1" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
-firebase-bom = "com.google.firebase:firebase-bom:31.2.3"
+firebase-bom = "com.google.firebase:firebase-bom:31.5.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.8.1"
@@ -121,12 +121,12 @@ multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-setti
 okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
-play-services-auth = "com.google.android.gms:play-services-auth:20.4.1"
+play-services-auth = "com.google.android.gms:play-services-auth:20.5.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = "com.android.tools.build:gradle:8.0.0"
 plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-appengine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.5"
-plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
+plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.5" }
 plugin-google-services = "com.google.gms:google-services:4.3.15"
 plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.7"
 plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin", version.ref = "kmp-nativecoroutines" }

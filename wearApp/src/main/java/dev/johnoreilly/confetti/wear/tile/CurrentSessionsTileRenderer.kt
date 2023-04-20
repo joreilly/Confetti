@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalHorologistApi::class)
+@file:Suppress("DEPRECATION")
 
 package dev.johnoreilly.confetti.wear.tile
 
@@ -6,9 +7,6 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.wear.tiles.ActionBuilders.AndroidActivity
-import androidx.wear.tiles.ActionBuilders.AndroidStringExtra
-import androidx.wear.tiles.ActionBuilders.LaunchAction
 import androidx.wear.tiles.ActionBuilders.LoadAction
 import androidx.wear.tiles.ColorBuilders
 import androidx.wear.tiles.DeviceParametersBuilders.DeviceParameters
@@ -26,9 +24,7 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.wear.MainActivity
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.*
 import dev.johnoreilly.confetti.wear.ui.previews.WearLargeRoundDevicePreview
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices

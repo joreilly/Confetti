@@ -88,8 +88,8 @@ object Sessionize {
                     "en" to "Cool venue",
                     "fr" to "Venue fraiche",
                 ),
-                latitude = null,
-                longitude = null,
+                latitude = 48.815935,
+                longitude = 2.3059796,
                 imageUrl = null,
                 floorPlanUrl = null
             ),

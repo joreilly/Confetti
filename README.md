@@ -51,6 +51,8 @@ Requires XCode 14 or later for iOS client.
 
 <img width="1205" alt="Desktop Screenshot of Confetti screens" src="https://user-images.githubusercontent.com/6302/227615364-dd349253-483b-45a6-9090-cc8b932bef1f.png">
 
+<img src="androidApp/snapshot/walkthroughAndroidAuto.gif" alt="Walkthrough of Confetti running on Android Auto" />
+
 ### API
 
 The API is available at https://confetti-app.dev/graphiql

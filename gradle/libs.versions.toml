@@ -48,6 +48,7 @@ apollo-annotations = { module = "com.apollographql.apollo3:apollo-annotations", 
 apollo-tooling = { module = "com.apollographql.apollo3:apollo-tooling", version.ref = "apollo" }
 atomicfu = "org.jetbrains.kotlinx:atomicfu:0.20.2"
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
+car-app = "androidx.car.app:app:1.3.0-rc01"
 coil-base = "io.coil-kt:coil-base:2.3.0"
 coil-compose = "io.coil-kt:coil-compose:2.3.0"
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
@@ -106,6 +107,7 @@ kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 ktor-cio = "io.ktor:ktor-server-cio:2.2.4"
+ktor-okhttp = "io.ktor:ktor-client-okhttp:2.2.4"
 ktor-status-pages = "io.ktor:ktor-server-status-pages:2.2.4"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material-3" }

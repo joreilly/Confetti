@@ -15,10 +15,10 @@
     <string name="theme">Theme</string>
     <string name="brand_default">Defaut</string>
     <string name="brand_android">Android</string>
-    <string name="dark_mode_preference">Dark mode</string>
+    <string name="dark_mode_preference">Mode sombre</string>
     <string name="dark_mode_config_system_default">Système</string>
-    <string name="dark_mode_config_light">Light</string>
-    <string name="dark_mode_config_dark">Dark</string>
+    <string name="dark_mode_config_light">Clair</string>
+    <string name="dark_mode_config_dark">Sombre</string>
     <string name="dynamic_color_preference">Couleur dynamique</string>
     <string name="dynamic_color_yes">Oui</string>
     <string name="dynamic_color_no">Non</string>
@@ -39,7 +39,7 @@
     <string name="switch_conference">Changer de conférence</string>
     <string name="install_wear">Installer l\'app sur WearOS</string>
     <string name="choose_conference">Conference</string>
-    <string name="search_placeholder">Que cherchez vous?</string>
+    <string name="search_placeholder">Que cherchez vous ?</string>
     <string name="install_on_watch">Installer l\'app sur WearOS</string>
     <string name="no_paired_watch">Pas de montre appairée</string>
 </resources>

@@ -54,4 +54,32 @@ class SessionCardTest : BaseScreenshotTest(
             )
         }
     }
+
+    @Test
+    fun sessionCardManySpeakers() {
+        screenshotTestRule.takeComponentScreenshot(
+            checks = { composeRule ->
+                composeRule
+                    .onNodeWithText(TestFixtures.sessionDetails.title)
+                    .assertIsDisplayed()
+
+                screenshotTestRule.composeTestRule
+                    .onNodeWithText("2:00 PM")
+                    .assertIsDisplayed()
+            }
+        ) {
+            SessionCard(
+                session = TestFixtures.sessionDetails.copy(speakers = listOf(
+                    TestFixtures.JohnOreilly,
+                    TestFixtures.MartinBonnin,
+                    TestFixtures.JohnOreilly,
+                    TestFixtures.MartinBonnin,
+                    TestFixtures.JohnOreilly,
+                    TestFixtures.MartinBonnin,
+                )),
+                sessionSelected = {},
+                currentTime = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+            )
+        }
+    }
 }

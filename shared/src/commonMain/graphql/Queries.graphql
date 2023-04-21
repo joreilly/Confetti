@@ -21,6 +21,16 @@ query GetConferenceData($first: Int! = 1000, $after: String = null) {
         timezone
         days
     }
+    venues {
+        id
+        name
+        address
+        description
+        latitude
+        longitude
+        imageUrl
+        floorPlanUrl
+    }
 }
 
 query GetSessions($first: Int! = 1000, $after: String = null) {

@@ -9,6 +9,7 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.type.Venue
 import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -203,6 +204,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
         }
 
         val conferenceName = sessionsData.config.name
+        val venueLat = sessionsData.venues.firstOrNull()?.latitude
+        val venueLon = sessionsData.venues.firstOrNull()?.longitude
         val timeZone = sessionsData.config.timezone.toTimeZone()
         val sessionsMap =
             sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
@@ -233,6 +236,8 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             conference = conference!!,
             now = dateService.now(),
             conferenceName = conferenceName,
+            venueLat = venueLat,
+            venueLon = venueLon,
             confDates = confDates,
             formattedConfDates = formattedConfDates,
             sessionsByStartTimeList = sessionsByStartTimeList,
@@ -252,6 +257,8 @@ sealed interface SessionsUiState {
         val conference: String,
         val now: LocalDateTime,
         val conferenceName: String,
+        val venueLat: Double?,
+        val venueLon: Double?,
         val confDates: List<LocalDate>,
         val formattedConfDates: List<String>,
         val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,

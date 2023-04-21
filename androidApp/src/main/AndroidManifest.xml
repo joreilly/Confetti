@@ -23,6 +23,20 @@
                 android:name="firebase_crashlytics_collection_enabled"
                 android:value="false" />
 
+        <meta-data
+                android:name="com.google.android.gms.car.application"
+                android:resource="@xml/automotive_app_desc"
+                tools:ignore="MetadataTagInsideApplicationTag" />
+
+        <meta-data
+                android:name="androidx.car.app.theme"
+                android:resource="@style/NightAdjusted.Theme.Confetti"
+                tools:ignore="MetadataTagInsideApplicationTag" />
+
+        <meta-data android:name="androidx.car.app.minCarApiLevel"
+                android:value="1"
+                tools:ignore="MetadataTagInsideApplicationTag" />
+
         <provider
                 android:name="androidx.startup.InitializationProvider"
                 android:authorities="${applicationId}.androidx-startup"
@@ -35,6 +49,15 @@
                     tools:node="remove" />
         </provider>
 
+        <service
+                android:name=".auto.ConfettiCarAppService"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.car.app.CarAppService"/>
+                <category android:name="androidx.car.app.category.poi"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -45,5 +68,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".auto.signin.SignInWithGoogleActivity" />
     </application>
 </manifest> 

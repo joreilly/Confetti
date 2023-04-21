@@ -29,6 +29,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.account.AccountIcon
@@ -143,8 +145,14 @@ fun ConfettiScaffold(
                 CenterAlignedTopAppBar(
                     title = {
                         if (title != null) {
-                            Text(text = title, fontSize = titleFontSize)
+                            Text(
+                                modifier = Modifier.padding(horizontal = 32.dp),
+                                maxLines = 2,
+                                textAlign = TextAlign.Center,
+                                text = title, fontSize = titleFontSize
+                            )
                         }
+
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = Color.Transparent

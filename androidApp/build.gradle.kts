@@ -48,6 +48,8 @@ android {
 
         versionCode = versionCode()
         versionName = versionName()
+
+        resourceConfigurations += listOf("en", "fr")
     }
 
     signingConfigs {

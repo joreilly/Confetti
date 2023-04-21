@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:label="@string/app_name"
         android:theme="@style/Theme.Confetti"
+        android:localeConfig="@xml/locale_config"
         android:enableOnBackInvokedCallback="true">
 
         <meta-data

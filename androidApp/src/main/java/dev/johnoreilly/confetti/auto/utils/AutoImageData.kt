@@ -6,8 +6,3 @@ data class AutoImage(
     val id: String,
     val bitmap: Bitmap
 )
-
-interface AutoImageData {
-
-    fun onImageFetch(bitmap: Bitmap)
-}

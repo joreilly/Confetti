@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.auto.speakers
 
-import android.graphics.Bitmap
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
 import androidx.car.app.model.Action
@@ -17,7 +16,6 @@ import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.auto.speakers.details.SpeakerDetailsScreen
 import dev.johnoreilly.confetti.auto.ui.ErrorScreen
 import dev.johnoreilly.confetti.auto.utils.AutoImage
-import dev.johnoreilly.confetti.auto.utils.AutoImageData
 import dev.johnoreilly.confetti.auto.utils.fetchImage
 import dev.johnoreilly.confetti.auto.utils.getDefaultBitmap
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -72,7 +70,6 @@ class SpeakersScreen(
         val listBuilder = ItemList.Builder()
         for (speaker in speakers) {
             val image = images.firstOrNull { it.id == speaker.id }
-
             listBuilder.addItem(
                 GridItem.Builder()
                     .setTitle(speaker.name)
@@ -81,19 +78,10 @@ class SpeakersScreen(
                         screenManager.push(SpeakerDetailsScreen(carContext, speaker))
                     }.setImage(
                         if (image == null) {
-                            images.add(AutoImage(speaker.id, getDefaultBitmap(carContext)))
-                            fetchImage(carContext, speaker.name, speaker.photoUrl ?: "", object : AutoImageData {
-
-                                override fun onImageFetch(bitmap: Bitmap) {
-                                    val index = images.indexOfFirst { it.id == speaker.id }
-                                    if (index < 0) {
-                                        images.add(AutoImage(speaker.id, bitmap))
-                                    } else {
-                                        images[index] = AutoImage(speaker.id, bitmap)
-                                    }
-                                    invalidate()
-                                }
-                            })
+                            lifecycleScope.launch {
+                                images.add(AutoImage(speaker.id, fetchImage(carContext, speaker.id, speaker.name)))
+                                invalidate()
+                            }
 
                             CarIcon.Builder(
                                 IconCompat.createWithBitmap(getDefaultBitmap(carContext))

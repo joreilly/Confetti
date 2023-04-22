@@ -7,7 +7,6 @@ platform :android do
     versionNum = 173
     wearVersionNum = 174
 
-
     before_all do
     end
 

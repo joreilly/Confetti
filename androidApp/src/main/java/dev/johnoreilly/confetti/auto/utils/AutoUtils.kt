@@ -23,7 +23,7 @@ import io.ktor.util.cio.writeChannel
 import io.ktor.utils.io.copyAndClose
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
 import java.io.File
 import java.time.format.DateTimeFormatter
@@ -42,31 +42,37 @@ fun getDefaultBitmap(carContext: CarContext): Bitmap {
     return defaultBitmap
 }
 
-fun fetchImage(carContext: CarContext, tag: String, link: String, imageData: AutoImageData) {
+suspend fun fetchImage(carContext: CarContext, tag: String, link: String): Bitmap {
     Log.d(TAG, "Retrieving picture from: $tag")
-    try {
-        CoroutineScope(Dispatchers.IO).launch {
+    return withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
+        try {
             val url = Url(link)
-            val file = File("${carContext.filesDir.path}/${System.currentTimeMillis()}.jpeg")
-            val result = client.get(url) {
-                header(HttpHeaders.Accept, "image/jpeg")
-            }
+            val file = File("${carContext.filesDir.path}/$tag.jpeg")
 
-            if (result.status == HttpStatusCode.OK) {
-                result.bodyAsChannel().copyAndClose(file.writeChannel())
-                val bitmap = BitmapFactory.decodeFile(file.path)
-                if (bitmap != null) {
-                    imageData.onImageFetch(bitmap)
-                    return@launch
+            if (file.exists()) {
+                decodeBitmap(carContext, file)
+            } else {
+
+                val result = client.get(url) {
+                    header(HttpHeaders.Accept, "image/jpeg")
+                }
+
+                if (result.status == HttpStatusCode.OK) {
+                    result.bodyAsChannel().copyAndClose(file.writeChannel())
+                    decodeBitmap(carContext, file)
+                } else {
+                    getDefaultBitmap(carContext)
                 }
             }
-
-            imageData.onImageFetch(getDefaultBitmap(carContext))
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to fetch image from the network. Reason=$e")
+            getDefaultBitmap(carContext)
         }
-    } catch (e: Exception) {
-        Log.e(TAG, "Unable to fetch image from the network. Reason=$e")
-        imageData.onImageFetch(getDefaultBitmap(carContext))
     }
+}
+
+private fun decodeBitmap(carContext: CarContext, file: File): Bitmap {
+    return BitmapFactory.decodeFile(file.path) ?: getDefaultBitmap(carContext)
 }
 
 fun colorize(str: String, color: CarColor, index: Int, length: Int): CharSequence {

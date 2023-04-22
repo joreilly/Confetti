@@ -10,11 +10,12 @@ import androidx.car.app.model.PaneTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.Template
 import androidx.core.graphics.drawable.IconCompat
+import androidx.lifecycle.lifecycleScope
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.auto.utils.AutoImageData
 import dev.johnoreilly.confetti.auto.utils.fetchImage
 import dev.johnoreilly.confetti.auto.utils.getDefaultBitmap
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import kotlinx.coroutines.launch
 
 class SpeakerDetailsScreen(
     carContext: CarContext,
@@ -39,13 +40,10 @@ class SpeakerDetailsScreen(
                     IconCompat.createWithBitmap(speakerImage)
                 )
             } else {
-                fetchImage(carContext, speaker.name, speaker.photoUrl ?: "", object : AutoImageData {
-
-                    override fun onImageFetch(bitmap: Bitmap) {
-                        speakerImage = bitmap
-                        invalidate()
-                    }
-                })
+                lifecycleScope.launch {
+                    speakerImage = fetchImage(carContext, speaker.id, speaker.name)
+                    invalidate()
+                }
 
                 CarIcon.Builder(
                     IconCompat.createWithBitmap(getDefaultBitmap(carContext))

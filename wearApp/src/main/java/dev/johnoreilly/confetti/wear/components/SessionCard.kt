@@ -58,7 +58,7 @@ fun SessionCard(
         ) {
             if (session.speakers.isNotEmpty()) {
                 Spacer(modifier = Modifier.size(4.dp))
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp), ) {
                     session.speakers.forEach { speaker ->
                         SpeakerLabel(speaker)
                     }
@@ -86,7 +86,9 @@ fun SpeakerLabel(speaker: SessionDetails.Speaker) {
         Text(
             speaker.speakerDetails.name,
             style = MaterialTheme.typography.caption2,
-            fontWeight = FontWeight.Light
+            fontWeight = FontWeight.Light,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

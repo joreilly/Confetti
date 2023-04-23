@@ -9,24 +9,12 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.type.Venue
 import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -40,18 +28,22 @@ data class ResponseData(
     val sessionsResponse: ApolloResponse<GetConferenceDataQuery.Data>,
 )
 
-open class SessionsViewModel : KMMViewModel(), KoinComponent {
+open class SessionsViewModel(
+    private val conference: String,
+    private val uid: String?,
+    private val tokenProvider: TokenProvider?
+) : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
     private var addErrorCount = 1
     private var removeErrorCount = 1
 
-    private var conference: String? = null
-    private var uid: String? = null
-    private var tokenProvider: TokenProvider? = null
 
     private val responseDatas = Channel<ResponseData?>()
 
+    init {
+        refresh(showLoading = true, forceRefresh = false)
+    }
 
     fun addBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
@@ -85,16 +77,6 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             filterSessions(uiState, search)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
-
-    // FIXME: can we pass that as a parameter somehow
-    fun configure(conference: String, uid: String?, tokenProvider: TokenProvider?) {
-        val hasChanged = this.conference != conference || this.uid != uid
-        this.conference = conference
-        this.uid = uid
-        this.tokenProvider = tokenProvider
-
-        refresh(showLoading = hasChanged, forceRefresh = false)
-    }
 
     private var job: Job? = null
 

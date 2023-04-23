@@ -77,11 +77,6 @@ class SearchViewModel(
             }
     }
 
-    fun configure(conference: String, uid: String?, tokenProvider: TokenProvider?) {
-        sessionsViewModel.configure(conference, uid, tokenProvider)
-        speakersViewModel.configure(conference)
-    }
-
     fun onSearchChange(query: String) {
         _search.update { query }
     }

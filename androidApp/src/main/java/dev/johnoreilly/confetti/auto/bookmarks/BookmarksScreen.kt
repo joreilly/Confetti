@@ -11,6 +11,7 @@ import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
 import dev.johnoreilly.confetti.BookmarksViewModel
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDateTime
+import org.koin.core.parameter.parametersOf
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -28,11 +30,9 @@ class BookmarksScreen(
     private val conference: String,
 ) : Screen(carContext), KoinComponent {
 
-    private val bookmarksViewModel: BookmarksViewModel by inject()
-
-    init {
-        bookmarksViewModel.configure(conference, user?.uid, user)
-    }
+    private val bookmarksViewModel: BookmarksViewModel by inject(
+        parameters = { parametersOf(SessionsViewModelParams(conference, user?.uid, user)) }
+    )
 
     private val bookmarksState = bookmarksViewModel.upcomingSessions.onEach {
         invalidate()

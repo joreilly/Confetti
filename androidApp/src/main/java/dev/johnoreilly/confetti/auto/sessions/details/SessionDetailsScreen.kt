@@ -14,11 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import dev.johnoreilly.confetti.BookmarksViewModel
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionDetailsViewModel
+import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.koin.core.parameter.parametersOf
 
 class SessionDetailsScreen(
     carContext: CarContext,
@@ -27,11 +29,12 @@ class SessionDetailsScreen(
     private val session: SessionDetails
 ) : Screen(carContext), KoinComponent {
 
-    private val bookmarksViewModel: BookmarksViewModel by inject()
+    private val bookmarksViewModel: BookmarksViewModel by inject(
+        parameters = { parametersOf(SessionsViewModelParams(conference, user?.uid, user)) }
+    )
     private val sessionDetailsViewModel: SessionDetailsViewModel by inject()
 
     init {
-        bookmarksViewModel.configure(conference, user?.uid, user)
         sessionDetailsViewModel.configure(conference, session.id, user?.uid, user)
     }
 

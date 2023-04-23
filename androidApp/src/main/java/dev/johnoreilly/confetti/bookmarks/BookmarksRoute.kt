@@ -5,11 +5,13 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.BookmarksViewModel
+import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import org.koin.androidx.compose.getViewModel
 import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun BookmarksRoute(
@@ -20,11 +22,11 @@ fun BookmarksRoute(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
 ) {
-    val viewModel = getViewModel<BookmarksViewModel>()
     val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
-    SideEffect {
-        viewModel.configure(conference, user?.uid, user)
-    }
+
+    val viewModel = getViewModel<BookmarksViewModel>(parameters = {
+        parametersOf(SessionsViewModelParams(conference, user?.uid, user))
+    })
     val loading by viewModel
         .loading
         .collectAsStateWithLifecycle(initialValue = true)

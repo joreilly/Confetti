@@ -9,62 +9,41 @@ struct SessionListView: View {
     let navigateToConferences: () -> Void
     let refresh: () async -> Void
     @State var selectedDateIndex: Int = 0
-    
+    @Binding var selectedSession: SessionDetails?
         
     var body: some View {
-        NavigationView {
-            VStack {
+        VStack {
 
-                Picker(selection: $selectedDateIndex, label: Text("Date")) {
-                    ForEach(0..<sessionUiState.formattedConfDates.count, id: \.self) { i in
-                        Text("\(sessionUiState.formattedConfDates[i])").tag(i)
-                    }
+            let formattedConfDates = sessionUiState.formattedConfDates
+            Picker(selection: $selectedDateIndex, label: Text("Date")) {
+                ForEach(0..<formattedConfDates.count, id: \.self) { i in
+                    Text("\(formattedConfDates[i])").tag(i)
                 }
-                .pickerStyle(.segmented)
+            }
+            .pickerStyle(.segmented)
 
-                List {
-                    ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
-                        
-                        Section(header: HStack {
-                            Image(systemName: "clock")
-                            Text(key).font(.headline)
-                          }) {
-
-                                                        
-                            let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
-                            ForEach(sessions, id: \.self) { session in
-                                VStack {
-                                    if (!session.isBreak()) {
-                                        NavigationLink(destination: SessionDetailsView(session: session)) {
-                                            SessionView(session: session)
-                                        }
-                                    } else {
-                                        SessionView(session: session)
-                                    }
-                                }
-                            }
+            List(selection: $selectedSession) {
+                ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
+                    
+                    Section(header: HStack {
+                        Image(systemName: "clock")
+                        Text(key).font(.headline).bold()
+                    }) {
+                                                    
+                        let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
+                        ForEach(sessions, id: \.self) { session in
+                            SessionView(session: session)
                         }
                     }
+                    
                 }
             }
-            .listStyle(.plain)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text(sessionUiState.conferenceName).font(.largeTitle.bold())
-                }
-            }
-            .navigationBarItems(
-                  trailing: Button(action: {
-                      navigateToConferences()
-                  }, label: {
-                      Text("Switch")
-                  }))
-            .refreshable {
-                await refresh()
-            }
-            .searchable(text: $viewModel.searchQuery)
         }
+        .listStyle(.insetGrouped)
+        .refreshable {
+            await refresh()
+        }
+        .searchable(text: $viewModel.searchQuery)
     }
 }
 

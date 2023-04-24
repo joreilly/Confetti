@@ -5,7 +5,17 @@ package dev.johnoreilly.confetti.di
 
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
-import dev.johnoreilly.confetti.*
+import dev.johnoreilly.confetti.AppViewModel
+import dev.johnoreilly.confetti.BookmarksViewModel
+import dev.johnoreilly.confetti.ConferenceRefresh
+import dev.johnoreilly.confetti.ConferencesViewModel
+import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.SearchViewModel
+import dev.johnoreilly.confetti.SessionDetailsViewModel
+import dev.johnoreilly.confetti.SessionsViewModel
+import dev.johnoreilly.confetti.SessionsViewModelParams
+import dev.johnoreilly.confetti.SpeakerDetailsViewModel
+import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.settings.SettingsViewModel
@@ -28,19 +38,17 @@ val appModule = module {
     viewModel { params -> SpeakersViewModel(params.get()) }
     viewModel { params ->
         BookmarksViewModel(
-            get(),
-            get(parameters = { params })
+            get(), get(parameters = { params })
         )
     }
-
     viewModel { params ->
         val vmParams = params.get<SessionsViewModelParams>()
         SessionsViewModel(vmParams.conference, vmParams.uid, vmParams.tokenProvider)
     }
     viewModel { params ->
         SearchViewModel(
-            get(parameters = { params }),
-            get(parameters = {
+            sessionsViewModel = get(parameters = { params }),
+            speakersViewModel = get(parameters = {
                 parametersOf(params.get<SessionsViewModelParams>().conference)
             })
         )

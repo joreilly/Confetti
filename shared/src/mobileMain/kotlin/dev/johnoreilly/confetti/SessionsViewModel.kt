@@ -14,7 +14,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -47,7 +58,7 @@ open class SessionsViewModel(
 
     fun addBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            val success = repository.addBookmark(conference!!, uid, tokenProvider, sessionId)
+            val success = repository.addBookmark(conference, uid, tokenProvider, sessionId)
             if (!success) {
                 addErrorChannel.send(addErrorCount++)
             }
@@ -56,7 +67,7 @@ open class SessionsViewModel(
 
     fun removeBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            val success = repository.removeBookmark(conference!!, uid, tokenProvider, sessionId)
+            val success = repository.removeBookmark(conference, uid, tokenProvider, sessionId)
             if (!success) {
                 removeErrorChannel.send(removeErrorCount++)
             }
@@ -138,10 +149,10 @@ open class SessionsViewModel(
             // get initial data
             coroutineScope {
                 val bookmarksResponse = async {
-                    repository.bookmarks(conference!!, uid, tokenProvider, fetchPolicy).first()
+                    repository.bookmarks(conference, uid, tokenProvider, fetchPolicy).first()
                 }
                 val sessionsResponse = async {
-                    repository.conferenceData(conference!!, fetchPolicy)
+                    repository.conferenceData(conference, fetchPolicy)
                 }
 
                 ResponseData(bookmarksResponse.await(), sessionsResponse.await())
@@ -155,7 +166,7 @@ open class SessionsViewModel(
             flowOf(SessionsUiState.Loading)
         } else {
             val bookmarksData = responseData.bookmarksResponse.data
-            repository.watchBookmarks(conference!!, uid, tokenProvider, bookmarksData)
+            repository.watchBookmarks(conference, uid, tokenProvider, bookmarksData)
                 .map { responseData.copy(bookmarksResponse = it) }
                 .onStart {
                     emit(responseData)
@@ -215,7 +226,7 @@ open class SessionsViewModel(
             dateService.format(date.atTime(0, 0), timeZone, "MMM dd, yyyy")
         }
         return SessionsUiState.Success(
-            conference = conference!!,
+            conference = conference,
             now = dateService.now(),
             conferenceName = conferenceName,
             venueLat = venueLat,

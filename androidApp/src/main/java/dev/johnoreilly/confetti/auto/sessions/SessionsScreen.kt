@@ -20,17 +20,18 @@ import dev.johnoreilly.confetti.auto.ui.ErrorScreen
 import dev.johnoreilly.confetti.auto.ui.MoreScreen
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class SessionsScreen(
     carContext: CarContext,
     private val conference: String,
-) : Screen(carContext) {
+) : Screen(carContext), KoinComponent {
 
     private var user: User? = null
-    private val authentication: Authentication by KoinJavaComponent.inject(Authentication::class.java)
+    private val authentication: Authentication by inject()
 
-    private val sessionsViewModel: SessionsViewModel by KoinJavaComponent.inject(SessionsViewModel::class.java)
+    private val sessionsViewModel: SessionsViewModel by inject()
     private var uiState: SessionsUiState = SessionsUiState.Loading
 
     init {

@@ -16,6 +16,7 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.wear.MainActivity
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -35,42 +36,16 @@ class NextSessionComplicationService :
     private val authentication: Authentication by inject()
 
     override suspend fun data(request: ComplicationRequest): NextSessionComplicationData {
-        val conference = phoneSettingsSync.conferenceFlow.first()
-        val user = authentication.currentUser.value
-
-        if (conference.isBlank()) {
-            return NextSessionComplicationData(launchIntent = appIntent())
-        }
-
-        if (user != null) {
-            val responseData = repository.bookmarkedSessionsQuery(
-                conference, user.uid, user, FetchPolicy.CacheOnly
-            ).execute().data
-
-            if (responseData != null) {
-                val timeZone = responseData.config.timezone.toTimeZone()
-                val now = Instant.now().toKotlinInstant().toLocalDateTime(timeZone)
-
-                val bookmarks =
-                    responseData.bookmarkConnection?.nodes?.map { it.sessionDetails }?.filter {
-                        it.startsAt > now
-                    }?.sortedBy { it.startsAt }.orEmpty()
-
-                val sessionDetails = bookmarks.firstOrNull()
-                return NextSessionComplicationData(
-                    conference = responseData.config,
-                    sessionDetails = sessionDetails,
-//                    launchIntent = if (sessionDetails != null) sessionIntent(
-//                        responseData.config.id,
-//                        sessionDetails
-//                    ) else appIntent()
-                    // TODO currently failing to launch
-                    launchIntent = appIntent()
-                )
-            }
-        }
-
-        return NextSessionComplicationData(launchIntent = appIntent())
+        val sessionDetails = TestFixtures.sessionDetails
+        val config = TestFixtures.kotlinConf2023Config
+        return NextSessionComplicationData(
+            conference = config,
+            sessionDetails = sessionDetails,
+            launchIntent = sessionIntent(
+                config.id,
+                sessionDetails
+            )
+        )
     }
 
     private fun sessionIntent(conference: String, sessionDetails: SessionDetails): PendingIntent? {

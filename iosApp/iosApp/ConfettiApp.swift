@@ -14,8 +14,9 @@ struct ConfettiApp: View {
     }
         
     var body: some View {
+        
         if let conference = viewModel.conference, !conference.isEmpty {
-            SessionsView(conference: conference) {
+            ConferenceView(conference: conference) {
                 Task {
                     do {
                         try await viewModel.setConference(conference: "")
@@ -26,7 +27,7 @@ struct ConfettiApp: View {
                 }
              }
         } else {
-            ConferencesView{ conference in
+            ConferenceListView{ conference in
                 Task {
                     do {
                         try await viewModel.setConference(conference: conference)
@@ -40,9 +41,47 @@ struct ConfettiApp: View {
     }
 }
 
-
-struct ConferencesView: View {
+struct ConferenceView: View {
     
+    @StateViewModel var viewModel = SessionsViewModel()
+
+    let conference: String
+    let navigateToConferences: () -> Void
+    @State var selectedSession: SessionDetails?
+    
+    init(conference: String, navigateToConferences: @escaping () -> Void) {
+        self.conference = conference
+        self.navigateToConferences = navigateToConferences
+    }
+
+    var body: some View {
+        VStack {
+            switch viewModel.uiState {
+            case let uiState as SessionsUiStateSuccess:
+                
+                TabView {
+                    SessionsView(conference: conference, sessionUiState: uiState, navigateToConferences: navigateToConferences)
+                    .tabItem {
+                        Label("Schedule", systemImage: "calendar")
+                    }
+                    SpeakerListView(speakerList: uiState.speakers)
+                        .tabItem {
+                            Label("Speakers", systemImage: "person")
+                        }
+                }
+            default:
+                ProgressView()
+            }
+        }
+        .onAppear {
+            viewModel.configure(conference: conference, uid: nil, tokenProvider: nil)
+        }
+
+    }
+}
+
+
+struct ConferenceListView: View {
     @StateViewModel var viewModel = ConferencesViewModel()
 
     let navigateToSessions: (String) -> Void
@@ -79,42 +118,48 @@ struct ConferencesView: View {
 
 
 struct SessionsView: View {
-    
     @StateViewModel var viewModel = SessionsViewModel()
 
     let conference: String
+    let sessionUiState: SessionsUiStateSuccess
     let navigateToConferences: () -> Void
-    
-    init(conference: String, navigateToConferences: @escaping () -> Void) {
-        self.conference = conference
-        self.navigateToConferences = navigateToConferences
-    }
 
+    @State private var selectedSession: SessionDetails?
+    
     var body: some View {
-        VStack {
-            switch viewModel.uiState {
-            case let uiState as SessionsUiStateSuccess:
-                
-                TabView {
-                    SessionListView(viewModel: viewModel, sessionUiState: uiState, navigateToConferences: navigateToConferences, refresh: {
-                        do {
-                            try await viewModel.refresh()
-                        } catch {
-                            print("Failed with error: \(error)")
-                        }
-                    })
-                        .tabItem {
-                            Label("Schedule", systemImage: "calendar")
-                        }
-                    SpeakerListView(speakerList: uiState.speakers)
-                        .tabItem {
-                            Label("Speakers", systemImage: "person")
-                        }
-                }
-            default:
-                ProgressView()
+        
+        NavigationSplitView {
+            VStack {
+                SessionListView(viewModel: viewModel, sessionUiState: sessionUiState, navigateToConferences: navigateToConferences, refresh: {
+                    do {
+                        try await viewModel.refresh()
+                    } catch {
+                        print("Failed with error: \(error)")
+                    }
+                }, selectedSession: $selectedSession)
             }
-        }.onAppear {
+            .navigationSplitViewColumnWidth(ideal: 400)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(sessionUiState.conferenceName)
+                        .multilineTextAlignment(.center).bold()
+                }
+            }
+            .navigationBarItems(
+                  trailing: Button(action: {
+                      navigateToConferences()
+                  }, label: {
+                      Text("Switch")
+                  }))
+
+        } detail: {
+            if let selectedSession {
+                SessionDetailsView(session: selectedSession)
+            }
+        }
+        
+        .onAppear {
             viewModel.configure(conference: conference, uid: nil, tokenProvider: nil)
         }
     }

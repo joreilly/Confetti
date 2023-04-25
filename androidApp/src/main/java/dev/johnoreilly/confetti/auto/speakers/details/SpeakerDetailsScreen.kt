@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.auto.speakers.details
 
-import android.graphics.Bitmap
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
 import androidx.car.app.model.Action
@@ -9,23 +8,16 @@ import androidx.car.app.model.Pane
 import androidx.car.app.model.PaneTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.Template
-import androidx.core.graphics.drawable.IconCompat
-import androidx.lifecycle.lifecycleScope
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.auto.utils.fetchImage
-import dev.johnoreilly.confetti.auto.utils.getDefaultBitmap
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import kotlinx.coroutines.launch
 
 class SpeakerDetailsScreen(
     carContext: CarContext,
-    private val speaker: SpeakerDetails
+    private val speaker: SpeakerDetails,
+    private val image: CarIcon
 ) : Screen(carContext) {
 
-    private lateinit var speakerImage: Bitmap
-
     override fun onGetTemplate(): Template {
-
         val paneBuilder = Pane.Builder()
         paneBuilder.addRow(
             Row.Builder().apply {
@@ -34,22 +26,7 @@ class SpeakerDetailsScreen(
                     addText(session.title)
                 }
             }.build()
-        ).setImage(
-            if (::speakerImage.isInitialized) {
-                CarIcon.Builder(
-                    IconCompat.createWithBitmap(speakerImage)
-                )
-            } else {
-                lifecycleScope.launch {
-                    speakerImage = fetchImage(carContext, speaker.id, speaker.photoUrl ?: " ")
-                    invalidate()
-                }
-
-                CarIcon.Builder(
-                    IconCompat.createWithBitmap(getDefaultBitmap(carContext))
-                )
-            }.build()
-        )
+        ).setImage(image)
 
         paneBuilder.addAction(createAction().build())
 

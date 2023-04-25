@@ -17,17 +17,18 @@ import dev.johnoreilly.confetti.SessionDetailsViewModel
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class SessionDetailsScreen(
     carContext: CarContext,
     conference: String,
     user: User?,
     private val session: SessionDetails
-) : Screen(carContext) {
+) : Screen(carContext), KoinComponent {
 
-    private val bookmarksViewModel: BookmarksViewModel by KoinJavaComponent.inject(BookmarksViewModel::class.java)
-    private val sessionDetailsViewModel: SessionDetailsViewModel by KoinJavaComponent.inject(SessionDetailsViewModel::class.java)
+    private val bookmarksViewModel: BookmarksViewModel by inject()
+    private val sessionDetailsViewModel: SessionDetailsViewModel by inject()
 
     init {
         bookmarksViewModel.configure(conference, user?.uid, user)

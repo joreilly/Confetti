@@ -112,7 +112,6 @@ kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 ktor-cio = "io.ktor:ktor-server-cio:2.3.0"
-ktor-okhttp = "io.ktor:ktor-client-okhttp:2.3.0"
 ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.0"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material-3" }

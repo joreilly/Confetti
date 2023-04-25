@@ -185,7 +185,6 @@ dependencies {
     coreLibraryDesugaring(libs.desugar)
 
     implementation(libs.car.app)
-    implementation(libs.ktor.okhttp)
 
     testImplementation(libs.snapshot.android)
 

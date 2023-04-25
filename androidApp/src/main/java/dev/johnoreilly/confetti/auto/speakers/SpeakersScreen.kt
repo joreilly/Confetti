@@ -36,7 +36,7 @@ class SpeakersScreen(
     speakersViewModel: SpeakersViewModel = SpeakersViewModel()
 ) : Screen(carContext) {
 
-    val fallbackImage = CarIcon.Builder(
+    private val fallbackImage = CarIcon.Builder(
         IconCompat.createWithResource(carContext, R.drawable.ic_filled_person)
     ).build()
 
@@ -49,8 +49,8 @@ class SpeakersScreen(
         val images: Map<String, CarIcon> = mapOf()
     )
 
-    val speakersFlow = speakersViewModel.speakers
-    val imagesFlow: Flow<Map<String, CarIcon>> = speakersViewModel.speakers.flatMapLatest {
+    private val speakersFlow = speakersViewModel.speakers
+    private val imagesFlow: Flow<Map<String, CarIcon>> = speakersViewModel.speakers.flatMapLatest {
         fetchImages(it)
     }
 
@@ -75,18 +75,18 @@ class SpeakersScreen(
     }
 
     private fun imageFlow(speakerDetails: SpeakerDetails): Flow<Pair<String, CarIcon>> = flow {
-            emit(speakerDetails.id to fallbackImage)
+        emit(speakerDetails.id to fallbackImage)
 
-            val photoUrl = speakerDetails.photoUrl
-            if (photoUrl != null) {
-                val bitmap = fetchImage(carContext, photoUrl)
+        val photoUrl = speakerDetails.photoUrl
+        if (photoUrl != null) {
+            val bitmap = fetchImage(carContext, photoUrl)
 
-                if (bitmap != null) {
-                    val icon = IconCompat.createWithBitmap(bitmap)
-                    emit(speakerDetails.id to CarIcon.Builder(icon).build())
-                }
+            if (bitmap != null) {
+                val icon = IconCompat.createWithBitmap(bitmap)
+                emit(speakerDetails.id to CarIcon.Builder(icon).build())
             }
         }
+    }
 
     override fun onGetTemplate(): Template {
         val result = uiState.value

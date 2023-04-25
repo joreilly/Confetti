@@ -79,7 +79,7 @@ class SpeakersScreen(
                     }.setImage(
                         if (image == null) {
                             lifecycleScope.launch {
-                                images.add(AutoImage(speaker.id, fetchImage(carContext, speaker.id, speaker.name)))
+                                images.add(AutoImage(speaker.id, fetchImage(carContext, speaker.id, speaker.photoUrl ?: "")))
                                 invalidate()
                             }
 

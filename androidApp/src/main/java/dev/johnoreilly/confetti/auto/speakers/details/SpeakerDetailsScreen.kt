@@ -41,7 +41,7 @@ class SpeakerDetailsScreen(
                 )
             } else {
                 lifecycleScope.launch {
-                    speakerImage = fetchImage(carContext, speaker.id, speaker.name)
+                    speakerImage = fetchImage(carContext, speaker.id, speaker.photoUrl ?: " ")
                     invalidate()
                 }
 

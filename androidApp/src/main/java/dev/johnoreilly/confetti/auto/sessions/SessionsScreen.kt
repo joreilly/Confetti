@@ -14,12 +14,14 @@ import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.auth.Authentication
-import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.auto.ui.ErrorScreen
 import dev.johnoreilly.confetti.auto.ui.MoreScreen
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -28,36 +30,26 @@ class SessionsScreen(
     private val conference: String,
 ) : Screen(carContext), KoinComponent {
 
-    private var user: User? = null
     private val authentication: Authentication by inject()
 
     private val sessionsViewModel: SessionsViewModel by inject()
-    private var uiState: SessionsUiState = SessionsUiState.Loading
 
     init {
         sessionsViewModel.configure(conference, null, null)
     }
 
-    override fun onGetTemplate(): Template {
-        lifecycleScope.launch {
-            authentication.currentUser.collect {
-                user = it
-                invalidate()
-            }
-        }
+    private var uiState: StateFlow<SessionsUiState> = sessionsViewModel.uiState.onEach {
+        invalidate()
+    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = SessionsUiState.Loading)
 
-        lifecycleScope.launch {
-            sessionsViewModel.uiState.collect {
-                uiState = it
-                invalidate()
-            }
-        }
+    override fun onGetTemplate(): Template {
+        val result = uiState.value
 
         var listBuilder = ListTemplate.Builder()
 
         var venueLat: Double? = null
         var venueLon: Double? = null
-        val loading = when(val result = uiState) {
+        val loading = when(result) {
             SessionsUiState.Loading -> {
                 true
             }
@@ -86,7 +78,7 @@ class SessionsScreen(
                                     MoreScreen(
                                         carContext,
                                         conference,
-                                        user,
+                                        authentication.currentUser.value,
                                         venueLat,
                                         venueLon
                                     )
@@ -119,7 +111,7 @@ class SessionsScreen(
                             SessionDetailsScreen(
                                 carContext,
                                 conference,
-                                user,
+                                authentication.currentUser.value,
                                 session
                             )
                         ) }

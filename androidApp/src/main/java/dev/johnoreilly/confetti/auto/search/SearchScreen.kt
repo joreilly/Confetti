@@ -13,28 +13,29 @@ import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SearchViewModel
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class SearchScreen (
     carContext: CarContext,
     conference: String
-) : Screen(carContext) {
+) : Screen(carContext), KoinComponent {
 
-    private val searchViewModel: SearchViewModel by KoinJavaComponent.inject(SearchViewModel::class.java)
+    private val searchViewModel: SearchViewModel by inject()
 
     init {
         searchViewModel.configure(conference, null, null)
     }
 
+    private val sessionsState = searchViewModel.sessions.onEach {
+        invalidate()
+    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = null)
+
     override fun onGetTemplate(): Template {
-        var sessions: List<SessionDetails>? = null
-        lifecycleScope.launch {
-            searchViewModel.sessions.collect {
-                sessions = it
-                invalidate()
-            }
-        }
+        val sessions = sessionsState.value
 
         val listBuilder = createSessionsList(sessions)
 

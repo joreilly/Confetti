@@ -15,30 +15,31 @@ import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDateTime
-import org.koin.java.KoinJavaComponent
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class BookmarksScreen(
     carContext: CarContext,
     private val user: User?,
     private val conference: String,
-) : Screen(carContext) {
+) : Screen(carContext), KoinComponent {
 
-    private val bookmarksViewModel: BookmarksViewModel by KoinJavaComponent.inject(BookmarksViewModel::class.java)
+    private val bookmarksViewModel: BookmarksViewModel by inject()
 
     init {
         bookmarksViewModel.configure(conference, user?.uid, user)
     }
 
+    private val bookmarksState = bookmarksViewModel.upcomingSessions.onEach {
+        invalidate()
+    }.stateIn(lifecycleScope, SharingStarted.Eagerly, null)
+
     override fun onGetTemplate(): Template {
-        var bookmarks: Map<LocalDateTime, List<SessionDetails>>? = null
-        lifecycleScope.launch {
-            bookmarksViewModel.upcomingSessions.collect {
-                bookmarks = it
-                invalidate()
-            }
-        }
+        val bookmarks = bookmarksState.value
 
         val loading = bookmarks == null
 

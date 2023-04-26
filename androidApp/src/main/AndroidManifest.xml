@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="androidx.car.app.MAP_TEMPLATES"/>
+
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
 
     <uses-sdk android:minSdkVersion="21" tools:ignore="GradleOverrides" tools:overrideLibrary="com.google.android.horologist.datalayer.phone,androidx.wear.remote.interactions" />

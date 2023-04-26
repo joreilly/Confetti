@@ -43,15 +43,15 @@ struct ConfettiApp: View {
 
 struct ConferenceView: View {
     
-    @StateViewModel var viewModel = SessionsViewModel()
-
     let conference: String
     let navigateToConferences: () -> Void
     @State var selectedSession: SessionDetails?
+    @StateViewModel var viewModel:SessionsViewModel
     
     init(conference: String, navigateToConferences: @escaping () -> Void) {
         self.conference = conference
         self.navigateToConferences = navigateToConferences
+        self._viewModel = StateViewModel(wrappedValue: SessionsViewModel(conference: conference, uid: nil, tokenProvider: nil))
     }
 
     var body: some View {
@@ -73,10 +73,6 @@ struct ConferenceView: View {
                 ProgressView()
             }
         }
-        .onAppear {
-            viewModel.configure(conference: conference, uid: nil, tokenProvider: nil)
-        }
-
     }
 }
 
@@ -118,13 +114,20 @@ struct ConferenceListView: View {
 
 
 struct SessionsView: View {
-    @StateViewModel var viewModel = SessionsViewModel()
 
     let conference: String
     let sessionUiState: SessionsUiStateSuccess
     let navigateToConferences: () -> Void
 
     @State private var selectedSession: SessionDetails?
+    @StateViewModel var viewModel:SessionsViewModel
+    
+    init(conference: String, sessionUiState: SessionsUiStateSuccess, navigateToConferences: @escaping () -> Void) {
+        self.conference = conference
+        self.sessionUiState = sessionUiState
+        self.navigateToConferences = navigateToConferences
+        self._viewModel = StateViewModel(wrappedValue: SessionsViewModel(conference: conference, uid: nil, tokenProvider: nil))
+    }
     
     var body: some View {
         
@@ -157,10 +160,6 @@ struct SessionsView: View {
             if let selectedSession {
                 SessionDetailsView(session: selectedSession)
             }
-        }
-        
-        .onAppear {
-            viewModel.configure(conference: conference, uid: nil, tokenProvider: nil)
         }
     }
 }

@@ -26,13 +26,13 @@ class SearchScreen (
 
     private val searchViewModel: SearchViewModel by inject()
 
-    private val sessionsState = searchViewModel.sessions.onEach {
-        invalidate()
-    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = null)
-
     init {
         searchViewModel.configure(conference, null, null)
     }
+
+    private val sessionsState = searchViewModel.sessions.onEach {
+        invalidate()
+    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = null)
 
     override fun onGetTemplate(): Template {
         val sessions = sessionsState.value

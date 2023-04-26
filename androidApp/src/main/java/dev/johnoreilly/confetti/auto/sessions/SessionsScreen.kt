@@ -33,13 +33,14 @@ class SessionsScreen(
     private val authentication: Authentication by inject()
 
     private val sessionsViewModel: SessionsViewModel by inject()
-    private var uiState: StateFlow<SessionsUiState> = sessionsViewModel.uiState.onEach {
-        invalidate()
-    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = SessionsUiState.Loading)
 
     init {
         sessionsViewModel.configure(conference, null, null)
     }
+
+    private var uiState: StateFlow<SessionsUiState> = sessionsViewModel.uiState.onEach {
+        invalidate()
+    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = SessionsUiState.Loading)
 
     override fun onGetTemplate(): Template {
         val result = uiState.value

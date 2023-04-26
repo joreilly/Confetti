@@ -30,13 +30,13 @@ class BookmarksScreen(
 
     private val bookmarksViewModel: BookmarksViewModel by inject()
 
-    private val bookmarksState = bookmarksViewModel.upcomingSessions.onEach {
-        invalidate()
-    }.stateIn(lifecycleScope, SharingStarted.Eagerly, null)
-
     init {
         bookmarksViewModel.configure(conference, user?.uid, user)
     }
+
+    private val bookmarksState = bookmarksViewModel.upcomingSessions.onEach {
+        invalidate()
+    }.stateIn(lifecycleScope, SharingStarted.Eagerly, null)
 
     override fun onGetTemplate(): Template {
         val bookmarks = bookmarksState.value

@@ -25,6 +25,7 @@ class ConferencesScreen(
 ) : Screen(carContext), KoinComponent {
 
     private val conferenceViewModel: ConferencesViewModel by inject()
+
     private var uiStateFlow: StateFlow<ConferencesViewModel.UiState> = conferenceViewModel.uiState.onEach {
         invalidate()
     }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = ConferencesViewModel.Loading)

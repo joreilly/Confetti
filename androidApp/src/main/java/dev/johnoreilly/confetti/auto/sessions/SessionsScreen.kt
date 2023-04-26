@@ -10,12 +10,10 @@ import androidx.car.app.model.Row
 import androidx.car.app.model.SectionedItemList
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
-import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.SessionsViewModel
 import dev.johnoreilly.confetti.auth.Authentication
-import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.auto.ui.ErrorScreen
 import dev.johnoreilly.confetti.auto.ui.MoreScreen
@@ -24,7 +22,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

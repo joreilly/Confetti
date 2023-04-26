@@ -8,24 +8,19 @@ import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.SectionedItemList
 import androidx.car.app.model.Template
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import dev.johnoreilly.confetti.BookmarksViewModel
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SpeakersUiState
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
-import dev.johnoreilly.confetti.auto.speakers.SpeakersScreen
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.java.KoinJavaComponent
 
 class BookmarksScreen(
     carContext: CarContext,

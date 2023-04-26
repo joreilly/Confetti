@@ -9,7 +9,6 @@ import androidx.car.app.model.SearchTemplate
 import androidx.car.app.model.SearchTemplate.SearchCallback
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
-import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SearchViewModel
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
@@ -17,10 +16,8 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.java.KoinJavaComponent
 
 class SearchScreen (
     carContext: CarContext,

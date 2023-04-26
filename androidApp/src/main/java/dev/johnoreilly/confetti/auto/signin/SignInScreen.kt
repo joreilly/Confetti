@@ -20,14 +20,16 @@ import dev.johnoreilly.confetti.auto.utils.colorize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.koin.java.KoinJavaComponent
 
 class SignInScreen (
     carContext: CarContext,
     private val isAuthenticated: Boolean
-) : Screen(carContext) {
+) : Screen(carContext), KoinComponent {
 
-    private val authentication: Authentication by KoinJavaComponent.inject(Authentication::class.java)
+    private val authentication: Authentication by inject()
 
     override fun onGetTemplate(): Template {
         val providerSignInMethod = if(isAuthenticated) {

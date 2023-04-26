@@ -8,37 +8,43 @@ import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.SectionedItemList
 import androidx.car.app.model.Template
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.lifecycleScope
 import dev.johnoreilly.confetti.BookmarksViewModel
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.SpeakersUiState
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
+import dev.johnoreilly.confetti.auto.speakers.SpeakersScreen
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.koin.java.KoinJavaComponent
 
 class BookmarksScreen(
     carContext: CarContext,
     private val user: User?,
     private val conference: String,
-) : Screen(carContext) {
+) : Screen(carContext), KoinComponent {
 
-    private val bookmarksViewModel: BookmarksViewModel by KoinJavaComponent.inject(BookmarksViewModel::class.java)
+    private val bookmarksViewModel: BookmarksViewModel by inject()
+
+    private val bookmarksState = bookmarksViewModel.upcomingSessions.onEach {
+        invalidate()
+    }.stateIn(lifecycleScope, SharingStarted.Eagerly, null)
 
     init {
         bookmarksViewModel.configure(conference, user?.uid, user)
     }
 
     override fun onGetTemplate(): Template {
-        var bookmarks: Map<LocalDateTime, List<SessionDetails>>? = null
-        lifecycleScope.launch {
-            bookmarksViewModel.upcomingSessions.collect {
-                bookmarks = it
-                invalidate()
-            }
-        }
+        val bookmarks = bookmarksState.value
 
         val loading = bookmarks == null
 

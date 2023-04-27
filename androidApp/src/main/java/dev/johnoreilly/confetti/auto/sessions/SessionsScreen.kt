@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.SessionsViewModel
+import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.auto.ui.ErrorScreen
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.koin.core.parameter.parametersOf
 
 class SessionsScreen(
     carContext: CarContext,
@@ -32,11 +34,9 @@ class SessionsScreen(
 
     private val authentication: Authentication by inject()
 
-    private val sessionsViewModel: SessionsViewModel by inject()
-
-    init {
-        sessionsViewModel.configure(conference, null, null)
-    }
+    private val sessionsViewModel: SessionsViewModel by inject(
+        parameters = { parametersOf(SessionsViewModelParams(conference, null, null)) }
+    )
 
     private var uiState: StateFlow<SessionsUiState> = sessionsViewModel.uiState.onEach {
         invalidate()

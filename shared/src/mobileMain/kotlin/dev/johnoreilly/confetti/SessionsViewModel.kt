@@ -9,7 +9,6 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.type.Venue
 import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -40,22 +39,26 @@ data class ResponseData(
     val sessionsResponse: ApolloResponse<GetConferenceDataQuery.Data>,
 )
 
-open class SessionsViewModel : KMMViewModel(), KoinComponent {
+open class SessionsViewModel(
+    private val conference: String,
+    private val uid: String?,
+    private val tokenProvider: TokenProvider?
+) : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
     private var addErrorCount = 1
     private var removeErrorCount = 1
 
-    private var conference: String? = null
-    private var uid: String? = null
-    private var tokenProvider: TokenProvider? = null
 
     private val responseDatas = Channel<ResponseData?>()
 
+    init {
+        refresh(showLoading = true, forceRefresh = false)
+    }
 
     fun addBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            val success = repository.addBookmark(conference!!, uid, tokenProvider, sessionId)
+            val success = repository.addBookmark(conference, uid, tokenProvider, sessionId)
             if (!success) {
                 addErrorChannel.send(addErrorCount++)
             }
@@ -64,7 +67,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
 
     fun removeBookmark(sessionId: String) {
         viewModelScope.coroutineScope.launch {
-            val success = repository.removeBookmark(conference!!, uid, tokenProvider, sessionId)
+            val success = repository.removeBookmark(conference, uid, tokenProvider, sessionId)
             if (!success) {
                 removeErrorChannel.send(removeErrorCount++)
             }
@@ -85,16 +88,6 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             filterSessions(uiState, search)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
-
-    // FIXME: can we pass that as a parameter somehow
-    fun configure(conference: String, uid: String?, tokenProvider: TokenProvider?) {
-        val hasChanged = this.conference != conference || this.uid != uid
-        this.conference = conference
-        this.uid = uid
-        this.tokenProvider = tokenProvider
-
-        refresh(showLoading = hasChanged, forceRefresh = false)
-    }
 
     private var job: Job? = null
 
@@ -156,10 +149,10 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             // get initial data
             coroutineScope {
                 val bookmarksResponse = async {
-                    repository.bookmarks(conference!!, uid, tokenProvider, fetchPolicy).first()
+                    repository.bookmarks(conference, uid, tokenProvider, fetchPolicy).first()
                 }
                 val sessionsResponse = async {
-                    repository.conferenceData(conference!!, fetchPolicy)
+                    repository.conferenceData(conference, fetchPolicy)
                 }
 
                 ResponseData(bookmarksResponse.await(), sessionsResponse.await())
@@ -173,7 +166,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             flowOf(SessionsUiState.Loading)
         } else {
             val bookmarksData = responseData.bookmarksResponse.data
-            repository.watchBookmarks(conference!!, uid, tokenProvider, bookmarksData)
+            repository.watchBookmarks(conference, uid, tokenProvider, bookmarksData)
                 .map { responseData.copy(bookmarksResponse = it) }
                 .onStart {
                     emit(responseData)
@@ -233,7 +226,7 @@ open class SessionsViewModel : KMMViewModel(), KoinComponent {
             dateService.format(date.atTime(0, 0), timeZone, "MMM dd, yyyy")
         }
         return SessionsUiState.Success(
-            conference = conference!!,
+            conference = conference,
             now = dateService.now(),
             conferenceName = conferenceName,
             venueLat = venueLat,

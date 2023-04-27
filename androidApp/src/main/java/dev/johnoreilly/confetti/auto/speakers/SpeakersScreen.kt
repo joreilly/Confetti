@@ -33,16 +33,12 @@ import kotlinx.coroutines.flow.stateIn
 class SpeakersScreen(
     carContext: CarContext,
     conference: String,
-    speakersViewModel: SpeakersViewModel = SpeakersViewModel()
+    speakersViewModel: SpeakersViewModel = SpeakersViewModel(conference)
 ) : Screen(carContext) {
 
     private val fallbackImage = CarIcon.Builder(
         IconCompat.createWithResource(carContext, R.drawable.ic_filled_person)
     ).build()
-
-    init {
-        speakersViewModel.configure(conference)
-    }
 
     data class StateAndImages(
         val state: SpeakersUiState,

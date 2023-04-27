@@ -39,6 +39,7 @@ import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.utils.plus
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 
 @Composable
@@ -50,9 +51,7 @@ fun SpeakersRoute(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit
 ) {
-    val viewModel: SpeakersViewModel = getViewModel<SpeakersViewModel>().apply {
-        configure(conference = conference)
-    }
+    val viewModel: SpeakersViewModel = getViewModel(parameters = { parametersOf(conference) })
     val uiState by viewModel.speakers.collectAsStateWithLifecycle()
     ConfettiScaffold(
         title = stringResource(R.string.speakers),

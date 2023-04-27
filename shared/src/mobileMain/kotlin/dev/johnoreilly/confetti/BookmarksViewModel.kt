@@ -52,10 +52,6 @@ class BookmarksViewModel(
             }.groupBy { it.startsAt }
         }
 
-    fun configure(conference: String, uid: String?, tokenProvider: TokenProvider?) {
-        sessionsViewModel.configure(conference, uid, tokenProvider)
-    }
-
     fun addBookmark(sessionId: String) {
         sessionsViewModel.addBookmark(sessionId)
     }

@@ -10,15 +10,8 @@ import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-open class SpeakersViewModel : KMMViewModel(), KoinComponent {
+open class SpeakersViewModel(private val conference: String) : KMMViewModel(), KoinComponent {
     private val repository: ConfettiRepository by inject()
-
-    private lateinit var conference: String
-
-    // FIXME: can we pass that as a parameter somehow
-    fun configure(conference: String) {
-        this.conference = conference
-    }
 
     val speakers: StateFlow<SpeakersUiState> = flow {
         repository.conferenceData(conference, FetchPolicy.CacheFirst)

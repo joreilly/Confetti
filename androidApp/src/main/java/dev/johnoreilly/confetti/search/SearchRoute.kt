@@ -5,6 +5,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.SearchViewModel
+import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
@@ -12,6 +13,8 @@ import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import org.koin.androidx.compose.getViewModel
 import org.koin.compose.koinInject
+import org.koin.core.parameter.ParametersHolder
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun SearchRoute(
@@ -23,11 +26,11 @@ fun SearchRoute(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
 ) {
-    val viewModel = getViewModel<SearchViewModel>()
+
     val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
-    SideEffect {
-        viewModel.configure(conference, user?.uid, user)
-    }
+    val viewModel = getViewModel<SearchViewModel>(parameters = {
+        parametersOf(SessionsViewModelParams(conference, user?.uid, user))
+    })
     val search by viewModel
         .search
         .collectAsStateWithLifecycle(initialValue = "")

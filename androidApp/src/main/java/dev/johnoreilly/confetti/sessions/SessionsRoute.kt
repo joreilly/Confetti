@@ -11,12 +11,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.SessionsViewModel
+import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ConfettiAppState
 import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun SessionsRoute(
@@ -37,9 +39,9 @@ fun SessionsRoute(
         val snackbarHostState = it.snackbarHostState
         val user = it.user
 
-        val viewModel: SessionsViewModel = getViewModel<SessionsViewModel>().apply {
-            configure(conference, user?.uid, user)
-        }
+        val viewModel: SessionsViewModel = getViewModel(parameters = {
+            parametersOf(SessionsViewModelParams(conference, user?.uid, user))
+        })
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         var refreshing by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()

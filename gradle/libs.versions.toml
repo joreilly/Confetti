@@ -133,7 +133,7 @@ plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.7"
 plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin", version.ref = "kmp-nativecoroutines" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
-plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.20-1.0.11" }
+plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.21-1.0.11" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.6" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.5.6" }
 

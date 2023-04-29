@@ -45,19 +45,21 @@ struct SessionSpeakerSocialInfo: View {
     
     var body: some View {
         ForEach(speaker.socials, id: \.self) { socialItem in
-            Link(destination: URL(string: socialItem.url)!) {
-                let name = socialItem.name.lowercased()
-                switch name {
-                case "twitter":
-                    Image("ic_network_twitter")
-                case "github":
-                    Image("ic_network_github")
-                case "linkedin":
-                    Image("ic_network_linkedin")
-                case "facebook":
-                    Image("ic_network_facebook")
-                default:
-                    Image("ic_network_web")
+            if let url = URL(string: socialItem.url) {
+                Link(destination: url) {
+                    let name = socialItem.name.lowercased()
+                    switch name {
+                    case "twitter":
+                        Image("ic_network_twitter")
+                    case "github":
+                        Image("ic_network_github")
+                    case "linkedin":
+                        Image("ic_network_linkedin")
+                    case "facebook":
+                        Image("ic_network_facebook")
+                    default:
+                        Image("ic_network_web")
+                    }
                 }
             }
         }

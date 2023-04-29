@@ -36,4 +36,6 @@ dependencies {
     implementation(libs.compose.ui.test.junit4)
     implementation(libs.koin.test)
     implementation(libs.okio)
+
+    coreLibraryDesugaring(libs.desugar)
 }

@@ -3,7 +3,8 @@
 package dev.johnoreilly.confetti.wear.complication
 
 import android.app.PendingIntent
-import android.app.PendingIntent.*
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Intent
 import androidx.core.net.toUri
 import androidx.wear.watchface.complications.data.ComplicationType
@@ -17,7 +18,6 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.wear.MainActivity
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toLocalDateTime
@@ -60,12 +60,10 @@ class NextSessionComplicationService :
                 return NextSessionComplicationData(
                     conference = responseData.config,
                     sessionDetails = sessionDetails,
-//                    launchIntent = if (sessionDetails != null) sessionIntent(
-//                        responseData.config.id,
-//                        sessionDetails
-//                    ) else appIntent()
-                    // TODO currently failing to launch
-                    launchIntent = appIntent()
+                    launchIntent = if (sessionDetails != null) sessionIntent(
+                        responseData.config.id,
+                        sessionDetails
+                    ) else appIntent()
                 )
             }
         }
@@ -77,9 +75,11 @@ class NextSessionComplicationService :
         val sessionDetailIntent = Intent(
             Intent.ACTION_VIEW,
             "confetti://confetti/session/${conference}/${sessionDetails.id}".toUri()
-        )
+        ).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
 
-        return getActivity(
+        return PendingIntent.getActivity(
             this,
             0,
             sessionDetailIntent,
@@ -91,9 +91,11 @@ class NextSessionComplicationService :
         val appIntent = Intent(
             this,
             MainActivity::class.java
-        )
+        ).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
 
-        return getActivity(
+        return PendingIntent.getActivity(
             this,
             0,
             appIntent,

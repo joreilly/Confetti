@@ -25,7 +25,7 @@ nav-compose = "2.5.3"
 okio = "3.3.0"
 protolayout-expression = "1.0.0-alpha08"
 protolayout-proto = "1.0.0-alpha08"
-robolectric = "4.10"
+robolectric = "4.10.1"
 snapshot-android = "v1.0.2"
 work-runtime-ktx = "2.8.1"
 

@@ -5,16 +5,16 @@ androidx-lifecycle = "2.6.1"
 androidx-datastore = "1.1.0-alpha04"
 apollo = "4.0.0-dev.2"
 compose = "1.5.0-alpha03"
-compose-compiler = "1.4.6"
+compose-compiler = "1.4.7"
 compose-material-3 = "1.0.1"
 horologist = "0.4.4"
 junit = "4.13"
-kmp-nativecoroutines = "1.0.0-ALPHA-7"
+kmp-nativecoroutines = "1.0.0-ALPHA-8"
 kmm-viewmodel = "1.0.0-ALPHA-7"
 koin-android = "3.4.0"
 koin-android-compose = "3.4.4"
 koin-core = "3.4.0"
-kotlin = "1.8.20"
+kotlin = "1.8.21"
 kotlin-coroutines = "1.6.4"
 kotlinx-coroutines-play-services = "1.6.4"
 kotlinx-datetime = "0.4.0"
@@ -133,7 +133,7 @@ plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.7"
 plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin", version.ref = "kmp-nativecoroutines" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
-plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.20-1.0.11" }
+plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.21-1.0.11" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.6" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.6.0" }
 

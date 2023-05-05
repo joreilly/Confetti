@@ -29,12 +29,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.account.WearUiState
+import dev.johnoreilly.confetti.account.googleSignInClient
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.settings.navigation.SettingsKey
@@ -63,8 +65,10 @@ fun ConfettiScaffold(
 ) {
     val authentication = koinInject<Authentication>()
     val wearSettingSync = koinInject<WearSettingsSync>()
+    val context = LocalContext.current
     fun signOut() {
         authentication.signOut()
+        googleSignInClient(context).signOut()
         onSignOut()
     }
 

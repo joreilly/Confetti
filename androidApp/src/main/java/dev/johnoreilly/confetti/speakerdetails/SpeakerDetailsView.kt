@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -82,11 +83,13 @@ fun SpeakerDetailsView(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(
-                        modifier = Modifier.padding(PaddingValues(start = 16.dp, end = 16.dp)),
-                        text = speaker.name,
-                        textAlign = TextAlign.Center
-                    )
+                    SelectionContainer {
+                        Text(
+                            modifier = Modifier.padding(PaddingValues(start = 16.dp, end = 16.dp)),
+                            text = speaker.name,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(onClick = { popBack() }) {
@@ -106,53 +109,55 @@ fun SpeakerDetailsView(
                 .fillMaxSize()
                 .verticalScroll(state = scrollState),
             ) {
-            Column(
-                modifier = Modifier
-                    .padding(contentPaddings),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                speaker.tagline?.let { city ->
-                    Text(
-                        text = city,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
-                Spacer(modifier = Modifier.size(16.dp))
-
-                val imageUrl = speaker.photoUrl ?: ""
-                if (imageUrl.isNotEmpty()) {
-                    AsyncImage(
-                        model = imageUrl,
-                        contentDescription = speaker.name,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .size(240.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                    )
-                }
-                Spacer(modifier = Modifier.size(24.dp))
-
-                Text(
-                    text = speaker.bio ?: "",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-
-                Spacer(modifier = Modifier.size(16.dp))
-
-                Row(
-                    Modifier.padding(top = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+            SelectionContainer {
+                Column(
+                    modifier = Modifier
+                        .padding(contentPaddings),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    speaker.socials.forEach { socialsItem ->
-                        SocialIcon(
-                            modifier = Modifier.size(24.dp),
-                            socialItem = socialsItem,
-                            onClick = {
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
-                                context.startActivity(intent)
-                            }
+                    speaker.tagline?.let { city ->
+                        Text(
+                            text = city,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleMedium
                         )
+                    }
+                    Spacer(modifier = Modifier.size(16.dp))
+
+                    val imageUrl = speaker.photoUrl ?: ""
+                    if (imageUrl.isNotEmpty()) {
+                        AsyncImage(
+                            model = imageUrl,
+                            contentDescription = speaker.name,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .size(240.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                        )
+                    }
+                    Spacer(modifier = Modifier.size(24.dp))
+
+                    Text(
+                        text = speaker.bio ?: "",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
+                    Row(
+                        Modifier.padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        speaker.socials.forEach { socialsItem ->
+                            SocialIcon(
+                                modifier = Modifier.size(24.dp),
+                                socialItem = socialsItem,
+                                onClick = {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
+                                    context.startActivity(intent)
+                                }
+                            )
+                        }
                     }
                 }
             }

@@ -31,7 +31,7 @@ struct SessionSpeakerInfo: View {
                     HStack(alignment: .top, spacing: 20) {
                         SessionSpeakerSocialInfo(speaker: speaker)
                     }
-                }
+                }.textSelection(.enabled)
                 Spacer()
             }
             .padding(.vertical, 8)

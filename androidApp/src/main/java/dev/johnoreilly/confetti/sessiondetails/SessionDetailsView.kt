@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.DisableSelection
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -66,7 +68,7 @@ fun SessionDetailsRoute(
     sessionId: String,
     onBackClick: () -> Unit,
     navigateToSignIn: () -> Unit,
-    onSpeakerClick: (key: SpeakerDetailsKey) -> Unit
+    onSpeakerClick: (key: SpeakerDetailsKey) -> Unit,
 ) {
     val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
     val viewModel: SessionDetailsViewModel = getViewModel<SessionDetailsViewModel>().apply {
@@ -94,7 +96,7 @@ fun SessionDetailsRoute(
         removeErrorCount = removeErrorCount,
         onSpeakerClick = { speakerId ->
             onSpeakerClick(SpeakerDetailsKey(conference = conference, speakerId = speakerId))
-        }
+        },
     )
 }
 
@@ -155,73 +157,79 @@ fun SessionDetailView(
         Column(modifier = Modifier.padding(it)) {
             val horizontalPadding = 16.dp
             session?.let { session ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .verticalScroll(state = scrollState)
-                ) {
-
-                    Text(
-                        modifier = Modifier.padding(horizontal = horizontalPadding),
-                        text = session.title,
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleLarge
-                    )
-
-                    Spacer(modifier = Modifier.size(16.dp))
-
-                    Text(
-                        modifier = Modifier.padding(horizontal = horizontalPadding),
-                        text = session.startsAt.toTimeString(session.endsAt),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
-                    )
-
-                    session.room?.name?.let { roomName ->
+                SelectionContainer {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                            .verticalScroll(state = scrollState)
+                    ) {
                         Text(
-                            modifier = Modifier.padding(horizontal = horizontalPadding, vertical = 2.dp),
-                            text = roomName,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.labelLarge.copy(fontStyle = FontStyle.Italic)
+                            modifier = Modifier.padding(horizontal = horizontalPadding),
+                            text = session.title,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleLarge
                         )
-                    }
 
-                    Spacer(modifier = Modifier.size(16.dp))
-
-                    Text(
-                        modifier = Modifier.padding(horizontal = horizontalPadding),
-                        text = session.sessionDescription ?: "",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-
-                    if (session.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.size(16.dp))
-                        FlowRow(modifier = Modifier.padding(horizontal = horizontalPadding)) {
-                            session.tags.distinct().forEach { tag ->
-                                Box(Modifier.padding(bottom = 8.dp)) {
-                                    Chip(tag)
+
+                        Text(
+                            modifier = Modifier.padding(horizontal = horizontalPadding),
+                            text = session.startsAt.toTimeString(session.endsAt),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+
+                        session.room?.name?.let { roomName ->
+                            Text(
+                                modifier = Modifier.padding(horizontal = horizontalPadding, vertical = 2.dp),
+                                text = roomName,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.labelLarge.copy(fontStyle = FontStyle.Italic)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.size(16.dp))
+
+                        Text(
+                            modifier = Modifier.padding(horizontal = horizontalPadding),
+                            text = session.sessionDescription ?: "",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        DisableSelection {
+                            if (session.tags.isNotEmpty()) {
+                                Spacer(modifier = Modifier.size(16.dp))
+                                FlowRow(modifier = Modifier.padding(horizontal = horizontalPadding)) {
+                                    session.tags.distinct().forEach { tag ->
+                                        Box(Modifier.padding(bottom = 8.dp)) {
+                                            Chip(tag)
+                                        }
+                                    }
                                 }
+                                Spacer(modifier = Modifier.size(16.dp))
                             }
                         }
+
+                        DisableSelection {
+                            ConfettiHeader(
+                                text = stringResource(R.string.speakers),
+                                icon = Icons.Filled.Person
+                            )
+                        }
+
                         Spacer(modifier = Modifier.size(16.dp))
-                    }
 
-                    ConfettiHeader(
-                        text = stringResource(R.string.speakers),
-                        icon = Icons.Filled.Person,
-                    )
-
-                    Spacer(modifier = Modifier.size(16.dp))
-
-                    session.speakers.forEach { speaker ->
-                        SessionSpeakerInfo(speaker = speaker.speakerDetails,
-                            onSocialLinkClick = { socialItem, _ ->
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.url))
-                                context.startActivity(intent)
-                            },
-                            onSpeakerClick = onSpeakerClick
-                        )
+                        session.speakers.forEach { speaker ->
+                            SessionSpeakerInfo(
+                                speaker = speaker.speakerDetails,
+                                onSocialLinkClick = { socialItem, _ ->
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.url))
+                                    context.startActivity(intent)
+                                },
+                                onSpeakerClick = onSpeakerClick
+                            )
+                        }
                     }
                 }
             }
@@ -260,7 +268,6 @@ private fun LocalDateTime.toTimeString(endsAt: LocalDateTime): String {
     val endsAtTime = endTimeFormatter.format(endsAt)
     return "$startTimeDate - $endsAtTime"
 }
-
 
 @Composable
 fun Chip(name: String) {

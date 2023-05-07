@@ -1,31 +1,41 @@
 package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.rickclephas.kmm.viewmodel.KMMViewModel
-import com.rickclephas.kmm.viewmodel.stateIn
+import com.arkivanov.decompose.ComponentContext
+import dev.johnoreilly.confetti.SpeakerDetailsComponent.Error
+import dev.johnoreilly.confetti.SpeakerDetailsComponent.Loading
+import dev.johnoreilly.confetti.SpeakerDetailsComponent.Success
+import dev.johnoreilly.confetti.SpeakerDetailsComponent.UiState
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 
+interface SpeakerDetailsComponent {
 
-class SpeakerDetailsViewModel(
-    repository: ConfettiRepository
-) : KMMViewModel() {
+    val speaker: StateFlow<UiState>
+
+    fun onSessionClicked(id: String)
+    fun onCloseClicked()
+
     sealed interface UiState
+    object Loading : UiState
+    object Error : UiState
+    class Success(val details: SpeakerDetails) : UiState
+}
 
-    object Loading: UiState
-    object Error: UiState
-    class Success(val details: SpeakerDetails): UiState
-    private lateinit var speakerId: String
-    private lateinit var conference: String
+class DefaultSpeakerDetailsComponent(
+    componentContext: ComponentContext,
+    repository: ConfettiRepository,
+    conference: String,
+    speakerId: String,
+    private val onSessionSelected: (id: String) -> Unit,
+    private val onFinished: () -> Unit,
+) : SpeakerDetailsComponent, ComponentContext by componentContext {
+    private val coroutineScope = coroutineScope()
 
-    fun configure(conference: String, speakerId: String) {
-        this.conference = conference
-        this.speakerId = speakerId
-    }
-
-    val speaker: StateFlow<UiState> = flow {
+    override val speaker: StateFlow<UiState> = flow {
         // FixMe: add .speaker(id)
         val response = repository.conferenceData(conference = conference, FetchPolicy.CacheFirst)
         val details = response.data?.speakers?.nodes?.map { it.speakerDetails }
@@ -37,7 +47,14 @@ class SpeakerDetailsViewModel(
             emit(Error)
         }
     }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+        .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), Loading)
 
+    override fun onSessionClicked(id: String) {
+        onSessionSelected(id)
+    }
+
+    override fun onCloseClicked() {
+        onFinished()
+    }
 }
 

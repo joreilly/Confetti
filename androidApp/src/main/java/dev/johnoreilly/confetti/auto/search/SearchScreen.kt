@@ -10,7 +10,6 @@ import androidx.car.app.model.SearchTemplate.SearchCallback
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SearchViewModel
 import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -23,63 +22,63 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent
 
-class SearchScreen (
-    carContext: CarContext,
-    conference: String
-) : Screen(carContext), KoinComponent {
-
-    private val searchViewModel: SearchViewModel by inject(
-        parameters = { parametersOf(SessionsViewModelParams(conference, null, null)) }
-    )
-
-    private val sessionsState = searchViewModel.sessions.onEach {
-        invalidate()
-    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = null)
-
-    override fun onGetTemplate(): Template {
-        val sessions = sessionsState.value
-
-        val listBuilder = createSessionsList(sessions)
-
-        return SearchTemplate.Builder(
-            object : SearchCallback {
-                override fun onSearchTextChanged(searchText: String) {
-                    super.onSearchTextChanged(searchText)
-                    searchViewModel.onSearchChange(searchText)
-                }
-
-                override fun onSearchSubmitted(searchText: String) {
-                    super.onSearchSubmitted(searchText)
-                    searchViewModel.onSearchChange(searchText)
-                }
-            }
-        ).apply {
-            setHeaderAction(Action.BACK)
-            setShowKeyboardByDefault(false)
-            setItemList(listBuilder.build())
-        }.build()
-    }
-
-    private fun createSessionsList(sessions: List<SessionDetails>?): ItemList.Builder {
-        if (sessions == null) {
-            return ItemList.Builder()
-        }
-
-        val listBuilder = ItemList.Builder()
-        for (session in sessions) {
-            listBuilder.addItem(
-                Row.Builder()
-                    .setTitle(session.title)
-                    .addText(
-                        carContext.getString(
-                            R.string.auto_session_text,
-                            session.room?.name ?: carContext.getString(R.string.auto_placeholder),
-                            formatDateTime(session.startsAt)
-                        )
-                    ).build()
-            )
-        }
-
-        return listBuilder
-    }
-}
+//class SearchScreen (
+//    carContext: CarContext,
+//    conference: String
+//) : Screen(carContext), KoinComponent {
+//
+//    private val searchViewModel: SearchViewModel by inject(
+//        parameters = { parametersOf(SessionsViewModelParams(conference, null, null)) }
+//    )
+//
+//    private val sessionsState = searchViewModel.sessions.onEach {
+//        invalidate()
+//    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = null)
+//
+//    override fun onGetTemplate(): Template {
+//        val sessions = sessionsState.value
+//
+//        val listBuilder = createSessionsList(sessions)
+//
+//        return SearchTemplate.Builder(
+//            object : SearchCallback {
+//                override fun onSearchTextChanged(searchText: String) {
+//                    super.onSearchTextChanged(searchText)
+//                    searchViewModel.onSearchChange(searchText)
+//                }
+//
+//                override fun onSearchSubmitted(searchText: String) {
+//                    super.onSearchSubmitted(searchText)
+//                    searchViewModel.onSearchChange(searchText)
+//                }
+//            }
+//        ).apply {
+//            setHeaderAction(Action.BACK)
+//            setShowKeyboardByDefault(false)
+//            setItemList(listBuilder.build())
+//        }.build()
+//    }
+//
+//    private fun createSessionsList(sessions: List<SessionDetails>?): ItemList.Builder {
+//        if (sessions == null) {
+//            return ItemList.Builder()
+//        }
+//
+//        val listBuilder = ItemList.Builder()
+//        for (session in sessions) {
+//            listBuilder.addItem(
+//                Row.Builder()
+//                    .setTitle(session.title)
+//                    .addText(
+//                        carContext.getString(
+//                            R.string.auto_session_text,
+//                            session.room?.name ?: carContext.getString(R.string.auto_placeholder),
+//                            formatDateTime(session.startsAt)
+//                        )
+//                    ).build()
+//            )
+//        }
+//
+//        return listBuilder
+//    }
+//}

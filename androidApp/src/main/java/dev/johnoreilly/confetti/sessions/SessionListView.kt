@@ -48,7 +48,6 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.sessionSpeakers
-import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.Bookmark
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
@@ -63,19 +62,18 @@ import kotlin.math.abs
 @Composable
 fun SessionListView(
     uiState: SessionsUiState,
-    refreshing: Boolean,
-    sessionSelected: (SessionDetailsKey) -> Unit,
+    sessionSelected: (sessionId: String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     onRefresh: () -> Unit,
     onNavigateToSignIn: () -> Unit,
-    user: User?
+    isLoggedIn: Boolean,
 ) {
     when (uiState) {
         SessionsUiState.Error -> ErrorView(onRefresh)
         SessionsUiState.Loading -> LoadingView()
         is SessionsUiState.Success -> {
-            val state = rememberPullRefreshState(refreshing, onRefresh)
+            val state = rememberPullRefreshState(uiState.isRefreshing, onRefresh)
             Column {
                 val initialPageIndex by remember {
                     derivedStateOf { uiState.confDates.indexOf(uiState.now.date) }
@@ -148,20 +146,19 @@ fun SessionListView(
 
                                 items(sessions) { session ->
                                     SessionItemView(
-                                        conference = uiState.conference,
                                         session = session,
                                         sessionSelected = sessionSelected,
                                         isBookmarked = uiState.bookmarks.contains(session.id),
                                         addBookmark = addBookmark,
                                         removeBookmark = removeBookmark,
                                         onNavigateToSignIn = onNavigateToSignIn,
-                                        user,
+                                        isLoggedIn = isLoggedIn,
                                     )
                                 }
                             }
                         }
                         PullRefreshIndicator(
-                            refreshing,
+                            uiState.isRefreshing,
                             state,
                             Modifier.align(Alignment.TopCenter)
                         )
@@ -202,20 +199,19 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
 
 @Composable
 fun SessionItemView(
-    conference: String,
     session: SessionDetails,
-    sessionSelected: (SessionDetailsKey) -> Unit,
+    sessionSelected: (sessionId: String) -> Unit,
     isBookmarked: Boolean,
     addBookmark: (String) -> Unit,
     removeBookmark: (String) -> Unit,
     onNavigateToSignIn: () -> Unit = {},
-    user: User?,
+    isLoggedIn: Boolean,
 ) {
 
     var modifier = Modifier.fillMaxSize()
     if (!session.isBreak()) {
         modifier = modifier.clickable(onClick = {
-            sessionSelected(SessionDetailsKey(conference, session.id))
+            sessionSelected(session.id)
         })
     }
     Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
@@ -271,7 +267,7 @@ fun SessionItemView(
         Bookmark(
             isBookmarked = isBookmarked,
             onBookmarkChange = { shouldAdd ->
-                if (user == null) {
+                if (!isLoggedIn) {
                     showDialog = true
                     return@Bookmark
                 }

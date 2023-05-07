@@ -3,55 +3,34 @@
 
 package dev.johnoreilly.confetti.di
 
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import com.arkivanov.essenty.lifecycle.resume
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
-import dev.johnoreilly.confetti.AppViewModel
-import dev.johnoreilly.confetti.BookmarksViewModel
 import dev.johnoreilly.confetti.ConferenceRefresh
-import dev.johnoreilly.confetti.ConferencesViewModel
 import dev.johnoreilly.confetti.ConfettiRepository
-import dev.johnoreilly.confetti.SearchViewModel
-import dev.johnoreilly.confetti.SessionDetailsViewModel
-import dev.johnoreilly.confetti.SessionsViewModel
-import dev.johnoreilly.confetti.SessionsViewModelParams
-import dev.johnoreilly.confetti.SpeakerDetailsViewModel
-import dev.johnoreilly.confetti.SpeakersViewModel
+import dev.johnoreilly.confetti.SettingsComponent
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
-import dev.johnoreilly.confetti.settings.SettingsViewModel
+import dev.johnoreilly.confetti.settings.DefaultSettingsComponent
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModelOf(::AppViewModel)
-    viewModelOf(::ConferencesViewModel)
-    viewModelOf(::SessionDetailsViewModel)
-    viewModelOf(::SpeakerDetailsViewModel)
-    viewModelOf(::SettingsViewModel)
-    viewModel { params -> SpeakersViewModel(params.get()) }
-    viewModel { params ->
-        BookmarksViewModel(
-            get(), get(parameters = { params })
-        )
-    }
-    viewModel { params ->
-        val vmParams = params.get<SessionsViewModelParams>()
-        SessionsViewModel(vmParams.conference, vmParams.uid, vmParams.tokenProvider)
-    }
-    viewModel { params ->
-        SearchViewModel(
-            sessionsViewModel = get(parameters = { params }),
-            speakersViewModel = get(parameters = {
-                parametersOf(params.get<SessionsViewModelParams>().conference)
-            })
-        )
+    single<SettingsComponent> {
+        val lifecycle = LifecycleRegistry()
+        DefaultSettingsComponent(
+            componentContext = DefaultComponentContext(lifecycle),
+            appSettings = get(),
+            wearSettingsSync = get(),
+            applicationContext = get(),
+            authentication = get(),
+        ).also { lifecycle.resume() }
     }
 
     single {

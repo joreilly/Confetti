@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imeNestedScroll
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -52,15 +51,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.sessions.SessionItemView
-import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.speakers.SpeakerItemView
-import dev.johnoreilly.confetti.ui.ConfettiAppState
-import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ConfettiTypography
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
@@ -68,75 +62,57 @@ import dev.johnoreilly.confetti.utils.rememberRunnable
 
 @Composable
 fun SearchView(
-    conference: String,
-    appState: ConfettiAppState,
     search: String,
     onSearchChange: (String) -> Unit,
     sessions: List<SessionDetails>,
     speakers: List<SpeakerDetails>,
-    navigateToSession: (SessionDetailsKey) -> Unit,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit,
-    onSwitchConference: () -> Unit,
+    navigateToSession: (id: String) -> Unit,
+    navigateToSpeaker: (id: String) -> Unit,
     onSignIn: () -> Unit,
-    onSignOut: () -> Unit,
     bookmarks: Set<String>,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     loading: Boolean,
+    isLoggedIn: Boolean,
 ) {
-    ConfettiScaffold(
-        modifier = Modifier.imePadding(),
-        title = stringResource(R.string.search),
-        conference = conference,
-        appState = appState,
-        onSwitchConference = onSwitchConference,
-        onSignIn = onSignIn,
-        onSignOut = onSignOut,
-    ) {
-        val user = it.user
-        Column {
-            SearchTextField(
-                modifier = Modifier
-                    .padding(8.dp),
-                value = search,
-                onValueChange = onSearchChange,
-            )
+    Column {
+        SearchTextField(
+            modifier = Modifier
+                .padding(8.dp),
+            value = search,
+            onValueChange = onSearchChange,
+        )
 
-            if (loading) {
-                LoadingView()
-            } else if (search.isNotBlank()) {
-                LazyColumn(
-                    modifier = Modifier.imeNestedScroll(),
-                    contentPadding = WindowInsets.safeDrawing
-                        .only(WindowInsetsSides.Bottom)
-                        .asPaddingValues()
-                ) {
-                    sessionItems(
-                        conference = conference,
-                        sessions = sessions,
-                        navigateToSession = navigateToSession,
-                        bookmarks = bookmarks,
-                        addBookmark = addBookmark,
-                        removeBookmark = removeBookmark,
-                        onSignIn = onSignIn,
-                        user = user
-                    )
-                    speakerItems(
-                        conference = conference,
-                        speakers = speakers,
-                        navigateToSpeaker = navigateToSpeaker,
-                    )
-                }
+        if (loading) {
+            LoadingView()
+        } else if (search.isNotBlank()) {
+            LazyColumn(
+                modifier = Modifier.imeNestedScroll(),
+                contentPadding = WindowInsets.safeDrawing
+                    .only(WindowInsetsSides.Bottom)
+                    .asPaddingValues()
+            ) {
+                sessionItems(
+                    sessions = sessions,
+                    navigateToSession = navigateToSession,
+                    bookmarks = bookmarks,
+                    addBookmark = addBookmark,
+                    removeBookmark = removeBookmark,
+                    onSignIn = onSignIn,
+                    isLoggedIn = isLoggedIn,
+                )
+                speakerItems(
+                    speakers = speakers,
+                    navigateToSpeaker = navigateToSpeaker,
+                )
             }
         }
     }
-
 }
 
 private fun LazyListScope.speakerItems(
-    conference: String,
     speakers: List<SpeakerDetails>,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit,
+    navigateToSpeaker: (id: String) -> Unit,
 ) {
     // Shows header if and only if there are speaker results.
     if (speakers.isNotEmpty()) {
@@ -149,7 +125,6 @@ private fun LazyListScope.speakerItems(
     }
     items(speakers) { speaker ->
         SpeakerItemView(
-            conference = conference,
             speaker = speaker,
             navigateToSpeaker = navigateToSpeaker,
         )
@@ -157,14 +132,13 @@ private fun LazyListScope.speakerItems(
 }
 
 private fun LazyListScope.sessionItems(
-    conference: String,
     sessions: List<SessionDetails>,
-    navigateToSession: (SessionDetailsKey) -> Unit,
+    navigateToSession: (id: String) -> Unit,
     bookmarks: Set<String>,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     onSignIn: () -> Unit,
-    user: User?
+    isLoggedIn: Boolean,
 ) {
     // Shows header if and only if there are session results.
     if (sessions.isNotEmpty()) {
@@ -177,14 +151,13 @@ private fun LazyListScope.sessionItems(
     }
     items(sessions) { session ->
         SessionItemView(
-            conference = conference,
             session = session,
             sessionSelected = navigateToSession,
             isBookmarked = bookmarks.contains(session.id),
             addBookmark = { sessionId -> addBookmark(sessionId) },
             removeBookmark = { sessionId -> removeBookmark(sessionId) },
             onNavigateToSignIn = onSignIn,
-            user = user,
+            isLoggedIn = isLoggedIn,
         )
     }
 }

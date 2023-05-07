@@ -6,6 +6,7 @@ plugins {
     id("com.rickclephas.kmp.nativecoroutines")
     id("co.touchlab.faktory.kmmbridge")
     id("com.squareup.wire")
+    id("kotlin-parcelize")
 }
 
 configureCompilerOptions()
@@ -72,8 +73,8 @@ kotlin {
 
         val mobileMain by getting {
             dependencies {
-                implementation(libs.kmm.viewmodel)
                 implementation(libs.firebase.mpp.auth)
+                implementation(libs.decompose.decompose)
             }
         }
 

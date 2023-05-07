@@ -18,11 +18,12 @@ import androidx.compose.ui.res.stringResource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.SignInComponent
 import org.koin.compose.koinInject
 
 
 @Composable
-fun SignInRoute(onBackClick: () -> Unit) {
+fun SignInRoute(component: SignInComponent) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -30,9 +31,7 @@ fun SignInRoute(onBackClick: () -> Unit) {
         ) {
             var error: String? by remember { mutableStateOf(null) }
             val launcher = rememberFirebaseAuthLauncher(
-                onAuthComplete = {
-                    onBackClick()
-                },
+                onAuthComplete = component::onCloseClicked,
                 onAuthError = {
                     it.printStackTrace()
                     error = "Something went wrong"

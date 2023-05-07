@@ -57,11 +57,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isLightning
-import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
@@ -70,11 +68,11 @@ import dev.johnoreilly.confetti.utils.plus
 @Composable
 fun SessionListGridView(
     uiState: SessionsUiState,
-    sessionSelected: (SessionDetailsKey) -> Unit,
+    sessionSelected: (id: String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     onNavigateToSignIn: () -> Unit,
-    user: User?,
+    isLoggedIn: Boolean,
     onRefresh: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
@@ -134,7 +132,6 @@ fun SessionListGridView(
                                 sessionsByStartTime.forEach {
                                     item {
                                         SessionGridRow(
-                                            conference = uiState.conference,
                                             sessionByTimeList = it,
                                             rooms = rooms,
                                             bookmarks = uiState.bookmarks,
@@ -144,7 +141,7 @@ fun SessionListGridView(
                                             addBookmark = addBookmark,
                                             removeBookmark = removeBookmark,
                                             onNavigateToSignIn = onNavigateToSignIn,
-                                            user = user,
+                                            isLoggedIn = isLoggedIn,
                                         )
                                     }
                                 }
@@ -160,17 +157,16 @@ fun SessionListGridView(
 
 @Composable
 fun SessionGridRow(
-    conference: String,
     sessionByTimeList: Map.Entry<String, List<SessionDetails>>,
     bookmarks: Set<String>,
     rooms: List<RoomDetails>,
     sessionInfoWidth: Dp,
     timeInfoWidth: Dp,
-    sessionSelected: (SessionDetailsKey) -> Unit,
+    sessionSelected: (id: String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
     onNavigateToSignIn: () -> Unit,
-    user: User?
+    isLoggedIn: Boolean,
 ) {
     Row {
         Text(
@@ -200,7 +196,7 @@ fun SessionGridRow(
                     Column(
                         modifier = Modifier
                             .clickable(onClick = {
-                                sessionSelected(SessionDetailsKey(conference, session.id))
+                                sessionSelected(session.id)
                             })
                             .padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -232,7 +228,7 @@ fun SessionGridRow(
                         modifier = Modifier.align(Alignment.CenterEnd),
                         bookmarks = bookmarks,
                         session = session,
-                        user = user,
+                        isLoggedIn = isLoggedIn,
                         removeBookmark = removeBookmark,
                         addBookmark = addBookmark,
                         onNavigateToSignIn = onNavigateToSignIn
@@ -305,7 +301,7 @@ private fun Bookmark(
     modifier: Modifier = Modifier,
     bookmarks: Set<String>,
     session: SessionDetails,
-    user: User?,
+    isLoggedIn: Boolean,
     removeBookmark: (sessionId: String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     onNavigateToSignIn: () -> Unit
@@ -317,7 +313,7 @@ private fun Bookmark(
         IconButton(
             modifier = modifier,
             onClick = {
-                if (user != null) {
+                if (isLoggedIn) {
                     removeBookmark(session.id)
                 } else {
                     showDialog = true
@@ -335,7 +331,7 @@ private fun Bookmark(
         IconButton(
             modifier = modifier,
             onClick = {
-                if (user != null) {
+                if (isLoggedIn) {
                     addBookmark(session.id)
                 } else {
                     showDialog = true

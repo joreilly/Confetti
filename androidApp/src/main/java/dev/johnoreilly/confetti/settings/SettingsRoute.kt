@@ -13,11 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -37,26 +34,31 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.BuildConfig
+import dev.johnoreilly.confetti.DarkThemeConfig
+import dev.johnoreilly.confetti.DeveloperSettings
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.SettingsComponent
+import dev.johnoreilly.confetti.ThemeBrand
+import dev.johnoreilly.confetti.UserEditableSettings
+import dev.johnoreilly.confetti.WearStatus
 import dev.johnoreilly.confetti.ui.supportsDynamicTheming
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsRoute(
-    viewModel: SettingsViewModel = koinViewModel(),
+    component: SettingsComponent,
 ) {
-    val userEditableSettings by viewModel.userEditableSettings.collectAsStateWithLifecycle()
-    val developerSettings by viewModel.developerSettings.collectAsStateWithLifecycle()
+    val userEditableSettings by component.userEditableSettings.collectAsStateWithLifecycle()
+    val developerSettings by component.developerSettings.collectAsStateWithLifecycle()
     SettingsScreen(
         userEditableSettings = userEditableSettings,
-        onChangeThemeBrand = viewModel::updateThemeBrand,
-        onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
-        onChangeDarkThemeConfig = viewModel::updateDarkThemeConfig,
-        onUpdateWearTheme = viewModel::updateWearTheme,
-        onInstallOnWatch = viewModel::installOnWatch,
-        onChangeUseExperimentalFeatures = viewModel::updateUseExperimentalFeatures,
+        onChangeThemeBrand = component::updateThemeBrand,
+        onChangeDynamicColorPreference = component::updateDynamicColorPreference,
+        onChangeDarkThemeConfig = component::updateDarkThemeConfig,
+        onUpdateWearTheme = component::updateWearTheme,
+        onInstallOnWatch = component::installOnWatch,
+        onChangeUseExperimentalFeatures = component::updateUseExperimentalFeatures,
         developerSettings = developerSettings,
-        onEnableDeveloperMode = viewModel::enableDeveloperMode
+        onEnableDeveloperMode = component::enableDeveloperMode
     )
 }
 
@@ -70,7 +72,7 @@ fun SettingsScreen(
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
     onUpdateWearTheme: (Boolean) -> Unit,
     onInstallOnWatch: (String) -> Unit,
-    developerSettings: SettingsViewModel.DeveloperSettings?,
+    developerSettings: DeveloperSettings?,
     onEnableDeveloperMode: () -> Unit
 ) {
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()

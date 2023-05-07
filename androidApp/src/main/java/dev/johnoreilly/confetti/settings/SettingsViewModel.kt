@@ -3,27 +3,33 @@
 package dev.johnoreilly.confetti.settings
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.arkivanov.decompose.ComponentContext
 import com.google.android.horologist.data.apphelper.AppHelperNodeStatus
-import com.google.firebase.ktx.Firebase
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.DarkThemeConfig
+import dev.johnoreilly.confetti.DeveloperSettings
+import dev.johnoreilly.confetti.SettingsComponent
+import dev.johnoreilly.confetti.ThemeBrand
+import dev.johnoreilly.confetti.UserEditableSettings
+import dev.johnoreilly.confetti.WearStatus
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.coroutineScope
 import dev.johnoreilly.confetti.ui.colorScheme
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
-class SettingsViewModel(
-    val appSettings: AppSettings,
-    val wearSettingsSync: WearSettingsSync,
-    val applicationContext: Context,
-    val authentication: Authentication,
-) : ViewModel() {
+class DefaultSettingsComponent(
+    componentContext: ComponentContext,
+    private val appSettings: AppSettings,
+    private val wearSettingsSync: WearSettingsSync,
+    private val applicationContext: Context,
+    private val authentication: Authentication,
+) : SettingsComponent, ComponentContext by componentContext {
 
+    private val coroutineScope = coroutineScope()
     private val settings = appSettings.settings
 
     private val wearStatusFlow =
@@ -34,11 +40,7 @@ class SettingsViewModel(
             buildWearStatus(wearNodes, wearSettings)
         }
 
-    class DeveloperSettings(
-        val token: String?
-    )
-
-    val developerSettings: StateFlow<DeveloperSettings?> = appSettings.developerModeFlow().flatMapLatest {
+    override val developerSettings: StateFlow<DeveloperSettings?> = appSettings.developerModeFlow().flatMapLatest {
         if (!it) {
             flowOf(null)
         } else {
@@ -47,19 +49,19 @@ class SettingsViewModel(
             }
         }
     }.stateIn(
-        scope = viewModelScope,
+        scope = coroutineScope,
         started = SharingStarted.Eagerly,
         initialValue = null,
     )
 
-    val userEditableSettings: StateFlow<UserEditableSettings?> =
+    override val userEditableSettings: StateFlow<UserEditableSettings?> =
         combine(
             settings.getStringFlow(brandKey, ThemeBrand.DEFAULT.toString()),
             settings.getStringFlow(darkThemeConfigKey, DarkThemeConfig.FOLLOW_SYSTEM.toString()),
             settings.getBooleanFlow(useDynamicColorKey, false),
             appSettings.experimentalFeaturesEnabledFlow,
             wearStatusFlow,
-            ) { themeBrand, darkThemeConfig, useDynamicColor, useExperimentalFeatures, wearStatus ->
+        ) { themeBrand, darkThemeConfig, useDynamicColor, useExperimentalFeatures, wearStatus ->
             UserEditableSettings(
                 brand = ThemeBrand.valueOf(themeBrand),
                 useExperimentalFeatures = useExperimentalFeatures,
@@ -68,7 +70,7 @@ class SettingsViewModel(
                 wearStatus = wearStatus,
             )
         }.stateIn(
-            scope = viewModelScope,
+            scope = coroutineScope,
             started = SharingStarted.Eagerly,
             initialValue = null,
         )
@@ -86,32 +88,32 @@ class SettingsViewModel(
         }
     }
 
-    fun updateThemeBrand(themeBrand: ThemeBrand) {
-        viewModelScope.launch {
+    override fun updateThemeBrand(themeBrand: ThemeBrand) {
+        coroutineScope.launch {
             settings.putString(brandKey, themeBrand.toString())
         }
     }
 
-    fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
-        viewModelScope.launch {
+    override fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+        coroutineScope.launch {
             settings.putString(darkThemeConfigKey, darkThemeConfig.toString())
         }
     }
 
-    fun updateDynamicColorPreference(useDynamicColor: Boolean) {
-        viewModelScope.launch {
+    override fun updateDynamicColorPreference(useDynamicColor: Boolean) {
+        coroutineScope.launch {
             settings.putBoolean(useDynamicColorKey, useDynamicColor)
         }
     }
 
-    fun updateUseExperimentalFeatures(value: Boolean) {
-        viewModelScope.launch {
+    override fun updateUseExperimentalFeatures(value: Boolean) {
+        coroutineScope.launch {
             appSettings.setExperimentalFeaturesEnabled(value)
         }
     }
 
-    fun updateWearTheme(active: Boolean) {
-        viewModelScope.launch {
+    override fun updateWearTheme(active: Boolean) {
+        coroutineScope.launch {
             val settings = userEditableSettings.first()
 
             val theme = colorScheme(
@@ -129,15 +131,15 @@ class SettingsViewModel(
         }
     }
 
-    fun installOnWatch(nodeId: String) {
-        viewModelScope.launch {
+    override fun installOnWatch(nodeId: String) {
+        coroutineScope.launch {
             wearSettingsSync.installOnWearNode(nodeId)
         }
     }
 
 
-    fun enableDeveloperMode() {
-        viewModelScope.launch {
+    override fun enableDeveloperMode() {
+        coroutineScope.launch {
             appSettings.setDeveloperMode(true)
         }
     }
@@ -147,31 +149,4 @@ class SettingsViewModel(
         const val useDynamicColorKey = "useDynamicColorKey"
         const val darkThemeConfigKey = "darkThemeConfigKey"
     }
-}
-
-/**
- * Represents the settings which the user can edit within the app.
- */
-data class UserEditableSettings(
-    val brand: ThemeBrand,
-    val useDynamicColor: Boolean,
-    val darkThemeConfig: DarkThemeConfig,
-    val useExperimentalFeatures: Boolean,
-    val wearStatus: WearStatus
-)
-
-sealed interface WearStatus {
-    object Unavailable : WearStatus
-    data class NotInstalled(val nodeId: String) : WearStatus
-    data class Paired(
-        val wearSettings: WearSettings
-    ) : WearStatus
-}
-
-enum class ThemeBrand {
-    DEFAULT, ANDROID
-}
-
-enum class DarkThemeConfig {
-    FOLLOW_SYSTEM, LIGHT, DARK
 }

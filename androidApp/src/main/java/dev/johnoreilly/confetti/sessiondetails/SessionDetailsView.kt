@@ -48,55 +48,44 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SessionDetailsViewModel
+import dev.johnoreilly.confetti.SessionDetailsComponent
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.Bookmark
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.datetime.LocalDateTime
-import org.koin.androidx.compose.getViewModel
 import org.koin.compose.koinInject
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun SessionDetailsRoute(
-    conference: String,
-    sessionId: String,
-    onBackClick: () -> Unit,
-    navigateToSignIn: () -> Unit,
-    onSpeakerClick: (key: SpeakerDetailsKey) -> Unit,
+    component: SessionDetailsComponent,
 ) {
     val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
-    val viewModel: SessionDetailsViewModel = getViewModel<SessionDetailsViewModel>().apply {
-        configure(conference, sessionId, user?.uid, user)
-    }
-    val session by viewModel.session.collectAsStateWithLifecycle()
-    val isBookmarked by viewModel.isBookmarked.collectAsStateWithLifecycle()
+    val session by component.session.collectAsStateWithLifecycle()
+    val isBookmarked by component.isBookmarked.collectAsStateWithLifecycle()
 
-    val addErrorCount by viewModel.addErrorChannel.receiveAsFlow()
+    val addErrorCount by component.addErrorChannel.receiveAsFlow()
         .collectAsStateWithLifecycle(initialValue = 0)
-    val removeErrorCount by viewModel.removeErrorChannel.receiveAsFlow()
+    val removeErrorCount by component.removeErrorChannel.receiveAsFlow()
         .collectAsStateWithLifecycle(initialValue = 0)
 
     val share = rememberShareDetails(session)
     SessionDetailView(
         session = session,
-        popBack = onBackClick,
+        popBack = component::onCloseClicked,
         share = share,
-        addBookmark = viewModel::addBookmark,
-        removeBookmark = viewModel::removeBookmark,
+        addBookmark = component::addBookmark,
+        removeBookmark = component::removeBookmark,
         isUserLoggedIn = user != null,
         isBookmarked = isBookmarked,
-        navigateToSignIn = navigateToSignIn,
+        navigateToSignIn = component::onSignInClicked,
         addErrorCount = addErrorCount,
         removeErrorCount = removeErrorCount,
-        onSpeakerClick = { speakerId ->
-            onSpeakerClick(SpeakerDetailsKey(conference = conference, speakerId = speakerId))
-        },
+        onSpeakerClick = component::onSpeakerClicked,
     )
 }
 
@@ -227,17 +216,17 @@ fun SessionDetailView(
                                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.url))
                                     context.startActivity(intent)
                                 },
-                                onSpeakerClick = onSpeakerClick
+                                onSpeakerClick = onSpeakerClick,
                             )
                         }
                     }
                 }
-            }
-            if (showDialog) {
-                SignInDialog(
-                    onDismissRequest = { showDialog = false },
-                    onSignInClicked = navigateToSignIn
-                )
+                if (showDialog) {
+                    SignInDialog(
+                        onDismissRequest = { showDialog = false },
+                        onSignInClicked = navigateToSignIn
+                    )
+                }
             }
         }
 

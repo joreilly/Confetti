@@ -1,27 +1,42 @@
 package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.rickclephas.kmm.viewmodel.KMMViewModel
-import com.rickclephas.kmm.viewmodel.coroutineScope
-import com.rickclephas.kmm.viewmodel.stateIn
+import com.arkivanov.decompose.ComponentContext
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import dev.johnoreilly.confetti.ConferencesComponent.Error
+import dev.johnoreilly.confetti.ConferencesComponent.Loading
+import dev.johnoreilly.confetti.ConferencesComponent.Success
+import dev.johnoreilly.confetti.ConferencesComponent.UiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-open class ConferencesViewModel() : KMMViewModel(), KoinComponent {
-    val repository: ConfettiRepository = get()
+interface ConferencesComponent {
+
+    @NativeCoroutinesState
+    val uiState: StateFlow<UiState>
+
+    fun refresh()
+    fun onConferenceClicked(conference: String)
 
     sealed interface UiState
-
     object Loading : UiState
     object Error : UiState
     class Success(val conferences: List<GetConferencesQuery.Conference>) : UiState
+}
+
+class DefaultConferencesComponent(
+    componentContext: ComponentContext,
+    private val onConferenceSelected: (conference: String) -> Unit,
+) : ConferencesComponent, KoinComponent, ComponentContext by componentContext {
+    private val coroutineScope = coroutineScope()
+    val repository: ConfettiRepository = get()
 
     private var job: Job? = null
 
@@ -32,18 +47,18 @@ open class ConferencesViewModel() : KMMViewModel(), KoinComponent {
     }
 
     @NativeCoroutinesState
-    val uiState: StateFlow<UiState> = flow {
+    override val uiState: StateFlow<UiState> = flow {
         for (uiState in channel) {
             emit(uiState)
         }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+    }.stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), Loading)
 
 
-    fun refresh() = refresh(false)
+    override fun refresh() = refresh(false)
 
     private fun refresh(initial: Boolean) {
         job?.cancel()
-        job = viewModelScope.coroutineScope.launch {
+        job = coroutineScope.launch {
             var hasConferences = false
             if (initial) {
                 repository.conferences(FetchPolicy.CacheFirst).data?.conferences?.let {
@@ -62,7 +77,7 @@ open class ConferencesViewModel() : KMMViewModel(), KoinComponent {
         }
     }
 
-    suspend fun setConference(conference: String) {
-        repository.setConference(conference)
+    override fun onConferenceClicked(conference: String) {
+        onConferenceSelected(conference)
     }
 }

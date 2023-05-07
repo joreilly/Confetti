@@ -9,10 +9,10 @@ struct SessionDetailsView: View {
         
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
-                Text(session.title).font(.title).foregroundColor(.blue)
+                Text(session.title).font(.title).foregroundColor(.blue).textSelection(.enabled)
                 Spacer()
                 
-                Text(session.sessionDescription ?? "").font(.body)
+                Text(session.sessionDescription ?? "").font(.body).textSelection(.enabled)
                                 
                 if session.tags.count > 0 {
                     FlowLayout(mode: .scrollable,

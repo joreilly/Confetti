@@ -8,8 +8,8 @@ struct SpeakerDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .center) {
-                Text(speaker.name).font(.title)
-                Text(speaker.tagline ?? "").font(.subheadline)
+                Text(speaker.name).font(.title).textSelection(.enabled)
+                Text(speaker.tagline ?? "").font(.subheadline).textSelection(.enabled)
                 
                 AsyncImage(url: URL(string: speaker.photoUrl ?? "")) { image in
                      image.resizable()
@@ -21,7 +21,7 @@ struct SpeakerDetailsView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 16))
 
                 Spacer().frame(height: 16)
-                Text(speaker.bio ?? "").font(.body)
+                Text(speaker.bio ?? "").font(.body).textSelection(.enabled)
                 Spacer()
                 
                 HStack {

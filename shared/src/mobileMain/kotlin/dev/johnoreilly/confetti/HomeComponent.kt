@@ -52,6 +52,7 @@ class DefaultHomeComponent(
         childStack(
             source = navigation,
             initialConfiguration = Config.Sessions,
+            handleBackButton = true,
             childFactory = ::child,
         )
 

@@ -3,7 +3,6 @@ plugins {
     id("com.android.library")
     id("com.apollographql.apollo3")
     id("com.google.devtools.ksp")
-    id("com.rickclephas.kmp.nativecoroutines")
     id("co.touchlab.faktory.kmmbridge")
     id("com.squareup.wire")
     id("kotlin-parcelize")
@@ -34,6 +33,9 @@ kotlin {
         it.binaries.framework {
             baseName = "ConfettiKit"
             isStatic = true
+
+            export(libs.decompose.decompose)
+            export(libs.essenty.lifecycle)
         }
     }
 
@@ -74,7 +76,8 @@ kotlin {
         val mobileMain by getting {
             dependencies {
                 implementation(libs.firebase.mpp.auth)
-                implementation(libs.decompose.decompose)
+                api(libs.decompose.decompose)
+                api(libs.essenty.lifecycle)
             }
         }
 

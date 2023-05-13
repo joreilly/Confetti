@@ -2,27 +2,25 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
-import dev.johnoreilly.confetti.SpeakerDetailsComponent.Error
-import dev.johnoreilly.confetti.SpeakerDetailsComponent.Loading
-import dev.johnoreilly.confetti.SpeakerDetailsComponent.Success
-import dev.johnoreilly.confetti.SpeakerDetailsComponent.UiState
+import com.arkivanov.decompose.value.Value
+import dev.johnoreilly.confetti.SpeakerDetailsUiState.Error
+import dev.johnoreilly.confetti.SpeakerDetailsUiState.Loading
+import dev.johnoreilly.confetti.SpeakerDetailsUiState.Success
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
 
 interface SpeakerDetailsComponent {
 
-    val speaker: StateFlow<UiState>
+    val uiState: Value<SpeakerDetailsUiState>
 
     fun onSessionClicked(id: String)
     fun onCloseClicked()
+}
 
-    sealed interface UiState
-    object Loading : UiState
-    object Error : UiState
-    class Success(val details: SpeakerDetails) : UiState
+sealed class SpeakerDetailsUiState {
+    object Loading : SpeakerDetailsUiState()
+    object Error : SpeakerDetailsUiState()
+    class Success(val details: SpeakerDetails) : SpeakerDetailsUiState()
 }
 
 class DefaultSpeakerDetailsComponent(
@@ -35,7 +33,7 @@ class DefaultSpeakerDetailsComponent(
 ) : SpeakerDetailsComponent, ComponentContext by componentContext {
     private val coroutineScope = coroutineScope()
 
-    override val speaker: StateFlow<UiState> = flow {
+    override val uiState: Value<SpeakerDetailsUiState> = flow {
         // FixMe: add .speaker(id)
         val response = repository.conferenceData(conference = conference, FetchPolicy.CacheFirst)
         val details = response.data?.speakers?.nodes?.map { it.speakerDetails }
@@ -46,8 +44,7 @@ class DefaultSpeakerDetailsComponent(
         } else {
             emit(Error)
         }
-    }
-        .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), Loading)
+    }.asValue(initialValue = Loading, scope = coroutineScope)
 
     override fun onSessionClicked(id: String) {
         onSessionSelected(id)

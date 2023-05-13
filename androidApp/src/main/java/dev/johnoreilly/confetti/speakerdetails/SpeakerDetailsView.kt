@@ -41,7 +41,7 @@ import dev.johnoreilly.confetti.ui.component.SocialIcon
 internal fun SpeakerDetailsRoute(
     component: SpeakerDetailsComponent,
 ) {
-    val uiState by component.speaker.collectAsStateWithLifecycle()
+    val uiState by component.uiState.collectAsStateWithLifecycle()
 
     when (val uiState1 = uiState) {
         is SpeakerDetailsComponent.Loading -> LoadingView()

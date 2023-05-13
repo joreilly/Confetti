@@ -3,10 +3,34 @@ import SwiftUIFlowLayout
 import ConfettiKit
 
 struct SessionDetailsView: View {
-    var session: SessionDetails
+    private let component: SessionDetailsComponent
+
+    @StateValue
+    private var uiState: SessionDetailsUiState
+    
+    init(_ component: SessionDetailsComponent) {
+        self.component = component
+        _uiState = StateValue(component.uiState)
+    }
 
     var body: some View {
-        
+        VStack {
+            switch uiState {
+            case is SessionDetailsUiState.Loading: ProgressView()
+            case is SessionDetailsUiState.Error: ErrorView()
+            case let state as SessionDetailsUiState.Success:
+                SessionDetailsContentView(component: component, session: state.sessionDetails)
+            default: EmptyView()
+            }
+        }.navigationBarTitle("Session", displayMode: .inline)
+    }
+}
+
+private struct SessionDetailsContentView : View {
+    let component: SessionDetailsComponent
+    let session: SessionDetails
+
+    var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
                 Text(session.title).font(.title).foregroundColor(.blue).textSelection(.enabled)
@@ -31,11 +55,11 @@ struct SessionDetailsView: View {
                 Spacer()
                 ForEach(session.speakers, id: \.self) { speaker in
                     SessionSpeakerInfo(speaker: speaker.speakerDetails)
+                        .onTapGesture { component.onSpeakerClicked(id: speaker.id) }
                 }
                 Spacer()
             }
             .padding()
         }
-        .navigationBarTitleDisplayMode(.inline)
     }
 }

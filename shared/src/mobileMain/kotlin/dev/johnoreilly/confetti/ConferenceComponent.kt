@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.navigate
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
@@ -18,6 +19,8 @@ import org.koin.core.component.inject
 interface ConferenceComponent {
 
     val stack: Value<ChildStack<*, Child>>
+
+    fun onBackClicked(toIndex: Int)
 
     sealed class Child {
         class Home(val component: HomeComponent) : Child()
@@ -100,6 +103,10 @@ class DefaultConferenceComponent(
 
             is Config.Settings -> Child.Settings(settingsComponent)
         }
+
+    override fun onBackClicked(toIndex: Int) {
+        navigation.navigate { it.take(toIndex + 1) }
+    }
 
     @Parcelize
     private sealed class Config : Parcelable {

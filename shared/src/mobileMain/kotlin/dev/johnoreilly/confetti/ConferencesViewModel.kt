@@ -2,25 +2,21 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
-import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.ConferencesComponent.Error
 import dev.johnoreilly.confetti.ConferencesComponent.Loading
 import dev.johnoreilly.confetti.ConferencesComponent.Success
 import dev.johnoreilly.confetti.ConferencesComponent.UiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
 interface ConferencesComponent {
 
-    @NativeCoroutinesState
-    val uiState: StateFlow<UiState>
+    val uiState: Value<UiState>
 
     fun refresh()
     fun onConferenceClicked(conference: String)
@@ -46,13 +42,11 @@ class DefaultConferencesComponent(
         refresh(true)
     }
 
-    @NativeCoroutinesState
-    override val uiState: StateFlow<UiState> = flow {
+    override val uiState: Value<UiState> = flow {
         for (uiState in channel) {
             emit(uiState)
         }
-    }.stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), Loading)
-
+    }.asValue(initialValue = Loading, scope = coroutineScope)
 
     override fun refresh() = refresh(false)
 

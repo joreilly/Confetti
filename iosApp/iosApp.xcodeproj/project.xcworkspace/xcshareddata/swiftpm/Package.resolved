@@ -73,23 +73,6 @@
       }
     },
     {
-      "identity" : "kmm-viewmodel",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/rickclephas/KMM-ViewModel.git",
-      "state" : {
-        "revision" : "f85d590ed8b74e101f025f03e7ea13751af8a0e8"
-      }
-    },
-    {
-      "identity" : "kmp-nativecoroutines",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/rickclephas/KMP-NativeCoroutines.git",
-      "state" : {
-        "revision" : "9f3aeb240278b0378574f00b993baa3812f55d03",
-        "version" : "1.0.0-ALPHA-2"
-      }
-    },
-    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -114,15 +97,6 @@
       "state" : {
         "revision" : "ec957ccddbcc710ccc64c9dcbd4c7006fcf8b73a",
         "version" : "2.2.0"
-      }
-    },
-    {
-      "identity" : "rxswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ReactiveX/RxSwift.git",
-      "state" : {
-        "revision" : "7c17a6ccca06b5c107cfa4284e634562ddaf5951",
-        "version" : "6.2.0"
       }
     },
     {

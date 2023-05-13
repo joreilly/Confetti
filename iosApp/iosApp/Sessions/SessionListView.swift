@@ -1,19 +1,34 @@
 import SwiftUI
 import ConfettiKit
-import KMMViewModelCore
-import KMMViewModelSwiftUI
 
-struct SessionListView: View {
-    @ObservedObject var viewModel: SessionsViewModel
-    var sessionUiState: SessionsUiStateSuccess
-    let navigateToConferences: () -> Void
-    let refresh: () async -> Void
-    @State var selectedDateIndex: Int = 0
-    @Binding var selectedSession: SessionDetails?
-        
+struct SessionsView: View {
+    private let component: SessionsComponent
+
+    @StateValue
+    private var uiState: SessionsUiState
+    
+    init(_ component: SessionsComponent) {
+        self.component = component
+        _uiState = StateValue(component.uiState)
+    }
+    
+    var body: some View {
+        switch uiState {
+        case is SessionsUiStateLoading: ProgressView()
+        case is SessionsUiStateError: ErrorView()
+        case let state as SessionsUiStateSuccess: SessionsContentView(component: component, sessionUiState: state)
+        default: EmptyView()
+        }
+    }
+}
+
+private struct SessionsContentView: View {
+    let component: SessionsComponent
+    let sessionUiState: SessionsUiStateSuccess
+    @State private var selectedDateIndex: Int = 0
+
     var body: some View {
         VStack {
-
             let formattedConfDates = sessionUiState.formattedConfDates
             Picker(selection: $selectedDateIndex, label: Text("Date")) {
                 ForEach(0..<formattedConfDates.count, id: \.self) { i in
@@ -22,7 +37,7 @@ struct SessionListView: View {
             }
             .pickerStyle(.segmented)
 
-            List(selection: $selectedSession) {
+            List {
                 ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
                     
                     Section(header: HStack {
@@ -33,6 +48,7 @@ struct SessionListView: View {
                         let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
                         ForEach(sessions, id: \.self) { session in
                             SessionView(session: session)
+                                .onTapGesture { component.onSessionClicked(id: session.id) }
                         }
                     }
                     
@@ -41,14 +57,19 @@ struct SessionListView: View {
         }
         .listStyle(.insetGrouped)
         .refreshable {
-            await refresh()
+            component.refresh()
+            
+            await awaitForState(component.uiState) { state in
+                (state as? SessionsUiStateSuccess)?.isRefreshing == true
+            }
         }
-        .searchable(text: $viewModel.searchQuery)
+        .searchable(text: Binding(get: { sessionUiState.searchString }, set: component.onSearch))
+        .navigationBarTitle(sessionUiState.conferenceName, displayMode: .inline)
     }
 }
 
 
-struct SessionView: View {
+private struct SessionView: View {
     var session: SessionDetails
     
     var body: some View {
@@ -69,7 +90,3 @@ struct SessionView: View {
         }
     }
 }
-
-
-
-

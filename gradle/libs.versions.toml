@@ -8,6 +8,7 @@ compose = "1.5.0-alpha03"
 compose-compiler = "1.4.7"
 compose-material-3 = "1.0.1"
 decompose = "2.0.0-alpha-02"
+essenty = "1.1.0"
 horologist = "0.4.4"
 junit = "4.13"
 kmp-nativecoroutines = "1.0.0-ALPHA-8"
@@ -71,6 +72,7 @@ compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", versio
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 decompose-decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensions-compose-jetpack = { module = "com.arkivanov.decompose:extensions-compose-jetpack", version.ref = "decompose" }
+essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
 federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.1"

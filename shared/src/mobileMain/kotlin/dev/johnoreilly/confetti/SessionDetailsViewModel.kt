@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.channels.Channel
@@ -21,7 +22,7 @@ interface SessionDetailsComponent {
 
     val addErrorChannel: Channel<Int>
     val removeErrorChannel: Channel<Int>
-    val session: StateFlow<SessionDetails?>
+    val uiState: Value<SessionDetailsUiState>
     val isBookmarked: StateFlow<Boolean>
 
     fun addBookmark()
@@ -29,6 +30,12 @@ interface SessionDetailsComponent {
     fun onCloseClicked()
     fun onSignInClicked()
     fun onSpeakerClicked(id: String)
+}
+
+sealed class SessionDetailsUiState {
+    object Loading : SessionDetailsUiState()
+    object Error : SessionDetailsUiState()
+    data class Success(val sessionDetails: SessionDetails) : SessionDetailsUiState()
 }
 
 class DefaultSessionDetailsComponent(
@@ -48,11 +55,17 @@ class DefaultSessionDetailsComponent(
     override val addErrorChannel = Channel<Int>()
     override val removeErrorChannel = Channel<Int>()
 
-    override val session: StateFlow<SessionDetails?> = flow {
-        emitAll(repository.sessionDetails(conference = conference, sessionId = sessionId)
-            .map { it.data?.session?.sessionDetails })
-    }
-        .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), null)
+    override val uiState: Value<SessionDetailsUiState> =
+        repository.sessionDetails(conference = conference, sessionId = sessionId)
+            .map {
+                val details = it.data?.session?.sessionDetails
+                if (details != null) {
+                    SessionDetailsUiState.Success(details)
+                } else {
+                    SessionDetailsUiState.Error
+                }
+            }
+            .asValue(initialValue = SessionDetailsUiState.Loading, scope = coroutineScope)
 
     override val isBookmarked: StateFlow<Boolean> = flow {
         val response =

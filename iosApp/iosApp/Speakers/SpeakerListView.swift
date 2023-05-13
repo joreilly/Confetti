@@ -1,21 +1,43 @@
 import SwiftUI
 import ConfettiKit
 
-struct SpeakerListView: View {
-    var speakerList: [SpeakerDetails]
+struct SpeakersView: View {
+    private let component: SpeakersComponent
+
+    @StateValue
+    private var uiState: SpeakersUiState
+    
+    init(_ component: SpeakersComponent) {
+        self.component = component
+        _uiState = StateValue(component.uiState)
+    }
     
     var body: some View {
-        NavigationView {
-            List(speakerList) { speaker in
-                NavigationLink(destination: SpeakerDetailsView(speaker: speaker)) {
-                    SpeakerView(speaker: speaker)
-                }
+        VStack {
+            switch uiState {
+            case is SpeakersUiStateLoading: ProgressView()
+            case is SpeakersUiStateError: ErrorView()
+            case let state as SpeakersUiStateSuccess: SpeakersContentView(component: component, uiState: state)
+            default: EmptyView()
             }
-            .navigationTitle("Speakers")
         }
+        .navigationBarTitle("Speakers", displayMode: .inline)
     }
 }
 
+private struct SpeakersContentView: View {
+    let component: SpeakersComponent
+    let uiState: SpeakersUiStateSuccess
+    
+    var body: some View {
+        NavigationView {
+            List(uiState.speakers, id: \.self) { speaker in
+                SpeakerView(speaker: speaker)
+                    .onTapGesture { component.onSpeakerClicked(id: speaker.id) }
+            }
+        }
+    }
+}
 
 struct SpeakerView: View {
     var speaker: SpeakerDetails

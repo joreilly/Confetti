@@ -13,7 +13,6 @@ import dev.johnoreilly.confetti.auth.User
 
 interface HomeComponent {
 
-    val conference: String
     val user: User?
     val stack: Value<ChildStack<*, Child>>
 
@@ -36,7 +35,7 @@ interface HomeComponent {
 
 class DefaultHomeComponent(
     componentContext: ComponentContext,
-    override val conference: String,
+    private val conference: String,
     override val user: User?,
     private val onSwitchConference: () -> Unit,
     private val onSessionSelected: (id: String) -> Unit,

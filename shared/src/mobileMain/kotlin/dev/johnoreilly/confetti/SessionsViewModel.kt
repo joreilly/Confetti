@@ -4,7 +4,7 @@ import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
-import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -45,22 +45,10 @@ interface SessionsComponent {
     val isLoggedIn: Boolean
     val addErrorChannel: Channel<Int>
     val removeErrorChannel: Channel<Int>
-
-    // exposed like this so it can be bound to in SwiftUI code
-    @NativeCoroutinesState
-    val searchQuery: MutableStateFlow<String>
-
-    @NativeCoroutinesState
-    val uiState: StateFlow<SessionsUiState>
+    val uiState: Value<SessionsUiState>
 
     fun addBookmark(sessionId: String)
     fun removeBookmark(sessionId: String)
-
-    /**
-     * @param showLoading whether to show a loading state (if user or conference changed)
-     * @param forceRefresh whether to force a network refresh (pull-to-refresh)
-     */
-    fun refresh(showLoading: Boolean, forceRefresh: Boolean)
 
     fun refresh()
     fun onSearch(searchString: String)
@@ -90,13 +78,7 @@ class DefaultSessionsComponent(
     override val isLoggedIn: Boolean = user != null
     override val addErrorChannel: Channel<Int> = Channel<Int>()
     override val removeErrorChannel: Channel<Int> = Channel<Int>()
-
-    @NativeCoroutinesState
-    override val searchQuery = simpleComponent.searchQuery
-
-    @NativeCoroutinesState
-    override val uiState: StateFlow<SessionsUiState> =
-        simpleComponent.uiState
+    override val uiState: Value<SessionsUiState> = simpleComponent.uiState.asValue()
 
     override fun addBookmark(sessionId: String) {
         coroutineScope.launch {
@@ -116,18 +98,12 @@ class DefaultSessionsComponent(
         }
     }
 
-    /**
-     * @param showLoading whether to show a loading state (if user or conference changed)
-     * @param forceRefresh whether to force a network refresh (pull-to-refresh)
-     */
-    override fun refresh(showLoading: Boolean, forceRefresh: Boolean) {
-        simpleComponent.refresh(showLoading = showLoading, forceRefresh = forceRefresh)
+    override fun refresh() {
+        simpleComponent.refresh(forceRefresh = true)
     }
 
-    override fun refresh() = refresh(showLoading = false, forceRefresh = true)
-
     override fun onSearch(searchString: String) {
-        searchQuery.value = searchString
+        simpleComponent.onSearch(searchString = searchString)
     }
 
     override fun onSessionClicked(id: String) {
@@ -147,11 +123,8 @@ internal class SessionsSimpleComponent(
     private val coroutineScope = coroutineScope()
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
-
     private val responseDatas = Channel<ResponseData?>()
-
-    val searchQuery = MutableStateFlow("")
-
+    private val searchQuery = MutableStateFlow("")
     private val isRefreshing = MutableStateFlow(false)
 
     val uiState: StateFlow<SessionsUiState> =
@@ -175,6 +148,10 @@ internal class SessionsSimpleComponent(
                 responseDatas.send(it)
             }
         }
+    }
+
+    fun onSearch(searchString: String) {
+        searchQuery.value = searchString
     }
 
     private fun filterSessions(uiState: SessionsUiState, filter: String): SessionsUiState {
@@ -234,11 +211,16 @@ internal class SessionsSimpleComponent(
                 flowOf(SessionsUiState.Loading)
             } else {
                 val bookmarksData = responseData.bookmarksResponse.data
-                repository.watchBookmarks(conference, user?.uid, user, bookmarksData)
-                    .map { responseData.copy(bookmarksResponse = it) }
-                    .onStart {
-                        emit(responseData)
-                    }.combine(isRefreshing, ::uiStates)
+                combine(
+                    repository.watchBookmarks(conference, user?.uid, user, bookmarksData)
+                        .map { responseData.copy(bookmarksResponse = it) }
+                        .onStart {
+                            emit(responseData)
+                        },
+                    isRefreshing,
+                    searchQuery,
+                    ::uiStates
+                )
             }
         }
 
@@ -249,6 +231,7 @@ internal class SessionsSimpleComponent(
     private fun uiStates(
         refreshData: ResponseData,
         isRefreshing: Boolean,
+        searchString: String,
     ): SessionsUiState {
         val bookmarksResponse = refreshData.bookmarksResponse
         val sessionsResponse = refreshData.sessionsResponse
@@ -304,6 +287,7 @@ internal class SessionsSimpleComponent(
             rooms = rooms,
             bookmarks = bookmarksData.bookmarks?.sessionIds.orEmpty().toSet(),
             isRefreshing = isRefreshing,
+            searchString = searchString,
         )
     }
 }
@@ -324,5 +308,6 @@ sealed interface SessionsUiState {
         val rooms: List<RoomDetails>,
         val bookmarks: Set<String>,
         val isRefreshing: Boolean,
+        val searchString: String,
     ) : SessionsUiState
 }

@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
+import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
 interface SpeakersComponent {
-    val speakers: StateFlow<SpeakersUiState>
+    val uiState: Value<SpeakersUiState>
 
     fun onSpeakerClicked(id: String)
 }
@@ -29,8 +30,8 @@ class DefaultSpeakersComponent(
             conference = conference,
         )
 
-    override val speakers: StateFlow<SpeakersUiState> =
-        simpleComponent.speakers
+    override val uiState: Value<SpeakersUiState> =
+        simpleComponent.speakers.asValue()
 
     override fun onSpeakerClicked(id: String) {
         onSpeakerSelected(id)

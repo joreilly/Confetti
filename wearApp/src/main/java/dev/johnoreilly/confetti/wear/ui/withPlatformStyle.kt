@@ -29,8 +29,8 @@ fun Typography.withPlatformStyle() = remember(this) {
     )
 }
 
-fun Colors.toTileColors(): androidx.wear.tiles.material.Colors =
-    androidx.wear.tiles.material.Colors(
+fun Colors.toTileColors(): androidx.wear.protolayout.material.Colors =
+    androidx.wear.protolayout.material.Colors(
         primary.toArgb(),
         onPrimary.toArgb(),
         surface.toArgb(),

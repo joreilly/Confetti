@@ -7,25 +7,27 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.wear.tiles.ActionBuilders.LoadAction
-import androidx.wear.tiles.ColorBuilders
-import androidx.wear.tiles.DeviceParametersBuilders.DeviceParameters
-import androidx.wear.tiles.LayoutElementBuilders
-import androidx.wear.tiles.ModifiersBuilders.Clickable
-import androidx.wear.tiles.material.Chip
-import androidx.wear.tiles.material.ChipColors
-import androidx.wear.tiles.material.Colors
-import androidx.wear.tiles.material.CompactChip
-import androidx.wear.tiles.material.Text
-import androidx.wear.tiles.material.Typography
-import androidx.wear.tiles.material.layouts.MultiSlotLayout
-import androidx.wear.tiles.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.ActionBuilders.LoadAction
+import androidx.wear.protolayout.ColorBuilders
+import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
+import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.ModifiersBuilders.Clickable
+import androidx.wear.protolayout.material.Chip
+import androidx.wear.protolayout.material.ChipColors
+import androidx.wear.protolayout.material.CompactChip
+import androidx.wear.protolayout.material.Text
+import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_BODY1
+import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_TITLE2
+import androidx.wear.protolayout.material.layouts.MultiSlotLayout
+import androidx.wear.protolayout.material.layouts.PrimaryLayout
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.*
+import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData
+import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.NoConference
+import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.NotLoggedIn
 import dev.johnoreilly.confetti.wear.ui.previews.WearLargeRoundDevicePreview
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
@@ -39,7 +41,8 @@ class CurrentSessionsTileRenderer(
     SingleTileLayoutRenderer<ConfettiTileData, ConfettiTileData>(context) {
     val colors = MutableStateFlow(WearComposeColors())
 
-    override fun createTheme(): Colors = colors.value.toTileColors()
+    override fun createTheme(): androidx.wear.protolayout.material.Colors =
+        colors.value.toTileColors()
 
     override fun renderTile(
         state: ConfettiTileData,
@@ -48,6 +51,12 @@ class CurrentSessionsTileRenderer(
         is CurrentSessionsData -> renderBookmarksTile(state, deviceParameters)
         is NotLoggedIn -> renderLoginTile(state, deviceParameters)
         is NoConference -> renderNoConferenceTile(state, deviceParameters)
+    }
+
+    override fun getResourcesVersionForTileState(state: ConfettiTileData): String {
+        return (state as? CurrentSessionsData)?.bookmarks.orEmpty()
+            .take(3)
+            .joinToString(":") { it.id }
     }
 
     fun renderBookmarksTile(
@@ -117,12 +126,12 @@ class CurrentSessionsTileRenderer(
         .build()
 
     fun conferenceLabel(state: String) = Text.Builder(context, state)
-        .setTypography(Typography.TYPOGRAPHY_TITLE2)
+        .setTypography(TYPOGRAPHY_TITLE2)
         .setColor(ColorBuilders.argb(theme.primary))
         .build()
 
     fun message(state: String) = Text.Builder(context, state)
-        .setTypography(Typography.TYPOGRAPHY_BODY1)
+        .setTypography(TYPOGRAPHY_BODY1)
         .setColor(ColorBuilders.argb(theme.primary))
         .build()
 

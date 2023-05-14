@@ -26,10 +26,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SpeakerDetailsComponent
+import dev.johnoreilly.confetti.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
@@ -41,12 +42,12 @@ import dev.johnoreilly.confetti.ui.component.SocialIcon
 internal fun SpeakerDetailsRoute(
     component: SpeakerDetailsComponent,
 ) {
-    val uiState by component.uiState.collectAsStateWithLifecycle()
+    val uiState by component.uiState.subscribeAsState()
 
     when (val uiState1 = uiState) {
-        is SpeakerDetailsComponent.Loading -> LoadingView()
-        is SpeakerDetailsComponent.Error -> ErrorView()
-        is SpeakerDetailsComponent.Success -> SpeakerDetailsView(
+        is SpeakerDetailsUiState.Loading -> LoadingView()
+        is SpeakerDetailsUiState.Error -> ErrorView()
+        is SpeakerDetailsUiState.Success -> SpeakerDetailsView(
             uiState1.details,
             component::onSessionClicked,
             component::onCloseClicked,

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.SessionsComponent
 import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.ui.HomeScaffold
@@ -21,7 +22,7 @@ fun SessionsRoute(
     topBarActions: @Composable RowScope.() -> Unit,
     snackbarHostState: SnackbarHostState,
 ) {
-    val uiState by component.uiState.collectAsStateWithLifecycle()
+    val uiState by component.uiState.subscribeAsState()
 
     HomeScaffold(
         title = (uiState as? SessionsUiState.Success)?.conferenceName,

@@ -26,11 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.SpeakersComponent
 import dev.johnoreilly.confetti.SpeakersUiState
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -47,7 +46,7 @@ fun SpeakersRoute(
     windowSizeClass: WindowSizeClass,
     topBarActions: @Composable RowScope.() -> Unit,
 ) {
-    val uiState by component.speakers.collectAsStateWithLifecycle()
+    val uiState by component.uiState.subscribeAsState()
 
     HomeScaffold(
         title = stringResource(R.string.speakers),

@@ -23,7 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.ConferencesComponent
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.R
@@ -36,7 +36,7 @@ import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 fun ConferencesRoute(
     component: ConferencesComponent,
 ) {
-    val uiState by component.uiState.collectAsStateWithLifecycle()
+    val uiState by component.uiState.subscribeAsState()
 
     when (val uiState1 = uiState) {
         ConferencesComponent.Error -> ErrorView(component::refresh)

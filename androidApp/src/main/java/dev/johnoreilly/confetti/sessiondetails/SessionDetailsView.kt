@@ -47,11 +47,15 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionDetailsComponent
+import dev.johnoreilly.confetti.SessionDetailsUiState
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.Bookmark
+import dev.johnoreilly.confetti.ui.ErrorView
+import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.utils.format
@@ -65,7 +69,7 @@ fun SessionDetailsRoute(
     component: SessionDetailsComponent,
 ) {
     val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
-    val session by component.session.collectAsStateWithLifecycle()
+    val uiState by component.uiState.subscribeAsState()
     val isBookmarked by component.isBookmarked.collectAsStateWithLifecycle()
 
     val addErrorCount by component.addErrorChannel.receiveAsFlow()
@@ -73,20 +77,25 @@ fun SessionDetailsRoute(
     val removeErrorCount by component.removeErrorChannel.receiveAsFlow()
         .collectAsStateWithLifecycle(initialValue = 0)
 
-    val share = rememberShareDetails(session)
-    SessionDetailView(
-        session = session,
-        popBack = component::onCloseClicked,
-        share = share,
-        addBookmark = component::addBookmark,
-        removeBookmark = component::removeBookmark,
-        isUserLoggedIn = user != null,
-        isBookmarked = isBookmarked,
-        navigateToSignIn = component::onSignInClicked,
-        addErrorCount = addErrorCount,
-        removeErrorCount = removeErrorCount,
-        onSpeakerClick = component::onSpeakerClicked,
-    )
+    when (val state = uiState) {
+        is SessionDetailsUiState.Loading -> LoadingView()
+        is SessionDetailsUiState.Error -> ErrorView()
+
+        is SessionDetailsUiState.Success ->
+            SessionDetailView(
+                session = state.sessionDetails,
+                popBack = component::onCloseClicked,
+                share = rememberShareDetails(state.sessionDetails),
+                addBookmark = component::addBookmark,
+                removeBookmark = component::removeBookmark,
+                isUserLoggedIn = user != null,
+                isBookmarked = isBookmarked,
+                navigateToSignIn = component::onSignInClicked,
+                addErrorCount = addErrorCount,
+                removeErrorCount = removeErrorCount,
+                onSpeakerClick = component::onSpeakerClicked,
+            )
+    }
 }
 
 @Composable

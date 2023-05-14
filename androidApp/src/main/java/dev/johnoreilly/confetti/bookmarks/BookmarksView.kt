@@ -94,7 +94,10 @@ private fun BookmarksContent(
     user: User?
 ) {
     Column {
-        val pagerState = rememberPagerState(initialPage = 1)
+        val pagerState = rememberPagerState(initialPage = 1) {
+            BookmarksTab.values().size
+        }
+
         BookmarksTabRow(pagerState = pagerState)
         BookmarksHorizontalPager(
             pagerState = pagerState,
@@ -146,10 +149,7 @@ private fun BookmarksHorizontalPager(
     onSignIn: () -> Unit,
     user: User?
 ) {
-    HorizontalPager(
-        pageCount = BookmarksTab.values().size,
-        state = pagerState,
-    ) { page ->
+    HorizontalPager(state = pagerState) { page ->
         val displayedSessions =
             if (page == BookmarksTab.Past.ordinal) {
                 pastSessions

@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.accompanist.adaptive.calculateDisplayFeatures
+import dev.johnoreilly.confetti.account.googleSignInClient
 import dev.johnoreilly.confetti.ui.ConfettiApp
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
@@ -47,6 +48,7 @@ class MainActivity : ComponentActivity() {
         val appComponent =
             DefaultAppComponent(
                 componentContext = defaultComponentContext(),
+                onSignOut = { googleSignInClient(this).signOut() },
             )
 
         setContent {

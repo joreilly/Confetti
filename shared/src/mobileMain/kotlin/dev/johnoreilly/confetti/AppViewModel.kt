@@ -30,6 +30,7 @@ interface AppComponent {
 
 class DefaultAppComponent(
     componentContext: ComponentContext,
+    private val onSignOut: () -> Unit,
 ) : AppComponent, KoinComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
@@ -99,7 +100,10 @@ class DefaultAppComponent(
                         user = authentication.currentUser.value,
                         conference = config.conference,
                         onSwitchConference = ::showConferences,
-                        onSignOut = authentication::signOut,
+                        onSignOut = {
+                            onSignOut()
+                            authentication.signOut()
+                        },
                     )
                 )
         }

@@ -7,21 +7,23 @@ import androidx.car.app.Session
 import androidx.car.app.SessionInfo
 import androidx.car.app.validation.HostValidator
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.auto.conferences.ConferencesScreen
 
-//class ConfettiCarAppService: CarAppService() {
-//
-//    override fun createHostValidator(): HostValidator {
-//        return HostValidator.Builder(applicationContext)
-//            .addAllowedHosts(R.array.hosts_allowlist)
-//            .build()
-//    }
-//
-//    override fun onCreateSession(sessionInfo: SessionInfo): Session {
-//        return object : Session() {
-//
-//            override fun onCreateScreen(intent: Intent): Screen {
-//                return ConferencesScreen(carContext)
-//            }
-//        }
-//    }
-//}
+class ConfettiCarAppService : CarAppService() {
+
+    override fun createHostValidator(): HostValidator {
+        return HostValidator.Builder(applicationContext)
+            .addAllowedHosts(R.array.hosts_allowlist)
+            .build()
+
+    }
+
+    override fun onCreateSession(sessionInfo: SessionInfo): Session {
+        return object : Session() {
+
+            override fun onCreateScreen(intent: Intent): Screen {
+                return ConferencesScreen(carContext)
+            }
+        }
+    }
+}

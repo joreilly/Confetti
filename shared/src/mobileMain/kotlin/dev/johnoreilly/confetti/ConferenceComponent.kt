@@ -85,7 +85,6 @@ class DefaultConferenceComponent(
                 Child.SpeakerDetails(
                     DefaultSpeakerDetailsComponent(
                         componentContext = componentContext,
-                        repository = repository,
                         conference = conference,
                         speakerId = config.speakerId,
                         onSessionSelected = { navigation.bringToFront(Config.SessionDetails(sessionId = it)) },

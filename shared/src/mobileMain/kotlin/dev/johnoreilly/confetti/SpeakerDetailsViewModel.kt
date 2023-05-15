@@ -8,6 +8,8 @@ import dev.johnoreilly.confetti.SpeakerDetailsUiState.Loading
 import dev.johnoreilly.confetti.SpeakerDetailsUiState.Success
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.flow.flow
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 interface SpeakerDetailsComponent {
 
@@ -25,12 +27,12 @@ sealed class SpeakerDetailsUiState {
 
 class DefaultSpeakerDetailsComponent(
     componentContext: ComponentContext,
-    repository: ConfettiRepository,
     conference: String,
     speakerId: String,
     private val onSessionSelected: (id: String) -> Unit,
     private val onFinished: () -> Unit,
-) : SpeakerDetailsComponent, ComponentContext by componentContext {
+) : SpeakerDetailsComponent, KoinComponent, ComponentContext by componentContext {
+    private val repository: ConfettiRepository by inject()
     private val coroutineScope = coroutineScope()
 
     override val uiState: Value<SpeakerDetailsUiState> = flow {

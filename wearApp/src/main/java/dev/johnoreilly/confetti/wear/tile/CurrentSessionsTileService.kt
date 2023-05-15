@@ -6,9 +6,9 @@ import android.content.Intent
 import androidx.core.app.TaskStackBuilder
 import androidx.core.net.toUri
 import androidx.wear.compose.material.Colors
+import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
-import androidx.wear.tiles.ResourceBuilders
 import androidx.wear.tiles.TileBuilders
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.google.android.horologist.annotations.ExperimentalHorologistApi

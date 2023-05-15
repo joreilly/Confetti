@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.account
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,13 +43,7 @@ fun SignInRoute(component: SignInComponent) {
             val context = LocalContext.current
             Button(
                 onClick = {
-                    val gso =
-                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken(context.getString(R.string.default_web_client_id))
-                            .requestEmail()
-                            .build()
-                    val googleSignInClient = GoogleSignIn.getClient(context, gso)
-                    launcher.launch(googleSignInClient.signInIntent)
+                    launcher.launch(googleSignInClient(context).signInIntent)
                 }
             ) {
                 Text(text = stringResource(id = R.string.sign_in_google))
@@ -59,3 +54,9 @@ fun SignInRoute(component: SignInComponent) {
         }
     }
 }
+
+
+fun googleSignInClient(context: Context) = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+    .requestIdToken(context.getString(R.string.default_web_client_id))
+    .requestEmail()
+    .build().let { GoogleSignIn.getClient(context, it) }

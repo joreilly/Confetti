@@ -75,8 +75,6 @@ fun SessionListGridView(
     isLoggedIn: Boolean,
     onRefresh: () -> Unit,
 ) {
-    val pagerState = rememberPagerState()
-
     when (uiState) {
         SessionsUiState.Error -> ErrorView(onRefresh)
         SessionsUiState.Loading -> LoadingView()
@@ -84,13 +82,13 @@ fun SessionListGridView(
         is SessionsUiState.Success -> {
 
             Column {
+                val pagerState = rememberPagerState() {
+                    uiState.formattedConfDates.size
+                }
 
                 SessionListTabRow(pagerState, uiState)
 
-                HorizontalPager(
-                    pageCount = uiState.formattedConfDates.size,
-                    state = pagerState,
-                ) { page ->
+                HorizontalPager(state = pagerState,) { page ->
 
                     Row(Modifier.horizontalScroll(rememberScrollState())) {
                         val sessionsByStartTime = uiState.sessionsByStartTimeList[page]

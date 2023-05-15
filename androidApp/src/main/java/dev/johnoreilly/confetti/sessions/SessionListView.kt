@@ -80,15 +80,14 @@ fun SessionListView(
                 }
 
                 val pagerState = rememberPagerState(
-                    initialPage = if (initialPageIndex == -1) 0 else initialPageIndex
-                )
+                    if (initialPageIndex == -1) 0 else initialPageIndex
+                ) {
+                    uiState.formattedConfDates.size
+                }
 
                 SessionListTabRow(pagerState, uiState)
 
-                HorizontalPager(
-                    pageCount = uiState.formattedConfDates.size,
-                    state = pagerState,
-                ) { page ->
+                HorizontalPager(state = pagerState) { page ->
                     val sessions = uiState.sessionsByStartTimeList[page]
 
                     val initialItemIndex by remember {

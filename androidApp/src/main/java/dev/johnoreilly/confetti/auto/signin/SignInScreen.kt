@@ -15,6 +15,7 @@ import androidx.car.app.model.signin.ProviderSignInMethod
 import androidx.car.app.model.signin.SignInTemplate
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.account.googleSignInClient
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auto.utils.colorize
 import kotlinx.coroutines.CoroutineScope
@@ -75,6 +76,7 @@ class SignInScreen(
                 )
                 .setBackgroundColor(CarColor.createCustom(Color.WHITE, Color.WHITE))
                 .setOnClickListener(ParkedOnlyOnClickListener.create {
+                    googleSignInClient(carContext).signOut()
                     authentication.signOut()
                     screenManager.popToRoot()
                 })

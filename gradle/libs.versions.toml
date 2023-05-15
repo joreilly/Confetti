@@ -4,31 +4,32 @@ activity-compose = "1.7.0"
 androidx-lifecycle = "2.6.1"
 androidx-datastore = "1.1.0-alpha04"
 apollo = "4.0.0-dev.2"
-compose = "1.5.0-alpha03"
+compose = "1.5.0-alpha04"
 compose-compiler = "1.4.7"
 compose-material-3 = "1.0.1"
 decompose = "2.0.0-alpha-02"
 essenty = "1.1.0"
-horologist = "0.4.4"
+horologist = "0.4.6"
 junit = "4.13"
-kmp-nativecoroutines = "1.0.0-ALPHA-8"
+kmp-nativecoroutines = "1.0.0-ALPHA-9"
 kmm-viewmodel = "1.0.0-ALPHA-7"
 koin-android = "3.4.0"
 koin-android-compose = "3.4.4"
 koin-core = "3.4.0"
 kotlin = "1.8.21"
-kotlin-coroutines = "1.6.4"
-kotlinx-coroutines-play-services = "1.6.4"
+kotlin-coroutines = "1.7.1"
+kotlinx-coroutines-play-services = "1.7.1"
 kotlinx-datetime = "0.4.0"
 lifecycle = "2.6.1"
 lifecycle-livedata-ktx = "2.6.1"
 multiplatform-settings = "1.0.0"
 nav-compose = "2.5.3"
 okio = "3.3.0"
-protolayout-expression = "1.0.0-alpha08"
-protolayout-proto = "1.0.0-alpha08"
-robolectric = "4.10.1"
+protolayout-expression = "1.0.0-alpha09"
+protolayout-proto = "1.0.0-alpha09"
+robolectric = "4.10.2"
 snapshot-android = "v1.0.2"
+tiles-material = "1.2.0-alpha05"
 work-runtime-ktx = "2.8.1"
 
 [libraries]
@@ -45,6 +46,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout-expression" }
 androidx-protolayout-expression-pipeline = { module = "androidx.wear.protolayout:protolayout-expression-pipeline", version.ref = "protolayout-expression" }
 androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-proto", version.ref = "protolayout-proto" }
+androidx-tiles-material = { module = "androidx.wear.tiles:tiles-material", version.ref = "tiles-material" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters" }
@@ -85,7 +87,7 @@ firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.8.1"
 google-cloud-bom = "com.google.cloud:libraries-bom:26.14.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
-google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.14.5"
+google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.14.6"
 google-services = "com.google.gms:google-services:4.3.15"
 graphql-java = "com.graphql-java:graphql-java:230521-nf-execution"
 graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.0-alpha.5"
@@ -115,7 +117,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 ktor-cio = "io.ktor:ktor-server-cio:2.3.0"
 ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.0"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
@@ -140,22 +142,22 @@ plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serializat
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version = "1.8.21-1.0.11" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.0.6" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.6.0" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.6.2" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 snapshot-android = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-android", version.ref = "snapshot-android" }
 snapshot-jvm = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-jvm", version.ref = "snapshot-android" }
-splash-screen = "androidx.core:core-splashscreen:1.0.0"
+splash-screen = "androidx.core:core-splashscreen:1.0.1"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"
 test-runner = "androidx.test:runner:1.5.2"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-alpha02"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.0-alpha08"
-wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha09"
-wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha09"
-wire-runtime = "com.squareup.wire:wire-runtime:4.6.0"
+wear-compose-material = "androidx.wear.compose:compose-material:1.2.0-alpha10"
+wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0-alpha10"
+wire-runtime = "com.squareup.wire:wire-runtime:4.6.2"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 napier = "io.github.aakira:napier:2.6.1"
 

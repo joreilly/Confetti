@@ -65,7 +65,7 @@ class DefaultSessionDetailsComponent(
                     SessionDetailsUiState.Error
                 }
             }
-            .asValue(initialValue = SessionDetailsUiState.Loading, scope = coroutineScope)
+            .asValue(initialValue = SessionDetailsUiState.Loading, lifecycle = lifecycle)
 
     override val isBookmarked: StateFlow<Boolean> = flow {
         val response =

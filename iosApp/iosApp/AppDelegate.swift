@@ -20,25 +20,8 @@ class AppDelegate : NSObject, UIApplicationDelegate {
         lifecycle = LifecycleRegistryKt.LifecycleRegistry()
         
         root = DefaultAppComponent(
-            componentContext: DefaultComponentContext(lifecycle: lifecycle)
+            componentContext: DefaultComponentContext(lifecycle: lifecycle),
+            onSignOut: {}
         )
-        
-        LifecycleRegistryExtKt.create(lifecycle)
-    }
-    
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        LifecycleRegistryExtKt.resume(lifecycle)
-    }
-    
-    func applicationWillResignActive(_ application: UIApplication) {
-        LifecycleRegistryExtKt.pause(lifecycle)
-    }
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        LifecycleRegistryExtKt.stop(lifecycle)
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        LifecycleRegistryExtKt.destroy(lifecycle)
     }
 }

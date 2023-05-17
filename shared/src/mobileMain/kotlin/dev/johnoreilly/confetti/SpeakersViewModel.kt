@@ -31,7 +31,7 @@ class DefaultSpeakersComponent(
         )
 
     override val uiState: Value<SpeakersUiState> =
-        simpleComponent.speakers.asValue()
+        simpleComponent.speakers.asValue(lifecycle = lifecycle)
 
     override fun onSpeakerClicked(id: String) {
         onSpeakerSelected(id)

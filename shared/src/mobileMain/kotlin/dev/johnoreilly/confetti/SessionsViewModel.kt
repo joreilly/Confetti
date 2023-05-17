@@ -78,7 +78,7 @@ class DefaultSessionsComponent(
     override val isLoggedIn: Boolean = user != null
     override val addErrorChannel: Channel<Int> = Channel<Int>()
     override val removeErrorChannel: Channel<Int> = Channel<Int>()
-    override val uiState: Value<SessionsUiState> = simpleComponent.uiState.asValue()
+    override val uiState: Value<SessionsUiState> = simpleComponent.uiState.asValue(lifecycle = lifecycle)
 
     override fun addBookmark(sessionId: String) {
         coroutineScope.launch {

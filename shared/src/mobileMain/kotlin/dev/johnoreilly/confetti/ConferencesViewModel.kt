@@ -46,7 +46,7 @@ class DefaultConferencesComponent(
         for (uiState in channel) {
             emit(uiState)
         }
-    }.asValue(initialValue = Loading, scope = coroutineScope)
+    }.asValue(initialValue = Loading, lifecycle = lifecycle)
 
     override fun refresh() = refresh(false)
 

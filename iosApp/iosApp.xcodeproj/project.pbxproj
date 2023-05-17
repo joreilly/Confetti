@@ -24,6 +24,7 @@
 		79062A462A0DA3CC00E38089 /* ObservableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79062A452A0DA3CC00E38089 /* ObservableValue.swift */; };
 		79062A482A0DA43400E38089 /* StateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79062A472A0DA43400E38089 /* StateValue.swift */; };
 		79062A4A2A0DA4FF00E38089 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79062A492A0DA4FF00E38089 /* AppDelegate.swift */; };
+		79421C202A1580C60042D5B5 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2612A10E97B00824824 /* Utils.swift */; };
 		79BEE2602A102AED00824824 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE25F2A102AED00824824 /* StackView.swift */; };
 		79BEE2622A10E97B00824824 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2612A10E97B00824824 /* Utils.swift */; };
 		79BEE2642A11134600824824 /* ConferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2632A11134600824824 /* ConferenceView.swift */; };
@@ -322,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A8F347A29C4BA1A00327F0A /* ConfettiTests.swift in Sources */,
+				79421C202A1580C60042D5B5 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

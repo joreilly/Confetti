@@ -1,5 +1,4 @@
 import SwiftUI
-import KMPNativeCoroutinesCore
 import Combine
 import ConfettiKit
 

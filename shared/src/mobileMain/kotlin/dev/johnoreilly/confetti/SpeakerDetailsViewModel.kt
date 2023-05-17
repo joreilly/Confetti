@@ -46,7 +46,7 @@ class DefaultSpeakerDetailsComponent(
         } else {
             emit(Error)
         }
-    }.asValue(initialValue = Loading, scope = coroutineScope)
+    }.asValue(initialValue = Loading, lifecycle = lifecycle)
 
     override fun onSessionClicked(id: String) {
         onSessionSelected(id)

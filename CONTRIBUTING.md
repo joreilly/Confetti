@@ -21,6 +21,12 @@ At the time of writing, in order to build the Confetti app, you'll need:
 * Android Studio Electric Eel or higher. 
 * Xcode 14.2+ for the iOS app
 
+To checkout the sources you need to install git-lfs:
+
+* Download git-lfs on your system: `brew install git-lfs`
+* install git-lfs in your workspace folder: `git lfs install`
+
+Now you can clone the Github repository: `git clone https://github.com/joreilly/Confetti`
 
 ## Mobile & watch apps
 For Android, open the root project in Android Studio. Useful tasks:

@@ -112,6 +112,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.okhttp)
                 implementation(libs.okhttp.coroutines)
+                implementation(libs.apollo.testing)
             }
         }
     }

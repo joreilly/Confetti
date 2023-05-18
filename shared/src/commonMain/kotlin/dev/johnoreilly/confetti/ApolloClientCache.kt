@@ -108,8 +108,6 @@ class ApolloClientCache : KoinComponent {
             .chain(sqlNormalizedCacheFactory)
 
         return get<ApolloClient.Builder>()
-            // .serverUrl("http://10.0.2.2:8080/graphql")
-            .serverUrl("https://confetti-app.dev/graphql")
             .addHttpHeader("conference", conference)
             .normalizedCache(
                 memoryFirstThenSqlCacheFactory,

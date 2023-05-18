@@ -23,6 +23,7 @@ actual fun platformModule() = module {
     singleOf(::IosDateService){ bind<DateService>() }
     factory {
         ApolloClient.Builder()
+            .serverUrl("https://confetti-app.dev/graphql")
     }
 }
 

@@ -52,7 +52,9 @@ actual fun platformModule() = module {
             .build()
     }
     factory<ApolloClient.Builder> {
-        ApolloClient.Builder().okHttpClient(get())
+        ApolloClient.Builder()
+            .serverUrl("https://confetti-app.dev/graphql")
+            .okHttpClient(get())
     }
     single<ImageLoader> {
         ImageLoader.Builder(androidContext())

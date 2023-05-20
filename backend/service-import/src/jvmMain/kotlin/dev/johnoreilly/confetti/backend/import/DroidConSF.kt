@@ -90,6 +90,7 @@ object DroidConSF {
                     complexity = null,
                     feedbackId = null,
                     shortDescription = null,
+                    links = emptyList()
                 )
             },
             rooms = items.map {

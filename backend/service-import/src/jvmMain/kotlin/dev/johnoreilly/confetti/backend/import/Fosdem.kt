@@ -98,6 +98,7 @@ object Fosdem {
                             rooms = listOf(roomName),
                             type = "talk",
                             shortDescription = null,
+                            links = emptyList()
                         )
                     }
                 }

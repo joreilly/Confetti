@@ -134,7 +134,8 @@ object DevFestNantes {
                 feedbackId = talk.get("openfeedbackId")?.asString,
                 rooms = listOf(roomId),
                 type = talk.get("talkType")?.asString ?: "talk",
-                shortDescription = null
+                shortDescription = null,
+                links = emptyList()
             )
         } + slotSessions(slots)
 
@@ -269,6 +270,7 @@ object DevFestNantes {
                         complexity = null,
                         feedbackId = null,
                         shortDescription = null,
+                        links = emptyList()
                     )
                 }
 
@@ -288,6 +290,7 @@ object DevFestNantes {
                         complexity = null,
                         feedbackId = null,
                         shortDescription = null,
+                        links = emptyList()
                     )
                 }
 
@@ -307,6 +310,7 @@ object DevFestNantes {
                         complexity = null,
                         feedbackId = null,
                         shortDescription = null,
+                        links = emptyList()
                     )
                 }
 
@@ -325,7 +329,8 @@ object DevFestNantes {
                         complexity = null,
                         feedbackId = null,
                         shortDescription = null,
-                        )
+                        links = emptyList()
+                    )
                 }
 
                 type == "break" -> {
@@ -346,7 +351,8 @@ object DevFestNantes {
                         complexity = null,
                         feedbackId = null,
                         shortDescription = null,
-                        )
+                        links = emptyList()
+                    )
                 }
 
                 type == "lunch" -> {
@@ -365,6 +371,7 @@ object DevFestNantes {
                         complexity = null,
                         feedbackId = null,
                         shortDescription = null,
+                        links = emptyList()
                     )
                 }
 

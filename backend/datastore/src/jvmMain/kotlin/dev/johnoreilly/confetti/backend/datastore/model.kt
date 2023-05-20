@@ -16,7 +16,8 @@ data class DSession(
   val feedbackId: String?,
   val tags: List<String>,
   val rooms: List<String>,
-  val speakers: List<String>
+  val speakers: List<String>,
+  val links: List<DLink>
 )
 
 class DRoom(

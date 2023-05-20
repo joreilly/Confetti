@@ -146,6 +146,7 @@ object GraphQLSummit {
                     rooms = listOf(roomId),
                     speakers = thisSpeakers.map { it.id },
                     shortDescription = null,
+                    links = emptyList()
                 )
             }
 

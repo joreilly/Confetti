@@ -72,7 +72,8 @@ class TestDataSource : DataSource {
                     roomIds = rooms.map { it.id }.toSet(),
                     complexity = null,
                     feedbackId = null,
-                    type = "talk"
+                    type = "talk",
+                    links = emptyList()
                 )
             },
             pageInfo = PageInfo(

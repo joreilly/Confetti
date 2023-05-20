@@ -117,7 +117,7 @@ class DataStore {
     ): Int {
         val conf = config.id
 
-        val map = sessions.flatMap {session ->
+        val map = sessions.flatMap { session ->
             session.speakers.map {
                 it to session.id
             }
@@ -125,6 +125,7 @@ class DataStore {
             { it.first },
             { it.second },
         )
+
         @Suppress("NAME_SHADOWING")
         val speakers = speakers.map {
             it.copy(
@@ -371,7 +372,7 @@ class DataStore {
             bio = getStringOrNull("bio"),
             tagline = getStringOrNull("tagline"),
             company = getStringOrNull("company"),
-            links = getList<StringValue>("links").map {
+            links = getListOrNull<StringValue>("links").orEmpty().map {
                 Json.parseToJsonElement(it.get()).toAny().asMap.toLink()
             },
             photoUrl = getStringOrNull("photoUrl"),
@@ -402,7 +403,10 @@ class DataStore {
             feedbackId = getStringOrNull("feedbackId"),
             tags = getList<StringValue>("tags").map { it.get() },
             rooms = getList<StringValue>("rooms").map { it.get() },
-            speakers = getList<StringValue>("speakers").map { it.get() }
+            speakers = getList<StringValue>("speakers").map { it.get() },
+            links = getListOrNull<StringValue>("links").orEmpty().map {
+                Json.parseToJsonElement(it.get()).toAny().asMap.toLink()
+            }
         )
     }
 
@@ -423,6 +427,10 @@ class DataStore {
             .set("tags", tags.toValue())
             .set("rooms", rooms.toValue())
             .set("speakers", speakers.toValue())
+            .set(
+                "links",
+                links.map { it.toMap().toJsonElement().toString() }.toValue(excludeFromIndex = true)
+            )
             .build()
     }
 
@@ -630,13 +638,13 @@ class DataStore {
         }
     }
 
-    fun updateSessions(block: (Entity) ->  Entity?) {
+    fun updateSessions(block: (Entity) -> Entity?) {
         forEachSession {
-            block(it)?.let { datastore.put(it)}
+            block(it)?.let { datastore.put(it) }
         }
     }
 
-    fun forEachSession(block: (Entity) ->Unit) {
+    fun forEachSession(block: (Entity) -> Unit) {
         val queryBuilder = Query.newEntityQueryBuilder()
             .setKind(KIND_SESSION)
             .setLimit(50)
@@ -665,7 +673,7 @@ class DataStore {
         }
     }
 
-    fun updateSpeakers(block: (Entity) ->Entity) {
+    fun updateSpeakers(block: (Entity) -> Entity) {
         val queryBuilder = Query.newEntityQueryBuilder()
             .setKind(KIND_SPEAKER)
             .setLimit(50)
@@ -699,7 +707,8 @@ class DataStore {
     }
 
     fun readSpeaker(conf: String, id: String): DSpeaker {
-        return datastore.get(keyFactory.setKind(KIND_SPEAKER).addAncestor(PathElement.of(KIND_CONF, conf)).newKey(id)).toSpeaker()
+        return datastore.get(keyFactory.setKind(KIND_SPEAKER).addAncestor(PathElement.of(KIND_CONF, conf)).newKey(id))
+            .toSpeaker()
     }
 
     companion object {
@@ -735,11 +744,12 @@ class DataStore {
             null
         }
 
-        fun <T: Value<*>> Entity.getListOrNull(name: String): List<T>? = try {
+        fun <T : Value<*>> Entity.getListOrNull(name: String): List<T>? = try {
             getList<T>(name)
         } catch (_: Exception) {
             null
         }
+
         fun Entity.getDoubleOrNull(name: String): Double? = try {
             getDouble(name)
         } catch (_: Exception) {

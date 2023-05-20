@@ -39,6 +39,7 @@ object FrenchKit {
                 rooms = listOf(it.get("room").asString.toRoom()),
                 speakers = it.get("speakers").asList.map { it.asMap.get("id").asString },
                 shortDescription = null,
+                links = emptyList()
             )
         }
 

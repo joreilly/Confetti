@@ -128,7 +128,7 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             }
         )
 
-        val sessions = page.items.map {it.toSession() }
+        val sessions = page.items.map { it.toSession() }
 
         sessionCache.putAll(sessions.associateBy { it.id })
         return SessionConnection(
@@ -167,7 +167,16 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             roomIds = rooms.toSet(),
             complexity = complexity,
             feedbackId = feedbackId,
-            type = type
+            type = type,
+            links = links.map {
+                Link(
+                    type = try {
+                        LinkType.valueOf(it.key)
+                    } catch (e: Exception) {
+                        LinkType.Other
+                    }, url = it.url
+                )
+            }
         )
     }
 

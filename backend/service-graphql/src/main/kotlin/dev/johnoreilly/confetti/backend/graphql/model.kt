@@ -200,6 +200,17 @@ data class PageInfo(
     val endCursor: String?,
 )
 
+enum class  LinkType {
+    YouTube,
+    Audio,
+    Other
+}
+
+data class Link(
+    val type: LinkType,
+    val url: String,
+)
+
 /**
  */
 data class Session(
@@ -224,6 +235,7 @@ This field might have the same value as description if a shortDescription is not
     val feedbackId: String?,
     @GraphQLDescription("""One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format""")
     val type: String,
+    val links: List<Link>
 ) {
     fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
         return dfe.source().speakers(speakerIds.toList())

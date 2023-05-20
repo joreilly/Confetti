@@ -71,9 +71,21 @@ object Sessionize {
         )
     }
 
+    private suspend fun getLinks(id: String): List<DLink> {
+        val data = getJsonUrl("https://raw.githubusercontent.com/paug/AndroidMakersBackend/main/service-graphql/src/main/resources/links.json")
+
+        return data.asMap.get(id)?.asList.orEmpty()
+            .map {
+                DLink(
+                    it.asMap.get("type").asString,
+                    it.asMap.get("url").asString
+                )
+            }
+    }
+
     suspend fun importAndroidMakers2023(): Int {
         return writeData(
-            getData(androidMakers2023),
+            getData(androidMakers2023, ::getLinks),
             config = DConfig(
                 id = ConferenceId.AndroidMakers2023.id,
                 name = "Android Makers by droidcon",
@@ -113,7 +125,7 @@ object Sessionize {
         )
     }
 
-    private suspend fun getData(url: String): SessionizeData {
+    private suspend fun getData(url: String, linksFor: suspend ((String) -> List<DLink>) = { emptyList() }): SessionizeData {
         val data = getJsonUrl(url)
 
         val categories = data.asMap["categories"].asList.map { it.asMap }
@@ -127,7 +139,7 @@ object Sessionize {
         val sessions = data.asMap["sessions"].asList.map {
             it.asMap
         }.mapNotNull {
-            if (it.get("startsAt") == null || it.get("endsAt") == null){
+            if (it.get("startsAt") == null || it.get("endsAt") == null) {
                 /**
                  * Guard against sessions that are not scheduled.
                  */
@@ -149,6 +161,7 @@ object Sessionize {
                 rooms = listOf(it.get("roomId").toString()),
                 speakers = it.get("speakers").asList.map { it.asString },
                 shortDescription = null,
+                links = linksFor(it.get("id").asString),
             )
         }
 

@@ -120,6 +120,10 @@ class DefaultAppComponent(
     private sealed class Config : Parcelable {
         object Loading : Config()
         object Conferences : Config()
-        data class Conference(val uid: String?, val conference: String) : Config()
+
+        data class Conference(
+            val uid: String?, // Unused, but needed to recreated the component when the user changes
+            val conference: String,
+        ) : Config()
     }
 }

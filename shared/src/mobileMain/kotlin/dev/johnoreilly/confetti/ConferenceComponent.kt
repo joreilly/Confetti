@@ -40,7 +40,6 @@ class DefaultConferenceComponent(
 ) : ConferenceComponent, KoinComponent, ComponentContext by componentContext {
 
     private val settingsComponent: SettingsComponent by inject()
-    private val repository: ConfettiRepository by inject()
     private val navigation = StackNavigation<Config>()
 
     override val stack: Value<ChildStack<*, Child>> =

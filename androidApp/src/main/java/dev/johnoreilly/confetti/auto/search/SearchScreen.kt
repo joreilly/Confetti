@@ -9,30 +9,53 @@ import androidx.car.app.model.SearchTemplate
 import androidx.car.app.model.SearchTemplate.SearchCallback
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
+import dev.johnoreilly.confetti.DefaultSearchComponent
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SearchViewModel
-import dev.johnoreilly.confetti.SessionsViewModelParams
+import dev.johnoreilly.confetti.auth.User
+import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
+import dev.johnoreilly.confetti.auto.speakers.details.SpeakerDetailsScreen
+import dev.johnoreilly.confetti.auto.utils.defaultComponentContext
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import kotlinx.coroutines.launch
-import org.koin.core.parameter.parametersOf
-import org.koin.java.KoinJavaComponent
 
-class SearchScreen (
+class SearchScreen(
     carContext: CarContext,
-    conference: String
+    conference: String,
+    user: User?,
 ) : Screen(carContext), KoinComponent {
 
-    private val searchViewModel: SearchViewModel by inject(
-        parameters = { parametersOf(SessionsViewModelParams(conference, null, null)) }
-    )
-
-    private val sessionsState = searchViewModel.sessions.onEach {
+    private val component =
+        DefaultSearchComponent(
+            componentContext = defaultComponentContext(),
+            conference = conference,
+            user = user,
+            onSessionSelected = { id ->
+                screenManager.push(
+                    SessionDetailsScreen(
+                        carContext = carContext,
+                        conference = conference,
+                        user = user,
+                        sessionId = id,
+                    )
+                )
+            },
+            onSpeakerSelected = { id ->
+                screenManager.push(
+                    SpeakerDetailsScreen(
+                        carContext = carContext,
+                        conference = conference,
+                        user = user,
+                        speakerId = id,
+                    )
+                )
+            },
+            onSignIn = { /* Unused */ },
+        )
+    private val sessionsState = component.sessions.onEach {
         invalidate()
     }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = null)
 
@@ -45,12 +68,12 @@ class SearchScreen (
             object : SearchCallback {
                 override fun onSearchTextChanged(searchText: String) {
                     super.onSearchTextChanged(searchText)
-                    searchViewModel.onSearchChange(searchText)
+                    component.onSearchChange(searchText)
                 }
 
                 override fun onSearchSubmitted(searchText: String) {
                     super.onSearchSubmitted(searchText)
-                    searchViewModel.onSearchChange(searchText)
+                    component.onSearchChange(searchText)
                 }
             }
         ).apply {

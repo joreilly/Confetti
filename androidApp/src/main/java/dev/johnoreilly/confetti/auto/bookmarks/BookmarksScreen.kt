@@ -9,20 +9,18 @@ import androidx.car.app.model.Row
 import androidx.car.app.model.SectionedItemList
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
-import dev.johnoreilly.confetti.BookmarksViewModel
+import dev.johnoreilly.confetti.DefaultBookmarksComponent
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
+import dev.johnoreilly.confetti.auto.utils.defaultComponentContext
 import dev.johnoreilly.confetti.auto.utils.formatDateTime
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDateTime
-import org.koin.core.parameter.parametersOf
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 class BookmarksScreen(
     carContext: CarContext,
@@ -30,11 +28,25 @@ class BookmarksScreen(
     private val conference: String,
 ) : Screen(carContext), KoinComponent {
 
-    private val bookmarksViewModel: BookmarksViewModel by inject(
-        parameters = { parametersOf(SessionsViewModelParams(conference, user?.uid, user)) }
-    )
+    private val component =
+        DefaultBookmarksComponent(
+            componentContext = defaultComponentContext(),
+            conference = conference,
+            user = user,
+            onSessionSelected = { id ->
+                screenManager.push(
+                    SessionDetailsScreen(
+                        carContext,
+                        conference,
+                        user,
+                        sessionId = id,
+                    )
+                )
+            },
+            onSignIn = { /* Unused */ },
+        )
 
-    private val bookmarksState = bookmarksViewModel.upcomingSessions.onEach {
+    private val bookmarksState = component.upcomingSessions.onEach {
         invalidate()
     }.stateIn(lifecycleScope, SharingStarted.Eagerly, null)
 
@@ -65,14 +77,9 @@ class BookmarksScreen(
                     Row.Builder()
                         .setTitle(session.title)
                         .addText(session.speakers.map { it.speakerDetails.name }.toString())
-                        .setOnClickListener { screenManager.push(
-                            SessionDetailsScreen(
-                                carContext,
-                                conference,
-                                user,
-                                session
-                            )
-                        ) }
+                        .setOnClickListener {
+                            component.onSessionClicked(id = session.id)
+                        }
                         .build()
                 )
             }

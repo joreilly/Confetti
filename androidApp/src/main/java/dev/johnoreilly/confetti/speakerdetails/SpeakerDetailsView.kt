@@ -13,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Event
-import androidx.compose.material.icons.filled.People
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,43 +25,32 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SpeakerDetailsViewModel
+import dev.johnoreilly.confetti.SpeakerDetailsComponent
+import dev.johnoreilly.confetti.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.sessiondetails.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.SocialIcon
-import org.koin.androidx.compose.getViewModel
 
 
 @Composable
 internal fun SpeakerDetailsRoute(
-    conference: String,
-    speakerDetailsKey: SpeakerDetailsKey,
-    navigateToSession: (SessionDetailsKey) -> Unit,
-    onBackClick: () -> Unit
+    component: SpeakerDetailsComponent,
 ) {
-    val viewModel: SpeakerDetailsViewModel = getViewModel<SpeakerDetailsViewModel>().apply {
-        configure(speakerDetailsKey.conference, speakerDetailsKey.speakerId)
-    }
-
-    val uiState by viewModel.speaker.collectAsStateWithLifecycle()
+    val uiState by component.uiState.subscribeAsState()
 
     when (val uiState1 = uiState) {
-        is SpeakerDetailsViewModel.Loading -> LoadingView()
-        is SpeakerDetailsViewModel.Error -> ErrorView()
-        is SpeakerDetailsViewModel.Success -> SpeakerDetailsView(
-            conference,
+        is SpeakerDetailsUiState.Loading -> LoadingView()
+        is SpeakerDetailsUiState.Error -> ErrorView()
+        is SpeakerDetailsUiState.Success -> SpeakerDetailsView(
             uiState1.details,
-            navigateToSession,
-            onBackClick
+            component::onSessionClicked,
+            component::onCloseClicked,
         )
     }
 
@@ -71,9 +59,8 @@ internal fun SpeakerDetailsRoute(
 
 @Composable
 fun SpeakerDetailsView(
-    conference: String,
     speaker: SpeakerDetails,
-    navigateToSession: (SessionDetailsKey) -> Unit,
+    navigateToSession: (id: String) -> Unit,
     popBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -108,7 +95,7 @@ fun SpeakerDetailsView(
                 .padding(innerPadding)
                 .fillMaxSize()
                 .verticalScroll(state = scrollState),
-            ) {
+        ) {
             SelectionContainer {
                 Column(
                     modifier = Modifier
@@ -166,7 +153,6 @@ fun SpeakerDetailsView(
 
             SpeakerTalks(
                 modifier = Modifier.padding(contentPaddings),
-                conference = conference,
                 sessions = speaker.sessions,
                 navigateToSession = navigateToSession,
             )
@@ -176,9 +162,8 @@ fun SpeakerDetailsView(
 
 @Composable
 fun SpeakerTalks(
-    conference: String,
     sessions: List<SpeakerDetails.Session>,
-    navigateToSession: (SessionDetailsKey) -> Unit,
+    navigateToSession: (id: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(Modifier.fillMaxWidth()) {
@@ -194,7 +179,7 @@ fun SpeakerTalks(
                         .padding()
                         .fillMaxWidth()
                         .clickable {
-                            navigateToSession(SessionDetailsKey(conference, session.id))
+                            navigateToSession(session.id)
                         }
                         .padding(vertical = 8.dp)) {
                     Text(session.title, style = MaterialTheme.typography.bodyLarge)

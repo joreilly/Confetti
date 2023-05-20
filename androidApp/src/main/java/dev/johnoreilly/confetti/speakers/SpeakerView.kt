@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -25,48 +26,39 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.SpeakersComponent
 import dev.johnoreilly.confetti.SpeakersUiState
-import dev.johnoreilly.confetti.SpeakersViewModel
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
-import dev.johnoreilly.confetti.ui.ConfettiAppState
-import dev.johnoreilly.confetti.ui.ConfettiScaffold
 import dev.johnoreilly.confetti.ui.ErrorView
+import dev.johnoreilly.confetti.ui.HomeScaffold
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.ui.isExpanded
 import dev.johnoreilly.confetti.utils.plus
-import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 
 
 @Composable
 fun SpeakersRoute(
-    conference: String,
-    appState: ConfettiAppState,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit,
-    onSwitchConference: () -> Unit,
-    onSignIn: () -> Unit,
-    onSignOut: () -> Unit
+    component: SpeakersComponent,
+    windowSizeClass: WindowSizeClass,
+    topBarActions: @Composable RowScope.() -> Unit,
 ) {
-    val viewModel: SpeakersViewModel = getViewModel(parameters = { parametersOf(conference) })
-    val uiState by viewModel.speakers.collectAsStateWithLifecycle()
-    ConfettiScaffold(
+    val uiState by component.uiState.subscribeAsState()
+
+    HomeScaffold(
         title = stringResource(R.string.speakers),
-        conference = conference,
-        appState = appState,
-        onSwitchConference = onSwitchConference,
-        onSignIn = onSignIn,
-        onSignOut = onSignOut,
+        windowSizeClass = windowSizeClass,
+        topBarActions = topBarActions,
     ) {
         when (val uiState1 = uiState) {
             is SpeakersUiState.Success -> {
-                if (appState.isExpandedScreen) {
-                    SpeakerGridView(uiState1.conference, uiState1.speakers, navigateToSpeaker)
+                if (windowSizeClass.isExpanded) {
+                    SpeakerGridView(uiState1.speakers, component::onSpeakerClicked)
                 } else {
-                    SpeakerListView(uiState1.conference, uiState1.speakers, navigateToSpeaker)
+                    SpeakerListView(uiState1.speakers, component::onSpeakerClicked)
                 }
             }
 
@@ -81,9 +73,8 @@ fun SpeakersRoute(
 
 @Composable
 fun SpeakerGridView(
-    conference: String,
     speakers: List<SpeakerDetails>,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
+    navigateToSpeaker: (id: String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(200.dp),
@@ -94,7 +85,7 @@ fun SpeakerGridView(
             items(speakers) { speaker ->
                 Column(
                     modifier = Modifier
-                        .clickable { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id))}
+                        .clickable { navigateToSpeaker(speaker.id) }
                         .padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -129,15 +120,14 @@ fun SpeakerGridView(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SpeakerListView(
-    conference: String,
     speakers: List<SpeakerDetails>,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
+    navigateToSpeaker: (id: String) -> Unit
 ) {
     Column {
         if (speakers.isNotEmpty()) {
             LazyColumn {
                 items(speakers) { speaker ->
-                    SpeakerItemView(conference, speaker, navigateToSpeaker)
+                    SpeakerItemView(speaker, navigateToSpeaker)
                 }
             }
         } else {
@@ -155,14 +145,13 @@ fun SpeakerListView(
 
 @Composable
 fun SpeakerItemView(
-    conference: String,
     speaker: SpeakerDetails,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
+    navigateToSpeaker: (id: String) -> Unit
 ) {
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) }),
+            .clickable(onClick = { navigateToSpeaker(speaker.id) }),
         headlineText = {
             Text(text = speaker.name)
         },

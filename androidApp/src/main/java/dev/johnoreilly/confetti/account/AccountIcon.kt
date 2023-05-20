@@ -25,8 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.ui.ConfettiTheme
+
+data class AccountInfo(
+    val photoUrl: String? = null,
+)
 
 @Composable
 fun AccountIcon(
@@ -36,16 +39,16 @@ fun AccountIcon(
     onShowSettings: () -> Unit,
     installOnWear: () -> Unit,
     wearSettingsUiState: WearUiState,
-    user: User?,
+    info: AccountInfo?,
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
     IconButton(onClick = { showMenu = !showMenu }) {
         when {
-            user?.photoUrl != null -> {
+            info?.photoUrl != null -> {
                 AsyncImage(
-                    model = user.photoUrl,
-                    contentDescription = user.name,
+                    model = info.photoUrl,
+                    contentDescription = "menu",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .size(30.dp)
@@ -53,7 +56,7 @@ fun AccountIcon(
                 )
             }
 
-            user != null -> {
+            info != null -> {
                 Icon(Icons.Filled.AccountCircle, contentDescription = "menu")
             }
 
@@ -67,7 +70,7 @@ fun AccountIcon(
         expanded = showMenu,
         onDismissRequest = { showMenu = false }
     ) {
-        if (user != null) {
+        if (info != null) {
             DropdownMenuItem(
                 text = { Text(stringResource(id = R.string.sign_out)) },
                 onClick = {
@@ -124,18 +127,7 @@ private fun AccountIconPreview() {
                 onShowSettings = {},
                 installOnWear = {},
                 wearSettingsUiState = wearUiState,
-                user = object: User {
-                    override val name: String
-                        get() = "Foo"
-                    override val email: String?
-                        get() = "foo@bar.com"
-                    override val photoUrl: String?
-                        get() = null
-                    override val uid: String
-                        get() = "123"
-
-                    override suspend fun token(forceRefresh: Boolean): String? = null
-                }
+                info = AccountInfo(),
             )
         }
     }

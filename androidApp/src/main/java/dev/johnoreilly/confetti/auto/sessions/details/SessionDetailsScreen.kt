@@ -7,66 +7,94 @@ import androidx.car.app.model.Action
 import androidx.car.app.model.ActionStrip
 import androidx.car.app.model.CarIcon
 import androidx.car.app.model.LongMessageTemplate
+import androidx.car.app.model.Pane
+import androidx.car.app.model.PaneTemplate
 import androidx.car.app.model.ParkedOnlyOnClickListener
 import androidx.car.app.model.Template
 import androidx.core.graphics.drawable.IconCompat
 import androidx.lifecycle.lifecycleScope
-import dev.johnoreilly.confetti.BookmarksViewModel
+import dev.johnoreilly.confetti.DefaultSessionDetailsComponent
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SessionDetailsViewModel
-import dev.johnoreilly.confetti.SessionsViewModelParams
+import dev.johnoreilly.confetti.SessionDetailsUiState
 import dev.johnoreilly.confetti.auth.User
-import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.auto.speakers.details.SpeakerDetailsScreen
+import dev.johnoreilly.confetti.auto.ui.ErrorScreen
+import dev.johnoreilly.confetti.auto.utils.defaultComponentContext
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import org.koin.core.parameter.parametersOf
 
 class SessionDetailsScreen(
     carContext: CarContext,
     conference: String,
     user: User?,
-    private val session: SessionDetails
+    sessionId: String,
 ) : Screen(carContext), KoinComponent {
 
-    private val bookmarksViewModel: BookmarksViewModel by inject(
-        parameters = { parametersOf(SessionsViewModelParams(conference, user?.uid, user)) }
-    )
-    private val sessionDetailsViewModel: SessionDetailsViewModel by inject()
+    private val component =
+        DefaultSessionDetailsComponent(
+            componentContext = defaultComponentContext(),
+            conference = conference,
+            user = user,
+            sessionId = sessionId,
+            onFinished = { screenManager.pop() },
+            onSignIn = { /* Unused */ },
+            onSpeakerSelected = { id ->
+                screenManager.push(
+                    SpeakerDetailsScreen(
+                        carContext = carContext,
+                        conference = conference,
+                        user = user,
+                        speakerId = id,
+                    )
+                )
+            },
+        )
 
     init {
-        sessionDetailsViewModel.configure(conference, session.id, user?.uid, user)
+        component.uiState.subscribe { invalidate() }
     }
 
     override fun onGetTemplate(): Template {
         var isBookmarked: Boolean? = null
         lifecycleScope.launch {
-            sessionDetailsViewModel.isBookmarked.collect {
+            component.isBookmarked.collect {
                 isBookmarked = it
                 invalidate()
             }
         }
 
-        return LongMessageTemplate.Builder(session.sessionDescription ?: "").apply {
-            setTitle(session.title)
-            setHeaderAction(Action.BACK)
+        return when (val state = component.uiState.value) {
+            is SessionDetailsUiState.Loading ->
+                PaneTemplate.Builder(Pane.Builder().setLoading(true).build()).build()
 
-            if (isBookmarked == true) {
-                addAction(getRemoveFromBookmarksAction().build())
-            } else {
-                setActionStrip(ActionStrip.Builder()
-                    .addAction(getAddToBookmarksAction().build())
-                    .build()
-                )
+            is SessionDetailsUiState.Error ->
+                ErrorScreen(carContext, R.string.auto_session_failed).onGetTemplate()
+
+            is SessionDetailsUiState.Success -> {
+                val session = state.sessionDetails
+                LongMessageTemplate.Builder(session.sessionDescription ?: "").apply {
+                    setTitle(session.title)
+                    setHeaderAction(Action.BACK)
+
+                    if (isBookmarked == true) {
+                        addAction(getRemoveFromBookmarksAction().build())
+                    } else {
+                        setActionStrip(
+                            ActionStrip.Builder()
+                                .addAction(getAddToBookmarksAction().build())
+                                .build()
+                        )
+                    }
+                }.build()
             }
-        }.build()
+        }
     }
 
     private fun getAddToBookmarksAction(): Action.Builder {
         return Action.Builder()
             .setOnClickListener(
                 ParkedOnlyOnClickListener.create {
-                    bookmarksViewModel.addBookmark(session.id)
+                    component.addBookmark()
                     CarToast.makeText(
                         carContext,
                         carContext.getString(R.string.auto_session_bookmark_success),
@@ -87,7 +115,7 @@ class SessionDetailsScreen(
         return Action.Builder()
             .setOnClickListener(
                 ParkedOnlyOnClickListener.create {
-                    bookmarksViewModel.removeBookmark(session.id)
+                    component.removeBookmark()
                     CarToast.makeText(
                         carContext,
                         carContext.getString(R.string.auto_session_remove_bookmark_success),

@@ -9,23 +9,17 @@ import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.SectionedItemList
 import androidx.car.app.model.Template
-import androidx.lifecycle.lifecycleScope
+import dev.johnoreilly.confetti.DefaultSessionsComponent
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.SessionsUiState
-import dev.johnoreilly.confetti.SessionsViewModel
-import dev.johnoreilly.confetti.SessionsViewModelParams
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.auto.ui.ErrorScreen
 import dev.johnoreilly.confetti.auto.ui.MoreScreen
+import dev.johnoreilly.confetti.auto.utils.defaultComponentContext
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.core.parameter.parametersOf
 
 class SessionsScreen(
     carContext: CarContext,
@@ -34,28 +28,44 @@ class SessionsScreen(
 
     private val authentication: Authentication by inject()
 
-    private val sessionsViewModel: SessionsViewModel by inject(
-        parameters = { parametersOf(SessionsViewModelParams(conference, null, null)) }
-    )
+    private val component =
+        DefaultSessionsComponent(
+            componentContext = defaultComponentContext(),
+            conference = conference,
+            user = authentication.currentUser.value,
+            onSessionSelected = { id ->
+                screenManager.push(
+                    SessionDetailsScreen(
+                        carContext = carContext,
+                        conference = conference,
+                        user = authentication.currentUser.value,
+                        sessionId = id,
+                    )
+                )
+            },
+            onSignIn = {},
+        )
 
-    private var uiState: StateFlow<SessionsUiState> = sessionsViewModel.uiState.onEach {
-        invalidate()
-    }.stateIn(lifecycleScope, started = SharingStarted.Eagerly, initialValue = SessionsUiState.Loading)
+    init {
+        component.uiState.subscribe { invalidate() }
+    }
 
     override fun onGetTemplate(): Template {
-        val result = uiState.value
+        val result = component.uiState.value
 
         var listBuilder = ListTemplate.Builder()
 
         var venueLat: Double? = null
         var venueLon: Double? = null
-        val loading = when(result) {
+        val loading = when (result) {
             SessionsUiState.Loading -> {
                 true
             }
+
             SessionsUiState.Error -> {
                 return ErrorScreen(carContext, R.string.auto_sessions_failed).onGetTemplate()
             }
+
             is SessionsUiState.Success -> {
                 venueLat = result.venueLat
                 venueLon = result.venueLon
@@ -98,7 +108,10 @@ class SessionsScreen(
         return listTemplate
     }
 
-    private fun createDailyList(listTemplate: ListTemplate.Builder, sessions: Map<String, List<SessionDetails>>): ListTemplate.Builder {
+    private fun createDailyList(
+        listTemplate: ListTemplate.Builder,
+        sessions: Map<String, List<SessionDetails>>
+    ): ListTemplate.Builder {
         sessions.forEach { (startTime, sessions) ->
             val listBuilder = ItemList.Builder()
 
@@ -107,14 +120,9 @@ class SessionsScreen(
                     Row.Builder()
                         .setTitle(session.title)
                         .addText(session.speakers.map { it.speakerDetails.name }.toString())
-                        .setOnClickListener { screenManager.push(
-                            SessionDetailsScreen(
-                                carContext,
-                                conference,
-                                authentication.currentUser.value,
-                                session
-                            )
-                        ) }
+                        .setOnClickListener {
+                            component.onSessionClicked(id = session.id)
+                        }
                         .build()
                 )
             }

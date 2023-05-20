@@ -155,8 +155,10 @@ dependencies {
     implementation(libs.compose.material)
     implementation(libs.compose.material.icons.core)
     implementation(libs.compose.material.icons.extended)
-    implementation(libs.compose.navigation)
     implementation(libs.coil.compose)
+
+    implementation(libs.decompose.decompose)
+    implementation(libs.decompose.extensions.compose.jetpack)
 
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)

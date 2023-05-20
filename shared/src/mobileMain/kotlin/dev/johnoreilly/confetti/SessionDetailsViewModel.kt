@@ -1,9 +1,9 @@
 package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.rickclephas.kmm.viewmodel.KMMViewModel
-import com.rickclephas.kmm.viewmodel.coroutineScope
-import com.rickclephas.kmm.viewmodel.stateIn
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.Value
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,67 +13,101 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class SessionDetailsViewModel(
-    private val repository: ConfettiRepository
-) : KMMViewModel() {
-    fun configure(
-        conference: String,
-        sessionId: String,
-        uid: String?,
-        tokenProvider: TokenProvider?,
-    ) {
-        this.conference = conference
-        this.sessionId = sessionId
-        this.uid = uid
-        this.tokenProvider = tokenProvider
-    }
+interface SessionDetailsComponent {
 
-    private lateinit var sessionId: String
-    private lateinit var conference: String
-    private var uid: String? = null
-    private var tokenProvider: TokenProvider? = null
+    val addErrorChannel: Channel<Int>
+    val removeErrorChannel: Channel<Int>
+    val uiState: Value<SessionDetailsUiState>
+    val isBookmarked: StateFlow<Boolean>
+
+    fun addBookmark()
+    fun removeBookmark()
+    fun onCloseClicked()
+    fun onSignInClicked()
+    fun onSpeakerClicked(id: String)
+}
+
+sealed class SessionDetailsUiState {
+    object Loading : SessionDetailsUiState()
+    object Error : SessionDetailsUiState()
+    data class Success(val sessionDetails: SessionDetails) : SessionDetailsUiState()
+}
+
+class DefaultSessionDetailsComponent(
+    componentContext: ComponentContext,
+    private val conference: String,
+    private val sessionId: String,
+    private val user: User?,
+    private val onFinished: () -> Unit,
+    private val onSignIn: () -> Unit,
+    private val onSpeakerSelected: (id: String) -> Unit,
+) : SessionDetailsComponent, KoinComponent, ComponentContext by componentContext {
+    private val repository: ConfettiRepository by inject()
+    private val coroutineScope = coroutineScope()
 
     private var addErrorCount = 1
     private var removeErrorCount = 1
-    val addErrorChannel = Channel<Int>()
-    val removeErrorChannel = Channel<Int>()
+    override val addErrorChannel = Channel<Int>()
+    override val removeErrorChannel = Channel<Int>()
 
-    val session: StateFlow<SessionDetails?> = flow {
-        emitAll(repository.sessionDetails(conference = conference, sessionId = sessionId)
-            .map { it.data?.session?.sessionDetails })
-    }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    override val uiState: Value<SessionDetailsUiState> =
+        repository.sessionDetails(conference = conference, sessionId = sessionId)
+            .map {
+                val details = it.data?.session?.sessionDetails
+                if (details != null) {
+                    SessionDetailsUiState.Success(details)
+                } else {
+                    SessionDetailsUiState.Error
+                }
+            }
+            .asValue(initialValue = SessionDetailsUiState.Loading, lifecycle = lifecycle)
 
-    val isBookmarked =  flow {
-        val response = repository.bookmarks(conference, uid, tokenProvider, FetchPolicy.CacheFirst).first()
+    override val isBookmarked: StateFlow<Boolean> = flow {
+        val response =
+            repository.bookmarks(conference, user?.uid, user, FetchPolicy.CacheFirst).first()
 
         fun GetBookmarksQuery.Bookmarks?.hasSessionId(): Boolean {
             return this?.sessionIds.orEmpty().toSet().contains(sessionId)
         }
         emitAll(
-            repository.watchBookmarks(conference, uid, tokenProvider, response.data)
+            repository.watchBookmarks(conference, user?.uid, user, response.data)
                 .onStart { emit(response.data?.bookmarks.hasSessionId()) }
                 .map { it.data?.bookmarks.hasSessionId() }
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    }.stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), false)
 
-    fun addBookmark() {
-        viewModelScope.coroutineScope.launch {
-            val success = repository.addBookmark(conference, uid, tokenProvider, sessionId)
+    override fun addBookmark() {
+        coroutineScope.launch {
+            val success = repository.addBookmark(conference, user?.uid, user, sessionId)
             if (!success) {
                 addErrorChannel.send(addErrorCount++)
             }
         }
     }
 
-    fun removeBookmark() {
-        viewModelScope.coroutineScope.launch {
-            val success = repository.removeBookmark(conference, uid, tokenProvider, sessionId)
+    override fun removeBookmark() {
+        coroutineScope.launch {
+            val success = repository.removeBookmark(conference, user?.uid, user, sessionId)
             if (!success) {
                 removeErrorChannel.send(removeErrorCount++)
             }
         }
+    }
+
+    override fun onCloseClicked() {
+        onFinished()
+    }
+
+    override fun onSignInClicked() {
+        onSignIn()
+    }
+
+    override fun onSpeakerClicked(id: String) {
+        onSpeakerSelected(id)
     }
 }

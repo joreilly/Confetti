@@ -9,12 +9,13 @@ import androidx.car.app.validation.HostValidator
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auto.conferences.ConferencesScreen
 
-class ConfettiCarAppService: CarAppService() {
+class ConfettiCarAppService : CarAppService() {
 
     override fun createHostValidator(): HostValidator {
         return HostValidator.Builder(applicationContext)
             .addAllowedHosts(R.array.hosts_allowlist)
             .build()
+
     }
 
     override fun onCreateSession(sessionInfo: SessionInfo): Session {

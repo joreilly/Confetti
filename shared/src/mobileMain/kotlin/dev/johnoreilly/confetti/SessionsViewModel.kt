@@ -2,10 +2,10 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.rickclephas.kmm.viewmodel.KMMViewModel
-import com.rickclephas.kmm.viewmodel.coroutineScope
-import com.rickclephas.kmm.viewmodel.stateIn
-import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
+import com.arkivanov.decompose.value.Value
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -39,72 +40,115 @@ data class ResponseData(
     val sessionsResponse: ApolloResponse<GetConferenceDataQuery.Data>,
 )
 
-open class SessionsViewModel(
+interface SessionsComponent {
+
+    val isLoggedIn: Boolean
+    val addErrorChannel: Channel<Int>
+    val removeErrorChannel: Channel<Int>
+    val uiState: Value<SessionsUiState>
+
+    fun addBookmark(sessionId: String)
+    fun removeBookmark(sessionId: String)
+
+    fun refresh()
+    fun onSearch(searchString: String)
+    fun onSessionClicked(id: String)
+    fun onSignInClicked()
+}
+
+class DefaultSessionsComponent(
+    componentContext: ComponentContext,
     private val conference: String,
-    private val uid: String?,
-    private val tokenProvider: TokenProvider?
-) : KMMViewModel(), KoinComponent {
+    private val user: User?,
+    private val onSessionSelected: (id: String) -> Unit,
+    private val onSignIn: () -> Unit,
+) : SessionsComponent, KoinComponent, ComponentContext by componentContext {
+    private val simpleComponent =
+        SessionsSimpleComponent(
+            componentContext = childContext(key = "Sessions"),
+            conference = conference,
+            user = user,
+        )
+
+    private val coroutineScope = coroutineScope()
     private val repository: ConfettiRepository by inject()
-    private val dateService: DateService by inject()
     private var addErrorCount = 1
     private var removeErrorCount = 1
 
+    override val isLoggedIn: Boolean = user != null
+    override val addErrorChannel: Channel<Int> = Channel<Int>()
+    override val removeErrorChannel: Channel<Int> = Channel<Int>()
+    override val uiState: Value<SessionsUiState> = simpleComponent.uiState.asValue(lifecycle = lifecycle)
 
-    private val responseDatas = Channel<ResponseData?>()
-
-    init {
-        refresh(showLoading = true, forceRefresh = false)
-    }
-
-    fun addBookmark(sessionId: String) {
-        viewModelScope.coroutineScope.launch {
-            val success = repository.addBookmark(conference, uid, tokenProvider, sessionId)
+    override fun addBookmark(sessionId: String) {
+        coroutineScope.launch {
+            val success = repository.addBookmark(conference, user?.uid, user, sessionId)
             if (!success) {
                 addErrorChannel.send(addErrorCount++)
             }
         }
     }
 
-    fun removeBookmark(sessionId: String) {
-        viewModelScope.coroutineScope.launch {
-            val success = repository.removeBookmark(conference, uid, tokenProvider, sessionId)
+    override fun removeBookmark(sessionId: String) {
+        coroutineScope.launch {
+            val success = repository.removeBookmark(conference, user?.uid, user, sessionId)
             if (!success) {
                 removeErrorChannel.send(removeErrorCount++)
             }
         }
     }
 
-    val addErrorChannel = Channel<Int>()
-    val removeErrorChannel = Channel<Int>()
+    override fun refresh() {
+        simpleComponent.refresh(forceRefresh = true)
+    }
 
-    // exposed like this so it can be bound to in SwiftUI code
-    @NativeCoroutinesState
-    val searchQuery = MutableStateFlow("")
+    override fun onSearch(searchString: String) {
+        simpleComponent.onSearch(searchString = searchString)
+    }
 
-    @NativeCoroutinesState
-    val uiState: StateFlow<SessionsUiState> = responseDatas.receiveAsFlow()
-        .uiState()
-        .combine(searchQuery) { uiState, search ->
-            filterSessions(uiState, search)
-        }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
+    override fun onSessionClicked(id: String) {
+        onSessionSelected(id)
+    }
+
+    override fun onSignInClicked() {
+        onSignIn()
+    }
+}
+
+internal class SessionsSimpleComponent(
+    componentContext: ComponentContext,
+    private val conference: String,
+    private val user: User?,
+) : KoinComponent, ComponentContext by componentContext {
+    private val coroutineScope = coroutineScope()
+    private val repository: ConfettiRepository by inject()
+    private val dateService: DateService by inject()
+    private val responseDatas = Channel<ResponseData?>()
+    private val searchQuery = MutableStateFlow("")
+    private val isRefreshing = MutableStateFlow(false)
+
+    val uiState: StateFlow<SessionsUiState> =
+        combineUiState()
+            .combine(searchQuery) { uiState, search ->
+                filterSessions(uiState, search)
+            }.stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
     private var job: Job? = null
 
-    /**
-     * @param showLoading whether to show a loading state (if user or conference changed)
-     * @param forceRefresh whether to force a network refresh (pull-to-refresh)
-     */
-    fun refresh(showLoading: Boolean, forceRefresh: Boolean) {
+    init {
+        refresh(showLoading = true)
+    }
+
+    fun refresh(showLoading: Boolean = false, forceRefresh: Boolean = false) {
         job?.cancel()
-        job = viewModelScope.coroutineScope.launch {
+        job = coroutineScope.launch {
+            isRefreshing.value = true
             responseData(showLoading, forceRefresh).collect {
+                isRefreshing.value = false
                 responseDatas.send(it)
             }
         }
     }
-
-    suspend fun refresh() = refresh(showLoading = false, forceRefresh = true)
 
     fun onSearch(searchString: String) {
         searchQuery.value = searchString
@@ -149,7 +193,7 @@ open class SessionsViewModel(
             // get initial data
             coroutineScope {
                 val bookmarksResponse = async {
-                    repository.bookmarks(conference, uid, tokenProvider, fetchPolicy).first()
+                    repository.bookmarks(conference, user?.uid, user, fetchPolicy).first()
                 }
                 val sessionsResponse = async {
                     repository.conferenceData(conference, fetchPolicy)
@@ -161,27 +205,33 @@ open class SessionsViewModel(
             }
         }
 
-    private fun Flow<ResponseData?>.uiState() = flatMapLatest { responseData ->
-        if (responseData == null) {
-            flowOf(SessionsUiState.Loading)
-        } else {
-            val bookmarksData = responseData.bookmarksResponse.data
-            repository.watchBookmarks(conference, uid, tokenProvider, bookmarksData)
-                .map { responseData.copy(bookmarksResponse = it) }
-                .onStart {
-                    emit(responseData)
-                }.map {
-                    uiStates(it)
-                }
+    private fun combineUiState(): Flow<SessionsUiState> =
+        responseDatas.receiveAsFlow().flatMapLatest { responseData ->
+            if (responseData == null) {
+                flowOf(SessionsUiState.Loading)
+            } else {
+                val bookmarksData = responseData.bookmarksResponse.data
+                combine(
+                    repository.watchBookmarks(conference, user?.uid, user, bookmarksData)
+                        .map { responseData.copy(bookmarksResponse = it) }
+                        .onStart {
+                            emit(responseData)
+                        },
+                    isRefreshing,
+                    searchQuery,
+                    ::uiStates
+                )
+            }
         }
-    }
 
     private fun getSessionTime(session: SessionDetails, timeZone: TimeZone): String {
         return dateService.format(session.startsAt, timeZone, "HH:mm")
     }
 
     private fun uiStates(
-        refreshData: ResponseData
+        refreshData: ResponseData,
+        isRefreshing: Boolean,
+        searchString: String,
     ): SessionsUiState {
         val bookmarksResponse = refreshData.bookmarksResponse
         val sessionsResponse = refreshData.sessionsResponse
@@ -226,7 +276,6 @@ open class SessionsViewModel(
             dateService.format(date.atTime(0, 0), timeZone, "MMM dd, yyyy")
         }
         return SessionsUiState.Success(
-            conference = conference,
             now = dateService.now(),
             conferenceName = conferenceName,
             venueLat = venueLat,
@@ -237,17 +286,17 @@ open class SessionsViewModel(
             speakers = speakers,
             rooms = rooms,
             bookmarks = bookmarksData.bookmarks?.sessionIds.orEmpty().toSet(),
+            isRefreshing = isRefreshing,
+            searchString = searchString,
         )
     }
 }
-
 
 sealed interface SessionsUiState {
     object Loading : SessionsUiState
     object Error : SessionsUiState
 
     data class Success(
-        val conference: String,
         val now: LocalDateTime,
         val conferenceName: String,
         val venueLat: Double?,
@@ -258,5 +307,7 @@ sealed interface SessionsUiState {
         val speakers: List<SpeakerDetails>,
         val rooms: List<RoomDetails>,
         val bookmarks: Set<String>,
+        val isRefreshing: Boolean,
+        val searchString: String,
     ) : SessionsUiState
 }

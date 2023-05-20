@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class SignInScreen (
+class SignInScreen(
     carContext: CarContext,
     private val isAuthenticated: Boolean
 ) : Screen(carContext), KoinComponent {
@@ -32,7 +32,7 @@ class SignInScreen (
     private val authentication: Authentication by inject()
 
     override fun onGetTemplate(): Template {
-        val providerSignInMethod = if(isAuthenticated) {
+        val providerSignInMethod = if (isAuthenticated) {
             getSignOutAction()
         } else {
             getSignInAction()
@@ -44,7 +44,7 @@ class SignInScreen (
             .build()
     }
 
-    private fun getSignInAction() : ProviderSignInMethod {
+    private fun getSignInAction(): ProviderSignInMethod {
         return ProviderSignInMethod(
             Action.Builder()
                 .setTitle(
@@ -78,6 +78,7 @@ class SignInScreen (
                 .setOnClickListener(ParkedOnlyOnClickListener.create {
                     googleSignInClient(carContext).signOut()
                     authentication.signOut()
+                    screenManager.popToRoot()
                 })
                 .build()
         )
@@ -100,9 +101,13 @@ class SignInScreen (
                     authentication.signIn(account.idToken ?: "")
                 }
 
-                CarToast.makeText(carContext, carContext.getString(R.string.auto_sign_in_success, account.givenName), LENGTH_SHORT).show()
+                CarToast.makeText(
+                    carContext,
+                    carContext.getString(R.string.auto_sign_in_success, account.givenName),
+                    LENGTH_SHORT
+                ).show()
 
-                screenManager.pop()
+                screenManager.popToRoot()
             }
         })
 

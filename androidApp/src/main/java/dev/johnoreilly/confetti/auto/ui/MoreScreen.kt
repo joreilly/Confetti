@@ -33,7 +33,7 @@ class MoreScreen(
         listBuilder.addItem(
             Row.Builder()
                 .setTitle(carContext.getString(R.string.speakers))
-                .setOnClickListener { screenManager.push(SpeakersScreen(carContext, conference)) }
+                .setOnClickListener { screenManager.push(SpeakersScreen(carContext, conference, user)) }
                 .build()
         )
 
@@ -52,7 +52,7 @@ class MoreScreen(
         listBuilder.addItem(
             Row.Builder()
                 .setTitle(carContext.getString(R.string.search))
-                .setOnClickListener { screenManager.push(SearchScreen(carContext, conference)) }
+                .setOnClickListener { screenManager.push(SearchScreen(carContext, conference, user)) }
                 .build()
         )
 

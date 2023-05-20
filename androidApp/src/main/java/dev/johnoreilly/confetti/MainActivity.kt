@@ -13,17 +13,14 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.compose.rememberNavController
+import com.arkivanov.decompose.defaultComponentContext
 import com.google.accompanist.adaptive.calculateDisplayFeatures
-import dev.johnoreilly.confetti.settings.DarkThemeConfig
-import dev.johnoreilly.confetti.settings.SettingsViewModel
-import dev.johnoreilly.confetti.settings.ThemeBrand
-import dev.johnoreilly.confetti.settings.UserEditableSettings
+import dev.johnoreilly.confetti.account.googleSignInClient
 import dev.johnoreilly.confetti.ui.ConfettiApp
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : ComponentActivity() {
@@ -31,13 +28,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val settingsViewModel: SettingsViewModel by viewModel()
+        val settingsComponent: SettingsComponent by inject()
         var userEditableSettings by mutableStateOf<UserEditableSettings?>(null)
 
         // Update the theme settings
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                settingsViewModel.userEditableSettings.collect {
+                settingsComponent.userEditableSettings.collect {
                     userEditableSettings = it
                 }
             }
@@ -48,9 +45,13 @@ class MainActivity : ComponentActivity() {
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setContent {
-            val navController = rememberNavController()
+        val appComponent =
+            DefaultAppComponent(
+                componentContext = defaultComponentContext(),
+                onSignOut = { googleSignInClient(this).signOut() },
+            )
 
+        setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
             val displayFeatures = calculateDisplayFeatures(this)
 
@@ -61,9 +62,8 @@ class MainActivity : ComponentActivity() {
             ) {
                 ConfettiBackground {
                     ConfettiApp(
-                        navController = navController,
+                        component = appComponent,
                         windowSizeClass = windowSizeClass,
-                        displayFeatures = displayFeatures,
                     )
                 }
             }
@@ -75,17 +75,17 @@ class MainActivity : ComponentActivity() {
 private fun shouldUseDarkTheme(
     darkThemeConfig: DarkThemeConfig?,
 ): Boolean = when (darkThemeConfig) {
-        DarkThemeConfig.FOLLOW_SYSTEM, null -> isSystemInDarkTheme()
-        DarkThemeConfig.LIGHT -> false
-        DarkThemeConfig.DARK -> true
+    DarkThemeConfig.FOLLOW_SYSTEM, null -> isSystemInDarkTheme()
+    DarkThemeConfig.LIGHT -> false
+    DarkThemeConfig.DARK -> true
 }
 
 @Composable
 private fun shouldUseAndroidTheme(
     themeBrand: ThemeBrand?,
 ): Boolean = when (themeBrand) {
-        ThemeBrand.DEFAULT,null -> false
-        ThemeBrand.ANDROID -> true
+    ThemeBrand.DEFAULT, null -> false
+    ThemeBrand.ANDROID -> true
 }
 
 @Composable

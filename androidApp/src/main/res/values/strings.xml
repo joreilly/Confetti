@@ -61,7 +61,9 @@
     <string name="auto_placeholder">-</string>
     <string name="auto_speaker_biography">Biography</string>
     <string name="auto_conferences_failed">Unable to retrieve conferences list</string>
+    <string name="auto_session_failed">Unable to retrieve the session</string>
     <string name="auto_sessions_failed">Unable to retrieve sessions list</string>
+    <string name="auto_speaker_failed">Unable to retrieve the speaker</string>
     <string name="auto_speakers_failed">Unable to retrieve speakers list</string>
     <string name="auto_speakers_biography">Biography</string>
     <string name="auto_speakers_biography_more">More about %s</string>

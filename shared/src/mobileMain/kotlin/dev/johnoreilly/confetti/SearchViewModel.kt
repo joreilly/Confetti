@@ -1,41 +1,84 @@
 package dev.johnoreilly.confetti
 
-import com.rickclephas.kmm.viewmodel.KMMViewModel
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class SearchViewModel(
-    // TODO: Remove dependency between view models.
-    private val sessionsViewModel: SessionsViewModel,
-    private val speakersViewModel: SpeakersViewModel,
-) : KMMViewModel() {
+interface SearchComponent {
+
+    val isLoggedIn: Boolean
+    val search: Flow<String>
+    val loading: Flow<Boolean>
+    val sessions: Flow<List<SessionDetails>>
+    val bookmarks: Flow<Set<String>>
+    val speakers: Flow<List<SpeakerDetails>>
+
+    fun onSearchChange(query: String)
+    fun addBookmark(sessionId: String)
+    fun removeBookmark(sessionId: String)
+    fun onSessionClicked(id: String)
+    fun onSpeakerClicked(id: String)
+    fun onSignInClicked()
+}
+
+class DefaultSearchComponent(
+    componentContext: ComponentContext,
+    private val conference: String,
+    private val user: User?,
+    private val onSessionSelected: (id: String) -> Unit,
+    private val onSpeakerSelected: (id: String) -> Unit,
+    private val onSignIn: () -> Unit,
+) : SearchComponent, KoinComponent, ComponentContext by componentContext {
+
+    private val repository: ConfettiRepository by inject()
+    private val coroutineScope = coroutineScope()
 
     private val _search = MutableStateFlow("")
-    val search: Flow<String> = _search.asStateFlow()
+    override val search: Flow<String> = _search.asStateFlow()
 
-    val loading = sessionsViewModel
+    private val sessionsComponent =
+        SessionsSimpleComponent(
+            componentContext = childContext("Sessions"),
+            conference = conference,
+            user = user,
+        )
+
+    private val speakersComponent =
+        SpeakersSimpleComponent(
+            componentContext = childContext("Speakers"),
+            conference = conference,
+            repository = repository,
+        )
+
+    override val isLoggedIn: Boolean = user != null
+
+    override val loading: Flow<Boolean> = sessionsComponent
         .uiState
-        .combine(speakersViewModel.speakers) { sessions, speakers ->
+        .combine(speakersComponent.speakers) { sessions, speakers ->
             sessions is SessionsUiState.Loading || speakers is SpeakersUiState.Loading
         }
 
-    private val successSessions = sessionsViewModel
+    private val successSessions = sessionsComponent
         .uiState
         .filterIsInstance<SessionsUiState.Success>()
 
-    private val successSpeakers = speakersViewModel
+    private val successSpeakers = speakersComponent
         .speakers
         .filterIsInstance<SpeakersUiState.Success>()
 
-    val sessions = successSessions
+    override val sessions: Flow<List<SessionDetails>> = successSessions
         .map { state ->
             state
                 .sessionsByStartTimeList
@@ -46,10 +89,10 @@ class SearchViewModel(
             sessions.filter { filterSessions(it, search) }
         }
 
-    val bookmarks = successSessions
+    override val bookmarks: Flow<Set<String>> = successSessions
         .map { state -> state.bookmarks }
 
-    val speakers = successSpeakers
+    override val speakers: Flow<List<SpeakerDetails>> = successSpeakers
         .map { state -> state.speakers }
         .combine(search) { sessions, search ->
             sessions.filter { filterSpeakers(it, search) }
@@ -77,15 +120,31 @@ class SearchViewModel(
             }
     }
 
-    fun onSearchChange(query: String) {
+    override fun onSearchChange(query: String) {
         _search.update { query }
     }
 
-    fun addBookmark(sessionId: String) {
-        sessionsViewModel.addBookmark(sessionId)
+    override fun addBookmark(sessionId: String) {
+        coroutineScope.launch {
+            repository.addBookmark(conference, user?.uid, user, sessionId)
+        }
     }
 
-    fun removeBookmark(sessionId: String) {
-        sessionsViewModel.removeBookmark(sessionId)
+    override fun removeBookmark(sessionId: String) {
+        coroutineScope.launch {
+            repository.removeBookmark(conference, user?.uid, user, sessionId)
+        }
+    }
+
+    override fun onSessionClicked(id: String) {
+        onSessionSelected(id)
+    }
+
+    override fun onSpeakerClicked(id: String) {
+        onSpeakerSelected(id)
+    }
+
+    override fun onSignInClicked() {
+        onSignIn()
     }
 }

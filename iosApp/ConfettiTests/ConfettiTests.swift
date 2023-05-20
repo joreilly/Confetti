@@ -1,11 +1,15 @@
 import XCTest
 
 import ConfettiKit
-import KMPNativeCoroutinesCore
-import KMPNativeCoroutinesAsync
 
 final class ConfettiTests: XCTestCase {
-
+    
+    private let lifecycle = LifecycleRegistryKt.LifecycleRegistry(initialState: .resumed)
+    
+    private lazy var context: ComponentContext = {
+        DefaultComponentContext(lifecycle: lifecycle)
+    }()
+    
     override func setUp() {
         executionTimeAllowance = 60
         continueAfterFailure = true
@@ -18,22 +22,28 @@ final class ConfettiTests: XCTestCase {
     }
 
     func testGetConferences() async throws {
-        let viewModel = ConferencesViewModel()
+        let viewModel = DefaultConferencesComponent(
+            componentContext: context,
+            onConferenceSelected: { _ in }
+        )
         
-        let conferencesUIStateSequence = asyncSequence(for: viewModel.uiStateFlow)
-        let uiState = try await conferencesUIStateSequence.first(where: { $0 is ConferencesViewModel.Success })
-        let conferences = (uiState as! ConferencesViewModel.Success).conferences
-        XCTAssert(!conferences.isEmpty)
+        let uiState = await awaitForState(viewModel.uiState) { $0 as? ConferencesComponentSuccess }
+        
+        XCTAssert(!uiState.conferences.isEmpty)
     }
-
     
-     func testGetSessions() async throws {
-         let viewModel = SessionsViewModel(conference: "test", uid: nil, tokenProvider: nil)
+    func testGetSessions() async throws {
+        let viewModel = DefaultSessionsComponent(
+            componentContext: context,
+            conference: "test",
+            user: nil,
+            onSessionSelected: { _ in },
+            onSignIn: {}
+        )
+        
+        let uiState = await awaitForState(viewModel.uiState) { $0 as? SessionsUiStateSuccess }
 
-         let sessionsUIStateSequence = asyncSequence(for: viewModel.uiStateFlow)
-         let uiState = try await sessionsUIStateSequence.first(where: { $0 is SessionsUiStateSuccess })
-         let sessions = (uiState as! SessionsUiStateSuccess).sessionsByStartTimeList
-         XCTAssert(!sessions.isEmpty)
-     }
+        XCTAssert(!uiState.sessionsByStartTimeList.isEmpty)
+    }
 
 }

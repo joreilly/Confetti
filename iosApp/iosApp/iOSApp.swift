@@ -1,7 +1,5 @@
 import SwiftUI
 import ConfettiKit
-import KMMViewModelCore
-import KMMViewModelSwiftUI
 import BackgroundTasks
 
 
@@ -9,19 +7,30 @@ import BackgroundTasks
 struct iOSApp: App {
     @Environment(\.scenePhase) private var phase
 
-    init() {
-        KoinKt.doInitKoin()
-    }
+    @UIApplicationDelegateAdaptor(AppDelegate.self)
+    var appDelegate: AppDelegate
     
     var body: some Scene {
-		WindowGroup {
-            ConfettiApp()
-		}
+        WindowGroup {
+            ConfettiApp(appDelegate.root)
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    LifecycleRegistryExtKt.resume(appDelegate.lifecycle)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+                    LifecycleRegistryExtKt.pause(appDelegate.lifecycle)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                    LifecycleRegistryExtKt.stop(appDelegate.lifecycle)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)) { _ in
+                    LifecycleRegistryExtKt.destroy(appDelegate.lifecycle)
+                }
+        }
         .onChange(of: phase) { newPhase in
-          switch newPhase {
-          case .background: scheduleDataRefresh()
-          default: break
-          }
+            switch newPhase {
+            case .background: scheduleDataRefresh()
+            default: break
+            }
         }
         .backgroundTask(.appRefresh("refreshData")) {
             JobConferenceRefresh().refresh()

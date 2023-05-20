@@ -47,57 +47,55 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SessionDetailsViewModel
+import dev.johnoreilly.confetti.SessionDetailsComponent
+import dev.johnoreilly.confetti.SessionDetailsUiState
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.speakerdetails.navigation.SpeakerDetailsKey
 import dev.johnoreilly.confetti.ui.Bookmark
+import dev.johnoreilly.confetti.ui.ErrorView
+import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.datetime.LocalDateTime
-import org.koin.androidx.compose.getViewModel
 import org.koin.compose.koinInject
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun SessionDetailsRoute(
-    conference: String,
-    sessionId: String,
-    onBackClick: () -> Unit,
-    navigateToSignIn: () -> Unit,
-    onSpeakerClick: (key: SpeakerDetailsKey) -> Unit,
+    component: SessionDetailsComponent,
 ) {
     val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
-    val viewModel: SessionDetailsViewModel = getViewModel<SessionDetailsViewModel>().apply {
-        configure(conference, sessionId, user?.uid, user)
+    val uiState by component.uiState.subscribeAsState()
+    val isBookmarked by component.isBookmarked.collectAsStateWithLifecycle()
+
+    val addErrorCount by component.addErrorChannel.receiveAsFlow()
+        .collectAsStateWithLifecycle(initialValue = 0)
+    val removeErrorCount by component.removeErrorChannel.receiveAsFlow()
+        .collectAsStateWithLifecycle(initialValue = 0)
+
+    when (val state = uiState) {
+        is SessionDetailsUiState.Loading -> LoadingView()
+        is SessionDetailsUiState.Error -> ErrorView()
+
+        is SessionDetailsUiState.Success ->
+            SessionDetailView(
+                session = state.sessionDetails,
+                popBack = component::onCloseClicked,
+                share = rememberShareDetails(state.sessionDetails),
+                addBookmark = component::addBookmark,
+                removeBookmark = component::removeBookmark,
+                isUserLoggedIn = user != null,
+                isBookmarked = isBookmarked,
+                navigateToSignIn = component::onSignInClicked,
+                addErrorCount = addErrorCount,
+                removeErrorCount = removeErrorCount,
+                onSpeakerClick = component::onSpeakerClicked,
+            )
     }
-    val session by viewModel.session.collectAsStateWithLifecycle()
-    val isBookmarked by viewModel.isBookmarked.collectAsStateWithLifecycle()
-
-    val addErrorCount by viewModel.addErrorChannel.receiveAsFlow()
-        .collectAsStateWithLifecycle(initialValue = 0)
-    val removeErrorCount by viewModel.removeErrorChannel.receiveAsFlow()
-        .collectAsStateWithLifecycle(initialValue = 0)
-
-    val share = rememberShareDetails(session)
-    SessionDetailView(
-        session = session,
-        popBack = onBackClick,
-        share = share,
-        addBookmark = viewModel::addBookmark,
-        removeBookmark = viewModel::removeBookmark,
-        isUserLoggedIn = user != null,
-        isBookmarked = isBookmarked,
-        navigateToSignIn = navigateToSignIn,
-        addErrorCount = addErrorCount,
-        removeErrorCount = removeErrorCount,
-        onSpeakerClick = { speakerId ->
-            onSpeakerClick(SpeakerDetailsKey(conference = conference, speakerId = speakerId))
-        },
-    )
 }
 
 @Composable
@@ -227,17 +225,17 @@ fun SessionDetailView(
                                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem.url))
                                     context.startActivity(intent)
                                 },
-                                onSpeakerClick = onSpeakerClick
+                                onSpeakerClick = onSpeakerClick,
                             )
                         }
                     }
                 }
-            }
-            if (showDialog) {
-                SignInDialog(
-                    onDismissRequest = { showDialog = false },
-                    onSignInClicked = navigateToSignIn
-                )
+                if (showDialog) {
+                    SignInDialog(
+                        onDismissRequest = { showDialog = false },
+                        onSignInClicked = navigateToSignIn
+                    )
+                }
             }
         }
 

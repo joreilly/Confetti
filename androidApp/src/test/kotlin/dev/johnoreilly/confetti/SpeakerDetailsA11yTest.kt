@@ -34,7 +34,6 @@ class SpeakerDetailsScA11yTest : BaseScreenshotTest(false, a11yEnabled = true) {
             }
         ) {
             SpeakerDetailsView(
-                conference = "droidCon",
                 speaker = mockSpeaker,
                 navigateToSession = {},
                 popBack = {}

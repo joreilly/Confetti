@@ -38,6 +38,20 @@ A type representing a formatted kotlinx.datetime.Instant
 """
 scalar Instant
 
+type Link {
+  type: LinkType!
+
+  url: String!
+}
+
+enum LinkType {
+  YouTube
+
+  Audio
+
+  Other
+}
+
 """
 A type representing a formatted kotlinx.datetime.LocalDate
 """
@@ -137,6 +151,8 @@ type Session {
   An [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US
   """
   language: String
+
+  links: [Link!]!
 
   """
   A shorter version of description for use when real estate is scarce like watches for an example.

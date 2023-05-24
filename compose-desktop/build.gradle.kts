@@ -21,7 +21,7 @@ tasks.withType<KotlinCompile>() {
 
 compose {
     kotlinCompilerPlugin.set(libs.versions.compose.compiler.get())
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.0-Beta")
 }
 
 application {

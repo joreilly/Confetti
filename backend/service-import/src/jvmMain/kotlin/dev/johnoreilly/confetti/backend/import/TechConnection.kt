@@ -81,9 +81,9 @@ object TechConnection {
                     complexity = null,
                     feedbackId = null,
                     tags = emptyList(),
-                    rooms = emptyList(),
+                    rooms = listOf("Main Track"),
                     speakers = emptyList(),
-                    links = emptyList()
+                    links = emptyList(),
                 )
             },
             rooms = listOf(DRoom("Main Track", "Main Track")),

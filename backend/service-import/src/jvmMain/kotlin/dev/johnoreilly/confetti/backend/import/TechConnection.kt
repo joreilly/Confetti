@@ -82,7 +82,7 @@ object TechConnection {
                     feedbackId = null,
                     tags = emptyList(),
                     rooms = listOf("Main Track"),
-                    speakers = emptyList(),
+                    speakers = it.speakersPlainText.orEmpty().split(",").map { it.trim() },
                     links = emptyList(),
                 )
             },

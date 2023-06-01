@@ -97,6 +97,8 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.Fosdem2023 -> Fosdem.import()
         ConferenceId.KotlinConf2023 -> Sessionize.importKotlinConf2023()
         ConferenceId.AndroidMakers2023 -> Sessionize.importAndroidMakers2023()
+        ConferenceId.FlutterConnection2023 -> TechConnection.importFlutter2023()
+        ConferenceId.ReactNativeConnection2023 -> TechConnection.importReactNative2023()
         ConferenceId.TestConference -> error("The test Conference cannot be updated")
         null -> error("")
     }

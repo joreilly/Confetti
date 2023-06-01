@@ -9,6 +9,8 @@ enum class ConferenceId(val id: String) {
     Fosdem2023("fosdem2023"),
     KotlinConf2023("kotlinconf2023"),
     AndroidMakers2023("androidmakers2023"),
+    FlutterConnection2023("flutterconnection2023"),
+    ReactNativeConnection2023("reactnativeconnection2023"),
     TestConference("test"),
     ;
 

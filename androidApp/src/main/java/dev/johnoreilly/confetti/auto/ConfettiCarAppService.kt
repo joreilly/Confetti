@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.car.app.CarAppService
 import androidx.car.app.Screen
+import androidx.car.app.ScreenManager
 import androidx.car.app.Session
 import androidx.car.app.SessionInfo
 import androidx.car.app.validation.HostValidator
@@ -31,6 +32,9 @@ class ConfettiCarAppService : CarAppService() {
                 ) {
                     NavigationScreen(carContext)
                 } else {
+
+                    val screenManager = carContext.getCarService(ScreenManager::class.java)
+                    screenManager.push(NavigationScreen(carContext))
                     PermissionScreen(carContext)
                 }
             }

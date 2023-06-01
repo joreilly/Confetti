@@ -3,9 +3,6 @@ package dev.johnoreilly.confetti.auto.utils
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
@@ -19,7 +16,6 @@ import coil.request.ImageRequest
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.datetime.LocalDateTime
-import java.io.IOException
 import java.time.format.DateTimeFormatter
 
 const val METERS_TO_KMS = 1000
@@ -50,17 +46,6 @@ fun colorize(str: String, color: CarColor, index: Int, length: Int): CharSequenc
 
 fun formatDateTime(time: LocalDateTime): String {
     return DateTimeFormatter.ofPattern("MMM d, HH:mm").format(time)
-}
-
-fun getAddressForLocation(geocoder: Geocoder, location: Location): Address? {
-    return try {
-        val addresses = geocoder.getFromLocation(
-            location.latitude, location.longitude, 1 /* maxResults */
-        )
-        if (addresses!!.isNotEmpty()) addresses[0] else null
-    } catch (ex: IOException) {
-        null
-    }
 }
 
 fun navigateTo(carContext: CarContext, latitude: Double, longitude: Double) {

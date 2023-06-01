@@ -1,6 +1,8 @@
 package dev.johnoreilly.confetti.auto.navigation
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.text.SpannableString
@@ -20,6 +22,7 @@ import androidx.car.app.model.PlaceListMapTemplate
 import androidx.car.app.model.PlaceMarker
 import androidx.car.app.model.Row
 import androidx.car.app.model.Template
+import androidx.core.content.ContextCompat
 import dev.johnoreilly.confetti.ConferencesVenueComponent
 import dev.johnoreilly.confetti.DefaultConferencesVenueComponent
 import dev.johnoreilly.confetti.GetConferencesQuery
@@ -30,12 +33,11 @@ import dev.johnoreilly.confetti.auto.sessions.SessionsScreen
 import dev.johnoreilly.confetti.auto.ui.ErrorScreen
 import dev.johnoreilly.confetti.auto.utils.METERS_TO_KMS
 import dev.johnoreilly.confetti.auto.utils.defaultComponentContext
-import org.koin.core.component.KoinComponent
 import kotlin.math.roundToInt
 
 class NavigationScreen(
     carContext: CarContext,
-) : Screen(carContext), KoinComponent {
+) : Screen(carContext) {
 
     private var defaultLocation: Location? = null
 
@@ -46,12 +48,13 @@ class NavigationScreen(
         )
 
     init {
-        setLocation()
         component.uiState.subscribe { invalidate() }
     }
 
     override fun onGetTemplate(): Template {
         val result = component.uiState.value
+
+        setLocation()
 
         var listBuilder = ItemList.Builder()
         val loading = when (result) {
@@ -135,7 +138,8 @@ class NavigationScreen(
                             )
                             .build()
                     )
-                    .build())
+                    .build()
+            )
         }
 
 
@@ -151,13 +155,17 @@ class NavigationScreen(
     }
 
     private fun setLocation() {
-        val locationManager = carContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        defaultLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER, 1000, 1f
+        if (ContextCompat.checkSelfPermission(carContext, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
         ) {
-            defaultLocation = it
-            invalidate()
+            val locationManager = carContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            defaultLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 1000, 1f
+            ) {
+                defaultLocation = it
+                invalidate()
+            }
         }
     }
 }

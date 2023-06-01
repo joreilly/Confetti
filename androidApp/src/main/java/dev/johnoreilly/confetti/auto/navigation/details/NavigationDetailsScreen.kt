@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.auto.navigation.details
 
-import android.location.Geocoder
 import android.location.Location
 import android.text.SpannableString
 import android.text.Spanned
@@ -23,20 +22,16 @@ import androidx.core.graphics.drawable.IconCompat
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.GetVenueQuery
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.auto.sessions.SessionsScreen
+import dev.johnoreilly.confetti.auto.ui.MoreScreen
 import dev.johnoreilly.confetti.auto.utils.METERS_TO_KMS
-import dev.johnoreilly.confetti.auto.utils.getAddressForLocation
 import dev.johnoreilly.confetti.auto.utils.navigateTo
-import org.koin.core.component.KoinComponent
 import kotlin.math.roundToInt
 
 class NavigationDetailsScreen(
     carContext: CarContext,
     val data: Pair<GetConferencesQuery.Conference, GetVenueQuery.Venue>,
     private val location: Location?
-) : Screen(carContext), KoinComponent {
-
-    private var mGeocoder: Geocoder = Geocoder(carContext)
+) : Screen(carContext) {
 
     override fun onGetTemplate(): Template {
         val listBuilder = showPOIDetails(data)
@@ -45,7 +40,7 @@ class NavigationDetailsScreen(
         val anchor = getAnchorLocation(data.second)
 
         return PlaceListMapTemplate.Builder().apply {
-            setTitle(data.first.name)
+            setTitle(carContext.getString(R.string.app_name))
             setHeaderAction(Action.BACK)
             setAnchor(anchor)
             setCurrentLocationEnabled(true)
@@ -65,12 +60,10 @@ class NavigationDetailsScreen(
         venueLocation.latitude = venue.latitude ?: 0.0
         venueLocation.longitude = venue.longitude ?: 0.0
 
-        val venueAddress = getAddressForLocation(mGeocoder, venueLocation)
-
         val distanceMeters = location?.distanceTo(venueLocation)?.roundToInt() ?: 0
         val distanceKm: Int = distanceMeters / METERS_TO_KMS
 
-        val description = SpannableString("   \u00b7 " + venue.name)
+        val description = SpannableString("   \u00b7 ${venue.name} ${venue.address}")
         description.setSpan(
             DistanceSpan.create(Distance.create(distanceKm.toDouble(), Distance.UNIT_KILOMETERS)),
             0,
@@ -83,19 +76,13 @@ class NavigationDetailsScreen(
             1,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        description.setSpan(
-            venueAddress,
-            0,
-            1,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
 
         listBuilder.addItem(
             Row.Builder()
                 .setOnClickListener {
-                    screenManager.push(SessionsScreen(carContext, conference.id))
+                    screenManager.push(MoreScreen(carContext, conference))
                 }
-                .setTitle(venue.name)
+                .setTitle(data.first.name)
                 .addText(description)
                 .setBrowsable(false)
                 .build())

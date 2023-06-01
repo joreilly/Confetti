@@ -86,9 +86,9 @@ class DefaultAppComponent(
                         componentContext = componentContext,
                         onConferenceSelected = { conference ->
                             coroutineScope.launch {
-                                repository.setConference(conference = conference)
+                                repository.setConference(conference = conference.id)
                             }
-                            showConference(conference = conference)
+                            showConference(conference = conference.id)
                         },
                     )
                 )

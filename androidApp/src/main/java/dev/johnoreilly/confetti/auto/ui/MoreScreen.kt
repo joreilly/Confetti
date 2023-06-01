@@ -7,29 +7,40 @@ import androidx.car.app.model.ItemList
 import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.Template
+import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.auth.User
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auto.bookmarks.BookmarksScreen
 import dev.johnoreilly.confetti.auto.search.SearchScreen
+import dev.johnoreilly.confetti.auto.sessions.SessionsScreen
 import dev.johnoreilly.confetti.auto.signin.SignInScreen
 import dev.johnoreilly.confetti.auto.speakers.SpeakersScreen
-import dev.johnoreilly.confetti.auto.utils.navigateTo
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
 class MoreScreen(
     carContext: CarContext,
-    private val conference: String,
-    private val user: User?,
-    private val venueLat: Double?,
-    private val venueLon: Double?,
-) : Screen(carContext) {
+    private val conference: GetConferencesQuery.Conference
+) : Screen(carContext), KoinComponent {
+
+    private val authentication: Authentication by inject()
 
     override fun onGetTemplate(): Template {
+        val user = authentication.currentUser.value
+
         val listBuilder = ItemList.Builder()
         listBuilder.addItem(
             Row.Builder()
+                .setTitle(carContext.getString(R.string.sessions))
+                .setOnClickListener { screenManager.push(SessionsScreen(carContext, conference.id)) }
+                .build()
+        )
+
+        listBuilder.addItem(
+            Row.Builder()
                 .setTitle(carContext.getString(R.string.speakers))
-                .setOnClickListener { screenManager.push(SpeakersScreen(carContext, conference, user)) }
+                .setOnClickListener { screenManager.push(SpeakersScreen(carContext, conference.id, user)) }
                 .build()
         )
 
@@ -40,7 +51,7 @@ class MoreScreen(
                     BookmarksScreen(
                         carContext,
                         user,
-                        conference
+                        conference.id
                     )) }
                 .build()
         )
@@ -48,18 +59,9 @@ class MoreScreen(
         listBuilder.addItem(
             Row.Builder()
                 .setTitle(carContext.getString(R.string.search))
-                .setOnClickListener { screenManager.push(SearchScreen(carContext, conference, user)) }
+                .setOnClickListener { screenManager.push(SearchScreen(carContext, conference.id, user)) }
                 .build()
         )
-
-        if (venueLat != null && venueLon != null) {
-            listBuilder.addItem(
-                Row.Builder()
-                    .setTitle(carContext.getString(R.string.auto_navigate_to))
-                    .setOnClickListener { navigateTo(carContext, venueLat, venueLon) }
-                    .build()
-            )
-        }
 
         val isAuthenticated = user != null
         listBuilder.addItem(
@@ -81,7 +83,7 @@ class MoreScreen(
         )
 
         return ListTemplate.Builder().apply {
-            setTitle(carContext.getString(R.string.auto_more))
+            setTitle(conference.name)
             setHeaderAction(Action.BACK)
             setLoading(false)
             setSingleList(listBuilder.build())

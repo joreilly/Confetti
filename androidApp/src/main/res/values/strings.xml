@@ -44,7 +44,6 @@
     <string name="no_paired_watch">No paired Watch</string>
 
     <!-- Android Auto -->
-    <string name="auto_more">More</string>
     <string name="auto_retry">Retry</string>
     <string name="auto_sign_in">Sign in</string>
     <string name="auto_sign_in_google">Sign in with Google</string>
@@ -63,8 +62,6 @@
     <string name="auto_permission_message">You need to grant the location permission to navigate to nearby conferences</string>
     <string name="auto_permission_granted">Location permission granted</string>
     <string name="auto_permission_not_granted">You need to grant the location permission</string>
-    <string name="auto_speaker_biography">Biography</string>
-    <string name="auto_conferences">Conferences</string>
     <string name="auto_conferences_failed">Unable to retrieve conferences list</string>
     <string name="auto_session_failed">Unable to retrieve the session</string>
     <string name="auto_sessions_failed">Unable to retrieve sessions list</string>
@@ -73,7 +70,6 @@
     <string name="auto_speakers_biography">Biography</string>
     <string name="auto_speakers_biography_more">More about %s</string>
     <string name="auto_speakers_sessions">Session</string>
-    <string name="auto_bookmarks_failed">Unable to retrieve bookmarks list</string>
     <string name="auto_no_information">No data available</string>
 
 </resources>

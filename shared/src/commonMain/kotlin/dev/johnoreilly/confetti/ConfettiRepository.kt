@@ -167,10 +167,21 @@ class ConfettiRepository : KoinComponent {
             .execute()
     }
 
+    suspend fun conferenceVenue(conference: String, fetchPolicy: FetchPolicy): ApolloResponse<GetVenueQuery.Data> {
+        return conferenceVenueQuery(conference, fetchPolicy)
+            .execute()
+    }
+
     fun conferencesQuery(fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst): ApolloCall<GetConferencesQuery.Data> =
         apolloClientCache.getClient("all")
             .query(GetConferencesQuery())
             .fetchPolicy(fetchPolicy)
+
+    private fun conferenceVenueQuery(conference: String, fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst): ApolloCall<GetVenueQuery.Data> =
+        apolloClientCache.getClient(conference)
+            .query(GetVenueQuery())
+            .fetchPolicy(fetchPolicy)
+
 
     suspend fun getConference(): String {
         return appSettings.getConference()

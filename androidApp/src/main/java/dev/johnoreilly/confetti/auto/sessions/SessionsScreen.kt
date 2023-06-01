@@ -116,14 +116,20 @@ class SessionsScreen(
             val listBuilder = ItemList.Builder()
 
             sessions.forEach { session ->
+                val speakers = session.speakers.map { it.speakerDetails.name }
+
                 listBuilder.addItem(
-                    Row.Builder()
-                        .setTitle(session.title)
-                        .addText(session.speakers.map { it.speakerDetails.name }.toString())
-                        .setOnClickListener {
+                    Row.Builder().apply {
+                        setTitle(session.title)
+
+                        if (speakers.isNotEmpty()) {
+                            addText(speakers.toString())
+                        }
+
+                        setOnClickListener {
                             component.onSessionClicked(id = session.id)
                         }
-                        .build()
+                    }.build()
                 )
             }
 

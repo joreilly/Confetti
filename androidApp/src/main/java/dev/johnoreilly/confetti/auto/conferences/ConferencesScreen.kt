@@ -53,7 +53,7 @@ class ConferencesScreen(
         val items = listBuilder.build()
         return ListTemplate.Builder().apply {
             setTitle(carContext.getString(R.string.app_name))
-            setHeaderAction(Action.APP_ICON)
+            setHeaderAction(Action.BACK)
             setLoading(loading)
             if (!loading) {
                 setSingleList(items)

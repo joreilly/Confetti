@@ -59,7 +59,12 @@
     <string name="auto_session_remove_bookmark_success">Removed from bookmarks</string>
     <string name="auto_session_text">[%s] %s</string>
     <string name="auto_placeholder">-</string>
+    <string name="auto_permission_title">Grant permission</string>
+    <string name="auto_permission_message">You need to grant the location permission to navigate to nearby conferences</string>
+    <string name="auto_permission_granted">Location permission granted</string>
+    <string name="auto_permission_not_granted">You need to grant the location permission</string>
     <string name="auto_speaker_biography">Biography</string>
+    <string name="auto_conferences">Conferences</string>
     <string name="auto_conferences_failed">Unable to retrieve conferences list</string>
     <string name="auto_session_failed">Unable to retrieve the session</string>
     <string name="auto_sessions_failed">Unable to retrieve sessions list</string>

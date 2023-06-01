@@ -1,11 +1,6 @@
 package dev.johnoreilly.confetti.auto.ui
 
-import android.content.Intent
-import android.net.Uri
 import androidx.car.app.CarContext
-import androidx.car.app.CarToast
-import androidx.car.app.CarToast.LENGTH_SHORT
-import androidx.car.app.HostException
 import androidx.car.app.Screen
 import androidx.car.app.model.Action
 import androidx.car.app.model.ItemList
@@ -18,6 +13,7 @@ import dev.johnoreilly.confetti.auto.bookmarks.BookmarksScreen
 import dev.johnoreilly.confetti.auto.search.SearchScreen
 import dev.johnoreilly.confetti.auto.signin.SignInScreen
 import dev.johnoreilly.confetti.auto.speakers.SpeakersScreen
+import dev.johnoreilly.confetti.auto.utils.navigateTo
 
 
 class MoreScreen(
@@ -60,7 +56,7 @@ class MoreScreen(
             listBuilder.addItem(
                 Row.Builder()
                     .setTitle(carContext.getString(R.string.auto_navigate_to))
-                    .setOnClickListener { navigateTo(venueLat, venueLon) }
+                    .setOnClickListener { navigateTo(carContext, venueLat, venueLon) }
                     .build()
             )
         }
@@ -90,20 +86,5 @@ class MoreScreen(
             setLoading(false)
             setSingleList(listBuilder.build())
         }.build()
-    }
-
-    private fun navigateTo(latitude: Double, longitude: Double) {
-        val uri = Uri.parse("geo:0,0?q=$latitude,$longitude")
-        val intent = Intent(CarContext.ACTION_NAVIGATE, uri)
-
-        try {
-            carContext.startCarApp(intent)
-        } catch (e: HostException) {
-            CarToast.makeText(
-                carContext,
-                carContext.getString(R.string.auto_navigate_to_failed),
-                LENGTH_SHORT
-            ).show()
-        }
     }
 }

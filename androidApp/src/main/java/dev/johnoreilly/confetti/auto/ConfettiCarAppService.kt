@@ -1,13 +1,17 @@
 package dev.johnoreilly.confetti.auto
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.car.app.CarAppService
 import androidx.car.app.Screen
 import androidx.car.app.Session
 import androidx.car.app.SessionInfo
 import androidx.car.app.validation.HostValidator
+import androidx.core.content.ContextCompat
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.auto.conferences.ConferencesScreen
+import dev.johnoreilly.confetti.auto.navigation.NavigationScreen
+import dev.johnoreilly.confetti.auto.permissions.PermissionScreen
 
 class ConfettiCarAppService : CarAppService() {
 
@@ -22,7 +26,13 @@ class ConfettiCarAppService : CarAppService() {
         return object : Session() {
 
             override fun onCreateScreen(intent: Intent): Screen {
-                return ConferencesScreen(carContext)
+                return if (ContextCompat.checkSelfPermission(carContext, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED
+                ) {
+                    NavigationScreen(carContext)
+                } else {
+                    PermissionScreen(carContext)
+                }
             }
         }
     }

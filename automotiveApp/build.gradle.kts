@@ -6,8 +6,6 @@ import java.util.*
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
 }
 
 configureCompilerOptions()
@@ -40,11 +38,11 @@ fun versionName(): String {
 }
 
 android {
-    compileSdk = AndroidSdk.compile
+    compileSdk = AutomotiveSdk.compile
     defaultConfig {
         applicationId = "dev.johnoreilly.confetti"
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
+        minSdk = AutomotiveSdk.min
+        targetSdk = AutomotiveSdk.target
 
         versionCode = versionCode()
         versionName = versionName()
@@ -88,7 +86,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
-    
+
     buildTypes {
         getByName("release") {
             isShrinkResources = true
@@ -133,65 +131,18 @@ android {
     namespace = "dev.johnoreilly.confetti"
 }
 
-
-kotlin {
-    sourceSets.all {
-        languageSettings {
-            optIn("androidx.compose.material.ExperimentalMaterialApi")
-            optIn("kotlin.RequiresOptIn")
-        }
-    }
-}
-
 dependencies {
+
     implementation(project(":common:car"))
     implementation(project(":shared"))
-    testImplementation(project(":androidTest"))
 
     implementation(libs.compose.compiler)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.graphics)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.compose.foundation.layout)
-    implementation(libs.compose.material)
-    implementation(libs.compose.material.icons.core)
-    implementation(libs.compose.material.icons.extended)
-    implementation(libs.coil.compose)
-
-    implementation(libs.decompose.decompose)
-    implementation(libs.decompose.extensions.compose.jetpack)
-
-    implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)
-    implementation(libs.material3.core)
-    implementation(libs.material3.window.size)
-    implementation(libs.splash.screen)
 
-    implementation(libs.accompanist.adaptive)
-    implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.koin.core)
-    implementation(libs.koin.android)
-    implementation(libs.koin.compose)
-    implementation(libs.androidx.work.runtime.ktx)
-
-    implementation(libs.horologist.datalayer)
-    implementation(libs.horologist.datalayer.phone)
-
-    implementation(libs.kmm.viewmodel)
-
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.google.services)
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.performance)
-    implementation(libs.play.services.auth)
     coreLibraryDesugaring(libs.desugar)
 
-    testImplementation(libs.snapshot.android)
+    implementation(libs.car.app.automotive)
 
-    testImplementation(libs.junit)
-    testImplementation(libs.robolectric)
-    testImplementation(libs.compose.ui.test.junit4)
-    testImplementation(libs.koin.test)
-    debugImplementation(libs.compose.ui.manifest)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 }

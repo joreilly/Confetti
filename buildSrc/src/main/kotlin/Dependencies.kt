@@ -12,5 +12,11 @@ object WearSdk {
     const val target = 30
 }
 
+object AutomotiveSdk {
+    const val min = 29
+    const val compile = 33
+    const val target = compile
+}
+
 
 

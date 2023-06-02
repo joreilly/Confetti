@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="NightAdjusted.Theme.Confetti" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowLightStatusBar" >true</item>
+        <item name="android:windowLightNavigationBar" >true</item>
+    </style>
+
+    <style name="PlatformAdjusted.Theme.Confetti" parent="NightAdjusted.Theme.Confetti">
+        <item name="android:statusBarColor">@color/black30</item>
+    </style>
+
+    <style name="Theme.Confetti" parent="PlatformAdjusted.Theme.Confetti" />
+
+</resources>

@@ -22,7 +22,7 @@ struct ConferencesView: View {
                         Spacer()
                         Text("\(conference.days[0])")
                     }.onTapGesture {
-                        component.onConferenceClicked(conference: conference.id)
+                        component.onConferenceClicked(conference: conference)
                     }
                 }
                 .navigationTitle("Choose conference")

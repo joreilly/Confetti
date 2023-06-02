@@ -19,7 +19,7 @@ interface ConferencesComponent {
     val uiState: Value<UiState>
 
     fun refresh()
-    fun onConferenceClicked(conference: String)
+    fun onConferenceClicked(conference: GetConferencesQuery.Conference)
 
     sealed interface UiState
     object Loading : UiState
@@ -29,7 +29,7 @@ interface ConferencesComponent {
 
 class DefaultConferencesComponent(
     componentContext: ComponentContext,
-    private val onConferenceSelected: (conference: String) -> Unit,
+    private val onConferenceSelected: (conference: GetConferencesQuery.Conference) -> Unit,
 ) : ConferencesComponent, KoinComponent, ComponentContext by componentContext {
     private val coroutineScope = coroutineScope()
     val repository: ConfettiRepository = get()
@@ -71,7 +71,7 @@ class DefaultConferencesComponent(
         }
     }
 
-    override fun onConferenceClicked(conference: String) {
+    override fun onConferenceClicked(conference: GetConferencesQuery.Conference) {
         onConferenceSelected(conference)
     }
 }

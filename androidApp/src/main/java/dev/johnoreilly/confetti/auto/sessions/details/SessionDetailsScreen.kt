@@ -72,7 +72,7 @@ class SessionDetailsScreen(
 
             is SessionDetailsUiState.Success -> {
                 val session = state.sessionDetails
-                LongMessageTemplate.Builder(session.sessionDescription ?: "").apply {
+                LongMessageTemplate.Builder(session.sessionDescription ?: carContext.getString(R.string.auto_no_information)).apply {
                     setTitle(session.title)
                     setHeaderAction(Action.BACK)
 

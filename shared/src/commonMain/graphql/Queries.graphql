@@ -83,6 +83,24 @@ query GetConferences{
     }
 }
 
+query GetVenue {
+    conferences {
+        id
+        name
+    }
+
+    venues {
+        id
+        name
+        address
+        description
+        latitude
+        longitude
+        imageUrl
+        floorPlanUrl
+    }
+}
+
 fragment SessionDetails on Session {
     id
     title

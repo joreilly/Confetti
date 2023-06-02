@@ -11,8 +11,8 @@ import dev.johnoreilly.confetti.ConferencesComponent
 import dev.johnoreilly.confetti.DefaultConferencesComponent
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.auto.sessions.SessionsScreen
 import dev.johnoreilly.confetti.auto.ui.ErrorScreen
+import dev.johnoreilly.confetti.auto.ui.MoreScreen
 import dev.johnoreilly.confetti.auto.utils.defaultComponentContext
 import org.koin.core.component.KoinComponent
 
@@ -23,7 +23,7 @@ class ConferencesScreen(
     private val component: ConferencesComponent =
         DefaultConferencesComponent(
             componentContext = defaultComponentContext(),
-            onConferenceSelected = { id -> screenManager.push(SessionsScreen(carContext, id)) },
+            onConferenceSelected = { conference -> screenManager.push(MoreScreen(carContext, conference)) },
         )
 
     init {
@@ -53,7 +53,7 @@ class ConferencesScreen(
         val items = listBuilder.build()
         return ListTemplate.Builder().apply {
             setTitle(carContext.getString(R.string.app_name))
-            setHeaderAction(Action.APP_ICON)
+            setHeaderAction(Action.BACK)
             setLoading(loading)
             if (!loading) {
                 setSingleList(items)
@@ -68,7 +68,7 @@ class ConferencesScreen(
                 Row.Builder()
                     .setTitle(conference.name)
                     .setOnClickListener {
-                        component.onConferenceClicked(conference = conference.id)
+                        component.onConferenceClicked(conference = conference)
                     }
                     .build()
             )

@@ -19,7 +19,6 @@ import dev.johnoreilly.confetti.auto.ui.ErrorScreen
 import dev.johnoreilly.confetti.auto.utils.defaultComponentContext
 import dev.johnoreilly.confetti.auto.utils.fetchImage
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow

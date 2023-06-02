@@ -3,7 +3,6 @@ package dev.johnoreilly.confetti.auto.sessions
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
 import androidx.car.app.model.Action
-import androidx.car.app.model.ActionStrip
 import androidx.car.app.model.ItemList
 import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
@@ -15,7 +14,6 @@ import dev.johnoreilly.confetti.SessionsUiState
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auto.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.auto.ui.ErrorScreen
-import dev.johnoreilly.confetti.auto.ui.MoreScreen
 import dev.johnoreilly.confetti.auto.utils.defaultComponentContext
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import org.koin.core.component.KoinComponent
@@ -55,8 +53,6 @@ class SessionsScreen(
 
         var listBuilder = ListTemplate.Builder()
 
-        var venueLat: Double? = null
-        var venueLon: Double? = null
         val loading = when (result) {
             SessionsUiState.Loading -> {
                 true
@@ -67,8 +63,6 @@ class SessionsScreen(
             }
 
             is SessionsUiState.Success -> {
-                venueLat = result.venueLat
-                venueLon = result.venueLon
                 listBuilder = createSessionsList(result.sessionsByStartTimeList)
                 false
             }
@@ -78,24 +72,6 @@ class SessionsScreen(
             setTitle(carContext.getString(R.string.schedule))
             setHeaderAction(Action.BACK)
             setLoading(loading)
-            setActionStrip(
-                ActionStrip.Builder()
-                    .addAction(
-                        Action.Builder()
-                            .setTitle(carContext.getString(R.string.auto_more))
-                            .setOnClickListener {
-                                screenManager.push(
-                                    MoreScreen(
-                                        carContext,
-                                        conference,
-                                        authentication.currentUser.value,
-                                        venueLat,
-                                        venueLon
-                                    )
-                                )
-                            }
-                            .build())
-                    .build())
         }.build()
     }
 
@@ -116,14 +92,20 @@ class SessionsScreen(
             val listBuilder = ItemList.Builder()
 
             sessions.forEach { session ->
+                val speakers = session.speakers.map { it.speakerDetails.name }
+
                 listBuilder.addItem(
-                    Row.Builder()
-                        .setTitle(session.title)
-                        .addText(session.speakers.map { it.speakerDetails.name }.toString())
-                        .setOnClickListener {
+                    Row.Builder().apply {
+                        setTitle(session.title)
+
+                        if (speakers.isNotEmpty()) {
+                            addText(speakers.toString())
+                        }
+
+                        setOnClickListener {
                             component.onSessionClicked(id = session.id)
                         }
-                        .build()
+                    }.build()
                 )
             }
 

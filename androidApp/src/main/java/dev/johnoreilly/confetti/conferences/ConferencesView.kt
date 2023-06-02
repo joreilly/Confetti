@@ -51,7 +51,7 @@ fun ConferencesRoute(
 }
 
 @Composable
-fun ConferencesView(conferenceList: List<GetConferencesQuery.Conference>, navigateToConference: (String) -> Unit) {
+fun ConferencesView(conferenceList: List<GetConferencesQuery.Conference>, navigateToConference: (GetConferencesQuery.Conference) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +67,7 @@ fun ConferencesView(conferenceList: List<GetConferencesQuery.Conference>, naviga
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(8.dp))
                         .clickable(onClick = {
-                            navigateToConference(conference.id)
+                            navigateToConference(conference)
                         })
                         .padding(16.dp)
                         .fillMaxWidth()

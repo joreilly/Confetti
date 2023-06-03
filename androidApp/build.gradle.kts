@@ -40,10 +40,6 @@ fun versionName(): String {
 }
 
 android {
-    lint {
-        checkReleaseBuilds = false
-    }
-
     compileSdk = AndroidSdk.compile
     defaultConfig {
         applicationId = "dev.johnoreilly.confetti"

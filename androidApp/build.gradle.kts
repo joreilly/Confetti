@@ -40,6 +40,10 @@ fun versionName(): String {
 }
 
 android {
+    lint {
+        checkReleaseBuilds = false
+    }
+
     compileSdk = AndroidSdk.compile
     defaultConfig {
         applicationId = "dev.johnoreilly.confetti"
@@ -67,7 +71,6 @@ android {
             keyPassword = keystoreProperties["keyPassword"] as String?
             storePassword = keystoreProperties["storePassword"] as String?
             enableV2Signing = true
-            storeFile = file("/Users/carlosmota/Projects/GitHub/Confetti/androidApp/confetti.keystore")
         }
     }
 

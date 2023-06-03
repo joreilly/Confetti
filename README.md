@@ -54,7 +54,7 @@ Requires XCode 14 or later for iOS client.
 
 <img src="androidApp/snapshot/walkthroughAndroidAuto.gif" alt="Walkthrough of Confetti running on Android Auto" />
 
-<img src="androidApp/snapshot/walkthroughAndroidAutomotive.gif" alt="Walkthrough of Confetti running on Android Automotive" />
+<img src="automotiveApp/snapshot/walkthroughAndroidAutomotive.gif" alt="Walkthrough of Confetti running on Android Automotive" />
 
 ### API
 

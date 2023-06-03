@@ -54,7 +54,9 @@ class NavigationScreen(
     override fun onGetTemplate(): Template {
         val result = component.uiState.value
 
-        setLocation()
+        if (defaultLocation == null) {
+            setLocation()
+        }
 
         var listBuilder = ItemList.Builder()
         val loading = when (result) {
@@ -163,6 +165,11 @@ class NavigationScreen(
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 1000, 1f
             ) {
+                if (defaultLocation?.latitude == it.latitude &&
+                    defaultLocation?.longitude == it.longitude) {
+                    return@requestLocationUpdates
+                }
+
                 defaultLocation = it
                 invalidate()
             }

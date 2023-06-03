@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.auto.utils
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -13,9 +14,11 @@ import androidx.car.app.model.CarColor
 import androidx.car.app.model.ForegroundCarColorSpan
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.utils.format
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
 
 const val METERS_TO_KMS = 1000
@@ -45,8 +48,14 @@ fun colorize(str: String, color: CarColor, index: Int, length: Int): CharSequenc
 }
 
 fun formatDateTime(time: LocalDateTime): String {
-    return DateTimeFormatter.ofPattern("MMM d, HH:mm").format(time)
+    return DateTimeFormatter.ofPattern("MMM d, HH:mm").format(time.toJavaLocalDateTime())
 }
+
+fun googleSignInClient(context: Context) = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+    .requestIdToken(context.getString(R.string.default_web_client_id))
+    .requestEmail()
+    .build().let { GoogleSignIn.getClient(context, it) }
+
 
 fun navigateTo(carContext: CarContext, latitude: Double, longitude: Double) {
     val uri = Uri.parse("geo:0,0?q=$latitude,$longitude")

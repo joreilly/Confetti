@@ -47,6 +47,8 @@ rootProject.name = "Confetti"
 include(":androidApp")
 include(":androidBenchmark")
 include(":androidTest")
+include(":automotiveApp")
+include(":common:car")
 include(":shared")
 include(":backend")
 include(":backend:service-graphql")

@@ -15,9 +15,9 @@ import androidx.car.app.model.signin.ProviderSignInMethod
 import androidx.car.app.model.signin.SignInTemplate
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.account.googleSignInClient
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auto.utils.colorize
+import dev.johnoreilly.confetti.auto.utils.googleSignInClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

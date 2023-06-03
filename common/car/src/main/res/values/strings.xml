@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Confetti</string>
+
+    <string name="schedule">Schedule</string>
+    <string name="sessions">Sessions</string>
+    <string name="speakers">Speakers</string>
+    <string name="search">Search</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="rooms">Rooms</string>
+
+    <!-- Android Auto -->
+    <string name="auto_retry">Retry</string>
+    <string name="auto_sign_in">Sign in</string>
+    <string name="auto_sign_in_google">Sign in with Google</string>
+    <string name="auto_sign_in_success">%s signed in with success</string>
+    <string name="auto_sign_in_failed">Unable to sign in</string>
+    <string name="auto_sign_out">Sign out</string>
+    <string name="auto_navigate_to">Navigate to…</string>
+    <string name="auto_navigate_to_failed">Unable to open navigation app</string>
+    <string name="auto_session_bookmark">Bookmark</string>
+    <string name="auto_session_remove_bookmark">Remove bookmark</string>
+    <string name="auto_session_bookmark_success">Added to bookmarks</string>
+    <string name="auto_session_remove_bookmark_success">Removed from bookmarks</string>
+    <string name="auto_session_text">[%s] %s</string>
+    <string name="auto_placeholder">-</string>
+    <string name="auto_permission_title">Grant permission</string>
+    <string name="auto_permission_message">You need to grant the location permission to navigate to nearby conferences</string>
+    <string name="auto_permission_granted">Location permission granted</string>
+    <string name="auto_permission_not_granted">You need to grant the location permission</string>
+    <string name="auto_conferences_failed">Unable to retrieve conferences list</string>
+    <string name="auto_session_failed">Unable to retrieve the session</string>
+    <string name="auto_sessions_failed">Unable to retrieve sessions list</string>
+    <string name="auto_speaker_failed">Unable to retrieve the speaker</string>
+    <string name="auto_speakers_failed">Unable to retrieve speakers list</string>
+    <string name="auto_speakers_biography">Biography</string>
+    <string name="auto_speakers_biography_more">More about %s</string>
+    <string name="auto_speakers_sessions">Session</string>
+    <string name="auto_no_information">No data available</string>
+
+</resources>

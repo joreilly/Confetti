@@ -72,7 +72,7 @@ fun ConferencesView(conferenceList: List<GetConferencesQuery.Conference>, naviga
                         .padding(16.dp)
                         .fillMaxWidth()
                 ) {
-                    Text(conference.name, modifier = Modifier.weight(1.0f), style = MaterialTheme.typography.bodyLarge)
+                    Text(conference.name, modifier = Modifier.weight(1.0f).padding(end = 16.dp), style = MaterialTheme.typography.bodyLarge)
                     Text(conference.days[0].toString(), style = MaterialTheme.typography.bodyLarge)
                 }
             }

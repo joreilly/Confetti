@@ -68,7 +68,7 @@
         </activity>
 
         <service
-                android:name=".auto.ConfettiCarAppService"
+                android:name=".car.ConfettiCarAppService"
                 android:exported="true">
             <intent-filter>
                 <action android:name="androidx.car.app.CarAppService"/>

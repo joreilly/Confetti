@@ -67,6 +67,7 @@ android {
             keyPassword = keystoreProperties["keyPassword"] as String?
             storePassword = keystoreProperties["storePassword"] as String?
             enableV2Signing = true
+            storeFile = file("/Users/carlosmota/Projects/GitHub/Confetti/androidApp/confetti.keystore")
         }
     }
 

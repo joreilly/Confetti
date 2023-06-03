@@ -17,7 +17,7 @@ Includes:
 - Jetpack Compose Android client
 - Compose for Desktop client (early version)
 - Compose for Wear OS client (contributed by https://github.com/yschimke)
-- Android Auto (contributed by https://github.com/cmota)
+- Android Auto and Automotive OS (contributed by https://github.com/cmota)
 - [Apollo GraphQL](https://github.com/apollographql/apollo-kotlin) based Kotlin Multiplatform shared
   code
 - GraphQL backend
@@ -53,6 +53,8 @@ Requires XCode 14 or later for iOS client.
 <img width="1205" alt="Desktop Screenshot of Confetti screens" src="https://user-images.githubusercontent.com/6302/227615364-dd349253-483b-45a6-9090-cc8b932bef1f.png">
 
 <img src="androidApp/snapshot/walkthroughAndroidAuto.gif" alt="Walkthrough of Confetti running on Android Auto" />
+
+<img src="androidApp/snapshot/walkthroughAndroidAutomotive.gif" alt="Walkthrough of Confetti running on Android Automotive" />
 
 ### API
 

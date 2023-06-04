@@ -203,6 +203,7 @@ data class PageInfo(
 enum class  LinkType {
     YouTube,
     Audio,
+    AudioUncompressed,
     Other
 }
 

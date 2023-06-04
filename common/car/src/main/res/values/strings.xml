@@ -37,4 +37,6 @@
     <string name="auto_speakers_sessions">Session</string>
     <string name="auto_no_information">No data available</string>
 
+    <!-- Firebase -->
+    <string name="default_web_client_id" translatable="false">977739339802-403vj6tevit9ahsnru4pp18gd3ktr331.apps.googleusercontent.com</string>
 </resources>

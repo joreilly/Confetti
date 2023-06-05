@@ -1,11 +1,18 @@
+import dev.johnoreilly.confetti.backend.datastore.DLink
 import dev.johnoreilly.confetti.backend.datastore.DRoom
 import dev.johnoreilly.confetti.backend.datastore.DSession
 import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.import.Sessionize
 import dev.johnoreilly.confetti.backend.import.getUrl
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 
@@ -18,7 +25,6 @@ object GridTable {
         }.decodeFromString(ListSerializer(Day.serializer()),jsonString)
 
         val sessions = mutableListOf<DSession>()
-        val speakers = mutableListOf<DSpeaker>()
         val rooms = mutableListOf<DRoom>()
 
         days.forEach { day ->
@@ -51,39 +57,43 @@ object GridTable {
                             links = emptyList()
                         )
                     )
-
-                    session.speakers.forEach { speaker ->
-                        speakers.add(
-                            DSpeaker(
-                                id = speaker.id,
-                                name = speaker.name,
-                                bio = null,
-                                tagline = null,
-                                company = null,
-                                companyLogoUrl = null,
-                                city = null,
-                                links = emptyList(),
-                                photoUrl = null,
-                                sessions = listOf(session.id)
-                            )
-                        )
-                    }
                 }
             }
         }
 
-        val actualSpeakers = speakers.groupBy { it.id }.values
-            .map {
-                it.first().copy(
-                    sessions = it.map { it.id }
-                )
-            }
-
         return Sessionize.SessionizeData(
             rooms = rooms,
             sessions = sessions,
-            speakers = actualSpeakers
+            speakers = getSpeakers()
         )
+    }
+
+    private suspend fun getSpeakers(): List<DSpeaker> {
+        val jsonString = getUrl("https://sessionize.com/api/v2/eewr8kdk/view/speakers")
+        val speakers = Json {
+            ignoreUnknownKeys = true
+        }.decodeFromString(ListSerializer(Speaker.serializer()),jsonString)
+
+        return speakers.map {
+            DSpeaker(
+                id = it.id,
+                name = it.firstName,
+                bio = it.bio,
+                tagline = it.tagLine,
+                company = null,
+                companyLogoUrl = null,
+                city = null,
+                links = it.links.map {
+                    DLink(
+                        key = it.linkType,
+                        url = it.url
+                    )
+                },
+                photoUrl = it.profilePicture,
+                sessions = it.sessions.map { it.id.toString() }
+            )
+        }
+
     }
 }
 
@@ -109,14 +119,41 @@ data class Session(
     val endsAt: String,
     val isServiceSession: Boolean,
     val isPlenumSession: Boolean,
-    val speakers: List<Speaker>,
-    val categories: JsonArray,
+    val speakers: List<SessionSpeaker>,
     val roomId: Long,
     val room: String,
 )
 
 @Serializable
-data class Speaker(
+data class SessionSpeaker(
     val id: String,
     val name: String,
+)
+
+
+@Serializable
+data class Speaker(
+    val id: String,
+    val firstName: String,
+    val lastName: String,
+    val fullName: String,
+    val bio: String?,
+    val tagLine: String?,
+    val profilePicture: String?,
+    val sessions: List<SpeakerSession>,
+    val isTopSpeaker: Boolean,
+    val links: List<Link>,
+)
+
+@Serializable
+data class Link(
+    val title: String,
+    val url: String,
+    val linkType: String
+)
+
+@Serializable
+data class SpeakerSession(
+    val id: Long,
+    val name: String
 )

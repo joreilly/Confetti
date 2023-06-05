@@ -1,14 +1,10 @@
 package dev.johnoreilly.confetti.backend.import
 
+import GridTable
 import dev.johnoreilly.confetti.backend.datastore.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atTime
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import net.mbonnin.bare.graphql.*
-import kotlin.time.Duration.Companion.hours
 
 object Sessionize {
     private val droidConLondon2022 = "https://sessionize.com/api/v2/qi0g29hw/view/All"
@@ -20,6 +16,32 @@ object Sessionize {
         val sessions: List<DSession>,
         val speakers: List<DSpeaker>,
     )
+
+    suspend fun importDroidconSF2023(): Int {
+        return writeData(
+            sessionizeData = GridTable.getData("https://sessionize.com/api/v2/eewr8kdk/view/gridtable"),
+            config = DConfig(
+                id = ConferenceId.DroidconSF2023.id,
+                name = "droidcon San Francisco 2023",
+                timeZone = "America/Los_Angeles",
+                days = listOf(
+                    LocalDate(2023, 6, 8),
+                    LocalDate(2023, 6, 9)
+                ),
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Mission Bay Conference Center",
+                address = "1675 Owens Street, San Francisco, CA 94143-3008",
+                latitude = 37.7679982,
+                longitude = -122.3934354,
+                description = emptyMap(),
+                imageUrl = "https://www.nodesummit.com/wp-content/uploads/UCSF-Mission-Bay-Center_node-summit.jpg",
+                floorPlanUrl = null
+            ),
+            partnerGroups = emptyList()
+        )
+    }
 
     suspend fun importDroidConLondon2022(): Int {
         return writeData(
@@ -72,7 +94,8 @@ object Sessionize {
     }
 
     private suspend fun getLinks(id: String): List<DLink> {
-        val data = getJsonUrl("https://raw.githubusercontent.com/paug/AndroidMakersBackend/main/service-graphql/src/main/resources/links.json")
+        val data =
+            getJsonUrl("https://raw.githubusercontent.com/paug/AndroidMakersBackend/main/service-graphql/src/main/resources/links.json")
 
         return data.asMap.get(id)?.asList.orEmpty()
             .map {
@@ -109,7 +132,7 @@ object Sessionize {
         )
     }
 
-    private fun writeData(
+    internal fun writeData(
         sessionizeData: SessionizeData,
         config: DConfig,
         venue: DVenue,
@@ -125,7 +148,10 @@ object Sessionize {
         )
     }
 
-    private suspend fun getData(url: String, linksFor: suspend ((String) -> List<DLink>) = { emptyList() }): SessionizeData {
+    private suspend fun getData(
+        url: String,
+        linksFor: suspend ((String) -> List<DLink>) = { emptyList() }
+    ): SessionizeData {
         val data = getJsonUrl(url)
 
         val categories = data.asMap["categories"].asList.map { it.asMap }

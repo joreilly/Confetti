@@ -12,6 +12,7 @@ enum class ConferenceId(val id: String) {
     FlutterConnection2023("flutterconnection2023"),
     ReactNativeConnection2023("reactnativeconnection2023"),
     TestConference("test"),
+    DroidconSF2023("droidconsf2023"),
     ;
 
     companion object {

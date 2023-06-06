@@ -112,6 +112,8 @@ android {
             matchingFallbacks += listOf("release")
         }
         getByName("debug") {
+            isShrinkResources = false
+            isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("confetti")
         }
     }

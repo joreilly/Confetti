@@ -49,6 +49,8 @@ enum LinkType {
 
   Audio
 
+  AudioUncompressed
+
   Other
 }
 

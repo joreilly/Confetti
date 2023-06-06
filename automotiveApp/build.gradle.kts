@@ -6,6 +6,8 @@ import java.util.*
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 configureCompilerOptions()
@@ -138,6 +140,13 @@ dependencies {
 
     implementation(libs.compose.compiler)
     implementation(libs.lifecycle.runtime.compose)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.google.services)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.performance)
+    implementation(libs.play.services.auth)
 
     coreLibraryDesugaring(libs.desugar)
 

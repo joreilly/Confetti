@@ -5,16 +5,9 @@ import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.import.Sessionize
 import dev.johnoreilly.confetti.backend.import.getUrl
 import kotlinx.datetime.LocalDateTime
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
 
 object GridTable {
     suspend fun getData(url: String): Sessionize.SessionizeData {
@@ -63,7 +56,7 @@ object GridTable {
 
         return Sessionize.SessionizeData(
             rooms = rooms,
-            sessions = sessions,
+            sessions = sessions.filter { it.type == "talk" },
             speakers = getSpeakers()
         )
     }

@@ -70,7 +70,7 @@ object GridTable {
         return speakers.map {
             DSpeaker(
                 id = it.id,
-                name = it.firstName,
+                name = it.fullName,
                 bio = it.bio,
                 tagline = it.tagLine,
                 company = null,

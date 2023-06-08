@@ -1,9 +1,11 @@
 // swift-tools-version:5.3
 import PackageDescription
 
-let remoteKotlinUrl = "https://api.github.com/repos/joreilly/Confetti/releases/assets/81812486.zip"
-let remoteKotlinChecksum = "5edc28cfe7ee4c1deb542819725bcf61f6dfbe87b42753c6bea6afbc545019c4"
+// BEGIN KMMBRIDGE VARIABLES BLOCK (do not edit)
+let remoteKotlinUrl = "https://maven.pkg.github.com/joreilly/Confetti/Confetti/shared-kmmbridge/0.8.2/shared-kmmbridge-0.8.2.zip"
+let remoteKotlinChecksum = "497eaa1b98bc1bd737a79715291a9bf9fddc0587f9d215e556c196c2493dd994"
 let packageName = "ConfettiKit"
+// END KMMBRIDGE BLOCK
 
 let package = Package(
     name: packageName,

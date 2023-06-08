@@ -6,6 +6,7 @@ plugins {
     id("co.touchlab.faktory.kmmbridge")
     id("com.squareup.wire")
     id("kotlin-parcelize")
+    id("maven-publish")
 }
 
 configureCompilerOptions()
@@ -180,8 +181,10 @@ dependencies {
     coreLibraryDesugaring(libs.desugar)
 }
 
+addGithubPackagesRepository()
 kmmbridge {
     frameworkName.set("ConfettiKit")
+    mavenPublishArtifacts()
     githubReleaseVersions()
     spm()
     versionPrefix.set("0.8")

@@ -181,7 +181,6 @@ dependencies {
     coreLibraryDesugaring(libs.desugar)
 }
 
-addGithubPackagesRepository()
 kmmbridge {
     frameworkName.set("ConfettiKit")
     mavenPublishArtifacts()
@@ -201,4 +200,16 @@ tasks.create("runJvmMain", JavaExec::class.java) {
     }
     this.setClasspath(jars)
     this.mainClass.set("dev.johnoreilly.confetti.MainKt")
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri("https://repo.repsy.io/mvn/joreilly/confetti")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+    }
 }

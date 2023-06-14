@@ -277,12 +277,6 @@ type __Directive {
   locations: [__DirectiveLocation!]!
 
   args(includeDeprecated: Boolean = false): [__InputValue!]!
-
-  onOperation: Boolean @deprecated
-
-  onFragment: Boolean @deprecated
-
-  onField: Boolean @deprecated
 }
 
 """
@@ -474,7 +468,9 @@ type __Type {
 
   ofType: __Type
 
-  specifiedByUrl: String
+  specifiedByURL: String
+
+  specifiedByUrl: String @deprecated
 }
 
 """
@@ -482,7 +478,7 @@ An enum describing what kind of type a given __Type is
 """
 enum __TypeKind {
   """
-  Indicates this type is a scalar. 'specifiedByUrl' is a valid field
+  Indicates this type is a scalar. 'specifiedByURL' is a valid field
   """
   SCALAR
 

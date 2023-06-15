@@ -9,7 +9,7 @@ env:
 
 jobs:
   kmm-publish:
-    runs-on: ubuntu-22.04
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v3
 

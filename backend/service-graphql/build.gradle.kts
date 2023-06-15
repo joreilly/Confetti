@@ -7,7 +7,6 @@ plugins {
   id("org.jetbrains.kotlin.plugin.serialization")
   id("org.springframework.boot")
   id("com.google.cloud.tools.appengine")
-  id("com.squareup.wire")
 }
 
 configureCompilerOptions(17)
@@ -24,13 +23,11 @@ dependencies {
   implementation(libs.apollo.tooling)
   implementation(libs.apollo.annotations)
   implementation(libs.firebase.admin)
+  implementation(libs.federation.jvm)
 
   testImplementation(libs.junit)
 }
 
-wire {
-  kotlin {}
-}
 tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions.jvmTarget = "17"
 }

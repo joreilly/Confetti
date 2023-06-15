@@ -1,4 +1,4 @@
-name: Build Apps
+name: Publish Android & KMMBridge
 
 on:
   push:
@@ -8,6 +8,10 @@ on:
       - 'androidApp/**'
       - 'shared/**'
       - ".github/workflows/**"
+
+env:
+  MAVEN_USERNAME: ${{ secrets.REPSY_USERNAME }}
+  MAVEN_PASSWORD: ${{ secrets.REPSY_PASSWORD }}
 
 jobs:
   build:
@@ -26,7 +30,8 @@ jobs:
           gradle-home-cache-cleanup: true
 
       - name: Build
-        run: ./gradlew :androidApp:assembleGithubRelease
+        run: |
+          ./gradlew :androidApp:assembleGithubRelease kmmBridgePublish
 
       - uses: actions/upload-artifact@v3
         with:

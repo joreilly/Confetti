@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,10 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		1129322F29D1B960000D8593 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1129322E29D1B960000D8593 /* FirebaseAnalytics */; };
 		1129323129D1B960000D8593 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1129323029D1B960000D8593 /* FirebaseAuth */; };
+		1A12DBF32A3CE036002EB4FF /* ConfettiMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12DBF22A3CE036002EB4FF /* ConfettiMacApp.swift */; };
+		1A12DBF52A3CE036002EB4FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12DBF42A3CE036002EB4FF /* ContentView.swift */; };
+		1A12DBF72A3CE037002EB4FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A12DBF62A3CE037002EB4FF /* Assets.xcassets */; };
+		1A12DBFA2A3CE037002EB4FF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A12DBF92A3CE037002EB4FF /* Preview Assets.xcassets */; };
 		1A8F347A29C4BA1A00327F0A /* ConfettiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F347929C4BA1A00327F0A /* ConfettiTests.swift */; };
 		1AEAB76C28FBF52D00B06D90 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1AEAB76B28FBF52D00B06D90 /* SwiftUIFlowLayout */; };
 		1AEAB76E28FDB69F00B06D90 /* SessionSpeakerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAB76D28FDB69F00B06D90 /* SessionSpeakerInfo.swift */; };
@@ -59,6 +63,14 @@
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1A12DBF02A3CE036002EB4FF /* ConfettiMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConfettiMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A12DBF22A3CE036002EB4FF /* ConfettiMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiMacApp.swift; sourceTree = "<group>"; };
+		1A12DBF42A3CE036002EB4FF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1A12DBF62A3CE037002EB4FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A12DBF92A3CE037002EB4FF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1A12DBFB2A3CE037002EB4FF /* ConfettiMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConfettiMac.entitlements; sourceTree = "<group>"; };
+		1A64E7D12A3DB98500D291F2 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
+		1A64E7D42A3DB9BF00D291F2 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
 		1A8F347729C4BA1900327F0A /* ConfettiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConfettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8F347929C4BA1A00327F0A /* ConfettiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiTests.swift; sourceTree = "<group>"; };
 		1AEAB76D28FDB69F00B06D90 /* SessionSpeakerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSpeakerInfo.swift; sourceTree = "<group>"; };
@@ -82,6 +94,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1A12DBED2A3CE036002EB4FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1A8F347429C4BA1900327F0A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -107,6 +126,26 @@
 			isa = PBXGroup;
 			children = (
 				058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1A12DBF12A3CE036002EB4FF /* ConfettiMac */ = {
+			isa = PBXGroup;
+			children = (
+				1A12DBF22A3CE036002EB4FF /* ConfettiMacApp.swift */,
+				1A12DBF42A3CE036002EB4FF /* ContentView.swift */,
+				1A12DBF62A3CE037002EB4FF /* Assets.xcassets */,
+				1A12DBFB2A3CE037002EB4FF /* ConfettiMac.entitlements */,
+				1A12DBF82A3CE037002EB4FF /* Preview Content */,
+			);
+			path = ConfettiMac;
+			sourceTree = "<group>";
+		};
+		1A12DBF82A3CE037002EB4FF /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1A12DBF92A3CE037002EB4FF /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -143,6 +182,7 @@
 			children = (
 				7555FF7D242A565900829871 /* iosApp */,
 				1A8F347829C4BA1900327F0A /* ConfettiTests */,
+				1A12DBF12A3CE036002EB4FF /* ConfettiMac */,
 				7555FF7C242A565900829871 /* Products */,
 				7555FFB0242A642200829871 /* Frameworks */,
 			);
@@ -153,6 +193,7 @@
 			children = (
 				7555FF7B242A565900829871 /* Confetti.app */,
 				1A8F347729C4BA1900327F0A /* ConfettiTests.xctest */,
+				1A12DBF02A3CE036002EB4FF /* ConfettiMac.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,6 +224,8 @@
 		7555FFB0242A642200829871 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A64E7D42A3DB9BF00D291F2 /* libsqlite3.tbd */,
+				1A64E7D12A3DB98500D291F2 /* libsqlite3.0.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -190,6 +233,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1A12DBEF2A3CE036002EB4FF /* ConfettiMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A12DBFE2A3CE037002EB4FF /* Build configuration list for PBXNativeTarget "ConfettiMac" */;
+			buildPhases = (
+				1A12DBFF2A3CE051002EB4FF /* ShellScript */,
+				1A12DBEC2A3CE036002EB4FF /* Sources */,
+				1A12DBED2A3CE036002EB4FF /* Frameworks */,
+				1A12DBEE2A3CE036002EB4FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ConfettiMac;
+			productName = ConfettiMac;
+			productReference = 1A12DBF02A3CE036002EB4FF /* ConfettiMac.app */;
+			productType = "com.apple.product-type.application";
+		};
 		1A8F347629C4BA1900327F0A /* ConfettiTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1A8F347F29C4BA1A00327F0A /* Build configuration list for PBXNativeTarget "ConfettiTests" */;
@@ -241,10 +302,13 @@
 		7555FF73242A565900829871 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = orgName;
 				TargetAttributes = {
+					1A12DBEF2A3CE036002EB4FF = {
+						CreatedOnToolsVersion = 15.0;
+					};
 					1A8F347629C4BA1900327F0A = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 7555FF7A242A565900829871;
@@ -274,11 +338,21 @@
 			targets = (
 				7555FF7A242A565900829871 /* iosApp */,
 				1A8F347629C4BA1900327F0A /* ConfettiTests */,
+				1A12DBEF2A3CE036002EB4FF /* ConfettiMac */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1A12DBEE2A3CE036002EB4FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A12DBFA2A3CE037002EB4FF /* Preview Assets.xcassets in Resources */,
+				1A12DBF72A3CE037002EB4FF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1A8F347529C4BA1900327F0A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -298,6 +372,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1A12DBFF2A3CE051002EB4FF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+		};
 		7555FFB5242A651A00829871 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -318,6 +409,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1A12DBEC2A3CE036002EB4FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A12DBF52A3CE036002EB4FF /* ContentView.swift in Sources */,
+				1A12DBF32A3CE036002EB4FF /* ConfettiMacApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1A8F347329C4BA1900327F0A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -361,6 +461,90 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1A12DBFC2A3CE037002EB4FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = ConfettiMac/ConfettiMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"ConfettiMac/Preview Content\"";
+				DEVELOPMENT_TEAM = NT77748GS8;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 orgName. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					ConfettiKit,
+					"-lsqlite3",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.johnoreilly..ConfettiMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1A12DBFD2A3CE037002EB4FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = ConfettiMac/ConfettiMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ConfettiMac/Preview Content\"";
+				DEVELOPMENT_TEAM = NT77748GS8;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 orgName. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					ConfettiKit,
+					"-lsqlite3",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.johnoreilly..ConfettiMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		1A8F347D29C4BA1A00327F0A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -601,6 +785,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1A12DBFE2A3CE037002EB4FF /* Build configuration list for PBXNativeTarget "ConfettiMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A12DBFC2A3CE037002EB4FF /* Debug */,
+				1A12DBFD2A3CE037002EB4FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1A8F347F29C4BA1A00327F0A /* Build configuration list for PBXNativeTarget "ConfettiTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

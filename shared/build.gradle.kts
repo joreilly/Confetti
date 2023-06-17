@@ -23,7 +23,7 @@ wire {
 }
 
 kotlin {
-    android()
+    androidTarget()
     jvm()
 
     listOf(
@@ -40,12 +40,21 @@ kotlin {
         }
     }
 
+    macosArm64("macos") {
+        binaries.framework {
+            baseName = "ConfettiKit"
+            isStatic = true
+
+            export(libs.decompose.decompose)
+            export(libs.essenty.lifecycle)
+        }
+    }
 
     targetHierarchy.default {
         common {
             group("mobile") {
                 withIos()
-                withAndroid()
+                withAndroidTarget()
             }
         }
     }
@@ -64,6 +73,9 @@ kotlin {
                 api(libs.apollo.runtime)
                 api(libs.bundles.apollo)
 
+                api(libs.decompose.decompose)
+                api(libs.essenty.lifecycle)
+
                 // Multiplatform Logging
                 api(libs.napier)
             }
@@ -77,8 +89,6 @@ kotlin {
         val mobileMain by getting {
             dependencies {
                 implementation(libs.firebase.mpp.auth)
-                api(libs.decompose.decompose)
-                api(libs.essenty.lifecycle)
             }
         }
 
@@ -120,6 +130,10 @@ kotlin {
                 implementation(libs.apollo.testing)
             }
         }
+
+        val macosMain by getting {
+        }
+
     }
 }
 

@@ -1,21 +1,6 @@
 package dev.johnoreilly.confetti
 
 import dev.johnoreilly.confetti.wear.proto.WearSettings
-import kotlinx.coroutines.flow.StateFlow
-
-actual interface SettingsComponent {
-
-    val developerSettings: StateFlow<DeveloperSettings?>
-    val userEditableSettings: StateFlow<UserEditableSettings?>
-
-    fun updateThemeBrand(themeBrand: ThemeBrand)
-    fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
-    fun updateDynamicColorPreference(useDynamicColor: Boolean)
-    fun updateUseExperimentalFeatures(value: Boolean)
-    fun updateWearTheme(active: Boolean)
-    fun installOnWatch(nodeId: String)
-    fun enableDeveloperMode()
-}
 
 data class DeveloperSettings(
     val token: String?

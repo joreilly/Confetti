@@ -2,8 +2,6 @@ package dev.johnoreilly.confetti.wear.conferences
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.WorkManager
-import dev.johnoreilly.confetti.ConferenceRefresh
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.utils.ClientQuery.toUiState
 import dev.johnoreilly.confetti.utils.QueryResult

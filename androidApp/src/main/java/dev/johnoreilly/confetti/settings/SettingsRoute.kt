@@ -37,7 +37,7 @@ import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.DarkThemeConfig
 import dev.johnoreilly.confetti.DeveloperSettings
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SettingsComponent
+import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ThemeBrand
 import dev.johnoreilly.confetti.UserEditableSettings
 import dev.johnoreilly.confetti.WearStatus

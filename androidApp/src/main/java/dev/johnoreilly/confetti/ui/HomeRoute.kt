@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.ui
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -45,7 +44,7 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
-import dev.johnoreilly.confetti.HomeComponent
+import dev.johnoreilly.confetti.decompose.HomeComponent
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.account.AccountInfo

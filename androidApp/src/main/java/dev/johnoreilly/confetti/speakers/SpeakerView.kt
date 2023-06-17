@@ -30,8 +30,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SpeakersComponent
-import dev.johnoreilly.confetti.SpeakersUiState
+import dev.johnoreilly.confetti.decompose.SpeakersComponent
+import dev.johnoreilly.confetti.decompose.SpeakersUiState
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.HomeScaffold

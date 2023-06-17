@@ -16,6 +16,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dev.johnoreilly.confetti.account.googleSignInClient
+import dev.johnoreilly.confetti.decompose.DefaultAppComponent
+import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ui.ConfettiApp
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground

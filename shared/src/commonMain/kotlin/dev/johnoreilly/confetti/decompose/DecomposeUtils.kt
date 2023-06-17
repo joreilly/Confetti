@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti
+package dev.johnoreilly.confetti.decompose
 
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value

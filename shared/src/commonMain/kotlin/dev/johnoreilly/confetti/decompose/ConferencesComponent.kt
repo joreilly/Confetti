@@ -1,12 +1,14 @@
-package dev.johnoreilly.confetti
+package dev.johnoreilly.confetti.decompose
 
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
-import dev.johnoreilly.confetti.ConferencesComponent.Error
-import dev.johnoreilly.confetti.ConferencesComponent.Loading
-import dev.johnoreilly.confetti.ConferencesComponent.Success
-import dev.johnoreilly.confetti.ConferencesComponent.UiState
+import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.GetConferencesQuery
+import dev.johnoreilly.confetti.decompose.ConferencesComponent.Error
+import dev.johnoreilly.confetti.decompose.ConferencesComponent.Loading
+import dev.johnoreilly.confetti.decompose.ConferencesComponent.Success
+import dev.johnoreilly.confetti.decompose.ConferencesComponent.UiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.flow

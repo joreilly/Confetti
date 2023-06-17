@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti
+package dev.johnoreilly.confetti.decompose
 
 import com.arkivanov.decompose.ComponentContext
 import dev.johnoreilly.confetti.auth.Authentication

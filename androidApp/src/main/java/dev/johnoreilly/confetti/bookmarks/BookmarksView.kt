@@ -20,7 +20,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import dev.johnoreilly.confetti.DateSessionsMap
+import dev.johnoreilly.confetti.decompose.DateSessionsMap
 import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader

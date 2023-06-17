@@ -7,8 +7,8 @@ import androidx.car.app.model.ItemList
 import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.Template
-import dev.johnoreilly.confetti.ConferencesComponent
-import dev.johnoreilly.confetti.DefaultConferencesComponent
+import dev.johnoreilly.confetti.decompose.ConferencesComponent
+import dev.johnoreilly.confetti.decompose.DefaultConferencesComponent
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.car.R
 import dev.johnoreilly.confetti.car.ui.ErrorScreen

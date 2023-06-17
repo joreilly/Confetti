@@ -9,8 +9,8 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation
-import dev.johnoreilly.confetti.ConferenceComponent
-import dev.johnoreilly.confetti.ConferenceComponent.Child
+import dev.johnoreilly.confetti.decompose.ConferenceComponent
+import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import dev.johnoreilly.confetti.account.SignInRoute
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.settings.SettingsRoute

@@ -1,9 +1,10 @@
-package dev.johnoreilly.confetti
+package dev.johnoreilly.confetti.decompose
 
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.value.Value
+import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

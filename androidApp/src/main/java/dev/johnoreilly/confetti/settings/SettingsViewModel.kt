@@ -9,12 +9,12 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.DarkThemeConfig
 import dev.johnoreilly.confetti.DeveloperSettings
-import dev.johnoreilly.confetti.SettingsComponent
+import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ThemeBrand
 import dev.johnoreilly.confetti.UserEditableSettings
 import dev.johnoreilly.confetti.WearStatus
 import dev.johnoreilly.confetti.auth.Authentication
-import dev.johnoreilly.confetti.coroutineScope
+import dev.johnoreilly.confetti.decompose.coroutineScope
 import dev.johnoreilly.confetti.ui.colorScheme
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.wear.proto.WearSettings

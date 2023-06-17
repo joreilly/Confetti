@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SignInComponent
+import dev.johnoreilly.confetti.decompose.SignInComponent
 import org.koin.compose.koinInject
 
 

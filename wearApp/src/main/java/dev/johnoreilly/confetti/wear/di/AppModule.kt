@@ -12,7 +12,7 @@ import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptV
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import dev.johnoreilly.confetti.ConferenceRefresh
+import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication

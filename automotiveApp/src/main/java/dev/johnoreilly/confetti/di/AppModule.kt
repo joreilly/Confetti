@@ -2,7 +2,7 @@
 
 package dev.johnoreilly.confetti.di
 
-import dev.johnoreilly.confetti.ConferenceRefresh
+import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh

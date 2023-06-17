@@ -13,9 +13,9 @@ import androidx.car.app.model.ParkedOnlyOnClickListener
 import androidx.car.app.model.Template
 import androidx.core.graphics.drawable.IconCompat
 import androidx.lifecycle.lifecycleScope
-import dev.johnoreilly.confetti.DefaultSessionDetailsComponent
+import dev.johnoreilly.confetti.decompose.DefaultSessionDetailsComponent
 import dev.johnoreilly.confetti.car.R
-import dev.johnoreilly.confetti.SessionDetailsUiState
+import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.car.speakers.details.SpeakerDetailsScreen
 import dev.johnoreilly.confetti.car.ui.ErrorScreen

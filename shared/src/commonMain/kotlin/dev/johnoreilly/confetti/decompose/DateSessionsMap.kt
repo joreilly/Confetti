@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti
+package dev.johnoreilly.confetti.decompose
 
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.datetime.LocalDateTime

@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
-import dev.johnoreilly.confetti.ConferencesComponent
+import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.ui.ConfettiTheme

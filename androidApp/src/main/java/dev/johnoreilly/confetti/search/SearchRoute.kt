@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.SearchComponent
+import dev.johnoreilly.confetti.decompose.SearchComponent
 import dev.johnoreilly.confetti.ui.HomeScaffold
 
 @Composable

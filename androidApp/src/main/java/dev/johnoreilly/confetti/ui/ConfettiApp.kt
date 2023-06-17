@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation
-import dev.johnoreilly.confetti.AppComponent
-import dev.johnoreilly.confetti.AppComponent.Child
+import dev.johnoreilly.confetti.decompose.AppComponent
+import dev.johnoreilly.confetti.decompose.AppComponent.Child
 import dev.johnoreilly.confetti.conferences.ConferencesRoute
 
 @Composable

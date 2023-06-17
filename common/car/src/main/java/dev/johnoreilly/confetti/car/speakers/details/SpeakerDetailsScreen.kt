@@ -10,9 +10,9 @@ import androidx.car.app.model.Row
 import androidx.car.app.model.Template
 import androidx.core.graphics.drawable.IconCompat
 import androidx.lifecycle.lifecycleScope
-import dev.johnoreilly.confetti.DefaultSpeakerDetailsComponent
+import dev.johnoreilly.confetti.decompose.DefaultSpeakerDetailsComponent
 import dev.johnoreilly.confetti.car.R
-import dev.johnoreilly.confetti.SpeakerDetailsUiState
+import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.car.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.car.ui.ErrorScreen

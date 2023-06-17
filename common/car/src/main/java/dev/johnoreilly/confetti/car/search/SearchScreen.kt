@@ -9,7 +9,7 @@ import androidx.car.app.model.SearchTemplate
 import androidx.car.app.model.SearchTemplate.SearchCallback
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
-import dev.johnoreilly.confetti.DefaultSearchComponent
+import dev.johnoreilly.confetti.decompose.DefaultSearchComponent
 import dev.johnoreilly.confetti.car.R
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.car.sessions.details.SessionDetailsScreen

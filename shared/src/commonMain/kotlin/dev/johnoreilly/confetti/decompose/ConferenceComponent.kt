@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti
+package dev.johnoreilly.confetti.decompose
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -11,7 +11,7 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import dev.johnoreilly.confetti.ConferenceComponent.Child
+import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import dev.johnoreilly.confetti.auth.User
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

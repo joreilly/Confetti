@@ -23,8 +23,8 @@ import androidx.car.app.model.PlaceMarker
 import androidx.car.app.model.Row
 import androidx.car.app.model.Template
 import androidx.core.content.ContextCompat
-import dev.johnoreilly.confetti.ConferencesVenueComponent
-import dev.johnoreilly.confetti.DefaultConferencesVenueComponent
+import dev.johnoreilly.confetti.decompose.ConferencesVenueComponent
+import dev.johnoreilly.confetti.decompose.DefaultConferencesVenueComponent
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.GetVenueQuery
 import dev.johnoreilly.confetti.car.R

@@ -8,9 +8,9 @@ import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.SectionedItemList
 import androidx.car.app.model.Template
-import dev.johnoreilly.confetti.DefaultSessionsComponent
+import dev.johnoreilly.confetti.decompose.DefaultSessionsComponent
 import dev.johnoreilly.confetti.car.R
-import dev.johnoreilly.confetti.SessionsUiState
+import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.car.sessions.details.SessionDetailsScreen
 import dev.johnoreilly.confetti.car.ui.ErrorScreen

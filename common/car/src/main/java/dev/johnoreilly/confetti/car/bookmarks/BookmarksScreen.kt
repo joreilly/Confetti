@@ -9,7 +9,7 @@ import androidx.car.app.model.Row
 import androidx.car.app.model.SectionedItemList
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
-import dev.johnoreilly.confetti.DefaultBookmarksComponent
+import dev.johnoreilly.confetti.decompose.DefaultBookmarksComponent
 import dev.johnoreilly.confetti.car.R
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.car.sessions.details.SessionDetailsScreen

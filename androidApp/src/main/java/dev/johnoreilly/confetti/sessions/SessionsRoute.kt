@@ -9,8 +9,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
-import dev.johnoreilly.confetti.SessionsComponent
-import dev.johnoreilly.confetti.SessionsUiState
+import dev.johnoreilly.confetti.decompose.SessionsComponent
+import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.ui.HomeScaffold
 import dev.johnoreilly.confetti.ui.isExpanded
 import kotlinx.coroutines.flow.receiveAsFlow

@@ -24,8 +24,6 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.material.Chip
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GetTokenResult
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.SectionHeader
@@ -58,14 +56,14 @@ fun SettingsListView(
 
         item {
             Chip(
-                label = "Change Conference",
+                label = stringResource(R.string.settings_change_conference),
                 onClick = conferenceCleared,
             )
         }
 
         item {
             Chip(
-                label = "Refresh",
+                label = stringResource(R.string.settings_refresh),
                 onClick = onRefreshClick,
             )
         }
@@ -75,19 +73,24 @@ fun SettingsListView(
                 val authUser = (uiState as? SettingsUiState.Success)?.authUser
                 if (authUser == null) {
                     Chip(
-                        label = "Sign In",
+                        label = stringResource(R.string.settings_sign_in),
                         onClick = navigateToGoogleSignIn,
                     )
                 } else {
+                    val clickActionLabel = stringResource(R.string.settings_action_sign_out)
+                    val chipContentDescription = stringResource(
+                        R.string.settings_sign_out_chip_content_description,
+                        authUser.displayName ?: stringResource(R.string.settings_empty_name)
+                    )
                     Chip(
                         modifier = Modifier.clearAndSetSemantics {
-                            contentDescription = "Logged in as " + authUser.displayName
-                            onClick("Sign Out") {
+                            contentDescription = chipContentDescription
+                            onClick(clickActionLabel) {
                                 navigateToGoogleSignOut()
                                 true
                             }
                         },
-                        label = "Sign Out",
+                        label = stringResource(R.string.settings_sign_out),
                         icon = authUser.avatarUri,
                         largeIcon = true,
                         onClick = navigateToGoogleSignOut
@@ -112,7 +115,7 @@ fun SettingsListView(
                                 this
                             }
                         },
-                    text = "Version: ${BuildConfig.VERSION_NAME}",
+                    text = stringResource(R.string.settings_version, BuildConfig.VERSION_NAME),
                 )
             }
 

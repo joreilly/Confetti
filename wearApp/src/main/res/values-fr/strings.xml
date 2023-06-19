@@ -25,4 +25,6 @@
     <string name="settings_sign_out_chip_content_description">Logged in as %1s</string>
     <string name="settings_version">Version: %1s</string>
     <string name="settings_empty_name">empty name</string>
+    <string name="home_bookmarked_sessions">Bookmarked Sessions</string>
+    <string name="home_settings_content_description">Settings</string>
 </resources>

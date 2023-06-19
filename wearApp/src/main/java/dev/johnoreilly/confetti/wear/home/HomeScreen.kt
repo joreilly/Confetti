@@ -18,10 +18,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
-import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.OutlinedChip
 import androidx.wear.compose.material.Text
@@ -32,6 +30,7 @@ import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.material.Button
 import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
@@ -81,7 +80,7 @@ fun HomeScreen(
 
         if (bookmarksUiState !is QueryResult.None) {
             item {
-                SectionHeader("Bookmarked Sessions")
+                SectionHeader(stringResource(R.string.home_bookmarked_sessions))
             }
         }
 
@@ -138,9 +137,11 @@ fun HomeScreen(
         }
 
         item {
-            Button(onClick = onSettingsClick) {
-                Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
-            }
+            Button(
+                imageVector = Icons.Default.Settings,
+                contentDescription = stringResource(R.string.home_settings_content_description),
+                onClick = onSettingsClick
+            )
         }
     }
 }

@@ -20,10 +20,10 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.base.ui.components.StandardChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.material.Chip
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
 import dev.johnoreilly.confetti.BuildConfig
@@ -57,14 +57,14 @@ fun SettingsListView(
         }
 
         item {
-            StandardChip(
+            Chip(
                 label = "Change Conference",
                 onClick = conferenceCleared,
             )
         }
 
         item {
-            StandardChip(
+            Chip(
                 label = "Refresh",
                 onClick = onRefreshClick,
             )
@@ -74,12 +74,12 @@ fun SettingsListView(
             item {
                 val authUser = (uiState as? SettingsUiState.Success)?.authUser
                 if (authUser == null) {
-                    StandardChip(
+                    Chip(
                         label = "Sign In",
                         onClick = navigateToGoogleSignIn,
                     )
                 } else {
-                    StandardChip(
+                    Chip(
                         modifier = Modifier.clearAndSetSemantics {
                             contentDescription = "Logged in as " + authUser.displayName
                             onClick("Sign Out") {
@@ -166,7 +166,7 @@ private fun ScalingLazyListScope.developerModeOptions(
         }
 
         item {
-            StandardChip(label = "Refresh Token", onClick = onRefreshToken)
+            Chip(label = "Refresh Token", onClick = onRefreshToken)
         }
     }
 }

@@ -11,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.wear.compose.material.ChipDefaults
 import coil.compose.AsyncImage
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.base.ui.components.StandardChip
+import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.shared.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
@@ -24,7 +24,7 @@ fun SessionSpeakerChip(
     speaker: SpeakerDetails,
     navigateToSpeaker: (SpeakerDetailsKey) -> Unit
 ) {
-    StandardChip(
+    Chip(
         modifier = modifier,
         label = speaker.fullNameAndCompany(),
         icon = {

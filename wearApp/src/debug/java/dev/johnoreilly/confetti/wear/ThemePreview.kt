@@ -10,11 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.base.ui.components.StandardChip
-import com.google.android.horologist.base.ui.components.StandardChipType
+import com.google.android.horologist.compose.material.Chip
 import com.google.android.horologist.compose.tools.ThemeValues
 import com.google.android.horologist.compose.tools.WearPreview
 import dev.johnoreilly.confetti.wear.components.SectionHeader
@@ -50,11 +50,11 @@ fun ThemePreview() {
             )
         }
         item {
-            StandardChip(
+            Chip(
                 label = "Secondary Chip",
                 secondaryLabel = "with secondary label",
                 onClick = { /*TODO*/ },
-                chipType = StandardChipType.Secondary
+                colors = ChipDefaults.secondaryChipColors()
             )
         }
         // Breaks screenshot tests

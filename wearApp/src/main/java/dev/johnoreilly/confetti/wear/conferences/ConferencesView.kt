@@ -12,12 +12,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.ChipDefaults
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.base.ui.components.StandardChip
-import com.google.android.horologist.base.ui.components.StandardChipType
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
@@ -77,13 +76,13 @@ fun ConferencesView(
 
             is QueryResult.Success -> {
                 items(uiState.result.conferences) { conference ->
-                    StandardChip(
+                    Chip(
                         modifier = Modifier.fillMaxWidth(),
                         label = conference.name,
                         onClick = {
                             navigateToConference(conference.id)
                         },
-                        chipType = StandardChipType.Secondary
+                        colors = ChipDefaults.secondaryChipColors()
                     )
                 }
             }

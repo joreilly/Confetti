@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.Button
+import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
@@ -27,12 +28,11 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.base.ui.components.StandardChip
-import com.google.android.horologist.base.ui.components.StandardChipType
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.navigation.ConferenceDayKey
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
@@ -125,10 +125,10 @@ fun HomeScreen(
             items(uiState.result.confDates.size) {
                 // TODO format date
                 val date = uiState.result.confDates[it]
-                StandardChip(
+                Chip(
                     label = dayFormatter.format(date.toJavaLocalDate()),
                     onClick = { daySelected(ConferenceDayKey(uiState.result.conference, date)) },
-                    chipType = StandardChipType.Secondary
+                    colors = ChipDefaults.secondaryChipColors()
                 )
             }
         } else if (uiState is QueryResult.Loading) {

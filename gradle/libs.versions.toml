@@ -9,7 +9,7 @@ compose-compiler = "1.4.7-dev-k1.9.0-Beta-bb7dc8b44eb"
 compose-material-3 = "1.0.1"
 decompose = "2.0.0-alpha-02"
 essenty = "1.1.0"
-horologist = "0.4.9"
+horologist = "0.4.10"
 junit = "4.13"
 kmp-nativecoroutines = "1.0.0-ALPHA-11"
 kmm-viewmodel = "1.0.0-ALPHA-9"
@@ -98,9 +98,9 @@ graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }
 horologist-auth-ui = { module = "com.google.android.horologist:horologist-auth-ui", version.ref = "horologist" }
 horologist-auth-data = { module = "com.google.android.horologist:horologist-auth-data", version.ref = "horologist" }
-horologist-base-ui = { module = "com.google.android.horologist:horologist-base-ui", version.ref = "horologist" }
 horologist-composables = { module = "com.google.android.horologist:horologist-composables", version.ref = "horologist" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
+horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
 horologist-compose-tools = { module = "com.google.android.horologist:horologist-compose-tools", version.ref = "horologist" }
 horologist-datalayer = { module = "com.google.android.horologist:horologist-datalayer", version.ref = "horologist" }
 horologist-datalayer-phone = { module = "com.google.android.horologist:horologist-datalayer-phone", version.ref = "horologist" }

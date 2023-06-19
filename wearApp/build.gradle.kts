@@ -161,9 +161,9 @@ dependencies {
     implementation(libs.wear.compose.material)
     implementation(libs.wear.compose.navigation)
     implementation(libs.horologist.compose.layout)
+    implementation(libs.horologist.compose.material)
     implementation(libs.horologist.compose.tools)
     implementation(libs.horologist.composables)
-    implementation(libs.horologist.base.ui)
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
 

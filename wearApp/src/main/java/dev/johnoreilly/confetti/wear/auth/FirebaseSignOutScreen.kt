@@ -15,7 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.base.ui.components.ConfirmationDialog
+import com.google.android.horologist.compose.material.Confirmation
 import dev.johnoreilly.confetti.R
 import org.koin.androidx.compose.getViewModel
 
@@ -44,7 +44,7 @@ fun FirebaseSignOutScreen(
             SideEffect {
                 onAuthChanged()
             }
-            ConfirmationDialog(
+            Confirmation(
                 onTimeout = navigateUp
             ) {
                 Text(

@@ -17,7 +17,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.MaterialTheme
@@ -27,7 +26,9 @@ import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.composables.PlaceholderChip
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
+import com.google.android.horologist.composables.Section
+import com.google.android.horologist.composables.SectionedList
+import com.google.android.horologist.composables.SectionedListScope
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.material.Button
@@ -60,50 +61,97 @@ fun HomeScreen(
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
 
-    ScalingLazyColumn(
+    SectionedList(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState,
     ) {
-        item {
-            if (uiState is QueryResult.Success) {
-                ConferenceTitle(uiState.result.conferenceName)
-            } else if (uiState is QueryResult.Loading) {
-                val chipPlaceholderState = rememberPlaceholderState { false }
-                SectionHeader(
-                    "",
-                    modifier = Modifier
-                        .fillMaxWidth(0.75f)
-                        .placeholder(chipPlaceholderState)
-                )
+        titleSection(uiState)
+
+        bookmarksSection(uiState, bookmarksUiState, sessionSelected, onBookmarksClick)
+
+        conferenceDaysSection(uiState, daySelected, dayFormatter)
+
+        bottomMenuSection(onSettingsClick)
+    }
+}
+
+private fun SectionedListScope.titleSection(uiState: QueryResult<HomeUiState>) {
+    val titleSectionState = when (uiState) {
+        is QueryResult.Success -> Section.State.Loaded(listOf(uiState.result.conferenceName))
+        QueryResult.Loading -> Section.State.Loading
+        is QueryResult.Error -> Section.State.Failed
+        QueryResult.None -> Section.State.Empty
+    }
+
+    section(state = titleSectionState) {
+        loaded { conferenceName ->
+            ConferenceTitle(conferenceName)
+        }
+
+        loading {
+            val chipPlaceholderState = rememberPlaceholderState { false }
+            SectionHeader(
+                "",
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .placeholder(chipPlaceholderState)
+            )
+        }
+    }
+}
+
+private fun SectionedListScope.bookmarksSection(
+    uiState: QueryResult<HomeUiState>,
+    bookmarksUiState: QueryResult<BookmarksUiState>,
+    sessionSelected: (SessionDetailsKey) -> Unit,
+    onBookmarksClick: (String) -> Unit
+) {
+    val bookmarksSectionState = when (bookmarksUiState) {
+        is QueryResult.Success -> {
+            if (bookmarksUiState.result.hasUpcomingBookmarks) {
+                Section.State.Loaded(bookmarksUiState.result.upcoming.take(3))
+            } else {
+                Section.State.Empty
             }
         }
 
-        if (bookmarksUiState !is QueryResult.None) {
-            item {
+        QueryResult.Loading -> Section.State.Loading
+        is QueryResult.Error -> Section.State.Failed
+        QueryResult.None -> Section.State.Failed // handling "None" as a failure
+    }
+
+    section(
+        state = bookmarksSectionState,
+        displayFooterOnlyOnLoadedState = false
+    ) {
+        header {
+            if (bookmarksSectionState !is Section.State.Failed) {
                 SectionHeader(stringResource(R.string.home_bookmarked_sessions))
             }
         }
 
-        if (bookmarksUiState is QueryResult.Success) {
-            val now = bookmarksUiState.result.now
-
-            items(bookmarksUiState.result.upcoming.take(3)) { session ->
-                key(session.id) {
-                    SessionCard(session, sessionSelected = {
-                        if (uiState is QueryResult.Success) {
-                            sessionSelected(SessionDetailsKey(uiState.result.conference, it))
-                        }
-                    }, now)
-                }
+        loaded { session ->
+            key(session.id) {
+                SessionCard(session, sessionSelected = {
+                    if (uiState is QueryResult.Success) {
+                        sessionSelected(SessionDetailsKey(uiState.result.conference, it))
+                    }
+                }, (bookmarksUiState as QueryResult.Success).result.now)
             }
+        }
 
-            if (!bookmarksUiState.result.hasUpcomingBookmarks) {
-                item {
-                    Text(stringResource(id = R.string.no_upcoming))
-                }
-            }
+        loading {
+            // TODO placeholders
+        }
 
-            item {
+        empty {
+            Text(stringResource(id = R.string.no_upcoming))
+        }
+
+        footer {
+            if (bookmarksSectionState is Section.State.Loaded ||
+                bookmarksSectionState is Section.State.Empty
+            ) {
                 OutlinedChip(
                     label = { Text(stringResource(id = R.string.all_bookmarks)) },
                     onClick = {
@@ -113,30 +161,52 @@ fun HomeScreen(
                     }
                 )
             }
-        } else if (uiState is QueryResult.Loading) {
-            // TODO placeholders
         }
+    }
+}
 
-        item {
+private fun SectionedListScope.conferenceDaysSection(
+    uiState: QueryResult<HomeUiState>,
+    daySelected: (ConferenceDayKey) -> Unit,
+    dayFormatter: DateTimeFormatter
+) {
+    val conferenceDaysSectionState = when (uiState) {
+        is QueryResult.Success -> Section.State.Loaded(uiState.result.confDates)
+        QueryResult.Loading -> Section.State.Loading
+        is QueryResult.Error -> Section.State.Failed
+        QueryResult.None -> Section.State.Empty
+    }
+
+    section(state = conferenceDaysSectionState) {
+        header {
             SectionHeader(stringResource(id = R.string.conference_days))
         }
-        if (uiState is QueryResult.Success) {
-            items(uiState.result.confDates.size) {
-                // TODO format date
-                val date = uiState.result.confDates[it]
-                Chip(
-                    label = dayFormatter.format(date.toJavaLocalDate()),
-                    onClick = { daySelected(ConferenceDayKey(uiState.result.conference, date)) },
-                    colors = ChipDefaults.secondaryChipColors()
-                )
-            }
-        } else if (uiState is QueryResult.Loading) {
-            items(2) {
-                PlaceholderChip(contentDescription = "")
-            }
+
+        loaded { date ->
+            // TODO format date
+            Chip(
+                label = dayFormatter.format(date.toJavaLocalDate()),
+                onClick = {
+                    daySelected(
+                        ConferenceDayKey(
+                            (uiState as QueryResult.Success).result.conference,
+                            date
+                        )
+                    )
+                },
+                colors = ChipDefaults.secondaryChipColors()
+            )
         }
 
-        item {
+        loading(count = 2) {
+            PlaceholderChip(contentDescription = "")
+        }
+    }
+}
+
+private fun SectionedListScope.bottomMenuSection(onSettingsClick: () -> Unit) {
+    section {
+        loaded {
             Button(
                 imageVector = Icons.Default.Settings,
                 contentDescription = stringResource(R.string.home_settings_content_description),

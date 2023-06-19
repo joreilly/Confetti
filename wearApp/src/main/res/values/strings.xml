@@ -17,5 +17,13 @@
     <string name="all_bookmarks">All Bookmarks</string>
     <string name="now">Now</string>
     <string name="conference_days">Conference Days</string>
+    <string name="settings_change_conference">Change Conference</string>
+    <string name="settings_refresh">Refresh</string>
+    <string name="settings_sign_in">Sign In</string>
+    <string name="settings_sign_out">Sign Out</string>
+    <string name="settings_action_sign_out">Sign Out</string>
+    <string name="settings_sign_out_chip_content_description">Logged in as %1s</string>
+    <string name="settings_version">Version: %1s</string>
+    <string name="settings_empty_name">empty name</string>
 
 </resources>

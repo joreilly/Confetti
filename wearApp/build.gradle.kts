@@ -186,6 +186,9 @@ dependencies {
     implementation(libs.firebase.performance)
     implementation(libs.firebase.auth.ktx)
 
+    implementation(libs.decompose.decompose)
+    implementation(libs.decompose.extensions.compose.jetpack)
+
     debugImplementation(libs.compose.ui.manifest)
     debugImplementation(libs.androidx.complications.rendering)
 

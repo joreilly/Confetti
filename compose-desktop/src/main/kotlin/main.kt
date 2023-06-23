@@ -55,7 +55,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import org.koin.dsl.module
 
-fun mainModule() = module {
+private fun mainModule() = module {
     factory {
         ApolloClient.Builder()
             .serverUrl("https://confetti-app.dev/graphql")

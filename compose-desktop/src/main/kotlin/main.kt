@@ -33,22 +33,39 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.ApolloResponse
+import com.apollographql.apollo3.api.DefaultFakeResolver
+import com.apollographql.apollo3.api.FakeResolverContext
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.benasher44.uuid.uuid4
 import com.seiko.imageloader.rememberAsyncImagePainter
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.GetSessionsQuery
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
+import dev.johnoreilly.confetti.schema.__Schema
 import dev.johnoreilly.confetti.sessionSpeakerLocation
 import dev.johnoreilly.confetti.utils.JvmDateService
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
+import org.koin.dsl.module
 
+fun mainModule() = module {
+    factory {
+        ApolloClient.Builder()
+            .serverUrl("https://confetti-app.dev/graphql")
+    }
+}
 
-private val koin = initKoin().koin
+private val koin = initKoin {
+    modules(mainModule())
+}.koin
+
 private val dateService = JvmDateService()
 
 fun main() = application {

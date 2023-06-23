@@ -12,12 +12,16 @@ dependencies {
     implementation(project(":shared"))
 }
 
-tasks.withType<KotlinCompile>() {
+tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "17"
     }
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 compose {
     kotlinCompilerPlugin.set(libs.versions.compose.compiler.get())

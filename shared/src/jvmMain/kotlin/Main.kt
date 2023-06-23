@@ -44,7 +44,7 @@ suspend fun main(args: Array<String>) {
     try {
         withTimeout(60000L) {
             println("Sessions")
-            val sessions = repo.sessionsQuery("droidconlondon2022").toFlow().first {
+            val sessions = repo.sessionsQuery("droidconberlin2023").toFlow().first {
                 // First emission is a cache miss, ignore it
                 it.exception == null
             }

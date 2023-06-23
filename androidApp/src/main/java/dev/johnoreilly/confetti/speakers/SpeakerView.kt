@@ -152,10 +152,10 @@ fun SpeakerItemView(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = { navigateToSpeaker(speaker.id) }),
-        headlineText = {
+        headlineContent = {
             Text(text = speaker.name)
         },
-        supportingText = speaker.tagline?.let { company ->
+        supportingContent = speaker.tagline?.let { company ->
             {
                 Text(company)
             }

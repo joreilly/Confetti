@@ -13,6 +13,7 @@ enum class ConferenceId(val id: String) {
     ReactNativeConnection2023("reactnativeconnection2023"),
     TestConference("test"),
     DroidconSF2023("droidconsf2023"),
+    DroidconBerlin2023("droidconberlin2023"),
     ;
 
     companion object {

@@ -17,6 +17,30 @@ object Sessionize {
         val speakers: List<DSpeaker>,
     )
 
+    suspend fun importDroidconBerlin2023(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/axmfv7vn/view/All"),
+            config = DConfig(
+                id = ConferenceId.DroidconBerlin2023.id,
+                name = "droidcon Berlin",
+                timeZone = "Europe/Berlin"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "CityCube Berlin",
+                address = "Messedamm 26, 14055 Berlin, Germany",
+                description = mapOf(
+                    "en" to "CityCube Berlin",
+                    "fr" to "CityCube Berlin",
+                ),
+                latitude = 52.500218,
+                longitude = 13.270753,
+                imageUrl = "https://berlin.droidcon.com/wp-content/uploads/2022/05/CitycubeBW.png",
+                floorPlanUrl = null
+            )
+        )
+    }
+
     suspend fun importDroidconSF2023(): Int {
         return writeData(
             sessionizeData = GridTable.getData("https://sessionize.com/api/v2/eewr8kdk/view/gridtable"),

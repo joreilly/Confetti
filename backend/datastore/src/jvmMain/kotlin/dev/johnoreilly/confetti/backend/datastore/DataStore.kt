@@ -597,7 +597,7 @@ class DataStore {
         log("readSpeakers")
         val query: EntityQuery? = Query.newEntityQueryBuilder()
             .setKind(KIND_SPEAKER)
-            .setLimit(100)
+            .setLimit(500)
             .setFilter(
                 StructuredQuery.PropertyFilter.hasAncestor(
                     keyFactory.setKind(KIND_CONF).newKey(conf)

@@ -21,7 +21,7 @@ jobs:
         java-version: 17
 
     - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2.4.2
+      uses: gradle/gradle-build-action@v2.5.1
 
     - name: Wear Unit Tests
       run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest
@@ -40,7 +40,7 @@ jobs:
           java-version: 17
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.4.2
+        uses: gradle/gradle-build-action@v2.5.1
 
       - name: Build
         run: ./gradlew :shared:runJvmMain

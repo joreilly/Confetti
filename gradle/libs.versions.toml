@@ -82,7 +82,7 @@ essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = 
 desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
 federation-jvm = "com.apollographql.federation:federation-graphql-java-support:3.0.1"
-firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.1.1" }
+firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-bom = "com.google.firebase:firebase-bom:31.5.0"

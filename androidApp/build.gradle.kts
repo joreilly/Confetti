@@ -164,7 +164,8 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.material3.core)
-    implementation(libs.material3.window.size)
+    //implementation(libs.material3.window.size)
+    implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:0.1.0")
     implementation(libs.splash.screen)
 
     implementation(libs.accompanist.adaptive)

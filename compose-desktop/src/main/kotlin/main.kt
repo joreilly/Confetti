@@ -16,6 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -54,6 +56,7 @@ import io.github.aakira.napier.Napier
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import org.koin.dsl.module
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 
 private fun mainModule() = module {
     factory {
@@ -87,6 +90,7 @@ fun main() = application {
     }
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun MainLayout() {
     val repository = koin.get<ConfettiRepository>()
@@ -95,20 +99,32 @@ fun MainLayout() {
     val sessionList = remember { mutableStateOf<List<SessionDetails>?>(emptyList()) }
     val conference = "androidmakers2023"
 
+    val windowSizeClass = calculateWindowSizeClass()
+
     LaunchedEffect(conference) {
         val conferenceData = repository.conferenceData(conference, FetchPolicy.CacheFirst)
         sessionList.value = conferenceData.data?.sessions?.nodes?.map { it.sessionDetails }
     }
 
     Row(Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.fillMaxWidth(0.3f), contentAlignment = Alignment.Center) {
+        if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
             sessionList.value?.let { sessionList ->
                 SessionListView(sessionList) {
                     currentSession.value = it
                 }
             }
+
+        } else {
+
+            Box(modifier = Modifier.fillMaxWidth(0.3f), contentAlignment = Alignment.Center) {
+                sessionList.value?.let { sessionList ->
+                    SessionListView(sessionList) {
+                        currentSession.value = it
+                    }
+                }
+            }
+            SessionDetailView(currentSession.value)
         }
-        SessionDetailView(currentSession.value)
     }
 }
 

@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
             )
 
         setContent {
-            val windowSizeClass = calculateWindowSizeClass(this)
+            val windowSizeClass = calculateWindowSizeClass()
             val displayFeatures = calculateDisplayFeatures(this)
 
             ConfettiTheme(

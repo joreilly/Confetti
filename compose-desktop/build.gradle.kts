@@ -9,6 +9,7 @@ plugins {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation("io.github.qdsfdhvh:image-loader:1.5.1")
+    implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:0.1.0")
     implementation(project(":shared"))
 }
 

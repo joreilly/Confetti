@@ -9,6 +9,8 @@ import com.arkivanov.decompose.router.stack.navigate
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackHandler
+import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
@@ -16,10 +18,11 @@ import dev.johnoreilly.confetti.auth.User
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-interface ConferenceComponent {
+interface ConferenceComponent : BackHandlerOwner {
 
     val stack: Value<ChildStack<*, Child>>
 
+    fun onBackClicked()
     fun onBackClicked(toIndex: Int)
 
     sealed class Child {
@@ -101,6 +104,10 @@ class DefaultConferenceComponent(
 
             is Config.Settings -> Child.Settings(settingsComponent)
         }
+
+    override fun onBackClicked() {
+        navigation.pop()
+    }
 
     override fun onBackClicked(toIndex: Int) {
         navigation.navigate { it.take(toIndex + 1) }

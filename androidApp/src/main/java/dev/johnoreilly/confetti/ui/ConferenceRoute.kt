@@ -6,12 +6,13 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.isFront
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.predictiveBackAnimation
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation
+import dev.johnoreilly.confetti.account.SignInRoute
 import dev.johnoreilly.confetti.decompose.ConferenceComponent
 import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
-import dev.johnoreilly.confetti.account.SignInRoute
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.settings.SettingsRoute
 import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsRoute
@@ -23,13 +24,17 @@ fun ConferenceRoute(
 ) {
     Children(
         stack = component.stack,
-        animation = stackAnimation { _, _, direction ->
-            if (direction.isFront) {
-                slide() + fade()
-            } else {
-                scale(frontFactor = 1F, backFactor = 0.7F) + fade()
-            }
-        },
+        animation = predictiveBackAnimation(
+            backHandler = component.backHandler,
+            animation = stackAnimation { _, _, direction ->
+                if (direction.isFront) {
+                    slide() + fade()
+                } else {
+                    scale(frontFactor = 1F, backFactor = 0.7F) + fade()
+                }
+            },
+            onBack = component::onBackClicked,
+        ),
     ) {
         when (val child = it.instance) {
             is Child.Home -> HomeRoute(child.component, windowSizeClass)

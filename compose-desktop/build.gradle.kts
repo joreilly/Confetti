@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("io.github.qdsfdhvh:image-loader:1.5.2")
+    implementation("io.github.qdsfdhvh:image-loader:1.6.0")
     implementation(project(":shared"))
 }
 

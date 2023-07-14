@@ -17,7 +17,10 @@ dependencies {
     implementation(libs.plugin.appengine)
     implementation(libs.plugin.kmmbridge)
     implementation(libs.plugin.google.services)
-    implementation(libs.plugin.firebase.crashlytics)
+    implementation(libs.plugin.firebase.crashlytics) {
+        // Crashlytics depends on datastore v1.0 but we're using v1.1
+        exclude(group = "androidx.datastore", module = "datastore-preferences")
+    }
     implementation(libs.plugin.wire)
 
 }

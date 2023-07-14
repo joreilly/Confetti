@@ -11,6 +11,3 @@
 -keep class com.squareup.wire.** { *; }
 -keep class dev.johnoreilly.confetti.wear.proto.** { *; }
 -keep class androidx.car.app.** { *; }
-
-# See https://github.com/firebase/firebase-android-sdk/issues/2124
--keep class com.google.android.gms.internal.** { *; }

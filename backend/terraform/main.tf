@@ -201,15 +201,6 @@ resource "google_compute_region_network_endpoint_group" "import" {
   }
 }
 
-resource "google_compute_managed_ssl_certificate" "default" {
-  name     = "default"
-  provider = google-beta
-
-  managed {
-    domains = ["confetti-app.dev", "router.confetti-app.dev"]
-  }
-}
-
 resource "google_compute_managed_ssl_certificate" "default2" {
   name     = "default2"
   provider = google-beta
@@ -228,7 +219,7 @@ resource "google_compute_target_https_proxy" "default" {
   provider         = google-beta
   name             = "default"
   url_map          = google_compute_url_map.default.id
-  ssl_certificates = [google_compute_managed_ssl_certificate.default.id, google_compute_managed_ssl_certificate.default2.id]
+  ssl_certificates = [google_compute_managed_ssl_certificate.default2.id]
 }
 
 resource "google_compute_target_http_proxy" "default" {

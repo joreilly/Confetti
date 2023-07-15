@@ -65,6 +65,9 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.reactive.CorsWebFilter
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
@@ -144,18 +147,18 @@ class DefaultApplication {
     }
 
 
-//    @Bean
-//    fun corsWebFilter(): CorsWebFilter {
-//        val corsConfig = CorsConfiguration().apply {
-//            addAllowedOrigin("*")
-//            addAllowedMethod("*")
-//            addAllowedHeader("*")
-//        }
-//
-//        val source = UrlBasedCorsConfigurationSource()
-//        source.registerCorsConfiguration("/**", corsConfig)
-//        return CorsWebFilter(source)
-//    }
+    @Bean
+    fun corsWebFilter(): CorsWebFilter {
+        val corsConfig = CorsConfiguration().apply {
+            addAllowedOrigin("*")
+            addAllowedMethod("*")
+            addAllowedHeader("*")
+        }
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", corsConfig)
+        return CorsWebFilter(source)
+    }
 
     @Bean
     @Primary

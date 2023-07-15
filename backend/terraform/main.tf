@@ -21,6 +21,11 @@ resource "google_compute_url_map" "default" {
     path_matcher = "router"
   }
 
+  host_rule {
+    hosts        = ["wasm.confetti-app.dev"]
+    path_matcher = "wasm"
+  }
+
   path_matcher {
     name = "default"
     default_service = google_compute_backend_bucket.landing_page.id
@@ -51,6 +56,10 @@ resource "google_compute_url_map" "default" {
       service = google_compute_backend_service.router.id
     }
   }
+  path_matcher {
+    name = "wasm"
+    default_service = google_compute_backend_bucket.wasm.id
+  }
 }
 
 resource "google_compute_backend_bucket" "landing_page" {
@@ -60,12 +69,18 @@ resource "google_compute_backend_bucket" "landing_page" {
   enable_cdn  = true
 }
 
+resource "google_compute_backend_bucket" "wasm" {
+  provider              = google-beta
+  name        = "wasm"
+  bucket_name = "confetti-wasm"
+  enable_cdn  = true
+}
+
 resource "google_compute_global_network_endpoint" "router" {
   provider                      = google-beta
   global_network_endpoint_group = google_compute_global_network_endpoint_group.router.name
   fqdn                          = "main--confetti-supergraph-uv5cdu.apollographos.net"
   port                          = 443
-
 }
 
 resource "google_compute_global_network_endpoint_group" "router" {
@@ -186,12 +201,12 @@ resource "google_compute_region_network_endpoint_group" "import" {
   }
 }
 
-resource "google_compute_managed_ssl_certificate" "default" {
-  name     = "default"
+resource "google_compute_managed_ssl_certificate" "default2" {
+  name     = "default2"
   provider = google-beta
 
   managed {
-    domains = ["confetti-app.dev", "router.confetti-app.dev"]
+    domains = ["confetti-app.dev", "router.confetti-app.dev", "wasm.confetti-app.dev"]
   }
 }
 
@@ -204,7 +219,7 @@ resource "google_compute_target_https_proxy" "default" {
   provider         = google-beta
   name             = "default"
   url_map          = google_compute_url_map.default.id
-  ssl_certificates = [google_compute_managed_ssl_certificate.default.id]
+  ssl_certificates = [google_compute_managed_ssl_certificate.default2.id]
 }
 
 resource "google_compute_target_http_proxy" "default" {

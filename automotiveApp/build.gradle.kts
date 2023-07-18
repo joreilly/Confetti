@@ -141,11 +141,15 @@ dependencies {
     implementation(libs.compose.compiler)
     implementation(libs.lifecycle.runtime.compose)
 
+    val excludeAndroidxDataStore = Action<ExternalModuleDependency> {
+        // Crashlytics and PerfMon depend on datastore v1.0 but we're using v1.1
+        exclude(group = "androidx.datastore", module = "datastore-preferences")
+    }
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.services)
-    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.crashlytics, excludeAndroidxDataStore)
     implementation(libs.firebase.analytics)
-    implementation(libs.firebase.performance)
+    implementation(libs.firebase.performance, excludeAndroidxDataStore)
     implementation(libs.play.services.auth)
 
     coreLibraryDesugaring(libs.desugar)

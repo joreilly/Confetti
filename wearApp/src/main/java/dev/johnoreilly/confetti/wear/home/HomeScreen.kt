@@ -27,6 +27,8 @@ import androidx.wear.compose.material.rememberPlaceholderState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.composables.Section
+import com.google.android.horologist.composables.Section.Companion.ALL_STATES
+import com.google.android.horologist.composables.Section.Companion.NO_STATES
 import com.google.android.horologist.composables.SectionedList
 import com.google.android.horologist.composables.SectionedListScope
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
@@ -120,14 +122,9 @@ private fun SectionedListScope.bookmarksSection(
         QueryResult.None -> Section.State.Failed // handling "None" as a failure
     }
 
-    section(
-        state = bookmarksSectionState,
-        displayFooterOnlyOnLoadedState = false
-    ) {
-        if (bookmarksSectionState !is Section.State.Failed) {
-            header {
-                SectionHeader(stringResource(R.string.home_bookmarked_sessions))
-            }
+    section(state = bookmarksSectionState) {
+        header(visibleStates = ALL_STATES.copy(failed = false)) {
+            SectionHeader(stringResource(R.string.home_bookmarked_sessions))
         }
 
         loaded { session ->
@@ -148,19 +145,15 @@ private fun SectionedListScope.bookmarksSection(
         }
 
 
-        if (bookmarksSectionState is Section.State.Loaded ||
-            bookmarksSectionState is Section.State.Empty
-        ) {
-            footer {
-                OutlinedChip(
-                    label = { Text(stringResource(id = R.string.all_bookmarks)) },
-                    onClick = {
-                        if (uiState is QueryResult.Success) {
-                            onBookmarksClick(uiState.result.conference)
-                        }
+        footer(visibleStates = NO_STATES.copy(loaded = true, empty = true)) {
+            OutlinedChip(
+                label = { Text(stringResource(id = R.string.all_bookmarks)) },
+                onClick = {
+                    if (uiState is QueryResult.Success) {
+                        onBookmarksClick(uiState.result.conference)
                     }
-                )
-            }
+                }
+            )
         }
     }
 }

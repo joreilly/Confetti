@@ -4,15 +4,17 @@ activity-compose = "1.7.2"
 androidx-lifecycle = "2.6.1"
 androidx-datastore = "1.1.0-alpha04"
 apollo = "4.0.0-alpha.2"
-compose = "1.5.0-beta02"
-compose-compiler = "1.5.0-dev-k1.9.0-6a60475e07f"
+compose = "1.5.0-beta03"
+compose-multiplatform = "1.4.3"
+compose-compiler = "1.5.0"
 compose-material-3 = "1.1.1"
 decompose = "2.1.0-alpha-04"
 essenty = "1.2.0-alpha-03"
 horologist = "0.4.12"
+image-loader = "1.6.0"
 junit = "4.13"
-kmp-nativecoroutines = "1.0.0-ALPHA-11"
-kmm-viewmodel = "1.0.0-ALPHA-9"
+kmp-nativecoroutines = "1.0.0-ALPHA-13"
+kmm-viewmodel = "1.0.0-ALPHA-12"
 koin-android = "3.4.2"
 koin-android-compose = "3.4.5"
 koin-core = "3.4.1"
@@ -39,7 +41,7 @@ accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive",
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-testharness = { module = "com.google.accompanist:accompanist-testharness", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.0-alpha16"
+androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.0-beta01"
 androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.0-alpha09"
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
@@ -107,6 +109,7 @@ horologist-datalayer-phone = { module = "com.google.android.horologist:horologis
 horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist" }
 horologist-auth-data-phone = { module = "com.google.android.horologist:horologist-auth-data-phone", version.ref = "horologist" }
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
+image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.54.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
@@ -135,7 +138,7 @@ okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
 play-services-auth = "com.google.android.gms:play-services-auth:20.5.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-plugin-android-application = "com.android.tools.build:gradle:8.0.2"
+plugin-android-application = "com.android.tools.build:gradle:8.1.0"
 plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-appengine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.5"
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.5" }

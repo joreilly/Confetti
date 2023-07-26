@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -40,6 +41,7 @@ import com.apollographql.apollo3.api.FakeResolverContext
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.benasher44.uuid.uuid4
 import com.seiko.imageloader.rememberAsyncImagePainter
+import com.seiko.imageloader.rememberImagePainter
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetSessionsQuery
 import dev.johnoreilly.confetti.di.initKoin
@@ -211,8 +213,10 @@ fun SessionSpeakerInfo(
         Row {
             speaker.photoUrl?.let {
                 Image(
-                    painter = rememberAsyncImagePainter(it),
-                    modifier = Modifier.size(64.dp), contentDescription = speaker.name
+                    painter = rememberImagePainter(it),
+                    modifier = Modifier.size(64.dp)
+                        .clip(CircleShape),
+                    contentDescription = speaker.name
                 )
             }
 

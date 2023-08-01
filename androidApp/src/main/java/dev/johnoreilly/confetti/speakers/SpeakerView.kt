@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package dev.johnoreilly.confetti.speakers
 
 import android.annotation.SuppressLint

@@ -30,13 +30,12 @@ private struct SpeakersContentView: View {
     let uiState: SpeakersUiStateSuccess
     
     var body: some View {
-        NavigationView {
-            List(uiState.speakers, id: \.self) { speaker in
-                SpeakerView(speaker: speaker)
-                    .onTapGesture { component.onSpeakerClicked(id: speaker.id) }
-            }
+        List(uiState.speakers, id: \.self) { speaker in
+            SpeakerView(speaker: speaker)
+                .onTapGesture { component.onSpeakerClicked(id: speaker.id) }
         }
     }
+    
 }
 
 struct SpeakerView: View {
@@ -61,4 +60,5 @@ struct SpeakerView: View {
         }
     }
 }
+
 

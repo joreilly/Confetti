@@ -36,6 +36,8 @@ private struct SessionsContentView: View {
                 }
             }
             .pickerStyle(.segmented)
+            .padding([.leading, .trailing], 16)
+            .padding(.bottom, 8)
 
             List {
                 ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in

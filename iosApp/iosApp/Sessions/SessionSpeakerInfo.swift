@@ -25,8 +25,9 @@ struct SessionSpeakerInfo: View {
                         .font(.title3)
                     Text(speaker.tagline ?? "")
                         .bold()
+                        .font(.subheadline)
                     Spacer(minLength: 10)
-                    Text(speaker.bio ?? "")
+                    Text(speaker.bio ?? "").font(.system(size: 14))
                     Spacer(minLength: 10)
                     HStack(alignment: .top, spacing: 20) {
                         SessionSpeakerSocialInfo(speaker: speaker)

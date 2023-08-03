@@ -6,8 +6,16 @@ plugins {
     application
 }
 
+@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 dependencies {
     implementation(compose.desktop.currentOs)
+
+    implementation(compose.ui)
+    implementation(compose.runtime)
+    implementation(compose.foundation)
+    implementation(compose.material3)
+    implementation(compose.components.resources)
+
     implementation(libs.image.loader)
     implementation(project(":shared"))
 }

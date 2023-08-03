@@ -36,12 +36,16 @@ private struct SessionDetailsContentViewShared: UIViewControllerRepresentable {
     @Environment(\.openURL) var openURL
     
     func makeUIViewController(context: Context) -> UIViewController {
-        return SharedViewControllersKt.SessionDetailsViewController(session: session, socialLinkClicked: { urlString in
-            print(urlString)
-            if let url = URL(string: urlString) {
-                openURL(url)
-            }
-        })
+        return SharedViewControllersKt.SessionDetailsViewController(session: session,
+            onSpeakerClick: { speakerId in
+                component.onSpeakerClicked(id: speakerId)
+            },
+            onSocialLinkClicked: { urlString in
+                print(urlString)
+                if let url = URL(string: urlString) {
+                    openURL(url)
+                }
+            })
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

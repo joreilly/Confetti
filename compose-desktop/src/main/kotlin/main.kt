@@ -67,6 +67,7 @@ fun main() = application {
         state = windowState,
         title = "Confetti"
     ) {
+        // TODO setup proper theme stuff for this
         val colorScheme = lightColorScheme(
             primary = Color(0xFF8C4190)
         )
@@ -99,7 +100,7 @@ fun MainLayout() {
             }
         }
         Column(Modifier.padding(vertical = 16.dp)) {
-            SessionDetailViewSharedWrapper(currentSession.value) {}
+            SessionDetailViewSharedWrapper(currentSession.value, onSpeakerClick = {}, onSocialLinkClicked = {})
         }
     }
 }

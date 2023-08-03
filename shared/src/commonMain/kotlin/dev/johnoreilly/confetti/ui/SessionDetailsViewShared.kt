@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,7 +44,11 @@ import org.koin.compose.koinInject
 
 
 @Composable
-internal fun SessionDetailViewShared(session: SessionDetails?, socialLinkClicked: (String) -> Unit) {
+internal fun SessionDetailViewShared(
+    session: SessionDetails?,
+    onSpeakerClick: (speakerId: String) -> Unit,
+    onSocialLinkClicked: (String) -> Unit
+) {
     val dateService = koinInject<DateService>()
     val scrollState = rememberScrollState()
 
@@ -103,7 +109,7 @@ internal fun SessionDetailViewShared(session: SessionDetails?, socialLinkClicked
                 Spacer(modifier = Modifier.size(16.dp))
 
                 session.speakers.forEach { speaker ->
-                    SessionSpeakerInfo(speaker = speaker.speakerDetails, onSocialLinkClick = socialLinkClicked)
+                    SessionSpeakerInfo(speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
                 }
             }
         }
@@ -115,9 +121,13 @@ internal fun SessionDetailViewShared(session: SessionDetails?, socialLinkClicked
 @Composable
 internal fun SessionSpeakerInfo(
     speaker: SpeakerDetails,
+    onSpeakerClick: (speakerId: String) -> Unit,
     onSocialLinkClick: (String) -> Unit
 ) {
-    Column(Modifier.padding(top = 16.dp)) {
+    Column(Modifier
+        .padding(top = 16.dp)
+        .clickable(role = Role.Button) { onSpeakerClick(speaker.id) }
+    ) {
         Row {
             speaker.photoUrl?.let {
                 val painter = rememberImagePainter(speaker.photoUrl)

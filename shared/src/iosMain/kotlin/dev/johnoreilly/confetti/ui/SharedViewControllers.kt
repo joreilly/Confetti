@@ -7,14 +7,15 @@ import androidx.compose.ui.window.ComposeUIViewController
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import platform.UIKit.UIViewController
 
-fun SessionDetailsViewController(session: SessionDetails, socialLinkClicked: (String) -> Unit): UIViewController =
+fun SessionDetailsViewController(session: SessionDetails, onSpeakerClick: (speakerId: String) -> Unit, onSocialLinkClicked: (String) -> Unit): UIViewController =
     ComposeUIViewController {
+        // iOS specific colors...just adding like this as test for now
         val colorScheme = lightColorScheme(
             primary = Color(0xFF007AFF),
             surface = Color(0xFFFFFFFF)
         )
 
         MaterialTheme(colorScheme = colorScheme) {
-            SessionDetailViewShared(session, socialLinkClicked)
+            SessionDetailViewShared(session, onSpeakerClick, onSocialLinkClicked)
         }
     }

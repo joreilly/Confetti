@@ -133,10 +133,13 @@ fun SessionDetailView(
     ) {
         Column(modifier = Modifier.padding(it)) {
 
-            SessionDetailViewSharedWrapper(session) { socialtItem ->
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialtItem))
+            SessionDetailViewSharedWrapper(
+                session,
+                onSpeakerClick = { onSpeakerClick(it) },
+                onSocialLinkClicked =  { socialItem ->
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem))
                 context.startActivity(intent)
-            }
+            })
 
             if (showDialog) {
                 SignInDialog(

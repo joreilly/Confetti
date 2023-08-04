@@ -102,6 +102,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.DroidconSF2023 -> Sessionize.importDroidconSF2023()
         ConferenceId.DroidconBerlin2023 -> Sessionize.importDroidconBerlin2023()
         ConferenceId.TestConference -> error("The test Conference cannot be updated")
+        ConferenceId.DroidconNYC2023 -> Sessionize.importDroidconNYC2023()
         null -> error("")
     }
 }

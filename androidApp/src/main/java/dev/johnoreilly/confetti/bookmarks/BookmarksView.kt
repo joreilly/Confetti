@@ -23,7 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import dev.johnoreilly.confetti.decompose.DateSessionsMap
 import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.launch
@@ -137,7 +137,7 @@ private fun BookmarksHorizontalPager(
 
             displayedSessions.forEach { (dateTime, sessions) ->
                 stickyHeader {
-                    ConfettiHeader(
+                    ConfettiHeaderAndroid(
                         icon = Icons.Filled.AccessTime,
                         text = DateTimeFormatter.ofPattern("MMM d, HH:mm").format(dateTime)
                     )

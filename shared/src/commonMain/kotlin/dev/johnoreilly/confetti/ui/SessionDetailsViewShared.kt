@@ -16,15 +16,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontStyle
@@ -34,7 +37,6 @@ import com.seiko.imageloader.rememberImagePainter
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
-import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -116,7 +118,45 @@ internal fun SessionDetailViewShared(
     }
 }
 
-
+@Composable
+internal fun ConfettiHeader(
+    text: String,
+    icon: ImageVector? = null,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 2.dp,
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        Column {
+            Divider()
+            Row(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 16.dp,
+                        vertical = 8.dp,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                icon?.let { icon ->
+                    Icon(
+                        modifier = Modifier
+                            .padding(end = 8.dp),
+                        imageVector = icon,
+                        contentDescription = null,
+                    )
+                }
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+            Divider()
+        }
+    }
+}
 
 @Composable
 internal fun SessionSpeakerInfo(

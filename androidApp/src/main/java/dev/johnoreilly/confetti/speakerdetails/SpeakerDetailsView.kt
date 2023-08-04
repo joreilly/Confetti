@@ -34,7 +34,7 @@ import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.SocialIcon
 
 
@@ -168,7 +168,7 @@ fun SpeakerTalks(
 ) {
     Column(Modifier.fillMaxWidth()) {
 
-        ConfettiHeader(icon = Icons.Filled.Event, text = stringResource(id = R.string.sessions))
+        ConfettiHeaderAndroid(icon = Icons.Filled.Event, text = stringResource(id = R.string.sessions))
 
         Spacer(modifier = Modifier.size(8.dp))
 

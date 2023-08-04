@@ -29,7 +29,7 @@ final class ConfettiTests: XCTestCase {
         
         let uiState = await awaitForState(viewModel.uiState) { $0 as? ConferencesComponentSuccess }
         
-        XCTAssert(!uiState.conferences.isEmpty)
+        XCTAssert(!uiState.conferenceListByYear.isEmpty)
     }
     
     func testGetSessions() async throws {

@@ -45,7 +45,7 @@ class ConferencesScreen(
             }
 
             is ConferencesComponent.Success -> {
-                listBuilder = createConferencesList(result.conferences)
+                listBuilder = createConferencesList(result.conferenceListByYear)
                 false
             }
         }
@@ -61,17 +61,19 @@ class ConferencesScreen(
         }.build()
     }
 
-    private fun createConferencesList(conferences: List<GetConferencesQuery.Conference>): ItemList.Builder {
+    private fun createConferencesList(conferenceListByYear: Map<Int, List<GetConferencesQuery.Conference>>): ItemList.Builder {
         val listBuilder = ItemList.Builder()
-        for (conference in conferences) {
-            listBuilder.addItem(
-                Row.Builder()
-                    .setTitle(conference.name)
-                    .setOnClickListener {
-                        component.onConferenceClicked(conference = conference)
-                    }
-                    .build()
-            )
+        conferenceListByYear.forEach { (year, conferenceList) ->
+            for (conference in conferenceList) {
+                listBuilder.addItem(
+                    Row.Builder()
+                        .setTitle(conference.name)
+                        .setOnClickListener {
+                            component.onConferenceClicked(conference = conference)
+                        }
+                        .build()
+                )
+            }
         }
 
         return listBuilder

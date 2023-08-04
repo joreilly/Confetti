@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ConfettiHeader(
+fun ConfettiHeaderAndroid(
     text: String,
     icon: ImageVector? = null,
     modifier: Modifier = Modifier,

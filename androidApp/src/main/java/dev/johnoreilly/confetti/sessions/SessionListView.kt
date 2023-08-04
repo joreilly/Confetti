@@ -51,7 +51,7 @@ import dev.johnoreilly.confetti.ui.Bookmark
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
-import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
@@ -139,7 +139,7 @@ fun SessionListView(
                         LazyColumn(state = listState) {
                             sessions.forEach { (startTime, sessions) ->
                                 stickyHeader {
-                                    ConfettiHeader(icon = Icons.Filled.AccessTime, text = startTime)
+                                    ConfettiHeaderAndroid(icon = Icons.Filled.AccessTime, text = startTime)
                                 }
 
                                 items(sessions) { session ->

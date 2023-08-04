@@ -26,7 +26,7 @@ interface ConferencesComponent {
     sealed interface UiState
     object Loading : UiState
     object Error : UiState
-    class Success(val conferences: List<GetConferencesQuery.Conference>) : UiState
+    class Success(val conferenceListByYear: Map<Int, List<GetConferencesQuery.Conference>>) : UiState
 }
 
 class DefaultConferencesComponent(
@@ -59,18 +59,23 @@ class DefaultConferencesComponent(
             if (initial) {
                 repository.conferences(FetchPolicy.CacheFirst).data?.conferences?.let {
                     hasConferences = true
-                    channel.send(Success(it))
+                    val conferenceListByYear = it.groupBy { it.days[0].year }
+                    channel.send(Success(groupConferencesByYear(it)))
                 }
             }
             repository.conferences(FetchPolicy.NetworkOnly).data?.conferences?.let {
                 hasConferences = true
-                channel.send(Success(it))
+                channel.send(Success(groupConferencesByYear(it)))
             }
 
             if (!hasConferences) {
                 channel.send(Error)
             }
         }
+    }
+
+    private fun groupConferencesByYear(conferences: List<GetConferencesQuery.Conference>): Map<Int, List<GetConferencesQuery.Conference>> {
+        return conferences.groupBy { it.days[0].year }
     }
 
     override fun onConferenceClicked(conference: GetConferencesQuery.Conference) {

@@ -57,7 +57,7 @@ import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.speakers.SpeakerItemView
 import dev.johnoreilly.confetti.ui.ConfettiTypography
 import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.utils.rememberRunnable
 
 @Composable
@@ -117,7 +117,7 @@ private fun LazyListScope.speakerItems(
     // Shows header if and only if there are speaker results.
     if (speakers.isNotEmpty()) {
         stickyHeader {
-            ConfettiHeader(
+            ConfettiHeaderAndroid(
                 icon = Icons.Filled.Person,
                 text = stringResource(R.string.speakers),
             )
@@ -143,7 +143,7 @@ private fun LazyListScope.sessionItems(
     // Shows header if and only if there are session results.
     if (sessions.isNotEmpty()) {
         stickyHeader {
-            ConfettiHeader(
+            ConfettiHeaderAndroid(
                 icon = Icons.Filled.Event,
                 text = stringResource(R.string.sessions),
             )

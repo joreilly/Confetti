@@ -17,6 +17,7 @@ Includes:
 - Jetpack Compose Android client
 - Compose for Desktop client (early version)
 - Compose for Wear OS client (contributed by https://github.com/yschimke)
+- Compose for iOS (session details screen shared across platforms)
 - Android Auto and Automotive OS (contributed by https://github.com/cmota)
 - [Apollo GraphQL](https://github.com/apollographql/apollo-kotlin) based Kotlin Multiplatform shared
   code

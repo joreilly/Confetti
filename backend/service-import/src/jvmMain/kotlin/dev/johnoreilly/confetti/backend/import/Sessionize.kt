@@ -10,6 +10,7 @@ object Sessionize {
     private val droidConLondon2022 = "https://sessionize.com/api/v2/qi0g29hw/view/All"
     private val kotlinConf2023 = "https://sessionize.com/api/v2/rje6khfn/view/All"
     private val androidMakers2023 = "https://sessionize.com/api/v2/72i2tw4v/view/All"
+    private val droidconNYC2023 = "https://sessionize.com/api/v2/gxz4vyyr/view/All"
 
     data class SessionizeData(
         val rooms: List<DRoom>,
@@ -61,6 +62,32 @@ object Sessionize {
                 longitude = -122.3934354,
                 description = emptyMap(),
                 imageUrl = "https://www.nodesummit.com/wp-content/uploads/UCSF-Mission-Bay-Center_node-summit.jpg",
+                floorPlanUrl = null
+            ),
+            partnerGroups = emptyList()
+        )
+    }
+
+    suspend fun importDroidconNYC2023(): Int {
+        return writeData(
+            sessionizeData = getData(droidconNYC2023),
+            config = DConfig(
+                id = ConferenceId.DroidconNYC2023.id,
+                name = "droidcon New York 2023",
+                timeZone = "America/New_York",
+                days = listOf(
+                    LocalDate(2023, 9, 14),
+                    LocalDate(2023, 9, 15)
+                ),
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Jay Conference Bryant Park",
+                address = "109 W 39th St, New York, NY 10018",
+                latitude = 40.7533911,
+                longitude = -73.9860439,
+                description = emptyMap(),
+                imageUrl = "https://nyc.droidcon.com/wp-content/uploads/sites/2/2023/04/nyc-hotel.png",
                 floorPlanUrl = null
             ),
             partnerGroups = emptyList()

@@ -13,11 +13,14 @@ struct SessionsView: View {
     }
     
     var body: some View {
-        switch uiState {
-        case is SessionsUiStateLoading: ProgressView()
-        case is SessionsUiStateError: ErrorView()
-        case let state as SessionsUiStateSuccess: SessionsContentView(component: component, sessionUiState: state)
-        default: EmptyView()
+        NavigationView {
+            switch uiState {
+            case is SessionsUiStateLoading: ProgressView()
+            case is SessionsUiStateError: ErrorView()
+            case let state as SessionsUiStateSuccess: SessionsContentView(component: component, sessionUiState: state)
+            default: EmptyView()
+            }
+            
         }
     }
 }
@@ -27,6 +30,8 @@ private struct SessionsContentView: View {
     let sessionUiState: SessionsUiStateSuccess
     @State private var selectedDateIndex: Int = 0
 
+    @State private var path: [SessionDetails] = []
+    
     var body: some View {
         VStack {
             let formattedConfDates = sessionUiState.formattedConfDates
@@ -38,7 +43,7 @@ private struct SessionsContentView: View {
             .pickerStyle(.segmented)
             .padding([.leading, .trailing], 16)
             .padding(.bottom, 8)
-
+            
             List {
                 ForEach(sessionUiState.sessionsByStartTimeList[selectedDateIndex].keys.sorted(), id: \.self) {key in
                     
@@ -46,7 +51,7 @@ private struct SessionsContentView: View {
                         Image(systemName: "clock")
                         Text(key).font(.headline).bold()
                     }) {
-                                                    
+                        
                         let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
                         ForEach(sessions, id: \.self) { session in
                             SessionView(session: session)
@@ -56,17 +61,17 @@ private struct SessionsContentView: View {
                     
                 }
             }
-        }
-        .listStyle(.insetGrouped)
-        .refreshable {
-            component.refresh()
-            
-            await awaitForState(component.uiState) { state in
-                (state as? SessionsUiStateSuccess)?.isRefreshing == true
+            .listStyle(.insetGrouped)
+            .refreshable {
+                component.refresh()
+                
+                await awaitForState(component.uiState) { state in
+                    (state as? SessionsUiStateSuccess)?.isRefreshing == true
+                }
             }
+            .searchable(text: Binding(get: { sessionUiState.searchString }, set: component.onSearch))
+            .navigationBarTitle(sessionUiState.conferenceName, displayMode: .inline)
         }
-        .searchable(text: Binding(get: { sessionUiState.searchString }, set: component.onSearch))
-        .navigationBarTitle(sessionUiState.conferenceName, displayMode: .inline)
     }
 }
 

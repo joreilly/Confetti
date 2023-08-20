@@ -5,28 +5,27 @@ import BackgroundTasks
 
 @main
 struct iOSApp: App {
-    @Environment(\.scenePhase) private var phase
+    @Environment(\.scenePhase)
+    var scenePhase: ScenePhase
 
     @UIApplicationDelegateAdaptor(AppDelegate.self)
     var appDelegate: AppDelegate
     
+    var rootHolder: RootHolder { appDelegate.rootHolder }
+    
     var body: some Scene {
         WindowGroup {
-            ConfettiApp(appDelegate.root)
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                    LifecycleRegistryExtKt.resume(appDelegate.lifecycle)
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                    LifecycleRegistryExtKt.pause(appDelegate.lifecycle)
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
-                    LifecycleRegistryExtKt.stop(appDelegate.lifecycle)
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)) { _ in
-                    LifecycleRegistryExtKt.destroy(appDelegate.lifecycle)
+            ConfettiApp(rootHolder.root)
+                .onChange(of: scenePhase) { newPhase in
+                    switch newPhase {
+                    case .background: LifecycleRegistryExtKt.stop(rootHolder.lifecycle)
+                    case .inactive: LifecycleRegistryExtKt.pause(rootHolder.lifecycle)
+                    case .active: LifecycleRegistryExtKt.resume(rootHolder.lifecycle)
+                    @unknown default: break
+                    }
                 }
         }
-        .onChange(of: phase) { newPhase in
+        .onChange(of: scenePhase) { newPhase in
             switch newPhase {
             case .background: scheduleDataRefresh()
             default: break
@@ -43,3 +42,6 @@ func scheduleDataRefresh() {
     request.earliestBeginDate = .now.addingTimeInterval(24 * 3600)
     try? BGTaskScheduler.shared.submit(request)
 }
+
+
+

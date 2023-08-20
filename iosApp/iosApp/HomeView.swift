@@ -6,13 +6,43 @@ struct HomeView: View {
     
     @StateValue
     private var stack: ChildStack<AnyObject, HomeComponentChild>
-    
+
+    @State var selectedTab: Int = 1
+
     init(_ component: HomeComponent) {
         self.component = component
         _stack = StateValue(component.stack)
     }
     
     var body: some View {
+        VStack {
+            let child = stack.active.instance
+            
+            TabView(selection: $selectedTab) {
+                ChildView(child: child).tabItem {
+                    Label("Schedule", systemImage: "calendar")
+                }.tag(1)
+                ChildView(child: child).tabItem {
+                    Label("Speakers", systemImage: "person")
+                }.tag(2)
+            }
+            .onChange(of: selectedTab) { selectedTab in
+                switch selectedTab {
+                case 1: component.onSessionsTabClicked()
+                case 2: component.onSpeakersTabClicked()
+                default: print("unhandled selection")
+                }
+            }
+ 
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Switch", action: component.onSwitchConferenceClicked)
+            }
+        }
+        
+
+/*
         VStack {
             let child = stack.active.instance
             
@@ -40,6 +70,7 @@ struct HomeView: View {
                 Button("Switch", action: component.onSwitchConferenceClicked)
             }
         }
+ */
     }
 }
 
@@ -54,6 +85,7 @@ private struct ChildView: View {
         }
     }
 }
+/*
 
 private struct BottomTabView: View {
     let title: String
@@ -78,3 +110,4 @@ private struct VerticalLabelStyle: LabelStyle {
         }
     }
 }
+*/

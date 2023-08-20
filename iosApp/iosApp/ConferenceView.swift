@@ -13,16 +13,19 @@ struct ConferenceView: View {
     }
     
     var body: some View {
+        HomeView(component)
+/*
         StackView(
             stackValue: ObservableValue(component.stack),
             onBack: component.onBackClicked
         ) { child in
             switch child {
             case let child as ConferenceComponentChild.Home: HomeView(child.component)
-            case let child as ConferenceComponentChild.SessionDetails: SessionDetailsView(child.component)
+            //case let child as ConferenceComponentChild.SessionDetails: SessionDetailsView(child.component)
             case let child as ConferenceComponentChild.SpeakerDetails: SpeakerDetailsView(child.component)
             default: EmptyView()
             }
         }
+ */
     }
 }

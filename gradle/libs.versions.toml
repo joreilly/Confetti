@@ -112,7 +112,7 @@ horologist-auth-data-phone = { module = "com.google.android.horologist:horologis
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
 junit = "junit:junit:4.13.2"
-kaml = "com.charleskorn.kaml:kaml:0.54.0"
+kaml = "com.charleskorn.kaml:kaml:0.55.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
 koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin-android" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }

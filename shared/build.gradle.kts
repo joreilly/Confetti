@@ -90,7 +90,6 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.components.resources)
                 implementation(libs.image.loader)
-                //api("io.github.qdsfdhvh:image-loader:1.6.3")
             }
         }
         val commonTest by getting {
@@ -244,4 +243,9 @@ publishing {
             }
         }
     }
+}
+
+compose {
+    kotlinCompilerPlugin.set(libs.versions.compose.compiler.get())
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.10")
 }

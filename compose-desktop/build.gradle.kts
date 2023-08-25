@@ -32,7 +32,7 @@ java {
 }
 
 compose {
-    kotlinCompilerPlugin.set(libs.versions.compose.compiler.get())
+    kotlinCompilerPlugin.set(libs.versions.jbComposeCompiler)
     kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.10")
 }
 

@@ -9,7 +9,6 @@ import com.arkivanov.decompose.router.stack.navigate
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackHandler
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
@@ -38,6 +37,7 @@ class DefaultConferenceComponent(
     componentContext: ComponentContext,
     private val user: User?,
     private val conference: String,
+    private val isMultiPane: Boolean,
     private val onSwitchConference: () -> Unit,
     private val onSignOut: () -> Unit,
 ) : ConferenceComponent, KoinComponent, ComponentContext by componentContext {
@@ -61,6 +61,7 @@ class DefaultConferenceComponent(
                         componentContext = componentContext,
                         conference = conference,
                         user = user,
+                        isMultiPane = isMultiPane,
                         onSwitchConference = onSwitchConference,
                         onSessionSelected = { navigation.push(Config.SessionDetails(sessionId = it)) },
                         onSpeakerSelected = { navigation.push(Config.SpeakerDetails(speakerId = it)) },

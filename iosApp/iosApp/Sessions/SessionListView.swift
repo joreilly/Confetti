@@ -50,7 +50,10 @@ private struct SessionsContentView: View {
                         let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
                         ForEach(sessions, id: \.self) { session in
                             SessionView(session: session)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
                                 .onTapGesture { component.onSessionClicked(id: session.id) }
+                                .listRowBackground(session.id == sessionUiState.selectedSessionId ? Color(.systemFill) : Color(uiColor: .systemBackground))
                         }
                     }
                     

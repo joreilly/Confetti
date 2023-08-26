@@ -33,6 +33,7 @@ interface AppComponent {
 class DefaultAppComponent(
     componentContext: ComponentContext,
     private val onSignOut: () -> Unit,
+    private val isMultiPane: Boolean = false,
 ) : AppComponent, KoinComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
@@ -101,6 +102,7 @@ class DefaultAppComponent(
                         componentContext = componentContext,
                         user = authentication.currentUser.value,
                         conference = config.conference,
+                        isMultiPane = isMultiPane,
                         onSwitchConference = ::showConferences,
                         onSignOut = {
                             onSignOut()

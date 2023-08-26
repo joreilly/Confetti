@@ -27,6 +27,7 @@ interface HomeComponent {
 
     sealed class Child {
         class Sessions(val component: SessionsComponent) : Child()
+        class MultiPane(val component: MultiPaneComponent) : Child()
         class Speakers(val component: SpeakersComponent) : Child()
         class Bookmarks(val component: BookmarksComponent) : Child()
         class Search(val component: SearchComponent) : Child()
@@ -37,6 +38,7 @@ class DefaultHomeComponent(
     componentContext: ComponentContext,
     private val conference: String,
     override val user: User?,
+    private val isMultiPane: Boolean,
     private val onSwitchConference: () -> Unit,
     private val onSessionSelected: (id: String) -> Unit,
     private val onSpeakerSelected: (id: String) -> Unit,
@@ -58,15 +60,27 @@ class DefaultHomeComponent(
     private fun child(config: Config, componentContext: ComponentContext): Child =
         when (config) {
             Config.Sessions ->
-                Child.Sessions(
-                    DefaultSessionsComponent(
-                        componentContext = componentContext,
-                        conference = conference,
-                        user = user,
-                        onSessionSelected = onSessionSelected,
-                        onSignIn = onSignIn,
+                if (isMultiPane) {
+                    Child.MultiPane(
+                        DefaultMultiPaneComponent(
+                            componentContext = componentContext,
+                            conference = conference,
+                            user = user,
+                            onSignIn = onSignIn,
+                            onSpeakerSelected = onSpeakerSelected,
+                        )
                     )
-                )
+                } else {
+                    Child.Sessions(
+                        DefaultSessionsComponent(
+                            componentContext = componentContext,
+                            conference = conference,
+                            user = user,
+                            onSessionSelected = onSessionSelected,
+                            onSignIn = onSignIn,
+                        )
+                    )
+                }
 
             Config.Speakers ->
                 Child.Speakers(

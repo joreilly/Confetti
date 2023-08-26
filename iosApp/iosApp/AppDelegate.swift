@@ -18,6 +18,7 @@ class AppDelegate : NSObject, UIApplicationDelegate {
         KoinKt.doInitKoin()
 
         lifecycle = LifecycleRegistryKt.LifecycleRegistry()
+        LifecycleRegistryExtKt.resume(lifecycle)
         
         root = DefaultAppComponent(
             componentContext: DefaultComponentContext(lifecycle: lifecycle),

@@ -57,6 +57,7 @@ interface SessionsComponent {
     fun refresh()
     fun onSearch(searchString: String)
     fun onSessionClicked(id: String)
+    fun onSessionSelectionChanged(id: String?)
     fun onSignInClicked()
 }
 
@@ -114,6 +115,10 @@ class DefaultSessionsComponent(
         onSessionSelected(id)
     }
 
+    override fun onSessionSelectionChanged(id: String?) {
+        simpleComponent.onSessionSelectionChanged(id)
+    }
+
     override fun onSignInClicked() {
         onSignIn()
     }
@@ -130,6 +135,7 @@ internal class SessionsSimpleComponent(
     private val responseDatas = Channel<ResponseData?>()
     private val searchQuery = MutableStateFlow("")
     private val isRefreshing = MutableStateFlow(false)
+    private val selectedSessionId = MutableStateFlow<String?>(null)
 
     val uiState: StateFlow<SessionsUiState> =
         combineUiState()
@@ -156,6 +162,10 @@ internal class SessionsSimpleComponent(
 
     fun onSearch(searchString: String) {
         searchQuery.value = searchString
+    }
+
+    fun onSessionSelectionChanged(id: String?) {
+        selectedSessionId.value = id
     }
 
     private fun filterSessions(uiState: SessionsUiState, filter: String): SessionsUiState {
@@ -223,6 +233,7 @@ internal class SessionsSimpleComponent(
                         },
                     isRefreshing,
                     searchQuery,
+                    selectedSessionId,
                     ::uiStates
                 )
             }
@@ -236,6 +247,7 @@ internal class SessionsSimpleComponent(
         refreshData: ResponseData,
         isRefreshing: Boolean,
         searchString: String,
+        selectedSessionId: String?,
     ): SessionsUiState {
         val bookmarksResponse = refreshData.bookmarksResponse
         val sessionsResponse = refreshData.sessionsResponse
@@ -292,6 +304,7 @@ internal class SessionsSimpleComponent(
             bookmarks = bookmarksData.bookmarks?.sessionIds.orEmpty().toSet(),
             isRefreshing = isRefreshing,
             searchString = searchString,
+            selectedSessionId = selectedSessionId,
         )
     }
 }
@@ -313,5 +326,6 @@ sealed interface SessionsUiState {
         val bookmarks: Set<String>,
         val isRefreshing: Boolean,
         val searchString: String,
+        val selectedSessionId: String?,
     ) : SessionsUiState
 }

@@ -49,6 +49,7 @@ private struct ChildView: View {
     var body: some View {
         switch child {
         case let child as HomeComponentChild.Sessions: SessionsView(child.component)
+        case let child as HomeComponentChild.MultiPane: MultiPaneView(child.component)
         case let child as HomeComponentChild.Speakers: SpeakersView(child.component)
         default: EmptyView()
         }

@@ -31,7 +31,7 @@ class DefaultSpeakerDetailsComponent(
     conference: String,
     speakerId: String,
     private val onSessionSelected: (id: String) -> Unit,
-    private val onFinished: () -> Unit,
+    private val onFinished: () -> Unit = {},
 ) : SpeakerDetailsComponent, KoinComponent, ComponentContext by componentContext {
     private val repository: ConfettiRepository by inject()
     private val coroutineScope = coroutineScope()

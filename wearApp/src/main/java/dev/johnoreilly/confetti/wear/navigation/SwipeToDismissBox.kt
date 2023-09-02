@@ -68,7 +68,6 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     SwipeToDismissBox(
         onDismissed = onDismissed,
         modifier = modifier,
-        backgroundScrimColor = workaroundBackgroundScrimColor(stackSize = stack.items.size),
         backgroundKey = background?.configuration ?: SwipeToDismissKeys.Background,
         contentKey = active.configuration,
         hasBackground = background != null,
@@ -78,12 +77,6 @@ fun <C : Any, T : Any> SwipeToDismissBox(
             content(child)
         }
     }
-}
-
-// Workaround for https://issuetracker.google.com/issues/280392104
-@Composable
-private fun workaroundBackgroundScrimColor(stackSize: Int): Color {
-    return MaterialTheme.colors.background.copy(alpha = 1F - ((stackSize % 2) * 0.01F))
 }
 
 private fun ChildStack<*, *>.getConfigurations(): Set<String> =

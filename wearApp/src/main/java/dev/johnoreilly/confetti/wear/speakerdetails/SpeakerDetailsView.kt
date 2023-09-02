@@ -9,45 +9,50 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
 import coil.compose.AsyncImage
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
+import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.shared.R
-import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SpeakerDetailsRoute(
+    component: SpeakerDetailsComponent,
     columnState: ScalingLazyColumnState,
-    viewModel: SpeakerDetailsViewModel = getViewModel()
 ) {
-    val speaker by viewModel.speaker.collectAsStateWithLifecycle()
-    SpeakerDetailsView(speaker, columnState)
+    val uiState by component.uiState.subscribeAsState()
+    SpeakerDetailsView(uiState, columnState)
 }
 
 @Composable
-fun SpeakerDetailsView(uiState: QueryResult<SpeakerDetails>, columnState: ScalingLazyColumnState) {
-    val placeholderState = rememberPlaceholderState { uiState !is QueryResult.Loading }
+fun SpeakerDetailsView(uiState: SpeakerDetailsUiState, columnState: ScalingLazyColumnState) {
+    val placeholderState = rememberPlaceholderState { uiState !is SpeakerDetailsUiState.Loading }
+
+    SideEffect {
+        println("Speaker $uiState")
+    }
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState
     ) {
 
-        if (uiState is QueryResult.Loading) {
+        if (uiState is SpeakerDetailsUiState.Loading) {
             item {
                 AsyncImage(
                     model = R.drawable.ic_person_black_24dp,
@@ -89,7 +94,7 @@ fun SpeakerDetailsView(uiState: QueryResult<SpeakerDetails>, columnState: Scalin
                 )
             }
         } else {
-            val speaker = (uiState as? QueryResult.Success)?.result
+            val speaker = (uiState as? SpeakerDetailsUiState.Success)?.details
 
             item {
                 AsyncImage(

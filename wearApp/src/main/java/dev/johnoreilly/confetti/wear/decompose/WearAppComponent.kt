@@ -17,11 +17,13 @@ import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
+import dev.johnoreilly.confetti.decompose.ConferencesComponent
+import dev.johnoreilly.confetti.decompose.DefaultConferencesComponent
 import dev.johnoreilly.confetti.decompose.DefaultSessionDetailsComponent
+import dev.johnoreilly.confetti.decompose.DefaultSpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
+import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.coroutineScope
-import dev.johnoreilly.confetti.wear.conferences.ConferencesComponent
-import dev.johnoreilly.confetti.wear.conferences.DefaultConferencesComponent
 import dev.johnoreilly.confetti.wear.decompose.WearAppComponent.Child
 import dev.johnoreilly.confetti.wear.sessions.ConferenceSessionsComponent
 import dev.johnoreilly.confetti.wear.sessions.DefaultConferenceSessionsComponent
@@ -44,6 +46,8 @@ interface WearAppComponent {
         class ConferenceSessions(val component: ConferenceSessionsComponent) : Child()
 
         class SessionDetails(val component: SessionDetailsComponent) : Child()
+
+        class SpeakerDetails(val component: SpeakerDetailsComponent) : Child()
     }
 }
 
@@ -130,8 +134,22 @@ class DefaultWearAppComponent(
                         componentContext = componentContext,
                         conference = config.conference,
                         sessionId = config.session,
-                        onSpeakerSelected = {},
+                        onSpeakerSelected = {
+                            navigation.push(Config.SessionDetails(user?.uid, config.conference, it))
+                        },
                         user = user
+                    )
+                )
+
+            is Config.SpeakerDetails ->
+                Child.SpeakerDetails(
+                    DefaultSpeakerDetailsComponent(
+                        componentContext = componentContext,
+                        conference = config.conference,
+                        speakerId = config.speaker,
+                        onSessionSelected = {
+                            navigation.push(Config.SpeakerDetails(user?.uid, config.conference, it))
+                        },
                     )
                 )
         }
@@ -167,6 +185,12 @@ class DefaultWearAppComponent(
             val uid: String?, // Unused, but needed to recreated the component when the user changes
             val conference: String,
             val session: String,
+        ) : Config()
+
+        data class SpeakerDetails(
+            val uid: String?, // Unused, but needed to recreated the component when the user changes
+            val conference: String,
+            val speaker: String,
         ) : Config()
     }
 }

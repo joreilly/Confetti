@@ -15,15 +15,15 @@ import org.koin.core.component.get
 interface ConferenceSessionsComponent {
     val uiState: Value<SessionsUiState>
 
-    fun refresh()
     fun onSessionClicked(session: String)
 }
 
 class DefaultConferenceSessionsComponent(
     componentContext: ComponentContext,
-    private val conference: String,
+    conference: String,
+    // TODO filter date
     private val date: LocalDate?,
-    private val user: User?,
+    user: User?,
     private val onSessionSelected: (String) -> Unit,
 ) : ConferenceSessionsComponent, KoinComponent, ComponentContext by componentContext {
     private val simpleComponent =
@@ -36,10 +36,6 @@ class DefaultConferenceSessionsComponent(
     val repository: ConfettiRepository = get()
 
     override val uiState: Value<SessionsUiState> = simpleComponent.uiState.asValue(lifecycle = lifecycle)
-
-    override fun refresh() {
-        simpleComponent.refresh(forceRefresh = true)
-    }
 
     override fun onSessionClicked(session: String) {
         onSessionSelected(session)

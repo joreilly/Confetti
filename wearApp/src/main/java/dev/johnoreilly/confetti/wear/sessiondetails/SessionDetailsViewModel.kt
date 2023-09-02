@@ -8,7 +8,6 @@ import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.utils.ClientQuery.toUiState
 import dev.johnoreilly.confetti.utils.QueryResult
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -17,8 +16,8 @@ class SessionDetailsViewModel(
     savedStateHandle: SavedStateHandle,
     repository: ConfettiRepository
 ) : ViewModel() {
-    val sessionId: SessionDetailsKey =
-        SessionDetailsDestination.fromNavArgs(savedStateHandle)
+    val sessionId: SessionDetailsKey = TODO()
+//        SessionDetailsDestination.fromNavArgs(savedStateHandle)
 
     val session: StateFlow<QueryResult<SessionDetailsUiState>> =
         repository.sessionDetailsQuery(sessionId.conference, sessionId.sessionId)

@@ -18,6 +18,7 @@ import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.wear.decompose.DefaultWearAppComponent
+import dev.johnoreilly.confetti.wear.decompose.WearAppComponent
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.getViewModel
@@ -29,16 +30,15 @@ import org.koin.mp.KoinPlatformTools
 class MainActivity : ComponentActivity() {
     private val analyticsLogger: AnalyticsLogger by inject()
 
+    val appComponent: WearAppComponent =
+        DefaultWearAppComponent(
+            componentContext = defaultComponentContext(),
+        )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
         super.onCreate(savedInstanceState)
-
-        val appComponent =
-            DefaultWearAppComponent(
-                componentContext = defaultComponentContext(),
-                onSignOut = { Firebase.auth.signOut() },
-            )
 
         setContent {
             // TODO https://github.com/InsertKoinIO/koin/issues/1557
@@ -63,6 +63,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (intent != null) {
+            appComponent.handleDeeplink(intent)
+        }
+
+        setIntent(intent)
     }
 
     private suspend fun logNavigationEvents() {

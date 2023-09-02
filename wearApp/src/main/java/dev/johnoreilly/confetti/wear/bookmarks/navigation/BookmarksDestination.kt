@@ -13,7 +13,6 @@ import com.google.android.horologist.compose.navscaffold.scrollable
 import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksRoute
 import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
 
 object BookmarksDestination : ConfettiNavigationDestination {
     const val conferenceArg = "conference"
@@ -26,7 +25,7 @@ object BookmarksDestination : ConfettiNavigationDestination {
 
     fun fromNavArgs(entry: NavBackStackEntry): String {
         val arguments = entry.arguments!!
-        return arguments.getString(SessionDetailsDestination.conferenceArg)!!
+        return "" //arguments.getString(SessionDetailsDestination.conferenceArg)!!
     }
 
     fun fromNavArgs(savedStateHandle: SavedStateHandle): String {

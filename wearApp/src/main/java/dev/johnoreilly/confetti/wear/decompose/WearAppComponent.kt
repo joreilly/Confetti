@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.wear.decompose
 
+import android.content.Intent
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -31,6 +32,7 @@ import org.koin.core.component.inject
 
 interface WearAppComponent {
     fun navigateUp()
+    fun handleDeeplink(intent: Intent)
 
     val stack: Value<ChildStack<*, Child>>
 
@@ -43,8 +45,6 @@ interface WearAppComponent {
 
 class DefaultWearAppComponent(
     componentContext: ComponentContext,
-    private val onSignOut: () -> Unit,
-    private val isMultiPane: Boolean = false,
 ) : WearAppComponent, KoinComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
@@ -132,6 +132,10 @@ class DefaultWearAppComponent(
 
     override fun navigateUp() {
         navigation.pop()
+    }
+
+    override fun handleDeeplink(intent: Intent) {
+        println("TODO handleDeeplink $intent")
     }
 
     @Parcelize

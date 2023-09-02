@@ -10,10 +10,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import com.arkivanov.decompose.defaultComponentContext
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
+import dev.johnoreilly.confetti.decompose.DefaultAppComponent
+import dev.johnoreilly.confetti.wear.decompose.DefaultWearAppComponent
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.getViewModel
@@ -23,7 +27,6 @@ import org.koin.core.annotation.KoinInternalApi
 import org.koin.mp.KoinPlatformTools
 
 class MainActivity : ComponentActivity() {
-    lateinit var navController: NavHostController
     private val analyticsLogger: AnalyticsLogger by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +34,13 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
-        setContent {
-            navController = rememberSwipeDismissableNavController()
+        val appComponent =
+            DefaultWearAppComponent(
+                componentContext = defaultComponentContext(),
+                onSignOut = { Firebase.auth.signOut() },
+            )
 
+        setContent {
             // TODO https://github.com/InsertKoinIO/koin/issues/1557
             CompositionLocalProvider(
                 LocalKoinScope provides KoinPlatformTools.defaultContext()
@@ -46,7 +53,10 @@ class MainActivity : ComponentActivity() {
                     viewModel.waitingOnThemeOrData
                 }
 
-                ConfettiApp(navController, viewModel)
+                ConfettiApp(
+                    component = appComponent,
+                    viewModel
+                )
 
                 LaunchedEffect(Unit) {
                     logNavigationEvents()
@@ -55,16 +65,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        navController.handleDeepLink(intent)
-    }
-
     private suspend fun logNavigationEvents() {
         if (isFirebaseInstalled) {
-            navController.currentBackStackEntryFlow.collect { navEntry ->
-                analyticsLogger.logNavigationEvent(navEntry)
-            }
+//            navController.currentBackStackEntryFlow.collect { navEntry ->
+//                analyticsLogger.logNavigationEvent(navEntry)
+//            }
         }
     }
 

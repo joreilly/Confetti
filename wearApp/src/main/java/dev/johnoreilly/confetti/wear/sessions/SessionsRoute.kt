@@ -6,90 +6,70 @@ import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
+import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.BuildConfig
-import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.navigation.ConferenceDayKey
-import dev.johnoreilly.confetti.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.type.Session
-import dev.johnoreilly.confetti.utils.QueryResult
+import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
-import org.koin.androidx.compose.getViewModel
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun SessionsRoute(
-    navigateToSession: (SessionDetailsKey) -> Unit,
-    columnState: ScalingLazyColumnState,
-    viewModel: SessionsViewModel = getViewModel()
+    component: ConferenceSessionsComponent,
+    columnState: ScalingLazyColumnState
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by component.uiState.subscribeAsState()
 
     if (!BuildConfig.DEBUG) {
         ReportDrawnWhen {
-            uiState is QueryResult.Success
+            uiState is SessionsUiState.Success
         }
     }
 
     SessionsScreen(
         uiState = uiState,
-        sessionSelected = {
-            navigateToSession(it)
-        },
+        sessionSelected = component::onSessionClicked,
         columnState = columnState
     )
 }
 
 @Composable
 fun SessionsScreen(
-    uiState: QueryResult<SessionsUiState>,
-    sessionSelected: (SessionDetailsKey) -> Unit,
+    uiState: SessionsUiState,
+    sessionSelected: (sessionId: String) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
-    val dayFormatter = remember { DateTimeFormatter.ofPattern("eeee H:mm") }
-    val timeFormatter = remember { DateTimeFormatter.ofPattern("H:mm") }
-
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState,
     ) {
         when (uiState) {
-            is QueryResult.Success -> {
-                val sessions = uiState.result.sessionsByTime
+            is SessionsUiState.Success -> {
+                val sessions = uiState.sessionsByStartTimeList.first()
 
-                sessions.forEachIndexed { index, sessionsAtTime ->
+                sessions.forEach { (time, sessionsAtTime) ->
                     item {
-                        val time = sessionsAtTime.time.toJavaLocalDateTime()
-                        if (index == 0) {
-                            SectionHeader(dayFormatter.format(time))
-                        } else {
-                            SectionHeader(timeFormatter.format(time))
-                        }
+                        SectionHeader(time)
                     }
 
-                    items(sessionsAtTime.sessions) { session ->
-                        SessionCard(session, sessionSelected = {
-                            sessionSelected(
-                                SessionDetailsKey(
-                                    conference = uiState.result.conferenceDay.conference,
-                                    sessionId = it
-                                )
-                            )
-                        }, uiState.result.now)
+                    items(sessionsAtTime) { session ->
+                        SessionCard(
+                            session,
+                            sessionSelected = {
+                                sessionSelected(it)
+                            },
+                            uiState.now
+                        )
                     }
                 }
             }
@@ -109,31 +89,43 @@ fun SessionListViewPreview() {
 
     ConfettiThemeFixed {
         SessionsScreen(
-            uiState = QueryResult.Success(
-                SessionsUiState(
-                    ConferenceDayKey("wearconf", sessionTime.date),
-                    sessionsByTime = listOf(
-                        SessionAtTime(
-                            sessionTime,
-                            listOf(
-                                SessionDetails(
-                                    "1",
-                                    "Wear it's at",
-                                    "Talk",
-                                    sessionTime,
-                                    sessionTime,
-                                    "Be aWear of what's coming",
-                                    "en",
-                                    listOf(),
-                                    SessionDetails.Room("Main Hall"),
-                                    listOf(),
-                                    Session.type.name
-                                )
-                            )
-                        )
-                    ),
-                    now = java.time.LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
-                )
+            uiState = SessionsUiState.Success(
+                now = java.time.LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime(),
+                conferenceName = "wearconf",
+                venueLat = null,
+                venueLon = null,
+                confDates = listOf(),
+                formattedConfDates = listOf(),
+                sessionsByStartTimeList = listOf(),
+                speakers = listOf(),
+                rooms = listOf(),
+                bookmarks = setOf(),
+                isRefreshing = false,
+                searchString = "",
+                selectedSessionId = null,
+
+//                    ConferenceDayKey("wearconf", sessionTime.date),
+//                    sessionsByTime = listOf(
+//                        SessionAtTime(
+//                            sessionTime,
+//                            listOf(
+//                                SessionDetails(
+//                                    "1",
+//                                    "Wear it's at",
+//                                    "Talk",
+//                                    sessionTime,
+//                                    sessionTime,
+//                                    "Be aWear of what's coming",
+//                                    "en",
+//                                    listOf(),
+//                                    SessionDetails.Room("Main Hall"),
+//                                    listOf(),
+//                                    Session.type.name
+//                                )
+//                            )
+//                        )
+//                    ),
+//                    now =
             ),
             sessionSelected = {},
             columnState = ScalingLazyColumnDefaults.belowTimeText().create()

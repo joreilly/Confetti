@@ -124,7 +124,7 @@ class DefaultSessionsComponent(
     }
 }
 
-internal class SessionsSimpleComponent(
+class SessionsSimpleComponent(
     componentContext: ComponentContext,
     private val conference: String,
     private val user: User?,

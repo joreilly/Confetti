@@ -19,10 +19,9 @@ import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
 
 @Composable
 fun SessionSpeakerChip(
-    conference: String,
     modifier: Modifier = Modifier,
     speaker: SpeakerDetails,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
+    navigateToSpeaker: (String) -> Unit
 ) {
     Chip(
         modifier = modifier,
@@ -39,7 +38,7 @@ fun SessionSpeakerChip(
             )
         },
         secondaryLabel = speaker.tagline,
-        onClick = { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) }
+        onClick = { navigateToSpeaker(speaker.id) }
     )
 }
 

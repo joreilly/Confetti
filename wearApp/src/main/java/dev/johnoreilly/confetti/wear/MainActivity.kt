@@ -28,17 +28,18 @@ import org.koin.core.annotation.KoinInternalApi
 import org.koin.mp.KoinPlatformTools
 
 class MainActivity : ComponentActivity() {
+    private lateinit var appComponent: WearAppComponent
     private val analyticsLogger: AnalyticsLogger by inject()
-
-    val appComponent: WearAppComponent =
-        DefaultWearAppComponent(
-            componentContext = defaultComponentContext(),
-        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
         super.onCreate(savedInstanceState)
+
+        appComponent =
+            DefaultWearAppComponent(
+                componentContext = defaultComponentContext(),
+            )
 
         setContent {
             // TODO https://github.com/InsertKoinIO/koin/issues/1557

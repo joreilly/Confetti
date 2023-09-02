@@ -22,7 +22,6 @@ import dev.johnoreilly.confetti.wear.bookmarks.BookmarksViewModel
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.home.HomeViewModel
-import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewModel
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewModel
@@ -41,7 +40,6 @@ import org.koin.dsl.module
 
 @OptIn(ExperimentalHorologistApi::class, ExperimentalHorologistApi::class)
 val appModule = module {
-    viewModelOf(::SessionDetailsViewModel)
     viewModelOf(::SpeakerDetailsViewModel)
     viewModelOf(::StartViewModel)
     viewModelOf(::BookmarksViewModel)

@@ -45,8 +45,8 @@ class DefaultSessionDetailsComponent(
     private val conference: String,
     private val sessionId: String,
     private val user: User?,
-    private val onFinished: () -> Unit,
-    private val onSignIn: () -> Unit,
+    private val onFinished: () -> Unit = {},
+    private val onSignIn: () -> Unit = {},
     private val onSpeakerSelected: (id: String) -> Unit,
 ) : SessionDetailsComponent, KoinComponent, ComponentContext by componentContext {
     private val repository: ConfettiRepository by inject()

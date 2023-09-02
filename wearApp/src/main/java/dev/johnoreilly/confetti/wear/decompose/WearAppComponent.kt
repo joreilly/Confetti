@@ -17,6 +17,8 @@ import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
+import dev.johnoreilly.confetti.decompose.DefaultSessionDetailsComponent
+import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
 import dev.johnoreilly.confetti.decompose.coroutineScope
 import dev.johnoreilly.confetti.wear.conferences.ConferencesComponent
 import dev.johnoreilly.confetti.wear.conferences.DefaultConferencesComponent
@@ -40,6 +42,8 @@ interface WearAppComponent {
         object Loading : Child()
         class Conferences(val component: ConferencesComponent) : Child()
         class ConferenceSessions(val component: ConferenceSessionsComponent) : Child()
+
+        class SessionDetails(val component: SessionDetailsComponent) : Child()
     }
 }
 
@@ -115,9 +119,19 @@ class DefaultWearAppComponent(
                         date = config.date,
                         user = user,
                         onSessionSelected = {
-                            // TODO
-//                            navigation.push()
+                            navigation.push(Config.SessionDetails(user?.uid, config.conference, it))
                         }
+                    )
+                )
+
+            is Config.SessionDetails ->
+                Child.SessionDetails(
+                    DefaultSessionDetailsComponent(
+                        componentContext = componentContext,
+                        conference = config.conference,
+                        sessionId = config.session,
+                        onSpeakerSelected = {},
+                        user = user
                     )
                 )
         }
@@ -147,6 +161,12 @@ class DefaultWearAppComponent(
             val uid: String?, // Unused, but needed to recreated the component when the user changes
             val conference: String,
             @TypeParceler<LocalDate?, LocalDateParceler>() val date: LocalDate? = null
+        ) : Config()
+
+        data class SessionDetails(
+            val uid: String?, // Unused, but needed to recreated the component when the user changes
+            val conference: String,
+            val session: String,
         ) : Config()
     }
 }

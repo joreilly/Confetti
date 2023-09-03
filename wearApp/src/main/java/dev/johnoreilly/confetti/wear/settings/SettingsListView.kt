@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.settings
 
 import androidx.compose.foundation.clickable
@@ -19,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState

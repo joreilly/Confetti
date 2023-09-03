@@ -1,13 +1,10 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.settings
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.arkivanov.decompose.ComponentContext
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.decompose.coroutineScope
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseUserMapper
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
@@ -19,14 +16,33 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class SettingsViewModel(
-    userRepository: FirebaseAuthUserRepository,
-    val appSettings: AppSettings,
-    private val phoneSettingsSync: PhoneSettingsSync,
-    val workManagerConferenceRefresh: WorkManagerConferenceRefresh
-) : ViewModel() {
-    val uiState: StateFlow<SettingsUiState> =
+interface SettingsComponent {
+    val uiState: StateFlow<SettingsUiState>
+
+    fun enableDeveloperMode()
+    fun refreshToken()
+    fun refresh()
+    fun onSwitchConferenceSelected()
+    fun navigateToGoogleSignIn()
+    fun navigateToGoogleSignOut()
+}
+
+class DefaultSettingsComponent(
+    componentContext: ComponentContext,
+    val onNavigateToGoogleSignIn: () -> Unit,
+    val onNavigateToGoogleSignOut: () -> Unit,
+) : SettingsComponent, KoinComponent, ComponentContext by componentContext {
+    private val userRepository: FirebaseAuthUserRepository by inject()
+    private val appSettings: AppSettings by inject()
+    private val phoneSettingsSync: PhoneSettingsSync by inject()
+    private val workManagerConferenceRefresh: WorkManagerConferenceRefresh by inject()
+
+    private val coroutineScope = coroutineScope()
+
+    override val uiState: StateFlow<SettingsUiState> =
         combine(
             userRepository.firebaseAuthFlow,
             appSettings.developerModeFlow(),
@@ -45,12 +61,12 @@ class SettingsViewModel(
                 SettingsUiState.Success(developerMode = developerMode, authUser = authUser)
             }
         }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsUiState.Loading)
+            .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SettingsUiState.Loading)
 
     private fun conferenceIdFlow(): Flow<String> = phoneSettingsSync.conferenceFlow
 
-    fun refresh() {
-        viewModelScope.launch {
+    override fun refresh() {
+        coroutineScope.launch {
             val conference = conferenceIdFlow().first()
 
             if (conference.isNotEmpty()) {
@@ -59,15 +75,27 @@ class SettingsViewModel(
         }
     }
 
-    fun enableDeveloperMode() {
-        viewModelScope.launch {
+    override fun enableDeveloperMode() {
+        coroutineScope.launch {
             appSettings.setDeveloperMode(true)
         }
     }
 
-    fun refreshToken() {
-        viewModelScope.launch {
+    override fun refreshToken() {
+        coroutineScope.launch {
             Firebase.auth.currentUser?.getIdToken(true)?.await()
         }
+    }
+
+    override fun onSwitchConferenceSelected() {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToGoogleSignIn() {
+        onNavigateToGoogleSignIn()
+    }
+
+    override fun navigateToGoogleSignOut() {
+        onNavigateToGoogleSignOut()
     }
 }

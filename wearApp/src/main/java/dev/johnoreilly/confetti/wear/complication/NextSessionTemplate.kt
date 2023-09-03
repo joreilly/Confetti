@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.complication
 
 import android.content.Context
@@ -37,7 +35,7 @@ class NextSessionTemplate(context: Context) :
             launchIntent = data.launchIntent
         )
 
-    override fun renderLongText(data: NextSessionComplicationData): LongTextComplicationData? {
+    override fun renderLongText(data: NextSessionComplicationData): LongTextComplicationData {
         return longText(
             title = data.sessionDetails?.title ?: data.conference?.name ?: "Confetti",
             text = data.sessionDetails?.room?.name.orEmpty(),

@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.complication
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 
 @Composable

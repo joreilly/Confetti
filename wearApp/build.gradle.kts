@@ -84,6 +84,11 @@ android {
         }
     }
 
+    kotlinOptions {
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-opt-in=com.google.android.horologist.annotations.ExperimentalHorologistApi"
+    }
+
     buildTypes {
         getByName("release") {
             isShrinkResources = true
@@ -118,9 +123,9 @@ android {
             signingConfig = signingConfigs.getByName("confetti")
         }
     }
+
     namespace = "dev.johnoreilly.confetti"
 }
-
 
 kotlin {
     sourceSets.all {

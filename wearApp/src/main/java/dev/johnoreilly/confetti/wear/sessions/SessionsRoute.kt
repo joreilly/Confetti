@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.sessions
 
 import androidx.activity.compose.ReportDrawnWhen
@@ -9,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.items
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState

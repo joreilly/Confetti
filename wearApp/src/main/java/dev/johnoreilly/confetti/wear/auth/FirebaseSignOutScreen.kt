@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.auth
 
 import androidx.compose.foundation.layout.Box
@@ -14,23 +12,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Text
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.material.Confirmation
 import dev.johnoreilly.confetti.R
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun FirebaseSignOutScreen(
-    navigateUp: () -> Unit,
-    onAuthChanged: () -> Unit,
-    viewModel: FirebaseSignOutViewModel = getViewModel()
+    component: FirebaseSignOutComponent,
 ) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val state by component.uiState.collectAsStateWithLifecycle()
 
     when (state) {
         GoogleSignOutScreenState.Idle -> {
             SideEffect {
-                viewModel.onIdleStateObserved()
+                component.onIdleStateObserved()
             }
 
             LoadingView()
@@ -42,10 +37,10 @@ fun FirebaseSignOutScreen(
 
         GoogleSignOutScreenState.Success -> {
             SideEffect {
-                onAuthChanged()
+                component.onSignedOut()
             }
             Confirmation(
-                onTimeout = navigateUp
+                onTimeout = { component.navigateUp() }
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -57,7 +52,7 @@ fun FirebaseSignOutScreen(
 
         GoogleSignOutScreenState.Failed -> {
             SideEffect {
-                navigateUp()
+                component.navigateUp()
             }
         }
     }

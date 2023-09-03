@@ -1,8 +1,8 @@
-package dev.johnoreilly.confetti.wear.decompose
+package dev.johnoreilly.confetti.wear.navigation
 
 import android.os.Parcel
-import kotlinx.parcelize.Parceler
 import kotlinx.datetime.LocalDate
+import kotlinx.parcelize.Parceler
 
 object LocalDateParceler : Parceler<LocalDate?> {
     override fun create(parcel: Parcel) = parcel.readNullable {

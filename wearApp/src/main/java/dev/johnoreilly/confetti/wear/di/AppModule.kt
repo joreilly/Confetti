@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.di
 
 import android.content.Context
@@ -12,19 +10,14 @@ import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptV
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
+import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.wear.WearAppViewModel
-import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutViewModel
-import dev.johnoreilly.confetti.wear.bookmarks.BookmarksViewModel
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
-import dev.johnoreilly.confetti.wear.home.HomeViewModel
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
-import dev.johnoreilly.confetti.wear.settings.SettingsViewModel
-import dev.johnoreilly.confetti.wear.startup.StartViewModel
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import dev.johnoreilly.confetti.wear.work.WearConferenceSetting
 import dev.johnoreilly.confetti.work.ConferenceSetting
@@ -39,12 +32,7 @@ import org.koin.dsl.module
 
 @OptIn(ExperimentalHorologistApi::class, ExperimentalHorologistApi::class)
 val appModule = module {
-    viewModelOf(::StartViewModel)
-    viewModelOf(::BookmarksViewModel)
-    viewModelOf(::HomeViewModel)
-    viewModelOf(::SettingsViewModel)
     viewModelOf(::SignInPromptViewModel)
-    viewModelOf(::FirebaseSignOutViewModel)
     viewModelOf(::GoogleSignInViewModel)
     viewModelOf(::WearAppViewModel)
     singleOf(::PhoneSettingsSync)

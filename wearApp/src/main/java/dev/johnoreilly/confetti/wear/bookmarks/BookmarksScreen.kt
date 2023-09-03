@@ -1,22 +1,15 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.bookmarks
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.Text
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
@@ -25,31 +18,13 @@ import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.toKotlinLocalDateTime
-import org.koin.androidx.compose.getViewModel
 import java.time.LocalDateTime
 
-@Composable
-fun BookmarksRoute(
-    navigateToSession: (SessionDetailsKey) -> Unit,
-    columnState: ScalingLazyColumnState,
-) {
-    val viewModel: BookmarksViewModel = getViewModel()
-
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    BookmarksScreen(
-        uiState = uiState,
-        sessionSelected = {
-            navigateToSession(it)
-        },
-        columnState = columnState
-    )
-}
 
 @Composable
 fun BookmarksScreen(
     uiState: QueryResult<BookmarksUiState>,
-    sessionSelected: (SessionDetailsKey) -> Unit,
+    sessionSelected: (String) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     ScalingLazyColumn(
@@ -64,12 +39,7 @@ fun BookmarksScreen(
                     SessionCard(
                         session = session,
                         sessionSelected = {
-                            sessionSelected(
-                                SessionDetailsKey(
-                                    conference = uiState.result.conference,
-                                    sessionId = it
-                                )
-                            )
+                            sessionSelected(it)
                         },
                         currentTime = uiState.result.now
                     )
@@ -87,12 +57,7 @@ fun BookmarksScreen(
                     SessionCard(
                         session = session,
                         sessionSelected = {
-                            sessionSelected(
-                                SessionDetailsKey(
-                                    conference = uiState.result.conference,
-                                    sessionId = it
-                                )
-                            )
+                            sessionSelected(it)
                         }, currentTime = uiState.result.now
                     )
                 }

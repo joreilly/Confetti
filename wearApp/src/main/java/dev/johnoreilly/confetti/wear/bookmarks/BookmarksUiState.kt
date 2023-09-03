@@ -12,3 +12,4 @@ data class BookmarksUiState(
     val hasUpcomingBookmarks: Boolean
         get() = upcoming.isNotEmpty()
 }
+

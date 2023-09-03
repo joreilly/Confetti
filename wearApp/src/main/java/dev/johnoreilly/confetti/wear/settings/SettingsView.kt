@@ -1,39 +1,30 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.settings
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SettingsRoute(
+    component: SettingsComponent,
     columnState: ScalingLazyColumnState,
-    onSwitchConferenceSelected: () -> Unit,
-    navigateToGoogleSignIn: () -> Unit,
-    navigateToGoogleSignOut: () -> Unit,
-    viewModel: SettingsViewModel = getViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by component.uiState.collectAsStateWithLifecycle()
 
     SettingsListView(
         uiState = uiState,
-        conferenceCleared = {
-            onSwitchConferenceSelected()
-        },
-        navigateToGoogleSignIn = navigateToGoogleSignIn,
-        navigateToGoogleSignOut = navigateToGoogleSignOut,
+        conferenceCleared = component::onSwitchConferenceSelected,
+        navigateToGoogleSignIn = component::navigateToGoogleSignIn,
+        navigateToGoogleSignOut = component::navigateToGoogleSignOut,
         onRefreshClick = {
-            viewModel.refresh()
+            component.refresh()
         },
         onEnableDeveloperMode = {
-            viewModel.enableDeveloperMode()
+            component.enableDeveloperMode()
         },
         onRefreshToken = {
-            viewModel.refreshToken()
+            component.refreshToken()
         },
         columnState = columnState,
     )

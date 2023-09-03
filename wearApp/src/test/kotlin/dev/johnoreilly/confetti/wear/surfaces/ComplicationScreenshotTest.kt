@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistApi::class) @file:Suppress("UnstableApiUsage")
+ @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear.surfaces
 

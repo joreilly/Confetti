@@ -9,16 +9,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavHostController
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
-import dev.johnoreilly.confetti.analytics.NavigationHelper.logNavigationEvent
-import dev.johnoreilly.confetti.decompose.DefaultAppComponent
-import dev.johnoreilly.confetti.wear.decompose.DefaultWearAppComponent
-import dev.johnoreilly.confetti.wear.decompose.WearAppComponent
+import dev.johnoreilly.confetti.wear.navigation.NavigationHelper.logNavigationEvent
+import dev.johnoreilly.confetti.wear.navigation.DefaultWearAppComponent
+import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.getViewModel
@@ -78,9 +74,9 @@ class MainActivity : ComponentActivity() {
 
     private suspend fun logNavigationEvents() {
         if (isFirebaseInstalled) {
-//            navController.currentBackStackEntryFlow.collect { navEntry ->
-//                analyticsLogger.logNavigationEvent(navEntry)
-//            }
+            appComponent.stack.subscribe {
+                analyticsLogger.logNavigationEvent(it.active.configuration)
+            }
         }
     }
 

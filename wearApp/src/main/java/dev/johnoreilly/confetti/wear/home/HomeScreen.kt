@@ -36,8 +36,6 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.material.Button
 import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.navigation.ConferenceDayKey
-import dev.johnoreilly.confetti.navigation.SessionDetailsKey
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
@@ -46,6 +44,7 @@ import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
 import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
@@ -55,8 +54,8 @@ import java.time.format.DateTimeFormatter
 fun HomeScreen(
     uiState: QueryResult<HomeUiState>,
     bookmarksUiState: QueryResult<BookmarksUiState>,
-    sessionSelected: (SessionDetailsKey) -> Unit,
-    daySelected: (ConferenceDayKey) -> Unit,
+    sessionSelected: (String) -> Unit,
+    daySelected: (LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
     onBookmarksClick: (String) -> Unit,
     columnState: ScalingLazyColumnState
@@ -105,7 +104,7 @@ private fun SectionedListScope.titleSection(uiState: QueryResult<HomeUiState>) {
 private fun SectionedListScope.bookmarksSection(
     uiState: QueryResult<HomeUiState>,
     bookmarksUiState: QueryResult<BookmarksUiState>,
-    sessionSelected: (SessionDetailsKey) -> Unit,
+    sessionSelected: (String) -> Unit,
     onBookmarksClick: (String) -> Unit
 ) {
     val bookmarksSectionState = when (bookmarksUiState) {
@@ -131,7 +130,7 @@ private fun SectionedListScope.bookmarksSection(
             key(session.id) {
                 SessionCard(session, sessionSelected = {
                     if (uiState is QueryResult.Success) {
-                        sessionSelected(SessionDetailsKey(uiState.result.conference, it))
+                        sessionSelected(it)
                     }
                 }, (bookmarksUiState as QueryResult.Success).result.now)
             }
@@ -160,7 +159,7 @@ private fun SectionedListScope.bookmarksSection(
 
 private fun SectionedListScope.conferenceDaysSection(
     uiState: QueryResult<HomeUiState>,
-    daySelected: (ConferenceDayKey) -> Unit,
+    daySelected: (LocalDate) -> Unit,
     dayFormatter: DateTimeFormatter
 ) {
     val conferenceDaysSectionState = when (uiState) {
@@ -181,10 +180,7 @@ private fun SectionedListScope.conferenceDaysSection(
                 label = dayFormatter.format(date.toJavaLocalDate()),
                 onClick = {
                     daySelected(
-                        ConferenceDayKey(
-                            (uiState as QueryResult.Success).result.conference,
-                            date
-                        )
+                        date
                     )
                 },
                 colors = ChipDefaults.secondaryChipColors()

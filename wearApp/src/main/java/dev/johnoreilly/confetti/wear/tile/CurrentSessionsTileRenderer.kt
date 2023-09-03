@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
 @file:Suppress("DEPRECATION")
 
 package dev.johnoreilly.confetti.wear.tile
@@ -20,7 +19,6 @@ import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_BODY1
 import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_TITLE2
 import androidx.wear.protolayout.material.layouts.MultiSlotLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails

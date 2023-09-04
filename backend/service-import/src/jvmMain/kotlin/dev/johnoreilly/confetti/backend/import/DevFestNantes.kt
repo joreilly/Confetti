@@ -114,12 +114,12 @@ class DevFestNantes(
 
     private fun Map<String, Any?>.startTime(): LocalDateTime {
         val day = if (get("key").asString.startsWith("day-1")) {
-            "2022-10-20"
+            days[0]
         } else {
-            "2022-10-21"
+            days[1]
         }
 
-        return LocalDateTime.parse("${day}T${get("start")}")
+        return day.atTime(0, 0)
     }
 
     private val UNKNOWN_END = LocalDateTime(0, 1, 1, 0, 0)

@@ -35,9 +35,11 @@ suspend fun importDefvestNantes2022() =
         "master",
         ConferenceId.DevFestNantes2022.id,
         listOf(
-            LocalDate(2023, 10, 20),
-            LocalDate(2023, 10, 21)
-        )
+            LocalDate(2022, 10, 20),
+            LocalDate(2022, 10, 21)
+        ),
+        "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/home/album/wide/amphi.jpg",
+        "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/plan-cite-blanc.png"
     ).import()
 
 suspend fun importDefvestNantes2023() = DevFestNantes(
@@ -48,7 +50,9 @@ suspend fun importDefvestNantes2023() = DevFestNantes(
     listOf(
         LocalDate(2023, 10, 19),
         LocalDate(2023, 10, 20)
-    )
+    ),
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/home/album/wide/800.jpg",
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/plan-cite-blanc.png"
 ).import()
 
 class DevFestNantes(
@@ -56,7 +60,9 @@ class DevFestNantes(
     private val confId: String,
     private val mainBranch: String,
     private val id: String,
-    private val days: List<LocalDate>
+    private val days: List<LocalDate>,
+    private val venueImageUrl: String,
+    private val venueFloorPlanUrl: String,
 ) {
     private suspend fun getUrl(url: String): String {
         val request = Request(url.toHttpUrl())
@@ -268,8 +274,8 @@ class DevFestNantes(
                     ),
                     latitude = 47.21308725112951,
                     longitude = -1.542622837466317,
-                    imageUrl = "https://devfest.gdgnantes.com/static/6328df241501c6e31393e568e5c68d7e/efc43/amphi.webp",
-                    floorPlanUrl = "https://raw.githubusercontent.com/GDG-Nantes/$confId/$mainBranch/src/images/plan-cite-blanc.png"
+                    imageUrl = venueImageUrl,
+                    floorPlanUrl = venueFloorPlanUrl
                 )
             )
         )

@@ -90,7 +90,8 @@ fun updateSpeakers() {
 private suspend fun update(conf: String?): Int {
     return when (ConferenceId.from(conf)) {
         ConferenceId.DroidConSF2022 -> DroidConSF.import()
-        ConferenceId.DevFestNantes2022 -> DevFestNantes.import()
+        ConferenceId.DevFestNantes2022 -> importDefvestNantes2022()
+        ConferenceId.DevFestNantes2023 -> importDefvestNantes2023()
         ConferenceId.FrenchKit2022 -> FrenchKit.import()
         ConferenceId.GraphQLSummit2022 -> GraphQLSummit.import()
         ConferenceId.DroidConLondon2022 -> Sessionize.importDroidConLondon2022()

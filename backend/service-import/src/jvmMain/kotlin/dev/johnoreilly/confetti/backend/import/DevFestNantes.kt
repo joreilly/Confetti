@@ -22,12 +22,42 @@ private val timeZone = "Europe/Paris"
 private val okHttpClient = OkHttpClient.Builder()
     .build()
 
-private val baseUrl = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/"
+private val baseUrl2022 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/"
+private val baseUrl2023 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/"
 private val json = Json {
     ignoreUnknownKeys = true
 }
 
-object DevFestNantes {
+suspend fun importDefvestNantes2022() =
+    DevFestNantes(
+        baseUrl2022,
+        "Devfest2022",
+        "master",
+        ConferenceId.DevFestNantes2022.id,
+        listOf(
+            LocalDate(2023, 10, 20),
+            LocalDate(2023, 10, 21)
+        )
+    ).import()
+
+suspend fun importDefvestNantes2023() = DevFestNantes(
+    baseUrl2023,
+    "Devfest2023",
+    "main",
+    ConferenceId.DevFestNantes2023.id,
+    listOf(
+        LocalDate(2023, 10, 19),
+        LocalDate(2023, 10, 20)
+    )
+).import()
+
+class DevFestNantes(
+    private val baseUrl: String,
+    private val confId: String,
+    private val mainBranch: String,
+    private val id: String,
+    private val days: List<LocalDate>
+) {
     private suspend fun getUrl(url: String): String {
         val request = Request(url.toHttpUrl())
         val response = okHttpClient.newCall(request).executeAsync()
@@ -52,7 +82,7 @@ object DevFestNantes {
         Json.parseToJsonElement(getGithubFile(name)).toAny()
 
     private suspend fun getFiles(ref: String): List<Map<String, Any?>> {
-        return getJsonUrl("https://api.github.com/repos/GDG-Nantes/Devfest2022/git/trees/$ref")
+        return getJsonUrl("https://api.github.com/repos/GDG-Nantes/$confId/git/trees/$ref")
             .asMap
             .get("tree")
             .asList
@@ -62,7 +92,7 @@ object DevFestNantes {
     private val sessionIdsWithoutRoom = mutableSetOf<String>()
 
     private suspend fun listFiles(path: String): List<String> {
-        var files: List<Map<String, Any?>> = getFiles("master")
+        var files: List<Map<String, Any?>> = getFiles(mainBranch)
 
         path.split("/").forEach { comp ->
             val sha = files.first { it.get("path") == comp }.get("sha").asString
@@ -215,9 +245,10 @@ object DevFestNantes {
         }
 
         val config = DConfig(
-            id = ConferenceId.DevFestNantes2022.id,
+            id = id,
             name = "DevFest Nantes",
-            timeZone = timeZone
+            timeZone = timeZone,
+            days = days
         )
 
         DataStore().write(
@@ -238,7 +269,7 @@ object DevFestNantes {
                     latitude = 47.21308725112951,
                     longitude = -1.542622837466317,
                     imageUrl = "https://devfest.gdgnantes.com/static/6328df241501c6e31393e568e5c68d7e/efc43/amphi.webp",
-                    floorPlanUrl = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/plan-cite-blanc.png"
+                    floorPlanUrl = "https://raw.githubusercontent.com/GDG-Nantes/$confId/$mainBranch/src/images/plan-cite-blanc.png"
                 )
             )
         )
@@ -381,13 +412,13 @@ object DevFestNantes {
 
     }
 
-    private const val ROOM_JULES_VERNE = "Jules Verne"
-    private const val ROOM_TITAN = "Titan"
-    private const val ROOM_BELEM = "Belem"
-    private const val ROOM_TOUR_DE_BRETAGNE = "Tour de Bretagne"
-    private const val ROOM_LES_MACHINES = "Les Machines"
-    private const val ROOM_HANGAR = "Hangar"
-    private const val ROOM_L_ATELIER = "L'Atelier"
+    private val ROOM_JULES_VERNE = "Jules Verne"
+    private val ROOM_TITAN = "Titan"
+    private val ROOM_BELEM = "Belem"
+    private val ROOM_TOUR_DE_BRETAGNE = "Tour de Bretagne"
+    private val ROOM_LES_MACHINES = "Les Machines"
+    private val ROOM_HANGAR = "Hangar"
+    private val ROOM_L_ATELIER = "L'Atelier"
     private val FIRST_4_ROOMS = listOf(
         ROOM_JULES_VERNE,
         ROOM_TITAN,

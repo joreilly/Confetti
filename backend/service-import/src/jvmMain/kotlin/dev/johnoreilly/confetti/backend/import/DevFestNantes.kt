@@ -119,7 +119,7 @@ class DevFestNantes(
             days[1]
         }
 
-        return day.atTime(0, 0)
+        return day.atTime(LocalTime.parse(get("start").toString()))
     }
 
     private val UNKNOWN_END = LocalDateTime(0, 1, 1, 0, 0)

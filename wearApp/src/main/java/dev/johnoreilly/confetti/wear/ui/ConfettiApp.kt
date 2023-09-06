@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.wear.bookmarks.BookmarksRoute
 import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
 import dev.johnoreilly.confetti.wear.decompose.SwipeToDismissBox
 import dev.johnoreilly.confetti.wear.home.HomeRoute
+import dev.johnoreilly.confetti.wear.navigation.Child
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
@@ -33,47 +34,47 @@ fun ConfettiApp(
                 onDismissed = { component.navigateUp() }
             ) { configuration ->
                 when (val child = configuration.instance) {
-                    is WearAppComponent.Child.Conferences -> ConferencesRoute(
+                    is Child.Conferences -> ConferencesRoute(
                         child.component,
                         ScalingLazyColumnDefaults.belowTimeText().create()
                     )
 
-                    is WearAppComponent.Child.ConferenceSessions -> SessionsRoute(
+                    is Child.ConferenceSessions -> SessionsRoute(
                         child.component,
                         ScalingLazyColumnDefaults.belowTimeText().create()
                     )
 
-                    is WearAppComponent.Child.SessionDetails -> SessionDetailsRoute(
+                    is Child.SessionDetails -> SessionDetailsRoute(
                         child.component,
                         ScalingLazyColumnDefaults.belowTimeText().create()
                     )
 
-                    is WearAppComponent.Child.SpeakerDetails -> SpeakerDetailsRoute(
+                    is Child.SpeakerDetails -> SpeakerDetailsRoute(
                         child.component,
                         ScalingLazyColumnDefaults.belowTimeText().create()
                     )
 
-                    is WearAppComponent.Child.Settings -> SettingsRoute(
+                    is Child.Settings -> SettingsRoute(
                         child.component,
                         ScalingLazyColumnDefaults.belowTimeText().create(),
                     )
 
-                    is WearAppComponent.Child.Loading -> {
+                    is Child.Loading -> {
                         // TODO Loading?
                     }
 
-                    is WearAppComponent.Child.GoogleSignIn -> {
+                    is Child.GoogleSignIn -> {
                     }
 
-                    is WearAppComponent.Child.GoogleSignOut ->
+                    is Child.GoogleSignOut ->
                         FirebaseSignOutScreen(child.component)
 
-                    is WearAppComponent.Child.Home -> HomeRoute(
+                    is Child.Home -> HomeRoute(
                         child.component,
                         ScalingLazyColumnDefaults.belowTimeText().create(),
                     )
 
-                    is WearAppComponent.Child.Bookmarks -> BookmarksRoute(
+                    is Child.Bookmarks -> BookmarksRoute(
                         child.component,
                         ScalingLazyColumnDefaults.belowTimeText().create()
                     )

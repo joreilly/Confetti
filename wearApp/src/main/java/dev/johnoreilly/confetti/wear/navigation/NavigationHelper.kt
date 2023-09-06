@@ -4,7 +4,7 @@ import dev.johnoreilly.confetti.analytics.AnalyticsEvent
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 
 object NavigationHelper {
-    fun AnalyticsLogger.logNavigationEvent(config: WearAppComponent.Config) {
+    fun AnalyticsLogger.logNavigationEvent(config: Config) {
         if (this == AnalyticsLogger.None) return
 
         logEvent(

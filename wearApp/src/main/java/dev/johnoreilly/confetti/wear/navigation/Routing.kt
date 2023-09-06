@@ -50,7 +50,7 @@ fun DefaultWearAppComponent.buildChild(config: Config, componentContext: Compone
                     conference = config.conference,
                     sessionId = config.session,
                     onSpeakerSelected = {
-                        navigation.push(Config.SessionDetails(user?.uid, config.conference, it))
+                        navigation.push(Config.SpeakerDetails(user?.uid, config.conference, it))
                     },
                     user = user
                 )

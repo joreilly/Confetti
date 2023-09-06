@@ -35,6 +35,10 @@ fun SpeakerDetailsRoute(
     component: SpeakerDetailsComponent,
     columnState: ScalingLazyColumnState,
 ) {
+    SideEffect {
+        println("SpeakerDetailsRoute")
+    }
+
     val uiState by component.uiState.subscribeAsState()
     SpeakerDetailsView(uiState, columnState)
 }

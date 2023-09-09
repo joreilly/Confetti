@@ -97,7 +97,7 @@ fun DefaultWearAppComponent.buildChild(config: Config, componentContext: Compone
                 config.conference,
                 user,
                 onSessionSelected = {
-                    navigation.push(Config.SessionDetails(user?.uid, config.conference, it))
+                    navigation.push(Config.SessionDetails(config.uid, config.conference, it))
                 },
                 onDaySelected = {
                     navigation.push(Config.ConferenceSessions(config.uid, config.conference, it))
@@ -106,7 +106,7 @@ fun DefaultWearAppComponent.buildChild(config: Config, componentContext: Compone
                     navigation.push(Config.Settings)
                 },
                 onBookmarksToggled = {
-                    TODO("onBookmarksToggled")
+                    navigation.push(Config.Bookmarks(config.uid, config.conference))
                 }
             )
         )

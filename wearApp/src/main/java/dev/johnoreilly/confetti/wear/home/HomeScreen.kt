@@ -57,7 +57,7 @@ fun HomeScreen(
     sessionSelected: (String) -> Unit,
     daySelected: (LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
-    onBookmarksClick: (String) -> Unit,
+    onBookmarksClick: () -> Unit,
     columnState: ScalingLazyColumnState
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
@@ -105,7 +105,7 @@ private fun SectionedListScope.bookmarksSection(
     uiState: QueryResult<HomeUiState>,
     bookmarksUiState: QueryResult<BookmarksUiState>,
     sessionSelected: (String) -> Unit,
-    onBookmarksClick: (String) -> Unit
+    onBookmarksClick: () -> Unit
 ) {
     val bookmarksSectionState = when (bookmarksUiState) {
         is QueryResult.Success -> {
@@ -149,7 +149,7 @@ private fun SectionedListScope.bookmarksSection(
                 label = { Text(stringResource(id = R.string.all_bookmarks)) },
                 onClick = {
                     if (uiState is QueryResult.Success) {
-                        onBookmarksClick(uiState.result.conference)
+                        onBookmarksClick()
                     }
                 }
             )

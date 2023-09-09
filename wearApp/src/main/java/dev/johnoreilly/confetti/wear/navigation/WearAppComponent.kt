@@ -7,6 +7,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.navigate
 import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.AppSettings
@@ -21,6 +22,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 interface WearAppComponent {
+    val config: Config
+
     val stack: Value<ChildStack<Config, Child>>
 
     fun navigateUp()
@@ -32,6 +35,8 @@ interface WearAppComponent {
     fun showConferences()
 
     fun showConference(conference: String)
+
+    fun navigateTo(config: Config)
 }
 
 class DefaultWearAppComponent(
@@ -44,6 +49,9 @@ class DefaultWearAppComponent(
     internal val navigation = StackNavigation<Config>()
 
     internal val user: User? get() = authentication.currentUser.value
+
+    override val config: Config
+        get() = stack.value.active.configuration
 
     override val stack: Value<ChildStack<Config, Child>> =
         childStack(
@@ -91,6 +99,10 @@ class DefaultWearAppComponent(
 
     override fun navigateUp() {
         navigation.pop()
+    }
+
+    override fun navigateTo(config: Config) {
+        navigation.push(config)
     }
 
     override fun handleDeeplink(intent: Intent) {

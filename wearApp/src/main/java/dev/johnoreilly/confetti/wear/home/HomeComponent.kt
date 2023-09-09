@@ -25,7 +25,7 @@ interface HomeComponent {
     fun onSessionClicked(session: String)
     fun onDayClicked(it: LocalDate)
     fun onSettingsClicked()
-    fun onBookmarksClick(it: String)
+    fun onBookmarksClick()
 }
 
 class DefaultHomeComponent(
@@ -35,7 +35,7 @@ class DefaultHomeComponent(
     private val onSessionSelected: (String) -> Unit,
     private val onDaySelected: (LocalDate) -> Unit,
     private val onSettingsSelected: () -> Unit,
-    private val onBookmarksToggled: (String) -> Unit,
+    private val onBookmarksToggled: () -> Unit,
 ) : HomeComponent, KoinComponent, ComponentContext by componentContext {
     private val coroutineScope = coroutineScope()
 
@@ -70,8 +70,8 @@ class DefaultHomeComponent(
         onSettingsSelected()
     }
 
-    override fun onBookmarksClick(it: String) {
-        onBookmarksToggled(it)
+    override fun onBookmarksClick() {
+        onBookmarksToggled()
     }
 
     companion object {

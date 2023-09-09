@@ -24,7 +24,7 @@ import org.koin.core.annotation.KoinInternalApi
 import org.koin.mp.KoinPlatformTools
 
 class MainActivity : ComponentActivity() {
-    private lateinit var appComponent: WearAppComponent
+    internal lateinit var appComponent: WearAppComponent
     private val analyticsLogger: AnalyticsLogger by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {

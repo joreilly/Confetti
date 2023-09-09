@@ -35,7 +35,7 @@ fun HomeRoute(
             component.onSettingsClicked()
         },
         onBookmarksClick = {
-            component.onBookmarksClick(it)
+            component.onBookmarksClick()
         },
         columnState = columnState,
     )

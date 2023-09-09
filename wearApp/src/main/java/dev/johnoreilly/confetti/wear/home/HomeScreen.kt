@@ -24,6 +24,8 @@ import androidx.wear.compose.material.OutlinedChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.composables.Section
 import com.google.android.horologist.composables.Section.Companion.ALL_STATES
@@ -41,8 +43,6 @@ import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
-import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
-import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toKotlinLocalDateTime
@@ -220,7 +220,7 @@ fun ConferenceTitle(conferenceName: String) {
 }
 
 @WearPreviewDevices
-@WearPreviewFontSizes
+@WearPreviewFontScales
 @Composable
 fun HomeListViewPreview() {
     ConfettiThemeFixed {

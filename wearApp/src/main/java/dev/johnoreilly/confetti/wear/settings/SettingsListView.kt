@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
@@ -25,8 +27,6 @@ import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
-import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
-import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -176,7 +176,7 @@ private fun Long.localTime(): LocalDateTime =
     Instant.ofEpochSecond(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
 
 @WearPreviewDevices
-@WearPreviewFontSizes
+@WearPreviewFontScales
 @Composable
 fun SettingsListViewPreview() {
     ConfettiTheme {

@@ -1,10 +1,12 @@
 @file:Suppress("RemoveExplicitTypeArguments")
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.di
 
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication

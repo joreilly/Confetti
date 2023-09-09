@@ -8,6 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
@@ -20,8 +22,6 @@ import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
-import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
-import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 
 @Composable
 fun ConferencesRoute(
@@ -91,7 +91,7 @@ fun ConferencesView(
 }
 
 @WearPreviewDevices
-@WearPreviewFontSizes
+@WearPreviewFontScales
 @Composable
 fun ConferencesViewPreview() {
     ConfettiTheme {

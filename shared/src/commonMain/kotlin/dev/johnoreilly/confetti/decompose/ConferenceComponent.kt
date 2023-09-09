@@ -10,10 +10,9 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import dev.johnoreilly.confetti.auth.User
+import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -48,6 +47,7 @@ class DefaultConferenceComponent(
     override val stack: Value<ChildStack<*, Child>> =
         childStack(
             source = navigation,
+            serializer = Config.serializer(),
             initialConfiguration = Config.Home,
             handleBackButton = true,
             childFactory = ::child,
@@ -106,11 +106,18 @@ class DefaultConferenceComponent(
         navigation.navigate { it.take(toIndex + 1) }
     }
 
-    @Parcelize
-    private sealed class Config : Parcelable {
-        object Home : Config()
+    @Serializable
+    private sealed class Config {
+        @Serializable
+        data object Home : Config()
+
+        @Serializable
         data class SessionDetails(val sessionId: String) : Config()
+
+        @Serializable
         data class SpeakerDetails(val speakerId: String) : Config()
-        object Settings : Config()
+
+        @Serializable
+        data object Settings : Config()
     }
 }

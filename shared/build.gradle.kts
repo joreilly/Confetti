@@ -6,8 +6,8 @@ plugins {
     id("com.google.devtools.ksp")
     id("co.touchlab.faktory.kmmbridge")
     id("com.squareup.wire")
-    id("kotlin-parcelize")
     id("maven-publish")
+    id("kotlinx-serialization")
 }
 
 configureCompilerOptions()

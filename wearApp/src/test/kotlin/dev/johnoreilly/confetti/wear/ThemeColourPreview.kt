@@ -4,23 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
-import com.google.android.horologist.compose.tools.ThemeValues
-import com.google.android.horologist.compose.tools.WearPreview
-import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewThemes
-import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
-
-@WearPreview
-@Composable
-fun ThemeColourPreview(
-    @PreviewParameter(ConfettiPreviewThemes::class) themeValues: ThemeValues
-) {
-    ConfettiThemeFixed(colors = themeValues.colors) {
-        ThemeSwatches()
-    }
-}
 
 @Composable
 fun ThemeSwatches() {

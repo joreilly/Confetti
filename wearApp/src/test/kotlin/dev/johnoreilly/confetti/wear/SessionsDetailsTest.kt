@@ -1,4 +1,3 @@
-
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
@@ -8,17 +7,13 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
 import coil.decode.DataSource
 import coil.request.SuccessResult
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
-import dev.johnoreilly.confetti.navigation.SessionDetailsKey
-import dev.johnoreilly.confetti.utils.QueryResult
+import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
-import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsUiState
-import kotlinx.datetime.TimeZone
 import okio.Path.Companion.toPath
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +23,10 @@ class SessionsDetailsTest : ScreenshotTest() {
     init {
         tolerance = 0.02f
     }
+
+    val uiState = SessionDetailsUiState.Success(
+        sessionDetails
+    )
 
     @Before
     fun loadImages() {
@@ -53,23 +52,19 @@ class SessionsDetailsTest : ScreenshotTest() {
     }
 
     @Test
-    fun sessionDetailsScreen() = takeScrollableScreenshot(
-        timeTextMode = TimeTextMode.OnTop,
-        checks = {
-            rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+    fun sessionDetailsScreen() {
+        takeScrollableScreenshot(
+            timeTextMode = TimeTextMode.OnTop,
+            checks = {
+                rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+            }
+        ) { columnState ->
+            SessionDetailView(
+                uiState = uiState,
+                navigateToSpeaker = {},
+                columnState = columnState,
+            )
         }
-    ) { columnState ->
-        SessionDetailView(
-            sessionId = SessionDetailsKey("fosdem", "14997"),
-            uiState = QueryResult.Success(
-                SessionDetailsUiState(
-                    sessionDetails,
-                    TimeZone.UTC
-                )
-            ),
-            navigateToSpeaker = {},
-            columnState = columnState,
-        )
     }
 
     @Test
@@ -82,13 +77,7 @@ class SessionsDetailsTest : ScreenshotTest() {
         }
     ) { columnState ->
         SessionDetailView(
-            sessionId = SessionDetailsKey("fosdem", "14997"),
-            uiState = QueryResult.Success(
-                SessionDetailsUiState(
-                    sessionDetails,
-                    TimeZone.UTC
-                )
-            ),
+            uiState = uiState,
             navigateToSpeaker = {},
             columnState = columnState,
         )
@@ -105,13 +94,7 @@ class SessionsDetailsTest : ScreenshotTest() {
             }
         ) { columnState ->
             SessionDetailView(
-                sessionId = SessionDetailsKey("fosdem", "14997"),
-                uiState = QueryResult.Success(
-                    SessionDetailsUiState(
-                        sessionDetails,
-                        TimeZone.UTC
-                    )
-                ),
+                uiState = uiState,
                 navigateToSpeaker = {},
                 columnState = columnState,
             )

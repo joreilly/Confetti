@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
         setIntent(intent)
     }
 
-    private suspend fun logNavigationEvents() {
+    private fun logNavigationEvents() {
         if (isFirebaseInstalled) {
             appComponent.stack.subscribe {
                 analyticsLogger.logNavigationEvent(it.active.configuration)

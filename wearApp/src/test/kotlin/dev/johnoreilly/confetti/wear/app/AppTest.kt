@@ -1,9 +1,8 @@
 package dev.johnoreilly.confetti.wear.app
 
 import androidx.compose.ui.test.onNodeWithText
-import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
+import dev.johnoreilly.confetti.wear.navigation.Config
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.startup.navigation.StartHomeDestination
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -15,19 +14,16 @@ class AppTest : BaseAppTest() {
     fun launchHomeWithNoConference() {
         val activity = rule.activity
 
-        val navController = activity.navController
+        val appComponent = activity.appComponent
 
         rule.waitUntil {
-            navController.currentDestination?.route != null
+            appComponent.config !is Config.Loading
         }
 
-        assertEquals(StartHomeDestination.route, navController.currentDestination?.route)
+        assertEquals(Config.Conferences, appComponent.config)
 
-        // We got navigated to the conferences screen to select a screen
         rule.onNodeWithText("Conferences")
             .assertExists()
-
-        assertEquals(ConferencesDestination.route, navController.currentDestination?.route)
     }
 
     @Test
@@ -38,17 +34,15 @@ class AppTest : BaseAppTest() {
 
         val activity = rule.activity
 
-        val navController = activity.navController
+        val appComponent = activity.appComponent
 
         rule.waitUntil {
-            navController.currentDestination?.route != null
+            appComponent.config !is Config.Loading
         }
 
-        assertEquals(StartHomeDestination.route, navController.currentDestination?.route)
+        assertEquals(Config.Home(null, TestFixtures.kotlinConf2023.id), appComponent.config)
 
         rule.onNodeWithText("Conference Days")
             .assertExists()
-
-        assertEquals(StartHomeDestination.route, navController.currentDestination?.route)
     }
 }

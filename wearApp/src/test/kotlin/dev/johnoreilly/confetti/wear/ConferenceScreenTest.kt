@@ -9,9 +9,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTouchHeightIsEqualTo
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import dev.johnoreilly.confetti.utils.QueryResult
-import dev.johnoreilly.confetti.wear.conferences.ConferencesUiState
+import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.conferences
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
@@ -31,11 +29,9 @@ class ConferenceScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             ConferencesView(
-                uiState = QueryResult.Success(
-                    ConferencesUiState(
-                        conferences
-                    )
-                ),
+                uiState = ConferencesComponent.Success(
+                        conferences.groupBy { it.days.first().year }
+                    ),
                 navigateToConference = {},
                 columnState = columnState
             )
@@ -60,10 +56,8 @@ class ConferenceScreenTest : ScreenshotTest() {
             }
         ) { columnState ->
             ConferencesView(
-                uiState = QueryResult.Success(
-                    ConferencesUiState(
-                        conferences
-                    )
+                uiState = ConferencesComponent.Success(
+                    conferences.groupBy { it.days.first().year }
                 ),
                 navigateToConference = {},
                 columnState = columnState

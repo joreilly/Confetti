@@ -1,6 +1,8 @@
 package dev.johnoreilly.confetti.wear.app
 
+import android.content.Intent
 import androidx.core.net.toUri
+import dev.johnoreilly.confetti.wear.navigation.Config
 import org.junit.Test
 
 class NavigationTest : BaseAppTest() {
@@ -9,19 +11,21 @@ class NavigationTest : BaseAppTest() {
     fun deeplinks() {
         val activity = rule.activity
 
-        val navController = activity.navController
+        val appComponent = activity.appComponent
 
         rule.waitUntil {
-            navController.currentDestination?.route != null
+            appComponent.config !is Config.Loading
         }
 
-        navController.navigate("confetti://confetti/signIn".toUri())
-        navController.navigate("confetti://confetti/signOut".toUri())
-        navController.navigate("confetti://confetti/settings".toUri())
-        navController.navigate("confetti://confetti/conferences".toUri())
-        navController.navigate("confetti://confetti/conferenceHome/test".toUri())
-        navController.navigate("confetti://confetti/sessions/test/2023-01-01".toUri())
-        navController.navigate("confetti://confetti/session/test/session1".toUri())
-        navController.navigate("confetti://confetti/speaker/test/speaker1".toUri())
+        appComponent.handleDeeplink("confetti://confetti/signIn".toDeepLink())
+        appComponent.handleDeeplink("confetti://confetti/signOut".toDeepLink())
+        appComponent.handleDeeplink("confetti://confetti/settings".toDeepLink())
+        appComponent.handleDeeplink("confetti://confetti/conferences".toDeepLink())
+        appComponent.handleDeeplink("confetti://confetti/conferenceHome/test".toDeepLink())
+        appComponent.handleDeeplink("confetti://confetti/sessions/test/2023-01-01".toDeepLink())
+        appComponent.handleDeeplink("confetti://confetti/session/test/session1".toDeepLink())
+        appComponent.handleDeeplink("confetti://confetti/speaker/test/speaker1".toDeepLink())
     }
 }
+
+private fun String.toDeepLink(): Intent = Intent(Intent.ACTION_VIEW, this.toUri())

@@ -2,7 +2,7 @@ package dev.johnoreilly.confetti.wear.app
 
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToString
-import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
+import dev.johnoreilly.confetti.wear.navigation.Config
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -14,17 +14,17 @@ class OfflineTest : BaseAppTest() {
     fun offlineTest() {
         val activity = rule.activity
 
-        val navController = activity.navController
+        val appComponent = activity.appComponent
 
         rule.waitUntil {
-            navController.currentDestination?.route != null
+            appComponent.config !is Config.Loading
         }
 
-        assertEquals("start_route/{conference}", navController.currentDestination?.route)
+        assertEquals(Config.Conferences, appComponent.config)
 
         ShadowSettings.setAirplaneMode(true)
 
-        navController.navigate(ConferenceHomeDestination.createNavigationRoute("test"))
+        appComponent.navigateTo(Config.Home(null, "test"))
 
         rule.waitUntil {
             val tree = rule.onRoot().printToString()

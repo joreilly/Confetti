@@ -51,7 +51,6 @@ import dev.johnoreilly.confetti.screenshot.SnapshotTransformer
 import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.screenshot.bitmapWithTolerance
 import dev.johnoreilly.confetti.screenshot.highlightWithRed
-import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.proto.Theme

@@ -11,7 +11,6 @@ android {
     compileSdk = AndroidSdk.compile
     defaultConfig {
         minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
     }
     namespace = "dev.johnoreilly.confetti"
 

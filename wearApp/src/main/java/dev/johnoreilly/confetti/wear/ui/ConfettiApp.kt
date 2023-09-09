@@ -36,27 +36,27 @@ fun ConfettiApp(
                 when (val child = configuration.instance) {
                     is Child.Conferences -> ConferencesRoute(
                         child.component,
-                        ScalingLazyColumnDefaults.belowTimeText().create()
+                        createScalingLazyColumnState()
                     )
 
                     is Child.ConferenceSessions -> SessionsRoute(
                         child.component,
-                        ScalingLazyColumnDefaults.belowTimeText().create()
+                        createScalingLazyColumnState()
                     )
 
                     is Child.SessionDetails -> SessionDetailsRoute(
                         child.component,
-                        ScalingLazyColumnDefaults.belowTimeText().create()
+                        createScalingLazyColumnState()
                     )
 
                     is Child.SpeakerDetails -> SpeakerDetailsRoute(
                         child.component,
-                        ScalingLazyColumnDefaults.belowTimeText().create()
+                        createScalingLazyColumnState()
                     )
 
                     is Child.Settings -> SettingsRoute(
                         child.component,
-                        ScalingLazyColumnDefaults.belowTimeText().create(),
+                        createScalingLazyColumnState()
                     )
 
                     is Child.Loading -> {
@@ -71,12 +71,12 @@ fun ConfettiApp(
 
                     is Child.Home -> HomeRoute(
                         child.component,
-                        ScalingLazyColumnDefaults.belowTimeText().create(),
+                        createScalingLazyColumnState()
                     )
 
                     is Child.Bookmarks -> BookmarksRoute(
                         child.component,
-                        ScalingLazyColumnDefaults.belowTimeText().create()
+                        createScalingLazyColumnState()
                     )
                 }
             }

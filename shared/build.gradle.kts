@@ -159,7 +159,6 @@ android {
 
     defaultConfig {
         minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
     }
 
     buildFeatures {

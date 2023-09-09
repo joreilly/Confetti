@@ -200,9 +200,8 @@ dependencies {
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)
 
-    debugImplementation(libs.compose.ui.manifest)
-    debugImplementation(libs.androidx.complications.rendering)
-
+    testImplementation(libs.compose.ui.manifest)
+    testImplementation(libs.androidx.complications.rendering)
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)

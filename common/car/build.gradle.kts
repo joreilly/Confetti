@@ -13,7 +13,6 @@ android {
     compileSdk = AndroidSdk.compile
     defaultConfig {
         minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
     }
 
     testOptions {
@@ -39,7 +38,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(":shared"))
 
     implementation(libs.coil.compose)
@@ -47,4 +45,6 @@ dependencies {
     implementation(libs.car.app.auto)
 
     implementation(libs.play.services.auth)
+
+    coreLibraryDesugaring(libs.desugar)
 }

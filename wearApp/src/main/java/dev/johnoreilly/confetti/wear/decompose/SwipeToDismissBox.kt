@@ -2,16 +2,21 @@ package dev.johnoreilly.confetti.wear.decompose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.SwipeToDismissBox
 import androidx.wear.compose.material.SwipeToDismissKeys
 import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 
 /**
  * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
@@ -28,7 +33,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: Value<ChildStack<C, T>>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable (child: Child.Created<C, T>) -> Unit,
+    content: @Composable SwipeToDismissBoxScope.(child: Child.Created<C, T>) -> Unit,
 ) {
     val state = stack.subscribeAsState()
 
@@ -38,6 +43,21 @@ fun <C : Any, T : Any> SwipeToDismissBox(
         modifier = modifier,
         content = content,
     )
+}
+
+class SwipeToDismissBoxScope {
+    private val _scrollableState = mutableStateOf<ScalingLazyColumnState?>(null)
+
+    val scrollableState: ScalingLazyColumnState?
+        get() = _scrollableState.value
+
+    @Composable
+    fun createScalingLazyColumnState(
+        factory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText()
+    ): ScalingLazyColumnState =
+        factory.create().also {
+            _scrollableState.value = it
+        }
 }
 
 /**
@@ -55,7 +75,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: ChildStack<C, T>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable (child: Child.Created<C, T>) -> Unit,
+    content: @Composable SwipeToDismissBoxScope.(child: Child.Created<C, T>) -> Unit,
 ) {
     val active: Child.Created<C, T> = stack.active
     val background: Child.Created<C, T>? = stack.backStack.lastOrNull()
@@ -70,9 +90,19 @@ fun <C : Any, T : Any> SwipeToDismissBox(
         contentKey = active.configuration,
         hasBackground = background != null,
     ) { isBackground ->
+        val scope = remember { SwipeToDismissBoxScope() }
         val child = background?.takeIf { isBackground } ?: active
         holder.SaveableStateProvider(child.configuration.key()) {
-            content(child)
+            Scaffold(
+                positionIndicator = {
+                    val scrollState = scope.scrollableState
+                    if (scrollState != null) {
+                        PositionIndicator(scrollState.state)
+                    }
+                }
+            ) {
+                scope.content(child)
+            }
         }
     }
 }

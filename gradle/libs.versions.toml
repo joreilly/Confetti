@@ -85,7 +85,7 @@ decompose-extensions-compose-jetpack = { module = "com.arkivanov.decompose:exten
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
-federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4.0.0"
+federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4.1.0"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }

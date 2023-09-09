@@ -13,7 +13,7 @@ class KoinTestApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initWearApp(this) {
+        initWearApp(this, extraModules = listOf(TestAppModule)) {
             // Workmanager uses singleton config
             // So override for tests
             val workConfiguration = Configuration.Builder()

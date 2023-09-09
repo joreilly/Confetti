@@ -18,14 +18,19 @@ sealed class Config : Parcelable {
     object Conferences : Config()
 
     interface UserAware {
+        val uid: String?
         fun onUserChanged(uid: String?): Config
     }
 
+    interface ConferenceAware {
+        val conference: String
+    }
+
     data class ConferenceSessions(
-        val uid: String?, // Unused, but needed to recreated the component when the user changes
-        val conference: String,
+        override val uid: String?, // Unused, but needed to recreated the component when the user changes
+        override val conference: String,
         @TypeParceler<LocalDate?, LocalDateParceler>() val date: LocalDate? = null
-    ) : Config(), UserAware {
+    ) : Config(), UserAware, ConferenceAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference)
 
@@ -35,10 +40,10 @@ sealed class Config : Parcelable {
     }
 
     data class SessionDetails(
-        val uid: String?, // Unused, but needed to recreated the component when the user changes
-        val conference: String,
+        override val uid: String?, // Unused, but needed to recreated the component when the user changes
+        override val conference: String,
         val session: String,
-    ) : Config(), UserAware {
+    ) : Config(), UserAware, ConferenceAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference, "session" to session)
 
@@ -48,10 +53,10 @@ sealed class Config : Parcelable {
     }
 
     data class SpeakerDetails(
-        val uid: String?, // Unused, but needed to recreated the component when the user changes
-        val conference: String,
+        override val uid: String?, // Unused, but needed to recreated the component when the user changes
+        override val conference: String,
         val speaker: String,
-    ) : Config(), UserAware {
+    ) : Config(), UserAware, ConferenceAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference, "speaker" to speaker)
 
@@ -67,9 +72,9 @@ sealed class Config : Parcelable {
     object GoogleSignOut : Config()
 
     data class Bookmarks(
-        val uid: String?, // Unused, but needed to recreated the component when the user changes
-        val conference: String,
-    ) : Config(), UserAware {
+        override val uid: String?, // Unused, but needed to recreated the component when the user changes
+        override val conference: String,
+    ) : Config(), UserAware, ConferenceAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference)
 
@@ -79,9 +84,9 @@ sealed class Config : Parcelable {
     }
 
     data class Home(
-        val uid: String?, // Unused, but needed to recreated the component when the user changes
-        val conference: String,
-    ) : Config(), UserAware {
+        override val uid: String?, // Unused, but needed to recreated the component when the user changes
+        override val conference: String,
+    ) : Config(), UserAware, ConferenceAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference)
 

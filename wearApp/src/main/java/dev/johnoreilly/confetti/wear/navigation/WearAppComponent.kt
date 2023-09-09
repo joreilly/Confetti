@@ -18,6 +18,7 @@ import dev.johnoreilly.confetti.decompose.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.datetime.toLocalDate
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -28,7 +29,7 @@ interface WearAppComponent {
 
     fun navigateUp()
 
-    fun handleDeeplink(intent: Intent)
+    fun handleDeeplink(intent: Intent): Boolean
 
     fun onUserChanged(uid: String?)
 
@@ -105,7 +106,55 @@ class DefaultWearAppComponent(
         navigation.push(config)
     }
 
-    override fun handleDeeplink(intent: Intent) {
-        println("TODO handleDeeplink $intent")
+    private fun buildConfig(user: String?, uri: String): Config? {
+        val path = uri.substringAfter("confetti://confetti")
+        return when {
+            path == "/signIn" -> Config.GoogleSignIn
+            path == "/signOut" -> Config.GoogleSignOut
+            path == "/settings" -> Config.Settings
+            path == "/conferences" -> Config.Conferences
+            path.startsWith("/conferenceHome/") -> Config.Home(user, path.substringAfter("conferenceHome/"))
+            path.startsWith("/sessions/") -> {
+                val (conference, date) = path.substringAfter("sessions/").split("/", limit = 2)
+                Config.ConferenceSessions(user, conference, date.toLocalDate())
+            }
+            path.startsWith("/session/") -> {
+                val (conference, session) = path.substringAfter("session/").split("/", limit = 2)
+                Config.SessionDetails(user, conference, session)
+            }
+            path.startsWith("/speaker/") -> {
+                val (conference, speaker) = path.substringAfter("speaker/").split("/", limit = 2)
+                Config.SpeakerDetails(user, conference, speaker)
+            }
+            path.startsWith("/bookmarks/") -> Config.Bookmarks(user, path.substringAfter("bookmarks/"))
+            else -> null
+        }
+    }
+
+    private fun buildStack(target: Config): List<Config> {
+        when (config) {
+            is Config.ConferenceAware -> listOf()
+            else -> listOf(target)
+        }
+        return listOf(target)
+    }
+
+    override fun handleDeeplink(intent: Intent): Boolean {
+        if (intent.action == Intent.ACTION_VIEW) {
+            val uri = intent.dataString
+
+            if (uri != null) {
+                val target = buildConfig(authentication.currentUser.value?.uid, uri)
+
+                if (target != null) {
+                    val stack = buildStack(target)
+
+                    navigation.replaceAll(*stack.toTypedArray())
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 }

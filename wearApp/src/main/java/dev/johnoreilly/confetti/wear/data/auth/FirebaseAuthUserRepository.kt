@@ -21,11 +21,15 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
-class FirebaseAuthUserRepository(
+interface FirebaseAuthUserRepository : AuthUserRepository, GoogleSignInEventListener {
+    val firebaseAuthFlow: Flow<FirebaseUser?>
+}
+
+class FirebaseAuthUserRepositoryImpl(
     val auth: FirebaseAuth,
     val googleSignIn: GoogleSignInClient
-) : AuthUserRepository, GoogleSignInEventListener {
-    val firebaseAuthFlow: Flow<FirebaseUser?> = auth
+) : FirebaseAuthUserRepository {
+    override val firebaseAuthFlow: Flow<FirebaseUser?> = auth
         .currentUserFlow()
 
     val localAuthState: Flow<AuthUser?> = firebaseAuthFlow

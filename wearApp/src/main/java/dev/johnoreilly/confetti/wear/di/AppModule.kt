@@ -5,7 +5,6 @@ import androidx.wear.tiles.TileService
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.auth.data.googlesignin.GoogleSignInEventListener
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
 import com.google.firebase.auth.ktx.auth
@@ -17,6 +16,7 @@ import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.wear.WearAppViewModel
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
+import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepositoryImpl
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import dev.johnoreilly.confetti.wear.work.WearConferenceSetting
@@ -59,7 +59,7 @@ val appModule = module {
     single {
         Firebase.auth
     }
-    singleOf(::FirebaseAuthUserRepository) { bind<GoogleSignInEventListener>() }
+    single<FirebaseAuthUserRepository> { FirebaseAuthUserRepositoryImpl(get(), get()) }
     singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }
     singleOf(::WearConferenceSetting) { bind<ConferenceSetting>() }
     workerOf(::RefreshWorker)

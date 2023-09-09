@@ -66,10 +66,12 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
 
         if (intent != null) {
-            appComponent.handleDeeplink(intent)
-        }
+            val handled = appComponent.handleDeeplink(intent)
 
-        setIntent(intent)
+            if (handled) {
+                setIntent(intent)
+            }
+        }
     }
 
     private fun logNavigationEvents() {

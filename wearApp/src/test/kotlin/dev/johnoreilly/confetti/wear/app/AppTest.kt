@@ -3,13 +3,11 @@ package dev.johnoreilly.confetti.wear.app
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.wear.navigation.Config
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class AppTest : BaseAppTest() {
-
     @Test
     fun launchHomeWithNoConference() {
         val activity = rule.activity

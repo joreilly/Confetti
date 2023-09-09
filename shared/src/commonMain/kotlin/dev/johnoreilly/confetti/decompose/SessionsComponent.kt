@@ -279,11 +279,6 @@ internal class SessionsSimpleComponent(
 
             val sessionsByStartTime = sessions
                 .groupBy { getSessionTime(it, timeZone) }
-                .mapValues {
-                    rooms.mapNotNull { room ->
-                        it.value.find { session -> session.room?.name == room.name }
-                    }
-                }
 
             sessionsByStartTimeList.add(sessionsByStartTime)
         }

@@ -103,15 +103,17 @@ internal fun SessionDetailViewShared(
                     Spacer(modifier = Modifier.size(16.dp))
                 }
 
-                ConfettiHeader(
-                    text = "Speakers",
-                    icon = Icons.Filled.Person,
-                )
+                if (session.speakers.isNotEmpty()) {
+                    ConfettiHeader(
+                        text = "Speakers",
+                        icon = Icons.Filled.Person,
+                    )
 
-                Spacer(modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.size(16.dp))
 
-                session.speakers.forEach { speaker ->
-                    SessionSpeakerInfo(speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
+                    session.speakers.forEach { speaker ->
+                        SessionSpeakerInfo(speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
+                    }
                 }
             }
         }

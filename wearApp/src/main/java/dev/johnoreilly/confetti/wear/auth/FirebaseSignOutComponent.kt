@@ -12,14 +12,14 @@ interface FirebaseSignOutComponent {
     val uiState: StateFlow<GoogleSignOutScreenState>
 
     fun onIdleStateObserved()
-    fun onSignedOut()
+    fun signedOut()
     fun navigateUp()
 }
 
 class DefaultFirebaseSignOutComponent(
     componentContext: ComponentContext,
     private val onSignedOut: () -> Unit,
-    private val navigateUp: () -> Unit,
+    private val onNavigateUp: () -> Unit,
 ) : FirebaseSignOutComponent, KoinComponent, ComponentContext by componentContext {
 
     private val _uiState = MutableStateFlow(GoogleSignOutScreenState.Idle)
@@ -34,11 +34,11 @@ class DefaultFirebaseSignOutComponent(
         }
     }
 
-    override fun onSignedOut() {
-        this.onSignedOut()
+    override fun signedOut() {
+        onSignedOut()
     }
 
     override fun navigateUp() {
-        this.navigateUp()
+        onNavigateUp()
     }
 }

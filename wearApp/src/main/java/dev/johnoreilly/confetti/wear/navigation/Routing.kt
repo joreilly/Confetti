@@ -94,7 +94,7 @@ fun DefaultWearAppComponent.buildChild(config: Config, componentContext: Compone
             DefaultFirebaseSignOutComponent(
                 componentContext,
                 onSignedOut = { onUserChanged(null) },
-                navigateUp = { navigateUp() }
+                onNavigateUp = { navigateUp() }
             )
         )
 

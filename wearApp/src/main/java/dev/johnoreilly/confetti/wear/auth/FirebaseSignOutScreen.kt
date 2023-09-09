@@ -36,7 +36,7 @@ fun FirebaseSignOutScreen(
 
         GoogleSignOutScreenState.Success -> {
             SideEffect {
-                component.onSignedOut()
+                component.signedOut()
             }
             Confirmation(
                 onTimeout = { component.navigateUp() }

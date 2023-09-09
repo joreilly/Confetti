@@ -12,6 +12,7 @@ fun FirebaseSignInScreen(
     component: FirebaseSignInComponent,
 ) {
     GoogleSignInScreen(
+        modifier = Modifier.fillMaxSize(),
         onAuthCancelled = {
             component.onAuthCancelled()
         },

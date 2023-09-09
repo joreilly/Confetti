@@ -2,8 +2,8 @@ package dev.johnoreilly.confetti.wear.auth
 
 import com.arkivanov.decompose.ComponentContext
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.horologist.auth.data.googlesignin.GoogleSignInEventListenerNoOpImpl
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
+import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -20,6 +20,7 @@ class DefaultFirebaseSignInComponent(
     private val authSucceed: () -> Unit,
 ) : FirebaseSignInComponent, KoinComponent, ComponentContext by componentContext {
     val googleSignInClient: GoogleSignInClient by inject()
+    val authUserRepository: FirebaseAuthUserRepository by inject()
 
     override fun onAuthCancelled() {
         authCancelled()
@@ -31,6 +32,6 @@ class DefaultFirebaseSignInComponent(
 
     override val viewModel: GoogleSignInViewModel = GoogleSignInViewModel(
         googleSignInClient,
-        GoogleSignInEventListenerNoOpImpl
+        authUserRepository
     )
 }

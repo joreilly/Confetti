@@ -1,22 +1,29 @@
+@file:OptIn(ExperimentalWearFoundationApi::class)
+
 package dev.johnoreilly.confetti.wear.decompose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
+import androidx.wear.compose.foundation.OnFocusChange
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.SwipeToDismissBox
 import androidx.wear.compose.material.SwipeToDismissKeys
+import androidx.wear.compose.material.TimeText
 import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.layout.scrollAway
 
 /**
  * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
@@ -83,25 +90,51 @@ fun <C : Any, T : Any> SwipeToDismissBox(
 
     RetainStates(holder, stack.getConfigurations())
 
-    SwipeToDismissBox(
-        onDismissed = onDismissed,
-        modifier = modifier,
-        backgroundKey = background?.configuration ?: SwipeToDismissKeys.Background,
-        contentKey = active.configuration,
-        hasBackground = background != null,
-    ) { isBackground ->
-        val scope = remember { SwipeToDismissBoxScope() }
-        val child = background?.takeIf { isBackground } ?: active
-        holder.SaveableStateProvider(child.configuration.key()) {
-            Scaffold(
-                positionIndicator = {
-                    val scrollState = scope.scrollableState
-                    if (scrollState != null) {
-                        PositionIndicator(scrollState.state)
+    val activeScalingLazyColumnState = remember { mutableStateOf<ScalingLazyColumnState?>(null) }
+
+    Scaffold(
+        timeText = {
+            val timeTextModifier = remember {
+                derivedStateOf {
+                    val scrollableState = activeScalingLazyColumnState.value
+
+                    if (scrollableState != null) {
+                        Modifier.scrollAway(scrollableState)
+                    } else {
+                        Modifier
                     }
                 }
-            ) {
-                scope.content(child)
+            }
+            TimeText(modifier = timeTextModifier.value)
+        }
+    ) {
+        SwipeToDismissBox(
+            onDismissed = onDismissed,
+            modifier = modifier,
+            backgroundKey = background?.configuration ?: SwipeToDismissKeys.Background,
+            contentKey = active.configuration,
+            hasBackground = background != null,
+        ) { isBackground ->
+            val scope = remember { SwipeToDismissBoxScope() }
+            if (!isBackground) {
+                OnFocusChange { isFocused ->
+                    if (isFocused) {
+                        activeScalingLazyColumnState.value = scope.scrollableState
+                    }
+                }
+            }
+            val child = background?.takeIf { isBackground } ?: active
+            holder.SaveableStateProvider(child.configuration.key()) {
+                Scaffold(
+                    positionIndicator = {
+                        val scrollState = scope.scrollableState
+                        if (scrollState != null) {
+                            PositionIndicator(scrollState.state)
+                        }
+                    }
+                ) {
+                    scope.content(child)
+                }
             }
         }
     }

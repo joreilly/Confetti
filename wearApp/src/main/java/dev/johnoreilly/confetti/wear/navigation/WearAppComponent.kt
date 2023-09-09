@@ -74,20 +74,19 @@ class DefaultWearAppComponent(
         navigation.navigate { oldStack ->
             oldStack.map { config ->
                 when (config) {
-                    is Config.ConferenceSessions -> config.copy(uid = uid)
+                    is Config.UserAware -> config.onUserChanged(uid = uid)
                     else -> config
                 }
             }
         }
     }
 
-
     override fun showConferences() {
         navigation.replaceAll(Config.Conferences)
     }
 
     override fun showConference(conference: String) {
-        navigation.replaceAll(Config.ConferenceSessions(uid = user?.uid, conference = conference))
+        navigation.replaceAll(Config.Home(uid = user?.uid, conference = conference))
     }
 
     override fun navigateUp() {

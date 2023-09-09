@@ -34,6 +34,7 @@ class DefaultSettingsComponent(
     componentContext: ComponentContext,
     val onNavigateToGoogleSignIn: () -> Unit,
     val onNavigateToGoogleSignOut: () -> Unit,
+    val onNavigateToConferences: () -> Unit,
 ) : SettingsComponent, KoinComponent, ComponentContext by componentContext {
     private val userRepository: FirebaseAuthUserRepository by inject()
     private val appSettings: AppSettings by inject()
@@ -88,7 +89,7 @@ class DefaultSettingsComponent(
     }
 
     override fun onSwitchConferenceSelected() {
-        TODO("Not yet implemented")
+        onNavigateToConferences()
     }
 
     override fun navigateToGoogleSignIn() {

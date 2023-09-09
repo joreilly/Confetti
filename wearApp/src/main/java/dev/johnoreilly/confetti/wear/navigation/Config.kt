@@ -17,31 +17,47 @@ sealed class Config : Parcelable {
     object Loading : Config()
     object Conferences : Config()
 
+    interface UserAware {
+        fun onUserChanged(uid: String?): Config
+    }
+
     data class ConferenceSessions(
         val uid: String?, // Unused, but needed to recreated the component when the user changes
         val conference: String,
         @TypeParceler<LocalDate?, LocalDateParceler>() val date: LocalDate? = null
-    ) : Config() {
+    ) : Config(), UserAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference)
+
+        override fun onUserChanged(uid: String?): Config {
+            return this.copy(uid = uid)
+        }
     }
 
     data class SessionDetails(
         val uid: String?, // Unused, but needed to recreated the component when the user changes
         val conference: String,
         val session: String,
-    ) : Config() {
+    ) : Config(), UserAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference, "session" to session)
+
+        override fun onUserChanged(uid: String?): Config {
+            return this.copy(uid = uid)
+        }
     }
 
     data class SpeakerDetails(
         val uid: String?, // Unused, but needed to recreated the component when the user changes
         val conference: String,
         val speaker: String,
-    ) : Config() {
+    ) : Config(), UserAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference, "speaker" to speaker)
+
+        override fun onUserChanged(uid: String?): Config {
+            return this.copy(uid = uid)
+        }
     }
 
     object Settings : Config()
@@ -53,16 +69,24 @@ sealed class Config : Parcelable {
     data class Bookmarks(
         val uid: String?, // Unused, but needed to recreated the component when the user changes
         val conference: String,
-    ) : Config() {
+    ) : Config(), UserAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference)
+
+        override fun onUserChanged(uid: String?): Config {
+            return this.copy(uid = uid)
+        }
     }
 
     data class Home(
         val uid: String?, // Unused, but needed to recreated the component when the user changes
         val conference: String,
-    ) : Config() {
+    ) : Config(), UserAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference)
+
+        override fun onUserChanged(uid: String?): Config {
+            return this.copy(uid = uid)
+        }
     }
 }

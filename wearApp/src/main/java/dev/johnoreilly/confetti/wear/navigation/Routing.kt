@@ -76,7 +76,9 @@ fun DefaultWearAppComponent.buildChild(config: Config, componentContext: Compone
                 },
                 onNavigateToGoogleSignOut = {
                     navigation.push(Config.GoogleSignOut)
-                })
+                },
+                onNavigateToConferences = this::showConferences
+            )
         )
 
         is Config.GoogleSignIn -> Child.GoogleSignIn

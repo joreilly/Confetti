@@ -23,7 +23,6 @@ import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.scrollAway
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
@@ -211,7 +210,6 @@ class ScreenshotTestRule(
         }
     }
 
-    @OptIn(ExperimentalHorologistApi::class)
     fun takeScrollableScreenshot(
         round: Boolean = resources.configuration.isScreenRound,
         timeTextMode: BaseScreenshotTest.TimeTextMode,

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.wear.tiles.TileService
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
 import com.google.firebase.auth.ktx.auth
@@ -30,7 +29,6 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-@OptIn(ExperimentalHorologistApi::class, ExperimentalHorologistApi::class)
 val appModule = module {
     viewModelOf(::SignInPromptViewModel)
     viewModelOf(::GoogleSignInViewModel)

@@ -9,8 +9,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
-import dev.johnoreilly.confetti.shared.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.shared.R
 
 @Composable
 fun SocialIcon(

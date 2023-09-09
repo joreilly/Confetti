@@ -1,6 +1,5 @@
 @file:OptIn(
-    ExperimentalCoroutinesApi::class, ExperimentalHorologistApi::class,
-    ExperimentalTestApi::class
+    ExperimentalCoroutinesApi::class, ExperimentalTestApi::class
 )
 @file:Suppress("UnstableApiUsage")
 
@@ -37,7 +36,6 @@ import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.scrollAway
 import coil.compose.LocalImageLoader
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader

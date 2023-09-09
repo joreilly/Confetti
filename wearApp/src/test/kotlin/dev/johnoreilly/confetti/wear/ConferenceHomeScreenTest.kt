@@ -14,7 +14,6 @@ import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.home.HomeScreen

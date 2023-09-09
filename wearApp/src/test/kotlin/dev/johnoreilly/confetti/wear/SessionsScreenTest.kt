@@ -5,8 +5,6 @@ package dev.johnoreilly.confetti.wear
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.decompose.SessionsUiState
-import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.type.Session
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import dev.johnoreilly.confetti.wear.sessions.SessionsScreen

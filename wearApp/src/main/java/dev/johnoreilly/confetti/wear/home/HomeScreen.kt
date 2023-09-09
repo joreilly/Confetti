@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistApi::class, ExperimentalWearMaterialApi::class)
+@file:OptIn(ExperimentalWearMaterialApi::class)
 
 package dev.johnoreilly.confetti.wear.home
 
@@ -24,7 +24,6 @@ import androidx.wear.compose.material.OutlinedChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.composables.Section
 import com.google.android.horologist.composables.Section.Companion.ALL_STATES

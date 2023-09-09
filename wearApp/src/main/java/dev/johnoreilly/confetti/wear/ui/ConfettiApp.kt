@@ -3,9 +3,8 @@ package dev.johnoreilly.confetti.wear.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInScreen
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import dev.johnoreilly.confetti.wear.WearAppViewModel
+import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksRoute
 import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
@@ -64,6 +63,7 @@ fun ConfettiApp(
                     }
 
                     is Child.GoogleSignIn -> {
+                        FirebaseSignInScreen(child.component)
                     }
 
                     is Child.GoogleSignOut ->

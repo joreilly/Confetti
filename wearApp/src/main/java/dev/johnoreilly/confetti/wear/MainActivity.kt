@@ -12,8 +12,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.firebase.FirebaseApp
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
-import dev.johnoreilly.confetti.wear.navigation.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.wear.navigation.DefaultWearAppComponent
+import dev.johnoreilly.confetti.wear.navigation.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject

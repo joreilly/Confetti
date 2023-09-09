@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistApi::class, ExperimentalWearMaterialApi::class)
+@file:OptIn(ExperimentalWearMaterialApi::class)
 
 package dev.johnoreilly.confetti.wear.speakerdetails
 
@@ -21,13 +21,11 @@ import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
 import coil.compose.AsyncImage
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.shared.R
-import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 
 @Composable

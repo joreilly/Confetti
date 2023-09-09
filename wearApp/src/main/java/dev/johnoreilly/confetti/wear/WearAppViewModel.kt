@@ -7,7 +7,6 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn

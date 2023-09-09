@@ -6,7 +6,6 @@ package dev.johnoreilly.confetti.wear.surfaces
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.wear.compose.material.Colors
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import dev.johnoreilly.confetti.GetBookmarkedSessionsQuery
 import dev.johnoreilly.confetti.wear.preview.TestFixtures

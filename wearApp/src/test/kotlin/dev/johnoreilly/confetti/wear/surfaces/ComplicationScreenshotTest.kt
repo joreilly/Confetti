@@ -5,7 +5,6 @@ package dev.johnoreilly.confetti.wear.surfaces
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.complication.ComplicationRendererPreview
 import dev.johnoreilly.confetti.wear.complication.NextSessionComplicationData
@@ -15,7 +14,7 @@ import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import org.junit.Test
 import org.robolectric.annotation.Config
 
-@Config(
+ @Config(
     application = KoinTestApp::class,
     sdk = [30],
     qualifiers = "w221dp-h221dp-small-notlong-notround-watch-xhdpi-keyshidden-nonav"

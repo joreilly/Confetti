@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalHorologistApi::class, ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.complication
 
 import android.annotation.SuppressLint
@@ -41,7 +39,6 @@ import androidx.wear.watchface.complications.data.ShortTextComplicationData
 import androidx.wear.watchface.complications.data.SmallImage
 import androidx.wear.watchface.complications.data.SmallImageComplicationData
 import androidx.wear.watchface.complications.rendering.ComplicationDrawable
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.complication.ComplicationTemplate
 
 /**

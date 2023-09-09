@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.wear.navigation
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
+import dev.johnoreilly.confetti.wear.auth.FirebaseSignInComponent
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutComponent
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksComponent
 import dev.johnoreilly.confetti.wear.home.HomeComponent
@@ -20,7 +21,7 @@ sealed class Child {
 
     class Settings(val component: SettingsComponent) : Child()
 
-    object GoogleSignIn : Child()
+    class GoogleSignIn(val component: FirebaseSignInComponent) : Child()
 
     class GoogleSignOut(val component: FirebaseSignOutComponent) : Child()
 

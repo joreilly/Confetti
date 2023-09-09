@@ -39,6 +39,14 @@ Deploy app to play store alpha channel
 
 
 
+### android deployInternalTestWear
+
+```sh
+[bundle exec] fastlane android deployInternalTestWear
+```
+
+
+
 ### android buildApp
 
 ```sh

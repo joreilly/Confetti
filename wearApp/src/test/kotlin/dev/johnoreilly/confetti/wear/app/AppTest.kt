@@ -3,11 +3,18 @@ package dev.johnoreilly.confetti.wear.app
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.wear.navigation.Config
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.Description
 
 class AppTest : BaseAppTest() {
+
+    override suspend fun configure(description: Description) {
+        if (description.methodName.contains("WithConference")) {
+            appSettings.setConference(TestFixtures.kotlinConf2023.id)
+        }
+    }
+
     @Test
     fun launchHomeWithNoConference() {
         val activity = rule.activity
@@ -26,10 +33,6 @@ class AppTest : BaseAppTest() {
 
     @Test
     fun launchHomeWithConference() {
-        runBlocking {
-            appSettings.setConference(TestFixtures.kotlinConf2023.id)
-        }
-
         val activity = rule.activity
 
         val appComponent = activity.appComponent

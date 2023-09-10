@@ -12,7 +12,6 @@ import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.decompose.ConferenceRefresh
-import dev.johnoreilly.confetti.wear.WearAppViewModel
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepositoryImpl
@@ -32,7 +31,6 @@ import org.koin.dsl.module
 val appModule = module {
     viewModelOf(::SignInPromptViewModel)
     viewModelOf(::GoogleSignInViewModel)
-    viewModelOf(::WearAppViewModel)
     singleOf(::PhoneSettingsSync)
     single { TileService.getUpdater(androidContext()) }
     singleOf(::ComplicationUpdater)

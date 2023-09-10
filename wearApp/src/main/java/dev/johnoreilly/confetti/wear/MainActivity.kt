@@ -17,7 +17,6 @@ import dev.johnoreilly.confetti.wear.navigation.NavigationHelper.logNavigationEv
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject
-import org.koin.androidx.compose.getViewModel
 import org.koin.compose.LocalKoinApplication
 import org.koin.compose.LocalKoinScope
 import org.koin.core.annotation.KoinInternalApi
@@ -45,15 +44,12 @@ class MainActivity : ComponentActivity() {
                     .get().scopeRegistry.rootScope,
                 LocalKoinApplication provides KoinPlatformTools.defaultContext().get()
             ) {
-                val viewModel: WearAppViewModel = getViewModel()
-
                 splashScreen.setKeepOnScreenCondition {
-                    viewModel.waitingOnThemeOrData
+                    appComponent.isWaitingOnThemeOrData
                 }
 
                 ConfettiApp(
                     component = appComponent,
-                    viewModel = viewModel
                 )
 
                 LaunchedEffect(Unit) {

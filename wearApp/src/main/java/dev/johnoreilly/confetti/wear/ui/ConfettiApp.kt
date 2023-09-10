@@ -1,9 +1,10 @@
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.johnoreilly.confetti.wear.WearAppViewModel
+import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksRoute
@@ -16,14 +17,12 @@ import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
 import dev.johnoreilly.confetti.wear.settings.SettingsRoute
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsRoute
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ConfettiApp(
-    component: WearAppComponent,
-    viewModel: WearAppViewModel = getViewModel(),
+    component: WearAppComponent
 ) {
-    val appState by viewModel.appState.collectAsStateWithLifecycle()
+    val appState by component.appState.collectAsStateWithLifecycle()
     val settings = appState?.settings
 
     if (settings != null) {
@@ -59,7 +58,9 @@ fun ConfettiApp(
                     )
 
                     is Child.Loading -> {
-                        // TODO Loading?
+                        LoadingScreen(
+                            component
+                        )
                     }
 
                     is Child.GoogleSignIn -> {
@@ -80,6 +81,19 @@ fun ConfettiApp(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun LoadingScreen(component: WearAppComponent) {
+    LaunchedEffect(Unit) {
+        val conference = component.waitForConference()
+
+        if (conference == AppSettings.CONFERENCE_NOT_SET) {
+            component.showConferences()
+        } else {
+            component.showConference(conference = conference)
         }
     }
 }

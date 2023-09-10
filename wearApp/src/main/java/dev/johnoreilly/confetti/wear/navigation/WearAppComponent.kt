@@ -16,8 +16,15 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.coroutineScope
+import dev.johnoreilly.confetti.wear.AppUiState
+import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toLocalDate
 import org.koin.core.component.KoinComponent
@@ -27,6 +34,10 @@ interface WearAppComponent {
     val config: Config
 
     val stack: Value<ChildStack<Config, Child>>
+
+    val appState: StateFlow<AppUiState?>
+
+    val isWaitingOnThemeOrData: Boolean
 
     fun navigateUp()
 
@@ -39,6 +50,7 @@ interface WearAppComponent {
     fun showConference(conference: String)
 
     fun navigateTo(config: Config)
+    suspend fun waitForConference(): String
 }
 
 class DefaultWearAppComponent(
@@ -49,6 +61,31 @@ class DefaultWearAppComponent(
     private val authentication: Authentication by inject()
     internal val repository: ConfettiRepository by inject()
     internal val navigation = StackNavigation<Config>()
+    val phoneSettingsSync: PhoneSettingsSync by inject()
+
+    override val appState: StateFlow<AppUiState?> = combine(
+        phoneSettingsSync.settingsFlow,
+        phoneSettingsSync.conferenceFlow,
+        authentication.currentUser
+    ) { phoneSettings, defaultConference, user ->
+        AppUiState(
+            defaultConference = defaultConference,
+            settings = phoneSettings,
+            user = user
+        )
+    }
+        .stateIn(
+            coroutineScope,
+            SharingStarted.Eagerly,
+            null
+        )
+
+    override suspend fun waitForConference(): String {
+        return appState.map { it?.defaultConference }.firstOrNull() ?: AppSettings.CONFERENCE_NOT_SET
+    }
+
+    override val isWaitingOnThemeOrData: Boolean
+        get() = config is Config.Loading || appState.value == null
 
     internal val user: User? get() = authentication.currentUser.value
 
@@ -66,15 +103,6 @@ class DefaultWearAppComponent(
         (deeplinkStack(intent) ?: listOf(Config.Loading))
 
     init {
-        coroutineScope.launch {
-            val conference: String = repository.getConference()
-            if (conference == AppSettings.CONFERENCE_NOT_SET) {
-                showConferences()
-            } else {
-                showConference(conference = conference)
-            }
-        }
-
         coroutineScope.launch {
             authentication.currentUser
                 .map { it?.uid }
@@ -118,7 +146,7 @@ class DefaultWearAppComponent(
             path == "/signOut" -> Config.GoogleSignOut
             path == "/settings" -> Config.Settings
             path == "/conferences" -> Config.Conferences
-            path.startsWith("/home/") -> Config.Home(user, path.substringAfter("conferenceHome/"))
+            path.startsWith("/home/") -> Config.Home(user, path.substringAfter("home/"))
             path.startsWith("/sessions/") -> {
                 val (conference, date) = path.substringAfter("sessions/").split("/", limit = 2)
                 Config.ConferenceSessions(user, conference, date.toLocalDate())

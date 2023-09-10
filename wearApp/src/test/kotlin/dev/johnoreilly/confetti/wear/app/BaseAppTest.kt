@@ -4,8 +4,10 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.apollographql.apollo3.cache.normalized.sql.ApolloInitializer
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.MainActivity
+import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.rules.TestRule
+import org.junit.runner.Description
 import org.junit.runner.RunWith
 import org.junit.runners.model.Statement
 import org.koin.test.AutoCloseKoinTest
@@ -21,7 +23,7 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class BaseAppTest : AutoCloseKoinTest() {
 
-    @get:Rule(order = 0)
+    @get:Rule(order = 1)
     val outer: TestRule = TestRule { base, _ ->
         object : Statement() {
             override fun evaluate() {
@@ -32,8 +34,23 @@ abstract class BaseAppTest : AutoCloseKoinTest() {
         }
     }
 
-    @get:Rule(order = 1)
+    @get:Rule(order = 5)
+    val configure: TestRule = TestRule { base, description ->
+        object : Statement() {
+            override fun evaluate() {
+                runBlocking {
+                    configure(description)
+                }
+                base.evaluate()
+            }
+        }
+    }
+
+    @get:Rule(order = 10)
     val rule = createAndroidComposeRule(MainActivity::class.java)
 
     val appSettings: AppSettings by inject()
+
+    open suspend fun configure(description: Description) {
+    }
 }

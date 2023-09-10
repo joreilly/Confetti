@@ -31,7 +31,7 @@ class NavigationTest : BaseAppTest() {
         appComponent.handleDeeplink("confetti://confetti/conferences".toDeepLink())
         assertEquals(Config.Conferences, appComponent.config)
 
-        appComponent.handleDeeplink("confetti://confetti/conferenceHome/test".toDeepLink())
+        appComponent.handleDeeplink("confetti://confetti/home/test".toDeepLink())
         assertEquals(Config.Home(null, "test"), appComponent.config)
 
         appComponent.handleDeeplink("confetti://confetti/sessions/test/2023-01-01".toDeepLink())

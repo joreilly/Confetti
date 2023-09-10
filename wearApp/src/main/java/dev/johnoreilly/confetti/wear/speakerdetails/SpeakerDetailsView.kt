@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,10 +32,6 @@ fun SpeakerDetailsRoute(
     component: SpeakerDetailsComponent,
     columnState: ScalingLazyColumnState,
 ) {
-    SideEffect {
-        println("SpeakerDetailsRoute")
-    }
-
     val uiState by component.uiState.subscribeAsState()
     SpeakerDetailsView(uiState, columnState)
 }
@@ -44,10 +39,6 @@ fun SpeakerDetailsRoute(
 @Composable
 fun SpeakerDetailsView(uiState: SpeakerDetailsUiState, columnState: ScalingLazyColumnState) {
     val placeholderState = rememberPlaceholderState { uiState !is SpeakerDetailsUiState.Loading }
-
-    SideEffect {
-        println("Speaker $uiState")
-    }
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),

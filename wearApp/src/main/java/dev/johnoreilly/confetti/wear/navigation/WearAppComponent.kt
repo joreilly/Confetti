@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.wear.navigation
 
 import android.content.Intent
+import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -44,7 +45,6 @@ class DefaultWearAppComponent(
     componentContext: ComponentContext,
     intent: Intent,
 ) : WearAppComponent, KoinComponent, ComponentContext by componentContext {
-
     internal val coroutineScope = coroutineScope()
     private val authentication: Authentication by inject()
     internal val repository: ConfettiRepository by inject()
@@ -62,7 +62,8 @@ class DefaultWearAppComponent(
             childFactory = this::buildChild,
         )
 
-    private fun initialConfig(intent: Intent) = deeplinkStack(intent) ?: listOf(Config.Loading)
+    private fun initialConfig(intent: Intent) =
+        (deeplinkStack(intent) ?: listOf(Config.Loading))
 
     init {
         coroutineScope.launch {
@@ -111,12 +112,13 @@ class DefaultWearAppComponent(
 
     private fun buildConfig(user: String?, uri: String): Config? {
         val path = uri.substringAfter("confetti://confetti")
+
         return when {
             path == "/signIn" -> Config.GoogleSignIn
             path == "/signOut" -> Config.GoogleSignOut
             path == "/settings" -> Config.Settings
             path == "/conferences" -> Config.Conferences
-            path.startsWith("/conferenceHome/") -> Config.Home(user, path.substringAfter("conferenceHome/"))
+            path.startsWith("/home/") -> Config.Home(user, path.substringAfter("conferenceHome/"))
             path.startsWith("/sessions/") -> {
                 val (conference, date) = path.substringAfter("sessions/").split("/", limit = 2)
                 Config.ConferenceSessions(user, conference, date.toLocalDate())
@@ -130,7 +132,9 @@ class DefaultWearAppComponent(
                 Config.SpeakerDetails(user, conference, speaker)
             }
             path.startsWith("/bookmarks/") -> Config.Bookmarks(user, path.substringAfter("bookmarks/"))
-            else -> null
+            else -> null.also {
+                Log.w("WearAppComponent", "Unhandled deeplink $uri")
+            }
         }
     }
 

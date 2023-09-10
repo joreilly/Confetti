@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("org.jetbrains.compose")
 }
 
 configureCompilerOptions()
@@ -17,14 +18,6 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 }
 

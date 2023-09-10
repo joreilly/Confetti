@@ -1,10 +1,8 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("com.apollographql.apollo3")
-    id("org.jetbrains.compose") version libs.versions.compose.multiplatform
+    id("org.jetbrains.compose")
     id("com.google.devtools.ksp")
     id("co.touchlab.faktory.kmmbridge")
     id("com.squareup.wire")
@@ -243,9 +241,4 @@ publishing {
             }
         }
     }
-}
-
-compose {
-    kotlinCompilerPlugin.set(libs.versions.compose.compiler.get())
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.10")
 }

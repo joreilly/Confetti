@@ -135,7 +135,7 @@ class DefaultWearAppComponent(
     }
 
     private fun buildStack(target: Config): List<Config> {
-        when (config) {
+        when (target) {
             is Config.ConferenceAware -> listOf()
             else -> listOf(target)
         }

@@ -8,10 +8,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.OnFocusChange
+import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.SwipeToDismissBox
@@ -53,18 +55,27 @@ fun <C : Any, T : Any> SwipeToDismissBox(
 }
 
 class SwipeToDismissBoxScope {
-    private val _scrollableState = mutableStateOf<ScalingLazyColumnState?>(null)
+    private val _scalingLazyColumnState = mutableStateOf<ScalingLazyColumnState?>(null)
 
     val scrollableState: ScalingLazyColumnState?
-        get() = _scrollableState.value
+        get() = _scalingLazyColumnState.value
 
     @Composable
     fun createScalingLazyColumnState(
         factory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText()
-    ): ScalingLazyColumnState =
-        factory.create().also {
-            _scrollableState.value = it
+    ): ScalingLazyColumnState {
+        val scalingLazyColumnState = factory.create()
+        _scalingLazyColumnState.value = scalingLazyColumnState
+
+        scalingLazyColumnState.state = rememberSaveable(saver = ScalingLazyListState.Saver) {
+            ScalingLazyListState(
+                scalingLazyColumnState.initialScrollPosition.index,
+                scalingLazyColumnState.initialScrollPosition.offsetPx
+            )
         }
+
+        return scalingLazyColumnState
+    }
 }
 
 /**
@@ -115,16 +126,18 @@ fun <C : Any, T : Any> SwipeToDismissBox(
             contentKey = active.configuration,
             hasBackground = background != null,
         ) { isBackground ->
-            val scope = remember { SwipeToDismissBoxScope() }
-            if (!isBackground) {
-                OnFocusChange { isFocused ->
-                    if (isFocused) {
-                        activeScalingLazyColumnState.value = scope.scrollableState
-                    }
-                }
-            }
             val child = background?.takeIf { isBackground } ?: active
             holder.SaveableStateProvider(child.configuration.key()) {
+                val scope = remember { SwipeToDismissBoxScope() }
+
+                if (!isBackground) {
+                    OnFocusChange { isFocused ->
+                        if (isFocused) {
+                            activeScalingLazyColumnState.value = scope.scrollableState
+                        }
+                    }
+                }
+
                 Scaffold(
                     positionIndicator = {
                         val scrollState = scope.scrollableState

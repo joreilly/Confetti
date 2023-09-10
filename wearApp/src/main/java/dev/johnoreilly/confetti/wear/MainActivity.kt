@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
         appComponent =
             DefaultWearAppComponent(
                 componentContext = defaultComponentContext(),
+                intent = intent
             )
 
         setContent {
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
                 ConfettiApp(
                     component = appComponent,
-                    viewModel
+                    viewModel = viewModel
                 )
 
                 LaunchedEffect(Unit) {

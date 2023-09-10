@@ -42,6 +42,7 @@ interface WearAppComponent {
 
 class DefaultWearAppComponent(
     componentContext: ComponentContext,
+    intent: Intent,
 ) : WearAppComponent, KoinComponent, ComponentContext by componentContext {
 
     internal val coroutineScope = coroutineScope()
@@ -57,9 +58,11 @@ class DefaultWearAppComponent(
     override val stack: Value<ChildStack<Config, Child>> =
         childStack(
             source = navigation,
-            initialConfiguration = Config.Loading,
+            initialStack = { initialConfig(intent) },
             childFactory = this::buildChild,
         )
+
+    private fun initialConfig(intent: Intent) = deeplinkStack(intent) ?: listOf(Config.Loading)
 
     init {
         coroutineScope.launch {
@@ -140,6 +143,18 @@ class DefaultWearAppComponent(
     }
 
     override fun handleDeeplink(intent: Intent): Boolean {
+        val stack: List<Config>? = deeplinkStack(intent)
+
+        if (stack != null) {
+            navigation.replaceAll(*stack.toTypedArray())
+        }
+
+        return stack != null
+    }
+
+    private fun deeplinkStack(intent: Intent): List<Config>? {
+        var stack: List<Config>? = null
+
         if (intent.action == Intent.ACTION_VIEW) {
             val uri = intent.dataString
 
@@ -147,14 +162,10 @@ class DefaultWearAppComponent(
                 val target = buildConfig(authentication.currentUser.value?.uid, uri)
 
                 if (target != null) {
-                    val stack = buildStack(target)
-
-                    navigation.replaceAll(*stack.toTypedArray())
-                    return true
+                    stack = buildStack(target)
                 }
             }
         }
-
-        return false
+        return stack
     }
 }

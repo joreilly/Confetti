@@ -14,7 +14,7 @@ import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
@@ -42,10 +42,12 @@ class DefaultBookmarksComponent(
         repository.bookmarkedSessionsQuery(conference, user?.uid, user, FetchPolicy.CacheAndNetwork)
             .toUiState {
                 it.toUiState()
-            }.onCompletion {
-                tileUpdater.updateAll()
-                complicationUpdater.update()
-            }.stateIn(coroutineScope, SharingStarted.Eagerly, QueryResult.Loading)
+            }.onEach {
+                if (it is QueryResult.Success && it.cacheInfo?.isCacheHit != true) {
+                    tileUpdater.updateAll()
+                    complicationUpdater.update()
+                }
+            }.stateIn(coroutineScope, SharingStarted.Lazily, QueryResult.Loading)
 
 
     override fun onSessionClicked(session: String) {

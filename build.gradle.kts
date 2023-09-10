@@ -30,13 +30,3 @@ tasks.register("quickChecks") {
         ":wearApp:assembleDebugAndroidTest",
     )
 }
-
-allprojects {
-    configurations.all {
-        resolutionStrategy.dependencySubstitution {
-            substitute(module("org.jetbrains.compose.compiler:compiler")).apply {
-                using(module("androidx.compose.compiler:compiler:${libs.versions.compose.compiler.get()}"))
-            }
-        }
-    }
-}

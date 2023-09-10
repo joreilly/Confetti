@@ -262,20 +262,22 @@ fun SessionItemView(
 
         var showDialog by remember { mutableStateOf(false) }
 
-        Bookmark(
-            isBookmarked = isBookmarked,
-            onBookmarkChange = { shouldAdd ->
-                if (!isLoggedIn) {
-                    showDialog = true
-                    return@Bookmark
+        if (!session.isBreak()) {
+            Bookmark(
+                isBookmarked = isBookmarked,
+                onBookmarkChange = { shouldAdd ->
+                    if (!isLoggedIn) {
+                        showDialog = true
+                        return@Bookmark
+                    }
+                    if (shouldAdd) {
+                        addBookmark(session.id)
+                    } else {
+                        removeBookmark(session.id)
+                    }
                 }
-                if (shouldAdd) {
-                    addBookmark(session.id)
-                } else {
-                    removeBookmark(session.id)
-                }
-            }
-        )
+            )
+        }
 
         if (showDialog) {
             SignInDialog(

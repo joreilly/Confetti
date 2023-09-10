@@ -22,5 +22,5 @@ dependencies {
         exclude(group = "androidx.datastore", module = "datastore-preferences")
     }
     implementation(libs.plugin.wire)
-
+    implementation(libs.plugin.compose.multiplatform)
 }

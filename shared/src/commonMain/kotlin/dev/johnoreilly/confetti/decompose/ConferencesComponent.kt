@@ -26,7 +26,9 @@ interface ConferencesComponent {
     sealed interface UiState
     object Loading : UiState
     object Error : UiState
-    class Success(val conferenceListByYear: Map<Int, List<GetConferencesQuery.Conference>>) : UiState
+    class Success(val conferenceListByYear: Map<Int, List<GetConferencesQuery.Conference>>) : UiState {
+        val relevantConferences: List<GetConferencesQuery.Conference> by lazy { conferenceListByYear.values.flatten() }
+    }
 }
 
 class DefaultConferencesComponent(

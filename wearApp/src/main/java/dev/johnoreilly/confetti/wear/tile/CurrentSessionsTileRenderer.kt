@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
 @file:Suppress("DEPRECATION")
 
 package dev.johnoreilly.confetti.wear.tile
@@ -7,6 +6,9 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import androidx.wear.protolayout.ActionBuilders.LoadAction
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
@@ -20,7 +22,6 @@ import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_BODY1
 import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_TITLE2
 import androidx.wear.protolayout.material.layouts.MultiSlotLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -28,9 +29,6 @@ import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.NoConference
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.NotLoggedIn
-import dev.johnoreilly.confetti.wear.ui.previews.WearLargeRoundDevicePreview
-import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewDevices
-import dev.johnoreilly.confetti.wear.ui.previews.WearPreviewFontSizes
 import dev.johnoreilly.confetti.wear.ui.toTileColors
 import kotlinx.coroutines.flow.MutableStateFlow
 import androidx.wear.compose.material.Colors as WearComposeColors
@@ -195,7 +193,7 @@ class CurrentSessionsTileRenderer(
             .build()
 }
 
-@WearLargeRoundDevicePreview
+@WearPreviewLargeRound
 @Composable
 fun LoginTilePreview() {
     val context = LocalContext.current
@@ -212,7 +210,7 @@ fun LoginTilePreview() {
     )
 }
 
-@WearLargeRoundDevicePreview
+@WearPreviewLargeRound
 @Composable
 fun NoConferenceTilePreview() {
     val context = LocalContext.current
@@ -228,7 +226,7 @@ fun NoConferenceTilePreview() {
 }
 
 @WearPreviewDevices
-@WearPreviewFontSizes
+@WearPreviewFontScales
 @Composable
 fun BookmarksTilePreview() {
     val context = LocalContext.current

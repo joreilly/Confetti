@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.data.auth
 
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.data.common.model.AuthUser
 import com.google.android.horologist.auth.data.common.repository.AuthUserRepository
 import com.google.android.horologist.auth.data.googlesignin.GoogleSignInEventListener
@@ -24,11 +21,15 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
-class FirebaseAuthUserRepository(
+interface FirebaseAuthUserRepository : AuthUserRepository, GoogleSignInEventListener {
+    val firebaseAuthFlow: Flow<FirebaseUser?>
+}
+
+class FirebaseAuthUserRepositoryImpl(
     val auth: FirebaseAuth,
     val googleSignIn: GoogleSignInClient
-) : AuthUserRepository, GoogleSignInEventListener {
-    val firebaseAuthFlow: Flow<FirebaseUser?> = auth
+) : FirebaseAuthUserRepository {
+    override val firebaseAuthFlow: Flow<FirebaseUser?> = auth
         .currentUserFlow()
 
     val localAuthState: Flow<AuthUser?> = firebaseAuthFlow

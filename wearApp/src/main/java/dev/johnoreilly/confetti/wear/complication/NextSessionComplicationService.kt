@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.complication
 
 import android.app.PendingIntent
@@ -10,7 +8,6 @@ import androidx.core.net.toUri
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.complication.DataComplicationService
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
@@ -39,7 +36,7 @@ class NextSessionComplicationService :
         val user = authentication.currentUser.value
 
         if (conference.isBlank()) {
-            return NextSessionComplicationData(launchIntent = appIntent())
+            return NextSessionComplicationData(launchIntent = conferencesIntent())
         }
 
         if (user != null) {
@@ -63,21 +60,19 @@ class NextSessionComplicationService :
                     launchIntent = if (sessionDetails != null) sessionIntent(
                         responseData.config.id,
                         sessionDetails
-                    ) else appIntent()
+                    ) else conferenceIntent(conference)
                 )
             }
         }
 
-        return NextSessionComplicationData(launchIntent = appIntent())
+        return NextSessionComplicationData(launchIntent = conferenceIntent(conference))
     }
 
     private fun sessionIntent(conference: String, sessionDetails: SessionDetails): PendingIntent? {
         val sessionDetailIntent = Intent(
             Intent.ACTION_VIEW,
             "confetti://confetti/session/${conference}/${sessionDetails.id}".toUri()
-        ).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+        )
 
         return PendingIntent.getActivity(
             this,
@@ -87,13 +82,25 @@ class NextSessionComplicationService :
         )
     }
 
-    private fun appIntent(): PendingIntent? {
+    private fun conferencesIntent(): PendingIntent? {
         val appIntent = Intent(
+            Intent.ACTION_VIEW,
+            "confetti://confetti/conferences".toUri()
+        )
+
+        return PendingIntent.getActivity(
             this,
-            MainActivity::class.java
-        ).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+            0,
+            appIntent,
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        )
+    }
+
+    private fun conferenceIntent(conference: String): PendingIntent? {
+        val appIntent = Intent(
+            Intent.ACTION_VIEW,
+            "confetti://confetti/home/${conference}".toUri()
+        )
 
         return PendingIntent.getActivity(
             this,

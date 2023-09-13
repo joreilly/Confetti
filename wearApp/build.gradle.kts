@@ -1,13 +1,14 @@
 @file:Suppress("UnstableApiUsage")
 
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 plugins {
     id("com.android.application")
     kotlin("android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("kotlin-parcelize")
 }
 
 configureCompilerOptions()
@@ -83,6 +84,11 @@ android {
         }
     }
 
+    kotlinOptions {
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-opt-in=com.google.android.horologist.annotations.ExperimentalHorologistApi"
+    }
+
     buildTypes {
         getByName("release") {
             isShrinkResources = true
@@ -117,9 +123,9 @@ android {
             signingConfig = signingConfigs.getByName("confetti")
         }
     }
+
     namespace = "dev.johnoreilly.confetti"
 }
-
 
 kotlin {
     sourceSets.all {
@@ -142,7 +148,6 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.splash.screen)
-    implementation(libs.compose.navigation)
     implementation(libs.compose.material.icons.core)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.activity.compose)
@@ -159,7 +164,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
     implementation(libs.wear.compose.material)
-    implementation(libs.wear.compose.navigation)
     implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.compose.material)
     implementation(libs.horologist.compose.tools)
@@ -179,6 +183,9 @@ dependencies {
 
     implementation(libs.horologist.datalayer)
     implementation(libs.horologist.datalayer.watch)
+
+    implementation(libs.decompose.decompose)
+    implementation(libs.decompose.extensions.compose.jetpack)
 
     val excludeAndroidxDataStore = Action<ExternalModuleDependency> {
         // Crashlytics and PerfMon depend on datastore v1.0 but we're using v1.1

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.components
 
 import androidx.compose.foundation.layout.size
@@ -10,19 +8,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.wear.compose.material.ChipDefaults
 import coil.compose.AsyncImage
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.material.Chip
-import dev.johnoreilly.confetti.shared.R
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
-import dev.johnoreilly.confetti.navigation.SpeakerDetailsKey
+import dev.johnoreilly.confetti.shared.R
 
 @Composable
 fun SessionSpeakerChip(
-    conference: String,
     modifier: Modifier = Modifier,
     speaker: SpeakerDetails,
-    navigateToSpeaker: (SpeakerDetailsKey) -> Unit
+    navigateToSpeaker: (String) -> Unit
 ) {
     Chip(
         modifier = modifier,
@@ -39,7 +34,7 @@ fun SessionSpeakerChip(
             )
         },
         secondaryLabel = speaker.tagline,
-        onClick = { navigateToSpeaker(SpeakerDetailsKey(conference, speaker.id)) }
+        onClick = { navigateToSpeaker(speaker.id) }
     )
 }
 

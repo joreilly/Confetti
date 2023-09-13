@@ -1,10 +1,6 @@
 package dev.johnoreilly.confetti.wear.app
 
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.printToString
-import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertEquals
+import dev.johnoreilly.confetti.wear.navigation.Config
 import org.junit.Test
 import org.robolectric.shadows.ShadowSettings
 
@@ -14,21 +10,12 @@ class OfflineTest : BaseAppTest() {
     fun offlineTest() {
         val activity = rule.activity
 
-        val navController = activity.navController
-
-        rule.waitUntil {
-            navController.currentDestination?.route != null
-        }
-
-        assertEquals("start_route/{conference}", navController.currentDestination?.route)
+        val appComponent = activity.appComponent
 
         ShadowSettings.setAirplaneMode(true)
 
-        navController.navigate(ConferenceHomeDestination.createNavigationRoute("test"))
+        appComponent.navigateTo(Config.Home(null, "test"))
 
-        rule.waitUntil {
-            val tree = rule.onRoot().printToString()
-            tree.contains("Settings")
-        }
+        kotlin.test.assertEquals(Config.Home(null, "test"), appComponent.config)
     }
 }

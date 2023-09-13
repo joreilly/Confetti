@@ -24,7 +24,7 @@ fun LifecycleOwner.coroutineScope(
     return scope
 }
 
-internal fun <T : Any> StateFlow<T>.asValue(
+fun <T : Any> StateFlow<T>.asValue(
     lifecycle: Lifecycle,
     context: CoroutineContext = Dispatchers.Main.immediate,
 ): Value<T> =
@@ -34,7 +34,7 @@ internal fun <T : Any> StateFlow<T>.asValue(
         context = context,
     )
 
-internal fun <T : Any> Flow<T>.asValue(
+fun <T : Any> Flow<T>.asValue(
     initialValue: T,
     lifecycle: Lifecycle,
     context: CoroutineContext = Dispatchers.Main.immediate,

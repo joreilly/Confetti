@@ -1,161 +1,99 @@
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import com.google.android.horologist.compose.navscaffold.WearNavScaffold
-import dev.johnoreilly.confetti.wear.WearAppViewModel
-import dev.johnoreilly.confetti.wear.auth.navigation.SignInDestination
-import dev.johnoreilly.confetti.wear.auth.navigation.SignOutDestination
-import dev.johnoreilly.confetti.wear.auth.navigation.authGraph
-import dev.johnoreilly.confetti.wear.bookmarks.navigation.BookmarksDestination
-import dev.johnoreilly.confetti.wear.bookmarks.navigation.bookmarksGraph
-import dev.johnoreilly.confetti.wear.conferences.navigation.ConferencesDestination
-import dev.johnoreilly.confetti.wear.conferences.navigation.conferencesGraph
-import dev.johnoreilly.confetti.wear.home.navigation.ConferenceHomeDestination
-import dev.johnoreilly.confetti.wear.home.navigation.conferenceHomeGraph
-import dev.johnoreilly.confetti.wear.navigation.ConfettiNavigationDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.SessionDetailsDestination
-import dev.johnoreilly.confetti.wear.sessiondetails.navigation.sessionDetailsGraph
-import dev.johnoreilly.confetti.wear.sessions.navigation.SessionsDestination
-import dev.johnoreilly.confetti.wear.sessions.navigation.sessionsGraph
-import dev.johnoreilly.confetti.wear.settings.navigation.SettingsDestination
-import dev.johnoreilly.confetti.wear.settings.navigation.settingsGraph
-import dev.johnoreilly.confetti.wear.speakerdetails.navigation.SpeakerDetailsDestination
-import dev.johnoreilly.confetti.wear.speakerdetails.navigation.speakerDetailsGraph
-import dev.johnoreilly.confetti.wear.startup.navigation.StartHomeDestination
-import dev.johnoreilly.confetti.wear.startup.navigation.startHomeGraph
-import org.koin.androidx.compose.getViewModel
+import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
+import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
+import dev.johnoreilly.confetti.wear.bookmarks.BookmarksRoute
+import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
+import dev.johnoreilly.confetti.wear.decompose.SwipeToDismissBox
+import dev.johnoreilly.confetti.wear.home.HomeRoute
+import dev.johnoreilly.confetti.wear.navigation.Child
+import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
+import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsRoute
+import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
+import dev.johnoreilly.confetti.wear.settings.SettingsRoute
+import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsRoute
 
 @Composable
 fun ConfettiApp(
-    navController: NavHostController,
-    viewModel: WearAppViewModel = getViewModel()
+    component: WearAppComponent
 ) {
-    fun onNavigateToDestination(destination: ConfettiNavigationDestination, route: String? = null) {
-        if (destination is ConferenceHomeDestination) {
-            navController.navigate(route ?: destination.route) {
-                popUpTo(navController.graph.id) {
-                    inclusive = true
-                }
-            }
-        } else {
-            navController.navigate(route ?: destination.route)
-        }
-    }
-
-    val appState by viewModel.appState.collectAsStateWithLifecycle()
+    val appState by component.appState.collectAsStateWithLifecycle()
     val settings = appState?.settings
 
     if (settings != null) {
         ConfettiTheme(settings.theme) {
-            WearNavScaffold(
-                startDestination = StartHomeDestination.route,
-                navController = navController
-            ) {
-                startHomeGraph(
-                    navigateToSession = {
-                        onNavigateToDestination(
-                            SessionDetailsDestination,
-                            SessionDetailsDestination.createNavigationRoute(it)
-                        )
-                    },
-                    navigateToSettings = {
-                        onNavigateToDestination(SettingsDestination)
-                    },
-                    navigateToDay = {
-                        onNavigateToDestination(
-                            SessionsDestination,
-                            SessionsDestination.createNavigationRoute(it)
-                        )
-                    },
-                    navigateToBookmarks = {
-                        onNavigateToDestination(
-                            BookmarksDestination,
-                            BookmarksDestination.createNavigationRoute(it)
-                        )
-                    },
-                    navigateToConferences = {
-                        onNavigateToDestination(ConferencesDestination)
-                    }
-                )
+            SwipeToDismissBox(
+                component.stack,
+                onDismissed = { component.navigateUp() }
+            ) { configuration ->
+                when (val child = configuration.instance) {
+                    is Child.Conferences -> ConferencesRoute(
+                        child.component,
+                        createScalingLazyColumnState()
+                    )
 
-                conferencesGraph(
-                    navigateToConference = {
-                        onNavigateToDestination(
-                            ConferenceHomeDestination,
-                            ConferenceHomeDestination.createNavigationRoute(it)
+                    is Child.ConferenceSessions -> SessionsRoute(
+                        child.component,
+                        createScalingLazyColumnState()
+                    )
+
+                    is Child.SessionDetails -> SessionDetailsRoute(
+                        child.component,
+                        createScalingLazyColumnState()
+                    )
+
+                    is Child.SpeakerDetails -> SpeakerDetailsRoute(
+                        child.component,
+                        createScalingLazyColumnState()
+                    )
+
+                    is Child.Settings -> SettingsRoute(
+                        child.component,
+                        createScalingLazyColumnState()
+                    )
+
+                    is Child.Loading -> {
+                        LoadingScreen(
+                            component
                         )
                     }
-                )
 
-                conferenceHomeGraph(
-                    navigateToSession = {
-                        onNavigateToDestination(
-                            SessionDetailsDestination,
-                            SessionDetailsDestination.createNavigationRoute(it)
-                        )
-                    },
-                    navigateToSettings = {
-                        onNavigateToDestination(SettingsDestination)
-                    },
-                    navigateToDay = {
-                        onNavigateToDestination(
-                            SessionsDestination,
-                            SessionsDestination.createNavigationRoute(it)
-                        )
-                    },
-                    navigateToBookmarks = {
-                        onNavigateToDestination(
-                            BookmarksDestination,
-                            BookmarksDestination.createNavigationRoute(it)
-                        )
+                    is Child.GoogleSignIn -> {
+                        FirebaseSignInScreen(child.component)
                     }
-                )
 
-                sessionsGraph(
-                    navigateToSession = {
-                        onNavigateToDestination(
-                            SessionDetailsDestination,
-                            SessionDetailsDestination.createNavigationRoute(it)
-                        )
-                    }
-                )
+                    is Child.GoogleSignOut ->
+                        FirebaseSignOutScreen(child.component)
 
-                sessionDetailsGraph(
-                    navigateToSpeaker = {
-                        onNavigateToDestination(
-                            SpeakerDetailsDestination,
-                            SpeakerDetailsDestination.createNavigationRoute(it)
-                        )
-                    }
-                )
+                    is Child.Home -> HomeRoute(
+                        child.component,
+                        createScalingLazyColumnState()
+                    )
 
-                speakerDetailsGraph()
-
-                bookmarksGraph(
-                    navigateToSession = {
-                        onNavigateToDestination(
-                            SessionDetailsDestination,
-                            SessionDetailsDestination.createNavigationRoute(it)
-                        )
-                    }
-                )
-
-                settingsGraph(
-                    onSwitchConferenceSelected = {
-                        onNavigateToDestination(ConferencesDestination)
-                    },
-                    navigateToGoogleSignOut = { onNavigateToDestination(SignOutDestination) },
-                    navigateToGoogleSignIn = { onNavigateToDestination(SignInDestination) }
-                )
-
-                authGraph(
-                    navigateUp = { navController.popBackStack() },
-                    onAuthChanged = { viewModel.updateSurfaces() }
-                )
+                    is Child.Bookmarks -> BookmarksRoute(
+                        child.component,
+                        createScalingLazyColumnState()
+                    )
+                }
             }
+        }
+    }
+}
+
+@Composable
+fun LoadingScreen(component: WearAppComponent) {
+    LaunchedEffect(Unit) {
+        val conference = component.waitForConference()
+
+        if (conference == AppSettings.CONFERENCE_NOT_SET) {
+            component.showConferences()
+        } else {
+            component.showConference(conference = conference)
         }
     }
 }

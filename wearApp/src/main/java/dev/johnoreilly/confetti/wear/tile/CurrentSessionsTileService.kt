@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalHorologistApi::class)
-
 package dev.johnoreilly.confetti.wear.tile
 
 import android.content.Intent
@@ -11,7 +9,6 @@ import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.SuspendingTileService
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
@@ -89,10 +86,12 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
     private fun handleClick(uri: String) {
         TaskStackBuilder.create(this)
-            .addNextIntentWithParentStack(Intent(
-                Intent.ACTION_VIEW,
-                uri.toUri()
-            ))
+            .addNextIntentWithParentStack(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    uri.toUri()
+                )
+            )
             .startActivities()
     }
 

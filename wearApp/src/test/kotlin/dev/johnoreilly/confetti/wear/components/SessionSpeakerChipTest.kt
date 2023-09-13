@@ -36,7 +36,6 @@ class SessionSpeakerChipTest : ScreenshotTest() {
             }
         ) {
             SessionSpeakerChip(
-                conference = "kotlinconf2023",
                 speaker = TestFixtures.JohnOreilly.speakerDetails,
                 navigateToSpeaker = {}
             )
@@ -53,7 +52,6 @@ class SessionSpeakerChipTest : ScreenshotTest() {
             }
         ) {
             SessionSpeakerChip(
-                conference = "kotlinconf2023",
                 speaker = TestFixtures.JohnOreilly.speakerDetails,
                 navigateToSpeaker = {}
             )

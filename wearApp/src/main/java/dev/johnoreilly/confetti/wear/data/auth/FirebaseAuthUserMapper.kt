@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalHorologistApi::class)
+
 
 package dev.johnoreilly.confetti.wear.data.auth
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.auth.data.common.model.AuthUser
 import com.google.firebase.auth.FirebaseUser
 

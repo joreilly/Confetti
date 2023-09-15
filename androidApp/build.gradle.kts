@@ -8,7 +8,6 @@ plugins {
     kotlin("android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("org.jetbrains.compose")
 }
 
 configureCompilerOptions()
@@ -82,7 +81,12 @@ android {
     }
 
     buildFeatures {
+        compose = true
         buildConfig = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     buildTypes {
@@ -144,10 +148,10 @@ dependencies {
     implementation(project(":shared"))
     testImplementation(project(":androidTest"))
 
-    implementation(compose.ui)
-    implementation(compose.uiTooling)
-    implementation(compose.material)
-    implementation(compose.materialIconsExtended)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material.icons.extended)
     implementation(libs.coil.compose)
 
     implementation(libs.decompose.decompose)

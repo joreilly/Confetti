@@ -1,21 +1,21 @@
 package dev.johnoreilly.confetti.wear.navigation
 
-
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
-import com.arkivanov.essenty.parcelable.TypeParceler
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
 
-@Parcelize
-sealed class Config : Parcelable {
+@Serializable
+sealed class Config {
     val loggingName: String
         get() = this::class.java.simpleName
 
     open val loggingArguments: Map<String, String>
         get() = mapOf()
 
-    object Loading : Config()
-    object Conferences : Config()
+    @Serializable
+    data object Loading : Config()
+
+    @Serializable
+    data object Conferences : Config()
 
     interface UserAware {
         val uid: String?
@@ -26,10 +26,11 @@ sealed class Config : Parcelable {
         val conference: String
     }
 
+    @Serializable
     data class ConferenceSessions(
         override val uid: String?, // Unused, but needed to recreated the component when the user changes
         override val conference: String,
-        @TypeParceler<LocalDate?, LocalDateParceler>() val date: LocalDate? = null
+        val date: LocalDate? = null
     ) : Config(), UserAware, ConferenceAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference)
@@ -39,6 +40,7 @@ sealed class Config : Parcelable {
         }
     }
 
+    @Serializable
     data class SessionDetails(
         override val uid: String?, // Unused, but needed to recreated the component when the user changes
         override val conference: String,
@@ -52,6 +54,7 @@ sealed class Config : Parcelable {
         }
     }
 
+    @Serializable
     data class SpeakerDetails(
         override val uid: String?, // Unused, but needed to recreated the component when the user changes
         override val conference: String,
@@ -65,12 +68,16 @@ sealed class Config : Parcelable {
         }
     }
 
-    object Settings : Config()
+    @Serializable
+    data object Settings : Config()
 
-    object GoogleSignIn : Config()
+    @Serializable
+    data object GoogleSignIn : Config()
 
-    object GoogleSignOut : Config()
+    @Serializable
+    data object GoogleSignOut : Config()
 
+    @Serializable
     data class Bookmarks(
         override val uid: String?, // Unused, but needed to recreated the component when the user changes
         override val conference: String,
@@ -83,6 +90,7 @@ sealed class Config : Parcelable {
         }
     }
 
+    @Serializable
     data class Home(
         override val uid: String?, // Unused, but needed to recreated the component when the user changes
         override val conference: String,

@@ -10,16 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.decompose.SignInComponent
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 
@@ -31,19 +36,15 @@ fun SignInRoute(component: SignInComponent) {
                 .align(Alignment.Center)
         ) {
             var error: String? by remember { mutableStateOf(null) }
-            val launcher = rememberFirebaseAuthLauncher(
-                onAuthComplete = component::onCloseClicked,
-                onAuthError = {
-                    it.printStackTrace()
-                    error = "Something went wrong"
-                },
-                koinInject()
-            )
 
             val context = LocalContext.current
+            val scope = rememberCoroutineScope()
+            val authentication = koinInject<Authentication>()
             Button(
                 onClick = {
-                    launcher.launch(googleSignInClient(context).signInIntent)
+                    scope.launch {
+                        signIn(context, authentication)
+                    }
                 }
             ) {
                 Text(text = stringResource(id = R.string.sign_in_google))
@@ -55,8 +56,27 @@ fun SignInRoute(component: SignInComponent) {
     }
 }
 
+suspend fun signIn(context: Context, authentication: Authentication) {
+    val credentialManager = CredentialManager.create(context)
 
-fun googleSignInClient(context: Context) = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-    .requestIdToken(context.getString(R.string.default_web_client_id))
-    .requestEmail()
-    .build().let { GoogleSignIn.getClient(context, it) }
+    val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
+        .setFilterByAuthorizedAccounts(true)
+        .setServerClientId(context.getString(R.string.default_web_client_id))
+        .setAutoSelectEnabled(true)
+        .build()
+
+    val request: GetCredentialRequest = GetCredentialRequest.Builder()
+        .addCredentialOption(googleIdOption)
+        .build()
+
+    val result = credentialManager.getCredential(
+        context = context,
+        request = request
+    )
+
+    val credential = result.credential
+
+    if (credential is GoogleIdTokenCredential) {
+        authentication.signIn(credential.idToken)
+    }
+}

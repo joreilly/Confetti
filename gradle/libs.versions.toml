@@ -8,8 +8,10 @@ compose = "1.5.1"
 compose-multiplatform = "1.5.1"
 compose-compiler = "1.5.3"
 compose-material-3 = "1.1.1"
+credentials-play-services-auth = "1.2.0-beta03"
 decompose = "2.1.0-alpha-05"
 essenty = "1.2.0-beta-01"
+googleid = "1.1.0"
 horologist = "0.5.6"
 image-loader = "1.6.7"
 junit = "4.13"
@@ -44,6 +46,7 @@ accompanist-testharness = { module = "com.google.accompanist:accompanist-testhar
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.0-beta05"
 androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.0-beta02"
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials-play-services-auth" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
@@ -96,6 +99,7 @@ google-cloud-bom = "com.google.cloud:libraries-bom:26.23.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.17.1"
 google-services = "com.google.gms:google-services:4.3.15"
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 graphql-java = "com.graphql-java:graphql-java:230521-nf-execution"
 graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.0-alpha.7"
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }

@@ -8,14 +8,18 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
+import androidx.credentials.ClearCredentialStateRequest
+import androidx.credentials.CredentialManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.accompanist.adaptive.calculateDisplayFeatures
-import dev.johnoreilly.confetti.account.googleSignInClient
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ui.ConfettiApp
@@ -47,10 +51,16 @@ class MainActivity : ComponentActivity() {
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        val credentialManager = CredentialManager.create(this)
+
         val appComponent =
             DefaultAppComponent(
                 componentContext = defaultComponentContext(),
-                onSignOut = { googleSignInClient(this).signOut() },
+                onSignOut = {
+                    lifecycleScope.launch {
+                        credentialManager.clearCredentialState(ClearCredentialStateRequest())
+                    }
+                },
             )
 
         setContent {

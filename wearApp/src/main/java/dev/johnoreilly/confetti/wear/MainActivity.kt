@@ -1,4 +1,4 @@
-@file:OptIn(KoinInternalApi::class)
+@file:OptIn(KoinInternalApi::class, KoinExperimentalAPI::class)
 
 package dev.johnoreilly.confetti.wear
 
@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.defaultComponentContext
@@ -17,10 +16,9 @@ import dev.johnoreilly.confetti.wear.navigation.NavigationHelper.logNavigationEv
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
 import org.koin.android.ext.android.inject
-import org.koin.compose.LocalKoinApplication
-import org.koin.compose.LocalKoinScope
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.annotation.KoinInternalApi
-import org.koin.mp.KoinPlatformTools
 
 class MainActivity : ComponentActivity() {
     internal lateinit var appComponent: WearAppComponent
@@ -38,12 +36,7 @@ class MainActivity : ComponentActivity() {
             )
 
         setContent {
-            // TODO https://github.com/InsertKoinIO/koin/issues/1557
-            CompositionLocalProvider(
-                LocalKoinScope provides KoinPlatformTools.defaultContext()
-                    .get().scopeRegistry.rootScope,
-                LocalKoinApplication provides KoinPlatformTools.defaultContext().get()
-            ) {
+            KoinAndroidContext {
                 splashScreen.setKeepOnScreenCondition {
                     appComponent.isWaitingOnThemeOrData
                 }

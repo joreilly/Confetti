@@ -20,6 +20,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.accompanist.adaptive.calculateDisplayFeatures
+import dev.johnoreilly.confetti.account.signIn
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ui.ConfettiApp
@@ -36,6 +38,8 @@ class MainActivity : ComponentActivity() {
 
         val settingsComponent: SettingsComponent by inject()
         var userEditableSettings by mutableStateOf<UserEditableSettings?>(null)
+        val credentialManager: CredentialManager by inject()
+        val authentication: Authentication by inject()
 
         // Update the theme settings
         lifecycleScope.launch {
@@ -51,8 +55,6 @@ class MainActivity : ComponentActivity() {
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val credentialManager = CredentialManager.create(this)
-
         val appComponent =
             DefaultAppComponent(
                 componentContext = defaultComponentContext(),
@@ -61,6 +63,11 @@ class MainActivity : ComponentActivity() {
                         credentialManager.clearCredentialState(ClearCredentialStateRequest())
                     }
                 },
+                onSignIn = {
+                    lifecycleScope.launch {
+                        signIn(this@MainActivity, authentication)
+                    }
+                }
             )
 
         setContent {

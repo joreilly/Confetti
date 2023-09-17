@@ -19,6 +19,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dev.johnoreilly.confetti.R
@@ -27,34 +30,6 @@ import dev.johnoreilly.confetti.decompose.SignInComponent
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
-
-@Composable
-fun SignInRoute(component: SignInComponent) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .align(Alignment.Center)
-        ) {
-            var error: String? by remember { mutableStateOf(null) }
-
-            val context = LocalContext.current
-            val scope = rememberCoroutineScope()
-            val authentication = koinInject<Authentication>()
-            Button(
-                onClick = {
-                    scope.launch {
-                        signIn(context, authentication)
-                    }
-                }
-            ) {
-                Text(text = stringResource(id = R.string.sign_in_google))
-            }
-            if (error != null) {
-                Text(text = error!!, color = Color.Red)
-            }
-        }
-    }
-}
 
 suspend fun signIn(context: Context, authentication: Authentication) {
     val credentialManager = CredentialManager.create(context)
@@ -69,14 +44,26 @@ suspend fun signIn(context: Context, authentication: Authentication) {
         .addCredentialOption(googleIdOption)
         .build()
 
-    val result = credentialManager.getCredential(
-        context = context,
-        request = request
-    )
+    try {
+        val result = credentialManager.getCredential(
+            context = context,
+            request = request
+        )
 
-    val credential = result.credential
+        val credential = result.credential
 
-    if (credential is GoogleIdTokenCredential) {
-        authentication.signIn(credential.idToken)
+        if (credential is GoogleIdTokenCredential) {
+            authentication.signIn(credential.idToken)
+        } else {
+            println("Unknown auth $credential")
+        }
+    } catch (e: NoCredentialException) {
+        println("NoCredentialException")
+        // TODO show some failure
+    } catch (e: GetCredentialCancellationException) {
+        // ignored
+    } catch (e: GetCredentialException) {
+        println("Auth failed $e")
+        // TODO show some failure
     }
 }

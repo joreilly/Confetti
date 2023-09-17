@@ -16,7 +16,7 @@ suspend fun signIn(context: Context, authentication: Authentication) {
     val credentialManager = CredentialManager.create(context)
 
     val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-        .setFilterByAuthorizedAccounts(true)
+        .setFilterByAuthorizedAccounts(false)
         .setServerClientId(context.getString(R.string.default_web_client_id))
         .setAutoSelectEnabled(true)
         .build()

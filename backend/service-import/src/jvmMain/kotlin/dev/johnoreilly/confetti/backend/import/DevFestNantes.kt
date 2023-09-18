@@ -39,7 +39,7 @@ suspend fun importDefvestNantes2022() =
             LocalDate(2022, 10, 21)
         ),
         "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/home/album/wide/amphi.jpg",
-        "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/plan-cite-transparent.png"
+        "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/plan-cite-blanc.png"
     ).import()
 
 suspend fun importDefvestNantes2023() = DevFestNantes(
@@ -52,7 +52,7 @@ suspend fun importDefvestNantes2023() = DevFestNantes(
         LocalDate(2023, 10, 20)
     ),
     "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/home/album/wide/800.jpg",
-    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/plan-cite-blanc.png"
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/plan-cite-transparent.png"
 ).import()
 
 class DevFestNantes(

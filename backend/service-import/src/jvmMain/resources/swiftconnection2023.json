@@ -1,0 +1,242 @@
+[
+  {
+    "Kind": "Other",
+    "Name": "👋 Welcoming",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 21, 2023 13:00 → 13:45",
+    "Speaker Names": ""
+  },
+  {
+    "Kind": "Other",
+    "Name": "Opening Words",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 21, 2023 13:45 → 14:00",
+    "Speaker Names": ""
+  },
+  {
+    "Kind": "Talk",
+    "Name": "The Case for Auditing Algorithms: Disloyalty and Bias Mitigation",
+    "Talk": "The Case for Auditing Algorithms: Disloyalty and Bias Mitigation (https://www.notion.so/The-Case-for-Auditing-Algorithms-Disloyalty-and-Bias-Mitigation-fae0b93922c949ff916fc6810926b089?pvs=21)",
+    "Speakers": "https://www.notion.so/94ae0388c2b94d58a9c05c72f24234e9",
+    "Time": "September 21, 2023 14:00 → 14:15",
+    "Speaker Names": "Benoit Rottembourg"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Offline-First Mobile App Design",
+    "Talk": "Offline-First Mobile App Design (https://www.notion.so/Offline-First-Mobile-App-Design-eea1c277b1a54e5cb6c51c2de49e2120?pvs=21)",
+    "Speakers": "https://www.notion.so/08dee17b2c1e4dcf9295d47d0e351bc5",
+    "Time": "September 21, 2023 14:15 → 14:50",
+    "Speaker Names": "Avi Tsadok"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "The Project Template",
+    "Talk": "The Project Template (https://www.notion.so/The-Project-Template-a389a0069a9a47d49e67dd5338dc0a8c?pvs=21)",
+    "Speakers": "https://www.notion.so/efd66ee04eed4e8d8602d57a079f9e6e",
+    "Time": "September 21, 2023 14:50 → 15:25",
+    "Speaker Names": "Krzysztof Zabłocki"
+  },
+  {
+    "Kind": "Other",
+    "Name": "☕️ Coffee Break",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 21, 2023 15:25 → 16:10",
+    "Speaker Names": ""
+  },
+  {
+    "Kind": "Talk",
+    "Name": "String Catalog: Better Way to Localize Your Apps",
+    "Talk": "String Catalog: Better Way to Localize Your Apps (https://www.notion.so/String-Catalog-Better-Way-to-Localize-Your-Apps-01c0918555624c4eb5d2af0e604fd0a0?pvs=21)",
+    "Speakers": "https://www.notion.so/6ecf2ce7c52f4e31a104a827f016598d",
+    "Time": "September 21, 2023 16:10 → 16:45",
+    "Speaker Names": "Danijela Vrzan"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Accessible Map and Navigation",
+    "Talk": "Building Accessible Maps and Navigation (https://www.notion.so/Building-Accessible-Maps-and-Navigation-63c88b6afb914e3faf50cbfd113b34bb?pvs=21)",
+    "Speakers": "https://www.notion.so/a357f05f31f848fe89c75a816a39c7e0",
+    "Time": "September 21, 2023 16:45 → 17:00",
+    "Speaker Names": "Robin Kanatzar"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "How to Make Your App Look Like You've Hired a Designer",
+    "Talk": "How to Make Your App Look Like You've Hired a Designer (https://www.notion.so/How-to-Make-Your-App-Look-Like-You-ve-Hired-a-Designer-477c5b8208ac40f3bae075e1d74080f9?pvs=21)",
+    "Speakers": "https://www.notion.so/1110166138a04b1696cb31d16a39b4b3",
+    "Time": "September 21, 2023 17:00 → 17:15",
+    "Speaker Names": "Hidde van der Ploeg"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Swift Macros: The Key to Efficient and Elegant Code",
+    "Talk": "Swift Macros: The Key to Efficient and Elegant Code (https://www.notion.so/Swift-Macros-The-Key-to-Efficient-and-Elegant-Code-7b417cf36d6d40beb395bfbba568d81c?pvs=21)",
+    "Speakers": "https://www.notion.so/ba4a0e9968ae481eabeee63dd9e116df",
+    "Time": "September 21, 2023 17:25 → 18:00",
+    "Speaker Names": "Ibrahima Ciss"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Parameter Packs or How Swift Decided to Become C++",
+    "Talk": "Parameter Packs or How Swift Decided to Become C++ (https://www.notion.so/Parameter-Packs-or-How-Swift-Decided-to-Become-C-d909810097c54300baa9e9a8e6f21636?pvs=21)",
+    "Speakers": "https://www.notion.so/45f7fd76fdce4f098d41da10d24722f3",
+    "Time": "September 21, 2023 18:00 → 18:15",
+    "Speaker Names": "Vincent Pradeilles"
+  },
+  {
+    "Kind": "Other",
+    "Name": "🧀🍷 Swift Connection Party",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 21, 2023 18:45 → 22:00",
+    "Speaker Names": ""
+  },
+  {
+    "Kind": "Other",
+    "Name": "🥐 Breakfast",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 22, 2023 9:00 → 9:30",
+    "Speaker Names": ""
+  },
+  {
+    "Kind": "Classroom",
+    "Name": "Building your first Swift Macros",
+    "Talk": "Building your first Swift Macros (https://www.notion.so/Building-your-first-Swift-Macros-26854b85a17f4464ae52928edee7872b?pvs=21)",
+    "Speakers": "https://www.notion.so/45f7fd76fdce4f098d41da10d24722f3",
+    "Time": "September 22, 2023 9:30 → 10:45",
+    "Speaker Names": "Vincent Pradeilles"
+  },
+  {
+    "Kind": "Classroom",
+    "Name": "Getting Started with Vapor",
+    "Talk": "Getting Started with Vapor (https://www.notion.so/Getting-Started-with-Vapor-db8023cf2c4d4ef1942e5d03f4b3e864?pvs=21)",
+    "Speakers": "https://www.notion.so/495b4b4a78cb46a5a266c670e15de768",
+    "Time": "September 22, 2023 9:30 → 10:45",
+    "Speaker Names": "Tim Condon"
+  },
+  {
+    "Kind": "Masterclass",
+    "Name": "Ditch Your Expensive CI/CD and Build Your Own",
+    "Talk": "Ditch Your Expensive CI/CD and Build Your Own (https://www.notion.so/Ditch-Your-Expensive-CI-CD-and-Build-Your-Own-e84ed9841d224398b4f9c7f1462f618e?pvs=21)",
+    "Speakers": "https://www.notion.so/35b69287904a4a96898e2f68c57c3a6b, https://www.notion.so/a357f05f31f848fe89c75a816a39c7e0",
+    "Time": "September 22, 2023 9:30 → 10:45",
+    "Speaker Names": "Robin Kanatzar,  Paul-Anatole Claudot"
+  },
+  {
+    "Kind": "Other",
+    "Name": "☕️ Coffee Break",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 22, 2023 10:45 → 11:15",
+    "Speaker Names": ""
+  },
+  {
+    "Kind": "Classroom",
+    "Name": "Building your first Swift Macros",
+    "Talk": "Building your first Swift Macros (https://www.notion.so/Building-your-first-Swift-Macros-26854b85a17f4464ae52928edee7872b?pvs=21)",
+    "Speakers": "https://www.notion.so/45f7fd76fdce4f098d41da10d24722f3",
+    "Time": "September 22, 2023 11:15 → 12:30",
+    "Speaker Names": "Vincent Pradeilles"
+  },
+  {
+    "Kind": "Classroom",
+    "Name": "Getting Started with Vapor",
+    "Talk": "Getting Started with Vapor (https://www.notion.so/Getting-Started-with-Vapor-db8023cf2c4d4ef1942e5d03f4b3e864?pvs=21)",
+    "Speakers": "https://www.notion.so/495b4b4a78cb46a5a266c670e15de768",
+    "Time": "September 22, 2023 11:15 → 12:30",
+    "Speaker Names": "Tim Condon"
+  },
+  {
+    "Kind": "Masterclass",
+    "Name": "Playing With the Limits: Can Your App Run Arbitrary Binary Code?",
+    "Talk": "Playing With the Limits: Can Your App Run Arbitrary Binary Code? (https://www.notion.so/Playing-With-the-Limits-Can-Your-App-Run-Arbitrary-Binary-Code-20ee8843694947eea9042d8fa3b5fa24?pvs=21)",
+    "Speakers": "https://www.notion.so/20d6da7ef4d7498eb8d49a24ded7ca03",
+    "Time": "September 22, 2023 11:15 → 12:30",
+    "Speaker Names": "Hervé Bérenger"
+  },
+  {
+    "Kind": "Other",
+    "Name": "🥑 Lunch",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 22, 2023 12:30 → 14:00",
+    "Speaker Names": ""
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Floating Down an AsyncStream",
+    "Talk": "Floating Down an AsyncStream (https://www.notion.so/Floating-Down-an-AsyncStream-5b9f2bd5088849bbbeebebbf53df8f89?pvs=21)",
+    "Speakers": "https://www.notion.so/fd846892962a4113b9ff31eced87c4c0",
+    "Time": "September 22, 2023 14:00 → 14:15",
+    "Speaker Names": "Daniel Steinberg"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Your Life With (and Without) Observation",
+    "Talk": "Your Life With (and Without) Observation (https://www.notion.so/Your-Life-With-and-Without-Observation-446406f98b8d497ca481e5b681e6a684?pvs=21)",
+    "Speakers": "https://www.notion.so/6c823cf9e35243b89f7f3d79bc0fba87",
+    "Time": "September 22, 2023 14:15 → 14:50",
+    "Speaker Names": "Aviel Gross"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "A Crash Course of The Composable Architecture",
+    "Talk": "A Crash Course of The Composable Architecture (https://www.notion.so/A-Crash-Course-of-The-Composable-Architecture-1b0d2943d55b469397dde024b90bd37c?pvs=21)",
+    "Speakers": "https://www.notion.so/af2df9110fab4a8c92d1fde550307831",
+    "Time": "September 22, 2023 14:50 → 15:25",
+    "Speaker Names": "Shai Mishali"
+  },
+  {
+    "Kind": "Other",
+    "Name": "☕️ Coffee Break",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 22, 2023 15:25 → 16:10",
+    "Speaker Names": ""
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Achieving Loose Coupling with Pure Dependency Injection and the Composition Root",
+    "Talk": "Achieving Loose Coupling with Pure Dependency Injection and the Composition Root (https://www.notion.so/Achieving-Loose-Coupling-with-Pure-Dependency-Injection-and-the-Composition-Root-44bef41cfc2041b68ec6ff3e6aa2a08a?pvs=21)",
+    "Speakers": "https://www.notion.so/ef8ddc41287a43078c15fd4d600002f3",
+    "Time": "September 22, 2023 16:10 → 16:45",
+    "Speaker Names": "Simon B. Støvring."
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Mastering SwiftUI Previews: How the Project Structure can help",
+    "Talk": "Mastering SwiftUI Previews: How the Project Structure can help (https://www.notion.so/Mastering-SwiftUI-Previews-How-the-Project-Structure-can-help-3cc1b32396b74cc7aa27ddc1fc74ddea?pvs=21)",
+    "Speakers": "https://www.notion.so/5c2361abd7a6466d9cebc6e85dd5e120",
+    "Time": "September 22, 2023 16:45 → 17:00",
+    "Speaker Names": "Andreas Lang"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Make Your SwiftUI Design System Portable with Swift Packages",
+    "Talk": "Make Your SwiftUI Design System Portable with Swift Packages (https://www.notion.so/Make-Your-SwiftUI-Design-System-Portable-with-Swift-Packages-7ef905fbd6564801887f6d81dbef2cc4?pvs=21)",
+    "Speakers": "https://www.notion.so/79dd846dbabd44f5af1f7069b0009ba4",
+    "Time": "September 22, 2023 17:10 → 17:45",
+    "Speaker Names": "Vui Nguyen"
+  },
+  {
+    "Kind": "Talk",
+    "Name": "Audio AR…?",
+    "Talk": "Audio AR…? (https://www.notion.so/Audio-AR-0252a90b57a444308baf6a8996dc3181?pvs=21)",
+    "Speakers": "https://www.notion.so/df1d250b5c61486a8b1480c133d86b43",
+    "Time": "September 22, 2023 17:45 → 18:00",
+    "Speaker Names": "Nicolas Zinovieff"
+  },
+  {
+    "Kind": "Other",
+    "Name": "📸 Closing and Photos",
+    "Talk": "",
+    "Speakers": "",
+    "Time": "September 22, 2023 18:00 → 18:05",
+    "Speaker Names": ""
+  }
+]

@@ -14,11 +14,13 @@ import io.ktor.server.routing.*
 
 @Suppress("UNUSED_PARAMETER")
 suspend fun main(args: Array<String>) {
-    println("""
+    println(
+        """
         - update a conference: curl -X POST http://localhost:8080/update/droidconsf
         - update the days of a conference: curl -X POST http://localhost:8080/update-days
         - update the shortDescription: ./gradlew localRun --args updateShortDescription
-    """.trimIndent())
+    """.trimIndent()
+    )
 
     if (args.size > 0) {
         val command = args[0]
@@ -26,6 +28,7 @@ suspend fun main(args: Array<String>) {
             "updateShortDescription" -> {
                 updateShortDescription()
             }
+
             else -> error("Unrecognized command $command")
         }
         return
@@ -104,6 +107,8 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.DroidconBerlin2023 -> Sessionize.importDroidconBerlin2023()
         ConferenceId.TestConference -> error("The test Conference cannot be updated")
         ConferenceId.DroidconNYC2023 -> Sessionize.importDroidconNYC2023()
+        ConferenceId.SwiftConnection2023 -> SwiftConnection.import()
+
         null -> error("")
     }
 }

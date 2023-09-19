@@ -7,6 +7,7 @@ import dev.johnoreilly.confetti.backend.datastore.DSession
 import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonArray
@@ -94,7 +95,8 @@ object SwiftConnection {
             config = DConfig(
                 id = ConferenceId.SwiftConnection2023.id,
                 name = "Swift Connection",
-                timeZone = "Europe/Paris"
+                timeZone = "Europe/Paris",
+                days = listOf(LocalDate(2023, 9, 21), LocalDate(2023, 9, 21))
             ),
             venues = listOf(
                 DVenue(

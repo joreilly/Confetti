@@ -28,7 +28,7 @@ struct HomeView: View {
                 )
                 
                 BottomTabView(
-                    title: "Spakers",
+                    title: "Speakers",
                     systemImage: "person",
                     isActive: child is HomeComponentChild.Speakers,
                     action: component.onSpeakersTabClicked

@@ -28,7 +28,6 @@ interface ConferenceComponent : BackHandlerOwner {
         class Home(val component: HomeComponent) : Child()
         class SessionDetails(val component: SessionDetailsComponent) : Child()
         class SpeakerDetails(val component: SpeakerDetailsComponent) : Child()
-        class SignIn(val component: SignInComponent) : Child()
         class Settings(val component: SettingsComponent) : Child()
     }
 }
@@ -40,6 +39,7 @@ class DefaultConferenceComponent(
     private val isMultiPane: Boolean,
     private val onSwitchConference: () -> Unit,
     private val onSignOut: () -> Unit,
+    private val onSignIn: () -> Unit,
 ) : ConferenceComponent, KoinComponent, ComponentContext by componentContext {
 
     private val settingsComponent: SettingsComponent by inject()
@@ -65,7 +65,7 @@ class DefaultConferenceComponent(
                         onSwitchConference = onSwitchConference,
                         onSessionSelected = { navigation.push(Config.SessionDetails(sessionId = it)) },
                         onSpeakerSelected = { navigation.push(Config.SpeakerDetails(speakerId = it)) },
-                        onSignIn = { navigation.push(Config.SignIn) },
+                        onSignIn = onSignIn,
                         onSignOut = onSignOut,
                         onShowSettings = { navigation.push(Config.Settings) },
                     )
@@ -79,7 +79,7 @@ class DefaultConferenceComponent(
                         sessionId = config.sessionId,
                         user = user,
                         onFinished = navigation::pop,
-                        onSignIn = { navigation.push(Config.SignIn) },
+                        onSignIn = onSignIn,
                         onSpeakerSelected = { navigation.bringToFront(Config.SpeakerDetails(speakerId = it)) },
                     )
                 )
@@ -92,14 +92,6 @@ class DefaultConferenceComponent(
                         speakerId = config.speakerId,
                         onSessionSelected = { navigation.bringToFront(Config.SessionDetails(sessionId = it)) },
                         onFinished = navigation::pop,
-                    )
-                )
-
-            is Config.SignIn ->
-                Child.SignIn(
-                    DefaultSignInComponent(
-                        componentContext = componentContext,
-                        onClosed = navigation::pop,
                     )
                 )
 
@@ -119,7 +111,6 @@ class DefaultConferenceComponent(
         object Home : Config()
         data class SessionDetails(val sessionId: String) : Config()
         data class SpeakerDetails(val speakerId: String) : Config()
-        object SignIn : Config()
         object Settings : Config()
     }
 }

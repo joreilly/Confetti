@@ -11,9 +11,9 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
-import dev.johnoreilly.confetti.decompose.AppComponent.Child
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
+import dev.johnoreilly.confetti.decompose.AppComponent.Child
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -33,6 +33,7 @@ interface AppComponent {
 class DefaultAppComponent(
     componentContext: ComponentContext,
     private val onSignOut: () -> Unit,
+    private val onSignIn: () -> Unit,
     private val isMultiPane: Boolean = false,
 ) : AppComponent, KoinComponent, ComponentContext by componentContext {
 
@@ -108,6 +109,7 @@ class DefaultAppComponent(
                             onSignOut()
                             authentication.signOut()
                         },
+                        onSignIn = onSignIn
                     )
                 )
         }

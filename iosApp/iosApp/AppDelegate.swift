@@ -23,6 +23,7 @@ class AppDelegate : NSObject, UIApplicationDelegate {
         root = DefaultAppComponent(
             componentContext: DefaultComponentContext(lifecycle: lifecycle),
             onSignOut: {},
+            onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone
         )
     }

@@ -8,7 +8,7 @@ compose = "1.5.1"
 compose-multiplatform = "1.5.1"
 compose-compiler = "1.5.3"
 compose-material-3 = "1.1.1"
-credentials-play-services-auth = "1.2.0-beta03"
+credentials-play-services-auth = "1.2.0-beta04"
 decompose = "2.1.0-alpha-05"
 essenty = "1.2.0-beta-01"
 googleid = "1.1.0"
@@ -91,7 +91,7 @@ federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
-firebase-bom = "com.google.firebase:firebase-bom:32.2.3"
+firebase-bom = "com.google.firebase:firebase-bom:32.3.1"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.10.0"

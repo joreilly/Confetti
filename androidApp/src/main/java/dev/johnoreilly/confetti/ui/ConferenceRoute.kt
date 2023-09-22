@@ -10,6 +10,7 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.predic
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation
+import dev.johnoreilly.confetti.account.SignInRoute
 import dev.johnoreilly.confetti.decompose.ConferenceComponent
 import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailsRoute
@@ -39,6 +40,7 @@ fun ConferenceRoute(
             is Child.Home -> HomeRoute(child.component, windowSizeClass)
             is Child.SessionDetails -> SessionDetailsRoute(child.component)
             is Child.SpeakerDetails -> SpeakerDetailsRoute(child.component)
+            is Child.SignIn -> SignInRoute(child.component)
             is Child.Settings -> SettingsRoute(child.component)
         }
     }

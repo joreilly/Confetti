@@ -3,6 +3,7 @@
 
 package dev.johnoreilly.confetti.di
 
+import androidx.credentials.CredentialManager
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
@@ -40,6 +41,8 @@ val appModule = module {
             }
         }
     }
+
+    single { CredentialManager.create(get()) }
 
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
 

@@ -93,7 +93,7 @@ android {
         getByName("release") {
             isShrinkResources = true
             isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("confetti")
+            signingConfig = signingConfigs.getByName("release")
             setProguardFiles(
                 listOf(
                     getDefaultProguardFile("proguard-android.txt"),

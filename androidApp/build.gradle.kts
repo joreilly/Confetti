@@ -93,7 +93,7 @@ android {
         getByName("release") {
             isShrinkResources = true
             isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("confetti")
             setProguardFiles(
                 listOf(
                     getDefaultProguardFile("proguard-android.txt"),
@@ -191,7 +191,6 @@ dependencies {
         exclude(group = "androidx.datastore", module = "datastore-preferences")
     }
     implementation(platform(libs.firebase.bom))
-    implementation(libs.google.services)
     implementation(libs.firebase.crashlytics, excludeAndroidxDataStore)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance, excludeAndroidxDataStore)

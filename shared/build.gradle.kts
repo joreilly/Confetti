@@ -119,7 +119,6 @@ kotlin {
                 api(libs.okio)
                 implementation(libs.horologist.datalayer)
 
-                implementation(libs.google.services)
                 implementation(libs.firebase.analytics)
                 implementation(libs.compose.navigation)
 

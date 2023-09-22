@@ -146,7 +146,6 @@ dependencies {
         exclude(group = "androidx.datastore", module = "datastore-preferences")
     }
     implementation(platform(libs.firebase.bom))
-    implementation(libs.google.services)
     implementation(libs.firebase.crashlytics, excludeAndroidxDataStore)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance, excludeAndroidxDataStore)

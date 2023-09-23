@@ -4,7 +4,7 @@ default_platform :android
 
 platform :android do
 
-    versionNum = 201
+    androidVersionNum = 205
     wearVersionNum = 202
 
     before_all do
@@ -22,7 +22,7 @@ platform :android do
         gradle(
               task: ":androidApp:bundleRelease",
               properties: {
-                  'versionNum' => versionNum
+                  'versionNum' => androidVersionNum
               }
         )
 
@@ -38,12 +38,12 @@ platform :android do
     end
 
 
-    lane :deployInternalTest do |options|
+    lane :deployInternalTestAndroid do |options|
         gradle(task: 'clean')
         gradle(
               task: ":androidApp:bundleRelease",
               properties: {
-                  'versionNum' => versionNum
+                  'versionNum' => androidVersionNum
               }
        )
 
@@ -88,7 +88,7 @@ platform :android do
         gradle(
               task: ":androidApp:bundleRelease",
               properties: {
-                  'versionNum' => versionNum
+                  'versionNum' => androidVersionNum
               }
         )
     end
@@ -108,7 +108,7 @@ platform :android do
         gradle(
               task: ":androidApp:assembleRelease",
               properties: {
-                  'versionNum' => versionNum
+                  'versionNum' => androidVersionNum
               }
         )
     end

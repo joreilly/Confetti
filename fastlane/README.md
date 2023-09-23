@@ -31,10 +31,10 @@ Runs all the tests
 
 Deploy app to play store alpha channel
 
-### android deployInternalTest
+### android deployInternalTestAndroid
 
 ```sh
-[bundle exec] fastlane android deployInternalTest
+[bundle exec] fastlane android deployInternalTestAndroid
 ```
 
 

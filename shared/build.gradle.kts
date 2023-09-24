@@ -1,3 +1,5 @@
+@file:Suppress("OPT_IN_USAGE")
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -51,7 +53,7 @@ kotlin {
         }
     }
 
-    targetHierarchy.default {
+    applyDefaultHierarchyTemplate {
         common {
             group("mobile") {
                 withIos()
@@ -63,7 +65,7 @@ kotlin {
     sourceSets {
 
         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.atomicfu)
@@ -90,7 +92,7 @@ kotlin {
                 implementation(libs.image.loader)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
             }
@@ -102,11 +104,11 @@ kotlin {
             }
         }
 
-        val iosMain by getting {
+        iosMain {
             dependsOn(mobileMain)
         }
 
-        val androidMain by getting {
+        androidMain {
             dependsOn(mobileMain)
             dependencies {
                 api(libs.androidx.lifecycle.viewmodel.ktx)
@@ -131,7 +133,7 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 // hack to allow use of MainScope() in shared code used by JVM console app
                 implementation(libs.kotlinx.coroutines.swing)
@@ -140,13 +142,7 @@ kotlin {
                 implementation(libs.apollo.testing)
             }
         }
-
-        val macosMain by getting {
-        }
-
     }
-
-
 }
 
 android {

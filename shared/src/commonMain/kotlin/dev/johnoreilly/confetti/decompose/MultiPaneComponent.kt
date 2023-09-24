@@ -8,9 +8,8 @@ import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import dev.johnoreilly.confetti.auth.User
+import kotlinx.serialization.Serializable
 
 interface MultiPaneComponent {
 
@@ -40,7 +39,10 @@ class DefaultMultiPaneComponent(
         )
 
     private val _sessionDetails: Value<ChildSlot<SessionDetailsConfig, SessionDetailsComponent>> =
-        childSlot(source = sessionDetailsNavigation) { config, childComponentContext ->
+        childSlot(
+            source = sessionDetailsNavigation,
+            serializer = SessionDetailsConfig.serializer(),
+        ) { config, childComponentContext ->
             DefaultSessionDetailsComponent(
                 componentContext = childComponentContext,
                 conference = conference,
@@ -60,8 +62,8 @@ class DefaultMultiPaneComponent(
         }
     }
 
-    @Parcelize
+    @Serializable
     private data class SessionDetailsConfig(
         val sessionId: String,
-    ) : Parcelable
+    )
 }

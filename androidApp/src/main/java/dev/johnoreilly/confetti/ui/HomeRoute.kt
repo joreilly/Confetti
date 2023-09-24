@@ -220,34 +220,34 @@ private fun <T> T.NavigationButtons(
     val activeChild = stack.active.instance
 
     content(
-        isSelected = activeChild is HomeComponent.Child.Sessions,
-        selectedIcon = Icons.Filled.CalendarMonth,
-        unselectedIcon = Icons.Outlined.CalendarMonth,
-        textId = R.string.schedule,
-        onClick = component::onSessionsTabClicked,
+        activeChild is HomeComponent.Child.Sessions,
+        Icons.Filled.CalendarMonth,
+        Icons.Outlined.CalendarMonth,
+        R.string.schedule,
+        component::onSessionsTabClicked,
     )
 
     content(
-        isSelected = activeChild is HomeComponent.Child.Speakers,
-        selectedIcon = Icons.Filled.Person,
-        unselectedIcon = Icons.Outlined.Person,
-        textId = R.string.speakers,
-        onClick = component::onSpeakersTabClicked,
+        activeChild is HomeComponent.Child.Speakers,
+        Icons.Filled.Person,
+        Icons.Outlined.Person,
+        R.string.speakers,
+        component::onSpeakersTabClicked,
     )
 
     content(
-        isSelected = activeChild is HomeComponent.Child.Bookmarks,
-        selectedIcon = Icons.Filled.Bookmarks,
-        unselectedIcon = Icons.Outlined.Bookmarks,
-        textId = R.string.bookmarks,
-        onClick = component::onBookmarksTabClicked,
+        activeChild is HomeComponent.Child.Bookmarks,
+        Icons.Filled.Bookmarks,
+        Icons.Outlined.Bookmarks,
+        R.string.bookmarks,
+        component::onBookmarksTabClicked,
     )
 
     content(
-        isSelected = activeChild is HomeComponent.Child.Search,
-        selectedIcon = Icons.Filled.Search,
-        unselectedIcon = Icons.Outlined.Search,
-        textId = R.string.search,
-        onClick = component::onSearchTabClicked,
+        activeChild is HomeComponent.Child.Search,
+        Icons.Filled.Search,
+        Icons.Outlined.Search,
+        R.string.search,
+        component::onSearchTabClicked,
     )
 }

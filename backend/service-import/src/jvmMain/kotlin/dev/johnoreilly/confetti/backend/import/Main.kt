@@ -4,13 +4,17 @@ import com.google.cloud.datastore.Entity
 import com.google.cloud.datastore.StringValue
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.datastore.DataStore
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.cio.*
-import io.ktor.server.engine.*
-import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import dev.johnoreilly.confetti.backend.import.Sessionize.importDroidconLisbon2023
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.call
+import io.ktor.server.application.install
+import io.ktor.server.cio.CIO
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.post
+import io.ktor.server.routing.routing
 
 @Suppress("UNUSED_PARAMETER")
 suspend fun main(args: Array<String>) {
@@ -108,6 +112,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.TestConference -> error("The test Conference cannot be updated")
         ConferenceId.DroidconNYC2023 -> Sessionize.importDroidconNYC2023()
         ConferenceId.SwiftConnection2023 -> SwiftConnection.import()
+        ConferenceId.DroidConLisbon2023 -> importDroidconLisbon2023()
 
         null -> error("")
     }

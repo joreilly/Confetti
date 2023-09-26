@@ -1,19 +1,40 @@
 package dev.johnoreilly.confetti.backend.import
 
-import com.charleskorn.kaml.*
-import dev.johnoreilly.confetti.backend.datastore.*
+import com.charleskorn.kaml.Yaml
+import com.charleskorn.kaml.YamlList
+import com.charleskorn.kaml.YamlMap
+import com.charleskorn.kaml.YamlNode
+import com.charleskorn.kaml.YamlNull
+import com.charleskorn.kaml.YamlScalar
+import com.charleskorn.kaml.YamlTaggedNode
+import dev.johnoreilly.confetti.backend.datastore.ConferenceId
+import dev.johnoreilly.confetti.backend.datastore.DConfig
+import dev.johnoreilly.confetti.backend.datastore.DLink
+import dev.johnoreilly.confetti.backend.datastore.DPartner
+import dev.johnoreilly.confetti.backend.datastore.DPartnerGroup
+import dev.johnoreilly.confetti.backend.datastore.DRoom
+import dev.johnoreilly.confetti.backend.datastore.DSession
+import dev.johnoreilly.confetti.backend.datastore.DSpeaker
+import dev.johnoreilly.confetti.backend.datastore.DVenue
+import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.*
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atTime
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
 import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
 import net.mbonnin.bare.graphql.toAny
-import okhttp3.executeAsync
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.executeAsync
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
@@ -153,7 +174,7 @@ class DevFestNantes(
             DSession(
                 id = id,
                 title = talk.get("title").asString,
-                description = talk.get("abstract").asString,
+                description = talk.get("abstract")?.asString,
                 language = when (talk.get("language").asString.lowercase()) {
                     "french" -> "fr-FR"
                     else -> "en-US"

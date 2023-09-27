@@ -10,10 +10,9 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import dev.johnoreilly.confetti.auth.User
+import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -28,7 +27,6 @@ interface ConferenceComponent : BackHandlerOwner {
         class Home(val component: HomeComponent) : Child()
         class SessionDetails(val component: SessionDetailsComponent) : Child()
         class SpeakerDetails(val component: SpeakerDetailsComponent) : Child()
-        class SignIn(val component: SignInComponent) : Child()
         class Settings(val component: SettingsComponent) : Child()
     }
 }
@@ -40,6 +38,7 @@ class DefaultConferenceComponent(
     private val isMultiPane: Boolean,
     private val onSwitchConference: () -> Unit,
     private val onSignOut: () -> Unit,
+    private val onSignIn: () -> Unit,
 ) : ConferenceComponent, KoinComponent, ComponentContext by componentContext {
 
     private val settingsComponent: SettingsComponent by inject()
@@ -48,6 +47,7 @@ class DefaultConferenceComponent(
     override val stack: Value<ChildStack<*, Child>> =
         childStack(
             source = navigation,
+            serializer = Config.serializer(),
             initialConfiguration = Config.Home,
             handleBackButton = true,
             childFactory = ::child,
@@ -65,7 +65,7 @@ class DefaultConferenceComponent(
                         onSwitchConference = onSwitchConference,
                         onSessionSelected = { navigation.push(Config.SessionDetails(sessionId = it)) },
                         onSpeakerSelected = { navigation.push(Config.SpeakerDetails(speakerId = it)) },
-                        onSignIn = { navigation.push(Config.SignIn) },
+                        onSignIn = onSignIn,
                         onSignOut = onSignOut,
                         onShowSettings = { navigation.push(Config.Settings) },
                     )
@@ -79,7 +79,7 @@ class DefaultConferenceComponent(
                         sessionId = config.sessionId,
                         user = user,
                         onFinished = navigation::pop,
-                        onSignIn = { navigation.push(Config.SignIn) },
+                        onSignIn = onSignIn,
                         onSpeakerSelected = { navigation.bringToFront(Config.SpeakerDetails(speakerId = it)) },
                     )
                 )
@@ -95,14 +95,6 @@ class DefaultConferenceComponent(
                     )
                 )
 
-            is Config.SignIn ->
-                Child.SignIn(
-                    DefaultSignInComponent(
-                        componentContext = componentContext,
-                        onClosed = navigation::pop,
-                    )
-                )
-
             is Config.Settings -> Child.Settings(settingsComponent)
         }
 
@@ -114,12 +106,18 @@ class DefaultConferenceComponent(
         navigation.navigate { it.take(toIndex + 1) }
     }
 
-    @Parcelize
-    private sealed class Config : Parcelable {
-        object Home : Config()
+    @Serializable
+    private sealed class Config {
+        @Serializable
+        data object Home : Config()
+
+        @Serializable
         data class SessionDetails(val sessionId: String) : Config()
+
+        @Serializable
         data class SpeakerDetails(val speakerId: String) : Config()
-        object SignIn : Config()
-        object Settings : Config()
+
+        @Serializable
+        data object Settings : Config()
     }
 }

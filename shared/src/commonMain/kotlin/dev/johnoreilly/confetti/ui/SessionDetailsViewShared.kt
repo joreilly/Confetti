@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,10 +24,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
@@ -56,47 +57,49 @@ internal fun SessionDetailViewShared(
 
     Column {
         session?.let { session ->
+            val contentPadding = remember { PaddingValues(horizontal = 16.dp) }
             Column(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp)
                     .verticalScroll(state = scrollState)
             ) {
-                Text(
-                    text = session.title,
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.titleLarge
-                )
-
-                Spacer(modifier = Modifier.size(16.dp))
-
-                Text(
-                    text = sessionTimeString(dateService, session.startsAt, session.endsAt),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
-                )
-
-                session.room?.name?.let { roomName ->
+                Column(modifier = Modifier.padding(contentPadding)) {
                     Text(
-                        modifier = Modifier.padding(vertical = 2.dp),
-                        text = roomName,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.labelLarge.copy(fontStyle = FontStyle.Italic)
+                        text = session.title,
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleLarge
                     )
-                }
 
-                Spacer(modifier = Modifier.size(16.dp))
-
-                Text(
-                    text = session.sessionDescription ?: "",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-
-                if (session.tags.isNotEmpty()) {
                     Spacer(modifier = Modifier.size(16.dp))
-                    FlowRow(crossAxisSpacing = 8.dp) {
-                        session.tags.distinct().forEach { tag ->
-                            Box(Modifier.padding(bottom = 8.dp)) {
-                                Chip(tag)
+
+                    Text(
+                        text = sessionTimeString(dateService, session.startsAt, session.endsAt),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                    )
+
+                    session.room?.name?.let { roomName ->
+                        Text(
+                            modifier = Modifier.padding(vertical = 2.dp),
+                            text = roomName,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.labelLarge.copy(fontStyle = FontStyle.Italic)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
+                    Text(
+                        text = session.sessionDescription ?: "",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+
+                    if (session.tags.isNotEmpty()) {
+                        Spacer(modifier = Modifier.size(16.dp))
+                        FlowRow(crossAxisSpacing = 8.dp) {
+                            session.tags.distinct().forEach { tag ->
+                                Box(Modifier.padding(bottom = 8.dp)) {
+                                    Chip(tag)
+                                }
                             }
                         }
                     }
@@ -111,8 +114,10 @@ internal fun SessionDetailViewShared(
 
                     Spacer(modifier = Modifier.size(16.dp))
 
-                    session.speakers.forEach { speaker ->
-                        SessionSpeakerInfo(speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
+                    Column(modifier = Modifier.padding(contentPadding)) {
+                        session.speakers.forEach { speaker ->
+                            SessionSpeakerInfo(speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
+                        }
                     }
                 }
             }
@@ -220,8 +225,6 @@ internal fun SessionSpeakerInfo(
         }
     }
 }
-
-
 
 
 @OptIn(ExperimentalResourceApi::class)

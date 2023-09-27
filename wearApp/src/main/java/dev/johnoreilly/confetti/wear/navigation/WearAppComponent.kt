@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toLocalDate
+import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -95,6 +96,7 @@ class DefaultWearAppComponent(
     override val stack: Value<ChildStack<Config, Child>> =
         childStack(
             source = navigation,
+            serializer = Config.serializer(),
             initialStack = { initialConfig(intent) },
             childFactory = this::buildChild,
         )

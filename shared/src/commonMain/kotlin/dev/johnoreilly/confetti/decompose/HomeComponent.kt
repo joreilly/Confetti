@@ -6,10 +6,9 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import dev.johnoreilly.confetti.decompose.HomeComponent.Child
 import dev.johnoreilly.confetti.auth.User
+import kotlinx.serialization.Serializable
 
 interface HomeComponent {
 
@@ -52,6 +51,7 @@ class DefaultHomeComponent(
     override val stack: Value<ChildStack<*, Child>> =
         childStack(
             source = navigation,
+            serializer = Config.serializer(),
             initialConfiguration = Config.Sessions,
             handleBackButton = true,
             childFactory = ::child,
@@ -147,11 +147,18 @@ class DefaultHomeComponent(
         onShowSettings()
     }
 
-    @Parcelize
-    private sealed class Config : Parcelable {
-        object Sessions : Config()
-        object Speakers : Config()
-        object Bookmarks : Config()
-        object Search : Config()
+    @Serializable
+    private sealed class Config {
+        @Serializable
+        data object Sessions : Config()
+
+        @Serializable
+        data object Speakers : Config()
+
+        @Serializable
+        data object Bookmarks : Config()
+
+        @Serializable
+        data object Search : Config()
     }
 }

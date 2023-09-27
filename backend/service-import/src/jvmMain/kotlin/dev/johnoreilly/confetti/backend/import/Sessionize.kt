@@ -1,10 +1,21 @@
 package dev.johnoreilly.confetti.backend.import
 
 import GridTable
-import dev.johnoreilly.confetti.backend.datastore.*
+import dev.johnoreilly.confetti.backend.datastore.ConferenceId
+import dev.johnoreilly.confetti.backend.datastore.DConfig
+import dev.johnoreilly.confetti.backend.datastore.DLink
+import dev.johnoreilly.confetti.backend.datastore.DPartnerGroup
+import dev.johnoreilly.confetti.backend.datastore.DRoom
+import dev.johnoreilly.confetti.backend.datastore.DSession
+import dev.johnoreilly.confetti.backend.datastore.DSpeaker
+import dev.johnoreilly.confetti.backend.datastore.DVenue
+import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import net.mbonnin.bare.graphql.*
+import net.mbonnin.bare.graphql.asList
+import net.mbonnin.bare.graphql.asMap
+import net.mbonnin.bare.graphql.asString
+import net.mbonnin.bare.graphql.cast
 
 object Sessionize {
     private val droidConLondon2022 = "https://sessionize.com/api/v2/qi0g29hw/view/All"
@@ -18,6 +29,52 @@ object Sessionize {
         val speakers: List<DSpeaker>,
     )
 
+suspend fun importDevFestGeorgia2023(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/1ukaofb3/view/All"),
+            config = DConfig(
+                id = ConferenceId.DevFestGeorgia2023.id,
+                name = "DevFest Georgia 2023",
+                timeZone = "Asia/Tbilisi"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Kakha Bendukidze Campus",
+                address = "Kakha Bendukidze Campus",
+                description = mapOf(
+                    "en" to "Kakha Bendukidze Campus",
+                    "fr" to "Kakha Bendukidze Campus.",
+                ),
+                latitude = 41.8057275,
+                longitude = 44.76534,
+                imageUrl = "https://media.licdn.com/dms/image/D4D22AQEPV8xCr3VbjQ/feedshare-shrink_800/0/1686483593031?e=2147483647&v=beta&t=D0SSUeoOA_08qlF4Ze65Tu4ol_ZP6oDycoeZHD26ueA",
+                floorPlanUrl = null
+            )
+        )
+    }
+    suspend fun importDroidconLisbon2023(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/2mpjrh6b/view/All"),
+            config = DConfig(
+                id = ConferenceId.DroidConLisbon2023.id,
+                name = "droidcon Lisbon",
+                timeZone = "Europe/Lisbon"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Fórum Cultural de Alcochete",
+                address = "Fórum Cultural de Alcochete",
+                description = mapOf(
+                    "en" to "Fórum Cultural de Alcochete",
+                    "fr" to "Fórum Cultural de Alcochete.",
+                ),
+                latitude = 38.7458978,
+                longitude = -8.9743295,
+                imageUrl = "https://static.wixstatic.com/media/eb9bc0_1da6dc27109b4624b43f71701f60e90e~mv2.jpg/v1/crop/x_0,y_622,w_4096,h_1828/fill/w_531,h_237,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/forum%20cultural%20alcochete.jpg",
+                floorPlanUrl = null
+            )
+        )
+    }
     suspend fun importDroidconBerlin2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/axmfv7vn/view/All"),

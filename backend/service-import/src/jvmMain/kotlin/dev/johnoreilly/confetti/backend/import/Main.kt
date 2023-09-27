@@ -5,6 +5,7 @@ import com.google.cloud.datastore.StringValue
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestGeorgia2023
+import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestMelbourne2023
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDroidconLisbon2023
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
@@ -115,6 +116,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.SwiftConnection2023 -> SwiftConnection.import()
         ConferenceId.DroidConLisbon2023 -> importDroidconLisbon2023()
         ConferenceId.DevFestGeorgia2023 -> importDevFestGeorgia2023()
+        ConferenceId.DevFestMelbourne2023 -> importDevFestMelbourne2023()
 
         null -> error("")
     }

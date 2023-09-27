@@ -41,7 +41,10 @@ suspend fun importDevFestGeorgia2023(): Int {
                 id = "main",
                 name = "Kakha Bendukidze Campus",
                 address = "Kakha Bendukidze Campus",
-                description = emptyMap()
+                description = mapOf(
+                    "en" to "Kakha Bendukidze Campus",
+                    "fr" to "Kakha Bendukidze Campus.",
+                ),
                 latitude = 41.8057275,
                 longitude = 44.76534,
                 imageUrl = "https://media.licdn.com/dms/image/D4D22AQEPV8xCr3VbjQ/feedshare-shrink_800/0/1686483593031?e=2147483647&v=beta&t=D0SSUeoOA_08qlF4Ze65Tu4ol_ZP6oDycoeZHD26ueA",

@@ -4,6 +4,7 @@ import com.google.cloud.datastore.Entity
 import com.google.cloud.datastore.StringValue
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.datastore.DataStore
+import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestGeorgia2023
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDroidconLisbon2023
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call

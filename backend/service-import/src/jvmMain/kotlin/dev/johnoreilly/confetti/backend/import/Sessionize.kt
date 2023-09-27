@@ -35,7 +35,7 @@ suspend fun importDevFestGeorgia2023(): Int {
             config = DConfig(
                 id = ConferenceId.DevFestGeorgia2023.id,
                 name = "DevFest Georgia 2023",
-                timeZone = "Europe/Tbilisi"
+                timeZone = "Asia/Tbilisi"
             ),
             venue = DVenue(
                 id = "main",

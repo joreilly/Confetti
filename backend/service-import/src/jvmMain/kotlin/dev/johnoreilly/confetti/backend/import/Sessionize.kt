@@ -29,6 +29,30 @@ object Sessionize {
         val speakers: List<DSpeaker>,
     )
 
+    suspend fun importDevFestMelbourne2023(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/3ken899c/view/All"),
+            config = DConfig(
+                id = ConferenceId.DevFestMelbourne2023.id,
+                name = "DevFest Melbourne 2023",
+                timeZone = "Australia/Melbourne"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "REA Group, Melbourne",
+                address = "511 Church St, Richmond VIC 3121",
+                description = mapOf(
+                    "en" to "REA Group, Melbourne",
+                ),
+                latitude = -37.8288482,
+                longitude = 144.9974788,
+                imageUrl = "https://secure.meetupstatic.com/photos/event/2/0/9/3/600_515708339.webp?w=750",
+                floorPlanUrl = null
+            )
+        )
+    }
+
+
 suspend fun importDevFestGeorgia2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/1ukaofb3/view/All"),

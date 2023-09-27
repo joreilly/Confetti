@@ -18,6 +18,7 @@ enum class ConferenceId(val id: String) {
     DevFestNantes2023("devfestnantes2023"),
     SwiftConnection2023("swiftconnection2023"),
     DroidConLisbon2023("droidconlisbon2023"),
+    DevFestGeorgia2023("devfestgeorgia2023"),
     ;
 
     companion object {

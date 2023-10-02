@@ -5,29 +5,11 @@ pluginManagement {
             google()
             maven(url = "https://androidx.dev/storage/compose-compiler/repository")
             maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
-            gradlePluginPortal {
-                content {
-                }
-            }
+            gradlePluginPortal()
             maven {
                 url = uri("https://jitpack.io")
                 content {
                     includeGroup("com.github.QuickBirdEng.kotlin-snapshot-testing")
-                }
-            }
-            exclusiveContent {
-                forRepository {
-                    maven {
-                        url = uri("https://repo.repsy.io/mvn/mbonnin/default")
-                    }
-                }
-                filter {
-                    // Use the snapshots repository for Apollo 4.0.0-dev.*, but not for 3.x, which is a dependency of 4.0.0
-                    includeVersionByRegex(
-                        "com\\.apollographql\\.apollo3",
-                        ".+",
-                        "4\\.0\\.0-dev.*"
-                    )
                 }
             }
         }

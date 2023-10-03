@@ -27,6 +27,7 @@ pluginManagement {
                     )
                 }
             }
+            mavenLocal()
         }
     }
 }

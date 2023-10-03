@@ -13,6 +13,7 @@ private fun Int.toJavaVersion(): String = when(this) {
     8 -> "1.8"
     else -> toString()
 }
+
 fun Project.configureCompilerOptions(jvmVersion: Int = 17) {
     tasks.withType(KotlinCompile::class.java).configureEach {
         it.kotlinOptions {
@@ -29,9 +30,8 @@ fun Project.configureCompilerOptions(jvmVersion: Int = 17) {
 
     extensions.getByName("java").apply {
         this as JavaPluginExtension
-        toolchain {
-            it.languageVersion.set(JavaLanguageVersion.of(17))
-        }
+        sourceCompatibility = JavaVersion.valueOf("VERSION_${jvmVersion.toJavaVersion().replace(".", "_")}")
+        targetCompatibility = JavaVersion.valueOf("VERSION_${jvmVersion.toJavaVersion().replace(".", "_")}")
     }
 
     extensions.findByName("android")?.apply{

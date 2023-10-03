@@ -1,8 +1,14 @@
 package dev.johnoreilly.confetti.backend.graphql
 
+import confetti.type.LinkType
+import confetti.type.OrderByDirection
+import confetti.type.SessionField
+import confetti.type.SessionFilterInput
+import confetti.type.SessionOrderByInput
 import dev.johnoreilly.confetti.backend.datastore.DComparatorGe
 import dev.johnoreilly.confetti.backend.datastore.DComparatorLe
 import dev.johnoreilly.confetti.backend.datastore.DConfig
+import dev.johnoreilly.confetti.backend.datastore.DDirection
 import dev.johnoreilly.confetti.backend.datastore.DFilter
 import dev.johnoreilly.confetti.backend.datastore.DLink
 import dev.johnoreilly.confetti.backend.datastore.DOrderBy
@@ -23,7 +29,7 @@ fun DConfig.toConference(): Conference {
     )
 }
 
-class DataStoreDataSource(private val conf: String, private val uid: String? = null) : DataSource {
+internal class DataStoreDataSource(private val conf: String, private val uid: String? = null) : DataSource {
     private val datastore = DataStore()
 
     private val _config: Conference by lazy {
@@ -99,30 +105,30 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
     override fun sessions(
         first: Int,
         after: String?,
-        filter: SessionFilter?,
-        orderBy: SessionOrderBy?
+        filter: SessionFilterInput?,
+        orderBy: SessionOrderByInput?
     ): SessionConnection {
         val page = datastore.readSessions(
             conf = conf,
             limit = first,
             cursor = after,
             filters = buildList {
-                filter?.startsAt?.before?.let {
+                filter?.startsAt?.getOrNull()?.before?.let {
                     add(DFilter("start", DComparatorLe, it.toString()))
                 }
-                filter?.startsAt?.after?.let {
+                filter?.startsAt?.getOrNull()?.after?.let {
                     add(DFilter("start", DComparatorGe, it.toString()))
                 }
-                filter?.endsAt?.before?.let {
+                filter?.endsAt?.getOrNull()?.before?.let {
                     add(DFilter("end", DComparatorLe, it.toString()))
                 }
-                filter?.endsAt?.after?.let {
+                filter?.endsAt?.getOrNull()?.after?.let {
                     add(DFilter("end", DComparatorLe, it.toString()))
                 }
             },
             orderBy = orderBy?.let {
                 DOrderBy(
-                    field = it.field.value,
+                    field = it.field.actualFieldName(),
                     direction = it.direction.toDDirection()
                 )
             }
@@ -135,6 +141,10 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             nodes = sessions,
             pageInfo = PageInfo(endCursor = page.nextPageCursor)
         )
+    }
+
+    private fun SessionField.actualFieldName(): String = when(this) {
+        SessionField.STARTS_AT -> "start"
     }
 
     override fun sessions(
@@ -251,4 +261,9 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             url = url
         )
     }
+}
+internal fun OrderByDirection.toDDirection() = when(this) {
+
+    OrderByDirection.ASCENDING -> DDirection.ASCENDING
+    OrderByDirection.DESCENDING -> DDirection.DESCENDING
 }

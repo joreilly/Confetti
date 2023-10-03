@@ -30,6 +30,7 @@ pluginManagement {
                     )
                 }
             }
+            mavenLocal()
         }
     }
 
@@ -44,20 +45,25 @@ pluginManagement {
 }
 
 rootProject.name = "Confetti"
-include(":androidApp")
-include(":androidBenchmark")
-include(":androidTest")
-include(":automotiveApp")
-include(":common:car")
-include(":shared")
-include(":backend")
-include(":backend:service-graphql")
-include(":backend:datastore")
-include(":backend:service-import")
-include(":landing-page")
-include(":wearApp")
-include(":wearBenchmark")
-include(":compose-desktop")
+if (System.getenv("CONFETTI_BUILD_APPS")?.toBoolean() ?: true) {
+    include(":androidApp")
+    include(":androidBenchmark")
+    include(":androidTest")
+    include(":automotiveApp")
+    include(":common:car")
+    include(":shared")
+    include(":landing-page")
+    include(":wearApp")
+    include(":wearBenchmark")
+    include(":compose-desktop")
+}
+if (System.getenv("CONFETTI_BUILD_BACKEND")?.toBoolean() ?: true) {
+    include(":backend")
+    include(":backend:service-graphql")
+    include(":backend:ksp-processor")
+    include(":backend:datastore")
+    include(":backend:service-import")
+}
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     "This project needs to be run with Java 17 or higher (found: ${JavaVersion.current()})."

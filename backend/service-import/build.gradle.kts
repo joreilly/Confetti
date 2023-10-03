@@ -23,7 +23,7 @@ kotlin {
         implementation(libs.kotlinx.datetime)
         implementation(libs.kaml)
         implementation(libs.bare.graphQL)
-        implementation(libs.kotlinx.serialization)
+        implementation(libs.kotlinx.serialization.json)
 
         implementation(project(":backend:datastore"))
       }

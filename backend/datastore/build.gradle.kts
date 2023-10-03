@@ -17,7 +17,7 @@ kotlin {
       dependencies {
         api(libs.google.cloud.datastore)
         implementation(libs.bare.graphQL)
-        implementation(libs.kotlinx.serialization)
+        implementation(libs.kotlinx.serialization.json)
       }
     }
 

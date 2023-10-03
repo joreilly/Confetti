@@ -1,270 +1,258 @@
 package dev.johnoreilly.confetti.backend.graphql
 
-import com.expediagroup.graphql.generator.annotations.GraphQLDeprecated
-import com.expediagroup.graphql.generator.annotations.GraphQLDescription
-import com.expediagroup.graphql.generator.annotations.GraphQLDirective
-import com.expediagroup.graphql.server.operations.Mutation
-import com.expediagroup.graphql.server.operations.Query
-import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_SOURCE
-import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_UID
-import dev.johnoreilly.confetti.backend.datastore.ConferenceId
-import dev.johnoreilly.confetti.backend.datastore.DDirection
+import com.apollographql.apollo3.adapter.KotlinxInstantAdapter
+import com.apollographql.apollo3.adapter.KotlinxLocalDateAdapter
+import com.apollographql.apollo3.adapter.KotlinxLocalDateTimeAdapter
+import com.apollographql.apollo3.annotations.ApolloAdapter
+import com.apollographql.apollo3.annotations.GraphQLName
+import com.apollographql.apollo3.annotations.ApolloObject
+import com.apollographql.apollo3.api.Adapter
+import com.apollographql.apollo3.api.CustomScalarAdapters
+import com.apollographql.apollo3.api.ExecutionContext
+import com.apollographql.apollo3.api.Optional
+import com.apollographql.apollo3.api.getOrElse
+import com.apollographql.apollo3.api.json.JsonReader
+import com.apollographql.apollo3.api.json.JsonWriter
+import confetti.type.*
+import confetti.type.ConferenceField
+import confetti.type.ConferenceOrderByInput
+import confetti.type.LinkType
+import confetti.type.OrderByDirection
+import confetti.type.SessionField
+import confetti.type.SessionFilterInput
+import confetti.type.SessionOrderByInput
+import dev.johnoreilly.confetti.backend.Source
+import dev.johnoreilly.confetti.backend.UserId
 import dev.johnoreilly.confetti.backend.datastore.DOrderBy
 import dev.johnoreilly.confetti.backend.datastore.DataStore
-import graphql.introspection.Introspection
-import graphql.schema.DataFetchingEnvironment
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import org.springframework.stereotype.Component
 
-@GraphQLDirective(
-    name = "requiresOptIn",
-    description = "This field can be changed without warning",
-    locations = [Introspection.DirectiveLocation.FIELD_DEFINITION]
-)
 annotation class RequiresOptIn(val feature: String)
 
-@Component
-class RootMutation : Mutation {
-    fun addBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
-        return Bookmarks(dfe.source().addBookmark(sessionId).toList())
+@ApolloObject
+@GraphQLName(name = "Mutation")
+internal class RootMutation {
+    fun addBookmark(executionContext: ExecutionContext, sessionId: String): Bookmarks {
+        return Bookmarks(executionContext.source().addBookmark(sessionId).toList())
     }
 
-    fun removeBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
-        return Bookmarks(dfe.source().removeBookmark(sessionId).toList())
+    fun removeBookmark(executionContext: ExecutionContext, sessionId: String): Bookmarks {
+        return Bookmarks(executionContext.source().removeBookmark(sessionId).toList())
     }
 }
 
-@Component
-class RootQuery : Query {
-    fun rooms(dfe: DataFetchingEnvironment): List<Room> {
-        return dfe.source().rooms()
+@ApolloAdapter
+@GraphQLName(name = "Instant")
+typealias MyInstantAdapter = KotlinxInstantAdapter
+
+@ApolloAdapter
+@GraphQLName(name = "LocalDate")
+typealias MyLocalDateAdapter = KotlinxLocalDateAdapter
+
+
+@ApolloAdapter
+@GraphQLName(name = "LocalDateTime")
+object MyLocalDateTimeAdapter : Adapter<LocalDateTime> {
+    override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters): LocalDateTime {
+        return KotlinxLocalDateTimeAdapter.fromJson(reader, customScalarAdapters)
+    }
+
+    override fun toJson(writer: JsonWriter, customScalarAdapters: CustomScalarAdapters, value: LocalDateTime) {
+        KotlinxLocalDateTimeAdapter.toJson(writer, customScalarAdapters, value)
+    }
+
+}
+
+@ApolloObject
+@GraphQLName(name = "Query")
+internal class RootQuery {
+    fun rooms(executionContext: ExecutionContext): List<Room> {
+        return executionContext.source().rooms()
     }
 
     fun sessions(
-        dfe: DataFetchingEnvironment,
-        first: Int? = 10,
-        after: String? = null,
-        filter: SessionFilter? = null,
-        orderBy: SessionOrderBy? = SessionOrderBy(
-            field = SessionField.STARTS_AT,
-            direction = OrderByDirection.ASCENDING
-        )
+        executionContext: ExecutionContext,
+        first: Int,
+        after: Optional<String?>,
+        filter: Optional<SessionFilterInput?>,
+        orderBy: Optional<SessionOrderByInput?>
     ): SessionConnection {
-        return dfe.source().sessions(
-            first ?: 10,
-            after,
-            filter,
+        val orderBy = orderBy.getOrElse(SessionOrderByInput(OrderByDirection.ASCENDING, SessionField.STARTS_AT))
+        return executionContext.source().sessions(
+            first,
+            after.getOrElse(null),
+            filter.getOrElse(null),
             orderBy
         )
     }
 
     @Deprecated("Use speakersPage instead")
-    fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
-        return dfe.source().speakers(first = 100, after = null).nodes
+    fun speakers(executionContext: ExecutionContext): List<Speaker> {
+        return executionContext.source().speakers(first = 100, after = null).nodes
     }
 
     fun speakersPage(
-        dfe: DataFetchingEnvironment,
-        first: Int? = 10,
-        after: String? = null,
+        executionContext: ExecutionContext,
+        first: Int?,
+        after: Optional<String?>,
     ): SpeakerConnection {
-        return dfe.source().speakers(first ?: 10, after)
+        return executionContext.source().speakers(first ?: 10, after.getOrNull())
     }
 
-    fun speaker(dfe: DataFetchingEnvironment, id: String): Speaker {
-        return dfe.source().speaker(id)
+    fun speaker(executionContext: ExecutionContext, id: String): Speaker {
+        return executionContext.source().speaker(id)
     }
 
-    fun venue(dfe: DataFetchingEnvironment, id: String): Venue {
-        return dfe.source().venues().first { it.id == id }
+    fun venue(executionContext: ExecutionContext, id: String): Venue {
+        return executionContext.source().venues().first { it.id == id }
     }
 
-    fun venues(dfe: DataFetchingEnvironment): List<Venue> {
-        return dfe.source().venues()
+    fun venues(executionContext: ExecutionContext): List<Venue> {
+        return executionContext.source().venues()
     }
 
-    fun partnerGroups(dfe: DataFetchingEnvironment): List<PartnerGroup> {
-        return dfe.source().partnerGroups()
+    fun partnerGroups(executionContext: ExecutionContext): List<PartnerGroup> {
+        return executionContext.source().partnerGroups()
     }
 
-    fun session(dfe: DataFetchingEnvironment, id: String): Session {
-        val nodes = dfe.source().sessions(100, after = null, null, null)
+    fun session(executionContext: ExecutionContext, id: String): Session {
+        val nodes = executionContext.source().sessions(100, after = null, null, null)
             .nodes
 
         return nodes.firstOrNull { it.id == id }
             ?: error("Cannot find id '$id' in ${nodes.size} nodes")
     }
 
-    fun config(dfe: DataFetchingEnvironment): Conference {
-        return dfe.source().conference()
+    fun config(executionContext: ExecutionContext): Conference {
+        return executionContext.source().conference()
     }
 
-    @GraphQLDeprecated("Use bookmarkConnection instead")
-    fun bookmarks(dfe: DataFetchingEnvironment): Bookmarks? {
-        if (dfe.uid() == null) {
+    fun bookmarks(executionContext: ExecutionContext): Bookmarks? {
+        if (executionContext.uid() == null) {
             return null
         }
-        return Bookmarks(dfe.source().bookmarks().toList())
+        return Bookmarks(executionContext.source().bookmarks().toList())
     }
 
-    fun bookmarkConnection(dfe: DataFetchingEnvironment): BookmarkConnection? {
-        if (dfe.uid() == null) {
+    fun bookmarkConnection(executionContext: ExecutionContext): BookmarkConnection? {
+        if (executionContext.uid() == null) {
             return null
         }
         return BookmarkConnection(
-            nodes = dfe.source().sessions(dfe.source().bookmarks().toList())
+            nodes = executionContext.source().sessions(executionContext.source().bookmarks().toList())
         )
     }
 
-    fun conferences(orderBy: ConferenceOrderBy? = null): List<Conference> {
+    fun conferences(orderBy: Optional<ConferenceOrderByInput?>): List<Conference> {
+        val default = ConferenceOrderByInput(direction = OrderByDirection.DESCENDING, field = ConferenceField.DAYS)
         val orderBy1 =
-            orderBy ?: ConferenceOrderBy(ConferenceField.DAYS, OrderByDirection.DESCENDING)
+            orderBy.getOrElse(default) ?: default
         return DataStore().readConfigs(
-            DOrderBy(orderBy1.field.value, orderBy1.direction.toDDirection())
+            DOrderBy(orderBy1.field.actualFieldName(), orderBy1.direction.toDDirection())
         ).map {
             it.toConference()
         }
     }
 }
 
-class  BookmarkConnection(
+internal fun ConferenceField.actualFieldName(): String = when (this) {
+    ConferenceField.DAYS -> "days"
+}
+
+@ApolloObject
+internal class BookmarkConnection(
     val nodes: List<Session>
 )
 
-class Bookmarks(val sessionIds: List<String>) {
+@ApolloObject
+internal class Bookmarks(val sessionIds: List<String>) {
     val id = "Bookmarks"
 }
 
-internal fun OrderByDirection.toDDirection(): DDirection {
-    return when (this) {
-        OrderByDirection.ASCENDING -> DDirection.ASCENDING
-        OrderByDirection.DESCENDING -> DDirection.DESCENDING
-    }
+
+fun ExecutionContext.uid(): String? {
+    return this[UserId]?.uid
+}
+private fun ExecutionContext.source(): DataSource {
+    return this[Source]!!.source
 }
 
-class LocalDateTimeFilter(
-    val before: LocalDateTime? = null,
-    val after: LocalDateTime? = null,
-)
-
-class SessionFilter(
-    val startsAt: LocalDateTimeFilter? = null,
-    val endsAt: LocalDateTimeFilter? = null,
-)
-
-class SessionOrderBy(
-    val field: SessionField,
-    val direction: OrderByDirection
-)
-
-enum class SessionField(val value: String) {
-    STARTS_AT("start"),
-}
-
-class ConferenceOrderBy(
-    val field: ConferenceField,
-    val direction: OrderByDirection
-)
-
-enum class OrderByDirection {
-    ASCENDING,
-    DESCENDING
-}
-
-enum class ConferenceField(val value: String) {
-    DAYS("days"),
-}
-
-fun DataFetchingEnvironment.uid(): String? {
-    return graphQlContext.get(KEY_UID)
-}
-private fun DataFetchingEnvironment.source(): DataSource {
-    return graphQlContext.get(KEY_SOURCE)
-}
-
-data class Room(
+@ApolloObject
+internal data class Room(
     val id: String,
     val name: String,
     val capacity: Int?,
 )
 
-data class SessionConnection(
+@ApolloObject
+internal data class SessionConnection(
     val nodes: List<Session>,
     val pageInfo: PageInfo,
 )
 
-
-data class PageInfo(
+@ApolloObject
+internal data class PageInfo(
     val endCursor: String?,
 )
 
-enum class  LinkType {
-    YouTube,
-    Audio,
-    AudioUncompressed,
-    Other
-}
-
-data class Link(
+@ApolloObject
+internal data class Link(
     val type: LinkType,
     val url: String,
 )
 
 /**
  */
-data class Session(
+@ApolloObject
+internal data class Session(
     val id: String,
     val title: String,
     val description: String?,
-    @GraphQLDescription("""A shorter version of description for use when real estate is scarce like watches for an example.
-This field might have the same value as description if a shortDescription is not available""")
     val shortDescription: String?,
-    @GraphQLDescription("""An [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US""")
     val language: String?,
     private val speakerIds: Set<String>,
     val tags: List<String>,
-    @Deprecated("use startsAt instead")
     val startInstant: Instant,
-    @Deprecated("use endsAt instead")
     val endInstant: Instant,
     val startsAt: LocalDateTime,
     val endsAt: LocalDateTime,
     private val roomIds: Set<String>,
     val complexity: String?,
     val feedbackId: String?,
-    @GraphQLDescription("""One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format""")
     val type: String,
     val links: List<Link>
 ) {
-    fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
-        return dfe.source().speakers(speakerIds.toList())
+    fun speakers(executionContext: ExecutionContext): List<Speaker> {
+        return executionContext.source().speakers(speakerIds.toList())
     }
 
-    fun room(dfe: DataFetchingEnvironment): Room? {
+    fun room(executionContext: ExecutionContext): Room? {
         val roomId = roomIds.firstOrNull()
         if (roomId == null) {
             return null
         }
-        return dfe.source().rooms().firstOrNull {
+        return executionContext.source().rooms().firstOrNull {
             it.id == roomId
         }
     }
 
-    fun rooms(dfe: DataFetchingEnvironment): List<Room> {
-        return dfe.source().rooms().filter {
+    fun rooms(executionContext: ExecutionContext): List<Room> {
+        return executionContext.source().rooms().filter {
             roomIds.contains(it.id)
         }
     }
 }
 
-data class SpeakerConnection(
+@ApolloObject
+internal data class SpeakerConnection(
     val nodes: List<Speaker>,
     val pageInfo: PageInfo,
 )
 
-data class Speaker(
+@ApolloObject
+internal data class Speaker(
     val id: String,
     val name: String,
     val bio: String?,
@@ -277,15 +265,15 @@ data class Speaker(
     private val sessionIds: List<String>,
 ) {
     fun sessions(
-        dfe: DataFetchingEnvironment,
+        executionContext: ExecutionContext,
     ): List<Session> {
-        return dfe.source().sessions(
+        return executionContext.source().sessions(
             sessionIds
         )
     }
 }
 
-
+@ApolloObject
 data class Social(
     val icon: String?,
     @Deprecated("use url instead", ReplaceWith("url"))
@@ -297,11 +285,13 @@ data class Social(
         get() = link
 }
 
+@ApolloObject
 data class PartnerGroup(
     val title: String,
     val partners: List<Partner>,
 )
 
+@ApolloObject
 data class Partner(
     val name: String,
     val logoUrl: String,
@@ -311,6 +301,7 @@ data class Partner(
 /**
  * @property floorPlanUrl the url to an image containing the floor plan
  */
+@ApolloObject
 data class Venue(
     val id: String,
     val name: String,
@@ -340,11 +331,13 @@ data class Venue(
             return descriptions.get("fr") ?: descriptions.get("en") ?: ""
         }
 
-    fun description(language: String? = "en"): String {
-        return descriptions.get(language) ?: descriptions.get("en") ?: ""
+    fun description(language: Optional<String?>): String {
+        val lang = language.getOrElse("en") ?: "en"
+        return descriptions.get(lang) ?: descriptions.get("en") ?: ""
     }
 }
 
+@ApolloObject
 data class Conference(
     val id: String,
     val name: String,

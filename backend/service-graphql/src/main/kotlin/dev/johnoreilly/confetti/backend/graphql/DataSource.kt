@@ -1,12 +1,15 @@
 package dev.johnoreilly.confetti.backend.graphql
 
-interface DataSource {
+import confetti.type.SessionFilterInput
+import confetti.type.SessionOrderByInput
+
+internal interface DataSource {
   fun rooms(): List<Room>
   fun sessions(
     first: Int,
     after: String?,
-    filter: SessionFilter?,
-    orderBy: SessionOrderBy?
+    filter: SessionFilterInput?,
+    orderBy: SessionOrderByInput?
   ): SessionConnection
 
   fun sessions(ids: List<String>): List<Session>

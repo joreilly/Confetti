@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.backend.graphql
 
+import confetti.type.SessionFilterInput
+import confetti.type.SessionOrderByInput
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -7,7 +9,7 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.hours
 
-class TestDataSource : DataSource {
+internal class TestDataSource : DataSource {
     private val rooms = listOf(
         Room(
             id = "room0",
@@ -46,8 +48,8 @@ class TestDataSource : DataSource {
     override fun sessions(
         first: Int,
         after: String?,
-        filter: SessionFilter?,
-        orderBy: SessionOrderBy?
+        filter: SessionFilterInput?,
+        orderBy: SessionOrderByInput?
     ): SessionConnection {
         val from: Int = after?.toIntOrNull() ?: 0
         val to = from + first

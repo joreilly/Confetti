@@ -1,40 +1,38 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
   id("org.jetbrains.kotlin.jvm")
-  id("org.jetbrains.kotlin.plugin.spring")
-  id("org.jetbrains.kotlin.plugin.serialization")
-  id("org.springframework.boot")
   id("com.google.cloud.tools.appengine")
+  id("com.google.devtools.ksp")
+  id("com.apollographql.apollo3")
 }
 
 configureCompilerOptions(17)
 
 dependencies {
-  implementation(libs.graphql.kotlin.spring.server)
   implementation(libs.kotlinx.datetime)
-  implementation(libs.kotlinx.serialization)
-  implementation(libs.bare.graphQL)
+  implementation(libs.apollo.annotations)
+  implementation(libs.apollo.ast)
+  implementation(libs.apollo.api)
+  implementation(libs.apollo.execution)
+  implementation(libs.apollo.adapters)
+  implementation(libs.kotlinx.coroutines.core)
+  implementation(libs.atomicfu)
+
   implementation(project(":backend:datastore"))
   implementation(libs.okhttp)
-  implementation(libs.reflect)
-  implementation(libs.xoxo)
-  implementation(libs.apollo.tooling)
-  implementation(libs.apollo.annotations)
+  implementation(libs.apollo.tooling) // For uploading the schema
+  implementation(libs.apollo.runtime)
   implementation(libs.firebase.admin)
-  implementation(libs.federation.jvm)
+  implementation(platform(libs.http4k.bom.get()))
+  implementation(libs.http4k.server.undertow)
+  implementation(libs.http4k.core)
 
-  testImplementation(libs.junit)
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions.jvmTarget = "17"
+  testImplementation(kotlin("test"))
+  add("ksp", apollo.apolloKspProcessor(file("src/main/resources/schema.graphqls"), "confetti", "confetti"))
 }
 
 appengine {
   stage {
-    setArtifact(tasks.named("bootJar").flatMap { (it as Jar).archiveFile })
+    setArtifact(tasks.named("jar").flatMap { (it as Jar).archiveFile })
   }
   tools {
     setServiceAccountKeyFile(gcpServiceAccountFile())
@@ -44,13 +42,11 @@ appengine {
     version = "GCLOUD_CONFIG"
   }
 }
-springBoot {
-  mainClass.set("dev.johnoreilly.confetti.backend.MainKt")
-}
-tasks.named("appengineStage").dependsOn("bootJar")
 
-tasks.register("updateSchema", JavaExec::class) {
+//tasks.named("appengineStage").dependsOn("bootJar")
+
+tasks.register("runServer", JavaExec::class) {
   classpath(configurations.getByName("runtimeClasspath"))
   classpath(tasks.named("jar"))
-  mainClass.set("dev.johnoreilly.confetti.backend.UpdateSchemaKt")
+  mainClass.set("dev.johnoreilly.confetti.backend.MainKt")
 }

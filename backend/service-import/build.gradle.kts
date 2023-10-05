@@ -14,8 +14,8 @@ kotlin {
   sourceSets {
     val jvmMain by getting {
       dependencies {
-        implementation("com.eygraber:jsonpathkt-kotlinx:3.0.0")
-        implementation("org.jsoup:jsoup:1.16.1")
+        implementation(libs.jsonpath)
+        implementation(libs.jsoup)
         implementation(libs.okhttp)
         implementation(libs.okhttp.coroutines)
         implementation(libs.okhttp.logging.interceptor)

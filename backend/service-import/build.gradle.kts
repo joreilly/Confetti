@@ -14,6 +14,8 @@ kotlin {
   sourceSets {
     val jvmMain by getting {
       dependencies {
+        implementation(libs.jsonpath)
+        implementation(libs.jsoup)
         implementation(libs.okhttp)
         implementation(libs.okhttp.coroutines)
         implementation(libs.okhttp.logging.interceptor)

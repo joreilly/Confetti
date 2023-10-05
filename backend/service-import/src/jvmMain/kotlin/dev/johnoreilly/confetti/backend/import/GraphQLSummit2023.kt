@@ -63,7 +63,7 @@ object GraphQLSummit2023 {
                         language = "en-US",
                         start = session["startDateTime"]!!.jsonPrimitive.content.let { Instant.parse(it) }
                             .toLocalDateTime(TimeZone.of("America/Los_Angeles")),
-                        end = session["startDateTime"]!!.jsonPrimitive.content.let { Instant.parse(it) }
+                        end = session["endDateTime"]!!.jsonPrimitive.content.let { Instant.parse(it) }
                             .toLocalDateTime(TimeZone.of("America/Los_Angeles")),
                         complexity = null,
                         feedbackId = null,

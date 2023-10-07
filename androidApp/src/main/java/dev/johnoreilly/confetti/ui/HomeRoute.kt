@@ -13,10 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,6 +55,7 @@ import dev.johnoreilly.confetti.bookmarks.BookmarksRoute
 import dev.johnoreilly.confetti.search.SearchRoute
 import dev.johnoreilly.confetti.sessions.SessionsRoute
 import dev.johnoreilly.confetti.speakers.SpeakersRoute
+import dev.johnoreilly.confetti.venue.VenueRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -143,6 +146,13 @@ private fun Children(
 
             is HomeComponent.Child.Bookmarks ->
                 BookmarksRoute(
+                    component = child.component,
+                    windowSizeClass = windowSizeClass,
+                    topBarActions = topBarActions,
+                )
+
+            is HomeComponent.Child.Venue ->
+                VenueRoute(
                     component = child.component,
                     windowSizeClass = windowSizeClass,
                     topBarActions = topBarActions,
@@ -241,6 +251,14 @@ private fun <T> T.NavigationButtons(
         Icons.Outlined.Bookmarks,
         R.string.bookmarks,
         component::onBookmarksTabClicked,
+    )
+
+    content(
+        activeChild is HomeComponent.Child.Venue,
+        Icons.Filled.Place,
+        Icons.Outlined.Place,
+        R.string.venue,
+        component::onVenueTabClicked,
     )
 
     content(

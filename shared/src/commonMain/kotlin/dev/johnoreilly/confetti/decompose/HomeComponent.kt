@@ -18,6 +18,7 @@ interface HomeComponent {
     fun onSessionsTabClicked()
     fun onSpeakersTabClicked()
     fun onBookmarksTabClicked()
+    fun onVenueTabClicked()
     fun onSearchTabClicked()
     fun onSwitchConferenceClicked()
     fun onSignInClicked()
@@ -29,6 +30,7 @@ interface HomeComponent {
         class MultiPane(val component: MultiPaneComponent) : Child()
         class Speakers(val component: SpeakersComponent) : Child()
         class Bookmarks(val component: BookmarksComponent) : Child()
+        class Venue(val component: VenueComponent) : Child()
         class Search(val component: SearchComponent) : Child()
     }
 }
@@ -102,6 +104,14 @@ class DefaultHomeComponent(
                     )
                 )
 
+            Config.Venue ->
+                Child.Venue(
+                    DefaultVenueComponent(
+                        componentContext = componentContext,
+                        conference = conference
+                    )
+                )
+
             Config.Search ->
                 Child.Search(
                     DefaultSearchComponent(
@@ -125,6 +135,10 @@ class DefaultHomeComponent(
 
     override fun onBookmarksTabClicked() {
         navigation.bringToFront(Config.Bookmarks)
+    }
+
+    override fun onVenueTabClicked() {
+        navigation.bringToFront(Config.Venue)
     }
 
     override fun onSearchTabClicked() {
@@ -157,6 +171,9 @@ class DefaultHomeComponent(
 
         @Serializable
         data object Bookmarks : Config()
+
+        @Serializable
+        data object Venue : Config()
 
         @Serializable
         data object Search : Config()

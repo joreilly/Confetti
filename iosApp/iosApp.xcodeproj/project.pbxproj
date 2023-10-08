@@ -16,6 +16,7 @@
 		1A12DBF72A3CE037002EB4FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A12DBF62A3CE037002EB4FF /* Assets.xcassets */; };
 		1A12DBFA2A3CE037002EB4FF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A12DBF92A3CE037002EB4FF /* Preview Assets.xcassets */; };
 		1A8F347A29C4BA1A00327F0A /* ConfettiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F347929C4BA1A00327F0A /* ConfettiTests.swift */; };
+		1AC8AB642AD2993D0067704E /* VenueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8AB632AD2993D0067704E /* VenueView.swift */; };
 		1AEAB76C28FBF52D00B06D90 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1AEAB76B28FBF52D00B06D90 /* SwiftUIFlowLayout */; };
 		1AEAB76E28FDB69F00B06D90 /* SessionSpeakerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAB76D28FDB69F00B06D90 /* SessionSpeakerInfo.swift */; };
 		1AF3DECF28E79A4500A2EA02 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 1AF3DECE28E79A4500A2EA02 /* AsyncAlgorithms */; };
@@ -74,6 +75,7 @@
 		1A64E7D42A3DB9BF00D291F2 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
 		1A8F347729C4BA1900327F0A /* ConfettiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConfettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8F347929C4BA1A00327F0A /* ConfettiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiTests.swift; sourceTree = "<group>"; };
+		1AC8AB632AD2993D0067704E /* VenueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueView.swift; sourceTree = "<group>"; };
 		1AEAB76D28FDB69F00B06D90 /* SessionSpeakerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSpeakerInfo.swift; sourceTree = "<group>"; };
 		1AF675CB28F1F1F100CC1C26 /* SpeakerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerListView.swift; sourceTree = "<group>"; };
 		1AF675CD28F1F1FE00CC1C26 /* SpeakerDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerDetailsView.swift; sourceTree = "<group>"; };
@@ -160,6 +162,14 @@
 			path = ConfettiTests;
 			sourceTree = "<group>";
 		};
+		1AC8AB652AD2997C0067704E /* Venue */ = {
+			isa = PBXGroup;
+			children = (
+				1AC8AB632AD2993D0067704E /* VenueView.swift */,
+			);
+			path = Venue;
+			sourceTree = "<group>";
+		};
 		1AF675C928F1F06800CC1C26 /* Sessions */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +213,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				1AC8AB652AD2997C0067704E /* Venue */,
 				1AF675CA28F1F0F300CC1C26 /* Speakers */,
 				1AF675C928F1F06800CC1C26 /* Sessions */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
@@ -448,6 +459,7 @@
 				79062A4A2A0DA4FF00E38089 /* AppDelegate.swift in Sources */,
 				7555FF83242A565900829871 /* ConfettiApp.swift in Sources */,
 				79BEE2622A10E97B00824824 /* Utils.swift in Sources */,
+				1AC8AB642AD2993D0067704E /* VenueView.swift in Sources */,
 				79BEE2642A11134600824824 /* ConferenceView.swift in Sources */,
 				79BEE26A2A11154D00824824 /* ErrorView.swift in Sources */,
 				79AF2C4D2A9A6D0A0011EAC4 /* MultiPaneView.swift in Sources */,

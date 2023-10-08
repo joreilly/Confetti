@@ -33,6 +33,14 @@ struct HomeView: View {
                     isActive: child is HomeComponentChild.Speakers,
                     action: component.onSpeakersTabClicked
                 )
+                
+                BottomTabView(
+                    title: "Venue",
+                    systemImage: "location",
+                    isActive: child is HomeComponentChild.Venue,
+                    action: component.onVenueTabClicked
+                )
+
             }
         }
         .toolbar {
@@ -51,6 +59,7 @@ private struct ChildView: View {
         case let child as HomeComponentChild.Sessions: SessionsView(child.component)
         case let child as HomeComponentChild.MultiPane: MultiPaneView(child.component)
         case let child as HomeComponentChild.Speakers: SpeakersView(child.component)
+        case let child as HomeComponentChild.Venue: VenueView(child.component)
         default: EmptyView()
         }
     }

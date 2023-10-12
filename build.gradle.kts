@@ -36,8 +36,8 @@ tasks.register("quickChecks") {
 allprojects {
     afterEvaluate {
         extensions.findByType<ComposeExtension>()?.apply {
-            kotlinCompilerPlugin.set("1.5.2.1-Beta3")
-            kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.20-Beta2")
+            kotlinCompilerPlugin.set("1.5.2.1-rc01")
+            kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.20-RC")
         }
     }
 }

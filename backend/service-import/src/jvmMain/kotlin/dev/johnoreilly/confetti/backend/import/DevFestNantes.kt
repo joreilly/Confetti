@@ -203,8 +203,9 @@ class DevFestNantes(
                 val end = sortedSessions.firstOrNull { candidate ->
                     candidate.start > session.start
                         && candidate.start.dayOfMonth == session.start.dayOfMonth
+                        && candidate.id != "day-1-party"
                         && candidate.rooms.intersect(session.rooms.toSet()).isNotEmpty()
-                }?.start ?: (session.start + 40.minutes)
+                }?.start ?: (session.start + 20.minutes)
                 session.copy(end = end)
             } else {
                 session
@@ -312,26 +313,6 @@ class DevFestNantes(
             val id = it.get("key").asString
             val type = it.get("type").asString
             when {
-                id == "day-2-pause-2" -> {
-                    sessionIdsWithoutRoom.add(id)
-                    DSession(
-                        id = id,
-                        title = "Break",
-                        description = "Break",
-                        language = "fr-FR",
-                        speakers = emptyList(),
-                        tags = emptyList(),
-                        start = it.startTime(),
-                        end = UNKNOWN_END,
-                        rooms = FIRST_6_ROOMS,
-                        type = "break",
-                        complexity = null,
-                        feedbackId = null,
-                        shortDescription = null,
-                        links = emptyList()
-                    )
-                }
-
                 id == "day-1-party" -> {
                     sessionIdsWithoutRoom.add(id)
                     DSession(

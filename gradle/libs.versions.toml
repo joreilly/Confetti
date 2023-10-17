@@ -148,7 +148,7 @@ play-services-auth = "com.google.android.gms:play-services-auth:20.7.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = "com.android.tools.build:gradle:8.1.1"
 plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }
-plugin-appengine = "com.google.cloud.tools:appengine-gradle-plugin:2.4.5"
+plugin-appengine = "com.google.cloud.tools:appengine-gradle-plugin:2.5.0"
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
 plugin-google-services = "com.google.gms:google-services:4.4.0"
 plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.7"

@@ -186,7 +186,7 @@ class DevFestNantes(
                 },
                 start = localDateTime,
                 // The YAMLs do not have an end time
-                end = UNKNOWN_END,
+                end = talk.get("talkType")?.asString?.toDuration()?.let { localDateTime + it } ?: UNKNOWN_END,
                 complexity = talk.get("complexity")?.asString,
                 feedbackId = talk.get("openfeedbackId")?.asString,
                 rooms = listOf(roomId),
@@ -200,12 +200,14 @@ class DevFestNantes(
 
         sessions = sessions.map { session ->
             if (session.end == UNKNOWN_END) {
-                val end = sortedSessions.firstOrNull { candidate ->
+                val found = sortedSessions.firstOrNull { candidate ->
                     candidate.start > session.start
                         && candidate.start.dayOfMonth == session.start.dayOfMonth
                         && candidate.id != "day-1-party"
                         && candidate.rooms.intersect(session.rooms.toSet()).isNotEmpty()
-                }?.start ?: (session.start + 20.minutes)
+                }
+
+                val end = found?.start ?: (session.start + 20.minutes)
                 session.copy(end = end)
             } else {
                 session
@@ -458,6 +460,18 @@ class DevFestNantes(
             }.toMap()
 
             is YamlTaggedNode -> TODO()
+        }
+    }
+}
+
+private fun String.toDuration(): Duration? {
+    return when(this) {
+        "quickie" -> 20.minutes
+        "conference" -> 40.minutes
+        "codelab" -> 120.minutes
+        else -> {
+            println("Unknown type: $this")
+            null
         }
     }
 }

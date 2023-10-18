@@ -19,7 +19,7 @@ interface HomeComponent {
     fun onSpeakersTabClicked()
     fun onBookmarksTabClicked()
     fun onVenueTabClicked()
-    fun onSearchTabClicked()
+    fun onSearchClicked()
     fun onSwitchConferenceClicked()
     fun onSignInClicked()
     fun onSignOutClicked()
@@ -141,7 +141,7 @@ class DefaultHomeComponent(
         navigation.bringToFront(Config.Venue)
     }
 
-    override fun onSearchTabClicked() {
+    override fun onSearchClicked() {
         navigation.bringToFront(Config.Search)
     }
 

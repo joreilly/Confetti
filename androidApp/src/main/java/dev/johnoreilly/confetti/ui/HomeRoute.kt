@@ -14,15 +14,14 @@ import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
@@ -57,7 +56,6 @@ import dev.johnoreilly.confetti.sessions.SessionsRoute
 import dev.johnoreilly.confetti.speakers.SpeakersRoute
 import dev.johnoreilly.confetti.venue.VenueRoute
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeRoute(
     component: HomeComponent,
@@ -108,6 +106,9 @@ private fun Children(
     val wearUiState = WearUiState()
 
     val topBarActions: @Composable RowScope.() -> Unit = {
+        IconButton(onClick = { component.onSearchClicked() }) {
+            Icon(Icons.Outlined.Search, contentDescription = "search")
+        }
         AccountIcon(
             onSwitchConference = component::onSwitchConferenceClicked,
             onSignIn = component::onSignInClicked,
@@ -259,13 +260,5 @@ private fun <T> T.NavigationButtons(
         Icons.Outlined.Place,
         R.string.venue,
         component::onVenueTabClicked,
-    )
-
-    content(
-        activeChild is HomeComponent.Child.Search,
-        Icons.Filled.Search,
-        Icons.Outlined.Search,
-        R.string.search,
-        component::onSearchTabClicked,
     )
 }

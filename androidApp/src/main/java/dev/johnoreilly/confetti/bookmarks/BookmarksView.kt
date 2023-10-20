@@ -25,6 +25,7 @@ import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
+import dev.johnoreilly.confetti.ui.component.EmptyView
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
@@ -44,16 +45,20 @@ fun BookmarksView(
     if (loading) {
         LoadingView()
     } else {
-        BookmarksContent(
-            pastSessions = pastSessions,
-            upcomingSessions = upcomingSessions,
-            navigateToSession = navigateToSession,
-            bookmarks = bookmarks,
-            addBookmark = addBookmark,
-            removeBookmark = removeBookmark,
-            onSignIn = onSignIn,
-            isLoggedIn = isLoggedIn,
-        )
+        if (pastSessions.isEmpty()) {
+            EmptyView()
+        } else {
+            BookmarksContent(
+                pastSessions = pastSessions,
+                upcomingSessions = upcomingSessions,
+                navigateToSession = navigateToSession,
+                bookmarks = bookmarks,
+                addBookmark = addBookmark,
+                removeBookmark = removeBookmark,
+                onSignIn = onSignIn,
+                isLoggedIn = isLoggedIn,
+            )
+        }
     }
 }
 

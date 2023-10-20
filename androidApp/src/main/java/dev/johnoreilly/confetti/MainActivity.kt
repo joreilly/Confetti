@@ -72,7 +72,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
-            val displayFeatures = calculateDisplayFeatures(this)
 
             ConfettiTheme(
                 darkTheme = shouldUseDarkTheme(userEditableSettings?.darkThemeConfig),

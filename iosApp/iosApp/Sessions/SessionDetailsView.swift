@@ -5,6 +5,7 @@ import ConfettiKit
 
 struct SessionDetailsView: View {
     private let component: SessionDetailsComponent
+    @Environment(\.openURL) var openURL
 
     @StateValue
     private var uiState: SessionDetailsUiState
@@ -21,7 +22,17 @@ struct SessionDetailsView: View {
             case is SessionDetailsUiState.Error: ErrorView()
             case let state as SessionDetailsUiState.Success:
                 //SessionDetailsContentView(component: component, session: state.sessionDetails)
-                SessionDetailsContentViewShared(component: component, session: state.sessionDetails)
+                SessionDetailsContentViewShared(
+                    session: state.sessionDetails,
+                    onSpeakerClick: { speakerId in
+                        component.onSpeakerClicked(id: speakerId)
+                    },
+                    onSocialLinkClicked: { urlString in
+                        if let url = URL(string: urlString) {
+                            openURL(url)
+                        }
+                    }
+                )
             default: EmptyView()
             }
         }.navigationBarTitle("Session", displayMode: .inline)
@@ -31,21 +42,13 @@ struct SessionDetailsView: View {
 
 // This version is using Compose for iOS....
 private struct SessionDetailsContentViewShared: UIViewControllerRepresentable {
-    let component: SessionDetailsComponent
     let session: SessionDetails
-    @Environment(\.openURL) var openURL
+    let onSpeakerClick: (String) -> Void
+    let onSocialLinkClicked: (String) -> Void
     
     func makeUIViewController(context: Context) -> UIViewController {
         return SharedViewControllersKt.SessionDetailsViewController(session: session,
-            onSpeakerClick: { speakerId in
-                component.onSpeakerClicked(id: speakerId)
-            },
-            onSocialLinkClicked: { urlString in
-                print(urlString)
-                if let url = URL(string: urlString) {
-                    openURL(url)
-                }
-            })
+            onSpeakerClick: onSpeakerClick, onSocialLinkClicked: onSocialLinkClicked)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
@@ -89,3 +92,16 @@ private struct SessionDetailsContentView : View {
         }
     }
 }
+
+
+
+
+//#Preview("Preview 1") {
+//    NavigationView {
+//        VStack {
+//            let session = MockDataKt.sessionDetails
+//            SessionDetailsContentViewShared(session: session, onSpeakerClick: {_ in }, onSocialLinkClicked: {_ in })
+//        }.navigationBarTitle("Session 1", displayMode: .inline)
+//    }
+//}
+

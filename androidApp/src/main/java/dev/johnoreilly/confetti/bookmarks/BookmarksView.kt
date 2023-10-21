@@ -45,7 +45,7 @@ fun BookmarksView(
     if (loading) {
         LoadingView()
     } else {
-        if (pastSessions.isEmpty()) {
+        if (pastSessions.isEmpty() && upcomingSessions.isEmpty()) {
             EmptyView()
         } else {
             BookmarksContent(

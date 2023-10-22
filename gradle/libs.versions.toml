@@ -13,7 +13,7 @@ decompose = "2.2.0-alpha01"
 essenty = "1.3.0-alpha01"
 googleid = "1.1.0"
 horologist = "0.5.8"
-image-loader = "1.6.7"
+image-loader = "1.6.8"
 junit = "4.13"
 kmp-nativecoroutines = "1.0.0-ALPHA-18"
 kmm-viewmodel = "1.0.0-ALPHA-14"
@@ -116,7 +116,7 @@ horologist-auth-data-phone = { module = "com.google.android.horologist:horologis
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
 jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.0"
-jsoup = "org.jsoup:jsoup:1.16.1"
+jsoup = "org.jsoup:jsoup:1.16.2"
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.55.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
@@ -156,7 +156,7 @@ plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutin
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp-plugin" }
-plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.1.4" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.1.5" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.1" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 

@@ -45,20 +45,16 @@ fun BookmarksView(
     if (loading) {
         LoadingView()
     } else {
-        if (pastSessions.isEmpty() && upcomingSessions.isEmpty()) {
-            EmptyView()
-        } else {
-            BookmarksContent(
-                pastSessions = pastSessions,
-                upcomingSessions = upcomingSessions,
-                navigateToSession = navigateToSession,
-                bookmarks = bookmarks,
-                addBookmark = addBookmark,
-                removeBookmark = removeBookmark,
-                onSignIn = onSignIn,
-                isLoggedIn = isLoggedIn,
-            )
-        }
+        BookmarksContent(
+            pastSessions = pastSessions,
+            upcomingSessions = upcomingSessions,
+            navigateToSession = navigateToSession,
+            bookmarks = bookmarks,
+            addBookmark = addBookmark,
+            removeBookmark = removeBookmark,
+            onSignIn = onSignIn,
+            isLoggedIn = isLoggedIn,
+        )
     }
 }
 
@@ -135,29 +131,33 @@ private fun BookmarksHorizontalPager(
                 upcomingSessions
             }
 
-        LazyColumn(
-            contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-                .asPaddingValues()
-        ) {
+        if (displayedSessions.isEmpty()) {
+            EmptyView()
+        } else {
+            LazyColumn(
+                contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
+                    .asPaddingValues()
+            ) {
 
-            displayedSessions.forEach { (dateTime, sessions) ->
-                stickyHeader {
-                    ConfettiHeaderAndroid(
-                        icon = Icons.Filled.AccessTime,
-                        text = DateTimeFormatter.ofPattern("MMM d, HH:mm").format(dateTime)
-                    )
-                }
+                displayedSessions.forEach { (dateTime, sessions) ->
+                    stickyHeader {
+                        ConfettiHeaderAndroid(
+                            icon = Icons.Filled.AccessTime,
+                            text = DateTimeFormatter.ofPattern("MMM d, HH:mm").format(dateTime)
+                        )
+                    }
 
-                items(sessions) { session ->
-                    SessionItemView(
-                        session = session,
-                        sessionSelected = navigateToSession,
-                        isBookmarked = bookmarks.contains(session.id),
-                        addBookmark = { sessionId -> addBookmark(sessionId) },
-                        removeBookmark = { sessionId -> removeBookmark(sessionId) },
-                        onNavigateToSignIn = onSignIn,
-                        isLoggedIn = isLoggedIn,
-                    )
+                    items(sessions) { session ->
+                        SessionItemView(
+                            session = session,
+                            sessionSelected = navigateToSession,
+                            isBookmarked = bookmarks.contains(session.id),
+                            addBookmark = { sessionId -> addBookmark(sessionId) },
+                            removeBookmark = { sessionId -> removeBookmark(sessionId) },
+                            onNavigateToSignIn = onSignIn,
+                            isLoggedIn = isLoggedIn,
+                        )
+                    }
                 }
             }
         }

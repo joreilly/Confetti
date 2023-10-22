@@ -25,6 +25,7 @@ import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
+import dev.johnoreilly.confetti.ui.component.EmptyView
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
@@ -130,29 +131,33 @@ private fun BookmarksHorizontalPager(
                 upcomingSessions
             }
 
-        LazyColumn(
-            contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-                .asPaddingValues()
-        ) {
+        if (displayedSessions.isEmpty()) {
+            EmptyView()
+        } else {
+            LazyColumn(
+                contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
+                    .asPaddingValues()
+            ) {
 
-            displayedSessions.forEach { (dateTime, sessions) ->
-                stickyHeader {
-                    ConfettiHeaderAndroid(
-                        icon = Icons.Filled.AccessTime,
-                        text = DateTimeFormatter.ofPattern("MMM d, HH:mm").format(dateTime)
-                    )
-                }
+                displayedSessions.forEach { (dateTime, sessions) ->
+                    stickyHeader {
+                        ConfettiHeaderAndroid(
+                            icon = Icons.Filled.AccessTime,
+                            text = DateTimeFormatter.ofPattern("MMM d, HH:mm").format(dateTime)
+                        )
+                    }
 
-                items(sessions) { session ->
-                    SessionItemView(
-                        session = session,
-                        sessionSelected = navigateToSession,
-                        isBookmarked = bookmarks.contains(session.id),
-                        addBookmark = { sessionId -> addBookmark(sessionId) },
-                        removeBookmark = { sessionId -> removeBookmark(sessionId) },
-                        onNavigateToSignIn = onSignIn,
-                        isLoggedIn = isLoggedIn,
-                    )
+                    items(sessions) { session ->
+                        SessionItemView(
+                            session = session,
+                            sessionSelected = navigateToSession,
+                            isBookmarked = bookmarks.contains(session.id),
+                            addBookmark = { sessionId -> addBookmark(sessionId) },
+                            removeBookmark = { sessionId -> removeBookmark(sessionId) },
+                            onNavigateToSignIn = onSignIn,
+                            isLoggedIn = isLoggedIn,
+                        )
+                    }
                 }
             }
         }

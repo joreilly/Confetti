@@ -12,7 +12,7 @@
 
 
     <string name="settings_title">Settings</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="theme">Theme</string>
     <string name="brand_default">Default</string>
     <string name="brand_android">Android</string>
@@ -43,4 +43,5 @@
     <string name="search_placeholder">What are you looking for?</string>
     <string name="install_on_watch">Install on Watch</string>
     <string name="no_paired_watch">No paired Watch</string>
+    <string name="empty_text">No data present</string>
 </resources>

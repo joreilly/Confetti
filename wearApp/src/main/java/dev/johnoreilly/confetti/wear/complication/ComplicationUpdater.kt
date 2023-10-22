@@ -6,7 +6,7 @@ import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUp
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-class ComplicationUpdater(): KoinComponent {
+class ComplicationUpdater : KoinComponent {
     fun update() {
         val context: Context = get()
 

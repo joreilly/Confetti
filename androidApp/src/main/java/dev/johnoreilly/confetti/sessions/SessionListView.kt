@@ -146,7 +146,7 @@ fun SessionListView(
                                     SessionItemView(
                                         session = session,
                                         sessionSelected = sessionSelected,
-                                        isBookmarked = uiState.bookmarks.contains(session.id),
+                                        bookmarks = uiState.bookmarks,
                                         addBookmark = addBookmark,
                                         removeBookmark = removeBookmark,
                                         onNavigateToSignIn = onNavigateToSignIn,
@@ -199,7 +199,7 @@ fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) 
 fun SessionItemView(
     session: SessionDetails,
     sessionSelected: (sessionId: String) -> Unit,
-    isBookmarked: Boolean,
+    bookmarks: Set<String>,
     addBookmark: (String) -> Unit,
     removeBookmark: (String) -> Unit,
     onNavigateToSignIn: () -> Unit = {},
@@ -261,7 +261,7 @@ fun SessionItemView(
 
 
         var showDialog by remember { mutableStateOf(false) }
-
+        val isBookmarked = bookmarks.contains(session.id)
         if (!session.isBreak()) {
             Bookmark(
                 isBookmarked = isBookmarked,

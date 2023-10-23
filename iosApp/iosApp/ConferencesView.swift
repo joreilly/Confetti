@@ -46,10 +46,15 @@ private struct ConferencesByYearView: View {
                                 Text(conference.name)
                                 Spacer()
                                 Text("\(conference.days[0])")
-                            }.onTapGesture {
+                            }
+                            .background(
+                                Rectangle()
+                                .foregroundColor(.clear)
+                                .contentShape(Rectangle())
+                            )
+                            .onTapGesture {
                                 component.onConferenceClicked(conference: conference)
                             }
-
                         }
                     }
                 }

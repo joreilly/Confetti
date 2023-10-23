@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,6 +33,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.DarkThemeConfig
@@ -148,9 +150,26 @@ fun SettingsScreen(
                     }
                 }
 
+                item {
+                    val context = LocalContext.current
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                val browseIntent =
+                                    Intent(Intent.ACTION_VIEW, Uri.parse("https://confetti-app.dev/privacy.html"))
+                                startActivity(context, browseIntent, null)
+                            }
+                            .padding(8.dp)
+                    ) {
+                        Text(stringResource(id = R.string.privacy_policy))
+                    }
+                }
+
                 if (developerSettings != null) {
                     item {
-                        Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+                        Column(modifier = Modifier.padding(8.dp)) {
                             SettingsDialogSectionTitle(text = stringResource(R.string.developerSettings))
                             Text(
                                 "Token: ${developerSettings.token}",
@@ -162,7 +181,7 @@ fun SettingsScreen(
                 }
             }
 
-            Divider(Modifier.padding(top = 8.dp))
+            Divider()
 
             var developerModeCount by remember { mutableStateOf(0) }
             Box(modifier = Modifier.run {

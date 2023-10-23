@@ -10,8 +10,9 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
 object GridTable {
-    suspend fun getData(url: String): Sessionize.SessionizeData {
-        val jsonString = getUrl(url)
+    @Suppress("JSON_FORMAT_REDUNDANT")
+    suspend fun getData(eventId: String): Sessionize.SessionizeData {
+        val jsonString = getUrl("https://sessionize.com/api/v2/$eventId/view/gridtable")
 
         val days = Json {
             ignoreUnknownKeys = true
@@ -57,12 +58,12 @@ object GridTable {
         return Sessionize.SessionizeData(
             rooms = rooms,
             sessions = sessions.filter { it.type == "talk" },
-            speakers = getSpeakers()
+            speakers = getSpeakers(eventId)
         )
     }
 
-    private suspend fun getSpeakers(): List<DSpeaker> {
-        val jsonString = getUrl("https://sessionize.com/api/v2/eewr8kdk/view/speakers")
+    private suspend fun getSpeakers(speakersId: String): List<DSpeaker> {
+        val jsonString = getUrl("https://sessionize.com/api/v2/$speakersId/view/speakers")
         val speakers = Json {
             ignoreUnknownKeys = true
         }.decodeFromString(ListSerializer(Speaker.serializer()),jsonString)

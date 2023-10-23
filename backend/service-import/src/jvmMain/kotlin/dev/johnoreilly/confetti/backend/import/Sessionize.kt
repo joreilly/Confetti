@@ -123,9 +123,40 @@ suspend fun importDevFestGeorgia2023(): Int {
         )
     }
 
+    private val businessDesignCenter = DVenue(
+        id = "main",
+        name = "Business Design Center",
+        address = "52 Upper St, London N1 0QH, United Kingdom",
+        description = mapOf(
+            "en" to "Cool venue",
+            "fr" to "Venue fraiche",
+        ),
+        latitude = 51.5342463,
+        longitude = -0.1068864,
+        imageUrl = "https://london.droidcon.com/wp-content/uploads/sites/3/2022/07/Venue2-1.png",
+        floorPlanUrl = null
+    )
+
+    suspend fun importDroidconLondon2023(): Int {
+        return writeData(
+            sessionizeData = GridTable.getData("64k7lmps"),
+            config = DConfig(
+                id = ConferenceId.DroidconLondon2023.id,
+                name = "droidcon London 2023",
+                timeZone = "Europe/London",
+                days = listOf(
+                    LocalDate(2023, 10, 26),
+                    LocalDate(2023, 10, 27)
+                ),
+            ),
+            venue = businessDesignCenter,
+            partnerGroups = emptyList()
+        )
+    }
+
     suspend fun importDroidconSF2023(): Int {
         return writeData(
-            sessionizeData = GridTable.getData("https://sessionize.com/api/v2/eewr8kdk/view/gridtable"),
+            sessionizeData = GridTable.getData("eewr8kdk"),
             config = DConfig(
                 id = ConferenceId.DroidconSF2023.id,
                 name = "droidcon San Francisco 2023",
@@ -209,19 +240,7 @@ suspend fun importDevFestGeorgia2023(): Int {
                 name = "KotlinConf 2023",
                 timeZone = "Europe/Amsterdam"
             ),
-            venue = DVenue(
-                id = "main",
-                name = "Business Design Center",
-                address = "52 Upper St, London N1 0QH, United Kingdom",
-                description = mapOf(
-                    "en" to "Cool venue",
-                    "fr" to "Venue fraiche",
-                ),
-                latitude = 51.5342463,
-                longitude = -0.1068864,
-                imageUrl = "https://london.droidcon.com/wp-content/uploads/sites/3/2022/07/Venue2-1.png",
-                floorPlanUrl = null
-            )
+            venue = businessDesignCenter
         )
     }
 

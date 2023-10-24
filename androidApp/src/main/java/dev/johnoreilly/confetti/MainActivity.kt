@@ -19,7 +19,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.arkivanov.decompose.defaultComponentContext
-import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dev.johnoreilly.confetti.account.signIn
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent

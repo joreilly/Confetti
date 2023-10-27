@@ -151,7 +151,7 @@ private fun BookmarksHorizontalPager(
                         SessionItemView(
                             session = session,
                             sessionSelected = navigateToSession,
-                            bookmarks = bookmarks,
+                            isBookmarked = bookmarks.contains(session.id),
                             addBookmark = { sessionId -> addBookmark(sessionId) },
                             removeBookmark = { sessionId -> removeBookmark(sessionId) },
                             onNavigateToSignIn = onSignIn,

@@ -4,6 +4,7 @@ package dev.johnoreilly.confetti.wear.sessions
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.foundation.ExpandableStateMapping
 import androidx.wear.compose.foundation.expandableItem
 import androidx.wear.compose.foundation.rememberExpandableStateMapping
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
@@ -22,10 +23,9 @@ import kotlinx.datetime.toKotlinLocalDateTime
 fun SessionsScreen(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
-    columnState: ScalingLazyColumnState
+    columnState: ScalingLazyColumnState,
+    states: ExpandableStateMapping<String> = rememberExpandableStateMapping(initiallyExpanded = { false })
 ) {
-    val states = rememberExpandableStateMapping<String>(initiallyExpanded = { true })
-
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState,

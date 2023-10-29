@@ -4,6 +4,7 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
+import androidx.wear.compose.foundation.rememberExpandableStateMapping
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
@@ -68,6 +69,23 @@ class SessionsScreenTest : ScreenshotTest() {
                 uiState = uiState,
                 sessionSelected = {},
                 columnState = columnState
+            )
+        }
+    }
+
+    @Test
+    fun sessionsScreenExpanded() {
+        takeScrollableScreenshot(
+            timeTextMode = TimeTextMode.OnTop,
+            checks = { columnState ->
+                rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+            }
+        ) { columnState ->
+            SessionsScreen(
+                uiState = uiState,
+                columnState = columnState,
+                sessionSelected = {},
+                states = rememberExpandableStateMapping(initiallyExpanded = { true })
             )
         }
     }

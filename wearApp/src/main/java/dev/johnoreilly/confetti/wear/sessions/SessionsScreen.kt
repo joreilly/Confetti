@@ -4,7 +4,8 @@ package dev.johnoreilly.confetti.wear.sessions
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.foundation.expandableItem
+import androidx.wear.compose.foundation.rememberExpandableStateMapping
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
@@ -23,6 +24,8 @@ fun SessionsScreen(
     sessionSelected: (sessionId: String) -> Unit,
     columnState: ScalingLazyColumnState
 ) {
+    val states = rememberExpandableStateMapping<String>(initiallyExpanded = { true })
+
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState,
@@ -36,14 +39,19 @@ fun SessionsScreen(
                         SectionHeader(time)
                     }
 
-                    items(sessionsAtTime) { session ->
-                        SessionCard(
-                            session,
-                            sessionSelected = {
-                                sessionSelected(it)
-                            },
-                            uiState.now
-                        )
+                    sessionsAtTime.forEach {  session ->
+                        val state = states.getOrPutNew(session.id)
+                        expandableItem(state = state, key = session.id) {
+                            SessionCard(
+                                session = session,
+                                sessionSelected = {
+                                    sessionSelected(it)
+                                },
+                                expanded = state.expanded,
+                                onExpand = { state.expanded = true },
+                                currentTime = uiState.now
+                            )
+                        }
                     }
                 }
             }

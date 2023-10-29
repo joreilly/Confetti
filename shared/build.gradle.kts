@@ -10,6 +10,7 @@ plugins {
     id("com.squareup.wire")
     id("maven-publish")
     id("kotlinx-serialization")
+    id("io.github.luca992.multiplatform-swiftpackage") version "2.2.0"
 }
 
 configureCompilerOptions()
@@ -234,5 +235,14 @@ publishing {
                 password = System.getenv("MAVEN_PASSWORD")
             }
         }
+    }
+}
+
+multiplatformSwiftPackage {
+    packageName("ConfettiKit")
+    swiftToolsVersion("5.9")
+    targetPlatforms {
+        iOS { v("14") }
+        macOS { v("12")}
     }
 }

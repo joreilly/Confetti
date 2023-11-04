@@ -38,7 +38,7 @@ Includes:
 ### Building
 
 Use Android Studio/IntelliJ to build/run Android client.
-Requires XCode 14 or later for iOS client.
+Requires Xcode 14 or later for iOS client.
 
 ### Screenshots
 

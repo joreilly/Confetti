@@ -101,7 +101,7 @@ google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.17.4"
 google-services = "com.google.gms:google-services:4.3.15"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 graphql-java = "com.graphql-java:graphql-java:230521-nf-execution"
-graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.1"
+graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.2"
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }
 horologist-auth-ui = { module = "com.google.android.horologist:horologist-auth-ui", version.ref = "horologist" }
 horologist-auth-data = { module = "com.google.android.horologist:horologist-auth-data", version.ref = "horologist" }

@@ -41,14 +41,14 @@ fun SessionsScreen(
 
                     sessionsAtTime.forEach {  session ->
                         val state = states.getOrPutNew(session.id)
-                        expandableItem(state = state, key = session.id) {
+                        expandableItem(state = state, key = session.id) { expanded ->
                             SessionCard(
                                 session = session,
                                 sessionSelected = {
                                     sessionSelected(it)
                                 },
-                                expanded = state.expanded,
-                                onExpand = { state.expanded = true },
+                                expanded = expanded,
+                                onExpand = { state.expanded = !state.expanded },
                                 currentTime = uiState.now
                             )
                         }

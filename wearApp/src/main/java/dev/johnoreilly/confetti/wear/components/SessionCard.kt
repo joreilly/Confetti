@@ -97,7 +97,7 @@ private fun SpecificSessionCard(
             }
         }
         Spacer(modifier = Modifier.size(4.dp))
-        val roomRowModifier = if (onExpand != null && !expanded) {
+        val roomRowModifier = if (onExpand != null) {
             Modifier.clickable(onClick = onExpand, onClickLabel = "Expand Session Card")
         } else {
             Modifier

@@ -1,6 +1,6 @@
 # Confetti 🎊
 
-![kotlin-version](https://img.shields.io/badge/kotlin-1.9.0-blue)
+![kotlin-version](https://img.shields.io/badge/kotlin-1.9.20-blue)
 
 [<img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
 alt="Get it on Google Play Store"
@@ -38,7 +38,7 @@ Includes:
 ### Building
 
 Use Android Studio/IntelliJ to build/run Android client.
-Requires XCode 14 or later for iOS client.
+Requires Xcode 14 or later for iOS client.
 
 ### Screenshots
 

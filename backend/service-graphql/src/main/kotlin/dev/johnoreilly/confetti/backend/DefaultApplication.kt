@@ -127,7 +127,7 @@ class DefaultApplication {
                 @OptIn(ApolloExperimental::class)
                 try {
                     SchemaUploader.uploadSchema(
-                        key = apolloKey,
+                        apolloKey = apolloKey,
                         sdl = schema.print(),
                         graph = graph,
                         variant = "main",

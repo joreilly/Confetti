@@ -45,7 +45,7 @@ import kotlin.test.AfterTest
 @RunWith(RobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,
-    sdk = [30],
+    sdk = [33],
     qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
@@ -213,7 +213,7 @@ class ScreenshotTestRule(
     fun takeScrollableScreenshot(
         round: Boolean = resources.configuration.isScreenRound,
         timeTextMode: BaseScreenshotTest.TimeTextMode,
-        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText(),
+        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.responsive(),
         checks: suspend (columnState: ScalingLazyColumnState, composeRule: ComposeContentTestRule) -> Unit = { _, _ -> },
         content: @Composable (columnState: ScalingLazyColumnState) -> Unit
     ) {

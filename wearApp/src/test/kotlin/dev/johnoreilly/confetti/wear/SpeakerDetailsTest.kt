@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
 import coil.decode.DataSource
 import coil.request.SuccessResult
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.tools.coil.FakeImageLoader
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnOreilly
@@ -52,7 +53,8 @@ class SpeakerDetailsTest : ScreenshotTest() {
         timeTextMode = TimeTextMode.OnTop,
         checks = {
             rule.onNodeWithText("John O'Reilly").assertIsDisplayed()
-        }
+        },
+        columnStateFactory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false),
     ) { columnState ->
         SpeakerDetailsView(
             uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
@@ -68,7 +70,8 @@ class SpeakerDetailsTest : ScreenshotTest() {
             timeTextMode = TimeTextMode.OnTop,
             checks = {
                 rule.onNodeWithText("John O'Reilly").assertIsDisplayed()
-            }
+            },
+            columnStateFactory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false),
         ) { columnState ->
             SpeakerDetailsView(
                 uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),

@@ -100,7 +100,7 @@ fun ConferencesViewPreview() {
                 TestFixtures.conferences.groupBy { it.days[0].year }
             ),
             navigateToConference = {},
-            columnState = ScalingLazyColumnDefaults.belowTimeText().create()
+            columnState = ScalingLazyColumnDefaults.responsive().create()
         )
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
@@ -49,7 +50,9 @@ fun ConfettiApp(
 
                     is Child.SpeakerDetails -> SpeakerDetailsRoute(
                         child.component,
-                        createScalingLazyColumnState()
+                        createScalingLazyColumnState(
+                            factory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false)
+                        )
                     )
 
                     is Child.Settings -> SettingsRoute(

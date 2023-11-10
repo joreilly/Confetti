@@ -45,7 +45,7 @@ import kotlin.test.AfterTest
 @RunWith(RobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,
-    sdk = [30],
+    sdk = [33],
     qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)

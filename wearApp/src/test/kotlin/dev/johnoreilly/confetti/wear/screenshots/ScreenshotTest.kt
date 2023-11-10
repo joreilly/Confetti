@@ -75,7 +75,7 @@ import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,
-    sdk = [30],
+    sdk = [33],
     qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
 )
 @GraphicsMode(NATIVE)

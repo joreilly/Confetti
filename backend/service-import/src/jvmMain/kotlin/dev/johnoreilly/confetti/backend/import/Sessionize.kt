@@ -29,6 +29,29 @@ object Sessionize {
         val speakers: List<DSpeaker>,
     )
 
+    suspend fun importDevFestWarsaw2023(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/y1y2lmxn/view/All"),
+            config = DConfig(
+                id = ConferenceId.DevFestWarsaw2023.id,
+                name = "DevFest Warsaw 2023",
+                timeZone = "Europe/Warsaw"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Google for Startups Campus Warsaw",
+                address = "Plac Konesera 10, 03-736 Warszawa",
+                description = mapOf(
+                    "en" to "Google for Startups Campus Warsaw",
+                ),
+                latitude = 52.2561388,
+                longitude = 21.0453105,
+                imageUrl = "https://i.postimg.cc/GmVdqZsq/campus-outside.jpg",
+                floorPlanUrl = null
+            )
+        )
+    }
+
     suspend fun importDevFestMelbourne2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/3ken899c/view/All"),

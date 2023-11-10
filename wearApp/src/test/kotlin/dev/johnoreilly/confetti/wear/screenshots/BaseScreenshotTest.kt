@@ -213,7 +213,7 @@ class ScreenshotTestRule(
     fun takeScrollableScreenshot(
         round: Boolean = resources.configuration.isScreenRound,
         timeTextMode: BaseScreenshotTest.TimeTextMode,
-        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText(),
+        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.responsive(),
         checks: suspend (columnState: ScalingLazyColumnState, composeRule: ComposeContentTestRule) -> Unit = { _, _ -> },
         content: @Composable (columnState: ScalingLazyColumnState) -> Unit
     ) {

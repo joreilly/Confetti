@@ -243,7 +243,7 @@ abstract class ScreenshotTest : KoinTest {
     fun takeScrollableScreenshot(
         round: Boolean = resources.configuration.isScreenRound,
         timeTextMode: TimeTextMode,
-        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText(),
+        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.responsive(),
         checks: suspend (columnState: ScalingLazyColumnState) -> Unit = {},
         content: @Composable (columnState: ScalingLazyColumnState) -> Unit
     ) {

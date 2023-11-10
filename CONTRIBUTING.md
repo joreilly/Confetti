@@ -11,7 +11,22 @@ If you don't know where to start, you can also take a look at the list of [good 
 
 Documentation, UX, design, data contributions are very welcome. 
 
-If you see a conference missing in the list, please let us know by [opening an issue](https://github.com/joreilly/Confetti/issues/new).
+## Adding a conference
+
+Conference data is hosted in Google Cloud Datastore. 
+
+To add a conference, add a new `dev.johnoreilly.confetti.backend.datastore./ConferenceId` and an import function. You can use [this pull request](https://github.com/joreilly/Confetti/pull/982/files) as an example.
+
+Once this is done and the pull request is merged, you can trigger the import by issuing a POST to `https://confetti-app.dev/update/$conferenceId`:
+
+```shell
+# update devfestwarsaw2023 conference
+curl --data "" https://confetti-app.dev/update/devfestwarsaw2023
+```
+
+The data should start appearing in the app shortly after. You can double check by using the [GraphQL sandbox](https://confetti-app.dev/sandbox/index.html?explorerURLState=N4IgJg9gxgrgtgUwHYBcQC4TADpIAR5QRIBmCATslAgM5474F4CWYuBAvrhyB0A).
+
+If you see a conference missing in the list and don't know where to start with the PR, feel free [to open an issue](https://github.com/joreilly/Confetti/issues/new) and we'll look into it.
 
 ## Dev environment
 

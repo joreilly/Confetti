@@ -81,9 +81,10 @@ fun VenueView(venue: GetVenueQuery.Venue) {
             ),
         ) {
             AsyncImage(
+                modifier = Modifier.fillMaxSize(),
                 model = venue.imageUrl,
                 contentDescription = venue.name,
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.FillWidth
             )
 
         }

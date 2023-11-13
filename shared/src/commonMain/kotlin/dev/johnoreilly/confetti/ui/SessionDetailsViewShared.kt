@@ -119,6 +119,8 @@ internal fun SessionDetailViewShared(
                             SessionSpeakerInfo(speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
                         }
                     }
+
+                    Spacer(modifier = Modifier.size(16.dp))
                 }
             }
         }

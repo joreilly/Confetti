@@ -50,7 +50,7 @@ fun SessionCard(
     sessionSelected: (sessionId: String) -> Unit,
     currentTime: LocalDateTime,
     modifier: Modifier = Modifier,
-    expanded: Boolean = true,
+    expanded: Boolean = false,
     onExpand: (() -> Unit)? = null,
     timeDisplay: @Composable () -> Unit = {
         SessionTime(session, currentTime)
@@ -107,7 +107,7 @@ private fun SpecificSessionCard(
                 LocalContentColor provides MaterialTheme.colors.onSurfaceVariant,
                 LocalTextStyle provides MaterialTheme.typography.caption1,
             ) {
-                Text(session.room?.name ?: "", modifier = Modifier.weight(1f))
+                Text(session.room?.name ?: "", modifier = Modifier.weight(1f), maxLines = if (expanded) 2 else 1)
 
                 if (onExpand != null) {
                     Image(

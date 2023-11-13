@@ -42,15 +42,20 @@ fun SessionsScreen(
                     sessionsAtTime.forEach {  session ->
                         val state = states.getOrPutNew(session.id)
                         expandableItem(state = state, key = session.id) { expanded ->
-                            SessionCard(
-                                session = session,
-                                sessionSelected = {
-                                    sessionSelected(it)
-                                },
-                                expanded = expanded,
-                                onExpand = { state.expanded = !state.expanded },
-                                currentTime = uiState.now
-                            )
+                            // Workaround issue with two items in semantic tree
+                            val isNeeded =
+                                (expanded && state.expandProgress != 0f) || (!expanded && state.expandProgress != 1f)
+                            if (isNeeded) {
+                                SessionCard(
+                                    session = session,
+                                    sessionSelected = {
+                                        sessionSelected(it)
+                                    },
+                                    expanded = expanded,
+                                    onExpand = { state.expanded = !state.expanded },
+                                    currentTime = uiState.now
+                                )
+                            }
                         }
                     }
                 }

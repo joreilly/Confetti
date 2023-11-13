@@ -4,6 +4,8 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToString
 import androidx.wear.compose.foundation.rememberExpandableStateMapping
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures

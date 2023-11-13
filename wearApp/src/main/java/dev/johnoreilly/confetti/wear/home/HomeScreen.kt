@@ -127,11 +127,15 @@ private fun SectionedListScope.bookmarksSection(
 
         loaded { session ->
             key(session.id) {
-                SessionCard(session, sessionSelected = {
-                    if (uiState is QueryResult.Success) {
-                        sessionSelected(it)
-                    }
-                }, (bookmarksUiState as QueryResult.Success).result.now)
+                SessionCard(
+                    session = session,
+                    sessionSelected = {
+                        if (uiState is QueryResult.Success) {
+                            sessionSelected(it)
+                        }
+                    },
+                    currentTime = (bookmarksUiState as QueryResult.Success).result.now,
+                )
             }
         }
 

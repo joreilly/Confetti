@@ -182,7 +182,7 @@ fun SettingsListViewPreview() {
     ConfettiTheme {
         SettingsListView(
             conferenceCleared = {},
-            columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            columnState = ScalingLazyColumnDefaults.responsive().create(),
             navigateToGoogleSignIn = { },
             navigateToGoogleSignOut = { },
             uiState = SettingsUiState.Success(null),

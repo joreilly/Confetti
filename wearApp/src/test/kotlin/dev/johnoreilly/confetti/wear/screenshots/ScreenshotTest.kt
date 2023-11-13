@@ -75,7 +75,7 @@ import org.robolectric.annotation.GraphicsMode.Mode.NATIVE
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,
-    sdk = [30],
+    sdk = [33],
     qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
 )
 @GraphicsMode(NATIVE)
@@ -243,7 +243,7 @@ abstract class ScreenshotTest : KoinTest {
     fun takeScrollableScreenshot(
         round: Boolean = resources.configuration.isScreenRound,
         timeTextMode: TimeTextMode,
-        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText(),
+        columnStateFactory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.responsive(),
         checks: suspend (columnState: ScalingLazyColumnState) -> Unit = {},
         content: @Composable (columnState: ScalingLazyColumnState) -> Unit
     ) {

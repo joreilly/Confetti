@@ -91,7 +91,7 @@ fun SessionListViewPreview() {
                 selectedSessionId = null,
             ),
             sessionSelected = {},
-            columnState = ScalingLazyColumnDefaults.belowTimeText().create()
+            columnState = ScalingLazyColumnDefaults.responsive().create()
         )
     }
 }

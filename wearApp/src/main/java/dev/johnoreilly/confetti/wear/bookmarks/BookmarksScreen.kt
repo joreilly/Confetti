@@ -91,7 +91,7 @@ fun BookmarksPreview() {
                 )
             ),
             sessionSelected = {},
-            columnState = ScalingLazyColumnDefaults.belowTimeText().create()
+            columnState = ScalingLazyColumnDefaults.responsive().create()
         )
     }
 }

@@ -3,7 +3,7 @@ accompanist = "0.32.0"
 activity-compose = "1.8.0"
 androidx-lifecycle = "2.6.2"
 androidx-datastore = "1.1.0-alpha05"
-apollo = "4.0.0-alpha.3"
+apollo = "4.0.0-beta.2"
 compose = "1.5.4"
 compose-multiplatform = "1.5.10"
 compose-compiler = "1.5.4-dev-k1.9.20-50f08dfa4b4"
@@ -12,10 +12,10 @@ credentials-play-services-auth = "1.2.0-beta04"
 decompose = "2.2.0-alpha01"
 essenty = "1.3.0-alpha02"
 googleid = "1.1.0"
-horologist = "0.5.9"
-image-loader = "1.6.8"
+horologist = "0.5.10"
+image-loader = "1.7.0"
 junit = "4.13"
-kmp-nativecoroutines = "1.0.0-ALPHA-19"
+kmp-nativecoroutines = "1.0.0-ALPHA-20"
 kmm-viewmodel = "1.0.0-ALPHA-15"
 koin-android = "3.5.0"
 koin-android-compose = "3.5.0"
@@ -87,21 +87,21 @@ decompose-extensions-compose-jetpack = { module = "com.arkivanov.decompose:exten
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 fastlane-screengrab = "tools.fastlane:screengrab:2.1.1"
-federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4.1.1"
+federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4.2.0"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-bom = "com.google.firebase:firebase-bom:32.3.1"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
-firebase-mpp-auth = "dev.gitlive:firebase-auth:1.10.3"
+firebase-mpp-auth = "dev.gitlive:firebase-auth:1.10.4"
 google-cloud-bom = "com.google.cloud:libraries-bom:26.26.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
-google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.17.4"
+google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.17.5"
 google-services = "com.google.gms:google-services:4.3.15"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 graphql-java = "com.graphql-java:graphql-java:230521-nf-execution"
-graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.1"
+graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.2"
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }
 horologist-auth-ui = { module = "com.google.android.horologist:horologist-auth-ui", version.ref = "horologist" }
 horologist-auth-data = { module = "com.google.android.horologist:horologist-auth-data", version.ref = "horologist" }
@@ -115,7 +115,7 @@ horologist-datalayer-watch = { module = "com.google.android.horologist:horologis
 horologist-auth-data-phone = { module = "com.google.android.horologist:horologist-auth-data-phone", version.ref = "horologist" }
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
-jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.0"
+jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.1"
 jsoup = "org.jsoup:jsoup:1.16.2"
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.55.0"
@@ -134,7 +134,7 @@ kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
 ktor-cio = "io.ktor:ktor-server-cio:2.3.5"
-ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.5"
+ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.6"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material-3" }
 material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material-3" }

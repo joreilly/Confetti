@@ -62,7 +62,7 @@ class SwipeToDismissBoxScope {
 
     @Composable
     fun createScalingLazyColumnState(
-        factory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.belowTimeText()
+        factory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.responsive()
     ): ScalingLazyColumnState {
         val scalingLazyColumnState = factory.create()
         _scalingLazyColumnState.value = scalingLazyColumnState

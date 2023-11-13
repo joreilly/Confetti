@@ -242,7 +242,7 @@ fun HomeListViewPreview() {
                     now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                 )
             ),
-            columnState = ScalingLazyColumnDefaults.belowTimeText().create(),
+            columnState = ScalingLazyColumnDefaults.responsive().create(),
             sessionSelected = {},
             onSettingsClick = {},
             onBookmarksClick = {},

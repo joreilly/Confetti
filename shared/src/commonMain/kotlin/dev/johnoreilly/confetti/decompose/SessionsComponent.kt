@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -132,7 +131,7 @@ class SessionsSimpleComponent(
     private val coroutineScope = coroutineScope()
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
-    private val responseDatas = Channel<ResponseData?>()
+    private val responseDatas = MutableStateFlow<ResponseData?>(null)
     private val searchQuery = MutableStateFlow("")
     private val isRefreshing = MutableStateFlow(false)
     private val selectedSessionId = MutableStateFlow<String?>(null)
@@ -155,7 +154,7 @@ class SessionsSimpleComponent(
             isRefreshing.value = true
             responseData(showLoading, forceRefresh).collect {
                 isRefreshing.value = false
-                responseDatas.send(it)
+                responseDatas.value = it
             }
         }
     }
@@ -220,7 +219,7 @@ class SessionsSimpleComponent(
         }
 
     private fun combineUiState(): Flow<SessionsUiState> =
-        responseDatas.receiveAsFlow().flatMapLatest { responseData ->
+        responseDatas.flatMapLatest { responseData ->
             if (responseData == null) {
                 flowOf(SessionsUiState.Loading)
             } else {

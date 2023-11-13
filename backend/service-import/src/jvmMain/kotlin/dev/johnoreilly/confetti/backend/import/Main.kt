@@ -120,6 +120,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.GraphQLSummit2023 -> GraphQLSummit2023.import()
         ConferenceId.DroidconLondon2023 -> Sessionize.importDroidconLondon2023()
         ConferenceId.DevFestWarsaw2023 -> Sessionize.importDevFestWarsaw2023()
+        ConferenceId.DevFestIreland2023 -> Sessionize.importDevFestIreland2023()
 
         null -> error("")
     }

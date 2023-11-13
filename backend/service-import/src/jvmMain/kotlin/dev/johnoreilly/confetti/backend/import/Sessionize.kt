@@ -52,6 +52,29 @@ object Sessionize {
         )
     }
 
+    suspend fun importDevFestIreland2023(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/g3y2wy77/view/All"),
+            config = DConfig(
+                id = ConferenceId.DevFestIreland2023.id,
+                name = "DevFest Ireland 2023",
+                timeZone = "Europe/Dublin"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Griffith College",
+                address = "S Circular Rd, Dublin 8, D08 V04N",
+                description = mapOf(
+                    "en" to "",
+                ),
+                latitude = 53.3346241,
+                longitude = -6.2798278,
+                imageUrl = "https://www.griffith.ie/themes/custom/griffith2022/assets/logos/logo-2x-black.webp",
+                floorPlanUrl = null
+            )
+        )
+    }
+
     suspend fun importDevFestMelbourne2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/3ken899c/view/All"),

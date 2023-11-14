@@ -5,6 +5,7 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.doOnStart
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetBookmarksQuery
 import dev.johnoreilly.confetti.GetConferenceDataQuery
@@ -145,13 +146,13 @@ class SessionsSimpleComponent(
     private var job: Job? = null
 
     init {
-        refresh(showLoading = true)
+        lifecycle.doOnStart { refresh(showLoading = uiState.value !is SessionsUiState.Success) }
     }
 
     fun refresh(showLoading: Boolean = false, forceRefresh: Boolean = false) {
         job?.cancel()
         job = coroutineScope.launch {
-            isRefreshing.value = true
+            isRefreshing.value = showLoading
             responseData(showLoading, forceRefresh).collect {
                 isRefreshing.value = false
                 responseDatas.value = it

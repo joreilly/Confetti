@@ -157,7 +157,7 @@ plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serializat
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp-plugin" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.1.5" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.1" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.2" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }

@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.wear.decompose
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.derivedStateOf
@@ -42,6 +43,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: Value<ChildStack<C, T>>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
+    timeText: @Composable () -> Unit = { TimeText() },
     content: @Composable SwipeToDismissBoxScope.(child: Child.Created<C, T>) -> Unit,
 ) {
     val state = stack.subscribeAsState()
@@ -51,6 +53,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
         onDismissed = onDismissed,
         modifier = modifier,
         content = content,
+        timeText = timeText
     )
 }
 
@@ -93,6 +96,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: ChildStack<C, T>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
+    timeText: @Composable () -> Unit = { TimeText() },
     content: @Composable SwipeToDismissBoxScope.(child: Child.Created<C, T>) -> Unit,
 ) {
     val active: Child.Created<C, T> = stack.active
@@ -116,7 +120,9 @@ fun <C : Any, T : Any> SwipeToDismissBox(
                     }
                 }
             }
-            TimeText(modifier = timeTextModifier.value)
+            Box(modifier = timeTextModifier.value) {
+                timeText()
+            }
         }
     ) {
         SwipeToDismissBox(

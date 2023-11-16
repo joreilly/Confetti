@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.wear.compose.material.TimeText
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.networks.ui.DataUsageTimeText
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
@@ -30,7 +32,19 @@ fun ConfettiApp(
         ConfettiTheme(settings.theme) {
             SwipeToDismissBox(
                 component.stack,
-                onDismissed = { component.navigateUp() }
+                onDismissed = { component.navigateUp() },
+                timeText = {
+                    if (settings.showData) {
+                        val networkState by component.networkState.collectAsStateWithLifecycle()
+                        DataUsageTimeText(
+                            showData = true,
+                            networkStatus = networkState.networks,
+                            networkUsage = networkState.dataUsage
+                        )
+                    } else {
+                        TimeText()
+                    }
+                },
             ) { configuration ->
                 when (val child = configuration.instance) {
                     is Child.Conferences -> ConferencesRoute(

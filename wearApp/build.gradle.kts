@@ -192,6 +192,9 @@ dependencies {
 
     implementation(libs.horologist.datalayer)
     implementation(libs.horologist.datalayer.watch)
+    implementation(libs.horologist.networkawareness.core)
+    implementation(libs.horologist.networkawareness.okhttp)
+    implementation(libs.horologist.networkawareness.ui)
 
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)

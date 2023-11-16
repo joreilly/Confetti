@@ -23,4 +23,5 @@ message WearSettings {
   reserved 1;
   string conference = 2;
   Theme theme = 3;
+  bool showData = 4;
 }

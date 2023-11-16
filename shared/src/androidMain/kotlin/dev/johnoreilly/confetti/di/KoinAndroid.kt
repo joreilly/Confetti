@@ -70,6 +70,9 @@ actual fun platformModule() = module {
     single<Call.Factory>(qualifier = named("images")) {
         get<OkHttpClient>()
     }
+    single<Call.Factory>(qualifier = named("logs")) {
+        get<OkHttpClient>()
+    }
     single<ImageLoader> {
         ImageLoader.Builder(androidContext())
             .callFactory { get(named("images")) }

@@ -142,6 +142,13 @@ val appModule = module {
         )
     }
 
+    single<Call.Factory>(qualifier = named("logs")) {
+        NetworkAwareCallFactory(
+            delegate = get<Call.Factory>(),
+            defaultRequestType = RequestType.LogsRequest,
+        )
+    }
+
     single<FirebaseAuthUserRepository> { FirebaseAuthUserRepositoryImpl(get(), get()) }
     singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }
     singleOf(::WearConferenceSetting) { bind<ConferenceSetting>() }

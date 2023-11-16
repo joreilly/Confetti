@@ -11,15 +11,17 @@ import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.wear.di.appModule
-import dev.johnoreilly.confetti.wear.networks.ObsoleteUrlFactory
+import dev.johnoreilly.confetti.wear.networks.FirebaseUrlFactory
 import dev.johnoreilly.confetti.work.setupDailyRefresh
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
+import okhttp3.Call
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import java.net.URL
 
@@ -55,7 +57,7 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
             workManagerFactory()
         }
 
-        URL.setURLStreamHandlerFactory(ObsoleteUrlFactory(get()))
+        URL.setURLStreamHandlerFactory(FirebaseUrlFactory(get<Call.Factory>(named("logs"))))
 
         setupDailyRefresh(get())
     }

@@ -29,6 +29,29 @@ object Sessionize {
         val speakers: List<DSpeaker>,
     )
 
+    suspend fun importDevFestVenice2023(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/idarcge5/view/All"),
+            config = DConfig(
+                id = ConferenceId.DevFestVenice2023.id,
+                name = "DevFest Venice 2023",
+                timeZone = "Europe/Rome"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Campus Scientifico Università Ca' Foscari",
+                address = "Via Torino, 155 Mestre, Venezia VE, 30170",
+                description = mapOf(
+                    "en" to "Campus Scientifico Università Ca' Foscari",
+                ),
+                latitude = 45.4779997,
+                longitude = 12.2551719,
+                imageUrl = "https://live.staticflickr.com/65535/51266563060_17dacd7037_5k.jpg",
+                floorPlanUrl = null,
+            ),
+        )
+    }
+
     suspend fun importDevFestWarsaw2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/y1y2lmxn/view/All"),

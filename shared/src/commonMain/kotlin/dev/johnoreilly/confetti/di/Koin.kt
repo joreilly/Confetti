@@ -12,6 +12,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
+// Test
 expect fun platformModule(): Module
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =

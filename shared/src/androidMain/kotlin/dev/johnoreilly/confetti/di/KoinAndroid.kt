@@ -49,9 +49,9 @@ actual fun platformModule() = module {
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .apply {
-                if (BuildConfig.DEBUG) {
-                    eventListenerFactory(LoggingEventListener.Factory())
-                }
+//                if (BuildConfig.DEBUG) {
+//                    eventListenerFactory(LoggingEventListener.Factory())
+//                }
             }
             .build()
     }

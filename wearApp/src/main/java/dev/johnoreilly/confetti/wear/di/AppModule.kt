@@ -30,8 +30,10 @@ import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepositoryImpl
+import dev.johnoreilly.confetti.wear.networks.BatteryStatusMonitor
 import dev.johnoreilly.confetti.wear.networks.WearNetworkingRules
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
+import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import dev.johnoreilly.confetti.wear.work.WearConferenceSetting
 import dev.johnoreilly.confetti.work.ConferenceSetting
@@ -75,7 +77,16 @@ val appModule = module {
         Firebase.auth
     }
 
-    single<NetworkingRules> { WearNetworkingRules }
+    single<BatteryStatusMonitor> { BatteryStatusMonitor(androidContext(), get()) }
+
+    single<WearPreferencesStore> { WearPreferencesStore(androidContext(), get()) }
+
+    single<NetworkingRules> {
+        WearNetworkingRules(
+            batteryStatusMonitor = get(),
+            wearPreferences = get()
+        )
+    }
 
     single<NetworkStatusLogger> {
         NetworkStatusLogger.Logging

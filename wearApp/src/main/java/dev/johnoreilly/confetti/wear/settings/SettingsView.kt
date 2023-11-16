@@ -27,6 +27,7 @@ fun SettingsRoute(
             component.refreshToken()
         },
         columnState = columnState,
+        updatePreferences = component::updatePreferences
     )
 }
 

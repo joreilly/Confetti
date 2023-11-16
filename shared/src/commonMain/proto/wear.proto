@@ -23,5 +23,21 @@ message WearSettings {
   reserved 1;
   string conference = 2;
   Theme theme = 3;
-  bool showData = 4;
+}
+
+message WearPreferences {
+  NetworkDetail showNetworks = 4;
+  NetworkPreferences networkPreferences = 5;
+}
+
+enum NetworkDetail {
+  NETWORK_DETAIL_UNSPECIFIED = 0;
+  NETWORK_DETAIL_NONE = 1;
+  NETWORK_DETAIL_NETWORKS = 2;
+  NETWORK_DETAIL_NETWORKS_AND_DATA = 3;
+}
+
+message NetworkPreferences {
+  bool preferWifi = 1;
+  bool allowLte = 2;
 }

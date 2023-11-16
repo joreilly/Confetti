@@ -23,6 +23,7 @@ import dev.johnoreilly.confetti.decompose.coroutineScope
 import dev.johnoreilly.confetti.wear.AppUiState
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent.NetworkStatusAppState
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
+import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -73,18 +74,21 @@ class DefaultWearAppComponent(
     internal val repository: ConfettiRepository by inject()
     internal val navigation = StackNavigation<Config>()
     val phoneSettingsSync: PhoneSettingsSync by inject()
+    val wearPreferencesStore: WearPreferencesStore by inject()
     private val networkRepository: NetworkRepository by inject()
     private val dataRequestRepository: DataRequestRepository by inject()
 
     override val appState: StateFlow<AppUiState?> = combine(
         phoneSettingsSync.settingsFlow,
         phoneSettingsSync.conferenceFlow,
-        authentication.currentUser
-    ) { phoneSettings, defaultConference, user ->
+        authentication.currentUser,
+        wearPreferencesStore.preferences
+    ) { phoneSettings, defaultConference, user, wearPreferences ->
         AppUiState(
             defaultConference = defaultConference,
             settings = phoneSettings,
-            user = user
+            user = user,
+            wearPreferences = wearPreferences
         )
     }
         .stateIn(

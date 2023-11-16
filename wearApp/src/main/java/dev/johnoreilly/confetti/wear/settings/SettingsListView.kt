@@ -3,8 +3,13 @@ package dev.johnoreilly.confetti.wear.settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LteMobiledata
+import androidx.compose.material.icons.filled.NetworkPing
+import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,9 +28,13 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.material.Chip
+import com.google.android.horologist.compose.material.ToggleChip
+import com.google.android.horologist.compose.material.ToggleChipToggleControl
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.proto.NetworkDetail
+import dev.johnoreilly.confetti.wear.proto.WearPreferences
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import java.time.Instant
 import java.time.LocalDateTime
@@ -40,7 +49,8 @@ fun SettingsListView(
     onRefreshClick: () -> Unit,
     onRefreshToken: () -> Unit,
     onEnableDeveloperMode: () -> Unit,
-    columnState: ScalingLazyColumnState
+    columnState: ScalingLazyColumnState,
+    updatePreferences: (WearPreferences) -> Unit
 ) {
 
     ScalingLazyColumn(
@@ -95,8 +105,75 @@ fun SettingsListView(
                 }
             }
 
+            val wearPreferences = uiState.wearPreferences
+            val networkPreferences = wearPreferences?.networkPreferences
             item {
-                var developerModeCount by remember { mutableStateOf(0) }
+                ToggleChip(
+                    label = stringResource(R.string.settings_prefer_wifi),
+                    icon = Icons.Default.Wifi,
+                    checked = networkPreferences?.preferWifi ?: false,
+                    onCheckedChanged = {
+                        if (wearPreferences != null) {
+                            updatePreferences(
+                                wearPreferences.copy(
+                                    networkPreferences = wearPreferences.networkPreferences?.copy(
+                                        preferWifi = it
+                                    )
+                                )
+                            )
+                        }
+                    },
+                    toggleControl = ToggleChipToggleControl.Switch,
+                    enabled = networkPreferences != null
+                )
+            }
+
+            item {
+                ToggleChip(
+                    label = stringResource(R.string.settings_allow_lte),
+                    icon = Icons.Default.LteMobiledata,
+                    checked = networkPreferences?.allowLte ?: false,
+                    onCheckedChanged = {
+                        if (wearPreferences != null) {
+                            updatePreferences(
+                                wearPreferences.copy(
+                                    networkPreferences = wearPreferences.networkPreferences?.copy(
+                                        allowLte = it
+                                    )
+                                )
+                            )
+                        }
+                    },
+                    toggleControl = ToggleChipToggleControl.Switch,
+                    enabled = networkPreferences != null
+                )
+            }
+
+            item {
+                ToggleChip(
+                    label = stringResource(R.string.settings_show_networks),
+                    icon = Icons.Default.NetworkPing,
+                    checked = wearPreferences?.showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA,
+                    onCheckedChanged = {
+                        if (wearPreferences != null) {
+                            updatePreferences(
+                                wearPreferences.copy(
+                                    showNetworks = if (it) {
+                                        NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA
+                                    } else {
+                                        NetworkDetail.NETWORK_DETAIL_NONE
+                                    }
+                                )
+                            )
+                        }
+                    },
+                    toggleControl = ToggleChipToggleControl.Switch,
+                    enabled = networkPreferences != null
+                )
+            }
+
+            item {
+                var developerModeCount by remember { mutableIntStateOf(0) }
                 Text(
                     modifier = Modifier
                         .padding(top = 10.dp)
@@ -188,7 +265,8 @@ fun SettingsListViewPreview() {
             uiState = SettingsUiState.Success(null),
             onRefreshClick = {},
             onRefreshToken = {},
-            onEnableDeveloperMode = {}
+            onEnableDeveloperMode = {},
+            updatePreferences = {}
         )
     }
 }

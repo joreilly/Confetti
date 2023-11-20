@@ -18,6 +18,7 @@ import net.mbonnin.bare.graphql.asString
 import net.mbonnin.bare.graphql.cast
 
 object Sessionize {
+    private val devFestStockholm2023 = "https://sessionize.com/api/v2/nt4ryvlm/view/all"
     private val droidConLondon2022 = "https://sessionize.com/api/v2/qi0g29hw/view/All"
     private val kotlinConf2023 = "https://sessionize.com/api/v2/rje6khfn/view/All"
     private val androidMakers2023 = "https://sessionize.com/api/v2/72i2tw4v/view/All"
@@ -122,7 +123,7 @@ object Sessionize {
     }
 
 
-suspend fun importDevFestGeorgia2023(): Int {
+    suspend fun importDevFestGeorgia2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/1ukaofb3/view/All"),
             config = DConfig(
@@ -145,6 +146,7 @@ suspend fun importDevFestGeorgia2023(): Int {
             )
         )
     }
+
     suspend fun importDroidconLisbon2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/2mpjrh6b/view/All"),
@@ -168,6 +170,7 @@ suspend fun importDevFestGeorgia2023(): Int {
             )
         )
     }
+
     suspend fun importDroidconBerlin2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/axmfv7vn/view/All"),
@@ -349,6 +352,29 @@ suspend fun importDevFestGeorgia2023(): Int {
                 floorPlanUrl = null
             ),
             partnerGroups = partnerGroups("https://raw.githubusercontent.com/paug/AndroidMakersApp/ce800d6eefa4f83d34690161637d7f98918ee4a3/data/sponsors.json")
+        )
+    }
+
+    suspend fun importDevFestStockholm2023(): Int {
+        return writeData(
+            getData(devFestStockholm2023),
+            config = DConfig(
+                id = ConferenceId.DevFestStockholm2023.id,
+                name = "DevFest Stockholm 2023",
+                timeZone = "Europe/Stockholm",
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Google Stockholm",
+                address = "Kungsbron 2, 111 22 Stockholm, Sweden",
+                description = mapOf(
+                    "en" to "Google Office",
+                ),
+                latitude = 59.333388,
+                longitude = 18.0543053,
+                imageUrl = "https://www.behance.net/gallery/61443603/Google-Stockholm-HQ-wayfinding-signage/modules/360879841",
+                floorPlanUrl = null
+            ),
         )
     }
 

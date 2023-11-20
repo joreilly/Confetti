@@ -30,7 +30,7 @@ import java.time.Duration
 @OptIn(ExperimentalCoroutinesApi::class)
 class RefreshWorker(
     private val appContext: Context,
-    private val workerParams: WorkerParameters,
+    private val workerParams: WorkerParameters
 ) : CoroutineWorker(appContext, workerParams), KoinComponent {
     private val apolloClientCache: ApolloClientCache by inject()
     private val imageLoader: ImageLoader by inject()

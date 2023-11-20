@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalCoilApi::class)
+@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalCoilApi::class, ExperimentalCoilApi::class)
 
 package dev.johnoreilly.confetti.work
 
@@ -30,7 +30,7 @@ import java.time.Duration
 @OptIn(ExperimentalCoroutinesApi::class)
 class RefreshWorker(
     private val appContext: Context,
-    private val workerParams: WorkerParameters
+    private val workerParams: WorkerParameters,
 ) : CoroutineWorker(appContext, workerParams), KoinComponent {
     private val apolloClientCache: ApolloClientCache by inject()
     private val imageLoader: ImageLoader by inject()
@@ -70,7 +70,10 @@ class RefreshWorker(
 
         supervisorScope {
             images.forEach { url ->
-                if (cache[url] == null) {
+                val openSnapshot = cache.openSnapshot(url).also {
+                    it?.close()
+                }
+                if (openSnapshot == null) {
                     val request = ImageRequest.Builder(appContext)
                         .data(url)
                         .memoryCachePolicy(CachePolicy.DISABLED)

@@ -372,7 +372,7 @@ object Sessionize {
                 ),
                 latitude = 59.333388,
                 longitude = 18.0543053,
-                imageUrl = "https://www.behance.net/gallery/61443603/Google-Stockholm-HQ-wayfinding-signage/modules/360879841",
+                imageUrl = "https://mir-s3-cdn-cf.behance.net/project_modules/2800_opt_1/045b9561443603.5a6f296b48565.jpg",
                 floorPlanUrl = null
             ),
         )

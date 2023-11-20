@@ -17,7 +17,7 @@ Conference data is hosted in Google Cloud Datastore.
 
 To add a conference, add a new `dev.johnoreilly.confetti.backend.datastore./ConferenceId` and an import function. You can use [this pull request](https://github.com/joreilly/Confetti/pull/982/files) as an example.
 
-Once this is done and the pull request is merged, you can trigger the import by issuing a POST to `https://confetti-app.dev/update/$conferenceId`:
+Once this is done and the pull request is merged and deployed, you can trigger the import by issuing a POST to `https://confetti-app.dev/update/$conferenceId`:
 
 ```shell
 # update devfestwarsaw2023 conference

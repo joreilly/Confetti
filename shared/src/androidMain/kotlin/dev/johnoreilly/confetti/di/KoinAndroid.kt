@@ -61,7 +61,7 @@ actual fun platformModule() = module {
     factory<ApolloClient.Builder> {
         ApolloClient.Builder()
             .serverUrl("https://confetti-app.dev/graphql")
-            .httpEngine(DefaultHttpEngine(get<Call.Factory>()))
+            .httpEngine(DefaultHttpEngine(get<Call.Factory>(named("API"))))
             .webSocketEngine(DefaultWebSocketEngine(get<WebSocket.Factory>()))
     }
     single<Call.Factory>(qualifier = named("API")) {

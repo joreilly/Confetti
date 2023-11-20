@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalCoilApi::class, ExperimentalCoilApi::class)
+@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalCoilApi::class)
 
 package dev.johnoreilly.confetti.work
 

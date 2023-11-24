@@ -76,11 +76,8 @@ fun SpeakersRoute(
                     SpeakerListView(uiState1.speakers, component::onSpeakerClicked)
                 }
             }
-
             is SpeakersUiState.Loading -> LoadingView()
-            is SpeakersUiState.Error -> ErrorView {
-
-            }
+            is SpeakersUiState.Error -> ErrorView {}
         }
     }
 }
@@ -203,7 +200,7 @@ fun SpeakerItemView(
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .size(64.dp)
-                    .clip(CircleShape),
+                    .clip(CircleShape)
             )
         }
     )

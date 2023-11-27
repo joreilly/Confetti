@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.android.horologist.networks.okhttp.urlconnection.FirebaseUrlFactory
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.crashlytics.ktx.setCustomKeys
@@ -11,7 +12,6 @@ import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.wear.di.appModule
-import dev.johnoreilly.confetti.wear.networks.FirebaseUrlFactory
 import dev.johnoreilly.confetti.work.setupDailyRefresh
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier

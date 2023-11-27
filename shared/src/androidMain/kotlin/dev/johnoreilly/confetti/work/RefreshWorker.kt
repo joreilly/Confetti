@@ -70,7 +70,10 @@ class RefreshWorker(
 
         supervisorScope {
             images.forEach { url ->
-                if (cache[url] == null) {
+                val openSnapshot = cache.openSnapshot(url).also {
+                    it?.close()
+                }
+                if (openSnapshot == null) {
                     val request = ImageRequest.Builder(appContext)
                         .data(url)
                         .memoryCachePolicy(CachePolicy.DISABLED)

@@ -9,8 +9,13 @@ dependencyResolutionManagement {
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
+            google {
+                content {
+                    includeGroupByRegex(".*google.*")
+                    includeGroupByRegex(".*android.*")
+                }
+            }
             mavenCentral()
-            google()
             gradlePluginPortal()
             exclusiveContent {
                 forRepository {

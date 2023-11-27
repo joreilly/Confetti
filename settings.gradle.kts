@@ -1,8 +1,13 @@
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
+           google {
+                content {
+                    includeGroupByRegex(".*google.*")
+                    includeGroupByRegex(".*android.*")
+                }
+            }
             mavenCentral()
-            google()
             maven(url = "https://androidx.dev/storage/compose-compiler/repository")
             maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
             gradlePluginPortal {

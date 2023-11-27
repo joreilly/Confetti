@@ -77,7 +77,7 @@ fun SettingsListView(
 
         if (uiState is SettingsUiState.Success) {
             item {
-                val authUser = (uiState as? SettingsUiState.Success)?.authUser
+                val authUser = uiState.authUser
                 if (authUser == null) {
                     Chip(
                         label = stringResource(R.string.settings_sign_in),

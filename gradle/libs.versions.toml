@@ -5,17 +5,17 @@ androidx-lifecycle = "2.6.2"
 androidx-datastore = "1.1.0-alpha05"
 apollo = "4.0.0-beta.2"
 compose = "1.5.4"
-compose-multiplatform = "1.5.10"
+compose-multiplatform = "1.5.11"
 compose-compiler = "1.5.5-dev-k2.0.0-Beta1-06b8ae672a4"
 compose-material-3 = "1.1.2"
 credentials-play-services-auth = "1.2.0-beta04"
 decompose = "2.2.0-alpha01"
 essenty = "1.3.0-alpha02"
 googleid = "1.1.0"
-horologist = "0.5.10"
+horologist = "0.5.11"
 image-loader = "1.7.1"
 junit = "4.13"
-kmp-nativecoroutines = "1.0.0-ALPHA-20"
+kmp-nativecoroutines = "1.0.0-ALPHA-21"
 kmm-viewmodel = "1.0.0-ALPHA-15"
 koin-android = "3.5.0"
 koin-android-compose = "3.5.0"
@@ -119,7 +119,7 @@ horologist-networkawareness-ui = { module = "com.google.android.horologist:horol
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
 jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.1"
-jsoup = "org.jsoup:jsoup:1.16.2"
+jsoup = "org.jsoup:jsoup:1.17.1"
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.55.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
@@ -159,8 +159,8 @@ plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutin
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp-plugin" }
-plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.1.5" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.2" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.0" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.3" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
@@ -176,7 +176,7 @@ test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-alpha04"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.0-beta02"
 wear-compose-material = "androidx.wear.compose:compose-material:1.2.0"
 wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.0"
-wire-runtime = "com.squareup.wire:wire-runtime:4.9.2"
+wire-runtime = "com.squareup.wire:wire-runtime:4.9.3"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 napier = "io.github.aakira:napier:2.6.1"
 

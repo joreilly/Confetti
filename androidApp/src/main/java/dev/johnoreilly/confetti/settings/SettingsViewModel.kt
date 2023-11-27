@@ -1,10 +1,11 @@
-@file:OptIn(ExperimentalSettingsApi::class)
+@file:OptIn(ExperimentalSettingsApi::class, ExperimentalCoroutinesApi::class)
 
 package dev.johnoreilly.confetti.settings
 
 import android.content.Context
 import com.arkivanov.decompose.ComponentContext
 import com.google.android.horologist.data.apphelper.AppHelperNodeStatus
+import com.google.android.horologist.data.apphelper.AppInstallationStatus
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.DarkThemeConfig
@@ -18,6 +19,7 @@ import dev.johnoreilly.confetti.decompose.coroutineScope
 import dev.johnoreilly.confetti.ui.colorScheme
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.wear.proto.WearSettings
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -81,7 +83,7 @@ class DefaultSettingsComponent(
     ): WearStatus {
         return if (wearNodes.isEmpty()) {
             WearStatus.Unavailable
-        } else if (wearNodes.find { it.isAppInstalled } == null) {
+        } else if (wearNodes.find { it.appInstallationStatus is AppInstallationStatus.Installed } == null) {
             WearStatus.NotInstalled(wearNodes.first().id)
         } else {
             WearStatus.Paired(wearSettings)

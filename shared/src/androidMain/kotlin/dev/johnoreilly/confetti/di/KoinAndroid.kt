@@ -12,6 +12,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.WorkManager
 import coil.ImageLoader
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.network.http.DefaultHttpEngine
 import com.apollographql.apollo3.network.ws.DefaultWebSocketEngine
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
@@ -36,7 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.WebSocket
-import okhttp3.logging.LoggingEventListener
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.bind
@@ -54,6 +54,9 @@ actual fun platformModule() = module {
 //                }
             }
             .build()
+    }
+    single<FetchPolicy> {
+        FetchPolicy.CacheAndNetwork
     }
     single<WebSocket.Factory> {
         get<OkHttpClient>()

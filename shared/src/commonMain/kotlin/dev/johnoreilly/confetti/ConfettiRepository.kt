@@ -21,11 +21,12 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-private fun <D: Operation.Data> ApolloCall<D>.tokenProvider(tokenProvider: TokenProvider?) = apply {
+private fun <D : Operation.Data> ApolloCall<D>.tokenProvider(tokenProvider: TokenProvider?) = apply {
     if (tokenProvider != null) {
         addExecutionContext(TokenProviderContext(tokenProvider))
     }
 }
+
 class ConfettiRepository : KoinComponent {
 
     private val appSettings: AppSettings by inject()
@@ -109,7 +110,7 @@ class ConfettiRepository : KoinComponent {
     /**
      * ignores all errors unless the Flow terminates without an emission in which case it will emit an error
      */
-    private fun <D: Operation.Data>  Flow<ApolloResponse<D>>.itemsOrError(operation: Operation<D>): Flow<ApolloResponse<D>> {
+    private fun <D : Operation.Data> Flow<ApolloResponse<D>>.itemsOrError(operation: Operation<D>): Flow<ApolloResponse<D>> {
         var hasValidResponse = false
         return this.onEach {
             if (it.data != null) {
@@ -119,7 +120,13 @@ class ConfettiRepository : KoinComponent {
             it.data != null
         }.onCompletion {
             if (!hasValidResponse) {
-                emit(ApolloResponse.Builder(operation, uuid4(), DefaultApolloException("The flow terminated without a valid item")).build())
+                emit(
+                    ApolloResponse.Builder(
+                        operation,
+                        uuid4(),
+                        DefaultApolloException("The flow terminated without a valid item")
+                    ).build()
+                )
             }
         }
     }
@@ -172,12 +179,12 @@ class ConfettiRepository : KoinComponent {
             .execute()
     }
 
-    fun conferencesQuery(fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst): ApolloCall<GetConferencesQuery.Data> =
+    fun conferencesQuery(fetchPolicy: FetchPolicy): ApolloCall<GetConferencesQuery.Data> =
         apolloClientCache.getClient("all")
             .query(GetConferencesQuery())
             .fetchPolicy(fetchPolicy)
 
-    private fun conferenceVenueQuery(conference: String, fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst): ApolloCall<GetVenueQuery.Data> =
+    private fun conferenceVenueQuery(conference: String, fetchPolicy: FetchPolicy): ApolloCall<GetVenueQuery.Data> =
         apolloClientCache.getClient(conference)
             .query(GetVenueQuery())
             .fetchPolicy(fetchPolicy)
@@ -203,9 +210,7 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
-    suspend fun refresh(conference: String, networkOnly: Boolean = true) {
-        val fetchPolicy = if (networkOnly) FetchPolicy.NetworkOnly else FetchPolicy.CacheAndNetwork
-
+    suspend fun refresh(conference: String, fetchPolicy: FetchPolicy) {
         try {
             // TODO: We fetch the first page only, assuming there are <100 conferences. Pagination should be implemented instead.
             apolloClientCache.getClient(conference)
@@ -223,7 +228,7 @@ class ConfettiRepository : KoinComponent {
     fun sessionDetailsQuery(
         conference: String,
         sessionId: String,
-        fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst
+        fetchPolicy: FetchPolicy
     ): ApolloCall<GetSessionQuery.Data> =
         apolloClientCache.getClient(conference)
             .query(GetSessionQuery(sessionId))
@@ -232,34 +237,43 @@ class ConfettiRepository : KoinComponent {
     fun sessionDetails(
         conference: String,
         sessionId: String,
-        fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst
+        fetchPolicy: FetchPolicy
     ): Flow<ApolloResponse<GetSessionQuery.Data>> =
         sessionDetailsQuery(conference, sessionId, fetchPolicy)
             .toFlow()
 
     suspend fun conferenceData(
         conference: String,
-        fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst
+        fetchPolicy: FetchPolicy
     ): ApolloResponse<GetConferenceDataQuery.Data> =
         apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
             .fetchPolicy(fetchPolicy).execute()
 
-    fun sessionsQuery(conference: String): ApolloCall<GetSessionsQuery.Data> =
+    fun sessionsQuery(
+        conference: String,
+        fetchPolicy: FetchPolicy
+    ): ApolloCall<GetSessionsQuery.Data> =
         apolloClientCache.getClient(conference).query(GetSessionsQuery())
+            .fetchPolicy(fetchPolicy)
 
     suspend fun sessions(
         conference: String,
         uid: String?,
         tokenProvider: TokenProvider?,
-        fetchPolicy: FetchPolicy = FetchPolicy.CacheFirst
+        fetchPolicy: FetchPolicy
     ): ApolloResponse<GetSessionsQuery.Data> =
         apolloClientCache.getClient(conference, uid).query(GetSessionsQuery())
             .tokenProvider(tokenProvider)
             .fetchPolicy(fetchPolicy)
             .execute()
 
-    fun conferenceHomeData(conference: String): ApolloCall<GetConferenceDataQuery.Data> {
-        return apolloClientCache.getClient(conference).query(GetConferenceDataQuery())
+    fun conferenceHomeData(
+        conference: String,
+        fetchPolicy: FetchPolicy
+    ): ApolloCall<GetConferenceDataQuery.Data> {
+        return apolloClientCache.getClient(conference)
+            .query(GetConferenceDataQuery())
+            .fetchPolicy(fetchPolicy)
     }
 
     fun speakerQuery(conference: String, id: String): ApolloCall<GetSpeakerQuery.Data> {

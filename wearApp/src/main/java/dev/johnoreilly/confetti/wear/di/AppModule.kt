@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.wear.di
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.wear.tiles.TileService
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
@@ -75,6 +76,9 @@ val appModule = module {
     }
     single {
         Firebase.auth
+    }
+    single<FetchPolicy> {
+        FetchPolicy.CacheFirst
     }
 
     single<BatteryStatusMonitor> { BatteryStatusMonitor(androidContext(), get()) }

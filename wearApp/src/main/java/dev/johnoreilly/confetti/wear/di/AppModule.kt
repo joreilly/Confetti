@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.wear.di
 
 import android.content.Context
 import android.net.ConnectivityManager
+import androidx.room.Room
 import androidx.wear.tiles.TileService
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -9,8 +10,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
 import com.google.android.horologist.networks.data.DataRequestRepository
-import com.google.android.horologist.networks.data.InMemoryDataRequestRepository
 import com.google.android.horologist.networks.data.RequestType
+import com.google.android.horologist.networks.db.DBDataRequestRepository
+import com.google.android.horologist.networks.db.NetworkUsageDao
+import com.google.android.horologist.networks.db.NetworkUsageDatabase
 import com.google.android.horologist.networks.highbandwidth.HighBandwidthNetworkMediator
 import com.google.android.horologist.networks.highbandwidth.StandardHighBandwidthNetworkMediator
 import com.google.android.horologist.networks.logging.NetworkStatusLogger
@@ -111,8 +114,21 @@ val appModule = module {
         )
     }
 
+    single<NetworkUsageDatabase> {
+        Room.databaseBuilder(
+            androidContext(),
+            NetworkUsageDatabase::class.java,
+            "NetworkUsageDatabase",
+        )
+            .build()
+    }
+
+    single<NetworkUsageDao> {
+        get<NetworkUsageDatabase>().networkUsageDao()
+    }
+
     single<DataRequestRepository> {
-        InMemoryDataRequestRepository()
+        DBDataRequestRepository(get(), get())
     }
 
     single<NetworkRepository> {

@@ -34,6 +34,7 @@ okio = "3.6.0"
 protolayout-expression = "1.0.0"
 protolayout-proto = "1.0.0"
 robolectric = "4.11.1"
+runtime = "2.6.0"
 snapshot-android = "v1.0.2"
 tiles-material = "1.2.0"
 work-runtime-ktx = "2.8.1"
@@ -114,6 +115,7 @@ horologist-datalayer-phone = { module = "com.google.android.horologist:horologis
 horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist" }
 horologist-auth-data-phone = { module = "com.google.android.horologist:horologist-auth-data-phone", version.ref = "horologist" }
 horologist-networkawareness-core = { module = "com.google.android.horologist:horologist-network-awareness", version.ref = "horologist" }
+horologist-networkawareness-db = { module = "com.google.android.horologist:horologist-network-awareness-db", version.ref = "horologist" }
 horologist-networkawareness-okhttp = { module = "com.google.android.horologist:horologist-network-awareness-okhttp", version.ref = "horologist" }
 horologist-networkawareness-ui = { module = "com.google.android.horologist:horologist-network-awareness-ui", version.ref = "horologist" }
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
@@ -166,6 +168,7 @@ plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "runtime" }
 snapshot-android = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-android", version.ref = "snapshot-android" }
 snapshot-jvm = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-jvm", version.ref = "snapshot-android" }
 splash-screen = "androidx.core:core-splashscreen:1.0.1"

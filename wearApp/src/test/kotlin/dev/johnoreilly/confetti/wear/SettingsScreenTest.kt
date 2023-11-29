@@ -56,7 +56,8 @@ class SettingsScreenTest : ScreenshotTest() {
             columnState = columnState,
             onRefreshClick = {},
             onRefreshToken = {},
-            onEnableDeveloperMode = {}
+            onEnableDeveloperMode = {},
+            updatePreferences = {}
         )
     }
 
@@ -77,7 +78,8 @@ class SettingsScreenTest : ScreenshotTest() {
             columnState = columnState,
             onRefreshClick = {},
             onRefreshToken = {},
-            onEnableDeveloperMode = {}
+            onEnableDeveloperMode = {},
+            updatePreferences = {}
         )
     }
 
@@ -107,7 +109,8 @@ class SettingsScreenTest : ScreenshotTest() {
                 columnState = columnState,
                 onRefreshClick = {},
                 onRefreshToken = {},
-                onEnableDeveloperMode = {}
+                onEnableDeveloperMode = {},
+                updatePreferences = {}
             )
         }
     }

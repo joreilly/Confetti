@@ -33,7 +33,7 @@ okio = "3.6.0"
 protolayout-expression = "1.0.0"
 protolayout-proto = "1.0.0"
 robolectric = "4.11.1"
-runtime = "2.6.0"
+room = "2.6.0"
 snapshot-android = "v1.0.2"
 work-runtime-ktx = "2.8.1"
 
@@ -158,7 +158,7 @@ plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "runtime" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 snapshot-android = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-android", version.ref = "snapshot-android" }
 snapshot-jvm = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-jvm", version.ref = "snapshot-android" }
 splash-screen = "androidx.core:core-splashscreen:1.0.1"

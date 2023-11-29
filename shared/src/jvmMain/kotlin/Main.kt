@@ -4,6 +4,7 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.DefaultFakeResolver
 import com.apollographql.apollo3.api.FakeResolverContext
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.testing.MapTestNetworkTransport
 import com.benasher44.uuid.uuid4
 import dev.johnoreilly.confetti.di.initKoin
@@ -45,7 +46,7 @@ suspend fun main(args: Array<String>) {
     try {
         withTimeout(60000L) {
             println("Sessions")
-            val sessions = repo.sessionsQuery("droidconberlin2023").toFlow().first {
+            val sessions = repo.sessionsQuery("droidconberlin2023", fetchPolicy = FetchPolicy.CacheFirst).toFlow().first {
                 // First emission is a cache miss, ignore it
                 it.exception == null
             }

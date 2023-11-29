@@ -157,9 +157,13 @@ fun SettingsScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                val browseIntent =
-                                    Intent(Intent.ACTION_VIEW, Uri.parse("https://confetti-app.dev/privacy.html"))
-                                startActivity(context, browseIntent, null)
+                                runCatching {
+                                    val browseIntent =
+                                        Intent(Intent.ACTION_VIEW, Uri.parse("https://confetti-app.dev/privacy.html"))
+                                    startActivity(context, browseIntent, null)
+                                }.getOrElse { error ->
+                                    error.printStackTrace()
+                                }
                             }
                             .padding(8.dp)
                     ) {
@@ -368,7 +372,11 @@ private fun TextLink(text: String, url: String) {
         modifier = Modifier
             .padding(vertical = 8.dp)
             .clickable {
-                ContextCompat.startActivity(context, launchResourceIntent, null)
-            },
+                runCatching {
+                    startActivity(context, launchResourceIntent, null)
+                }.getOrElse { error ->
+                    error.printStackTrace()
+                }
+            }
     )
 }

@@ -1,11 +1,10 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package dev.johnoreilly.confetti.sessiondetails
 
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -30,9 +29,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
-import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.Bookmark
 import dev.johnoreilly.confetti.ui.ErrorView
@@ -134,11 +133,15 @@ fun SessionDetailView(
         Column(modifier = Modifier.padding(it)) {
 
             SessionDetailViewSharedWrapper(
-                session,
-                onSpeakerClick = { onSpeakerClick(it) },
+                session = session,
+                onSpeakerClick = { speakerId ->  onSpeakerClick(speakerId) },
                 onSocialLinkClicked =  { socialItem ->
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem))
-                context.startActivity(intent)
+                    runCatching {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialItem))
+                        context.startActivity(intent)
+                    }.getOrElse { error ->
+                        error.printStackTrace()
+                    }
             })
 
             if (showDialog) {
@@ -209,6 +212,12 @@ private fun rememberShareDetails(details: SessionDetails?): () -> Unit {
         }
 
         val launchIntent = Intent.createChooser(sendIntent, null)
-        return@remember { context.startActivity(launchIntent) }
+        return@remember {
+            runCatching {
+                context.startActivity(launchIntent)
+            }.getOrElse { error ->
+                error.printStackTrace()
+            }
+        }
     }
 }

@@ -92,8 +92,12 @@ fun VenueView(venue: GetVenueQuery.Venue) {
         Spacer(modifier = Modifier.height(16.dp))
         venue.floorPlanUrl?.let { floorPlanUrl ->
             VenueFloorPlanButton(venue = venue, onClick = {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(floorPlanUrl))
-                context.startActivity(intent)
+                runCatching {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(floorPlanUrl))
+                    context.startActivity(intent)
+                }.getOrElse { error ->
+                    error.printStackTrace()
+                }
             })
         }
     }

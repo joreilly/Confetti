@@ -16,7 +16,6 @@ object WearPreferencesSerializer : Serializer<WearPreferences> {
     override val defaultValue: WearPreferences = WearPreferences(
         showNetworks = NetworkDetail.NETWORK_DETAIL_NONE,
         networkPreferences = NetworkPreferences(
-            preferWifi = false,
             allowLte = false
         )
     )

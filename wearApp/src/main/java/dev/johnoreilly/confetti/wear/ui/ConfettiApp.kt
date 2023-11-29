@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.TimeText
@@ -96,10 +95,17 @@ fun ConfettiApp(
 @Composable
 private fun NetworkTimeText(component: WearAppComponent, showNetworks: NetworkDetail) {
     val networkState by component.networkState.collectAsStateWithLifecycle()
+    val enabled =
+        showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA || showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS
+
     DataUsageTimeText(
-        showData = showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA,
+        showData = enabled,
         networkStatus = networkState.networks,
-        networkUsage = networkState.dataUsage
+        networkUsage = if (showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA) {
+            networkState.dataUsage
+        } else {
+            null
+        }
     )
 }
 

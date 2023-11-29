@@ -30,5 +30,7 @@
     <string name="settings_prefer_wifi">Prefer Wifi</string>
     <string name="settings_allow_lte">Allow LTE</string>
     <string name="settings_show_networks">Show Networks</string>
+    <string name="settings_show_networks_and_data">Show Networks and Data</string>
+    <string name="settings_hide_networks">Hide Network Info</string>
 
 </resources>

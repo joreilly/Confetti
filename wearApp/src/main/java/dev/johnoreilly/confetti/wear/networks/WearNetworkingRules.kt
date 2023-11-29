@@ -25,12 +25,6 @@ class WearNetworkingRules(
 ) : NetworkingRules {
 
     override fun isHighBandwidthRequest(requestType: RequestType): Boolean {
-        val preferences = wearPreferences.networkPreferences
-
-        if (preferences.preferWifi) {
-            return requestType != RequestType.LogsRequest
-        }
-
         return false
     }
 
@@ -71,10 +65,6 @@ class WearNetworkingRules(
             null
         }
 
-        return if (battery.charging || preferences.preferWifi) {
-            wifi ?: bt ?: cell
-        } else {
-            bt ?: wifi ?: cell
-        }
+        return bt ?: wifi ?: cell
     }
 }

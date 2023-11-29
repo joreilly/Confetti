@@ -16,7 +16,6 @@ class WearPreferencesStore(
 
     val networkPreferences: NetworkPreferences
         get() = preferences.value.networkPreferences ?: NetworkPreferences(
-            preferWifi = false,
             allowLte = false
         )
 

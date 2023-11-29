@@ -26,8 +26,8 @@ message WearSettings {
 }
 
 message WearPreferences {
-  NetworkDetail showNetworks = 4;
-  NetworkPreferences networkPreferences = 5;
+  NetworkDetail showNetworks = 1;
+  NetworkPreferences networkPreferences = 2;
 }
 
 enum NetworkDetail {
@@ -38,6 +38,5 @@ enum NetworkDetail {
 }
 
 message NetworkPreferences {
-  bool preferWifi = 1;
-  bool allowLte = 2;
+  bool allowLte = 1;
 }

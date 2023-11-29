@@ -6,11 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LteMobiledata
 import androidx.compose.material.icons.filled.NetworkPing
-import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,6 +33,7 @@ import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
+import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import java.time.Instant
@@ -52,7 +52,6 @@ fun SettingsListView(
     columnState: ScalingLazyColumnState,
     updatePreferences: (WearPreferences) -> Unit
 ) {
-
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         columnState = columnState,
@@ -76,6 +75,11 @@ fun SettingsListView(
         }
 
         if (uiState is SettingsUiState.Success) {
+            val wearPreferences = uiState.wearPreferences
+            val networkPreferences = wearPreferences?.networkPreferences
+
+            println("$wearPreferences $networkPreferences")
+
             item {
                 val authUser = uiState.authUser
                 if (authUser == null) {
@@ -105,29 +109,6 @@ fun SettingsListView(
                 }
             }
 
-            val wearPreferences = uiState.wearPreferences
-            val networkPreferences = wearPreferences?.networkPreferences
-            item {
-                ToggleChip(
-                    label = stringResource(R.string.settings_prefer_wifi),
-                    icon = Icons.Default.Wifi,
-                    checked = networkPreferences?.preferWifi ?: false,
-                    onCheckedChanged = {
-                        if (wearPreferences != null) {
-                            updatePreferences(
-                                wearPreferences.copy(
-                                    networkPreferences = wearPreferences.networkPreferences?.copy(
-                                        preferWifi = it
-                                    )
-                                )
-                            )
-                        }
-                    },
-                    toggleControl = ToggleChipToggleControl.Switch,
-                    enabled = networkPreferences != null
-                )
-            }
-
             item {
                 ToggleChip(
                     label = stringResource(R.string.settings_allow_lte),
@@ -137,7 +118,7 @@ fun SettingsListView(
                         if (wearPreferences != null) {
                             updatePreferences(
                                 wearPreferences.copy(
-                                    networkPreferences = wearPreferences.networkPreferences?.copy(
+                                    networkPreferences = (wearPreferences.networkPreferences ?: NetworkPreferences()).copy(
                                         allowLte = it
                                     )
                                 )
@@ -145,30 +126,32 @@ fun SettingsListView(
                         }
                     },
                     toggleControl = ToggleChipToggleControl.Switch,
-                    enabled = networkPreferences != null
+                    enabled = wearPreferences != null
                 )
             }
 
             item {
-                ToggleChip(
-                    label = stringResource(R.string.settings_show_networks),
+                Chip(
+                    label = when (wearPreferences?.showNetworks) {
+                        NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA -> stringResource(R.string.settings_show_networks_and_data)
+                        NetworkDetail.NETWORK_DETAIL_NETWORKS -> stringResource(R.string.settings_show_networks)
+                        else -> stringResource(R.string.settings_hide_networks)
+                    },
                     icon = Icons.Default.NetworkPing,
-                    checked = wearPreferences?.showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA,
-                    onCheckedChanged = {
+                    onClick = {
                         if (wearPreferences != null) {
                             updatePreferences(
                                 wearPreferences.copy(
-                                    showNetworks = if (it) {
-                                        NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA
-                                    } else {
-                                        NetworkDetail.NETWORK_DETAIL_NONE
+                                    showNetworks = when (wearPreferences.showNetworks) {
+                                        NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA -> NetworkDetail.NETWORK_DETAIL_NETWORKS
+                                        NetworkDetail.NETWORK_DETAIL_NETWORKS -> NetworkDetail.NETWORK_DETAIL_NONE
+                                        else -> NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA
                                     }
                                 )
                             )
                         }
                     },
-                    toggleControl = ToggleChipToggleControl.Switch,
-                    enabled = networkPreferences != null
+                    enabled = wearPreferences != null
                 )
             }
 

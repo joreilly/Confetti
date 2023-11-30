@@ -89,7 +89,7 @@ firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.10.4"
 google-cloud-bom = "com.google.cloud:libraries-bom:26.27.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
-google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.17.5"
+google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.17.6"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.2"
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }

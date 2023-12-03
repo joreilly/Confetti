@@ -378,6 +378,29 @@ object Sessionize {
         )
     }
 
+    suspend fun importDevFestSriLanka2023(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/zdn3ivmz/view/All"),
+            config = DConfig(
+                id = ConferenceId.DevFestSriLanka2023.id,
+                name = "DevFest Sri Lanka 2023",
+                timeZone = "Asia/Colombo",
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Bishop's College Auditorium, Colombo",
+                address = "WV83+2V5, Boyd Pl, Colombo, Sri Lanka",
+                description = mapOf(
+                    "en" to "Google Office",
+                ),
+                latitude = 6.915,
+                longitude = 79.854722,
+                imageUrl = "https://www.bcauditorium.lk/wp-content/uploads/2019/08/front-nuga-tree2.jpg",
+                floorPlanUrl = null
+            ),
+        )
+    }
+
     internal fun writeData(
         sessionizeData: SessionizeData,
         config: DConfig,

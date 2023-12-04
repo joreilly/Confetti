@@ -31,7 +31,7 @@ interface HomeComponent {
 class DefaultHomeComponent(
     componentContext: ComponentContext,
     conference: String,
-    val user: User?,
+    user: User?,
     private val onSessionSelected: (String) -> Unit,
     private val onDaySelected: (LocalDate) -> Unit,
     private val onSettingsSelected: () -> Unit,
@@ -42,7 +42,7 @@ class DefaultHomeComponent(
     val repository: ConfettiRepository by inject()
 
     override val uiState: StateFlow<QueryResult<HomeUiState>> =
-        repository.conferenceHomeData(conference).toUiState {
+        repository.conferenceHomeData(conference = conference, fetchPolicy = FetchPolicy.CacheFirst).toUiState {
             it.toUiState()
         }
             .stateIn(coroutineScope, SharingStarted.WhileSubscribed(), QueryResult.Loading)

@@ -27,5 +27,9 @@
     <string name="settings_empty_name">empty name</string>
     <string name="home_bookmarked_sessions">Bookmarked Sessions</string>
     <string name="home_settings_content_description">Settings</string>
+    <string name="settings_allow_lte">Allow LTE</string>
+    <string name="settings_show_networks">Show Networks</string>
+    <string name="settings_show_networks_and_data">Show Networks and Data</string>
+    <string name="settings_hide_networks">Hide Network Info</string>
 
 </resources>

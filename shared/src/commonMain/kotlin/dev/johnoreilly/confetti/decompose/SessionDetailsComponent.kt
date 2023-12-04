@@ -51,6 +51,7 @@ class DefaultSessionDetailsComponent(
 ) : SessionDetailsComponent, KoinComponent, ComponentContext by componentContext {
     private val repository: ConfettiRepository by inject()
     private val coroutineScope = coroutineScope()
+    private val defaultFetchPolicy: FetchPolicy by inject()
 
     private var addErrorCount = 1
     private var removeErrorCount = 1
@@ -58,7 +59,7 @@ class DefaultSessionDetailsComponent(
     override val removeErrorChannel = Channel<Int>()
 
     override val uiState: Value<SessionDetailsUiState> =
-        repository.sessionDetails(conference = conference, sessionId = sessionId)
+        repository.sessionDetails(conference = conference, sessionId = sessionId, fetchPolicy = defaultFetchPolicy)
             .map {
                 val details = it.data?.session?.sessionDetails
                 if (details != null) {

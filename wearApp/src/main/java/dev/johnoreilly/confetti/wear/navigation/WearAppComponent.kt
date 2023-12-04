@@ -11,13 +11,19 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
+import com.google.android.horologist.networks.data.DataRequestRepository
+import com.google.android.horologist.networks.data.DataUsageReport
+import com.google.android.horologist.networks.data.Networks
+import com.google.android.horologist.networks.status.NetworkRepository
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.coroutineScope
 import dev.johnoreilly.confetti.wear.AppUiState
+import dev.johnoreilly.confetti.wear.navigation.WearAppComponent.NetworkStatusAppState
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
+import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -27,7 +33,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toLocalDate
-import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -37,6 +42,7 @@ interface WearAppComponent {
     val stack: Value<ChildStack<Config, Child>>
 
     val appState: StateFlow<AppUiState?>
+    val networkState: StateFlow<NetworkStatusAppState>
 
     val isWaitingOnThemeOrData: Boolean
 
@@ -52,6 +58,11 @@ interface WearAppComponent {
 
     fun navigateTo(config: Config)
     suspend fun waitForConference(): String
+
+    data class NetworkStatusAppState(
+        val networks: Networks,
+        val dataUsage: DataUsageReport? = null,
+    )
 }
 
 class DefaultWearAppComponent(
@@ -63,16 +74,21 @@ class DefaultWearAppComponent(
     internal val repository: ConfettiRepository by inject()
     internal val navigation = StackNavigation<Config>()
     val phoneSettingsSync: PhoneSettingsSync by inject()
+    val wearPreferencesStore: WearPreferencesStore by inject()
+    private val networkRepository: NetworkRepository by inject()
+    private val dataRequestRepository: DataRequestRepository by inject()
 
     override val appState: StateFlow<AppUiState?> = combine(
         phoneSettingsSync.settingsFlow,
         phoneSettingsSync.conferenceFlow,
-        authentication.currentUser
-    ) { phoneSettings, defaultConference, user ->
+        authentication.currentUser,
+        wearPreferencesStore.preferences
+    ) { phoneSettings, defaultConference, user, wearPreferences ->
         AppUiState(
             defaultConference = defaultConference,
             settings = phoneSettings,
-            user = user
+            user = user,
+            wearPreferences = wearPreferences
         )
     }
         .stateIn(
@@ -80,6 +96,22 @@ class DefaultWearAppComponent(
             SharingStarted.Eagerly,
             null
         )
+
+    override val networkState =
+        combine(
+            networkRepository.networkStatus,
+            dataRequestRepository.currentPeriodUsage(),
+        ) { networkStatus, currentPeriodUsage ->
+            NetworkStatusAppState(networks = networkStatus, dataUsage = currentPeriodUsage)
+        }
+            .stateIn(
+                coroutineScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = NetworkStatusAppState(
+                    networks = networkRepository.networkStatus.value,
+                    dataUsage = null,
+                ),
+            )
 
     override suspend fun waitForConference(): String {
         return appState.map { it?.defaultConference }.firstOrNull() ?: AppSettings.CONFERENCE_NOT_SET
@@ -153,14 +185,17 @@ class DefaultWearAppComponent(
                 val (conference, date) = path.substringAfter("sessions/").split("/", limit = 2)
                 Config.ConferenceSessions(user, conference, date.toLocalDate())
             }
+
             path.startsWith("/session/") -> {
                 val (conference, session) = path.substringAfter("session/").split("/", limit = 2)
                 Config.SessionDetails(user, conference, session)
             }
+
             path.startsWith("/speaker/") -> {
                 val (conference, speaker) = path.substringAfter("speaker/").split("/", limit = 2)
                 Config.SpeakerDetails(user, conference, speaker)
             }
+
             path.startsWith("/bookmarks/") -> Config.Bookmarks(user, path.substringAfter("bookmarks/"))
             else -> null.also {
                 Log.w("WearAppComponent", "Unhandled deeplink $uri")

@@ -127,7 +127,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1"
+kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
 ktor-cio = "io.ktor:ktor-server-cio:2.3.6"
 ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.6"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }

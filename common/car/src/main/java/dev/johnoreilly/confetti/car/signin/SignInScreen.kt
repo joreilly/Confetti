@@ -111,11 +111,15 @@ class SignInScreen(
             }
         })
 
-        val intent = Intent()
-        intent.setClass(carContext, SignInWithGoogleActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtras(extras)
-        carContext.startActivity(intent)
+        runCatching {
+            val intent = Intent()
+            intent.setClass(carContext, SignInWithGoogleActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtras(extras)
+            carContext.startActivity(intent)
+        }.getOrElse { error ->
+            error.printStackTrace()
+        }
 
         CarToast.makeText(
             carContext,

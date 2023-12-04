@@ -167,8 +167,12 @@ fun SpeakerDetailsView(
                                 modifier = Modifier.size(24.dp),
                                 socialItem = socialsItem,
                                 onClick = {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
-                                    context.startActivity(intent)
+                                    runCatching {
+                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
+                                        context.startActivity(intent)
+                                    }.getOrElse { error ->
+                                        error.printStackTrace()
+                                    }
                                 }
                             )
                         }

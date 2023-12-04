@@ -54,7 +54,6 @@ import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.isExpanded
 import dev.johnoreilly.confetti.utils.plus
 
-
 @Composable
 fun SpeakersRoute(
     component: SpeakersComponent,

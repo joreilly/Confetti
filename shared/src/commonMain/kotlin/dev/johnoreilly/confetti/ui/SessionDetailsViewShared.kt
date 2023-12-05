@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,7 +35,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.seiko.imageloader.rememberImagePainter
+import com.seiko.imageloader.model.ImageAction
+import com.seiko.imageloader.rememberImageSuccessPainter
+import com.seiko.imageloader.ui.AutoSizeBox
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
@@ -44,7 +47,6 @@ import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
-
 
 @Composable
 internal fun SessionDetailViewShared(
@@ -167,6 +169,7 @@ internal fun ConfettiHeader(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun SessionSpeakerInfo(
     speaker: SpeakerDetails,
@@ -179,12 +182,28 @@ internal fun SessionSpeakerInfo(
     ) {
         Row {
             speaker.photoUrl?.let {
-                val painter = rememberImagePainter(speaker.photoUrl)
-                Image(
-                    painter, null,
-                    modifier = Modifier.size(64.dp).clip(CircleShape),
-                    contentScale = ContentScale.Crop,
-                )
+                AutoSizeBox(speaker.photoUrl) { action ->
+                    when (action) {
+                        is ImageAction.Success -> {
+                            Image(
+                                rememberImageSuccessPainter(action), null,
+                                modifier = Modifier.size(64.dp).clip(CircleShape),
+                                contentScale = ContentScale.Crop,
+                            )
+                        }
+                        is ImageAction.Loading -> {
+                            CircularProgressIndicator()
+                        }
+                        is ImageAction.Failure -> {
+                            Image(
+                                painter = painterResource("ic_person_black_24dp.xml"),
+                                contentDescription = speaker.name,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier.size(64.dp).clip(CircleShape)
+                            )
+                        }
+                    }
+                }
             }
 
             Column(Modifier.padding(horizontal = 8.dp)) {

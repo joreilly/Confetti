@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
+import com.google.android.horologist.networks.battery.BatteryStatusMonitor
 import com.google.android.horologist.networks.data.DataRequestRepository
 import com.google.android.horologist.networks.data.RequestType
 import com.google.android.horologist.networks.db.DBDataRequestRepository
@@ -34,7 +35,6 @@ import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepositoryImpl
-import dev.johnoreilly.confetti.wear.networks.BatteryStatusMonitor
 import dev.johnoreilly.confetti.wear.networks.WearNetworkingRules
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
@@ -84,14 +84,15 @@ val appModule = module {
         FetchPolicy.CacheFirst
     }
 
-    single<BatteryStatusMonitor> { BatteryStatusMonitor(androidContext(), get()) }
+    single<BatteryStatusMonitor> { BatteryStatusMonitor(androidContext()) }
 
     single<WearPreferencesStore> { WearPreferencesStore(androidContext(), get()) }
 
     single<NetworkingRules> {
         WearNetworkingRules(
             batteryStatusMonitor = get(),
-            wearPreferences = get()
+            wearPreferences = get(),
+            coroutineScope = get()
         )
     }
 

@@ -72,7 +72,7 @@ class ApolloClientCache : KoinComponent {
                     val newRequest2 = request.newBuilder().addHttpHeader("Authorization", "Bearer $token2").build()
                     emitAll(chain.proceed(newRequest2))
                 } else {
-                    emit(ApolloResponse.Builder(request.operation, request.requestUuid, it as ApolloException).build())
+                    emit(ApolloResponse.Builder(request.operation, request.requestUuid).exception(it as ApolloException).build())
                 }
             }
 

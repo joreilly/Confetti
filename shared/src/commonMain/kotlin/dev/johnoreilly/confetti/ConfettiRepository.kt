@@ -4,6 +4,7 @@ import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Mutation
 import com.apollographql.apollo3.api.Operation
+import com.apollographql.apollo3.api.apolloUnsafeCast
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
@@ -124,8 +125,7 @@ class ConfettiRepository : KoinComponent {
                     ApolloResponse.Builder(
                         operation,
                         uuid4(),
-                        DefaultApolloException("The flow terminated without a valid item")
-                    ).build()
+                    ).exception(DefaultApolloException("The flow terminated without a valid item")).build()
                 )
             }
         }

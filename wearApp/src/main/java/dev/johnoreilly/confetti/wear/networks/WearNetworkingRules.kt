@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.wear.networks
 
+import com.google.android.horologist.networks.battery.BatteryStatusMonitor
 import com.google.android.horologist.networks.data.NetworkInfo
 import com.google.android.horologist.networks.data.NetworkStatus
 import com.google.android.horologist.networks.data.NetworkType
@@ -9,20 +10,25 @@ import com.google.android.horologist.networks.rules.Allow
 import com.google.android.horologist.networks.rules.Fail
 import com.google.android.horologist.networks.rules.NetworkingRules
 import com.google.android.horologist.networks.rules.RequestCheck
-import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
-import dev.johnoreilly.confetti.wear.proto.WearSettings
 import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class WearNetworkingRules(
-    val batteryStatusMonitor: BatteryStatusMonitor,
-    val wearPreferences: WearPreferencesStore
+    batteryStatusMonitor: BatteryStatusMonitor,
+    val wearPreferences: WearPreferencesStore,
+    coroutineScope: CoroutineScope
 ) : NetworkingRules {
+    val battery = batteryStatusMonitor.status.stateIn(
+        coroutineScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = BatteryStatusMonitor.BatteryStatus(
+            charging = false,
+            deviceIdleMode = false,
+            powerSaveMode = false
+        )
+    )
 
     override fun isHighBandwidthRequest(requestType: RequestType): Boolean {
         return false
@@ -33,7 +39,7 @@ class WearNetworkingRules(
         currentNetworkInfo: NetworkInfo,
     ): RequestCheck {
         val preferences = wearPreferences.networkPreferences
-        val battery = batteryStatusMonitor.status.value
+        val battery = battery.value
 
         if (requestType == RequestType.LogsRequest && !battery.charging) {
             return Fail("Log requests only while charging")
@@ -51,7 +57,7 @@ class WearNetworkingRules(
         requestType: RequestType,
     ): NetworkStatus? {
         val preferences = wearPreferences.networkPreferences
-        val battery = batteryStatusMonitor.status.value
+        val battery = battery.value
 
         if (requestType == RequestType.LogsRequest && !battery.charging) {
             return null

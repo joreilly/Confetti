@@ -78,8 +78,6 @@ fun SettingsListView(
             val wearPreferences = uiState.wearPreferences
             val networkPreferences = wearPreferences?.networkPreferences
 
-            println("$wearPreferences $networkPreferences")
-
             item {
                 val authUser = uiState.authUser
                 if (authUser == null) {

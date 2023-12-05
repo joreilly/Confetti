@@ -11,17 +11,13 @@ import ConfettiKit
 
 class AppDelegate : NSObject, UIApplicationDelegate {
     
-    let lifecycle: LifecycleRegistry
     let root: AppComponent
     
     override init() {
         KoinKt.doInitKoin()
 
-        lifecycle = LifecycleRegistryKt.LifecycleRegistry()
-        LifecycleRegistryExtKt.resume(lifecycle)
-        
         root = DefaultAppComponent(
-            componentContext: DefaultComponentContext(lifecycle: lifecycle),
+            componentContext: DefaultComponentContext(lifecycle: ApplicationLifecycle()),
             onSignOut: {},
             onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone

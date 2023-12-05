@@ -7,6 +7,8 @@ import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.decompose.coroutineScope
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseUserMapper
+import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
+import dev.johnoreilly.confetti.wear.proto.WearPreferences
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,6 +30,7 @@ interface SettingsComponent {
     fun onSwitchConferenceSelected()
     fun navigateToGoogleSignIn()
     fun navigateToGoogleSignOut()
+    fun updatePreferences(wearPreferences: WearPreferences)
 }
 
 class DefaultSettingsComponent(
@@ -40,6 +43,7 @@ class DefaultSettingsComponent(
     private val appSettings: AppSettings by inject()
     private val phoneSettingsSync: PhoneSettingsSync by inject()
     private val workManagerConferenceRefresh: WorkManagerConferenceRefresh by inject()
+    private val wearPreferencesStore: WearPreferencesStore by inject()
 
     private val coroutineScope = coroutineScope()
 
@@ -47,19 +51,25 @@ class DefaultSettingsComponent(
         combine(
             userRepository.firebaseAuthFlow,
             appSettings.developerModeFlow(),
-        ) { firebaseUser, developerMode ->
+            wearPreferencesStore.preferences
+        ) { firebaseUser, developerMode, preferences ->
             val authUser = FirebaseUserMapper.map(firebaseUser)
 
             if (developerMode) {
                 val token = firebaseUser?.getIdToken(false)?.await()
                 SettingsUiState.Success(
-                    developerMode = developerMode,
+                    developerMode = true,
                     authUser = authUser,
                     firebaseUser = firebaseUser,
-                    token = token
+                    token = token,
+                    wearPreferences = preferences
                 )
             } else {
-                SettingsUiState.Success(developerMode = developerMode, authUser = authUser)
+                SettingsUiState.Success(
+                    developerMode = false,
+                    authUser = authUser,
+                    wearPreferences = preferences
+                )
             }
         }
             .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SettingsUiState.Loading)
@@ -98,5 +108,13 @@ class DefaultSettingsComponent(
 
     override fun navigateToGoogleSignOut() {
         onNavigateToGoogleSignOut()
+    }
+
+    override fun updatePreferences(wearPreferences: WearPreferences) {
+        coroutineScope.launch {
+            wearPreferencesStore.dataStore.updateData {
+                wearPreferences
+            }
+        }
     }
 }

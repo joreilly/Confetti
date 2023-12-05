@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.wear.compose.material.TimeText
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.networks.ui.DataUsageTimeText
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
@@ -14,6 +16,7 @@ import dev.johnoreilly.confetti.wear.decompose.SwipeToDismissBox
 import dev.johnoreilly.confetti.wear.home.HomeRoute
 import dev.johnoreilly.confetti.wear.navigation.Child
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
+import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
 import dev.johnoreilly.confetti.wear.settings.SettingsRoute
@@ -25,39 +28,43 @@ fun ConfettiApp(
 ) {
     val appState by component.appState.collectAsStateWithLifecycle()
     val settings = appState?.settings
+    val preferences = appState?.wearPreferences
 
     if (settings != null) {
         ConfettiTheme(settings.theme) {
             SwipeToDismissBox(
                 component.stack,
-                onDismissed = { component.navigateUp() }
+                onDismissed = { component.navigateUp() },
+                timeText = {
+                    val showNetworks = preferences?.showNetworks
+                    if (showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS || showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA) {
+                        NetworkTimeText(component, showNetworks)
+                    } else {
+                        TimeText()
+                    }
+                },
             ) { configuration ->
                 when (val child = configuration.instance) {
                     is Child.Conferences -> ConferencesRoute(
-                        child.component,
-                        createScalingLazyColumnState()
+                        child.component, createScalingLazyColumnState()
                     )
 
                     is Child.ConferenceSessions -> SessionsRoute(
-                        child.component,
-                        createScalingLazyColumnState()
+                        child.component, createScalingLazyColumnState()
                     )
 
                     is Child.SessionDetails -> SessionDetailsRoute(
-                        child.component,
-                        createScalingLazyColumnState()
+                        child.component, createScalingLazyColumnState()
                     )
 
                     is Child.SpeakerDetails -> SpeakerDetailsRoute(
-                        child.component,
-                        createScalingLazyColumnState(
+                        child.component, createScalingLazyColumnState(
                             factory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false)
                         )
                     )
 
                     is Child.Settings -> SettingsRoute(
-                        child.component,
-                        createScalingLazyColumnState()
+                        child.component, createScalingLazyColumnState()
                     )
 
                     is Child.Loading -> {
@@ -70,22 +77,36 @@ fun ConfettiApp(
                         FirebaseSignInScreen(child.component)
                     }
 
-                    is Child.GoogleSignOut ->
-                        FirebaseSignOutScreen(child.component)
+                    is Child.GoogleSignOut -> FirebaseSignOutScreen(child.component)
 
                     is Child.Home -> HomeRoute(
-                        child.component,
-                        createScalingLazyColumnState()
+                        child.component, createScalingLazyColumnState()
                     )
 
                     is Child.Bookmarks -> BookmarksRoute(
-                        child.component,
-                        createScalingLazyColumnState()
+                        child.component, createScalingLazyColumnState()
                     )
                 }
             }
         }
     }
+}
+
+@Composable
+private fun NetworkTimeText(component: WearAppComponent, showNetworks: NetworkDetail) {
+    val networkState by component.networkState.collectAsStateWithLifecycle()
+    val enabled =
+        showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA || showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS
+
+    DataUsageTimeText(
+        showData = enabled,
+        networkStatus = networkState.networks,
+        networkUsage = if (showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA) {
+            networkState.dataUsage
+        } else {
+            null
+        }
+    )
 }
 
 @Composable

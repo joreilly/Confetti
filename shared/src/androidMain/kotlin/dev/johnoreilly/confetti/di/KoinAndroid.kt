@@ -12,7 +12,9 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.WorkManager
 import coil.ImageLoader
 import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.network.okHttpClient
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.network.http.DefaultHttpEngine
+import com.apollographql.apollo3.network.ws.DefaultWebSocketEngine
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.data.WearDataLayerRegistry
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -32,12 +34,14 @@ import dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.work.SessionNotificationWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import okhttp3.Call
 import okhttp3.OkHttpClient
-import okhttp3.logging.LoggingEventListener
+import okhttp3.WebSocket
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
@@ -45,20 +49,36 @@ actual fun platformModule() = module {
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .apply {
-                if (BuildConfig.DEBUG) {
-                    eventListenerFactory(LoggingEventListener.Factory())
-                }
+//                if (BuildConfig.DEBUG) {
+//                    eventListenerFactory(LoggingEventListener.Factory())
+//                }
             }
             .build()
+    }
+    single<FetchPolicy> {
+        FetchPolicy.CacheAndNetwork
+    }
+    single<WebSocket.Factory> {
+        get<OkHttpClient>()
     }
     factory<ApolloClient.Builder> {
         ApolloClient.Builder()
             .serverUrl("https://confetti-app.dev/graphql")
-            .okHttpClient(get())
+            .httpEngine(DefaultHttpEngine(get<Call.Factory>(named("API"))))
+            .webSocketEngine(DefaultWebSocketEngine(get<WebSocket.Factory>()))
+    }
+    single<Call.Factory>(qualifier = named("API")) {
+        get<OkHttpClient>()
+    }
+    single<Call.Factory>(qualifier = named("images")) {
+        get<OkHttpClient>()
+    }
+    single<Call.Factory>(qualifier = named("logs")) {
+        get<OkHttpClient>()
     }
     single<ImageLoader> {
         ImageLoader.Builder(androidContext())
-            .okHttpClient { get() }
+            .callFactory { get(named("images")) }
             .build()
     }
     single<AnalyticsLogger> {

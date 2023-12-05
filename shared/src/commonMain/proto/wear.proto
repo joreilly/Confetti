@@ -24,3 +24,19 @@ message WearSettings {
   string conference = 2;
   Theme theme = 3;
 }
+
+message WearPreferences {
+  NetworkDetail showNetworks = 1;
+  NetworkPreferences networkPreferences = 2;
+}
+
+enum NetworkDetail {
+  NETWORK_DETAIL_UNSPECIFIED = 0;
+  NETWORK_DETAIL_NONE = 1;
+  NETWORK_DETAIL_NETWORKS = 2;
+  NETWORK_DETAIL_NETWORKS_AND_DATA = 3;
+}
+
+message NetworkPreferences {
+  bool allowLte = 1;
+}

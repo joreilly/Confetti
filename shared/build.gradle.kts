@@ -10,7 +10,7 @@ plugins {
     id("com.squareup.wire")
     id("maven-publish")
     id("kotlinx-serialization")
-    id("io.github.luca992.multiplatform-swiftpackage") version "2.2.0"
+    id("io.github.luca992.multiplatform-swiftpackage") version "2.2.1"
 }
 
 configureCompilerOptions()

@@ -128,6 +128,7 @@ class SessionsSimpleComponent(
     componentContext: ComponentContext,
     private val conference: String,
     private val user: User?,
+    private val date: LocalDate? = null,
 ) : KoinComponent, ComponentContext by componentContext {
     private val coroutineScope = coroutineScope()
     private val repository: ConfettiRepository by inject()
@@ -169,15 +170,28 @@ class SessionsSimpleComponent(
     }
 
     private fun filterSessions(uiState: SessionsUiState, filter: String): SessionsUiState {
-        return if (filter.isNotBlank() && uiState is SessionsUiState.Success) {
-            val newSessions = uiState.sessionsByStartTimeList.map { outerMap ->
-                outerMap.mapValues { (_, value) ->
-                    value.filter { session ->
-                        filterSessionDetails(session, filter)
-                    }
-                }.filterValues { it.isNotEmpty() }
+        return if (uiState is SessionsUiState.Success) {
+            val dateSessions = if (date != null) {
+                uiState.sessionsByStartTimeList.filter {
+                    it.values.first().first().startsAt.date == date
+                }
+            } else {
+                uiState.sessionsByStartTimeList
             }
-            uiState.copy(sessionsByStartTimeList = newSessions)
+
+            val filteredSessions = if (filter.isNotBlank()) {
+                dateSessions.map { outerMap ->
+                    outerMap.mapValues { (_, value) ->
+                        value.filter { session ->
+                            filterSessionDetails(session, filter)
+                        }
+                    }.filterValues { it.isNotEmpty() }
+                }
+            } else {
+                dateSessions
+            }
+
+            uiState.copy(sessionsByStartTimeList = filteredSessions)
         } else {
             uiState
         }

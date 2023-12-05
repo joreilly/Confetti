@@ -21,8 +21,7 @@ interface ConferenceSessionsComponent {
 class DefaultConferenceSessionsComponent(
     componentContext: ComponentContext,
     conference: String,
-    // TODO filter date
-    private val date: LocalDate?,
+    date: LocalDate,
     user: User?,
     private val onSessionSelected: (String) -> Unit,
 ) : ConferenceSessionsComponent, KoinComponent, ComponentContext by componentContext {
@@ -31,6 +30,7 @@ class DefaultConferenceSessionsComponent(
             componentContext = childContext(key = "Sessions"),
             conference = conference,
             user = user,
+            date = date
         )
 
     val repository: ConfettiRepository = get()

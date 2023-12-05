@@ -30,7 +30,7 @@ sealed class Config {
     data class ConferenceSessions(
         override val uid: String?, // Unused, but needed to recreated the component when the user changes
         override val conference: String,
-        val date: LocalDate? = null
+        val date: LocalDate
     ) : Config(), UserAware, ConferenceAware {
         override val loggingArguments: Map<String, String>
             get() = mapOf("conference" to conference)

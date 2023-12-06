@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import androidx.room.Room
 import androidx.wear.tiles.TileService
+import coil.ImageLoader
+import coil.decode.SvgDecoder
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -178,6 +180,17 @@ val appModule = module {
             delegate = get<Call.Factory>(),
             defaultRequestType = RequestType.LogsRequest,
         )
+    }
+
+    single<ImageLoader> {
+        ImageLoader.Builder(androidContext())
+            .callFactory { get(named("images")) }
+            .crossfade(false)
+            .respectCacheHeaders(false)
+            .components {
+                add(SvgDecoder.Factory())
+            }
+            .build()
     }
 
     single<FirebaseAuthUserRepository> { FirebaseAuthUserRepositoryImpl(get(), get()) }

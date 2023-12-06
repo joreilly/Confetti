@@ -11,6 +11,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.WorkManager
 import coil.ImageLoader
+import coil.decode.SvgDecoder
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.network.http.DefaultHttpEngine
@@ -79,6 +80,9 @@ actual fun platformModule() = module {
     single<ImageLoader> {
         ImageLoader.Builder(androidContext())
             .callFactory { get(named("images")) }
+            .components {
+                add(SvgDecoder.Factory())
+            }
             .build()
     }
     single<AnalyticsLogger> {

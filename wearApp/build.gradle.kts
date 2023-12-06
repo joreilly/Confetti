@@ -154,6 +154,7 @@ dependencies {
     testImplementation(project(":androidTest"))
 
     implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
     implementation(libs.compose.ui.tooling)
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)

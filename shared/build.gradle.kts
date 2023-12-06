@@ -121,6 +121,7 @@ kotlin {
                 api(libs.koin.workmanager)
                 api(libs.okio)
                 implementation(libs.horologist.datalayer)
+                implementation(libs.coil.svg)
 
                 implementation(libs.firebase.analytics)
                 implementation(libs.compose.navigation)

@@ -131,6 +131,8 @@ kotlin {
                 api(libs.multiplatform.settings.datastore)
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
+
+                implementation(libs.apollo.debug.server)
             }
         }
 

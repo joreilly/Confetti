@@ -401,6 +401,29 @@ object Sessionize {
         )
     }
 
+    suspend fun importDroidconAmman2024(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/83eexqxt/view/All"),
+            config = DConfig(
+                id = ConferenceId.DroidconAmman2024.id,
+                name = "Droidcon Amman 2024",
+                timeZone = "Asia/Amman",
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Le Royal Hotels & Resorts",
+                address = "XW35+9J Amman, Jordan",
+                description = mapOf(
+                    "en" to "Google Office",
+                ),
+                latitude = 31.95338374344055,
+                longitude = 35.90903552574762,
+                imageUrl = "https://assets-global.website-files.com/6087d683edfb0155b650657d/6305d4a3712874801d149634_website-01.jpg",
+                floorPlanUrl = null
+            ),
+        )
+    }
+
     internal fun writeData(
         sessionizeData: SessionizeData,
         config: DConfig,

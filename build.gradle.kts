@@ -4,10 +4,6 @@ import org.jetbrains.compose.ComposeExtension
 plugins {
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
-
 tasks.register("setupCredentials") {
     fun File.writeEnv(name: String) {
         parentFile.mkdirs()

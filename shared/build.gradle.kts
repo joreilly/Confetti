@@ -134,6 +134,12 @@ kotlin {
             }
         }
 
+        sourceSets.invokeWhenCreated("androidDebug") {
+            dependencies {
+                implementation(libs.apollo.debug.server)
+            }
+        }
+
         jvmMain {
             dependencies {
                 // hack to allow use of MainScope() in shared code used by JVM console app

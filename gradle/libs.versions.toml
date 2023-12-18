@@ -63,6 +63,7 @@ apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime" }
 apollo-annotations = { module = "com.apollographql.apollo3:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo3:apollo-tooling", version.ref = "apollo" }
 apollo-testing = { module = "com.apollographql.apollo3:apollo-testing-support" }
+apollo-debug-server = { module = "com.apollographql.apollo3:apollo-debug-server" }
 atomicfu = "org.jetbrains.kotlinx:atomicfu:0.23.1"
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
 car-app-auto = "androidx.car.app:app:1.3.0-rc01"

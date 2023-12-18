@@ -11,10 +11,11 @@ import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.exception.ApolloException
 import com.apollographql.apollo3.exception.ApolloHttpException
-import com.apollographql.apollo3.exception.DefaultApolloException
 import com.apollographql.apollo3.interceptor.ApolloInterceptor
 import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
 import dev.johnoreilly.confetti.di.getDatabaseName
+import dev.johnoreilly.confetti.utils.registerApolloDebugServer
+import dev.johnoreilly.confetti.utils.unregisterApolloDebugServer
 import kotlinx.atomicfu.locks.reentrantLock
 import kotlinx.atomicfu.locks.withLock
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
@@ -53,7 +53,7 @@ class ApolloClientCache : KoinComponent {
                 return@flow
             }
 
-            val token =  tokenProvider.token(false)
+            val token = tokenProvider.token(false)
 
             if (token == null) {
                 emitAll(chain.proceed(request))
@@ -67,7 +67,7 @@ class ApolloClientCache : KoinComponent {
                     throw exception
                 }
             }.catch {
-                val token2 =  tokenProvider.token(true)
+                val token2 = tokenProvider.token(true)
                 if (token2 != null) {
                     val newRequest2 = request.newBuilder().addHttpHeader("Authorization", "Bearer $token2").build()
                     emitAll(chain.proceed(newRequest2))
@@ -116,11 +116,15 @@ class ApolloClientCache : KoinComponent {
             .autoPersistedQueries()
             .addInterceptor(tokenProviderInterceptor)
             .build()
+            .also {
+                it.registerApolloDebugServer(conference + uid)
+            }
     }
 
     fun close() {
         _clients.values.forEach {
             it.close()
+            it.unregisterApolloDebugServer()
         }
         _clients.clear()
     }

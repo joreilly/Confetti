@@ -1,0 +1,6 @@
+query GetConferences {
+    conferences {
+        name
+        days
+    }
+}

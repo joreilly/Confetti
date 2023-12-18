@@ -47,6 +47,7 @@ include(":backend:service-import")
 include(":landing-page")
 include(":wearApp")
 include(":wearBenchmark")
+include(":webApp")
 include(":compose-desktop")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {

@@ -29,6 +29,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.material.Chip
 import com.google.android.horologist.compose.material.ToggleChip
 import com.google.android.horologist.compose.material.ToggleChipToggleControl
+import com.google.android.horologist.images.coil.CoilPaintable
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.SectionHeader
@@ -100,7 +101,7 @@ fun SettingsListView(
                             }
                         },
                         label = stringResource(R.string.settings_sign_out),
-                        icon = authUser.avatarUri,
+                        icon = CoilPaintable(authUser.avatarUri),
                         largeIcon = true,
                         onClick = navigateToGoogleSignOut
                     )

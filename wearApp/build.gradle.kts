@@ -197,6 +197,7 @@ dependencies {
     implementation(libs.horologist.networkawareness.db)
     implementation(libs.horologist.networkawareness.okhttp)
     implementation(libs.horologist.networkawareness.ui)
+    implementation(libs.horologist.images.coil)
 
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)

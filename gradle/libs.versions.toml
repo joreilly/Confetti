@@ -106,6 +106,7 @@ horologist-compose-tools = { module = "com.google.android.horologist:horologist-
 horologist-datalayer = { module = "com.google.android.horologist:horologist-datalayer", version.ref = "horologist" }
 horologist-datalayer-phone = { module = "com.google.android.horologist:horologist-datalayer-phone", version.ref = "horologist" }
 horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist" }
+horologist-images-coil = { module = "com.google.android.horologist:horologist-images-coil", version.ref = "horologist" }
 horologist-auth-data-phone = { module = "com.google.android.horologist:horologist-auth-data-phone", version.ref = "horologist" }
 horologist-networkawareness-core = { module = "com.google.android.horologist:horologist-network-awareness", version.ref = "horologist" }
 horologist-networkawareness-db = { module = "com.google.android.horologist:horologist-network-awareness-db", version.ref = "horologist" }

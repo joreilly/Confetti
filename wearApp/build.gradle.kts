@@ -214,6 +214,7 @@ dependencies {
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)
     implementation(libs.room.runtime)
+    implementation(libs.coil.base)
 
     debugImplementation(libs.compose.ui.manifest)
     debugImplementation(libs.androidx.complications.rendering)

@@ -139,9 +139,9 @@ material3-window-size = { module = "androidx.compose.material3:material3-window-
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
 multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
-okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
-okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.11"
-okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
+okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.12"
+okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.12"
+okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12"
 play-services-auth = "com.google.android.gms:play-services-auth:20.7.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = "com.android.tools.build:gradle:8.1.4"

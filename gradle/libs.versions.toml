@@ -1,8 +1,8 @@
 [versions]
 accompanist = "0.32.0"
-activity-compose = "1.8.1"
+activity-compose = "1.8.2"
 androidx-lifecycle = "2.6.2"
-androidx-datastore = "1.1.0-alpha06"
+androidx-datastore = "1.1.0-alpha07"
 apollo = "4.0.0-beta.4"
 compose = "1.5.4"
 compose-multiplatform = "1.6.0-alpha01"
@@ -29,14 +29,14 @@ kotlinx-datetime = "0.5.0"
 lifecycle = "2.6.2"
 lifecycle-livedata-ktx = "2.6.2"
 multiplatform-settings = "1.1.1"
-nav-compose = "2.7.5"
+nav-compose = "2.7.6"
 okio = "3.7.0"
 protolayout-expression = "1.0.0"
 protolayout-proto = "1.0.0"
 robolectric = "4.11.1"
-room = "2.6.0"
+room = "2.6.1"
 snapshot-android = "v1.0.2"
-work-runtime-ktx = "2.8.1"
+work-runtime-ktx = "2.9.0"
 
 
 [libraries]
@@ -44,8 +44,8 @@ accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive",
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-testharness = { module = "com.google.accompanist:accompanist-testharness", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.1"
-androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.0-rc01"
+androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.2"
+androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.0"
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials-play-services-auth" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
@@ -87,7 +87,7 @@ federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
-firebase-bom = "com.google.firebase:firebase-bom:32.6.0"
+firebase-bom = "com.google.firebase:firebase-bom:32.7.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-performance = { module = "com.google.firebase:firebase-perf-ktx" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.10.4"
@@ -169,8 +169,8 @@ splash-screen = "androidx.core:core-splashscreen:1.0.1"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"
 test-runner = "androidx.test:runner:1.5.2"
-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-alpha05"
-wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.0-rc01"
+test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-beta01"
+wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.0"
 wear-compose-material = "androidx.wear.compose:compose-material:1.2.1"
 wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.1"
 wire-runtime = "com.squareup.wire:wire-runtime:4.9.3"

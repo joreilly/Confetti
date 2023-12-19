@@ -2,9 +2,9 @@ package dev.johnoreilly.confetti
 
 import android.app.Application
 import com.google.firebase.FirebaseApp
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.crashlytics.ktx.setCustomKeys
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.crashlytics.crashlytics
+import com.google.firebase.crashlytics.setCustomKeys
+import com.google.firebase.Firebase
 import dev.johnoreilly.confetti.di.appModule
 import dev.johnoreilly.confetti.di.initKoin
 import io.github.aakira.napier.DebugAntilog

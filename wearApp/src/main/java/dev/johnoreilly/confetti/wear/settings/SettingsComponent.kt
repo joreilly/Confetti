@@ -1,8 +1,8 @@
 package dev.johnoreilly.confetti.wear.settings
 
 import com.arkivanov.decompose.ComponentContext
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.Firebase
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.decompose.coroutineScope
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository

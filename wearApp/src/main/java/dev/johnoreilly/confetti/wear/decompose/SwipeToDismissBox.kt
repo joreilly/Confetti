@@ -101,7 +101,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
 
     RetainStates(holder, stack.getConfigurations())
 
-    AppScaffold {
+    AppScaffold(timeText = timeText) {
         SwipeToDismissBox(
             onDismissed = onDismissed,
             modifier = modifier,

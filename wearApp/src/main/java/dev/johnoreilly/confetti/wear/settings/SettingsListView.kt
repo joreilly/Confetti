@@ -29,6 +29,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.material.Chip
 import com.google.android.horologist.compose.material.ToggleChip
 import com.google.android.horologist.compose.material.ToggleChipToggleControl
+import com.google.android.horologist.images.base.paintable.ImageVectorPaintable.Companion.asPaintable
 import com.google.android.horologist.images.coil.CoilPaintable
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
@@ -136,7 +137,7 @@ fun SettingsListView(
                         NetworkDetail.NETWORK_DETAIL_NETWORKS -> stringResource(R.string.settings_show_networks)
                         else -> stringResource(R.string.settings_hide_networks)
                     },
-                    icon = Icons.Default.NetworkPing,
+                    icon = Icons.Default.NetworkPing.asPaintable(),
                     onClick = {
                         if (wearPreferences != null) {
                             updatePreferences(

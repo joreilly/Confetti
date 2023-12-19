@@ -4,10 +4,6 @@ import org.jetbrains.compose.ComposeExtension
 plugins {
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
-
 tasks.register("setupCredentials") {
     fun File.writeEnv(name: String) {
         parentFile.mkdirs()
@@ -37,7 +33,6 @@ allprojects {
     afterEvaluate {
         extensions.findByType<ComposeExtension>()?.apply {
             kotlinCompilerPlugin.set("1.5.4-dev1-kt2.0.0-Beta1")
-            kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=2.0.0-Beta1")
         }
     }
 }

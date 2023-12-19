@@ -3,9 +3,9 @@ accompanist = "0.32.0"
 activity-compose = "1.8.1"
 androidx-lifecycle = "2.6.2"
 androidx-datastore = "1.1.0-alpha06"
-apollo = "4.0.0-beta.3"
+apollo = "4.0.0-beta.4"
 compose = "1.5.4"
-compose-multiplatform = "1.5.11"
+compose-multiplatform = "1.6.0-alpha01"
 compose-compiler = "1.5.5-dev-k2.0.0-Beta1-06b8ae672a4"
 compose-material-3 = "1.1.2"
 credentials-play-services-auth = "1.2.0"
@@ -157,6 +157,7 @@ plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.0" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.3" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
+stately-common = "co.touchlab:stately-common:2.0.6"
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }

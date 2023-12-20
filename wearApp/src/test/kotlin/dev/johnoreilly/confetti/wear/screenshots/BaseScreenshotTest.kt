@@ -25,7 +25,7 @@ import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.scrollAway
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.tools.coil.FakeImageLoader
+import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.screenshot.RNGScreenshotTestRule
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.proto.Theme

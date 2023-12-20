@@ -197,6 +197,7 @@ dependencies {
     implementation(libs.horologist.networkawareness.db)
     implementation(libs.horologist.networkawareness.okhttp)
     implementation(libs.horologist.networkawareness.ui)
+    implementation(libs.horologist.images.coil)
 
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)
@@ -213,6 +214,7 @@ dependencies {
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)
     implementation(libs.room.runtime)
+    implementation(libs.coil.base)
 
     debugImplementation(libs.compose.ui.manifest)
     debugImplementation(libs.androidx.complications.rendering)
@@ -227,6 +229,7 @@ dependencies {
     testImplementation(libs.snapshot.jvm)
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.horologist.compose.tools)
+    testImplementation(libs.horologist.images.coil)
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {

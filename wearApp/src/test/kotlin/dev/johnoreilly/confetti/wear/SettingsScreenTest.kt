@@ -11,7 +11,7 @@ import androidx.core.graphics.drawable.toDrawable
 import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.auth.data.common.model.AuthUser
-import com.google.android.horologist.compose.tools.coil.FakeImageLoader
+import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.screenshot.a11y.A11ySnapshotTransformer
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest

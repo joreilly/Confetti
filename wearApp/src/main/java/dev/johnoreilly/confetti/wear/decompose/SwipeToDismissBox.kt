@@ -2,10 +2,8 @@
 
 package dev.johnoreilly.confetti.wear.decompose
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
@@ -13,10 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
-import androidx.wear.compose.foundation.OnFocusChange
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
-import androidx.wear.compose.material.PositionIndicator
-import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.SwipeToDismissBox
 import androidx.wear.compose.material.SwipeToDismissKeys
 import androidx.wear.compose.material.TimeText
@@ -24,9 +19,10 @@ import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
+import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.scrollAway
+import com.google.android.horologist.compose.layout.ScreenScaffold
 
 /**
  * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
@@ -105,26 +101,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
 
     RetainStates(holder, stack.getConfigurations())
 
-    val activeScalingLazyColumnState = remember { mutableStateOf<ScalingLazyColumnState?>(null) }
-
-    Scaffold(
-        timeText = {
-            val timeTextModifier = remember {
-                derivedStateOf {
-                    val scrollableState = activeScalingLazyColumnState.value
-
-                    if (scrollableState != null) {
-                        Modifier.scrollAway(scrollableState)
-                    } else {
-                        Modifier
-                    }
-                }
-            }
-            Box(modifier = timeTextModifier.value) {
-                timeText()
-            }
-        }
-    ) {
+    AppScaffold(timeText = timeText) {
         SwipeToDismissBox(
             onDismissed = onDismissed,
             modifier = modifier,
@@ -136,21 +113,8 @@ fun <C : Any, T : Any> SwipeToDismissBox(
             holder.SaveableStateProvider(child.configuration.key()) {
                 val scope = remember { SwipeToDismissBoxScope() }
 
-                if (!isBackground) {
-                    OnFocusChange { isFocused ->
-                        if (isFocused) {
-                            activeScalingLazyColumnState.value = scope.scrollableState
-                        }
-                    }
-                }
-
-                Scaffold(
-                    positionIndicator = {
-                        val scrollState = scope.scrollableState
-                        if (scrollState != null) {
-                            PositionIndicator(scrollState.state)
-                        }
-                    }
+                ScreenScaffold(
+                    scrollState = scope.scrollableState
                 ) {
                     scope.content(child)
                 }

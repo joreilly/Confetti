@@ -229,6 +229,7 @@ dependencies {
     testImplementation(libs.snapshot.jvm)
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.horologist.compose.tools)
+    testImplementation(libs.horologist.images.coil)
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {

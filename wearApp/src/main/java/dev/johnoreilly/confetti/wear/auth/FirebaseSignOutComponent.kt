@@ -2,8 +2,8 @@ package dev.johnoreilly.confetti.wear.auth
 
 import com.arkivanov.decompose.ComponentContext
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.component.KoinComponent

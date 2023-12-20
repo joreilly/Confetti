@@ -209,7 +209,7 @@ dependencies {
     implementation(libs.firebase.crashlytics, excludeAndroidxDataStore)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.performance, excludeAndroidxDataStore)
-    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.auth)
 
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)

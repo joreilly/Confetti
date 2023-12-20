@@ -28,8 +28,8 @@ import com.google.android.horologist.networks.rules.NetworkingRules
 import com.google.android.horologist.networks.rules.NetworkingRulesEngine
 import com.google.android.horologist.networks.status.NetworkRepository
 import com.google.android.horologist.networks.status.NetworkRepositoryImpl
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.Firebase
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication

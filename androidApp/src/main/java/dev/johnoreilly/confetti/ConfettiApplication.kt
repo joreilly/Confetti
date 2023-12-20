@@ -8,7 +8,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.crashlytics.ktx.setCustomKeys
+import com.google.firebase.crashlytics.setCustomKeys
 import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.di.appModule
 import dev.johnoreilly.confetti.di.initKoin

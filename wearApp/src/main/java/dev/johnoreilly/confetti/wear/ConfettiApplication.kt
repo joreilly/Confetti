@@ -6,9 +6,9 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.google.android.horologist.networks.okhttp.urlconnection.FirebaseUrlFactory
 import com.google.firebase.FirebaseApp
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.crashlytics.ktx.setCustomKeys
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.crashlytics.crashlytics
+import com.google.firebase.crashlytics.setCustomKeys
+import com.google.firebase.Firebase
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.wear.di.appModule

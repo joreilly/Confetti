@@ -28,7 +28,10 @@ import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.layout.ScreenScaffold
+import com.google.android.horologist.compose.layout.rememberColumnState
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.shared.R
@@ -37,7 +40,9 @@ import dev.johnoreilly.confetti.wear.components.SectionHeader
 @Composable
 fun SpeakerDetailsRoute(
     component: SpeakerDetailsComponent,
-    columnState: ScalingLazyColumnState,
+    columnState: ScalingLazyColumnState = rememberColumnState(
+        ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false)
+    ),
 ) {
     val uiState by component.uiState.subscribeAsState()
     SpeakerDetailsView(uiState, columnState)
@@ -47,98 +52,100 @@ fun SpeakerDetailsRoute(
 fun SpeakerDetailsView(uiState: SpeakerDetailsUiState, columnState: ScalingLazyColumnState) {
     val placeholderState = rememberPlaceholderState { uiState !is SpeakerDetailsUiState.Loading }
 
-    ScalingLazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        columnState = columnState
-    ) {
+    ScreenScaffold(scrollState = columnState) {
+        ScalingLazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            columnState = columnState
+        ) {
 
-        if (uiState is SpeakerDetailsUiState.Loading) {
-            item {
-                AsyncImage(
-                    model = R.drawable.ic_person_black_24dp,
-                    contentDescription = "",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                )
-            }
-
-            item {
-                SectionHeader(
-                    text = "",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 60.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .height(24.dp)
-                        .placeholder(placeholderState)
-                )
-            }
-
-            item {
-                Text(
-                    text = "",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .height(24.dp)
-                        .placeholder(placeholderState)
-                )
-            }
-
-            item {
-                Text(text = "")
-            }
-        } else {
-            val speaker = (uiState as? SpeakerDetailsUiState.Success)?.details
-
-            item {
-                SubcomposeAsyncImage(
-                    model = speaker?.photoUrl,
-                    contentDescription = speaker?.name,
-                    loading = {
-                        CircularProgressIndicator()
-                    },
-                    error = {
-                        Image(
-                            painter = painterResource(R.drawable.ic_person_black_24dp),
-                            contentDescription = speaker?.name,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .size(80.dp)
-                                .clip(RoundedCornerShape(16.dp)),
-                            colorFilter = ColorFilter.tint(color = if (isSystemInDarkTheme()) Color.White else Color.Black)
-                        )
-                    },
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                )
-            }
-
-            item {
-                SectionHeader(
-                    text = speaker?.name ?: "",
-                )
-            }
-
-            if (speaker == null || speaker.tagline != null) {
+            if (uiState is SpeakerDetailsUiState.Loading) {
                 item {
-                    Text(
-                        text = speaker?.tagline ?: "",
+                    AsyncImage(
+                        model = R.drawable.ic_person_black_24dp,
+                        contentDescription = "",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(RoundedCornerShape(16.dp))
                     )
                 }
-            }
 
-            if (speaker == null || speaker.bio != null) {
+                item {
+                    SectionHeader(
+                        text = "",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 60.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .height(24.dp)
+                            .placeholder(placeholderState)
+                    )
+                }
+
                 item {
                     Text(
-                        text = speaker?.bio ?: "",
-                        modifier = Modifier.padding(bottom = 48.dp),
+                        text = "",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 30.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .height(24.dp)
+                            .placeholder(placeholderState)
                     )
+                }
+
+                item {
+                    Text(text = "")
+                }
+            } else {
+                val speaker = (uiState as? SpeakerDetailsUiState.Success)?.details
+
+                item {
+                    SubcomposeAsyncImage(
+                        model = speaker?.photoUrl,
+                        contentDescription = speaker?.name,
+                        loading = {
+                            CircularProgressIndicator()
+                        },
+                        error = {
+                            Image(
+                                painter = painterResource(R.drawable.ic_person_black_24dp),
+                                contentDescription = speaker?.name,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .size(80.dp)
+                                    .clip(RoundedCornerShape(16.dp)),
+                                colorFilter = ColorFilter.tint(color = if (isSystemInDarkTheme()) Color.White else Color.Black)
+                            )
+                        },
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                }
+
+                item {
+                    SectionHeader(
+                        text = speaker?.name ?: "",
+                    )
+                }
+
+                if (speaker == null || speaker.tagline != null) {
+                    item {
+                        Text(
+                            text = speaker?.tagline ?: "",
+                        )
+                    }
+                }
+
+                if (speaker == null || speaker.bio != null) {
+                    item {
+                        Text(
+                            text = speaker?.bio ?: "",
+                            modifier = Modifier.padding(bottom = 48.dp),
+                        )
+                    }
                 }
             }
         }

@@ -5,13 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.layout.ScreenScaffold
+import com.google.android.horologist.compose.layout.rememberColumnState
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 
 @Composable
 fun SessionsRoute(
     component: ConferenceSessionsComponent,
-    columnState: ScalingLazyColumnState
+    columnState: ScalingLazyColumnState = rememberColumnState()
 ) {
     val uiState by component.uiState.subscribeAsState()
 
@@ -21,10 +23,12 @@ fun SessionsRoute(
         }
     }
 
-    SessionsScreen(
-        uiState = uiState,
-        sessionSelected = component::onSessionClicked,
-        columnState = columnState
-    )
+    ScreenScaffold(scrollState = columnState) {
+        SessionsScreen(
+            uiState = uiState,
+            sessionSelected = component::onSessionClicked,
+            columnState = columnState
+        )
+    }
 }
 

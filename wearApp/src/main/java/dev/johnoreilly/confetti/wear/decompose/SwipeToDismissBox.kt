@@ -40,7 +40,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
     timeText: @Composable () -> Unit = { TimeText() },
-    content: @Composable SwipeToDismissBoxScope.(child: Child.Created<C, T>) -> Unit,
+    content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val state = stack.subscribeAsState()
 
@@ -51,30 +51,6 @@ fun <C : Any, T : Any> SwipeToDismissBox(
         content = content,
         timeText = timeText
     )
-}
-
-class SwipeToDismissBoxScope {
-    private val _scalingLazyColumnState = mutableStateOf<ScalingLazyColumnState?>(null)
-
-    val scrollableState: ScalingLazyColumnState?
-        get() = _scalingLazyColumnState.value
-
-    @Composable
-    fun createScalingLazyColumnState(
-        factory: ScalingLazyColumnState.Factory = ScalingLazyColumnDefaults.responsive()
-    ): ScalingLazyColumnState {
-        val scalingLazyColumnState = factory.create()
-        _scalingLazyColumnState.value = scalingLazyColumnState
-
-        scalingLazyColumnState.state = rememberSaveable(saver = ScalingLazyListState.Saver) {
-            ScalingLazyListState(
-                scalingLazyColumnState.initialScrollPosition.index,
-                scalingLazyColumnState.initialScrollPosition.offsetPx
-            )
-        }
-
-        return scalingLazyColumnState
-    }
 }
 
 /**
@@ -93,7 +69,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
     timeText: @Composable () -> Unit = { TimeText() },
-    content: @Composable SwipeToDismissBoxScope.(child: Child.Created<C, T>) -> Unit,
+    content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val active: Child.Created<C, T> = stack.active
     val background: Child.Created<C, T>? = stack.backStack.lastOrNull()
@@ -111,13 +87,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
         ) { isBackground ->
             val child = background?.takeIf { isBackground } ?: active
             holder.SaveableStateProvider(child.configuration.key()) {
-                val scope = remember { SwipeToDismissBoxScope() }
-
-                ScreenScaffold(
-                    scrollState = scope.scrollableState
-                ) {
-                    scope.content(child)
-                }
+                content(child)
             }
         }
     }

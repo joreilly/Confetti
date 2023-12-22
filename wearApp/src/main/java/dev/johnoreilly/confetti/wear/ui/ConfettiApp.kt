@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.TimeText
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.networks.ui.DataUsageTimeText
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
@@ -46,25 +45,23 @@ fun ConfettiApp(
             ) { configuration ->
                 when (val child = configuration.instance) {
                     is Child.Conferences -> ConferencesRoute(
-                        child.component, createScalingLazyColumnState()
+                        child.component
                     )
 
                     is Child.ConferenceSessions -> SessionsRoute(
-                        child.component, createScalingLazyColumnState()
+                        child.component
                     )
 
                     is Child.SessionDetails -> SessionDetailsRoute(
-                        child.component, createScalingLazyColumnState()
+                        child.component
                     )
 
                     is Child.SpeakerDetails -> SpeakerDetailsRoute(
-                        child.component, createScalingLazyColumnState(
-                            factory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false)
-                        )
+                        child.component
                     )
 
                     is Child.Settings -> SettingsRoute(
-                        child.component, createScalingLazyColumnState()
+                        child.component
                     )
 
                     is Child.Loading -> {
@@ -80,11 +77,11 @@ fun ConfettiApp(
                     is Child.GoogleSignOut -> FirebaseSignOutScreen(child.component)
 
                     is Child.Home -> HomeRoute(
-                        child.component, createScalingLazyColumnState()
+                        child.component
                     )
 
                     is Child.Bookmarks -> BookmarksRoute(
-                        child.component, createScalingLazyColumnState()
+                        child.component
                     )
                 }
             }

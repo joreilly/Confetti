@@ -12,6 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Text
+import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.material.Confirmation
 import dev.johnoreilly.confetti.R
 
@@ -21,37 +22,39 @@ fun FirebaseSignOutScreen(
 ) {
     val state by component.uiState.collectAsStateWithLifecycle()
 
-    when (state) {
-        GoogleSignOutScreenState.Idle -> {
-            SideEffect {
-                component.onIdleStateObserved()
+    ScreenScaffold(timeText = {}) {
+        when (state) {
+            GoogleSignOutScreenState.Idle -> {
+                SideEffect {
+                    component.onIdleStateObserved()
+                }
+
+                LoadingView()
             }
 
-            LoadingView()
-        }
-
-        GoogleSignOutScreenState.Loading -> {
-            LoadingView()
-        }
-
-        GoogleSignOutScreenState.Success -> {
-            SideEffect {
-                component.signedOut()
+            GoogleSignOutScreenState.Loading -> {
+                LoadingView()
             }
-            Confirmation(
-                onTimeout = { component.navigateUp() }
-            ) {
-                Text(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    textAlign = TextAlign.Center,
-                    text = stringResource(id = R.string.google_sign_out_success_message)
-                )
-            }
-        }
 
-        GoogleSignOutScreenState.Failed -> {
-            SideEffect {
-                component.navigateUp()
+            GoogleSignOutScreenState.Success -> {
+                SideEffect {
+                    component.signedOut()
+                }
+                Confirmation(
+                    onTimeout = { component.navigateUp() }
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        textAlign = TextAlign.Center,
+                        text = stringResource(id = R.string.google_sign_out_success_message)
+                    )
+                }
+            }
+
+            GoogleSignOutScreenState.Failed -> {
+                SideEffect {
+                    component.navigateUp()
+                }
             }
         }
     }

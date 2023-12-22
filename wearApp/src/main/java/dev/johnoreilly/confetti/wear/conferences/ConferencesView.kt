@@ -15,6 +15,8 @@ import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.layout.ScreenScaffold
+import com.google.android.horologist.compose.layout.rememberColumnState
 import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
@@ -26,7 +28,7 @@ import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 @Composable
 fun ConferencesRoute(
     component: ConferencesComponent,
-    columnState: ScalingLazyColumnState
+    columnState: ScalingLazyColumnState = rememberColumnState()
 ) {
     val uiState by component.uiState.subscribeAsState()
 
@@ -36,13 +38,15 @@ fun ConferencesRoute(
         }
     }
 
-    ConferencesView(
-        uiState = uiState,
-        columnState = columnState,
-        navigateToConference = { conference ->
-            component.onConferenceClicked(conference)
-        }
-    )
+    ScreenScaffold(scrollState = columnState) {
+        ConferencesView(
+            uiState = uiState,
+            columnState = columnState,
+            navigateToConference = { conference ->
+                component.onConferenceClicked(conference)
+            }
+        )
+    }
 }
 
 @Composable

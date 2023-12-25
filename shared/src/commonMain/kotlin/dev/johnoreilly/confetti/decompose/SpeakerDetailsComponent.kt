@@ -23,7 +23,7 @@ interface SpeakerDetailsComponent {
 sealed class SpeakerDetailsUiState {
     object Loading : SpeakerDetailsUiState()
     object Error : SpeakerDetailsUiState()
-    class Success(val details: SpeakerDetails) : SpeakerDetailsUiState()
+    class Success(val details: SpeakerDetails, val conference: String) : SpeakerDetailsUiState()
 }
 
 class DefaultSpeakerDetailsComponent(
@@ -43,7 +43,7 @@ class DefaultSpeakerDetailsComponent(
             ?.firstOrNull { it.id == speakerId }
 
         if (details != null) {
-            emit(Success(details))
+            emit(Success(details, conference))
         } else {
             emit(Error)
         }

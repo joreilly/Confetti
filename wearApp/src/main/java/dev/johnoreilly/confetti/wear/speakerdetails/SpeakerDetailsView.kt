@@ -102,7 +102,7 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState, columnState: ScalingLazyC
 
                 item {
                     SubcomposeAsyncImage(
-                        model = speaker?.photoUrl,
+                        model = speaker?.let { SpeakerAvatar(uiState.conference, it) },
                         contentDescription = speaker?.name,
                         loading = {
                             CircularProgressIndicator()

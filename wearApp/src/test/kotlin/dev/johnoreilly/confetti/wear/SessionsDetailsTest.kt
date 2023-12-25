@@ -9,6 +9,7 @@ import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
@@ -25,7 +26,7 @@ class SessionsDetailsTest : ScreenshotTest() {
     }
 
     val uiState = SessionDetailsUiState.Success(
-        sessionDetails
+        sessionDetails, TestFixtures.kotlinConf2023.id
     )
 
     @Before

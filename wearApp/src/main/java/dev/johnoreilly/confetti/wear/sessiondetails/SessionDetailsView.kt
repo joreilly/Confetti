@@ -49,6 +49,7 @@ fun SessionDetailView(
 
                 items(session.speakers) { speaker ->
                     SessionSpeakerChip(
+                        conference = uiState.conference,
                         speaker = speaker.speakerDetails,
                         navigateToSpeaker = navigateToSpeaker
                     )

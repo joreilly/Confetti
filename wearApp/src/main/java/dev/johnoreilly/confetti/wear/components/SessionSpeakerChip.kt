@@ -18,10 +18,12 @@ import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.shared.R
+import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerAvatar
 
 @Composable
 fun SessionSpeakerChip(
     modifier: Modifier = Modifier,
+    conference: String,
     speaker: SpeakerDetails,
     navigateToSpeaker: (String) -> Unit
 ) {
@@ -30,7 +32,7 @@ fun SessionSpeakerChip(
         label = speaker.fullNameAndCompany(),
         icon = {
             SubcomposeAsyncImage(
-                model = speaker.photoUrl,
+                model = SpeakerAvatar(conference, speaker),
                 contentDescription = speaker.name,
                 loading = {
                     CircularProgressIndicator()
@@ -56,4 +58,3 @@ fun SessionSpeakerChip(
         onClick = { navigateToSpeaker(speaker.id) }
     )
 }
-

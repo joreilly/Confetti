@@ -82,6 +82,7 @@ import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
 import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.reactive.function.server.json
+import org.springframework.web.reactive.function.server.queryParamOrNull
 import org.springframework.web.reactive.result.view.ViewResolver
 import org.springframework.web.server.ServerWebExchange
 import java.util.Date
@@ -257,10 +258,8 @@ class DefaultApplication {
         graphQLServer: SpringGraphQLServer,
         avatarFetcher: AvatarFetcher
     ) = coRouter {
-        GET("/images/avatar/{conference}/{avatar}/{size}") {
-            val size = runCatching { AvatarSize.valueOf(it.pathVariable("size")) }.getOrElse {
-                return@GET badRequest().buildAndAwait()
-            }
+        GET("/images/avatar/{conference}/{avatar}") {
+            val size = AvatarSize.fromParam(it.queryParamOrNull("size"))
 
             avatarFetcher.resize(
                 conference = it.pathVariable("conference"),

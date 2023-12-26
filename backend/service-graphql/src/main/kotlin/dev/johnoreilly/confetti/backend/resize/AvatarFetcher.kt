@@ -36,10 +36,12 @@ class AvatarFetcher(
     val bufferFactory: DataBufferFactory = DefaultDataBufferFactory()
 
     suspend fun resize(conference: String, speakerId: String, size: AvatarSize): ServerResponse {
-        val dataSource = DataStoreDataSource(conference)
+//        val dataSource = DataStoreDataSource(conference)
+//
+//        val speaker = dataSource.speaker(speakerId)
+//        val url = speaker.photoUrl ?: return notFound().buildAndAwait()
 
-        val speaker = dataSource.speaker(speakerId)
-        val url = speaker.photoUrl ?: return notFound().buildAndAwait()
+        val url = "https://www.festival-infolocale.fr/wp-content/uploads/Me%CC%81lissa-Cottin-1024x1024.png"
 
         return client.get().uri(URI.create(url)).awaitExchange {
             if (it.statusCode().is4xxClientError || it.statusCode().is5xxServerError) {
@@ -61,8 +63,13 @@ class AvatarFetcher(
             // TODO find way to work only in coroutines land, not Reactor
             val buffer = Mono.fromCallable {
                 inputStream.use {
-                    ImmutableImage.loader().fromStream(inputStream)
-                        .scaleToHeight(size.size, ScaleMethod.Progressive, true)
+                    val original = ImmutableImage.loader().fromStream(inputStream)
+
+//                    if (original.height > size.size) {
+                        original.scaleToHeight(size.size, ScaleMethod.Progressive, true)
+//                    } else {
+//                        original
+//                    }
                 }
             }
                 .map { bufferFactory.wrap(it.bytes(format)) }
@@ -76,6 +83,12 @@ class AvatarFetcher(
     }
 }
 
-enum class AvatarSize(val size: Int) {
-    Watch(96), Phone(96)
+data class AvatarSize(val size: Int) {
+    companion object {
+        fun fromParam(param: String?): AvatarSize = when (param) {
+            "Watch" -> AvatarSize(96)
+            "Phone" -> AvatarSize(256)
+            else -> AvatarSize(256)
+        }
+    }
 }

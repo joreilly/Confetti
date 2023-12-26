@@ -1,3 +1,4 @@
+
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
@@ -10,7 +11,6 @@ import coil.request.SuccessResult
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
-import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnOreilly
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
@@ -57,7 +57,7 @@ class SpeakerDetailsTest : ScreenshotTest() {
         columnStateFactory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false),
     ) { columnState ->
         SpeakerDetailsView(
-            uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails, TestFixtures.kotlinConf2023.id),
+            uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
             columnState = columnState,
         )
     }
@@ -74,7 +74,7 @@ class SpeakerDetailsTest : ScreenshotTest() {
             columnStateFactory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false),
         ) { columnState ->
             SpeakerDetailsView(
-                uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails, TestFixtures.kotlinConf2023.id),
+                uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
                 columnState = columnState,
             )
         }

@@ -37,7 +37,7 @@ interface SessionDetailsComponent {
 sealed class SessionDetailsUiState {
     object Loading : SessionDetailsUiState()
     object Error : SessionDetailsUiState()
-    data class Success(val sessionDetails: SessionDetails, val conference: String) : SessionDetailsUiState()
+    data class Success(val sessionDetails: SessionDetails) : SessionDetailsUiState()
 }
 
 class DefaultSessionDetailsComponent(
@@ -63,7 +63,7 @@ class DefaultSessionDetailsComponent(
             .map {
                 val details = it.data?.session?.sessionDetails
                 if (details != null) {
-                    SessionDetailsUiState.Success(details, conference)
+                    SessionDetailsUiState.Success(details)
                 } else {
                     SessionDetailsUiState.Error
                 }

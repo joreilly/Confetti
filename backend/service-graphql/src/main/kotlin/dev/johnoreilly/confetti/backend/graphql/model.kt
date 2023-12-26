@@ -274,6 +274,7 @@ data class Speaker(
     val city: String?,
     val socials: List<Social>,
     val photoUrl: String?,
+    val photoUrlThumbnail: String?,
     private val sessionIds: List<String>,
 ) {
     fun sessions(

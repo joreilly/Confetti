@@ -35,6 +35,7 @@ class TestDataSource : DataSource {
                     city = null,
                     socials = emptyList(),
                     photoUrl = null,
+                    photoUrlThumbnail = null,
                     sessionIds = listOf("session0", "session1")
                 )
             )

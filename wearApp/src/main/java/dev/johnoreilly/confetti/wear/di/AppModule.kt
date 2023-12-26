@@ -28,8 +28,8 @@ import com.google.android.horologist.networks.rules.NetworkingRules
 import com.google.android.horologist.networks.rules.NetworkingRulesEngine
 import com.google.android.horologist.networks.status.NetworkRepository
 import com.google.android.horologist.networks.status.NetworkRepositoryImpl
-import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.Firebase
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
@@ -40,7 +40,6 @@ import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepositoryImpl
 import dev.johnoreilly.confetti.wear.networks.WearNetworkingRules
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
-import dev.johnoreilly.confetti.wear.speakerdetails.AvatarMapper
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import dev.johnoreilly.confetti.wear.work.WearConferenceSetting
 import dev.johnoreilly.confetti.work.ConferenceSetting
@@ -191,12 +190,9 @@ val appModule = module {
             .respectCacheHeaders(false)
             .components {
                 add(SvgDecoder.Factory())
-                add(get<AvatarMapper>())
             }
             .build()
     }
-
-    single<AvatarMapper> { AvatarMapper() }
 
     single<FirebaseAuthUserRepository> { FirebaseAuthUserRepositoryImpl(get(), get()) }
     singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }

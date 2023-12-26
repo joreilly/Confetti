@@ -33,8 +33,7 @@ fun ThemePreview() {
         item {
             SessionSpeakerChip(
                 speaker = TestFixtures.JohnOreilly.speakerDetails,
-                navigateToSpeaker = {},
-                conference =  TestFixtures.kotlinConf2023.id
+                navigateToSpeaker = {}
             )
         }
         item {

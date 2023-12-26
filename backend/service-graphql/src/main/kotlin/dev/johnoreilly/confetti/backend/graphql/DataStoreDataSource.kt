@@ -217,6 +217,7 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
             company = company,
             socials = links.map { it.toSocial() },
             photoUrl = photoUrl,
+            photoUrlThumbnail = "https://confetti-app.dev/images/avatar/${conf}/${id}",
             companyLogoUrl = companyLogoUrl,
             city = city,
             sessionIds = sessions.orEmpty(),

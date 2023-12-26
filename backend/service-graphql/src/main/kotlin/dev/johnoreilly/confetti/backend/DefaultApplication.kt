@@ -30,11 +30,19 @@ import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.RootMutation
 import dev.johnoreilly.confetti.backend.graphql.RootQuery
 import dev.johnoreilly.confetti.backend.graphql.TestDataSource
+import dev.johnoreilly.confetti.backend.resize.AvatarFetcher
+import dev.johnoreilly.confetti.backend.resize.AvatarSize
 import graphql.GraphQL
 import graphql.GraphQLContext
 import graphql.execution.AsyncSerialExecutionStrategy
 import graphql.language.StringValue
-import graphql.schema.*
+import graphql.schema.Coercing
+import graphql.schema.CoercingParseLiteralException
+import graphql.schema.CoercingParseValueException
+import graphql.schema.CoercingSerializeException
+import graphql.schema.GraphQLScalarType
+import graphql.schema.GraphQLSchema
+import graphql.schema.GraphQLType
 import graphql.schema.GraphqlTypeComparatorRegistry.AS_IS_REGISTRY
 import graphql.schema.idl.SchemaPrinter
 import kotlinx.coroutines.reactor.awaitSingle
@@ -68,11 +76,13 @@ import org.springframework.stereotype.Component
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
+import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
 import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.reactive.function.server.json
+import org.springframework.web.reactive.function.server.queryParamOrNull
 import org.springframework.web.reactive.result.view.ViewResolver
 import org.springframework.web.server.ServerWebExchange
 import java.util.Date
@@ -191,6 +201,16 @@ class DefaultApplication {
 
 
     @Bean
+    fun jdkClientHttpRequestFactory(): WebClient {
+        return WebClient.create()
+    }
+
+    @Bean
+    fun imageResizer(webClient: WebClient): AvatarFetcher {
+        return AvatarFetcher(webClient)
+    }
+
+    @Bean
     @ConditionalOnMissingBean(value = [ErrorAttributes::class], search = SearchStrategy.CURRENT)
     fun errorAttributes(): DefaultErrorAttributes? {
         return object : DefaultErrorAttributes() {
@@ -235,9 +255,19 @@ class DefaultApplication {
     @Bean
     fun graphQLRoutes2(
         config: GraphQLConfigurationProperties,
-        graphQLServer: SpringGraphQLServer
-
+        graphQLServer: SpringGraphQLServer,
+        avatarFetcher: AvatarFetcher
     ) = coRouter {
+        GET("/images/avatar/{conference}/{avatar}") {
+            val size = AvatarSize.fromParam(it.queryParamOrNull("size"))
+
+            avatarFetcher.resize(
+                conference = it.pathVariable("conference"),
+                speakerId = it.pathVariable("avatar"),
+                size = size
+            )
+        }
+
         val isEndpointRequest = POST(config.endpoint) or GET(config.endpoint)
         val isNotWebSocketRequest = headers { isWebSocketHeaders(it) }.not()
 

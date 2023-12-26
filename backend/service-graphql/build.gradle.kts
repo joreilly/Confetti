@@ -25,6 +25,10 @@ dependencies {
   implementation(libs.firebase.admin)
   implementation(libs.federation.jvm)
 
+  implementation(libs.scrimage.core)
+  implementation(libs.scrimage.filters)
+  implementation(libs.spring.web)
+
   testImplementation(libs.junit)
 }
 

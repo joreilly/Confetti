@@ -158,6 +158,9 @@ plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.1" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.3" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
+scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.1.1"
+scrimage-filters = "com.sksamuel.scrimage:scrimage-filters:4.1.1"
+spring-web = "org.springframework:spring-web:6.0.11"
 stately-common = "co.touchlab:stately-common:2.0.6"
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }

@@ -25,9 +25,9 @@ dependencies {
   implementation(libs.firebase.admin)
   implementation(libs.federation.jvm)
 
-  implementation("com.sksamuel.scrimage:scrimage-core:4.1.1")
-  implementation("com.sksamuel.scrimage:scrimage-filters:4.1.1")
-  implementation("org.springframework:spring-web:6.0.11")
+  implementation(libs.scrimage.core)
+  implementation(libs.scrimage.filters)
+  implementation(libs.spring.web)
 
   testImplementation(libs.junit)
 }

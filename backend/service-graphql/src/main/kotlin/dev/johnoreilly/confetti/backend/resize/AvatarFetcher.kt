@@ -4,7 +4,6 @@ import com.sksamuel.scrimage.ImmutableImage
 import com.sksamuel.scrimage.ScaleMethod
 import com.sksamuel.scrimage.nio.ImageWriter
 import com.sksamuel.scrimage.nio.PngWriter
-import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.core.io.buffer.DataBufferFactory
@@ -13,12 +12,9 @@ import org.springframework.core.io.buffer.DefaultDataBufferFactory
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.BodyExtractors
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.awaitExchange
 import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.ServerResponse.notFound
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.ServerResponse.status
-import org.springframework.web.reactive.function.server.buildAndAwait
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 import java.io.PipedInputStream
@@ -43,9 +39,10 @@ class AvatarFetcher(
 
         val url = "https://www.festival-infolocale.fr/wp-content/uploads/Me%CC%81lissa-Cottin-1024x1024.png"
 
-        return client.get().uri(URI.create(url)).awaitExchange {
-            if (it.statusCode().is4xxClientError || it.statusCode().is5xxServerError) {
-                return@awaitExchange status(it.statusCode()).buildAndAwait()
+        return client.get().uri(URI.create(url)).exchangeToMono { response ->
+            val statusCode = response.statusCode()
+            if (statusCode.is4xxClientError || statusCode.is5xxServerError) {
+                return@exchangeToMono status(statusCode).build()
             }
 
             // TODO check for a better safer way to wire this up...
@@ -53,33 +50,33 @@ class AvatarFetcher(
             val inputStream = PipedInputStream(1024 * 10)
             inputStream.connect(outputStream)
 
-            val body = it.body(BodyExtractors.toDataBuffers())
-            // TODO check for a better way to close
-            DataBufferUtils.write(body, outputStream)
+            // Start pumping the bytes from the Response
+            val webRequest = DataBufferUtils.write(response.body(BodyExtractors.toDataBuffers()), outputStream)
                 .doOnComplete { outputStream.close() }
+                .last()
                 .subscribeOn(Schedulers.boundedElastic())
-                .subscribe(DataBufferUtils.releaseConsumer())
 
-            // TODO find way to work only in coroutines land, not Reactor
-            val buffer = Mono.fromCallable {
+            val result = Mono.fromCallable {
                 inputStream.use {
                     val original = ImmutableImage.loader().fromStream(inputStream)
 
-//                    if (original.height > size.size) {
+                    if (original.height > size.size) {
                         original.scaleToHeight(size.size, ScaleMethod.Progressive, true)
-//                    } else {
-//                        original
-//                    }
+                    } else {
+                        original
+                    }
                 }
             }
                 .map { bufferFactory.wrap(it.bytes(format)) }
+                .flatMap { dataBuffer ->
+                    ok()
+                        .contentType(MediaType.parseMediaType("image/png"))
+                        .body(Mono.just(dataBuffer), DataBuffer::class.java)
+                }
                 .subscribeOn(Schedulers.boundedElastic())
 
-            ok()
-                .contentType(MediaType.parseMediaType("image/png"))
-                .body(buffer, DataBuffer::class.java)
-                .awaitSingle()
-        }
+            webRequest.zipWith(result) { _, x -> x }
+        }.awaitSingle()
     }
 }
 

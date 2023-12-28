@@ -33,7 +33,8 @@ resource "google_compute_url_map" "default" {
     path_rule {
       paths = [
         "/graphiql",
-        "/graphql"
+        "/graphql",
+        "/images/*"
       ]
       service = google_compute_backend_service.graphql.id
     }

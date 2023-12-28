@@ -30,7 +30,9 @@ fun SessionSpeakerChip(
         label = speaker.fullNameAndCompany(),
         icon = {
             SubcomposeAsyncImage(
-                model = speaker.photoUrl,
+                model = speaker.photoUrlThumbnail?.let {
+                    "$it?size=Watch"
+                },
                 contentDescription = speaker.name,
                 loading = {
                     CircularProgressIndicator()

@@ -40,6 +40,7 @@ class AvatarFetcher(
 
         return client.get().uri(URI.create(url)).exchangeToMono { response ->
             val statusCode = response.statusCode()
+            println("image fetch response = ${response.statusCode()}")
             if (statusCode.is4xxClientError || statusCode.is5xxServerError) {
                 return@exchangeToMono status(statusCode).build()
             }

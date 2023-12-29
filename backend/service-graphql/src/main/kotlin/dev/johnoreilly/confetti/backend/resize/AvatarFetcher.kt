@@ -44,23 +44,40 @@ class AvatarFetcher(
                 return@exchangeToMono status(statusCode).build()
             }
 
-            DataBufferUtils.join(response.body(BodyExtractors.toDataBuffers())).map { dataBuffer ->
-                val original = ImmutableImage.loader().fromStream(dataBuffer.asInputStream())
+            DataBufferUtils.join(response.body(BodyExtractors.toDataBuffers()))
+                .debugSignals(conference, "DataBuffers")
+                .map { dataBuffer ->
+                    val original = ImmutableImage.loader().fromStream(dataBuffer.asInputStream())
 
-                if (original.height > size.size) {
-                    original.scaleToHeight(size.size, ScaleMethod.Progressive, true)
-                } else {
-                    original
+                    if (conference == "devfestsrilanka2023") {
+                        println("image = $original")
+                    }
+
+                    if (original.height > size.size) {
+                        original.scaleToHeight(size.size, ScaleMethod.Progressive, true)
+                    } else {
+                        original
+                    }
                 }
-            }
+                .debugSignals(conference, "image")
                 .map { bufferFactory.wrap(it.bytes(format)) }
+                .debugSignals(conference, "image bytes")
                 .flatMap { dataBuffer ->
                     ok()
                         .contentType(MediaType.parseMediaType("image/png"))
                         .body(Mono.just(dataBuffer), DataBuffer::class.java)
                 }
+                .debugSignals(conference, "response")
                 .subscribeOn(Schedulers.boundedElastic())
         }.awaitSingle()
+    }
+}
+
+private fun <T> Mono<T>.debugSignals(conference: String, s: String): Mono<T> {
+    return if (conference == "devfestsrilanka2023") {
+        doOnEach { println("DataBuffers $it") }
+    } else {
+        this
     }
 }
 

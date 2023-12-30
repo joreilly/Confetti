@@ -35,8 +35,8 @@ class SessionsDetailsTest : ScreenshotTest() {
 
         fakeImageLoader = FakeImageLoader {
             val bitmap = when (it.data) {
-                JohnUrl -> johnBitmap
-                MartinUrl -> martinBitmap
+                "$JohnUrl?size=Watch" -> johnBitmap
+                "$MartinUrl?size=Watch" -> martinBitmap
                 else -> null
             }
             if (bitmap != null) {

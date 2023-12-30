@@ -35,6 +35,7 @@ class RefreshWorker(
     private val apolloClientCache: ApolloClientCache by inject()
     private val imageLoader: ImageLoader by inject()
     private val conferenceSetting: ConferenceSetting by inject()
+    private val avatarType: AvatarType = getKoin().getOrNull<AvatarType>() ?: { photoUrl }
 
     override suspend fun doWork(): Result = try {
         val conference = workerParams.inputData.getString(ConferenceKey) ?:
@@ -51,7 +52,8 @@ class RefreshWorker(
                 fetchImages = fetchImages,
                 conference = conference,
                 apolloClientCache = apolloClientCache,
-                cacheImages = ::cacheImages
+                avatarType = avatarType,
+                cacheImages = ::cacheImages,
             )
             Result.success()
         }

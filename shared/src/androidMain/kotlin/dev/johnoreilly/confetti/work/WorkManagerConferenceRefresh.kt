@@ -8,7 +8,7 @@ import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 class WorkManagerConferenceRefresh(
     private val workManager: WorkManager
 ) : ConferenceRefresh {
-    override fun refresh(conference: String) {
+    override fun refresh(conference: String, fetchImages: Boolean) {
         if (conference.isNotEmpty()) {
             workManager.enqueueUniqueWork(
                 RefreshWorker.WorkRefresh(conference),
@@ -16,7 +16,7 @@ class WorkManagerConferenceRefresh(
                 RefreshWorker.oneOff(
                     conference = conference,
                     fetchConferences = true,
-                    fetchImages = false,
+                    fetchImages = fetchImages,
                 )
             )
         }

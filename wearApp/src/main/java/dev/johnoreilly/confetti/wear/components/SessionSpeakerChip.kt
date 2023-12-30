@@ -19,7 +19,7 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.shared.R
 
-val SpeakerDetails.wearPhotoUrl: Any?
+val SpeakerDetails.wearPhotoUrl: String?
     get() = photoUrlThumbnail?.let {
         "$it?size=Watch"
     } ?: photoUrl

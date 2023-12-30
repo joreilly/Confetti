@@ -17,7 +17,9 @@ import androidx.work.workDataOf
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.request.CachePolicy
+import coil.request.ErrorResult
 import coil.request.ImageRequest
+import coil.request.SuccessResult
 import dev.johnoreilly.confetti.ApolloClientCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -67,8 +69,12 @@ class RefreshWorker(
     )
 
     private suspend fun cacheImages(images: Set<String>) {
-        val dispatcher = Dispatchers.IO.limitedParallelism(3)
+        val dispatcher = Dispatchers.IO.limitedParallelism(5)
         val cache = imageLoader.diskCache!!
+
+        var cached = 0
+        var fetched = 0
+        var failed = 0
 
         supervisorScope {
             images.forEach { url ->
@@ -81,10 +87,19 @@ class RefreshWorker(
                         .memoryCachePolicy(CachePolicy.DISABLED)
                         .dispatcher(dispatcher)
                         .build()
-                    imageLoader.execute(request)
+                    val result = imageLoader.execute(request)
+
+                    when (result) {
+                        is SuccessResult -> fetched++
+                        is ErrorResult -> failed++
+                    }
+                } else {
+                    cached++
                 }
             }
         }
+
+        println("cacheImages cached=$cached fetched=$fetched failed=$failed")
     }
     companion object {
         fun WorkRefresh(conference: String): String = "refresh-$conference"

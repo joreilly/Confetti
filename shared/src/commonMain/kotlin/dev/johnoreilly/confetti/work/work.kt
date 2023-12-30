@@ -52,6 +52,10 @@ private suspend fun fetchConference(
     if (fetchImages && result.data != null) {
         val images = extractImages(avatarType, result.data!!)
 
+        if (fetchImages) {
+            println("Fetching ${images.size} images")
+        }
+
         cacheImages?.invoke(images)
     }
 }

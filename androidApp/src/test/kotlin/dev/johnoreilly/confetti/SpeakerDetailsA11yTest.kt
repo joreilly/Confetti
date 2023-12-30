@@ -17,6 +17,7 @@ class SpeakerDetailsScA11yTest : BaseScreenshotTest(false, a11yEnabled = true) {
             id = "",
             name = "Ben Zweber",
             photoUrl = "",
+            photoUrlThumbnail = "",
             tagline = "",
             company = "Big Nerd Ranch",
             companyLogoUrl = "",

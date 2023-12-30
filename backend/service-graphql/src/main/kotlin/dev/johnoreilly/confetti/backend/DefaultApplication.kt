@@ -71,6 +71,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
+import org.springframework.http.client.reactive.JdkClientHttpConnector
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
 import org.springframework.web.cors.CorsConfiguration
@@ -85,6 +86,7 @@ import org.springframework.web.reactive.function.server.json
 import org.springframework.web.reactive.function.server.queryParamOrNull
 import org.springframework.web.reactive.result.view.ViewResolver
 import org.springframework.web.server.ServerWebExchange
+import java.net.http.HttpClient
 import java.util.Date
 import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
@@ -202,7 +204,11 @@ class DefaultApplication {
 
     @Bean
     fun jdkClientHttpRequestFactory(): WebClient {
-        return WebClient.create()
+        return WebClient.builder()
+            .clientConnector(JdkClientHttpConnector(HttpClient.newBuilder()
+                .followRedirects(HttpClient.Redirect.ALWAYS)
+                .build()))
+            .build()
     }
 
     @Bean

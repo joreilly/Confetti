@@ -17,6 +17,7 @@ class SpeakerDetailsScTest : BaseScreenshotTest(false, a11yEnabled = false) {
             id = "",
             name = "Ben Zweber",
             photoUrl = "",
+            photoUrlThumbnail = "",
             tagline = "",
             company = "Big Nerd Ranch",
             companyLogoUrl = "",

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ZoomIn
 import androidx.compose.material3.*
@@ -16,6 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
@@ -66,7 +70,27 @@ fun VenueView(venue: Venue) {
     ) {
         Text(venue.name, style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(venue.address.toString(), style = MaterialTheme.typography.titleSmall)
+        val mapLink = venue.mapLink
+        val address = venue.address
+        if (mapLink != null && address != null) {
+            ClickableText(
+                text = AnnotatedString(
+                    text = address,
+                    spanStyle = SpanStyle(
+                        color = MaterialTheme.colorScheme.onBackground,
+                        textDecoration = TextDecoration.Underline
+                    )
+                ),
+                style = MaterialTheme.typography.titleSmall,
+                onClick = {
+                    val gmmIntentUri = Uri.parse(mapLink)
+                    val mapsIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    context.startActivity(mapsIntent)
+                }
+            )
+        } else {
+            Text(venue.address.toString(), style = MaterialTheme.typography.titleSmall)
+        }
         Spacer(modifier = Modifier.height(16.dp))
         Text(venue.description)
         Spacer(modifier = Modifier.height(16.dp))

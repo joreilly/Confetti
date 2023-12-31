@@ -43,7 +43,7 @@ private struct VenueContentView: View {
                                  UIApplication.shared.open(URL(string: mapLink)!)
                              }
                          
-                     } else {
+                } else {
                          Text(uiState.data.address ?? "").font(.subheadline)
                      }
                 Text(uiState.data.description_)

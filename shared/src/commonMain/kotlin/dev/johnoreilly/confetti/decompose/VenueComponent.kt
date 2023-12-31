@@ -67,22 +67,6 @@ class DefaultVenueComponent(
                     }
                 }
             }
-            repository.conferenceVenue(conference, FetchPolicy.CacheFirst).data?.let {
-                it.venues.firstOrNull()?.let { venue ->
-                    val data = Venue(
-                        id = venue.id,
-                        name = venue.name,
-                        address = venue.address,
-                        description = venue.description,
-                        latitude = venue.latitude,
-                        longitude = venue.longitude,
-                        imageUrl = venue.imageUrl,
-                        floorPlanUrl = venue.floorPlanUrl,
-                        mapLink = null
-                    )
-                    channel.send(VenueComponent.Success(data))
-                }
-            }
         }
     }
 }

@@ -61,13 +61,23 @@ class DefaultVenueComponent(
                             longitude = venue.longitude,
                             imageUrl = venue.imageUrl,
                             floorPlanUrl = venue.floorPlanUrl,
-                            mapLink = null
+                            mapLink = buildMapLink(venue.address)
                         )
                         channel.send(VenueComponent.Success(data))
                     }
                 }
             }
         }
+    }
+
+    private fun buildMapLink(address: String?): String? {
+        var query: String? = null
+        if (address != null) {
+            query = address.replace(",", "%2C").replace(" ", "+")
+        }
+        if (query.isNullOrEmpty()) return null
+
+        return "https://www.google.com/maps/search/?api=1&query=$query"
     }
 }
 

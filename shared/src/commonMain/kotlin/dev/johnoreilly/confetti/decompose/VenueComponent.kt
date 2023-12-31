@@ -61,7 +61,7 @@ class DefaultVenueComponent(
                             longitude = venue.longitude,
                             imageUrl = venue.imageUrl,
                             floorPlanUrl = venue.floorPlanUrl,
-                            mapLink = buildMapLink(venue.address)
+                            mapLink = buildMapLink(venue.name, venue.address)
                         )
                         channel.send(VenueComponent.Success(data))
                     }
@@ -70,10 +70,11 @@ class DefaultVenueComponent(
         }
     }
 
-    private fun buildMapLink(address: String?): String? {
+    private fun buildMapLink(name: String, address: String?): String? {
         var query: String? = null
         if (address != null) {
-            query = address.replace(",", "%2C").replace(" ", "+")
+            val addressQuery = address.replace(",", "%2C").replace(" ", "+")
+            query = "$name%2C+$addressQuery"
         }
         if (query.isNullOrEmpty()) return null
 

@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
-import dev.johnoreilly.confetti.GetVenueQuery
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.decompose.Venue
 import dev.johnoreilly.confetti.decompose.VenueComponent
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.HomeScaffold
@@ -55,7 +55,7 @@ fun VenueRoute(
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun VenueView(venue: GetVenueQuery.Venue) {
+fun VenueView(venue: Venue) {
     val context = LocalContext.current
 
     Column(
@@ -107,7 +107,7 @@ fun VenueView(venue: GetVenueQuery.Venue) {
 @Composable
 fun VenueFloorPlanButton(
     modifier: Modifier = Modifier,
-    venue: GetVenueQuery.Venue,
+    venue: Venue,
     onClick: () -> Unit,
 ) {
     OutlinedCard(

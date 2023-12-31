@@ -35,7 +35,18 @@ private struct VenueContentView: View {
         ScrollView {
             VStack(spacing: 16) {
                 Text(uiState.data.name).font(.title)
-                Text(uiState.data.address ?? "").font(.subheadline)
+                let mapLink = uiState.data.mapLink
+                let address = uiState.data.address
+                if (mapLink != nil && address != nil) {
+                    Text(address!)
+                        .font(.subheadline)
+                        .underline()
+                        .onTapGesture {
+                            UIApplication.shared.open(URL(string: mapLink!)!)
+                        }
+                } else {
+                         Text(uiState.data.address ?? "").font(.subheadline)
+                     }
                 Text(uiState.data.description_)
                 
                 if let imageUrl = uiState.data.imageUrl {

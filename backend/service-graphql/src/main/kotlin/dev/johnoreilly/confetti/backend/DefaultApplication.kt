@@ -142,10 +142,7 @@ class DefaultApplication {
                         apolloKey = apolloKey,
                         sdl = schema.print(),
                         graph = graph,
-                        variant = "main",
-                        // Name of the subgraph as defined in Apollo Studio
-                        subgraph = "Confetti-current",
-                        revision = Date().toString(),
+                        variant = "current",
                     )
                 } catch (e: Exception) {
                     println("Cannot enable Apollo reporting: ${e.message}")

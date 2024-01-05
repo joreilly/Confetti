@@ -6,8 +6,14 @@ val createGcpCredentials = tasks.register("createGcpCredentials") {
         file.writeText(gcpServiceAccountJson)
     }
 }
-tasks.register("apply", Exec::class.java) {
+val init = tasks.register("init", Exec::class.java) {
     dependsOn(createGcpCredentials)
+    environment("GOOGLE_APPLICATION_CREDENTIALS", file.absolutePath)
+    commandLine("terraform", "init")
+}
+
+tasks.register("apply", Exec::class.java) {
+    dependsOn(init)
     environment("GOOGLE_APPLICATION_CREDENTIALS", file.absolutePath)
     commandLine("terraform", "apply", "-auto-approve")
 }

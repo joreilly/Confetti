@@ -1,4 +1,5 @@
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -15,7 +16,7 @@ val gcpServiceAccountJson by lazy {
  * @param name name used for the image. Also used to name the cloud run service
  */
 fun Project.configureDeploy(name: String, mainClass: String) {
-    val deployImageToGcp = registerBuildImageTask(name, mainClass, "deployImageToGcp", gcpServiceAccountJson)
+    val deployImageToGcp = registerBuildImageTask(name, mainClass, "deployImageToGcp", provider { gcpServiceAccountJson })
     registerBuildImageTask(name, mainClass, "deployImageToDockerDaemon", null)
 
     tasks.register("bumpCloudRunRevision", BumpCloudRunRevision::class.java) {
@@ -29,7 +30,7 @@ fun Project.registerBuildImageTask(
     imageName: String,
     mainClass: String,
     taskName: String,
-    gcpServiceAccountJson: String?
+    gcpServiceAccountJson: Provider<String>?
 ): TaskProvider<BuildImageTask> {
     val isMpp = extensions.getByName("kotlin") is KotlinMultiplatformExtension
     val jarTask = if (isMpp) "jvmJar" else "jar"

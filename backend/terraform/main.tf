@@ -165,7 +165,7 @@ resource "google_compute_backend_service" "import" {
   }
 
   backend {
-    group = google_compute_region_network_endpoint_group.import.id
+    group = google_compute_region_network_endpoint_group.cloudrunimport.id
   }
 
   cdn_policy {
@@ -192,14 +192,13 @@ resource "google_compute_region_network_endpoint_group" "cloudrungraphql" {
   }
 }
 
-
-resource "google_compute_region_network_endpoint_group" "import" {
+resource "google_compute_region_network_endpoint_group" "cloudrunimport" {
   provider              = google-beta
-  name                  = "import"
+  name                  = "cloudrunimport"
   region                = var.region
   network_endpoint_type = "SERVERLESS"
 
-  app_engine {
+  cloud_run {
     service = "import"
   }
 }
@@ -283,6 +282,44 @@ resource "google_cloud_run_service_iam_binding" "graphql" {
   provider = google-beta
   location = google_cloud_run_v2_service.graphql.location
   service  = google_cloud_run_v2_service.graphql.name
+  role     = "roles/run.invoker"
+  members = [
+    "allUsers"
+  ]
+}
+
+resource "google_artifact_registry_repository" "import-images" {
+  repository_id = "import-images"
+  provider      = google-beta
+  description   = "images for the Import API"
+  format        = "DOCKER"
+  cleanup_policies {
+    id     = "keep-minimum-versions"
+    action = "KEEP"
+    most_recent_versions {
+      # Delete old images automatically
+      keep_count = 5
+    }
+  }
+}
+
+resource "google_cloud_run_v2_service" "import" {
+  name     = "import"
+  provider = google-beta
+  ingress  = "INGRESS_TRAFFIC_ALL"
+  location = var.region
+
+  template {
+    containers {
+      image = "us-west1-docker.pkg.dev/confetti-349319/import-images/import"
+    }
+  }
+}
+
+resource "google_cloud_run_service_iam_binding" "import" {
+  provider = google-beta
+  location = google_cloud_run_v2_service.import.location
+  service  = google_cloud_run_v2_service.import.name
   role     = "roles/run.invoker"
   members = [
     "allUsers"

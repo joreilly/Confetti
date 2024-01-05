@@ -37,11 +37,9 @@ abstract class BuildImageTask : DefaultTask() {
         val path = jarFile.get().asFile.toPath()
         var imageRef: String
         val containerizer = if (gcpServiceAccountJson.isPresent) {
-            imageRef = "$gcpRegion-docker.pkg.dev/$gcpProjectName/$gcpArtifactRegistryRepository/${imageName.get()}"
-            Containerizer.to(
-                RegistryImage.named(imageRef)
-                    .addCredential("_json_key", gcpServiceAccountJson.get())
-            )
+            val repo = "${imageName.get()}-images"
+            imageRef = "$gcpRegion-docker.pkg.dev/$gcpProjectName/$repo/${imageName.get()}"
+            Containerizer.to(RegistryImage.named(imageRef).addCredential("_json_key", gcpServiceAccountJson.get()))
         } else {
             imageRef = "confetti.${imageName.get()}:latest"
             Containerizer.to(DockerDaemonImage.named(imageRef))

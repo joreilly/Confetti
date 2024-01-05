@@ -6,7 +6,6 @@ plugins {
   id("org.jetbrains.kotlin.plugin.spring")
   id("org.jetbrains.kotlin.plugin.serialization")
   id("org.springframework.boot")
-  id("com.google.cloud.tools.appengine")
 }
 
 configureCompilerOptions(17)
@@ -36,22 +35,9 @@ tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions.jvmTarget = "17"
 }
 
-appengine {
-  stage {
-    setArtifact(tasks.named("bootJar").flatMap { (it as Jar).archiveFile })
-  }
-  tools {
-    setServiceAccountKeyFile(gcpServiceAccountFile())
-  }
-  deploy {
-    projectId = gcpProjectName
-    version = "GCLOUD_CONFIG"
-  }
-}
 springBoot {
   mainClass.set("dev.johnoreilly.confetti.backend.MainKt")
 }
-tasks.named("appengineStage").dependsOn("bootJar")
 
 tasks.register("updateSchema", JavaExec::class) {
   classpath(configurations.getByName("runtimeClasspath"))

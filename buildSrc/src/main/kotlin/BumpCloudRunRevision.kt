@@ -13,11 +13,11 @@ import java.util.*
 
 abstract class BumpCloudRunRevision : DefaultTask() {
     @get:Input
-    abstract val imageName: Property<String>
+    abstract val serviceName: Property<String>
 
     @TaskAction
     fun taskAction() {
-        val imageName = imageName.get()
+        val serviceName = serviceName.get()
         val servicesClient = ServicesClient.create(ServicesSettings.newBuilder()
             .setCredentialsProvider(
                 GoogleCredentials.fromStream(
@@ -28,14 +28,14 @@ abstract class BumpCloudRunRevision : DefaultTask() {
             )
             .build())
 
-        val name = ServiceName.of(gcpProjectName, gcpRegion, imageName).toString()
-        val existingService = servicesClient.getService(name)
+        val fullName = ServiceName.of(gcpProjectName, gcpRegion, serviceName).toString()
+        val existingService = servicesClient.getService(fullName)
         val newService = Service.newBuilder()
-            .setName(name)
+            .setName(fullName)
             .setTemplate(
                 existingService.template
                     .toBuilder()
-                    .setRevision("$name-${revision()}")
+                    .setRevision("$serviceName-${revision()}")
                     .build()
             )
             .build()

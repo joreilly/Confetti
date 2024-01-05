@@ -23,4 +23,4 @@ jobs:
       uses: gradle/gradle-build-action@v2.11.1
 
     - name: Build
-      run: ./gradlew :backend:service-graphql:build :backend:service-import:build :backend:service-import:fatJar
+      run: ./gradlew :backend:service-graphql:build :backend:service-import:build

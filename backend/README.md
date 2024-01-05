@@ -56,4 +56,7 @@ Setting and reading bookmarks requires to be authenticated. Authentication is ha
 Authorization: Bearer ${firebaseIdToken}
 ```
 
+### Contributing
+
+For details how to run the backend locally and/or deploy, see [CONTRIBUTING.md](CONTRIBUTING.md)
 

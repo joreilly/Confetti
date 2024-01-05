@@ -2,7 +2,6 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
   kotlin("multiplatform")
-  id("com.google.cloud.tools.appengine")
   id("org.jetbrains.kotlin.plugin.serialization")
 }
 
@@ -81,75 +80,10 @@ val generateApiKey = tasks.register("generateApiKey", GenerateApiKey::class.java
 
 kotlin.sourceSets.getByName("commonMain").kotlin.srcDir(generateApiKey)
 
-val fatJar = tasks.register("fatJar", Jar::class.java) {
-  manifest {
-    attributes(mapOf("Main-Class" to "dev.johnoreilly.confetti.backend.import.MainKt"))
-  }
-
-  // we need flatMap here to avoid an obscure error of resolving the classpath too early
-  val fileCollection = configurations.named("jvmRuntimeClasspath").flatMap {
-    provider {
-      it.files.map {
-        if (it.isDirectory) it else zipTree(it)
-      }
-    }
-  }
-  from(fileCollection) {
-    // Exclude duplicates
-    exclude(
-      "META-INF/*.SF",
-      "META-INF/*.RSA",
-      "META-INF/*.DSA",
-      "META-INF/versions/9/module-info.class",
-      "META-INF/INDEX.LIST",
-      "META-INF/LICENSE.txt",
-      "META-INF/LICENSE",
-      "META-INF/NOTICE.txt",
-      "META-INF/NOTICE",
-      "META-INF/DEPENDENCIES",
-      "META-INF/services/io.grpc.NameResolverProvider",
-      "META-INF/services/io.grpc.LoadBalancerProvider",
-      /**
-       * auto-value 1.10.1 duplicates all those below
-       */
-      "META-INF/kotlin-stdlib.kotlin_module",
-      "META-INF/maven/com.google.errorprone/error_prone_annotations/pom.properties",
-      "META-INF/maven/com.google.errorprone/error_prone_annotations/pom.xml",
-      "META-INF/maven/com.google.guava/failureaccess/pom.properties",
-      "META-INF/maven/com.google.guava/failureaccess/pom.xml",
-      "META-INF/maven/com.google.guava/listenablefuture/pom.properties",
-      "META-INF/maven/com.google.guava/listenablefuture/pom.xml",
-      "META-INF/maven/com.google.j2objc/j2objc-annotations/pom.properties",
-      "META-INF/maven/com.google.j2objc/j2objc-annotations/pom.xml",
-      "META-INF/maven/org.jetbrains/annotations/pom.properties",
-      "META-INF/maven/org.jetbrains/annotations/pom.xml",
-      "META-INF/metadata.jvm.kotlin_module",
-      "META-INF/metadata.kotlin_module",
-      "META-INF/maven/com.google.guava/guava/pom.properties",
-      "META-INF/maven/com.google.guava/guava/pom.xml",
-      "META-INF/native-image/native-image.properties",
-
-    )
-  }
-  with(tasks.getByName("jvmJar") as CopySpec)
-  archiveClassifier.set("all")
-}
-
 val localRun = tasks.register("localRun", JavaExec::class.java) {
-  classpath(fatJar)
+  classpath(configurations.named("jvmRuntimeClasspath"))
+  classpath(tasks.named("jvmJar"))
+  mainClass.set("dev.johnoreilly.confetti.backend.import.MainKt")
 }
 
-appengine {
-  stage {
-    setArtifact(fatJar.flatMap { it.archiveFile })
-  }
-  tools {
-    setServiceAccountKeyFile(gcpServiceAccountFile())
-  }
-  deploy {
-    projectId = "confetti-349319"
-    version = "GCLOUD_CONFIG"
-  }
-}
-
-tasks.named("appengineStage").dependsOn("fatJar")
+configureDeploy("import", "dev.johnoreilly.confetti.backend.import.MainKt")

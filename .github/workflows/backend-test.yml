@@ -22,5 +22,7 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2.11.1
 
+    - uses: hashicorp/setup-terraform@v3
+
     - name: Build
-      run: ./gradlew :backend:service-graphql:build :backend:service-import:build
+      run: ./gradlew :backend:service-graphql:build :backend:service-import:build :backend:terraform:plan

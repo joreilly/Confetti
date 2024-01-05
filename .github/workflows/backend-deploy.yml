@@ -35,11 +35,14 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2.11.1
 
+    - uses: hashicorp/setup-terraform@v3
+
     - name: Build
       run: |
         ./gradlew :setupCredentials uploadLandingPage
         ./gradlew :backend:service-graphql:bumpCloudRunRevision
         ./gradlew :backend:service-import:bumpCloudRunRevision
+        ./gradlew :backend:terraform:apply
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         FIREBASE_SERVICES_JSON: ${{ secrets.FIREBASE_SERVICES_JSON }}

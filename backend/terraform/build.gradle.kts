@@ -17,3 +17,9 @@ tasks.register("apply", Exec::class.java) {
     environment("GOOGLE_APPLICATION_CREDENTIALS", file.absolutePath)
     commandLine("terraform", "apply", "-auto-approve")
 }
+
+tasks.register("plan", Exec::class.java) {
+    dependsOn(init)
+    environment("GOOGLE_APPLICATION_CREDENTIALS", file.absolutePath)
+    commandLine("terraform", "plan")
+}

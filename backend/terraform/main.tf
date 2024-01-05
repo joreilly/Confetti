@@ -278,9 +278,14 @@ resource "google_cloud_run_v2_service" "graphql" {
   ingress  = "INGRESS_TRAFFIC_ALL"
   location = var.region
 
+
   template {
     containers {
       image = "us-west1-docker.pkg.dev/confetti-349319/graphql-images/graphql"
+      resources {
+        cpu_idle = true
+        startup_cpu_boost = true
+      }
     }
   }
 }
@@ -319,6 +324,10 @@ resource "google_cloud_run_v2_service" "import" {
   template {
     containers {
       image = "us-west1-docker.pkg.dev/confetti-349319/import-images/import"
+      resources {
+        cpu_idle = true
+        startup_cpu_boost = true
+      }
     }
   }
 }

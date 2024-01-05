@@ -122,6 +122,7 @@ fragment SpeakerDetails on Speaker {
     id
     name
     photoUrl
+    photoUrlThumbnail
     tagline
     company
     companyLogoUrl

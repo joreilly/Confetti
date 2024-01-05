@@ -19,6 +19,11 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.shared.R
 
+val SpeakerDetails.wearPhotoUrl: String?
+    get() = photoUrlThumbnail?.let {
+        "$it?size=Watch"
+    } ?: photoUrl
+
 @Composable
 fun SessionSpeakerChip(
     modifier: Modifier = Modifier,
@@ -30,7 +35,7 @@ fun SessionSpeakerChip(
         label = speaker.fullNameAndCompany(),
         icon = {
             SubcomposeAsyncImage(
-                model = speaker.photoUrl,
+                model = speaker.wearPhotoUrl,
                 contentDescription = speaker.name,
                 loading = {
                     CircularProgressIndicator()

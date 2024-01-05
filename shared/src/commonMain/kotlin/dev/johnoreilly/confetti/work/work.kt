@@ -6,15 +6,19 @@ import com.apollographql.apollo3.cache.normalized.writeToCacheAsynchronously
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.GetConferencesQuery
+import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
+
+typealias AvatarType = SpeakerDetails.() -> String?
 
 suspend fun updateCache(
     fetchConferences: Boolean,
     fetchImages: Boolean,
     conference: String,
     apolloClientCache: ApolloClientCache,
-    cacheImages: (suspend (Set<String>) -> Unit)?,
+    avatarType: AvatarType = { photoUrl },
+    cacheImages: (suspend (Set<String>) -> Unit)? = null,
 ) {
     supervisorScope {
         if (fetchConferences) {
@@ -25,7 +29,7 @@ suspend fun updateCache(
 
         if (conference.isNotEmpty()) {
             launch {
-                fetchConference(conference, fetchImages, apolloClientCache, cacheImages)
+                fetchConference(conference, fetchImages, avatarType, apolloClientCache, cacheImages)
             }
         }
     }
@@ -34,6 +38,7 @@ suspend fun updateCache(
 private suspend fun fetchConference(
     conference: String,
     fetchImages: Boolean,
+    avatarType: AvatarType,
     apolloClientCache: ApolloClientCache,
     cacheImages: (suspend (Set<String>) -> Unit)?
 ) {
@@ -45,17 +50,21 @@ private suspend fun fetchConference(
         .execute()
 
     if (fetchImages && result.data != null) {
-        val images = extractImages(result.data!!)
+        val images = extractImages(avatarType, result.data!!)
+
+        if (fetchImages) {
+            println("Fetching ${images.size} images")
+        }
 
         cacheImages?.invoke(images)
     }
 }
 
 
-private fun extractImages(data: GetConferenceDataQuery.Data): Set<String> {
+private fun extractImages(avatarType: AvatarType, data: GetConferenceDataQuery.Data): Set<String> {
     return data.speakers.nodes.flatMap {
         listOfNotNull(
-            it.speakerDetails.photoUrl,
+            avatarType.invoke(it.speakerDetails),
             it.speakerDetails.companyLogoUrl
         )
     }.toSet()

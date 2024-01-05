@@ -35,6 +35,7 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
+import dev.johnoreilly.confetti.wear.components.wearPhotoUrl
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
 import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepositoryImpl
 import dev.johnoreilly.confetti.wear.networks.WearNetworkingRules
@@ -42,6 +43,7 @@ import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import dev.johnoreilly.confetti.wear.work.WearConferenceSetting
+import dev.johnoreilly.confetti.work.AvatarType
 import dev.johnoreilly.confetti.work.ConferenceSetting
 import dev.johnoreilly.confetti.work.RefreshWorker
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
@@ -192,6 +194,10 @@ val appModule = module {
                 add(SvgDecoder.Factory())
             }
             .build()
+    }
+
+    single<AvatarType> {
+        { wearPhotoUrl }
     }
 
     single<FirebaseAuthUserRepository> { FirebaseAuthUserRepositoryImpl(get(), get()) }

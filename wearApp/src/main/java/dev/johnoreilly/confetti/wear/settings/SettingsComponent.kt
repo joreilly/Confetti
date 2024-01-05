@@ -81,7 +81,7 @@ class DefaultSettingsComponent(
             val conference = conferenceIdFlow().first()
 
             if (conference.isNotEmpty()) {
-                workManagerConferenceRefresh.refresh(conference)
+                workManagerConferenceRefresh.refresh(conference, fetchImages = true)
             }
         }
     }

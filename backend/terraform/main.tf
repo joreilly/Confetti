@@ -136,7 +136,7 @@ resource "google_compute_backend_service" "graphql" {
   }
 
   backend {
-    group = google_compute_region_network_endpoint_group.graphql.id
+    group = google_compute_region_network_endpoint_group.cloudrungraphql.id
   }
 
   cdn_policy {
@@ -181,16 +181,17 @@ resource "google_compute_backend_service" "import" {
   compression_mode = "DISABLED"
 }
 
-resource "google_compute_region_network_endpoint_group" "graphql" {
+resource "google_compute_region_network_endpoint_group" "cloudrungraphql" {
   provider              = google-beta
-  name                  = "graphql"
+  name                  = "cloudrungraphql"
   region                = var.region
   network_endpoint_type = "SERVERLESS"
 
-  app_engine {
+  cloud_run {
     service = "graphql"
   }
 }
+
 
 resource "google_compute_region_network_endpoint_group" "import" {
   provider              = google-beta

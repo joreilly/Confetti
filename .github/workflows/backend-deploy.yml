@@ -40,9 +40,9 @@ jobs:
     - name: Build
       run: |
         ./gradlew :setupCredentials uploadLandingPage
+        ./gradlew :backend:terraform:apply
         ./gradlew :backend:service-graphql:bumpCloudRunRevision
         ./gradlew :backend:service-import:bumpCloudRunRevision
-        ./gradlew :backend:terraform:apply
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         FIREBASE_SERVICES_JSON: ${{ secrets.FIREBASE_SERVICES_JSON }}

@@ -266,7 +266,7 @@ resource "google_artifact_registry_repository" "graphql-images" {
 }
 
 resource "google_cloud_run_v2_service" "graphql" {
-  name     = "cloudrun-service"
+  name     = "graphql"
   provider = google-beta
   ingress  = "INGRESS_TRAFFIC_ALL"
   location = var.region
@@ -276,6 +276,16 @@ resource "google_cloud_run_v2_service" "graphql" {
       image = "us-west1-docker.pkg.dev/confetti-349319/graphql-images/graphql"
     }
   }
+}
+
+resource "google_cloud_run_service_iam_binding" "graphql" {
+  provider = google-beta
+  location = google_cloud_run_v2_service.graphql.location
+  service  = google_cloud_run_v2_service.graphql.name
+  role     = "roles/run.invoker"
+  members = [
+    "allUsers"
+  ]
 }
 
 output "ip_addr" {

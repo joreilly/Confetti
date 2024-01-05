@@ -5,7 +5,6 @@ plugins {
 dependencies {
     implementation(platform(libs.google.cloud.bom))
     implementation(platform(libs.firebase.bom))
-    implementation(libs.google.cloud.storage)
     implementation(libs.plugin.kotlin)
     implementation(libs.plugin.android.application)
     implementation(libs.plugin.apollo)
@@ -14,7 +13,6 @@ dependencies {
     implementation(libs.plugin.kotlin.serialization)
     implementation(libs.plugin.kotlin.spring)
     implementation(libs.plugin.spring.boot)
-    implementation(libs.plugin.appengine)
     implementation(libs.plugin.kmmbridge)
     implementation(libs.plugin.google.services)
     implementation(libs.plugin.firebase.crashlytics) {
@@ -24,6 +22,7 @@ dependencies {
     implementation(libs.plugin.wire)
     implementation(libs.plugin.compose.multiplatform)
     implementation(libs.jib.core)
+    implementation(libs.google.cloud.storage)
     implementation(libs.google.cloud.run)
     implementation(libs.kotlinx.datetime)
 }

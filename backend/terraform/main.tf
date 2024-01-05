@@ -4,6 +4,7 @@ variable "region" {
 
 provider google-beta {
   project = "confetti-349319"
+  region = var.region
 }
 
 resource "google_compute_url_map" "default" {
@@ -27,7 +28,7 @@ resource "google_compute_url_map" "default" {
   }
 
   path_matcher {
-    name = "default"
+    name            = "default"
     default_service = google_compute_backend_bucket.landing_page.id
 
     path_rule {
@@ -46,7 +47,7 @@ resource "google_compute_url_map" "default" {
     }
   }
   path_matcher {
-    name = "router"
+    name            = "router"
     default_service = google_compute_backend_service.router.id
 
     path_rule {
@@ -58,20 +59,20 @@ resource "google_compute_url_map" "default" {
     }
   }
   path_matcher {
-    name = "wasm"
+    name            = "wasm"
     default_service = google_compute_backend_bucket.wasm.id
   }
 }
 
 resource "google_compute_backend_bucket" "landing_page" {
-  provider              = google-beta
+  provider    = google-beta
   name        = "landing-page"
   bucket_name = "confetti-landing-page"
   enable_cdn  = true
 }
 
 resource "google_compute_backend_bucket" "wasm" {
-  provider              = google-beta
+  provider    = google-beta
   name        = "wasm"
   bucket_name = "confetti-wasm"
   enable_cdn  = true
@@ -102,7 +103,7 @@ resource "google_compute_backend_service" "router" {
   custom_response_headers = ["X-Cache-Hit: {cdn_cache_status}"]
 
   log_config {
-    enable = true
+    enable      = true
     sample_rate = 1
   }
   backend {
@@ -112,25 +113,25 @@ resource "google_compute_backend_service" "router" {
     cache_mode = "USE_ORIGIN_HEADERS"
 
     cache_key_policy {
-      include_protocol = true
-      include_host = true
+      include_protocol     = true
+      include_host         = true
       include_query_string = true
       include_http_headers = ["conference"]
     }
   }
   compression_mode = "DISABLED"
-  protocol = "HTTPS"
+  protocol         = "HTTPS"
 }
 
 resource "google_compute_backend_service" "graphql" {
-  provider                        = google-beta
-  name                            = "graphql"
-  enable_cdn                      = true
+  provider   = google-beta
+  name       = "graphql"
+  enable_cdn = true
 
   custom_response_headers = ["X-Cache-Hit: {cdn_cache_status}"]
 
   log_config {
-    enable = true
+    enable      = true
     sample_rate = 1
   }
 
@@ -142,8 +143,8 @@ resource "google_compute_backend_service" "graphql" {
     cache_mode = "USE_ORIGIN_HEADERS"
 
     cache_key_policy {
-      include_protocol = true
-      include_host = true
+      include_protocol     = true
+      include_host         = true
       include_query_string = true
       include_http_headers = ["conference"]
     }
@@ -152,14 +153,14 @@ resource "google_compute_backend_service" "graphql" {
 }
 
 resource "google_compute_backend_service" "import" {
-  provider                        = google-beta
-  name                            = "import"
-  enable_cdn                      = true
+  provider   = google-beta
+  name       = "import"
+  enable_cdn = true
 
   custom_response_headers = ["X-Cache-Hit: {cdn_cache_status}"]
 
   log_config {
-    enable = true
+    enable      = true
     sample_rate = 1
   }
 
@@ -171,8 +172,8 @@ resource "google_compute_backend_service" "import" {
     cache_mode = "USE_ORIGIN_HEADERS"
 
     cache_key_policy {
-      include_protocol = true
-      include_host = true
+      include_protocol     = true
+      include_host         = true
       include_query_string = true
       include_http_headers = ["conference"]
     }
@@ -181,9 +182,9 @@ resource "google_compute_backend_service" "import" {
 }
 
 resource "google_compute_region_network_endpoint_group" "graphql" {
-  provider = google-beta
-  name = "graphql"
-  region  = var.region
+  provider              = google-beta
+  name                  = "graphql"
+  region                = var.region
   network_endpoint_type = "SERVERLESS"
 
   app_engine {
@@ -192,9 +193,9 @@ resource "google_compute_region_network_endpoint_group" "graphql" {
 }
 
 resource "google_compute_region_network_endpoint_group" "import" {
-  provider = google-beta
-  name = "import"
-  region  = var.region
+  provider              = google-beta
+  name                  = "import"
+  region                = var.region
   network_endpoint_type = "SERVERLESS"
 
   app_engine {
@@ -224,9 +225,9 @@ resource "google_compute_target_https_proxy" "default" {
 }
 
 resource "google_compute_target_http_proxy" "default" {
-  provider         = google-beta
-  name             = "default"
-  url_map          = google_compute_url_map.default.id
+  provider = google-beta
+  name     = "default"
+  url_map  = google_compute_url_map.default.id
 }
 
 resource "google_compute_global_forwarding_rule" "https" {
@@ -247,6 +248,20 @@ resource "google_compute_global_forwarding_rule" "http" {
   port_range            = "80"
   target                = google_compute_target_http_proxy.default.id
   ip_address            = google_compute_global_address.default.id
+}
+
+resource "google_artifact_registry_repository" "graphql-images" {
+  repository_id = "graphql-images"
+  provider      = google-beta
+  description   = "images for the GraphQL API"
+  format        = "DOCKER"
+  cleanup_policies {
+    id     = "keep-minimum-versions"
+    action = "KEEP"
+    most_recent_versions {
+      keep_count            = 5
+    }
+  }
 }
 
 output "ip_addr" {

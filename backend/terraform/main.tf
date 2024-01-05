@@ -4,7 +4,7 @@ variable "region" {
 
 provider google-beta {
   project = "confetti-349319"
-  region = var.region
+  region  = var.region
 }
 
 resource "google_compute_url_map" "default" {
@@ -259,7 +259,21 @@ resource "google_artifact_registry_repository" "graphql-images" {
     id     = "keep-minimum-versions"
     action = "KEEP"
     most_recent_versions {
-      keep_count            = 5
+      # Delete old images automatically
+      keep_count = 5
+    }
+  }
+}
+
+resource "google_cloud_run_v2_service" "graphql" {
+  name     = "cloudrun-service"
+  provider = google-beta
+  ingress  = "INGRESS_TRAFFIC_ALL"
+  location = var.region
+
+  template {
+    containers {
+      image = "us-west1-docker.pkg.dev/confetti-349319/graphql-images/graphql"
     }
   }
 }

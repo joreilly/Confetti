@@ -147,7 +147,7 @@ appengine {
     setServiceAccountKeyFile(gcpServiceAccountFile())
   }
   deploy {
-    projectId = "confetti-349319"
+    projectId = gcpProjectName
     version = "GCLOUD_CONFIG"
   }
 }

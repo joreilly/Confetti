@@ -181,6 +181,9 @@ wire-runtime = "com.squareup.wire:wire-runtime:4.9.3"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 napier = "io.github.aakira:napier:2.7.1"
 
+jib-core = "com.google.cloud.tools:jib-core:0.25.0"
+google-cloud-run = "com.google.cloud:google-cloud-run:0.32.0"
+
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]
 apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite", "apollo-adapters"]

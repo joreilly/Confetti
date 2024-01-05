@@ -44,7 +44,7 @@ appengine {
     setServiceAccountKeyFile(gcpServiceAccountFile())
   }
   deploy {
-    projectId = "confetti-349319"
+    projectId = gcpProjectName
     version = "GCLOUD_CONFIG"
   }
 }
@@ -58,3 +58,5 @@ tasks.register("updateSchema", JavaExec::class) {
   classpath(tasks.named("jar"))
   mainClass.set("dev.johnoreilly.confetti.backend.UpdateSchemaKt")
 }
+
+configureDeploy("graphql", "dev.johnoreilly.confetti.backend.MainKt")

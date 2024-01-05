@@ -23,4 +23,7 @@ dependencies {
     }
     implementation(libs.plugin.wire)
     implementation(libs.plugin.compose.multiplatform)
+    implementation(libs.jib.core)
+    implementation(libs.google.cloud.run)
+    implementation(libs.kotlinx.datetime)
 }

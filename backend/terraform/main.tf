@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = "confetti-tfstate"
+    prefix = "terraform/state"
+  }
+}
+
 variable "region" {
   default = "us-west1"
 }
@@ -283,7 +290,7 @@ resource "google_cloud_run_service_iam_binding" "graphql" {
   location = google_cloud_run_v2_service.graphql.location
   service  = google_cloud_run_v2_service.graphql.name
   role     = "roles/run.invoker"
-  members = [
+  members  = [
     "allUsers"
   ]
 }
@@ -321,9 +328,20 @@ resource "google_cloud_run_service_iam_binding" "import" {
   location = google_cloud_run_v2_service.import.location
   service  = google_cloud_run_v2_service.import.name
   role     = "roles/run.invoker"
-  members = [
+  members  = [
     "allUsers"
   ]
+}
+
+resource "google_storage_bucket" "tfstate" {
+  provider      = google-beta
+  name          = "confetti-tfstate"
+  force_destroy = false
+  location      = var.region
+  storage_class = "STANDARD"
+  versioning {
+    enabled = true
+  }
 }
 
 output "ip_addr" {

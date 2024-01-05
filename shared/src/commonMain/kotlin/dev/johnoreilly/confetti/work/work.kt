@@ -17,8 +17,8 @@ suspend fun updateCache(
     fetchImages: Boolean,
     conference: String,
     apolloClientCache: ApolloClientCache,
-    avatarType: AvatarType,
-    cacheImages: (suspend (Set<String>) -> Unit)?,
+    avatarType: AvatarType = { photoUrl },
+    cacheImages: (suspend (Set<String>) -> Unit)? = null,
 ) {
     supervisorScope {
         if (fetchConferences) {

@@ -4,7 +4,6 @@ import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.ConfettiRepository
-import dev.johnoreilly.confetti.GetVenueQuery
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.flow
@@ -21,8 +20,7 @@ interface VenueComponent {
     sealed interface UiState
     data object Loading : UiState
     data object Error : UiState
-    class Success(val data: GetVenueQuery.Venue
-    ) : UiState
+    class Success(val data: Venue) : UiState
 }
 
 class DefaultVenueComponent(
@@ -54,15 +52,44 @@ class DefaultVenueComponent(
             if (initial) {
                 repository.conferenceVenue(conference, FetchPolicy.CacheFirst).data?.let {
                     it.venues.firstOrNull()?.let { venue ->
-                        channel.send(VenueComponent.Success(venue))
+                        val data = Venue(
+                            id = venue.id,
+                            name = venue.name,
+                            address = venue.address,
+                            description = venue.description,
+                            latitude = venue.latitude,
+                            longitude = venue.longitude,
+                            imageUrl = venue.imageUrl,
+                            floorPlanUrl = venue.floorPlanUrl,
+                            mapLink = buildMapLink(venue.name, venue.address)
+                        )
+                        channel.send(VenueComponent.Success(data))
                     }
-                }
-            }
-            repository.conferenceVenue(conference, FetchPolicy.CacheFirst).data?.let {
-                it.venues.firstOrNull()?.let { venue ->
-                    channel.send(VenueComponent.Success(venue))
                 }
             }
         }
     }
+
+    private fun buildMapLink(name: String, address: String?): String? {
+        var query: String? = null
+        if (address != null) {
+            val addressQuery = address.replace(",", "%2C").replace(" ", "+")
+            query = "$name%2C+$addressQuery"
+        }
+        if (query.isNullOrEmpty()) return null
+
+        return "https://www.google.com/maps/search/?api=1&query=$query"
+    }
 }
+
+data class Venue(
+    val id: String,
+    val name: String,
+    val address: String?,
+    val description: String,
+    val latitude: Double?,
+    val longitude: Double?,
+    val imageUrl: String?,
+    val floorPlanUrl: String?,
+    val mapLink: String?,
+)

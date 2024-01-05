@@ -115,7 +115,7 @@ horologist-networkawareness-ui = { module = "com.google.android.horologist:horol
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
 jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.1"
-jsoup = "org.jsoup:jsoup:1.17.1"
+jsoup = "org.jsoup:jsoup:1.17.2"
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.56.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }

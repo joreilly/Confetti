@@ -41,6 +41,8 @@ abstract class BumpCloudRunRevision : DefaultTask() {
             .build()
 
         servicesClient.updateServiceAsync(newService).get()
+
+        servicesClient.close()
     }
 }
 

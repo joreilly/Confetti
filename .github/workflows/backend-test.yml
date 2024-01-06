@@ -25,4 +25,4 @@ jobs:
     - uses: hashicorp/setup-terraform@v3
 
     - name: Build
-      run: ./gradlew :backend:service-graphql:build :backend:service-import:build :backend:terraform:plan
+      run: ./gradlew :backend:service-graphql:build :backend:service-import:build

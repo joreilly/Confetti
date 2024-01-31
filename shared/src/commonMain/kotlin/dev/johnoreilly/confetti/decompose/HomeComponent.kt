@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
+import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.decompose.HomeComponent.Child
 import dev.johnoreilly.confetti.auth.User
 import kotlinx.serialization.Serializable
@@ -15,12 +16,14 @@ interface HomeComponent {
     val user: User?
     val stack: Value<ChildStack<*, Child>>
 
+    fun isGeminiEnabled(): Boolean
     fun onSessionsTabClicked()
     fun onSpeakersTabClicked()
     fun onBookmarksTabClicked()
     fun onVenueTabClicked()
     fun onSearchClicked()
     fun onSwitchConferenceClicked()
+    fun onGetRecommendationsClicked()
     fun onSignInClicked()
     fun onSignOutClicked()
     fun onShowSettingsClicked()
@@ -32,6 +35,7 @@ interface HomeComponent {
         class Bookmarks(val component: BookmarksComponent) : Child()
         class Venue(val component: VenueComponent) : Child()
         class Search(val component: SearchComponent) : Child()
+        class Recommendations(val component: RecommendationsComponent) : Child()
     }
 }
 
@@ -123,7 +127,21 @@ class DefaultHomeComponent(
                         onSignIn = onSignIn,
                     )
                 )
+
+            Config.Recommendations ->
+                Child.Recommendations(
+                    DefaultRecommendationsComponent(
+                        componentContext = componentContext,
+                        conference = conference,
+                        user = user,
+                        onSessionSelected = onSessionSelected
+                    )
+                )
         }
+
+    override fun isGeminiEnabled(): Boolean {
+        return BuildKonfig.GEMINI_API_KEY.isNotEmpty()
+    }
 
     override fun onSessionsTabClicked() {
         navigation.bringToFront(Config.Sessions)
@@ -147,6 +165,10 @@ class DefaultHomeComponent(
 
     override fun onSwitchConferenceClicked() {
         onSwitchConference()
+    }
+
+    override fun onGetRecommendationsClicked() {
+        navigation.bringToFront(Config.Recommendations)
     }
 
     override fun onSignInClicked() {
@@ -177,5 +199,8 @@ class DefaultHomeComponent(
 
         @Serializable
         data object Search : Config()
+
+        @Serializable
+        data object Recommendations : Config()
     }
 }

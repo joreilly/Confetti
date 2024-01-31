@@ -44,8 +44,15 @@ struct HomeView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Switch", action: component.onSwitchConferenceClicked)
+            ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    Button("Switch Conference", action: component.onSwitchConferenceClicked)
+                    if (component.isGeminiEnabled()) {
+                        Button("Recommendations", action: component.onGetRecommendationsClicked)
+                    }
+                } label: {
+                    Image(systemName: "gearshape")
+                }
             }
         }
     }
@@ -60,6 +67,7 @@ private struct ChildView: View {
         case let child as HomeComponentChild.MultiPane: MultiPaneView(child.component)
         case let child as HomeComponentChild.Speakers: SpeakersView(child.component)
         case let child as HomeComponentChild.Venue: VenueView(child.component)
+        case let child as HomeComponentChild.Recommendations: RecommendationsView(child.component)
         default: EmptyView()
         }
     }

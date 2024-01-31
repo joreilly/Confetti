@@ -51,6 +51,7 @@ import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.account.AccountInfo
 import dev.johnoreilly.confetti.account.WearUiState
 import dev.johnoreilly.confetti.bookmarks.BookmarksRoute
+import dev.johnoreilly.confetti.recommendations.RecommendationsRoute
 import dev.johnoreilly.confetti.search.SearchRoute
 import dev.johnoreilly.confetti.sessions.SessionsRoute
 import dev.johnoreilly.confetti.speakers.SpeakersRoute
@@ -111,6 +112,7 @@ private fun Children(
         }
         AccountIcon(
             onSwitchConference = component::onSwitchConferenceClicked,
+            onGetRecommendations = component::onGetRecommendationsClicked,
             onSignIn = component::onSignInClicked,
             onSignOut = component::onSignOutClicked,
             onShowSettings = component::onShowSettingsClicked,
@@ -119,6 +121,7 @@ private fun Children(
             },
             installOnWear = {}, // FIXME: handle
             wearSettingsUiState = wearUiState,
+            showRecommendationsOption = component.isGeminiEnabled()
         )
     }
 
@@ -165,6 +168,14 @@ private fun Children(
                     windowSizeClass = windowSizeClass,
                     topBarActions = topBarActions,
                 )
+
+            is HomeComponent.Child.Recommendations ->
+                RecommendationsRoute(
+                    component = child.component,
+                    windowSizeClass = windowSizeClass,
+                    topBarActions = topBarActions,
+                )
+
         }
     }
 }

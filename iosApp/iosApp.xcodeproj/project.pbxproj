@@ -15,6 +15,8 @@
 		1A12DBF52A3CE036002EB4FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12DBF42A3CE036002EB4FF /* ContentView.swift */; };
 		1A12DBF72A3CE037002EB4FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A12DBF62A3CE037002EB4FF /* Assets.xcassets */; };
 		1A12DBFA2A3CE037002EB4FF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A12DBF92A3CE037002EB4FF /* Preview Assets.xcassets */; };
+		1A584D112B8277680047DDD2 /* RecommendationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A584D102B8277680047DDD2 /* RecommendationsView.swift */; };
+		1A584D162B8347EC0047DDD2 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1A584D152B8347EC0047DDD2 /* MarkdownUI */; };
 		1A8F347A29C4BA1A00327F0A /* ConfettiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F347929C4BA1A00327F0A /* ConfettiTests.swift */; };
 		1AC8AB642AD2993D0067704E /* VenueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8AB632AD2993D0067704E /* VenueView.swift */; };
 		1AEAB76C28FBF52D00B06D90 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1AEAB76B28FBF52D00B06D90 /* SwiftUIFlowLayout */; };
@@ -71,6 +73,7 @@
 		1A12DBF62A3CE037002EB4FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A12DBF92A3CE037002EB4FF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1A12DBFB2A3CE037002EB4FF /* ConfettiMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConfettiMac.entitlements; sourceTree = "<group>"; };
+		1A584D102B8277680047DDD2 /* RecommendationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsView.swift; sourceTree = "<group>"; };
 		1A64E7D12A3DB98500D291F2 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
 		1A64E7D42A3DB9BF00D291F2 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
 		1A8F347729C4BA1900327F0A /* ConfettiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConfettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +123,7 @@
 				1AEAB76C28FBF52D00B06D90 /* SwiftUIFlowLayout in Frameworks */,
 				1AF3DECF28E79A4500A2EA02 /* AsyncAlgorithms in Frameworks */,
 				1129323129D1B960000D8593 /* FirebaseAuth in Frameworks */,
+				1A584D162B8347EC0047DDD2 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +156,14 @@
 				1A12DBF92A3CE037002EB4FF /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1A584D0F2B8277440047DDD2 /* Recommendations */ = {
+			isa = PBXGroup;
+			children = (
+				1A584D102B8277680047DDD2 /* RecommendationsView.swift */,
+			);
+			path = Recommendations;
 			sourceTree = "<group>";
 		};
 		1A8F347829C4BA1900327F0A /* ConfettiTests */ = {
@@ -213,6 +225,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				1A584D0F2B8277440047DDD2 /* Recommendations */,
 				1AC8AB652AD2997C0067704E /* Venue */,
 				1AF675CA28F1F0F300CC1C26 /* Speakers */,
 				1AF675C928F1F06800CC1C26 /* Sessions */,
@@ -305,6 +318,7 @@
 				1AEAB76B28FBF52D00B06D90 /* SwiftUIFlowLayout */,
 				1129322E29D1B960000D8593 /* FirebaseAnalytics */,
 				1129323029D1B960000D8593 /* FirebaseAuth */,
+				1A584D152B8347EC0047DDD2 /* MarkdownUI */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Confetti.app */;
@@ -345,6 +359,7 @@
 				1AF3DECD28E79A4500A2EA02 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				1AEAB76A28FBF52D00B06D90 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
 				1129322D29D1B960000D8593 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				1A584D142B8347EC0047DDD2 /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -460,6 +475,7 @@
 				7555FF83242A565900829871 /* ConfettiApp.swift in Sources */,
 				79BEE2622A10E97B00824824 /* Utils.swift in Sources */,
 				1AC8AB642AD2993D0067704E /* VenueView.swift in Sources */,
+				1A584D112B8277680047DDD2 /* RecommendationsView.swift in Sources */,
 				79BEE2642A11134600824824 /* ConferenceView.swift in Sources */,
 				79BEE26A2A11154D00824824 /* ErrorView.swift in Sources */,
 				79AF2C4D2A9A6D0A0011EAC4 /* MultiPaneView.swift in Sources */,
@@ -760,6 +776,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -793,6 +810,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -848,6 +866,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		1A584D142B8347EC0047DDD2 /* XCRemoteSwiftPackageReference "MarkdownUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/MarkdownUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.2;
+			};
+		};
 		1AEAB76A28FBF52D00B06D90 /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/globulus/swiftui-flow-layout";
@@ -876,6 +902,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1129322D29D1B960000D8593 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		1A584D152B8347EC0047DDD2 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A584D142B8347EC0047DDD2 /* XCRemoteSwiftPackageReference "MarkdownUI" */;
+			productName = MarkdownUI;
 		};
 		1AEAB76B28FBF52D00B06D90 /* SwiftUIFlowLayout */ = {
 			isa = XCSwiftPackageProductDependency;

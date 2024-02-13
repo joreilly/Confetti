@@ -176,7 +176,7 @@ test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-beta01"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.0"
 wear-compose-material = "androidx.wear.compose:compose-material:1.2.1"
 wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.1"
-wire-runtime = "com.squareup.wire:wire-runtime:4.9.3"
+wire-runtime = "com.squareup.wire:wire-runtime:4.9.7"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 napier = "io.github.aakira:napier:2.7.1"
 

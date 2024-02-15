@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: apollographql/update-graphql-schema@6962ed0ae1c45b4da0d1424524d8a3760a637b50 #main
+      - uses: apollographql/update-graphql-schema@2a22b8257e916188812982d64c1f2f087959d8c0 #main
         with:
           key: ${{ secrets.APOLLO_KEY }}
           graph: "Confetti"

@@ -10,7 +10,7 @@ jobs:
       with:
         lfs: 'true'
 
-    - uses: gradle/wrapper-validation-action@v1
+    - uses: gradle/wrapper-validation-action@v2
 
     - name: Validate Renovate
       uses: rinchsan/renovate-config-validator@v0.0.12

@@ -72,7 +72,7 @@ class SessionsDetailsTest : ScreenshotTest() {
         timeTextMode = TimeTextMode.Off,
         checks = { columnState ->
             columnState.state.scrollToItem(100)
-            rule.onNodeWithText("Martin Bonnin").assertIsDisplayed()
+            rule.onNodeWithText("Martin Bonnin, Software Engineer").assertIsDisplayed()
             assertEquals(7, columnState.state.centerItemIndex)
         }
     ) { columnState ->

@@ -182,7 +182,7 @@ private fun SectionedListScope.conferenceDaysSection(
                         date
                     )
                 },
-                colors = ChipDefaults.secondaryChipColors()
+                colors = ChipDefaults.secondaryChipColors(),
             )
         }
 

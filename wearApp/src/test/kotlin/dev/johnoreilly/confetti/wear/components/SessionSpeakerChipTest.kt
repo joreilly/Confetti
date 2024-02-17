@@ -32,7 +32,7 @@ class SessionSpeakerChipTest : ScreenshotTest() {
 
         takeComponentScreenshot(
             checks = {
-                rule.onNodeWithText("John O'Reilly").assertIsDisplayed()
+                rule.onNodeWithText("John O'Reilly, AI Unicorn Founder").assertIsDisplayed()
             }
         ) {
             SessionSpeakerChip(
@@ -48,7 +48,7 @@ class SessionSpeakerChipTest : ScreenshotTest() {
 
         takeComponentScreenshot(
             checks = {
-                rule.onNodeWithText("John O'Reilly").assertIsDisplayed()
+                rule.onNodeWithText("John O'Reilly, AI Unicorn Founder").assertIsDisplayed()
             }
         ) {
             SessionSpeakerChip(

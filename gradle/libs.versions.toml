@@ -1,18 +1,18 @@
 [versions]
-accompanist = "0.32.0"
+accompanist = "0.34.0"
 activity-compose = "1.8.2"
-androidx-lifecycle = "2.6.2"
-androidx-datastore = "1.1.0-alpha07"
+androidx-lifecycle = "2.7.0"
+androidx-datastore = "1.1.0-beta01"
 apollo = "4.0.0-beta.4"
-compose = "1.5.4"
+compose = "1.6.1"
 compose-multiplatform = "1.6.0-alpha01"
 compose-compiler = "1.5.5-dev-k2.0.0-Beta1-06b8ae672a4"
-compose-material-3 = "1.1.2"
+compose-material-3 = "1.2.0"
 credentials-play-services-auth = "1.2.0"
 decompose = "2.2.2"
 essenty = "1.3.0"
 googleid = "1.1.0"
-horologist = "0.5.20"
+horologist = "0.5.22"
 image-loader = "1.7.1"
 io-coil-kt = "2.5.0"
 kmp-nativecoroutines = "1.0.0-ALPHA-24"
@@ -23,16 +23,16 @@ koin-compose-multiplatform = "1.1.2"
 koin-core = "3.5.3"
 kotlin = "2.0.0-Beta1"
 ksp-plugin = "2.0.0-Beta4-1.0.17"
-kotlin-coroutines = "1.7.3"
+kotlin-coroutines = "1.8.0-RC"
 kotlinx-coroutines-play-services = "1.7.3"
 kotlinx-datetime = "0.5.0"
-lifecycle = "2.6.2"
-lifecycle-livedata-ktx = "2.6.2"
+lifecycle = "2.7.0"
+lifecycle-livedata-ktx = "2.7.0"
 multiplatform-settings = "1.1.1"
-nav-compose = "2.7.6"
-okio = "3.7.0"
-protolayout-expression = "1.0.0"
-protolayout-proto = "1.0.0"
+nav-compose = "2.7.7"
+okio = "3.8.0"
+protolayout-expression = "1.1.0"
+protolayout-proto = "1.1.0"
 robolectric = "4.11.1"
 room = "2.6.1"
 snapshot-android = "v1.0.2"
@@ -44,8 +44,8 @@ accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive",
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-testharness = { module = "com.google.accompanist:accompanist-testharness", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.2"
-androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.0"
+androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.3"
+androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.1"
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials-play-services-auth" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
@@ -87,7 +87,7 @@ federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-bom = "com.google.firebase:firebase-bom:32.7.0"
+firebase-bom = "com.google.firebase:firebase-bom:32.7.2"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.10.4"
@@ -107,7 +107,6 @@ horologist-datalayer = { module = "com.google.android.horologist:horologist-data
 horologist-datalayer-phone = { module = "com.google.android.horologist:horologist-datalayer-phone", version.ref = "horologist" }
 horologist-datalayer-watch = { module = "com.google.android.horologist:horologist-datalayer-watch", version.ref = "horologist" }
 horologist-images-coil = { module = "com.google.android.horologist:horologist-images-coil", version.ref = "horologist" }
-horologist-auth-data-phone = { module = "com.google.android.horologist:horologist-auth-data-phone", version.ref = "horologist" }
 horologist-networkawareness-core = { module = "com.google.android.horologist:horologist-network-awareness", version.ref = "horologist" }
 horologist-networkawareness-db = { module = "com.google.android.horologist:horologist-network-awareness-db", version.ref = "horologist" }
 horologist-networkawareness-okhttp = { module = "com.google.android.horologist:horologist-network-awareness-okhttp", version.ref = "horologist" }
@@ -143,12 +142,12 @@ multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-setti
 okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.12"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.12"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12"
-play-services-auth = "com.google.android.gms:play-services-auth:20.7.0"
+play-services-auth = "com.google.android.gms:play-services-auth:21.0.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-plugin-android-application = "com.android.tools.build:gradle:8.1.4"
+plugin-android-application = "com.android.tools.build:gradle:8.2.2"
 plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
-plugin-google-services = "com.google.gms:google-services:4.4.0"
+plugin-google-services = "com.google.gms:google-services:4.4.1"
 plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.7"
 plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin", version.ref = "kmp-nativecoroutines" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
@@ -170,13 +169,9 @@ snapshot-android = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:s
 snapshot-jvm = { module = "com.github.QuickBirdEng.kotlin-snapshot-testing:snapshot-jvm", version.ref = "snapshot-android" }
 splash-screen = "androidx.core:core-splashscreen:1.0.1"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
-test-junit-ktx = "androidx.test.ext:junit-ktx:1.1.5"
-test-runner = "androidx.test:runner:1.5.2"
-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-beta01"
-wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.0"
-wear-compose-material = "androidx.wear.compose:compose-material:1.2.1"
-wear-compose-navigation = "androidx.wear.compose:compose-navigation:1.2.1"
-wire-runtime = "com.squareup.wire:wire-runtime:4.9.7"
+test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0-rc01"
+wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.1"
+wear-compose-material = "androidx.wear.compose:compose-material:1.3.0"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 napier = "io.github.aakira:napier:2.7.1"
 

@@ -51,7 +51,8 @@ class ConferenceScreenTest : ScreenshotTest() {
 
                 rule.onNodeWithText("KotlinConf 2023")
                     .assertIsDisplayed()
-                    .assertHasClickAction()
+                    // TODO https://github.com/google/horologist/issues/2039
+//                    .assertHasClickAction()
                     .assertTouchHeightIsEqualTo(52.dp)
             }
         ) { columnState ->

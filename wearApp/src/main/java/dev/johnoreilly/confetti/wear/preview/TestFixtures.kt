@@ -79,7 +79,7 @@ object TestFixtures {
             name = "John O'Reilly",
             photoUrl = JohnUrl,
             photoUrlThumbnail = JohnUrl,
-            tagline = "Software Engineer",
+            tagline = "AI Unicorn Founder",
             company = null,
             companyLogoUrl = null,
             city = null,

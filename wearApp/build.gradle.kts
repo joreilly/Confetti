@@ -69,6 +69,10 @@ android {
         }
     }
 
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+
     buildFeatures {
         compose = true
         buildConfig = true
@@ -215,6 +219,8 @@ dependencies {
     implementation(libs.decompose.extensions.compose.jetpack)
     implementation(libs.room.runtime)
     implementation(libs.coil.base)
+
+    coreLibraryDesugaring(libs.desugar)
 
     debugImplementation(libs.compose.ui.manifest)
     debugImplementation(libs.androidx.complications.rendering)

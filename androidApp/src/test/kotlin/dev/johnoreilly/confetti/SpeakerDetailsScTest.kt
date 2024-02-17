@@ -7,7 +7,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
 
 
-class SpeakerDetailsScTest : BaseScreenshotTest(false, a11yEnabled = false) {
+class SpeakerDetailsScTest : BaseScreenshotTest(a11yEnabled = false) {
 
 
     @OptIn(ExperimentalCoroutinesApi::class)

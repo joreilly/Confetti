@@ -26,7 +26,7 @@ import org.robolectric.annotation.GraphicsMode
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class BaseScreenshotTest(
-    record: Boolean,
+    record: Boolean = false,
     tolerance: Float = 0.01f,
     a11yEnabled: Boolean = false
 ) : KoinTest {

@@ -4,7 +4,8 @@ import android.app.Application
 import android.content.Context
 import coil.ImageLoader
 import coil.ImageLoaderFactory
-import com.google.android.horologist.networks.okhttp.urlconnection.FirebaseUrlFactory
+import com.google.android.horologist.networks.data.RequestType
+import com.google.android.horologist.networks.okhttp.impl.RequestTypeHolder.Companion.withDefaultRequestType
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.crashlytics.setCustomKeys
@@ -12,10 +13,12 @@ import com.google.firebase.Firebase
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.wear.di.appModule
+import dev.johnoreilly.confetti.wear.networks.FirebaseUrlFactory
 import dev.johnoreilly.confetti.work.setupDailyRefresh
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import okhttp3.Call
+import okhttp3.Request
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -57,7 +60,18 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
             workManagerFactory()
         }
 
-        URL.setURLStreamHandlerFactory(FirebaseUrlFactory(get<Call.Factory>(named("logs"))))
+        val callFactory = get<Call.Factory>()
+        URL.setURLStreamHandlerFactory(FirebaseUrlFactory { request ->
+            val requestType = if (request.url.pathSegments.contains("firelog")) {
+                RequestType.LogsRequest
+            } else {
+                RequestType.ApiRequest
+            }
+
+            val finalRequest = request.withDefaultRequestType(requestType)
+
+            callFactory.newCall(finalRequest)
+        })
 
         setupDailyRefresh(get())
     }

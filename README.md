@@ -57,6 +57,14 @@ Requires Xcode 14 or later for iOS client.
 
 <img src="automotiveApp/snapshot/walkthroughAndroidAutomotive.gif" alt="Walkthrough of Confetti running on Android Automotive" />
 
+
+### Gemini functionality
+
+Gemini based talk recommendations for particuar conference are included in the mobile clients (if `gemini_api_key` configured in `local.properties`).  Desktop client allows free entry of query.
+
+<img width="1033" alt="Screenshot 2024-02-25 at 09 58 16" src="https://github.com/joreilly/Confetti/assets/6302/ac624a44-4b0b-4a1d-b58b-4ce172b6f3cd">
+
+
 ### API
 
 The API is available at https://confetti-app.dev/graphiql

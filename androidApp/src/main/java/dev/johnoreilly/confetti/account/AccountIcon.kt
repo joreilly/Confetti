@@ -34,12 +34,14 @@ data class AccountInfo(
 @Composable
 fun AccountIcon(
     onSwitchConference: () -> Unit,
+    onGetRecommendations: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onShowSettings: () -> Unit,
     installOnWear: () -> Unit,
     wearSettingsUiState: WearUiState,
     info: AccountInfo?,
+    showRecommendationsOption: Boolean
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -94,6 +96,17 @@ fun AccountIcon(
                 onSwitchConference()
             }
         )
+
+        if (showRecommendationsOption) {
+            DropdownMenuItem(
+                text = { Text(stringResource(id = R.string.recommendations)) },
+                onClick = {
+                    showMenu = false
+                    onGetRecommendations()
+                }
+            )
+        }
+
         DropdownMenuItem(
             text = { Text(stringResource(id = R.string.settings_title)) },
             onClick = {
@@ -122,12 +135,14 @@ private fun AccountIconPreview() {
         Surface {
             AccountIcon(
                 onSwitchConference = {},
+                onGetRecommendations = {},
                 onSignIn = {},
                 onSignOut = {},
                 onShowSettings = {},
                 installOnWear = {},
                 wearSettingsUiState = wearUiState,
                 info = AccountInfo(),
+                showRecommendationsOption = false
             )
         }
     }

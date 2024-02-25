@@ -162,7 +162,6 @@ private fun LazyListScope.sessionItems(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun SearchTextField(
     modifier: Modifier = Modifier,

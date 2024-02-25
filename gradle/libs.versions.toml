@@ -37,6 +37,8 @@ robolectric = "4.11.1"
 room = "2.6.1"
 snapshot-android = "v1.0.2"
 work-runtime-ktx = "2.9.0"
+generativeai = "0.2.0-1.0.0"
+buildkonfig = "0.15.1"
 
 
 [libraries]
@@ -178,6 +180,12 @@ napier = "io.github.aakira:napier:2.7.1"
 jib-core = "com.google.cloud.tools:jib-core:0.25.0"
 google-cloud-run = "com.google.cloud:google-cloud-run:0.35.0"
 
+generativeai = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }
+
+
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]
 apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite", "apollo-adapters"]
+
+[plugins]
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }

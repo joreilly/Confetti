@@ -1,4 +1,6 @@
 @file:Suppress("OPT_IN_USAGE")
+import com.codingfeline.buildkonfig.compiler.FieldSpec
+import java.util.Properties
 
 plugins {
     kotlin("multiplatform")
@@ -11,6 +13,7 @@ plugins {
     id("maven-publish")
     id("kotlinx-serialization")
     id("io.github.luca992.multiplatform-swiftpackage") version "2.2.1"
+    alias(libs.plugins.buildkonfig)
 }
 
 configureCompilerOptions()
@@ -44,16 +47,6 @@ kotlin {
         }
     }
 
-    macosArm64("macos") {
-        binaries.framework {
-            baseName = "ConfettiKit"
-            isStatic = true
-
-            export(libs.decompose.decompose)
-            export(libs.essenty.lifecycle)
-        }
-    }
-
     applyDefaultHierarchyTemplate {
         common {
             group("mobile") {
@@ -69,6 +62,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.serialization)
                 implementation(libs.atomicfu)
                 api(libs.kotlinx.datetime)
 
@@ -93,6 +87,8 @@ kotlin {
                 implementation(libs.image.loader)
                 // See https://github.com/cashapp/sqldelight/issues/4357
                 implementation(libs.stately.common)
+
+                api(libs.generativeai)
             }
         }
         commonTest {
@@ -120,6 +116,7 @@ kotlin {
                 implementation(libs.okhttp.logging.interceptor)
                 api(libs.coil.base)
                 api(libs.koin.android)
+                api(libs.koin.compose.multiplatform)
                 api(libs.koin.workmanager)
                 api(libs.okio)
                 implementation(libs.horologist.datalayer)
@@ -133,6 +130,8 @@ kotlin {
                 api(libs.multiplatform.settings.datastore)
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
+
+                api("com.mikepenz:multiplatform-markdown-renderer:0.12.0")
             }
         }
 
@@ -254,4 +253,26 @@ multiplatformSwiftPackage {
         iOS { v("14") }
         macOS { v("12")}
     }
+}
+
+buildkonfig {
+    packageName = "dev.johnoreilly.confetti"
+
+    val localPropsFile = rootProject.file("local.properties")
+    val localProperties = Properties()
+    if (localPropsFile.exists()) {
+        runCatching {
+            localProperties.load(localPropsFile.inputStream())
+        }.getOrElse {
+            it.printStackTrace()
+        }
+    }
+    defaultConfigs {
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "GEMINI_API_KEY",
+            localProperties["gemini_api_key"]?.toString() ?: ""
+        )
+    }
+
 }

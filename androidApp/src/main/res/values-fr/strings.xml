@@ -38,9 +38,11 @@
     <string name="sign_out">Déconnexion</string>
     <string name="sign_in_lowercase">Connexion</string>
     <string name="switch_conference">Changer de conférence</string>
+    <string name="recommendations">Recommandations</string>
     <string name="install_wear">Installer l\'app sur WearOS</string>
     <string name="choose_conference">Conference</string>
     <string name="search_placeholder">Que cherchez vous ?</string>
+    <string name="recommendations_search_placeholder">Quel sujet vous intéresse?</string>
     <string name="install_on_watch">Installer l\'app sur WearOS</string>
     <string name="no_paired_watch">Pas de montre appairée</string>
     <string name="empty_text">Aucun bookmark</string>

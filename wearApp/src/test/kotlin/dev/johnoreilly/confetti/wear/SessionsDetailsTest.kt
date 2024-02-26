@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
 import coil.decode.DataSource
@@ -72,7 +73,7 @@ class SessionsDetailsTest : ScreenshotTest() {
         timeTextMode = TimeTextMode.Off,
         checks = { columnState ->
             columnState.state.scrollToItem(100)
-            rule.onNodeWithText("Martin Bonnin, Software Engineer").assertIsDisplayed()
+            rule.onNodeWithContentDescription("Martin Bonnin").assertIsDisplayed()
             assertEquals(7, columnState.state.centerItemIndex)
         }
     ) { columnState ->

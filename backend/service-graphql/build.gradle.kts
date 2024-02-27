@@ -27,6 +27,7 @@ dependencies {
   implementation(libs.scrimage.core)
   implementation(libs.scrimage.filters)
   implementation(libs.spring.web)
+  implementation(libs.snakeyaml)
 
   testImplementation(libs.junit)
 }

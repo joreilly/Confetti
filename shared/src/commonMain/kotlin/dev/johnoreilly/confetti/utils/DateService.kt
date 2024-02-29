@@ -12,8 +12,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 interface DateService {
-    fun format(localDateTime: LocalDateTime, timeZone: TimeZone, format: String): String
-
     // TODO create this in the correct TimeZone to avoid later calculations
     fun now(): LocalDateTime
 }

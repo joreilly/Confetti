@@ -6,6 +6,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnStart
+import conferenceDateFormat
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetBookmarksQuery
 import dev.johnoreilly.confetti.GetConferenceDataQuery
@@ -13,7 +14,6 @@ import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -34,10 +34,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import sessionTimeFormat
 
 data class ResponseData(
     val bookmarksResponse: ApolloResponse<GetBookmarksQuery.Data>,
@@ -253,8 +253,8 @@ class SessionsSimpleComponent(
             }
         }
 
-    private fun getSessionTime(session: SessionDetails, timeZone: TimeZone): String {
-        return dateService.format(session.startsAt, timeZone, "HH:mm")
+    private fun getSessionTime(session: SessionDetails): String {
+        return session.startsAt.sessionTimeFormat()
     }
 
     private fun uiStates(
@@ -279,7 +279,6 @@ class SessionsSimpleComponent(
         val conferenceName = sessionsData.config.name
         val venueLat = sessionsData.venues.firstOrNull()?.latitude
         val venueLon = sessionsData.venues.firstOrNull()?.longitude
-        val timeZone = sessionsData.config.timezone.toTimeZone()
         val sessionsMap =
             sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
         val speakers = sessionsData.speakers.nodes.map { it.speakerDetails }
@@ -292,13 +291,13 @@ class SessionsSimpleComponent(
             val sessions = sessionsMap[confDate] ?: emptyList()
 
             val sessionsByStartTime = sessions
-                .groupBy { getSessionTime(it, timeZone) }
+                .groupBy { getSessionTime(it) }
 
             sessionsByStartTimeList.add(sessionsByStartTime)
         }
 
         val formattedConfDates = confDates.map { date ->
-            dateService.format(date.atTime(0, 0), timeZone, "MMM dd, yyyy")
+            date.atTime(0, 0).conferenceDateFormat()
         }
         return SessionsUiState.Success(
             now = dateService.now(),

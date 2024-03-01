@@ -38,15 +38,15 @@ import androidx.compose.ui.unit.dp
 import com.seiko.imageloader.model.ImageAction
 import com.seiko.imageloader.rememberImageSuccessPainter
 import com.seiko.imageloader.ui.AutoSizeBox
+import conferenceDateFormat
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
-import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
+import sessionStartDateTimeFormat
+import sessionTimeFormat
 
 @Composable
 internal fun SessionDetailViewShared(
@@ -54,7 +54,6 @@ internal fun SessionDetailViewShared(
     onSpeakerClick: (speakerId: String) -> Unit,
     onSocialLinkClicked: (String) -> Unit
 ) {
-    val dateService = koinInject<DateService>()
     val scrollState = rememberScrollState()
 
     Column {
@@ -74,7 +73,7 @@ internal fun SessionDetailViewShared(
                     Spacer(modifier = Modifier.size(16.dp))
 
                     Text(
-                        text = sessionTimeString(dateService, session.startsAt, session.endsAt),
+                        text = sessionTimeString(session.startsAt, session.endsAt),
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                     )
@@ -330,8 +329,8 @@ internal fun Chip(name: String) {
 }
 
 
-private fun sessionTimeString(dateService: DateService, startsAt: LocalDateTime, endsAt: LocalDateTime): String {
-    val startTimeDate = dateService.format(startsAt, TimeZone.currentSystemDefault(), "MMM d HH:mm")
-    val endsAtTime = dateService.format(endsAt, TimeZone.currentSystemDefault(), "HH:mm")
+private fun sessionTimeString(startsAt: LocalDateTime, endsAt: LocalDateTime): String {
+    val startTimeDate = startsAt.sessionStartDateTimeFormat()
+    val endsAtTime = endsAt.sessionTimeFormat()
     return "$startTimeDate - $endsAtTime"
 }

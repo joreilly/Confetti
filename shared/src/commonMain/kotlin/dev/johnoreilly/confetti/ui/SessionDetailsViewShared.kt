@@ -18,7 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,11 +38,18 @@ import androidx.compose.ui.unit.dp
 import com.seiko.imageloader.model.ImageAction
 import com.seiko.imageloader.rememberImageSuccessPainter
 import com.seiko.imageloader.ui.AutoSizeBox
-import conferenceDateFormat
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.facebook
+import confetti.shared.generated.resources.github
+import confetti.shared.generated.resources.ic_person_black_24dp
+import confetti.shared.generated.resources.linkedin
+import confetti.shared.generated.resources.twitter
+import confetti.shared.generated.resources.web
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import sessionStartDateTimeFormat
@@ -140,7 +147,7 @@ internal fun ConfettiHeader(
         modifier = modifier.fillMaxWidth(),
     ) {
         Column {
-            Divider()
+            HorizontalDivider()
             Row(
                 modifier = Modifier
                     .padding(
@@ -163,7 +170,7 @@ internal fun ConfettiHeader(
                     fontWeight = FontWeight.Bold,
                 )
             }
-            Divider()
+            HorizontalDivider()
         }
     }
 }
@@ -195,7 +202,7 @@ internal fun SessionSpeakerInfo(
                         }
                         is ImageAction.Failure -> {
                             Image(
-                                painter = painterResource("ic_person_black_24dp.xml"),
+                                painter = painterResource(Res.drawable.ic_person_black_24dp),
                                 contentDescription = speaker.name,
                                 contentScale = ContentScale.Fit,
                                 modifier = Modifier.size(64.dp).clip(CircleShape)
@@ -251,7 +258,7 @@ internal fun SessionSpeakerInfo(
 @Composable
 internal fun SocialIcon(
     modifier: Modifier = Modifier,
-    resource: String,
+    resource: DrawableResource,
     contentDescription: String,
     onClick: () -> Unit
 ) {
@@ -267,6 +274,7 @@ internal fun SocialIcon(
 }
 
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun SocialIcon(
     modifier: Modifier = Modifier,
@@ -276,35 +284,35 @@ internal fun SocialIcon(
     when (socialItem.name.lowercase()) {
         "github" -> SocialIcon(
             modifier = modifier,
-            resource = "github.xml",
+            resource = Res.drawable.github,
             contentDescription = "Github",
             onClick = onClick
         )
 
         "linkedin" -> SocialIcon(
             modifier = modifier,
-            resource = "linkedin.xml",
+            resource = Res.drawable.linkedin,
             contentDescription = "LinkedIn",
             onClick = onClick
         )
 
         "twitter" -> SocialIcon(
             modifier = modifier,
-            resource = "twitter.xml",
+            resource = Res.drawable.twitter,
             contentDescription = "Twitter",
             onClick = onClick
         )
 
         "facebook" -> SocialIcon(
             modifier = modifier,
-            resource = "facebook.xml",
+            resource = Res.drawable.facebook,
             contentDescription = "Facebook",
             onClick = onClick
         )
 
         else -> SocialIcon(
             modifier = modifier,
-            resource = "web.xml",
+            resource = Res.drawable.web,
             contentDescription = "Web",
             onClick = onClick
         )

@@ -9,6 +9,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
+    id("io.github.takahirom.roborazzi")
 }
 
 configureCompilerOptions()

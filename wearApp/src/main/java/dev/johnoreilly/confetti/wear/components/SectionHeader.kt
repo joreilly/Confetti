@@ -22,7 +22,7 @@ fun SectionHeader(
             .semantics {
                 heading()
             }
-            .padding(vertical = 10.dp),
+            .padding(bottom = 10.dp),
         textAlign = TextAlign.Center,
         overflow = TextOverflow.Ellipsis,
         style = MaterialTheme.typography.button,

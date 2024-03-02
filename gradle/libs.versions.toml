@@ -8,6 +8,7 @@ compose = "1.6.2"
 compose-multiplatform = "1.6.0"
 compose-compiler = "1.5.11-dev-k2.0.0-Beta4-21f5e479a96"
 compose-material-3 = "1.2.0"
+compose-ui-tooling = "1.3.0"
 credentials-play-services-auth = "1.2.0"
 decompose = "2.2.2"
 essenty = "1.3.0"
@@ -34,11 +35,14 @@ okio = "3.8.0"
 protolayout-expression = "1.1.0"
 protolayout-proto = "1.1.0"
 robolectric = "4.11.1"
+roborazzi-gradle-plugin = "1.10.1"
 room = "2.6.1"
 snapshot-android = "v1.0.2"
+tiles-tooling-preview = "1.3.0"
 work-runtime-ktx = "2.9.0"
 generativeai = "0.2.1-1.0.0"
 buildkonfig = "0.15.1"
+roborazzi = "1.10.1"
 
 
 [libraries]
@@ -48,6 +52,7 @@ accompanist-testharness = { module = "com.google.accompanist:accompanist-testhar
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.3"
 androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.1"
+androidx-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "compose-ui-tooling" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials-play-services-auth" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
@@ -56,6 +61,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout-expression" }
 androidx-protolayout-expression-pipeline = { module = "androidx.wear.protolayout:protolayout-expression-pipeline", version.ref = "protolayout-expression" }
 androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-proto", version.ref = "protolayout-proto" }
+androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles-tooling-preview" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
 apollo-adapters = { module = "com.apollographql.apollo3:apollo-adapters" }
@@ -158,6 +164,7 @@ plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.2" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.7" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
+roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi-gradle-plugin" }
 scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.1.1"
 scrimage-filters = "com.sksamuel.scrimage:scrimage-filters:4.1.1"
 snakeyaml = "org.yaml:snakeyaml:2.0"
@@ -183,6 +190,9 @@ google-cloud-run = "com.google.cloud:google-cloud-run:0.35.0"
 
 generativeai = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }
 
+roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines"]

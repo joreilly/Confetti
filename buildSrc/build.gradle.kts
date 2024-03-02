@@ -25,4 +25,5 @@ dependencies {
     implementation(libs.google.cloud.storage)
     implementation(libs.google.cloud.run)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.roborazzi.gradle.plugin)
 }

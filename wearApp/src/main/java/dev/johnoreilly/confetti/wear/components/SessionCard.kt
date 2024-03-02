@@ -3,13 +3,11 @@
 package dev.johnoreilly.confetti.wear.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -17,21 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.LocalTextStyle
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
-import com.google.android.horologist.compose.tools.ThemeValues
-import com.google.android.horologist.compose.tools.WearPreview
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
-import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewThemes
-import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
@@ -102,22 +94,6 @@ fun SessionTime(
         Text(stringResource(id = R.string.now), color = MaterialTheme.colors.error)
     } else {
         Text(timeFormatted.format(session.startsAt.toJavaLocalDateTime()))
-    }
-}
-
-@WearPreview
-@Composable
-fun SessionCardPreview(
-    @PreviewParameter(ConfettiPreviewThemes::class) themeValues: ThemeValues
-) {
-    Box(modifier = Modifier.width(221.dp)) {
-        ConfettiThemeFixed(colors = themeValues.colors) {
-            SessionCard(
-                session = TestFixtures.sessionDetails,
-                sessionSelected = {},
-                currentTime = LocalDateTime.parse("2020-01-01T01:01:01")
-            )
-        }
     }
 }
 

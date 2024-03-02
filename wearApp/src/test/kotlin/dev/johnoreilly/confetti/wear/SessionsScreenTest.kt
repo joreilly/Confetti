@@ -48,7 +48,6 @@ class SessionsScreenTest : ScreenshotTest() {
         ) { columnState ->
             SessionsScreen(
                 uiState = uiState,
-                columnState = columnState,
                 sessionSelected = {}
             )
         }
@@ -67,7 +66,6 @@ class SessionsScreenTest : ScreenshotTest() {
             SessionsScreen(
                 uiState = uiState,
                 sessionSelected = {},
-                columnState = columnState
             )
         }
     }

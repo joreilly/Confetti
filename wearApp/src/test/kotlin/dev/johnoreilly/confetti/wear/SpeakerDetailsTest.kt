@@ -58,7 +58,6 @@ class SpeakerDetailsTest : ScreenshotTest() {
     ) { columnState ->
         SpeakerDetailsView(
             uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
-            columnState = columnState,
         )
     }
 
@@ -75,7 +74,6 @@ class SpeakerDetailsTest : ScreenshotTest() {
         ) { columnState ->
             SpeakerDetailsView(
                 uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
-                columnState = columnState,
             )
         }
     }

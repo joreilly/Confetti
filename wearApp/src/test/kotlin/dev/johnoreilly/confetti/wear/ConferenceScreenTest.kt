@@ -33,7 +33,6 @@ class ConferenceScreenTest : ScreenshotTest() {
                         conferences.groupBy { it.days.first().year }
                     ),
                 navigateToConference = {},
-                columnState = columnState
             )
         }
     }
@@ -61,7 +60,6 @@ class ConferenceScreenTest : ScreenshotTest() {
                     conferences.groupBy { it.days.first().year }
                 ),
                 navigateToConference = {},
-                columnState = columnState
             )
         }
     }

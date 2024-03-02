@@ -63,7 +63,6 @@ class SessionsDetailsTest : ScreenshotTest() {
             SessionDetailView(
                 uiState = uiState,
                 navigateToSpeaker = {},
-                columnState = columnState,
             )
         }
     }
@@ -80,7 +79,6 @@ class SessionsDetailsTest : ScreenshotTest() {
         SessionDetailView(
             uiState = uiState,
             navigateToSpeaker = {},
-            columnState = columnState,
         )
     }
 
@@ -97,7 +95,6 @@ class SessionsDetailsTest : ScreenshotTest() {
             SessionDetailView(
                 uiState = uiState,
                 navigateToSpeaker = {},
-                columnState = columnState,
             )
         }
     }

@@ -31,7 +31,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberColumnState
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.shared.R
@@ -40,17 +40,21 @@ import dev.johnoreilly.confetti.wear.components.SectionHeader
 @Composable
 fun SpeakerDetailsRoute(
     component: SpeakerDetailsComponent,
-    columnState: ScalingLazyColumnState = rememberColumnState(
-        ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false)
-    ),
 ) {
     val uiState by component.uiState.subscribeAsState()
-    SpeakerDetailsView(uiState, columnState)
+    SpeakerDetailsView(uiState)
 }
 
 @Composable
-fun SpeakerDetailsView(uiState: SpeakerDetailsUiState, columnState: ScalingLazyColumnState) {
+fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
     val placeholderState = rememberPlaceholderState { uiState !is SpeakerDetailsUiState.Loading }
+
+    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
+        contentPadding = ScalingLazyColumnDefaults.padding(
+            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
+            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+        )
+    )
 
     ScreenScaffold(scrollState = columnState) {
         ScalingLazyColumn(

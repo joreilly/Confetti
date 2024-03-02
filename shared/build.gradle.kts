@@ -85,6 +85,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.components.resources)
                 implementation(libs.image.loader)
+
                 // See https://github.com/cashapp/sqldelight/issues/4357
                 implementation(libs.stately.common)
 

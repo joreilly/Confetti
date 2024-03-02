@@ -16,7 +16,6 @@ dependencies {
     implementation(compose.material3)
     implementation(compose.components.resources)
 
-    implementation(libs.image.loader)
     implementation("com.mikepenz:multiplatform-markdown-renderer:0.12.0")
     implementation(project(":shared"))
 }

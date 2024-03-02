@@ -216,6 +216,7 @@ private fun SectionedListScope.bottomMenuSection(onSettingsClick: () -> Unit) {
 fun ConferenceTitle(conferenceName: String) {
     Title(
         text = conferenceName,
+        modifier = Modifier.listTextPadding()
     )
 }
 

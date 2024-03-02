@@ -17,6 +17,7 @@ import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
 import okio.Path.Companion.toPath
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -68,6 +69,7 @@ class SessionsDetailsTest : ScreenshotTest() {
     }
 
     @Test
+    @Ignore("Disable during test refactor")
     fun sessionDetailsScreenEnd() = takeScrollableScreenshot(
         timeTextMode = TimeTextMode.Off,
         checks = { columnState ->

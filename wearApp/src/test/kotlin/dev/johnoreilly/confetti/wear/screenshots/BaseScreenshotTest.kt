@@ -26,6 +26,7 @@ import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import okio.FileSystem
 import okio.Path
 import org.junit.Rule
+import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
@@ -43,6 +44,9 @@ import kotlin.test.AfterTest
 abstract class BaseScreenshotTest {
     @get:Rule
     val composeRule = createComposeRule()
+
+    @get:Rule
+    val testName = TestName()
 
     var tolerance: Float = 0.01f
 
@@ -79,7 +83,7 @@ abstract class BaseScreenshotTest {
 
     fun takeScreenshot(suffix: String) {
         composeRule.onRoot().captureRoboImage(
-            filePath = "snapshot/${this.javaClass.simpleName}/session.png",
+            filePath = "snapshot/${this.javaClass.simpleName}/${testName.methodName}.png",
             roborazziOptions = RoborazziOptions(
                 recordOptions = RoborazziOptions.RecordOptions(
                     applyDeviceCrop = true

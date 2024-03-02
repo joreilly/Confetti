@@ -2,21 +2,15 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
-import androidx.wear.compose.material.MaterialTheme
 import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.auth.data.common.model.AuthUser
-import com.google.android.horologist.compose.layout.AppScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest

@@ -2,9 +2,6 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasNoClickAction
@@ -16,9 +13,6 @@ import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.MaterialTheme
-import com.google.android.horologist.compose.layout.AppScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.home.HomeScreen
@@ -40,11 +34,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
     @Test
     fun conferenceHomeScreen() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Success(
                         HomeUiState(

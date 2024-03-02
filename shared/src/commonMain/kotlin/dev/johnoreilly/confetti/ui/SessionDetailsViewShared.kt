@@ -210,6 +210,8 @@ internal fun SessionSpeakerInfo(
                         }
                     }
                 }
+
+
             }
 
             Column(Modifier.padding(horizontal = 8.dp)) {

@@ -34,6 +34,8 @@ import com.google.android.horologist.composables.SectionedList
 import com.google.android.horologist.composables.SectionedListScope
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.layout.ScreenScaffold
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Button
 import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.R
@@ -57,21 +59,29 @@ fun HomeScreen(
     daySelected: (LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
     onBookmarksClick: () -> Unit,
-    columnState: ScalingLazyColumnState
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
 
-    SectionedList(
-        modifier = Modifier.fillMaxSize(),
-        columnState = columnState,
-    ) {
-        titleSection(uiState)
+    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
+        contentPadding = ScalingLazyColumnDefaults.padding(
+            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
+            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+        )
+    )
 
-        bookmarksSection(uiState, bookmarksUiState, sessionSelected, onBookmarksClick)
+    ScreenScaffold(scrollState = columnState) {
+        SectionedList(
+            modifier = Modifier.fillMaxSize(),
+            columnState = columnState,
+        ) {
+            titleSection(uiState)
 
-        conferenceDaysSection(uiState, daySelected, dayFormatter)
+            bookmarksSection(uiState, bookmarksUiState, sessionSelected, onBookmarksClick)
 
-        bottomMenuSection(onSettingsClick)
+            conferenceDaysSection(uiState, daySelected, dayFormatter)
+
+            bottomMenuSection(onSettingsClick)
+        }
     }
 }
 
@@ -242,7 +252,6 @@ fun HomeListViewPreview() {
                     now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                 )
             ),
-            columnState = ScalingLazyColumnDefaults.responsive().create(),
             sessionSelected = {},
             onSettingsClick = {},
             onBookmarksClick = {},

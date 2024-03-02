@@ -10,6 +10,8 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
+import com.google.android.horologist.compose.layout.ScreenScaffold
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
@@ -21,35 +23,43 @@ import kotlinx.datetime.toKotlinLocalDateTime
 fun SessionsScreen(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
-    columnState: ScalingLazyColumnState
 ) {
-    ScalingLazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        columnState = columnState,
-    ) {
-        when (uiState) {
-            is SessionsUiState.Success -> {
-                val sessions = uiState.sessionsByStartTimeList.firstOrNull().orEmpty()
+    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
+        contentPadding = ScalingLazyColumnDefaults.padding(
+            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
+            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+        )
+    )
 
-                sessions.forEach { (time, sessionsAtTime) ->
-                    item {
-                        SectionHeader(time)
-                    }
+    ScreenScaffold(scrollState = columnState) {
+        ScalingLazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            columnState = columnState,
+        ) {
+            when (uiState) {
+                is SessionsUiState.Success -> {
+                    val sessions = uiState.sessionsByStartTimeList.firstOrNull().orEmpty()
 
-                    items(sessionsAtTime) { session ->
-                        SessionCard(
-                            session,
-                            sessionSelected = {
-                                sessionSelected(it)
-                            },
-                            uiState.now
-                        )
+                    sessions.forEach { (time, sessionsAtTime) ->
+                        item {
+                            SectionHeader(time)
+                        }
+
+                        items(sessionsAtTime) { session ->
+                            SessionCard(
+                                session,
+                                sessionSelected = {
+                                    sessionSelected(it)
+                                },
+                                uiState.now
+                            )
+                        }
                     }
                 }
-            }
 
-            else -> {
-                // TODO
+                else -> {
+                    // TODO
+                }
             }
         }
     }
@@ -83,7 +93,7 @@ fun SessionListViewPreview() {
                 selectedSessionId = null,
             ),
             sessionSelected = {},
-            columnState = ScalingLazyColumnDefaults.responsive().create()
         )
     }
+
 }

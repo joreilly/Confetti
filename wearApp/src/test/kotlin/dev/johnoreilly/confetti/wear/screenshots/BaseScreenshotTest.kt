@@ -28,6 +28,7 @@ import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.ThresholdValidator
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.google.android.horologist.compose.layout.AppScaffold
+import com.google.android.horologist.compose.layout.ResponsiveTimeText
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import okio.FileSystem
@@ -102,5 +103,17 @@ abstract class BaseScreenshotTest {
                 swipeUp(durationMillis = 10)
             }
         }
+    }
+}
+
+@Composable
+fun TestScaffold(content: @Composable () -> Unit) {
+    AppScaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
+        timeText = { ResponsiveTimeText(timeSource = FixedTimeSource) }
+    ) {
+        content()
     }
 }

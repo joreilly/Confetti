@@ -16,7 +16,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberColumnState
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
@@ -28,7 +28,6 @@ import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 @Composable
 fun ConferencesRoute(
     component: ConferencesComponent,
-    columnState: ScalingLazyColumnState = rememberColumnState()
 ) {
     val uiState by component.uiState.subscribeAsState()
 
@@ -38,57 +37,62 @@ fun ConferencesRoute(
         }
     }
 
-    ScreenScaffold(scrollState = columnState) {
         ConferencesView(
             uiState = uiState,
-            columnState = columnState,
             navigateToConference = { conference ->
                 component.onConferenceClicked(conference)
             }
         )
-    }
 }
 
 @Composable
 fun ConferencesView(
     uiState: ConferencesComponent.UiState,
     navigateToConference: (GetConferencesQuery.Conference) -> Unit,
-    columnState: ScalingLazyColumnState,
     modifier: Modifier = Modifier
 ) {
-    ScalingLazyColumn(
-        modifier = modifier.fillMaxSize(), columnState = columnState
-    ) {
-        item {
-            SectionHeader("Conferences")
-        }
+    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
+        contentPadding = ScalingLazyColumnDefaults.padding(
+            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
+            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+        )
+    )
 
-        when (uiState) {
-            is ConferencesComponent.Loading -> {
-                items(5) {
-                    PlaceholderChip(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ChipDefaults.secondaryChipColors()
-                    )
-                }
+    ScreenScaffold(scrollState = columnState) {
+        ScalingLazyColumn(
+            modifier = modifier.fillMaxSize(), columnState = columnState
+        ) {
+            item {
+                SectionHeader("Conferences")
             }
 
-            is ConferencesComponent.Success -> {
-                // TODO show current year
-                items(uiState.relevantConferences) { conference ->
-                    Chip(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = conference.name,
-                        onClick = {
-                            navigateToConference(conference)
-                        },
-                        colors = ChipDefaults.secondaryChipColors()
-                    )
+            when (uiState) {
+                is ConferencesComponent.Loading -> {
+                    items(5) {
+                        PlaceholderChip(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = ChipDefaults.secondaryChipColors()
+                        )
+                    }
                 }
-            }
 
-            else -> {
-                // TODO
+                is ConferencesComponent.Success -> {
+                    // TODO show current year
+                    items(uiState.relevantConferences) { conference ->
+                        Chip(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = conference.name,
+                            onClick = {
+                                navigateToConference(conference)
+                            },
+                            colors = ChipDefaults.secondaryChipColors()
+                        )
+                    }
+                }
+
+                else -> {
+                    // TODO
+                }
             }
         }
     }
@@ -104,7 +108,6 @@ fun ConferencesViewPreview() {
                 TestFixtures.conferences.groupBy { it.days[0].year }
             ),
             navigateToConference = {},
-            columnState = ScalingLazyColumnDefaults.responsive().create()
         )
     }
 }

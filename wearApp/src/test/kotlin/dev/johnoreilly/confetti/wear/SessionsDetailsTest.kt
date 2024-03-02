@@ -2,24 +2,19 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
-import androidx.wear.compose.material.MaterialTheme
 import coil.decode.DataSource
 import coil.request.SuccessResult
-import com.google.android.horologist.compose.layout.AppScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
 import okio.Path.Companion.toPath
 import org.junit.Before
@@ -61,15 +56,10 @@ class SessionsDetailsTest : BaseScreenshotTest() {
     @Test
     fun sessionDetailsScreen() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SessionDetailView(
                     uiState = uiState,
                     navigateToSpeaker = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -85,15 +75,10 @@ class SessionsDetailsTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SessionDetailView(
                     uiState = uiState,
                     navigateToSpeaker = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }

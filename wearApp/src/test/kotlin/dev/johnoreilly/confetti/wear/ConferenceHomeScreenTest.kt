@@ -2,9 +2,6 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasNoClickAction
@@ -16,9 +13,6 @@ import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.MaterialTheme
-import com.google.android.horologist.compose.layout.AppScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.home.HomeScreen
@@ -26,6 +20,7 @@ import dev.johnoreilly.confetti.wear.home.HomeUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.kotlinConf2023
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test
 import java.time.LocalDateTime
@@ -39,11 +34,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
     @Test
     fun conferenceHomeScreen() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Success(
                         HomeUiState(
@@ -57,7 +48,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -72,11 +62,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
     @Test
     fun conferenceHomeScreenWithBookmarks() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Success(
                         HomeUiState(
@@ -100,7 +86,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -115,11 +100,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Success(
                         HomeUiState(
@@ -133,7 +114,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -160,11 +140,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
         tolerance = 1.0f
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Loading,
                     bookmarksUiState = QueryResult.Loading,
@@ -172,7 +148,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -193,11 +168,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Loading,
                     bookmarksUiState = QueryResult.Loading,
@@ -205,7 +176,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }

@@ -2,24 +2,19 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
-import androidx.wear.compose.material.MaterialTheme
 import coil.decode.DataSource
 import coil.request.SuccessResult
 import com.google.android.horologist.auth.data.common.model.AuthUser
-import com.google.android.horologist.compose.layout.AppScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.settings.SettingsListView
 import dev.johnoreilly.confetti.wear.settings.SettingsUiState
 import okio.Path.Companion.toPath
@@ -47,17 +42,12 @@ class SettingsScreenTest : BaseScreenshotTest() {
     @Test
     fun loggedOutSettings() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SettingsListView(
                     uiState = SettingsUiState.Success(null),
                     conferenceCleared = { },
                     navigateToGoogleSignIn = { },
                     navigateToGoogleSignOut = { },
-                    columnState = rememberResponsiveColumnState(),
                     onRefreshClick = {},
                     onRefreshToken = {},
                     onEnableDeveloperMode = {},
@@ -75,17 +65,12 @@ class SettingsScreenTest : BaseScreenshotTest() {
     @Test
     fun loggedInSettings() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SettingsListView(
                     uiState = SettingsUiState.Success(AuthUser("John O'Reilly", avatarUri = JohnUrl)),
                     conferenceCleared = { },
                     navigateToGoogleSignIn = { },
                     navigateToGoogleSignOut = { },
-                    columnState = rememberResponsiveColumnState(),
                     onRefreshClick = {},
                     onRefreshToken = {},
                     onEnableDeveloperMode = {},
@@ -111,17 +96,12 @@ class SettingsScreenTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SettingsListView(
                     uiState = SettingsUiState.Success(AuthUser("John O'Reilly", avatarUri = JohnUrl)),
                     conferenceCleared = { },
                     navigateToGoogleSignIn = { },
                     navigateToGoogleSignOut = { },
-                    columnState = rememberResponsiveColumnState(),
                     onRefreshClick = {},
                     onRefreshToken = {},
                     onEnableDeveloperMode = {},

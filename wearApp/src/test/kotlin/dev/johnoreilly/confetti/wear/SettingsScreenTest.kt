@@ -20,6 +20,7 @@ import com.google.android.horologist.compose.layout.rememberResponsiveColumnStat
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.settings.SettingsListView
 import dev.johnoreilly.confetti.wear.settings.SettingsUiState
 import okio.Path.Companion.toPath
@@ -47,11 +48,7 @@ class SettingsScreenTest : BaseScreenshotTest() {
     @Test
     fun loggedOutSettings() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SettingsListView(
                     uiState = SettingsUiState.Success(null),
                     conferenceCleared = { },
@@ -74,11 +71,7 @@ class SettingsScreenTest : BaseScreenshotTest() {
     @Test
     fun loggedInSettings() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SettingsListView(
                     uiState = SettingsUiState.Success(AuthUser("John O'Reilly", avatarUri = JohnUrl)),
                     conferenceCleared = { },
@@ -109,11 +102,7 @@ class SettingsScreenTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SettingsListView(
                     uiState = SettingsUiState.Success(AuthUser("John O'Reilly", avatarUri = JohnUrl)),
                     conferenceCleared = { },

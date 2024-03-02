@@ -14,6 +14,7 @@ import com.google.android.horologist.compose.layout.rememberResponsiveColumnStat
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.sessions.SessionsScreen
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test
@@ -48,11 +49,7 @@ class SessionsScreenTest : BaseScreenshotTest() {
     @Test
     fun sessionsScreen() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SessionsScreen(
                     uiState = uiState,
                     sessionSelected = {}
@@ -71,11 +68,7 @@ class SessionsScreenTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SessionsScreen(
                     uiState = uiState,
                     sessionSelected = {},

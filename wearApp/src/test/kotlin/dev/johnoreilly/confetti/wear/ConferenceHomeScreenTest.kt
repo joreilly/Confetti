@@ -26,6 +26,7 @@ import dev.johnoreilly.confetti.wear.home.HomeUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.kotlinConf2023
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test
 import java.time.LocalDateTime
@@ -71,11 +72,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
     @Test
     fun conferenceHomeScreenWithBookmarks() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Success(
                         HomeUiState(
@@ -113,11 +110,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Success(
                         HomeUiState(
@@ -157,11 +150,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
         tolerance = 1.0f
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Loading,
                     bookmarksUiState = QueryResult.Loading,
@@ -189,11 +178,7 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 HomeScreen(
                     uiState = QueryResult.Loading,
                     bookmarksUiState = QueryResult.Loading,

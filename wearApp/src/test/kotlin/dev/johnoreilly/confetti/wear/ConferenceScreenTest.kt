@@ -18,6 +18,7 @@ import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.conferences
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import org.junit.Test
 
 class ConferenceScreenTest : BaseScreenshotTest() {
@@ -28,11 +29,7 @@ class ConferenceScreenTest : BaseScreenshotTest() {
     @Test
     fun conferencesScreen() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 ConferencesView(
                     uiState = ConferencesComponent.Success(
                         conferences.groupBy { it.days.first().year }
@@ -53,11 +50,7 @@ class ConferenceScreenTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 ConferencesView(
                     uiState = ConferencesComponent.Success(
                         conferences.groupBy { it.days.first().year }

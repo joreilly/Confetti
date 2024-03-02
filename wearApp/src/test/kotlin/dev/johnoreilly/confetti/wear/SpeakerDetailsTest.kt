@@ -20,6 +20,7 @@ import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnOreilly
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsView
 import okio.Path.Companion.toPath
 import org.junit.Before
@@ -56,11 +57,7 @@ class SpeakerDetailsTest : BaseScreenshotTest() {
     @Test
     fun speakerDetailsScreen() {
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SpeakerDetailsView(
                     uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
                 )
@@ -78,11 +75,7 @@ class SpeakerDetailsTest : BaseScreenshotTest() {
         enableA11yTest()
 
         composeRule.setContent {
-            AppScaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)
-            ) {
+            TestScaffold {
                 SpeakerDetailsView(
                     uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
                 )

@@ -15,9 +15,9 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.pa
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import com.google.android.horologist.compose.material.SecondaryTitle
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
@@ -44,7 +44,7 @@ fun BookmarksScreen(
         ) {
             when (uiState) {
                 is QueryResult.Success -> {
-                    item { SecondaryTitle(text = stringResource(R.string.upcoming_sessions)) }
+                    item { SectionHeader(text = stringResource(R.string.upcoming_sessions)) }
 
                     items(uiState.result.upcoming) { session ->
                         SessionCard(
@@ -65,7 +65,7 @@ fun BookmarksScreen(
                         }
                     }
 
-                    item { SecondaryTitle(text = stringResource(id = R.string.past_sessions)) }
+                    item { SectionHeader(text = stringResource(id = R.string.past_sessions)) }
 
                     items(uiState.result.past) { session ->
                         SessionCard(

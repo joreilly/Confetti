@@ -13,8 +13,8 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.It
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import com.google.android.horologist.compose.material.SecondaryTitle
 import dev.johnoreilly.confetti.decompose.SessionsUiState
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
@@ -43,7 +43,7 @@ fun SessionsScreen(
 
                     sessions.forEach { (time, sessionsAtTime) ->
                         item {
-                            SecondaryTitle(time)
+                            SectionHeader(time)
                         }
 
                         items(sessionsAtTime) { session ->

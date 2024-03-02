@@ -34,10 +34,10 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.li
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import com.google.android.horologist.compose.material.Title
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.shared.R
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 
 @Composable
 fun SpeakerDetailsRoute(
@@ -77,7 +77,7 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                 }
 
                 item {
-                    Title(
+                    SectionHeader(
                         text = "",
                         modifier = Modifier
                             .fillMaxWidth()
@@ -93,7 +93,7 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                         text = "",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .listTextPadding()
+                            .padding(horizontal = 30.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .height(24.dp)
                             .placeholder(placeholderState)
@@ -132,9 +132,8 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                 }
 
                 item {
-                    Title(
+                    SectionHeader(
                         text = speaker?.name ?: "",
-                        modifier = Modifier.listTextPadding()
                     )
                 }
 

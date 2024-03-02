@@ -19,10 +19,10 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Chip
-import com.google.android.horologist.compose.material.Title
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 
@@ -64,7 +64,7 @@ fun ConferencesView(
             modifier = modifier.fillMaxSize(), columnState = columnState
         ) {
             item {
-                Title("Conferences")
+                SectionHeader("Conferences")
             }
 
             when (uiState) {

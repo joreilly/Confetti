@@ -30,13 +30,13 @@ import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Chip
 import com.google.android.horologist.compose.material.SecondaryTitle
-import com.google.android.horologist.compose.material.Title
 import com.google.android.horologist.compose.material.ToggleChip
 import com.google.android.horologist.compose.material.ToggleChipToggleControl
 import com.google.android.horologist.images.base.paintable.ImageVectorPaintable.Companion.asPaintable
 import com.google.android.horologist.images.coil.CoilPaintable
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
@@ -59,7 +59,7 @@ fun SettingsListView(
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
             first = ScalingLazyColumnDefaults.ItemType.Text,
-            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+            last = ScalingLazyColumnDefaults.ItemType.Chip
         )
     )
 
@@ -69,7 +69,7 @@ fun SettingsListView(
             columnState = columnState,
         ) {
             item {
-                Title(text = stringResource(id = R.string.settings))
+                SectionHeader(text = stringResource(id = R.string.settings))
             }
 
             item {

@@ -3,6 +3,8 @@
 package dev.johnoreilly.confetti.wear.home
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -10,8 +12,14 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
+import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.OutlinedChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.placeholder
@@ -32,11 +40,10 @@ import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Button
 import com.google.android.horologist.compose.material.Chip
-import com.google.android.horologist.compose.material.SecondaryTitle
-import com.google.android.horologist.compose.material.Title
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
+import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
@@ -95,11 +102,11 @@ private fun SectionedListScope.titleSection(uiState: QueryResult<HomeUiState>) {
 
         loading {
             val chipPlaceholderState = rememberPlaceholderState { false }
-            Title(
+            SectionHeader(
                 "",
                 modifier = Modifier
+                    .fillMaxWidth(0.75f)
                     .placeholder(chipPlaceholderState)
-                    .listTextPadding()
             )
         }
     }
@@ -127,7 +134,7 @@ private fun SectionedListScope.bookmarksSection(
 
     section(state = bookmarksSectionState) {
         header(visibleStates = ALL_STATES.copy(failed = false)) {
-            Title(stringResource(R.string.home_bookmarked_sessions))
+            SectionHeader(stringResource(R.string.home_bookmarked_sessions))
         }
 
         loaded { session ->
@@ -178,7 +185,7 @@ private fun SectionedListScope.conferenceDaysSection(
 
     section(state = conferenceDaysSectionState) {
         header {
-            SecondaryTitle(stringResource(id = R.string.conference_days))
+            SectionHeader(stringResource(id = R.string.conference_days))
         }
 
         loaded { date ->
@@ -214,9 +221,16 @@ private fun SectionedListScope.bottomMenuSection(onSettingsClick: () -> Unit) {
 
 @Composable
 fun ConferenceTitle(conferenceName: String) {
-    Title(
+    Text(
         text = conferenceName,
-        modifier = Modifier.listTextPadding()
+        modifier = Modifier
+            .semantics {
+                heading()
+            }
+            .padding(horizontal = 14.dp, vertical = 10.dp),
+        textAlign = TextAlign.Center,
+        overflow = TextOverflow.Ellipsis,
+        style = MaterialTheme.typography.title3,
     )
 }
 

@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.mikepenz.markdown.compose.Markdown
+import com.mikepenz.markdown.m3.Markdown
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GeminiApi
 import dev.johnoreilly.confetti.GetConferencesQuery

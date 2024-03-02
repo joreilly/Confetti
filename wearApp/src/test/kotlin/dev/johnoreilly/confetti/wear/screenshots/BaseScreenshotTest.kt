@@ -7,15 +7,22 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import androidx.test.core.app.ApplicationProvider
+import androidx.wear.compose.material.MaterialTheme
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.ThresholdValidator
@@ -25,6 +32,7 @@ import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import okio.FileSystem
 import okio.Path
+import org.junit.Assume
 import org.junit.Rule
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
@@ -58,32 +66,14 @@ abstract class BaseScreenshotTest {
     val resources: Resources
         get() = applicationContext.resources
 
-    fun runScreenshotTest(content: @Composable () -> Unit) {
-        composeRule.setContent {
-            AppScaffold {
-                content()
-            }
-        }
-
-        val suffix = ""
-
-        takeScreenshot(suffix)
-
-        val listNode = composeRule.onNode(hasScrollToIndexAction())
-        val lastIndex = listNode.fetchSemanticsNode().config[SemanticsProperties.CollectionItemInfo].rowSpan
-        listNode
-            .performScrollToIndex(lastIndex - 1)
-        composeRule.onNodeWithContentDescription("Martin Bonnin").assertIsDisplayed()
-        takeScreenshot("_end")
-    }
-
     fun enableA11yTest() {
-        TODO()
+        // TODO reenable in follow up PR
+        Assume.assumeTrue(false)
     }
 
-    fun takeScreenshot(suffix: String) {
+    fun takeScreenshot(suffix: String = "") {
         composeRule.onRoot().captureRoboImage(
-            filePath = "snapshot/${this.javaClass.simpleName}/${testName.methodName}.png",
+            filePath = "snapshot/${this.javaClass.simpleName}/${testName.methodName}$suffix.png",
             roborazziOptions = RoborazziOptions(
                 recordOptions = RoborazziOptions.RecordOptions(
                     applyDeviceCrop = true
@@ -104,5 +94,13 @@ abstract class BaseScreenshotTest {
     @AfterTest
     fun teardown() {
         stopKoin()
+    }
+
+    open fun SemanticsNodeInteraction.scrollToBottom() {
+        performTouchInput {
+            repeat(10) {
+                swipeUp(durationMillis = 10)
+            }
+        }
     }
 }

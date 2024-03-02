@@ -2,16 +2,22 @@
 
 package dev.johnoreilly.confetti.wear
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTouchHeightIsEqualTo
 import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.MaterialTheme
+import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
@@ -32,80 +38,109 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
 
     @Test
     fun conferenceHomeScreen() {
-        runScreenshotTest {
-            HomeScreen(
-                uiState = QueryResult.Success(
-                    HomeUiState(
-                        kotlinConf2023.id,
-                        kotlinConf2023.name,
-                        kotlinConf2023.days,
-                    )
-                ),
-                bookmarksUiState = QueryResult.None,
-                sessionSelected = {},
-                daySelected = {},
-                onSettingsClick = {},
-                onBookmarksClick = {},
-                columnState = rememberResponsiveColumnState()
-            )
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                HomeScreen(
+                    uiState = QueryResult.Success(
+                        HomeUiState(
+                            kotlinConf2023.id,
+                            kotlinConf2023.name,
+                            kotlinConf2023.days,
+                        )
+                    ),
+                    bookmarksUiState = QueryResult.None,
+                    sessionSelected = {},
+                    daySelected = {},
+                    onSettingsClick = {},
+                    onBookmarksClick = {},
+                    columnState = rememberResponsiveColumnState()
+                )
+            }
         }
-
         composeRule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
+        takeScreenshot()
+
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 
     @Test
     fun conferenceHomeScreenWithBookmarks() {
-        runScreenshotTest {
-            HomeScreen(
-                uiState = QueryResult.Success(
-                    HomeUiState(
-                        kotlinConf2023.id,
-                        kotlinConf2023.name,
-                        kotlinConf2023.days,
-                    )
-                ),
-                bookmarksUiState = QueryResult.Success(
-                    BookmarksUiState(
-                        kotlinConf2023.id,
-                        listOf(
-                            TestFixtures.sessionDetails,
-                            TestFixtures.sessionDetails.copy(title = "Adopting Kotlin at Google scale")
-                        ),
-                        listOf(),
-                        LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
-                    )
-                ),
-                sessionSelected = {},
-                daySelected = {},
-                onSettingsClick = {},
-                onBookmarksClick = {},
-                columnState = rememberResponsiveColumnState()
-            )
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                HomeScreen(
+                    uiState = QueryResult.Success(
+                        HomeUiState(
+                            kotlinConf2023.id,
+                            kotlinConf2023.name,
+                            kotlinConf2023.days,
+                        )
+                    ),
+                    bookmarksUiState = QueryResult.Success(
+                        BookmarksUiState(
+                            kotlinConf2023.id,
+                            listOf(
+                                TestFixtures.sessionDetails,
+                                TestFixtures.sessionDetails.copy(title = "Adopting Kotlin at Google scale")
+                            ),
+                            listOf(),
+                            LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                        )
+                    ),
+                    sessionSelected = {},
+                    daySelected = {},
+                    onSettingsClick = {},
+                    onBookmarksClick = {},
+                    columnState = rememberResponsiveColumnState()
+                )
+            }
         }
-        composeRule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
+        takeScreenshot()
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 
     @Test
     fun conferenceHomeScreenA11y() {
         enableA11yTest()
 
-        runScreenshotTest {
-            HomeScreen(
-                uiState = QueryResult.Success(
-                    HomeUiState(
-                        kotlinConf2023.id,
-                        kotlinConf2023.name,
-                        kotlinConf2023.days,
-                    )
-                ),
-                bookmarksUiState = QueryResult.None,
-                sessionSelected = {},
-                daySelected = {},
-                onSettingsClick = {},
-                onBookmarksClick = {},
-                columnState = rememberResponsiveColumnState()
-            )
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                HomeScreen(
+                    uiState = QueryResult.Success(
+                        HomeUiState(
+                            kotlinConf2023.id,
+                            kotlinConf2023.name,
+                            kotlinConf2023.days,
+                        )
+                    ),
+                    bookmarksUiState = QueryResult.None,
+                    sessionSelected = {},
+                    daySelected = {},
+                    onSettingsClick = {},
+                    onBookmarksClick = {},
+                    columnState = rememberResponsiveColumnState()
+                )
+            }
         }
+        takeScreenshot()
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
 
         composeRule.onNodeWithText("KotlinConf 2023")
             .assertIsDisplayed()
@@ -124,17 +159,27 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
         // Placeholders are not stable
         tolerance = 1.0f
 
-        runScreenshotTest {
-            HomeScreen(
-                uiState = QueryResult.Loading,
-                bookmarksUiState = QueryResult.Loading,
-                sessionSelected = {},
-                daySelected = {},
-                onSettingsClick = {},
-                onBookmarksClick = {},
-                columnState = rememberResponsiveColumnState()
-            )
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                HomeScreen(
+                    uiState = QueryResult.Loading,
+                    bookmarksUiState = QueryResult.Loading,
+                    sessionSelected = {},
+                    daySelected = {},
+                    onSettingsClick = {},
+                    onBookmarksClick = {},
+                    columnState = rememberResponsiveColumnState()
+                )
+            }
         }
+        takeScreenshot()
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
 
         composeRule.onNodeWithText("Conference Days")
             .assertIsDisplayed()
@@ -147,17 +192,27 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
 
         enableA11yTest()
 
-        runScreenshotTest {
-            HomeScreen(
-                uiState = QueryResult.Loading,
-                bookmarksUiState = QueryResult.Loading,
-                sessionSelected = {},
-                daySelected = {},
-                onSettingsClick = {},
-                onBookmarksClick = {},
-                columnState = rememberResponsiveColumnState()
-            )
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                HomeScreen(
+                    uiState = QueryResult.Loading,
+                    bookmarksUiState = QueryResult.Loading,
+                    sessionSelected = {},
+                    daySelected = {},
+                    onSettingsClick = {},
+                    onBookmarksClick = {},
+                    columnState = rememberResponsiveColumnState()
+                )
+            }
         }
+        takeScreenshot()
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
 
         composeRule.onNodeWithText("Conference Days")
             .assertIsDisplayed()

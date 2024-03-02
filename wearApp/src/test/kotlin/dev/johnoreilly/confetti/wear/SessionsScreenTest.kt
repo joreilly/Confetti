@@ -2,8 +2,14 @@
 
 package dev.johnoreilly.confetti.wear
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
+import androidx.wear.compose.material.MaterialTheme
+import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -41,13 +47,23 @@ class SessionsScreenTest : BaseScreenshotTest() {
 
     @Test
     fun sessionsScreen() {
-        runScreenshotTest {
-            SessionsScreen(
-                uiState = uiState,
-                columnState = rememberResponsiveColumnState(),
-                sessionSelected = {}
-            )
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                SessionsScreen(
+                    uiState = uiState,
+                    columnState = rememberResponsiveColumnState(),
+                    sessionSelected = {}
+                )
+            }
         }
+        takeScreenshot()
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
     }
 
@@ -55,13 +71,23 @@ class SessionsScreenTest : BaseScreenshotTest() {
     fun sessionsScreenA11y() {
         enableA11yTest()
 
-        runScreenshotTest {
-            SessionsScreen(
-                uiState = uiState,
-                sessionSelected = {},
-                columnState = rememberResponsiveColumnState()
-            )
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                SessionsScreen(
+                    uiState = uiState,
+                    sessionSelected = {},
+                    columnState = rememberResponsiveColumnState()
+                )
+            }
         }
+        takeScreenshot()
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
     }
 }

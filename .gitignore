@@ -32,3 +32,4 @@ terraform.tfstate
 terraform.tfstate.backup
 
 swiftpm
+/.kotlin/

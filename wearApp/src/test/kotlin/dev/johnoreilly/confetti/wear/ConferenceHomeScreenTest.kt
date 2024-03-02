@@ -57,7 +57,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -100,7 +99,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -133,7 +131,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -172,7 +169,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -205,7 +201,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
                     daySelected = {},
                     onSettingsClick = {},
                     onBookmarksClick = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }

@@ -69,7 +69,6 @@ class SessionsDetailsTest : BaseScreenshotTest() {
                 SessionDetailView(
                     uiState = uiState,
                     navigateToSpeaker = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }
@@ -93,7 +92,6 @@ class SessionsDetailsTest : BaseScreenshotTest() {
                 SessionDetailView(
                     uiState = uiState,
                     navigateToSpeaker = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }

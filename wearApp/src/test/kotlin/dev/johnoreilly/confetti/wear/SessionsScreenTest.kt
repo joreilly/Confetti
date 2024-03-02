@@ -55,7 +55,6 @@ class SessionsScreenTest : BaseScreenshotTest() {
             ) {
                 SessionsScreen(
                     uiState = uiState,
-                    columnState = rememberResponsiveColumnState(),
                     sessionSelected = {}
                 )
             }
@@ -80,7 +79,6 @@ class SessionsScreenTest : BaseScreenshotTest() {
                 SessionsScreen(
                     uiState = uiState,
                     sessionSelected = {},
-                    columnState = rememberResponsiveColumnState()
                 )
             }
         }

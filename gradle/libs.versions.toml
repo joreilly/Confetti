@@ -37,7 +37,7 @@ robolectric = "4.11.1"
 room = "2.6.1"
 snapshot-android = "v1.0.2"
 work-runtime-ktx = "2.9.0"
-generativeai = "0.2.0-1.0.0"
+generativeai = "0.2.1-1.0.0"
 buildkonfig = "0.15.1"
 
 

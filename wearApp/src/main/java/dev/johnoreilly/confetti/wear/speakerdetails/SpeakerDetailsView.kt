@@ -29,13 +29,15 @@ import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import com.google.android.horologist.compose.material.Title
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.shared.R
-import dev.johnoreilly.confetti.wear.components.SectionHeader
 
 @Composable
 fun SpeakerDetailsRoute(
@@ -51,8 +53,8 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
 
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
-            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+            first = ItemType.Icon,
+            last = ItemType.Text
         )
     )
 
@@ -75,7 +77,7 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                 }
 
                 item {
-                    SectionHeader(
+                    Title(
                         text = "",
                         modifier = Modifier
                             .fillMaxWidth()
@@ -91,7 +93,7 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                         text = "",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 30.dp)
+                            .listTextPadding()
                             .clip(RoundedCornerShape(12.dp))
                             .height(24.dp)
                             .placeholder(placeholderState)
@@ -130,8 +132,9 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                 }
 
                 item {
-                    SectionHeader(
+                    Title(
                         text = speaker?.name ?: "",
+                        modifier = Modifier.listTextPadding()
                     )
                 }
 
@@ -139,6 +142,7 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                     item {
                         Text(
                             text = speaker?.tagline ?: "",
+                            modifier = Modifier.listTextPadding()
                         )
                     }
                 }
@@ -147,7 +151,7 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                     item {
                         Text(
                             text = speaker?.bio ?: "",
-                            modifier = Modifier.padding(bottom = 48.dp),
+                            modifier = Modifier.listTextPadding()
                         )
                     }
                 }

@@ -10,13 +10,14 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.padding
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import com.google.android.horologist.compose.material.SecondaryTitle
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
-import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
@@ -31,8 +32,8 @@ fun BookmarksScreen(
 ) {
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = padding(
-            first = ItemType.Unspecified,
-            last = ItemType.Unspecified
+            first = ItemType.Text,
+            last = ItemType.Card
         )
     )
 
@@ -43,7 +44,7 @@ fun BookmarksScreen(
         ) {
             when (uiState) {
                 is QueryResult.Success -> {
-                    item { SectionHeader(text = stringResource(R.string.upcoming_sessions)) }
+                    item { SecondaryTitle(text = stringResource(R.string.upcoming_sessions)) }
 
                     items(uiState.result.upcoming) { session ->
                         SessionCard(
@@ -57,11 +58,14 @@ fun BookmarksScreen(
 
                     if (!uiState.result.hasUpcomingBookmarks) {
                         item {
-                            Text(stringResource(id = R.string.no_upcoming))
+                            Text(
+                                stringResource(id = R.string.no_upcoming),
+                                modifier = Modifier.listTextPadding()
+                            )
                         }
                     }
 
-                    item { SectionHeader(text = stringResource(id = R.string.past_sessions)) }
+                    item { SecondaryTitle(text = stringResource(id = R.string.past_sessions)) }
 
                     items(uiState.result.past) { session ->
                         SessionCard(
@@ -74,7 +78,10 @@ fun BookmarksScreen(
 
                     if (uiState.result.past.isEmpty()) {
                         item {
-                            Text(stringResource(id = R.string.no_past))
+                            Text(
+                                stringResource(id = R.string.no_past),
+                                modifier = Modifier.listTextPadding()
+                            )
                         }
                     }
                 }

@@ -14,14 +14,15 @@ import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Chip
+import com.google.android.horologist.compose.material.Title
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
-import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 
@@ -37,12 +38,12 @@ fun ConferencesRoute(
         }
     }
 
-        ConferencesView(
-            uiState = uiState,
-            navigateToConference = { conference ->
-                component.onConferenceClicked(conference)
-            }
-        )
+    ConferencesView(
+        uiState = uiState,
+        navigateToConference = { conference ->
+            component.onConferenceClicked(conference)
+        }
+    )
 }
 
 @Composable
@@ -53,8 +54,8 @@ fun ConferencesView(
 ) {
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
-            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+            first = ItemType.Text,
+            last = ItemType.Chip
         )
     )
 
@@ -63,7 +64,7 @@ fun ConferencesView(
             modifier = modifier.fillMaxSize(), columnState = columnState
         ) {
             item {
-                SectionHeader("Conferences")
+                Title("Conferences")
             }
 
             when (uiState) {

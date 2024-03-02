@@ -3,8 +3,6 @@
 package dev.johnoreilly.confetti.wear.home
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -12,14 +10,8 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.heading
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.OutlinedChip
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.placeholder
@@ -33,15 +25,18 @@ import com.google.android.horologist.composables.Section.Companion.NO_STATES
 import com.google.android.horologist.composables.SectionedList
 import com.google.android.horologist.composables.SectionedListScope
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Button
 import com.google.android.horologist.compose.material.Chip
+import com.google.android.horologist.compose.material.SecondaryTitle
+import com.google.android.horologist.compose.material.Title
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
-import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
@@ -64,8 +59,8 @@ fun HomeScreen(
 
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
-            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+            first = ItemType.Text,
+            last = ItemType.SingleButton
         )
     )
 
@@ -100,11 +95,11 @@ private fun SectionedListScope.titleSection(uiState: QueryResult<HomeUiState>) {
 
         loading {
             val chipPlaceholderState = rememberPlaceholderState { false }
-            SectionHeader(
+            Title(
                 "",
                 modifier = Modifier
-                    .fillMaxWidth(0.75f)
                     .placeholder(chipPlaceholderState)
+                    .listTextPadding()
             )
         }
     }
@@ -132,7 +127,7 @@ private fun SectionedListScope.bookmarksSection(
 
     section(state = bookmarksSectionState) {
         header(visibleStates = ALL_STATES.copy(failed = false)) {
-            SectionHeader(stringResource(R.string.home_bookmarked_sessions))
+            Title(stringResource(R.string.home_bookmarked_sessions))
         }
 
         loaded { session ->
@@ -149,7 +144,10 @@ private fun SectionedListScope.bookmarksSection(
         // loading {}
 
         empty {
-            Text(stringResource(id = R.string.no_upcoming))
+            Text(
+                stringResource(id = R.string.no_upcoming),
+                modifier = Modifier.listTextPadding()
+            )
         }
 
 
@@ -180,7 +178,7 @@ private fun SectionedListScope.conferenceDaysSection(
 
     section(state = conferenceDaysSectionState) {
         header {
-            SectionHeader(stringResource(id = R.string.conference_days))
+            SecondaryTitle(stringResource(id = R.string.conference_days))
         }
 
         loaded { date ->
@@ -216,16 +214,8 @@ private fun SectionedListScope.bottomMenuSection(onSettingsClick: () -> Unit) {
 
 @Composable
 fun ConferenceTitle(conferenceName: String) {
-    Text(
+    Title(
         text = conferenceName,
-        modifier = Modifier
-            .semantics {
-                heading()
-            }
-            .padding(horizontal = 14.dp, vertical = 10.dp),
-        textAlign = TextAlign.Center,
-        overflow = TextOverflow.Ellipsis,
-        style = MaterialTheme.typography.title3,
     )
 }
 

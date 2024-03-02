@@ -8,12 +8,14 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.Text
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import com.google.android.horologist.compose.material.Title
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
@@ -27,8 +29,8 @@ fun SessionDetailView(
 
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
-            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+            first = ItemType.Text,
+            last = ItemType.Chip
         )
     )
 
@@ -43,18 +45,24 @@ fun SessionDetailView(
                     val description = session.descriptionParagraphs()
 
                     item {
-                        SectionHeader(text = session.title)
+                        Title(text = session.title)
                     }
 
                     item {
                         val time = remember(session.startsAt) {
                             timeFormatter.format(session.startsAt.toJavaLocalDateTime())
                         }
-                        Text(time)
+                        Text(
+                            time,
+                            modifier = Modifier.listTextPadding()
+                        )
                     }
 
                     items(description) {
-                        Text(text = it)
+                        Text(
+                            text = it,
+                            modifier = Modifier.listTextPadding()
+                        )
                     }
 
                     items(session.speakers) { speaker ->

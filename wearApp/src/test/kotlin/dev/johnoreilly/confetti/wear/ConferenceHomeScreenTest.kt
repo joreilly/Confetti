@@ -1,4 +1,3 @@
-
 @file:Suppress("UnstableApiUsage")
 
 package dev.johnoreilly.confetti.wear
@@ -13,30 +12,27 @@ import androidx.compose.ui.test.isNotEnabled
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.home.HomeScreen
 import dev.johnoreilly.confetti.wear.home.HomeUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.kotlinConf2023
-import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test
 import java.time.LocalDateTime
 
-class ConferenceHomeScreenTest : ScreenshotTest() {
+class ConferenceHomeScreenTest : BaseScreenshotTest() {
+
     init {
         tolerance = 0.03f
     }
 
     @Test
     fun conferenceHomeScreen() {
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = { _ ->
-                rule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
-            }
-        ) { columnState ->
+        runScreenshotTest {
             HomeScreen(
                 uiState = QueryResult.Success(
                     HomeUiState(
@@ -50,19 +46,16 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                 daySelected = {},
                 onSettingsClick = {},
                 onBookmarksClick = {},
-                columnState = columnState
+                columnState = rememberResponsiveColumnState()
             )
         }
+
+        composeRule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
     }
 
     @Test
     fun conferenceHomeScreenWithBookmarks() {
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = { _ ->
-                rule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
-            }
-        ) { columnState ->
+        runScreenshotTest {
             HomeScreen(
                 uiState = QueryResult.Success(
                     HomeUiState(
@@ -86,29 +79,17 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                 daySelected = {},
                 onSettingsClick = {},
                 onBookmarksClick = {},
-                columnState = columnState
+                columnState = rememberResponsiveColumnState()
             )
         }
+        composeRule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
     }
 
     @Test
     fun conferenceHomeScreenA11y() {
         enableA11yTest()
 
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = { _ ->
-                rule.onNodeWithText("KotlinConf 2023")
-                    .assertIsDisplayed()
-                    .assertHasNoClickAction()
-
-                rule.onNodeWithText("Wednesday")
-                    .assertIsDisplayed()
-                    // TODO https://github.com/google/horologist/issues/2039
-//                    .assertHasClickAction()
-                    .assertTouchHeightIsEqualTo(52.dp)
-            }
-        ) { columnState ->
+        runScreenshotTest {
             HomeScreen(
                 uiState = QueryResult.Success(
                     HomeUiState(
@@ -122,9 +103,20 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                 daySelected = {},
                 onSettingsClick = {},
                 onBookmarksClick = {},
-                columnState = columnState
+                columnState = rememberResponsiveColumnState()
             )
         }
+
+        composeRule.onNodeWithText("KotlinConf 2023")
+            .assertIsDisplayed()
+            .assertHasNoClickAction()
+
+        composeRule.onNodeWithText("Wednesday")
+            .assertIsDisplayed()
+            // TODO https://github.com/google/horologist/issues/2039
+//                    .assertHasClickAction()
+            .assertTouchHeightIsEqualTo(52.dp)
+
     }
 
     @Test
@@ -132,13 +124,7 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
         // Placeholders are not stable
         tolerance = 1.0f
 
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = { _ ->
-                rule.onNodeWithText("Conference Days")
-                    .assertIsDisplayed()
-            }
-        ) { columnState ->
+        runScreenshotTest {
             HomeScreen(
                 uiState = QueryResult.Loading,
                 bookmarksUiState = QueryResult.Loading,
@@ -146,9 +132,12 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                 daySelected = {},
                 onSettingsClick = {},
                 onBookmarksClick = {},
-                columnState = columnState
+                columnState = rememberResponsiveColumnState()
             )
         }
+
+        composeRule.onNodeWithText("Conference Days")
+            .assertIsDisplayed()
     }
 
     @Test
@@ -158,19 +147,7 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
 
         enableA11yTest()
 
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = { _ ->
-                rule.onNodeWithText("Conference Days")
-                    .assertIsDisplayed()
-                    .assertHasNoClickAction()
-
-                rule.onAllNodesWithContentDescription("")
-                    .assertCountEquals(2)
-                    .assertAll(hasClickAction())
-                    .assertAll(isNotEnabled())
-            }
-        ) { columnState ->
+        runScreenshotTest {
             HomeScreen(
                 uiState = QueryResult.Loading,
                 bookmarksUiState = QueryResult.Loading,
@@ -178,8 +155,17 @@ class ConferenceHomeScreenTest : ScreenshotTest() {
                 daySelected = {},
                 onSettingsClick = {},
                 onBookmarksClick = {},
-                columnState = columnState
+                columnState = rememberResponsiveColumnState()
             )
         }
+
+        composeRule.onNodeWithText("Conference Days")
+            .assertIsDisplayed()
+            .assertHasNoClickAction()
+
+        composeRule.onAllNodesWithContentDescription("")
+            .assertCountEquals(2)
+            .assertAll(hasClickAction())
+            .assertAll(isNotEnabled())
     }
 }

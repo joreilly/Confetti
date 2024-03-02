@@ -8,19 +8,19 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
 import coil.decode.DataSource
 import coil.request.SuccessResult
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnOreilly
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
-import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsView
 import okio.Path.Companion.toPath
 import org.junit.Before
 import org.junit.Test
 
-class SpeakerDetailsTest : ScreenshotTest() {
+class SpeakerDetailsTest : BaseScreenshotTest() {
     init {
         tolerance = 0.02f
     }
@@ -49,34 +49,26 @@ class SpeakerDetailsTest : ScreenshotTest() {
     }
 
     @Test
-    fun speakerDetailsScreen() = takeScrollableScreenshot(
-        timeTextMode = TimeTextMode.OnTop,
-        checks = {
-            rule.onNodeWithText("John O'Reilly").assertIsDisplayed()
-        },
-        columnStateFactory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false),
-    ) { columnState ->
-        SpeakerDetailsView(
-            uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
-            columnState = columnState,
-        )
+    fun speakerDetailsScreen() {
+        runScreenshotTest {
+            SpeakerDetailsView(
+                uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
+                columnState = rememberResponsiveColumnState()
+            )
+        }
+        composeRule.onNodeWithText("John O'Reilly").assertIsDisplayed()
     }
 
     @Test
     fun speakerDetailsScreenA11y() {
         enableA11yTest()
 
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = {
-                rule.onNodeWithText("John O'Reilly").assertIsDisplayed()
-            },
-            columnStateFactory = ScalingLazyColumnDefaults.responsive(firstItemIsFullWidth = false),
-        ) { columnState ->
+        runScreenshotTest {
             SpeakerDetailsView(
                 uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
-                columnState = columnState,
+                columnState = rememberResponsiveColumnState()
             )
         }
+        composeRule.onNodeWithText("John O'Reilly").assertIsDisplayed()
     }
 }

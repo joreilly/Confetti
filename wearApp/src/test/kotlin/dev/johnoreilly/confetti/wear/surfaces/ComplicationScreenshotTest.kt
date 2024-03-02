@@ -21,16 +21,20 @@ import org.robolectric.annotation.Config
 )
 class ComplicationScreenshotTest : BaseScreenshotTest() {
     @Test
-    fun session() = screenshotTestRule.takeComponentScreenshot {
-        val data = remember {
-            NextSessionComplicationData(
-                sessionDetails = TestFixtures.sessionDetails,
-                conference = TestFixtures.kotlinConf2023Config,
-                launchIntent = null
-            )
+    fun session() {
+        composeRule.setContent {
+            val data = remember {
+                NextSessionComplicationData(
+                    sessionDetails = TestFixtures.sessionDetails,
+                    conference = TestFixtures.kotlinConf2023Config,
+                    launchIntent = null
+                )
+            }
+
+            ComplicationPreview(data)
         }
 
-        ComplicationPreview(data)
+        takeScreenshot("")
     }
 
     @Composable

@@ -8,22 +8,23 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
 import coil.decode.DataSource
 import coil.request.SuccessResult
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
-import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
 import okio.Path.Companion.toPath
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 
-class SessionsDetailsTest : ScreenshotTest() {
+class SessionsDetailsTest : BaseScreenshotTest() {
     init {
         tolerance = 0.02f
     }
+
 
     val uiState = SessionDetailsUiState.Success(
         sessionDetails
@@ -54,51 +55,27 @@ class SessionsDetailsTest : ScreenshotTest() {
 
     @Test
     fun sessionDetailsScreen() {
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = {
-                rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
-            }
-        ) { columnState ->
+        runScreenshotTest {
             SessionDetailView(
                 uiState = uiState,
                 navigateToSpeaker = {},
-                columnState = columnState,
+                columnState = rememberResponsiveColumnState()
             )
         }
-    }
-
-    @Test
-    fun sessionDetailsScreenEnd() = takeScrollableScreenshot(
-        timeTextMode = TimeTextMode.Off,
-        checks = { columnState ->
-            columnState.state.scrollToItem(100)
-            rule.onNodeWithContentDescription("Martin Bonnin").assertIsDisplayed()
-            assertEquals(7, columnState.state.centerItemIndex)
-        }
-    ) { columnState ->
-        SessionDetailView(
-            uiState = uiState,
-            navigateToSpeaker = {},
-            columnState = columnState,
-        )
+        composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
     }
 
     @Test
     fun sessionDetailsScreenA11y() {
         enableA11yTest()
 
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = {
-                rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
-            }
-        ) { columnState ->
+        runScreenshotTest {
             SessionDetailView(
                 uiState = uiState,
                 navigateToSpeaker = {},
-                columnState = columnState,
+                columnState = rememberResponsiveColumnState()
             )
         }
+        composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
     }
 }

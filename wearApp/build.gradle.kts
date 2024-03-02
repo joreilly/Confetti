@@ -180,7 +180,6 @@ dependencies {
     implementation(libs.wear.compose.material)
     implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.compose.material)
-    implementation(libs.horologist.compose.tools)
     implementation(libs.horologist.composables)
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
@@ -224,6 +223,9 @@ dependencies {
 
     debugImplementation(libs.compose.ui.manifest)
     debugImplementation(libs.androidx.complications.rendering)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.horologist.compose.tools)
+    debugImplementation(libs.androidx.tiles.tooling.preview)
 
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
@@ -236,6 +238,9 @@ dependencies {
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.horologist.compose.tools)
     testImplementation(libs.horologist.images.coil)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.rule)
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {

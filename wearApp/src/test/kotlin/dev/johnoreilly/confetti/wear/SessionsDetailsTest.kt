@@ -2,29 +2,34 @@
 
 package dev.johnoreilly.confetti.wear
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
 import androidx.core.graphics.drawable.toDrawable
+import androidx.wear.compose.material.MaterialTheme
 import coil.decode.DataSource
 import coil.request.SuccessResult
+import com.google.android.horologist.compose.layout.AppScaffold
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
-import dev.johnoreilly.confetti.wear.screenshots.ScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
 import okio.Path.Companion.toPath
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
-import kotlin.test.assertEquals
 
-class SessionsDetailsTest : ScreenshotTest() {
+class SessionsDetailsTest : BaseScreenshotTest() {
     init {
         tolerance = 0.02f
     }
+
 
     val uiState = SessionDetailsUiState.Success(
         sessionDetails
@@ -55,49 +60,47 @@ class SessionsDetailsTest : ScreenshotTest() {
 
     @Test
     fun sessionDetailsScreen() {
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = {
-                rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                SessionDetailView(
+                    uiState = uiState,
+                    navigateToSpeaker = {},
+                    columnState = rememberResponsiveColumnState()
+                )
             }
-        ) { columnState ->
-            SessionDetailView(
-                uiState = uiState,
-                navigateToSpeaker = {},
-            )
         }
-    }
-
-    @Test
-    @Ignore("Disable during test refactor")
-    fun sessionDetailsScreenEnd() = takeScrollableScreenshot(
-        timeTextMode = TimeTextMode.Off,
-        checks = { columnState ->
-            columnState.state.scrollToItem(100)
-            rule.onNodeWithContentDescription("Martin Bonnin").assertIsDisplayed()
-            assertEquals(7, columnState.state.centerItemIndex)
-        }
-    ) { columnState ->
-        SessionDetailView(
-            uiState = uiState,
-            navigateToSpeaker = {},
-        )
+        composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+        takeScreenshot()
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 
     @Test
     fun sessionDetailsScreenA11y() {
         enableA11yTest()
 
-        takeScrollableScreenshot(
-            timeTextMode = TimeTextMode.OnTop,
-            checks = {
-                rule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+        composeRule.setContent {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
+            ) {
+                SessionDetailView(
+                    uiState = uiState,
+                    navigateToSpeaker = {},
+                    columnState = rememberResponsiveColumnState()
+                )
             }
-        ) { columnState ->
-            SessionDetailView(
-                uiState = uiState,
-                navigateToSpeaker = {},
-            )
         }
+        composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
+        takeScreenshot()
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 }

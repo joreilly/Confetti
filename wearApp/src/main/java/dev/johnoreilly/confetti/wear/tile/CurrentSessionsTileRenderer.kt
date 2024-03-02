@@ -22,7 +22,6 @@ import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_BODY1
 import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_TITLE2
 import androidx.wear.protolayout.material.layouts.MultiSlotLayout
 import androidx.wear.protolayout.material.layouts.PrimaryLayout
-import com.google.android.horologist.compose.tools.TileLayoutPreview
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -191,57 +190,4 @@ class CurrentSessionsTileRenderer(
             .setOnClick(LoadAction.Builder().build())
             .setId("signIn")
             .build()
-}
-
-@WearPreviewLargeRound
-@Composable
-fun LoginTilePreview() {
-    val context = LocalContext.current
-
-    val tileState = remember {
-        NotLoggedIn(
-            TestFixtures.kotlinConf2023Config
-        )
-    }
-    val renderer = remember { CurrentSessionsTileRenderer(context) }
-
-    TileLayoutPreview(
-        tileState, tileState, renderer
-    )
-}
-
-@WearPreviewLargeRound
-@Composable
-fun NoConferenceTilePreview() {
-    val context = LocalContext.current
-
-    val tileState = remember {
-        NoConference
-    }
-    val renderer = remember { CurrentSessionsTileRenderer(context) }
-
-    TileLayoutPreview(
-        tileState, tileState, renderer
-    )
-}
-
-@WearPreviewDevices
-@WearPreviewFontScales
-@Composable
-fun BookmarksTilePreview() {
-    val context = LocalContext.current
-
-    val tileState = remember {
-        CurrentSessionsData(
-            TestFixtures.kotlinConf2023Config,
-            listOf(
-                TestFixtures.sessionDetails
-            )
-        )
-    }
-    val renderer = remember { CurrentSessionsTileRenderer(context) }
-
-    TileLayoutPreview(
-        tileState, tileState, renderer
-    )
 }

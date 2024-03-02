@@ -85,6 +85,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.components.resources)
                 implementation(libs.image.loader)
+
                 // See https://github.com/cashapp/sqldelight/issues/4357
                 implementation(libs.stately.common)
 
@@ -131,7 +132,7 @@ kotlin {
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
 
-                api("com.mikepenz:multiplatform-markdown-renderer:0.12.0")
+                api("com.mikepenz:multiplatform-markdown-renderer:0.13.0")
             }
         }
 

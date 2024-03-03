@@ -20,7 +20,7 @@ jobs:
       uses: gradle/gradle-build-action@v3.1.0
 
     - name: Fix Screenshots
-      run: ./gradlew :verifyAndRecordRoborazziDebug
+      run: ./gradlew :wearApp:verifyAndRecordRoborazziDebug
 
     - name: Commit Screenshots
       uses: 'stefanzweifel/git-auto-commit-action@v5'

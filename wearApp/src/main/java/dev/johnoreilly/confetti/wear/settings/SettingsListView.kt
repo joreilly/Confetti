@@ -24,10 +24,12 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Chip
+import com.google.android.horologist.compose.material.SecondaryTitle
 import com.google.android.horologist.compose.material.ToggleChip
 import com.google.android.horologist.compose.material.ToggleChipToggleControl
 import com.google.android.horologist.images.base.paintable.ImageVectorPaintable.Companion.asPaintable
@@ -56,8 +58,8 @@ fun SettingsListView(
 ) {
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
-            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+            first = ScalingLazyColumnDefaults.ItemType.Text,
+            last = ScalingLazyColumnDefaults.ItemType.Chip
         )
     )
 
@@ -169,6 +171,7 @@ fun SettingsListView(
                     Text(
                         modifier = Modifier
                             .padding(top = 10.dp)
+                            .listTextPadding()
                             .run {
                                 if (!uiState.developerMode) {
                                     clickable {
@@ -201,7 +204,7 @@ private fun ScalingLazyListScope.developerModeOptions(
     val token = uiState.token
 
     item {
-        Text(
+        SecondaryTitle(
             text = "Developer Mode",
         )
     }

@@ -14,6 +14,7 @@ import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.google.android.horologist.composables.PlaceholderChip
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
@@ -37,12 +38,12 @@ fun ConferencesRoute(
         }
     }
 
-        ConferencesView(
-            uiState = uiState,
-            navigateToConference = { conference ->
-                component.onConferenceClicked(conference)
-            }
-        )
+    ConferencesView(
+        uiState = uiState,
+        navigateToConference = { conference ->
+            component.onConferenceClicked(conference)
+        }
+    )
 }
 
 @Composable
@@ -53,8 +54,8 @@ fun ConferencesView(
 ) {
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
-            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+            first = ItemType.Text,
+            last = ItemType.Chip
         )
     )
 

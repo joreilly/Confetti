@@ -33,6 +33,8 @@ import com.google.android.horologist.composables.Section.Companion.NO_STATES
 import com.google.android.horologist.composables.SectionedList
 import com.google.android.horologist.composables.SectionedListScope
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
@@ -64,8 +66,8 @@ fun HomeScreen(
 
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Unspecified,
-            last = ScalingLazyColumnDefaults.ItemType.Unspecified
+            first = ItemType.Text,
+            last = ItemType.SingleButton
         )
     )
 
@@ -149,7 +151,10 @@ private fun SectionedListScope.bookmarksSection(
         // loading {}
 
         empty {
-            Text(stringResource(id = R.string.no_upcoming))
+            Text(
+                stringResource(id = R.string.no_upcoming),
+                modifier = Modifier.listTextPadding()
+            )
         }
 
 

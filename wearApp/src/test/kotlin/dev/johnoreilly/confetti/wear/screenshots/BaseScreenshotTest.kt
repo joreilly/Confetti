@@ -67,8 +67,7 @@ abstract class BaseScreenshotTest {
 
     open val device: WearDevice? = null
 
-    val deviceName: String?
-        get() = device?.let { if (it == WearDevice.GenericLargeRound) "_${it.id}" else null }
+    open fun imageName(suffix: String) = "${testName.methodName}$suffix.png"
 
     @Before
     fun initDevice() {
@@ -91,7 +90,7 @@ abstract class BaseScreenshotTest {
 
     fun takeScreenshot(suffix: String = "") {
         composeRule.onRoot().captureRoboImage(
-            filePath = "snapshot/${this.javaClass.simpleName}/${testName.methodName}$suffix${deviceName.orEmpty()}.png",
+            filePath = "snapshot/${this.javaClass.simpleName}/${imageName(suffix)}",
             roborazziOptions = RoborazziOptions(
                 recordOptions = RoborazziOptions.RecordOptions(
                     applyDeviceCrop = true
@@ -105,7 +104,7 @@ abstract class BaseScreenshotTest {
 
     companion object {
         @JvmStatic
-        @ParameterizedRobolectricTestRunner.Parameters(name = "Input: {0}")
+        @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
         fun params() = WearDevice.entries.toList()
 
         fun loadTestBitmap(path: Path): Bitmap = FileSystem.RESOURCES.read(path) {

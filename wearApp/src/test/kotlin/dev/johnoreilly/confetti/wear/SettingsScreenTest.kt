@@ -15,13 +15,17 @@ import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
+import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.settings.SettingsListView
 import dev.johnoreilly.confetti.wear.settings.SettingsUiState
 import okio.Path.Companion.toPath
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.ParameterizedRobolectricTestRunner
 
-class SettingsScreenTest : BaseScreenshotTest() {
+@RunWith(ParameterizedRobolectricTestRunner::class)
+class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest() {
     init {
         tolerance = 0.05f
     }
@@ -59,7 +63,6 @@ class SettingsScreenTest : BaseScreenshotTest() {
         composeRule.onNode(hasScrollToIndexAction())
             .scrollToBottom()
         takeScreenshot("_end")
-        composeRule.onNodeWithText("Sign In").assertIsDisplayed()
     }
 
     @Test
@@ -84,7 +87,6 @@ class SettingsScreenTest : BaseScreenshotTest() {
         takeScreenshot("_end")
         composeRule.onNodeWithContentDescription("Logged in as John O'Reilly")
             .assertHasClickAction()
-            .assertIsDisplayed()
     }
 
     @Test

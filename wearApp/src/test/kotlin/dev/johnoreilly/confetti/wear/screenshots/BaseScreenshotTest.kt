@@ -29,16 +29,20 @@ import com.github.takahirom.roborazzi.ThresholdValidator
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ResponsiveTimeText
+import com.google.android.horologist.compose.tools.Device
 import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import okio.FileSystem
 import okio.Path
 import org.junit.Assume
+import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
+import org.robolectric.ParameterizedRobolectricTestRunner
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import kotlin.test.AfterTest
@@ -47,7 +51,7 @@ import kotlin.test.AfterTest
 @Config(
     application = KoinTestApp::class,
     sdk = [33],
-    qualifiers = "w221dp-h221dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
+    qualifiers = "w227dp-h227dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class BaseScreenshotTest {
@@ -60,6 +64,18 @@ abstract class BaseScreenshotTest {
     var tolerance: Float = 0.01f
 
     var fakeImageLoader = FakeImageLoader.Never
+
+    open val device: WearDevice? = null
+
+    open fun imageName(suffix: String) = "${testName.methodName}$suffix.png"
+
+    @Before
+    fun initDevice() {
+        device?.let {
+            RuntimeEnvironment.setQualifiers("+w${it.dp}dp-h${it.dp}dp")
+            RuntimeEnvironment.setFontScale(it.fontScale)
+        }
+    }
 
     private val applicationContext: Context
         get() = ApplicationProvider.getApplicationContext<Application>()
@@ -74,7 +90,7 @@ abstract class BaseScreenshotTest {
 
     fun takeScreenshot(suffix: String = "") {
         composeRule.onRoot().captureRoboImage(
-            filePath = "snapshot/${this.javaClass.simpleName}/${testName.methodName}$suffix.png",
+            filePath = "snapshot/${this.javaClass.simpleName}/${imageName(suffix)}",
             roborazziOptions = RoborazziOptions(
                 recordOptions = RoborazziOptions.RecordOptions(
                     applyDeviceCrop = true
@@ -87,6 +103,10 @@ abstract class BaseScreenshotTest {
     }
 
     companion object {
+        @JvmStatic
+        @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
+        fun params() = WearDevice.entries.toList()
+
         fun loadTestBitmap(path: Path): Bitmap = FileSystem.RESOURCES.read(path) {
             BitmapFactory.decodeStream(this.inputStream())
         }

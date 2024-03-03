@@ -10,13 +10,17 @@ import com.google.android.horologist.compose.tools.TileLayoutPreview
 import dev.johnoreilly.confetti.GetBookmarkedSessionsQuery
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
+import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsTileRenderer
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.ParameterizedRobolectricTestRunner
 
-class TileScreenshotTest : BaseScreenshotTest() {
+@RunWith(ParameterizedRobolectricTestRunner::class)
+class TileScreenshotTest(override val device: WearDevice) : BaseScreenshotTest() {
 
     @Test
     fun tile() {
@@ -43,6 +47,8 @@ class TileScreenshotTest : BaseScreenshotTest() {
 
             TileLayoutPreview(tileState, tileState, renderer)
         }
+
+        takeScreenshot()
     }
 
     @Test
@@ -67,6 +73,8 @@ class TileScreenshotTest : BaseScreenshotTest() {
 
             TileLayoutPreview(tileState, tileState, renderer)
         }
+
+        takeScreenshot()
     }
 
     @Test
@@ -84,5 +92,7 @@ class TileScreenshotTest : BaseScreenshotTest() {
 
             TileLayoutPreview(tileState, tileState, renderer)
         }
+
+        takeScreenshot()
     }
 }

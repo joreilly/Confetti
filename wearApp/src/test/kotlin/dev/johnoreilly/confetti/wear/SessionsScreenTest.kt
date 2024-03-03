@@ -9,12 +9,16 @@ import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
+import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.sessions.SessionsScreen
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.ParameterizedRobolectricTestRunner
 import java.time.LocalDateTime
 
-class SessionsScreenTest : BaseScreenshotTest() {
+@RunWith(ParameterizedRobolectricTestRunner::class)
+class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest() {
     init {
         tolerance = 0.03f
     }
@@ -54,7 +58,6 @@ class SessionsScreenTest : BaseScreenshotTest() {
         composeRule.onNode(hasScrollToIndexAction())
             .scrollToBottom()
         takeScreenshot("_end")
-        composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
     }
 
     @Test

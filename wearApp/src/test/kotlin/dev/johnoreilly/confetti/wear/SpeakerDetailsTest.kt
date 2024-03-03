@@ -15,12 +15,16 @@ import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
+import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsView
 import okio.Path.Companion.toPath
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.ParameterizedRobolectricTestRunner
 
-class SpeakerDetailsTest : BaseScreenshotTest() {
+@RunWith(ParameterizedRobolectricTestRunner::class)
+class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest() {
     init {
         tolerance = 0.02f
     }

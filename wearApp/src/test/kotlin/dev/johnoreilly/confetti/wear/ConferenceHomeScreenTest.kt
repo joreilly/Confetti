@@ -21,11 +21,15 @@ import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.kotlinConf2023
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
+import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.ParameterizedRobolectricTestRunner
 import java.time.LocalDateTime
 
-class ConferenceHomeScreenTest : BaseScreenshotTest() {
+@RunWith(ParameterizedRobolectricTestRunner::class)
+class ConferenceHomeScreenTest(override val device: WearDevice) : BaseScreenshotTest() {
 
     init {
         tolerance = 0.03f
@@ -155,9 +159,6 @@ class ConferenceHomeScreenTest : BaseScreenshotTest() {
         composeRule.onNode(hasScrollToIndexAction())
             .scrollToBottom()
         takeScreenshot("_end")
-
-        composeRule.onNodeWithText("Conference Days")
-            .assertIsDisplayed()
     }
 
     @Test

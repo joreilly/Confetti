@@ -9,6 +9,7 @@ import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.AppComponent.Child
@@ -54,11 +55,13 @@ class DefaultAppComponent(
     init {
         coroutineScope.launch {
             val conference: String = repository.getConference()
-            if (conference == AppSettings.CONFERENCE_NOT_SET) {
+
+            // TEMP
+            //if (conference == AppSettings.CONFERENCE_NOT_SET) {
                 showConferences()
-            } else {
-                showConference(conference = conference)
-            }
+            //} else {
+                //showConference(conference = conference)
+            //}
         }
 
         coroutineScope.launch {
@@ -92,7 +95,7 @@ class DefaultAppComponent(
                             coroutineScope.launch {
                                 repository.setConference(conference = conference.id)
                             }
-                            showConference(conference = conference.id)
+                            showConference(conference = conference)
                         },
                     )
                 )
@@ -103,6 +106,7 @@ class DefaultAppComponent(
                         componentContext = componentContext,
                         user = authentication.currentUser.value,
                         conference = config.conference,
+                        conferenceThemeColor = config.conferenceThemeColor,
                         isMultiPane = isMultiPane,
                         onSwitchConference = ::showConferences,
                         onSignOut = {
@@ -118,8 +122,8 @@ class DefaultAppComponent(
         navigation.replaceAll(Config.Conferences)
     }
 
-    private fun showConference(conference: String) {
-        navigation.replaceAll(Config.Conference(uid = user?.uid, conference = conference))
+    private fun showConference(conference: GetConferencesQuery.Conference) {
+        navigation.replaceAll(Config.Conference(uid = user?.uid, conference = conference.id, conferenceThemeColor = conference.themeColor))
     }
 
     @Serializable
@@ -134,6 +138,7 @@ class DefaultAppComponent(
         data class Conference(
             val uid: String?, // Unused, but needed to recreated the component when the user changes
             val conference: String,
+            val conferenceThemeColor: String?,
         ) : Config()
     }
 }

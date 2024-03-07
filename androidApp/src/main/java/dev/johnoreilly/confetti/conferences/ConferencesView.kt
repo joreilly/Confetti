@@ -106,25 +106,29 @@ private fun ConferencesViewPreview() {
                         id = "0",
                         timezone = "",
                         days = listOf(LocalDate(2022, Month.JUNE, 2)),
-                        name = "Droidcon San Francisco 2022"
+                        name = "Droidcon San Francisco 2022",
+                        themeColor = "0xFF800000"
                     ),
                     GetConferencesQuery.Conference(
                         id = "1",
                         timezone = "",
                         days = listOf(LocalDate(2022, Month.SEPTEMBER, 29)),
-                        name = "FrenchKit 2022"
+                        name = "FrenchKit 2022",
+                        themeColor = "0xFF800000"
                     ),
                     GetConferencesQuery.Conference(
                         id = "2",
                         timezone = "",
                         days = listOf(LocalDate(2022, Month.OCTOBER, 27)),
-                        name = "Droidcon London 2022"
+                        name = "Droidcon London 2022",
+                        themeColor = "0xFF800000"
                     ),
                     GetConferencesQuery.Conference(
                         id = "3",
                         timezone = "",
                         days = listOf(LocalDate(2022, Month.JUNE, 14)),
-                        name = "DevFest Ukraine 2022"
+                        name = "DevFest Ukraine 2022",
+                        themeColor = "0xFF800000"
                     ),
                 ))
             ) {}

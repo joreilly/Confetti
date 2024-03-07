@@ -135,7 +135,8 @@ class TestDataSource : DataSource {
             days = listOf(
                 start.date,
                 (start.toInstant(TimeZone.UTC) + 24.hours).toLocalDateTime(TimeZone.UTC).date
-            )
+            ),
+            themeColor = ""
         )
     }
 

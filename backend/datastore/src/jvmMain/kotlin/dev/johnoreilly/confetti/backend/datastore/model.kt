@@ -69,7 +69,8 @@ data class DConfig(
   val id: String,
   val name: String,
   val timeZone: String,
-  val days: List<LocalDate> = emptyList()
+  val days: List<LocalDate> = emptyList(),
+  val themeColor: String? = null
 )
 
 /**

@@ -540,6 +540,7 @@ class DataStore {
             .set("name", name.toValue())
             .set("timeZone", timeZone.toValue())
             .set("days", days.map { it.toString() }.toValue())
+            .set("themeColor", themeColor)
             .build()
     }
 
@@ -548,7 +549,8 @@ class DataStore {
             id = key.ancestors.single { it.kind == KIND_CONF }.name,
             name = getStringOrNull("name") ?: "",
             timeZone = getString("timeZone"),
-            days = getList<StringValue>("days").map { LocalDate.parse(it.get()) }
+            days = getList<StringValue>("days").map { LocalDate.parse(it.get()) },
+            themeColor = getStringOrNull("themeColor")
         )
     }
 

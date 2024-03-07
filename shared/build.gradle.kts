@@ -85,6 +85,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.components.resources)
                 implementation(libs.image.loader)
+                api("com.materialkolor:material-kolor:1.4.3")
 
                 // See https://github.com/cashapp/sqldelight/issues/4357
                 implementation(libs.stately.common)
@@ -196,7 +197,6 @@ apollo {
 
         introspection {
             endpointUrl.set("https://confetti-app.dev/graphql")
-            //endpointUrl.set("http://localhost:8080/graphql")
             schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
         }
         val apolloKey = System.getenv("APOLLO_KEY")

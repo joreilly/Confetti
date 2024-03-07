@@ -19,7 +19,8 @@ object TestFixtures {
             LocalDate.parse("2023-04-13"),
             LocalDate.parse("2023-04-14")
         ),
-        "KotlinConf 2023"
+        "KotlinConf 2023",
+        "0xFF800000"
     )
 
     val kotlinConf2023Config = GetBookmarkedSessionsQuery.Config(
@@ -36,37 +37,43 @@ object TestFixtures {
             "fosdem2023",
             "",
             listOf(LocalDate.parse("2023-02-04"), LocalDate.parse("2023-02-05")),
-            "Fosdem 2023"
+            "Fosdem 2023",
+            "0xFF800000"
         ),
         GetConferencesQuery.Conference(
             "droidconlondon2022",
             "",
             listOf(LocalDate.parse("2022-10-27"), LocalDate.parse("2022-10-28")),
-            "droidcon London"
+            "droidcon London",
+            "0xFF800000"
         ),
         GetConferencesQuery.Conference(
             "devfestnantes",
             "",
             listOf(LocalDate.parse("2022-10-20"), LocalDate.parse("2022-10-21")),
-            "DevFest Nantes"
+            "DevFest Nantes",
+            "0xFF800000"
         ),
         GetConferencesQuery.Conference(
             "graphqlsummit2022",
             "",
             listOf(LocalDate.parse("2022-10-04"), LocalDate.parse("2022-10-05")),
-            "GraphQL Summit"
+            "GraphQL Summit",
+            "0xFF800000"
         ),
         GetConferencesQuery.Conference(
             "frenchkit2022",
             "",
             listOf(LocalDate.parse("2022-09-29"), LocalDate.parse("2022-09-30")),
-            "FrenchKit"
+            "FrenchKit",
+            "0xFF800000"
         ),
         GetConferencesQuery.Conference(
             "droidconsf",
             "",
             listOf(LocalDate.parse("2022-06-02"), LocalDate.parse("2022-06-03")),
-            "droidcon SF"
+            "droidcon SF",
+            "0xFF800000"
         )
     )
 

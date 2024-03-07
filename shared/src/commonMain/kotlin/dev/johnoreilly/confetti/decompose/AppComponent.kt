@@ -57,7 +57,8 @@ class DefaultAppComponent(
             if (conference == AppSettings.CONFERENCE_NOT_SET) {
                 showConferences()
             } else {
-                showConference(conference = conference)
+                val conferenceThemeColor = repository.getConferenceThemeColor()
+                showConference(conference = conference, conferenceThemeColor = conferenceThemeColor)
             }
         }
 
@@ -90,9 +91,9 @@ class DefaultAppComponent(
                         componentContext = componentContext,
                         onConferenceSelected = { conference ->
                             coroutineScope.launch {
-                                repository.setConference(conference = conference.id)
+                                repository.setConference(conference = conference.id, conferenceThemeColor = conference.themeColor)
                             }
-                            showConference(conference = conference.id)
+                            showConference(conference = conference.id, conferenceThemeColor = conference.themeColor)
                         },
                     )
                 )
@@ -103,6 +104,7 @@ class DefaultAppComponent(
                         componentContext = componentContext,
                         user = authentication.currentUser.value,
                         conference = config.conference,
+                        conferenceThemeColor = config.conferenceThemeColor,
                         isMultiPane = isMultiPane,
                         onSwitchConference = ::showConferences,
                         onSignOut = {
@@ -118,8 +120,8 @@ class DefaultAppComponent(
         navigation.replaceAll(Config.Conferences)
     }
 
-    private fun showConference(conference: String) {
-        navigation.replaceAll(Config.Conference(uid = user?.uid, conference = conference))
+    private fun showConference(conference: String, conferenceThemeColor: String?) {
+        navigation.replaceAll(Config.Conference(uid = user?.uid, conference = conference, conferenceThemeColor = conferenceThemeColor))
     }
 
     @Serializable
@@ -134,6 +136,7 @@ class DefaultAppComponent(
         data class Conference(
             val uid: String?, // Unused, but needed to recreated the component when the user changes
             val conference: String,
+            val conferenceThemeColor: String?,
         ) : Config()
     }
 }

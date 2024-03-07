@@ -1,3 +1,4 @@
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
@@ -11,6 +12,12 @@ fun LocalDateTime.conferenceDateFormat() = format(LocalDateTime.Format {
     monthName(MonthNames.ENGLISH_ABBREVIATED)
     chars(", ")
     year()
+})
+
+fun LocalDate.conferenceDayMonthFormat() = format(LocalDate.Format {
+    dayOfMonth()
+    char(' ')
+    monthName(MonthNames.ENGLISH_ABBREVIATED)
 })
 
 

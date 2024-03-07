@@ -3,7 +3,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Home
@@ -19,8 +19,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.materialkolor.rememberDynamicColorScheme
 import dev.johnoreilly.confetti.GetConferencesQuery
-
+import java.lang.Long
 
 
 private enum class NavType {
@@ -33,42 +35,55 @@ fun ConferenceView(conference: GetConferencesQuery.Conference, onBackClicked: ()
 
     var navItemState by remember { mutableStateOf(NavType.HOME) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = conference.name) },
-                navigationIcon = {
-                    IconButton(onClick = { onBackClicked() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "ArrowBack")
+
+    var seedColor = Color(0xFFFFFFFF)
+    try {
+        seedColor = Color(Long.decode(conference.themeColor))
+    } catch (e: Exception) {}
+
+    val colorScheme = rememberDynamicColorScheme(seedColor, false)
+
+    MaterialTheme(colorScheme = colorScheme) {
+
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = conference.name) },
+                    navigationIcon = {
+                        IconButton(onClick = { onBackClicked() }) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "ArrowBack")
+                        }
                     }
+                )
+            },
+            bottomBar = {
+                BottomNavigation(backgroundColor = MaterialTheme.colorScheme.surface) {
+                    BottomNavigationItem(
+                        icon = { Icon(Icons.Outlined.Home, contentDescription = "Home") },
+                        selected = navItemState == NavType.HOME,
+                        onClick = { navItemState = NavType.HOME },
+                        label = { Text(text = "Home") },
+                    )
+                    BottomNavigationItem(
+                        icon = { Icon(Icons.Outlined.Search, contentDescription = "Search") },
+                        selected = navItemState == NavType.SEARCH,
+                        onClick = { navItemState = NavType.SEARCH },
+                        label = { Text(text = "Search") }
+                    )
                 }
-            )
-        },
-        bottomBar = {
-            BottomNavigation(backgroundColor = MaterialTheme.colors.surface) {
-                BottomNavigationItem(
-                    icon = { Icon(Icons.Outlined.Home, contentDescription = "Home") },
-                    selected = navItemState == NavType.HOME,
-                    onClick = { navItemState = NavType.HOME },
-                    label = { Text(text = "Home") },
-                )
-                BottomNavigationItem(
-                    icon = { Icon(Icons.Outlined.Search, contentDescription = "Search") },
-                    selected = navItemState == NavType.SEARCH,
-                    onClick = { navItemState = NavType.SEARCH },
-                    label = { Text(text = "Search") }
-                )
+            }
+        ) {
+            Column(Modifier.padding(it)) {
+                if (navItemState == NavType.HOME) {
+                    SessionsView(conference)
+                } else {
+                    GeminiQueryView(conference)
+                }
             }
         }
-    ) {
-        Column(Modifier.padding(it)) {
-            if (navItemState == NavType.HOME) {
-                SessionsView(conference)
-            } else {
-                GeminiQueryView(conference)
-            }
-        }
+
     }
+
 }
 
 

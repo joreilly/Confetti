@@ -5,12 +5,13 @@ package dev.johnoreilly.confetti.conferences
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -20,10 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.materialkolor.rememberDynamicColorScheme
+import conferenceDayMonthFormat
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.ui.ConfettiTheme
@@ -33,6 +37,7 @@ import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
+import java.lang.Long
 
 @Composable
 fun ConferencesRoute(
@@ -75,23 +80,54 @@ fun ConferencesView(conferenceListByYear: Map<Int, List<GetConferencesQuery.Conf
                 }
 
                 items(conferenceList) { conference ->
-                    Row(
-                        modifier = Modifier
-                            .clip(shape = RoundedCornerShape(8.dp))
-                            .clickable(onClick = {
-                                navigateToConference(conference)
-                            })
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Text(conference.name, modifier = Modifier.weight(1.0f).padding(end = 16.dp), style = MaterialTheme.typography.bodyLarge)
-                        Text(conference.days[0].toString(), style = MaterialTheme.typography.bodyLarge)
-                    }
+                    ConferenceCard(conference) { navigateToConference(conference) }
                 }
-
             }
         }
     }
+}
+
+
+@Composable
+fun ConferenceCard(conference: GetConferencesQuery.Conference, navigateToConference: (GetConferencesQuery.Conference) -> Unit) {
+
+
+    var seedColor = Color(0xFFFFFFFF)
+    try {
+        seedColor = Color(Long.decode(conference.themeColor))
+    } catch (e: Exception) {}
+
+    val colorScheme = rememberDynamicColorScheme(seedColor, false)
+
+    MaterialTheme(colorScheme = colorScheme) {
+
+        Card(modifier = Modifier
+            .clip(shape = RoundedCornerShape(8.dp))
+            .clickable(onClick = {
+                navigateToConference(conference)
+            })
+            .padding(8.dp)
+            .fillMaxWidth()
+        ) {
+            Column(Modifier.padding(16.dp)) {
+                Text(conference.name, style = MaterialTheme.typography.titleMedium)
+                Text(getConferenceDatesString(conference.days), style = MaterialTheme.typography.titleSmall)
+            }
+
+        }
+    }
+}
+
+
+private fun getConferenceDatesString(days: List<LocalDate>): String {
+    var conferenceDatesString = ""
+    if (days.size >= 1) {
+        conferenceDatesString = days[0].conferenceDayMonthFormat()
+    }
+    if (days.size == 2) {
+        conferenceDatesString += " - ${days[1].conferenceDayMonthFormat()}"
+    }
+    return conferenceDatesString
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -106,25 +142,29 @@ private fun ConferencesViewPreview() {
                         id = "0",
                         timezone = "",
                         days = listOf(LocalDate(2022, Month.JUNE, 2)),
-                        name = "Droidcon San Francisco 2022"
+                        name = "Droidcon San Francisco 2022",
+                        themeColor = "0xFF800000"
                     ),
                     GetConferencesQuery.Conference(
                         id = "1",
                         timezone = "",
                         days = listOf(LocalDate(2022, Month.SEPTEMBER, 29)),
-                        name = "FrenchKit 2022"
+                        name = "FrenchKit 2022",
+                        themeColor = "0xFF800000"
                     ),
                     GetConferencesQuery.Conference(
                         id = "2",
                         timezone = "",
                         days = listOf(LocalDate(2022, Month.OCTOBER, 27)),
-                        name = "Droidcon London 2022"
+                        name = "Droidcon London 2022",
+                        themeColor = "0xFF800000"
                     ),
                     GetConferencesQuery.Conference(
                         id = "3",
                         timezone = "",
                         days = listOf(LocalDate(2022, Month.JUNE, 14)),
-                        name = "DevFest Ukraine 2022"
+                        name = "DevFest Ukraine 2022",
+                        themeColor = "0xFF800000"
                     ),
                 ))
             ) {}

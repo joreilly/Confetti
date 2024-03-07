@@ -194,6 +194,10 @@ class ConfettiRepository : KoinComponent {
         return appSettings.getConference()
     }
 
+    suspend fun getConferenceThemeColor(): String {
+        return appSettings.getConferenceThemeColor()
+    }
+
     /**
      * This is OK to use in AppViewModel and from background refresh jobs but use with caution
      * elsewhere as the conference might also come from a deep link in which case this value
@@ -203,8 +207,11 @@ class ConfettiRepository : KoinComponent {
         return appSettings.getConferenceFlow()
     }
 
-    suspend fun setConference(conference: String) {
+    suspend fun setConference(conference: String, conferenceThemeColor: String?) {
         appSettings.setConference(conference)
+        conferenceThemeColor?.let {
+            appSettings.setConferenceThemeColor(conferenceThemeColor)
+        }
         conferenceListeners.forEach {
             it(conference)
         }

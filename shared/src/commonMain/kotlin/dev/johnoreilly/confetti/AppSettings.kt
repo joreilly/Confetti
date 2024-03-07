@@ -37,12 +37,20 @@ class AppSettings(val settings: FlowSettings) {
         return settings.getString(CONFERENCE_SETTING, CONFERENCE_NOT_SET)
     }
 
+    suspend fun getConferenceThemeColor(): String {
+        return settings.getString(CONFERENCE_THEME_COLOR_SETTING, "0xFF800000")
+    }
+
     fun getConferenceFlow(): Flow<String> {
         return settings.getStringFlow(CONFERENCE_SETTING, CONFERENCE_NOT_SET)
     }
 
     suspend fun setConference(conference: String) {
         settings.putString(CONFERENCE_SETTING, conference)
+    }
+
+    suspend fun setConferenceThemeColor(themeColor: String) {
+        settings.putString(CONFERENCE_THEME_COLOR_SETTING, themeColor)
     }
 
     private fun getEnabledLanguagesSetFromString(settingsString: String?) =
@@ -60,6 +68,7 @@ class AppSettings(val settings: FlowSettings) {
         const val EXPERIMENTAL_FEATURES_ENABLED = "experimental_features_enabled"
         const val ENABLED_LANGUAGES_SETTING = "enabled_languages_2"
         const val CONFERENCE_SETTING = "conference"
+        const val CONFERENCE_THEME_COLOR_SETTING = "conferenceThemeColor"
         const val CONFERENCE_NOT_SET = ""
     }
 }

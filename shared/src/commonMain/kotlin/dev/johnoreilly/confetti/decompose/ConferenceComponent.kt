@@ -19,6 +19,7 @@ import org.koin.core.component.inject
 interface ConferenceComponent : BackHandlerOwner {
 
     val stack: Value<ChildStack<*, Child>>
+    val conferenceThemeColor: String?
 
     fun onBackClicked()
     fun onBackClicked(toIndex: Int)
@@ -35,6 +36,7 @@ class DefaultConferenceComponent(
     componentContext: ComponentContext,
     private val user: User?,
     private val conference: String,
+    override val conferenceThemeColor: String?,
     private val isMultiPane: Boolean,
     private val onSwitchConference: () -> Unit,
     private val onSignOut: () -> Unit,

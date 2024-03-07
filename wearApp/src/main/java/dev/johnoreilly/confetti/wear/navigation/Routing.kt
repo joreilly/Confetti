@@ -24,7 +24,7 @@ fun DefaultWearAppComponent.buildChild(config: Config, componentContext: Compone
                     componentContext = componentContext,
                     onConferenceSelected = { conference ->
                         coroutineScope.launch {
-                            repository.setConference(conference = conference.id)
+                            repository.setConference(conference = conference.id, conferenceThemeColor = conference.themeColor)
                         }
                         showConference(conference = conference.id)
                     },

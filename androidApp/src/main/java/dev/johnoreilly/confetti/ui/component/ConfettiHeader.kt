@@ -30,7 +30,7 @@ fun ConfettiHeaderAndroid(
             tonalElevation
         },
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth().padding(vertical = 8.dp),
     ) {
         Column {
             Divider()

@@ -26,64 +26,61 @@ fun ConfettiApp(
     component: WearAppComponent
 ) {
     val appState by component.appState.collectAsStateWithLifecycle()
-    val settings = appState?.settings
     val preferences = appState?.wearPreferences
 
-    if (settings != null) {
-        ConfettiTheme(settings.theme) {
-            SwipeToDismissBox(
-                component.stack,
-                onDismissed = { component.navigateUp() },
-                timeText = {
-                    val showNetworks = preferences?.showNetworks
-                    if (showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS || showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA) {
-                        NetworkTimeText(component, showNetworks)
-                    } else {
-                        TimeText()
-                    }
-                },
-            ) { configuration ->
-                when (val child = configuration.instance) {
-                    is Child.Conferences -> ConferencesRoute(
-                        child.component
-                    )
+    ConfettiTheme(seedColor = appState?.seedColor) {
+        SwipeToDismissBox(
+            component.stack,
+            onDismissed = { component.navigateUp() },
+            timeText = {
+                val showNetworks = preferences?.showNetworks
+                if (showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS || showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA) {
+                    NetworkTimeText(component, showNetworks)
+                } else {
+                    TimeText()
+                }
+            },
+        ) { configuration ->
+            when (val child = configuration.instance) {
+                is Child.Conferences -> ConferencesRoute(
+                    child.component
+                )
 
-                    is Child.ConferenceSessions -> SessionsRoute(
-                        child.component
-                    )
+                is Child.ConferenceSessions -> SessionsRoute(
+                    child.component
+                )
 
-                    is Child.SessionDetails -> SessionDetailsRoute(
-                        child.component
-                    )
+                is Child.SessionDetails -> SessionDetailsRoute(
+                    child.component
+                )
 
-                    is Child.SpeakerDetails -> SpeakerDetailsRoute(
-                        child.component
-                    )
+                is Child.SpeakerDetails -> SpeakerDetailsRoute(
+                    child.component
+                )
 
-                    is Child.Settings -> SettingsRoute(
-                        child.component
-                    )
+                is Child.Settings -> SettingsRoute(
+                    child.component
+                )
 
-                    is Child.Loading -> {
-                        LoadingScreen(
-                            component
-                        )
-                    }
-
-                    is Child.GoogleSignIn -> {
-                        FirebaseSignInScreen(child.component)
-                    }
-
-                    is Child.GoogleSignOut -> FirebaseSignOutScreen(child.component)
-
-                    is Child.Home -> HomeRoute(
-                        child.component
-                    )
-
-                    is Child.Bookmarks -> BookmarksRoute(
-                        child.component
+                is Child.Loading -> {
+                    LoadingScreen(
+                        component
                     )
                 }
+
+                is Child.GoogleSignIn -> {
+                    FirebaseSignInScreen(child.component)
+                }
+
+                is Child.GoogleSignOut -> FirebaseSignOutScreen(child.component)
+
+                is Child.Home -> HomeRoute(
+                    child.component
+                )
+
+                is Child.Bookmarks -> BookmarksRoute(
+                    child.component
+                )
             }
         }
     }

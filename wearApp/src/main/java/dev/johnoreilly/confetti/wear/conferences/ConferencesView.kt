@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
@@ -80,14 +81,7 @@ fun ConferencesView(
                 is ConferencesComponent.Success -> {
                     // TODO show current year
                     items(uiState.relevantConferences) { conference ->
-                        Chip(
-                            modifier = Modifier.fillMaxWidth(),
-                            label = conference.name,
-                            onClick = {
-                                navigateToConference(conference)
-                            },
-                            colors = ChipDefaults.secondaryChipColors()
-                        )
+                        ConferencesChip(conference, navigateToConference)
                     }
                 }
 
@@ -99,16 +93,35 @@ fun ConferencesView(
     }
 }
 
+@Composable
+private fun ConferencesChip(
+    conference: GetConferencesQuery.Conference,
+    navigateToConference: (GetConferencesQuery.Conference) -> Unit
+) {
+    val seedColor = conference.themeColor?.toLongOrNull()?.let {
+        Color(it)
+    }
+
+    ConfettiTheme(seedColor = seedColor) {
+        Chip(
+            modifier = Modifier.fillMaxWidth(),
+            label = conference.name,
+            onClick = {
+                navigateToConference(conference)
+            },
+            colors = ChipDefaults.secondaryChipColors()
+        )
+    }
+}
+
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
 fun ConferencesViewPreview() {
-    ConfettiTheme {
-        ConferencesView(
-            uiState = ConferencesComponent.Success(
-                TestFixtures.conferences.groupBy { it.days[0].year }
-            ),
-            navigateToConference = {},
-        )
-    }
+    ConferencesView(
+        uiState = ConferencesComponent.Success(
+            TestFixtures.conferences.groupBy { it.days[0].year }
+        ),
+        navigateToConference = {},
+    )
 }

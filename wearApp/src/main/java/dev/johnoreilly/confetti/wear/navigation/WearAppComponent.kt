@@ -2,6 +2,8 @@ package dev.johnoreilly.confetti.wear.navigation
 
 import android.content.Intent
 import android.util.Log
+import androidx.compose.ui.graphics.Color
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -78,17 +80,25 @@ class DefaultWearAppComponent(
     private val networkRepository: NetworkRepository by inject()
     private val dataRequestRepository: DataRequestRepository by inject()
 
+    val conferenceDataFlow = phoneSettingsSync.conferenceFlow.map {
+        if (it.isNotBlank()) {
+            repository.conferenceData(it, FetchPolicy.CacheFirst).data
+        } else {
+            null
+        }
+    }
+
     override val appState: StateFlow<AppUiState?> = combine(
-        phoneSettingsSync.settingsFlow,
-        phoneSettingsSync.conferenceFlow,
+        conferenceDataFlow,
         authentication.currentUser,
-        wearPreferencesStore.preferences
-    ) { phoneSettings, defaultConference, user, wearPreferences ->
+        wearPreferencesStore.preferences,
+    ) { conferenceData, user, wearPreferences ->
+        val seedColor = conferenceData?.config?.themeColor?.toLongOrNull()?.let { Color(it) }
         AppUiState(
-            defaultConference = defaultConference,
-            settings = phoneSettings,
+            defaultConference = conferenceData?.config?.id.orEmpty(),
             user = user,
-            wearPreferences = wearPreferences
+            wearPreferences = wearPreferences,
+            seedColor = seedColor
         )
     }
         .stateIn(

@@ -1,22 +1,44 @@
 package dev.johnoreilly.confetti.wear.ui
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors
-import dev.johnoreilly.confetti.wear.proto.Theme
-import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
+import com.materialkolor.rememberDynamicColorScheme
 
 /**
  * Confetti theme.
  */
 @Composable
 fun ConfettiTheme(
-    mobileTheme: Theme? = null,
-    content: @Composable () -> Unit
+    seedColor: Color?,
+    content: @Composable () -> Unit,
 ) {
-    val colors = remember(mobileTheme) {
-        mobileTheme?.toMaterialThemeColors() ?: Colors()
+    val colors = if (seedColor != null) {
+        val colorScheme = rememberDynamicColorScheme(seedColor, false)
+        colorScheme.toWearMaterialColors()
+    } else {
+        Colors()
     }
+
     ConfettiThemeFixed(colors = colors, content = content)
+}
+
+fun ColorScheme.toWearMaterialColors(): Colors {
+    return Colors(
+        primary = this.primary,
+        primaryVariant = this.primaryContainer,
+        secondary = this.secondary,
+        secondaryVariant = this.secondaryContainer,
+        background = Color.Black,
+        surface = this.surface,
+        error = this.error,
+        onPrimary = this.onPrimary,
+        onSecondary = this.onSecondary,
+        onBackground = this.onBackground,
+        onSurface = this.onSurface,
+        onSurfaceVariant = this.onSurfaceVariant,
+        onError = this.onError
+    )
 }
 

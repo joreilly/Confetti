@@ -11,7 +11,6 @@ import dev.johnoreilly.confetti.GetBookmarkedSessionsQuery
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
-import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.CurrentSessionsTileRenderer

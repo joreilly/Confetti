@@ -4,7 +4,6 @@ import dev.johnoreilly.confetti.GetBookmarkedSessionsQuery
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.wear.proto.Theme
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
@@ -137,35 +136,5 @@ The talk will cover
         room = SessionDetails.Room(name = "Effectenbeurszaal"),
         tags = listOf(),
         __typename = "Session"
-    )
-
-    val MobileTheme = Theme(
-        primary = 0xffffa8ffL.toInt(),
-        primaryVariant = 0xff702776L.toInt(),
-        secondary = 0xffffb599L.toInt(),
-        secondaryVariant = 0xff812800L.toInt(),
-        surface = 0xff201a1bL.toInt(),
-        error = 0xffffb4a9L.toInt(),
-        onPrimary = 0xff560a5eL.toInt(),
-        onSecondary = 0xff5d1900L.toInt(),
-        onBackground = 0xffecdfe0L.toInt(),
-        onSurface = 0xffecdfe0L.toInt(),
-        onSurfaceVariant = 0xffd0c2ccL.toInt(),
-        onError = 0xff680003L.toInt(),
-    )
-
-    val AndroidTheme = Theme(
-        primary = 0xff0ee37cL.toInt(),
-        primaryVariant = 0xff005227L.toInt(),
-        secondary = 0xffb7ccb8L.toInt(),
-        secondaryVariant = 0xff394b3cL.toInt(),
-        surface = 0xff1a1c1aL.toInt(),
-        error = 0xffffb4a9L.toInt(),
-        onPrimary = 0xff003919L.toInt(),
-        onSecondary = 0xff223526L.toInt(),
-        onBackground = 0xffe2e3deL.toInt(),
-        onSurface = 0xffe2e3deL.toInt(),
-        onSurfaceVariant = 0xffc1c9bfL.toInt(),
-        onError = 0xff680003L.toInt(),
     )
 }

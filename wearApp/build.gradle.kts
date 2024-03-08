@@ -203,6 +203,8 @@ dependencies {
     implementation(libs.horologist.networkawareness.ui)
     implementation(libs.horologist.images.coil)
 
+    implementation(libs.material3.core)
+
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)
 

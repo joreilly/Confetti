@@ -19,10 +19,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.materialkolor.rememberDynamicColorScheme
 import dev.johnoreilly.confetti.GetConferencesQuery
-import java.lang.Long
+import dev.johnoreilly.confetti.ui.ConferenceMaterialTheme
 
 
 private enum class NavType {
@@ -32,19 +30,9 @@ private enum class NavType {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConferenceView(conference: GetConferencesQuery.Conference, onBackClicked: () -> Unit) {
-
     var navItemState by remember { mutableStateOf(NavType.HOME) }
 
-
-    var seedColor = Color(0xFFFFFFFF)
-    try {
-        seedColor = Color(Long.decode(conference.themeColor))
-    } catch (e: Exception) {}
-
-    val colorScheme = rememberDynamicColorScheme(seedColor, false)
-
-    MaterialTheme(colorScheme = colorScheme) {
-
+    ConferenceMaterialTheme(conference.themeColor) {
         Scaffold(
             topBar = {
                 TopAppBar(

@@ -23,7 +23,7 @@ fun String.firebaseUid(): String? {
     }
 
     return try {
-        FirebaseAuth.getInstance().verifyIdToken(this).uid
+        FirebaseAuth.getInstance().verifyIdToken(this, true).uid
     } catch (e: Exception) {
         e.printStackTrace()
         throw e

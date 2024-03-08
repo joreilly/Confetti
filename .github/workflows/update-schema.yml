@@ -12,6 +12,6 @@ jobs:
 
       - uses: apollographql/update-graphql-schema@2a22b8257e916188812982d64c1f2f087959d8c0 #main
         with:
-          key: ${{ secrets.APOLLO_KEY }}
-          graph: "Confetti"
+          endpoint: "https://confetti-app.dev/graphql"
           schema: "shared/src/commonMain/graphql/schema.graphqls"
+          github_token: ${{ secrets.GITHUB_TOKEN }}

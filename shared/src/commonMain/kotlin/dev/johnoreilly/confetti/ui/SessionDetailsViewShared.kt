@@ -136,7 +136,7 @@ internal fun SessionDetailViewShared(
 }
 
 @Composable
-internal fun ConfettiHeader(
+fun ConfettiHeader(
     text: String,
     icon: ImageVector? = null,
     modifier: Modifier = Modifier,

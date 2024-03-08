@@ -1,9 +1,7 @@
 package dev.johnoreilly.confetti.ui
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.isFront
@@ -12,27 +10,18 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.predic
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.stackAnimation
-import com.materialkolor.rememberDynamicColorScheme
 import dev.johnoreilly.confetti.decompose.ConferenceComponent
 import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import dev.johnoreilly.confetti.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.settings.SettingsRoute
 import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsRoute
-import java.lang.Long
 
 @Composable
 fun ConferenceRoute(
     component: ConferenceComponent,
     windowSizeClass: WindowSizeClass,
 ) {
-    var seedColor = Color(0xFFFFFFFF)
-    try {
-        seedColor = Color(Long.decode(component.conferenceThemeColor))
-    } catch (e: Exception) {}
-
-    val colorScheme = rememberDynamicColorScheme(seedColor, false)
-
-    MaterialTheme(colorScheme = colorScheme) {
+    ConferenceMaterialTheme(component.conferenceThemeColor) {
         Children(
             stack = component.stack,
             animation = predictiveBackAnimation(

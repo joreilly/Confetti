@@ -226,7 +226,8 @@ dependencies {
 
     debugImplementation(libs.compose.ui.manifest)
     debugImplementation(libs.androidx.complications.rendering)
-    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.tiles.tooling.preview)
 
@@ -239,6 +240,7 @@ dependencies {
     testImplementation(libs.snapshot.android)
     testImplementation(libs.snapshot.jvm)
     testImplementation(libs.androidx.work.testing)
+    testImplementation(libs.androidx.complications.rendering)
     testImplementation(libs.horologist.compose.tools)
     testImplementation(libs.horologist.images.coil)
     testImplementation(libs.roborazzi)

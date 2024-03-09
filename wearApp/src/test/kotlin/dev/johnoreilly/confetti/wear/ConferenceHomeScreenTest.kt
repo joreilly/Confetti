@@ -20,7 +20,6 @@ import dev.johnoreilly.confetti.wear.home.HomeUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.kotlinConf2023
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test

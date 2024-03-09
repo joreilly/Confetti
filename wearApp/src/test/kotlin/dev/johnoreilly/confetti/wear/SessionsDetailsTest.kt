@@ -5,20 +5,11 @@ package dev.johnoreilly.confetti.wear
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
-import androidx.core.graphics.drawable.toDrawable
-import coil.decode.DataSource
-import coil.request.SuccessResult
-import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
-import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
-import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
-import okio.Path.Companion.toPath
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner
@@ -33,29 +24,6 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
     val uiState = SessionDetailsUiState.Success(
         sessionDetails
     )
-
-    @Before
-    fun loadImages() {
-        val martinBitmap = loadTestBitmap("martin.jpg".toPath())
-        val johnBitmap = loadTestBitmap("john.jpg".toPath())
-
-        fakeImageLoader = FakeImageLoader {
-            val bitmap = when (it.data) {
-                "$JohnUrl?size=Watch" -> johnBitmap
-                "$MartinUrl?size=Watch" -> martinBitmap
-                else -> null
-            }
-            if (bitmap != null) {
-                SuccessResult(
-                    drawable = bitmap.toDrawable(resources),
-                    dataSource = DataSource.MEMORY,
-                    request = it
-                )
-            } else {
-                FakeImageLoader.Never.execute(it)
-            }
-        }
-    }
 
     @Test
     fun sessionDetailsScreen() {

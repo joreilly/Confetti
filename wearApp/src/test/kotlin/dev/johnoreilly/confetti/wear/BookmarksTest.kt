@@ -8,7 +8,6 @@ import dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreen
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.Test

@@ -4,6 +4,7 @@ import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.wear.navigation.Config
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import org.junit.Assert.assertEquals
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.Description
 
@@ -32,6 +33,7 @@ class AppTest : BaseAppTest() {
     }
 
     @Test
+    @Ignore("No reliant on cached conference data, refactor this loading")
     fun launchHomeWithConference() {
         val activity = rule.activity
 

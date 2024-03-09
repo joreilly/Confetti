@@ -17,7 +17,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,17 +42,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.DarkThemeConfig
 import dev.johnoreilly.confetti.DeveloperSettings
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ThemeBrand
 import dev.johnoreilly.confetti.UserEditableSettings
 import dev.johnoreilly.confetti.WearStatus
+import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ui.supportsDynamicTheming
 
 @Composable
@@ -56,7 +65,6 @@ fun SettingsRoute(
         onChangeThemeBrand = component::updateThemeBrand,
         onChangeDynamicColorPreference = component::updateDynamicColorPreference,
         onChangeDarkThemeConfig = component::updateDarkThemeConfig,
-        onUpdateWearTheme = component::updateWearTheme,
         onInstallOnWatch = component::installOnWatch,
         onChangeUseExperimentalFeatures = component::updateUseExperimentalFeatures,
         developerSettings = developerSettings,
@@ -72,7 +80,6 @@ fun SettingsScreen(
     onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
-    onUpdateWearTheme: (Boolean) -> Unit,
     onInstallOnWatch: (String) -> Unit,
     developerSettings: DeveloperSettings?,
     onEnableDeveloperMode: () -> Unit
@@ -133,14 +140,6 @@ fun SettingsScreen(
                                 Button(onClick = { onInstallOnWatch(wearStatus.nodeId) }) {
                                     Text(stringResource(id = R.string.install_on_watch))
                                 }
-                            }
-
-                            is WearStatus.Paired -> {
-                                CheckboxWithLabel(
-                                    checked = wearStatus.wearSettings.theme != null,
-                                    onCheckedChange = { onUpdateWearTheme(it) },
-                                    text = stringResource(id = R.string.update_wear)
-                                )
                             }
 
                             else -> {

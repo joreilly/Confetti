@@ -252,16 +252,14 @@ private fun Long.localTime(): LocalDateTime =
 @WearPreviewFontScales
 @Composable
 fun SettingsListViewPreview() {
-    ConfettiTheme {
-        SettingsListView(
-            conferenceCleared = {},
-            navigateToGoogleSignIn = { },
-            navigateToGoogleSignOut = { },
-            uiState = SettingsUiState.Success(null),
-            onRefreshClick = {},
-            onRefreshToken = {},
-            onEnableDeveloperMode = {},
-            updatePreferences = {}
-        )
-    }
+    SettingsListView(
+        conferenceCleared = {},
+        navigateToGoogleSignIn = { },
+        navigateToGoogleSignOut = { },
+        uiState = SettingsUiState.Success(null),
+        onRefreshClick = {},
+        onRefreshToken = {},
+        onEnableDeveloperMode = {},
+        updatePreferences = {}
+    )
 }

@@ -2,7 +2,6 @@
 
 package dev.johnoreilly.confetti.settings
 
-import android.content.Context
 import com.arkivanov.decompose.ComponentContext
 import com.google.android.horologist.data.apphelper.AppHelperNodeStatus
 import com.google.android.horologist.data.apphelper.AppInstallationStatus
@@ -10,24 +9,28 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.DarkThemeConfig
 import dev.johnoreilly.confetti.DeveloperSettings
-import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ThemeBrand
 import dev.johnoreilly.confetti.UserEditableSettings
 import dev.johnoreilly.confetti.WearStatus
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.decompose.coroutineScope
-import dev.johnoreilly.confetti.ui.colorScheme
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.wear.proto.WearSettings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class DefaultSettingsComponent(
     componentContext: ComponentContext,
     private val appSettings: AppSettings,
     private val wearSettingsSync: WearSettingsSync,
-    private val applicationContext: Context,
     private val authentication: Authentication,
 ) : SettingsComponent, ComponentContext by componentContext {
 
@@ -111,25 +114,6 @@ class DefaultSettingsComponent(
     override fun updateUseExperimentalFeatures(value: Boolean) {
         coroutineScope.launch {
             appSettings.setExperimentalFeaturesEnabled(value)
-        }
-    }
-
-    override fun updateWearTheme(active: Boolean) {
-        coroutineScope.launch {
-            val settings = userEditableSettings.first()
-
-            val theme = colorScheme(
-                androidTheme = settings?.brand == ThemeBrand.ANDROID,
-                darkTheme = true,
-                disableDynamicTheming = settings?.useDynamicColor ?: false,
-                context = applicationContext
-            )
-
-            if (active) {
-                wearSettingsSync.updateWearTheme(theme)
-            } else {
-                wearSettingsSync.clearWearTheme()
-            }
         }
     }
 

@@ -3,19 +3,20 @@ package dev.johnoreilly.confetti.wear.tile
 import android.content.Intent
 import androidx.core.app.TaskStackBuilder
 import androidx.core.net.toUri
-import androidx.wear.compose.material.Colors
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.google.android.horologist.tiles.SuspendingTileService
+import com.materialkolor.dynamicColorScheme
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
-import dev.johnoreilly.confetti.wear.settings.toMaterialThemeColors
+import dev.johnoreilly.confetti.wear.ui.toColor
+import dev.johnoreilly.confetti.wear.ui.toWearMaterialColors
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.toKotlinInstant
@@ -39,16 +40,16 @@ class CurrentSessionsTileService : SuspendingTileService() {
     }
 
     private suspend fun tileState(): ConfettiTileData {
-        val theme = phoneSettingsSync.settingsFlow.first().theme
         val user = authentication.currentUser.value
-
-        renderer.colors.value = theme?.toMaterialThemeColors() ?: Colors()
 
         val conference = phoneSettingsSync.conferenceFlow.first()
 
         if (conference.isBlank()) {
             return ConfettiTileData.NoConference
         }
+
+        val seedColor = repository.getConferenceThemeColor().toColor()
+        renderer.colors.value = dynamicColorScheme(seedColor = seedColor, isDark = true).toWearMaterialColors()
 
         val responseData = repository.bookmarkedSessionsQuery(
             conference, user?.uid, user, FetchPolicy.CacheOnly

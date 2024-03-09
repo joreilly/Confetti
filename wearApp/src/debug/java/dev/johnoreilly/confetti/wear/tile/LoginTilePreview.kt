@@ -3,7 +3,7 @@ package dev.johnoreilly.confetti.wear.tile
 import android.content.Context
 import androidx.wear.tiles.tooling.preview.Preview
 import androidx.wear.tiles.tooling.preview.TilePreviewData
-import com.google.android.horologist.compose.tools.tileRendererPreviewData
+import com.google.android.horologist.tiles.render.TileLayoutRenderer
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.NoConference
@@ -46,5 +46,23 @@ fun BookmarksTilePreview(context: Context): TilePreviewData {
 
     return tileRendererPreviewData(
         renderer, tileState, tileState
+    )
+}
+
+// From Horologist
+fun <T, R> tileRendererPreviewData(
+    renderer: TileLayoutRenderer<T, R>,
+    tileState: T,
+    resourceState: R,
+): TilePreviewData = TilePreviewData(
+    onTileResourceRequest = { resourcesRequest ->
+        with(renderer) {
+            produceRequestedResources(resourceState, resourcesRequest)
+        }
+    },
+) { tileRequest ->
+    renderer.renderTimeline(
+        tileState,
+        tileRequest,
     )
 }

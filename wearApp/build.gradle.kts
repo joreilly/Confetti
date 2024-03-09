@@ -203,6 +203,8 @@ dependencies {
     implementation(libs.horologist.networkawareness.ui)
     implementation(libs.horologist.images.coil)
 
+    implementation(libs.material3.core)
+
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose.jetpack)
 
@@ -225,7 +227,7 @@ dependencies {
     debugImplementation(libs.compose.ui.manifest)
     debugImplementation(libs.androidx.complications.rendering)
     debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.horologist.compose.tools)
+    debugImplementation(libs.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.tiles.tooling.preview)
 
     testImplementation(libs.junit)

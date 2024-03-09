@@ -15,7 +15,6 @@ actual interface SettingsComponent {
     fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
     fun updateDynamicColorPreference(useDynamicColor: Boolean)
     fun updateUseExperimentalFeatures(value: Boolean)
-    fun updateWearTheme(active: Boolean)
     fun installOnWatch(nodeId: String)
     fun enableDeveloperMode()
 }

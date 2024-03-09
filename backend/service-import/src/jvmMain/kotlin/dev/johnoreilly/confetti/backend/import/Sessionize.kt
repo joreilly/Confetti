@@ -84,7 +84,8 @@ object Sessionize {
             config = DConfig(
                 id = ConferenceId.DevFestIreland2023.id,
                 name = "DevFest Ireland 2023",
-                timeZone = "Europe/Dublin"
+                timeZone = "Europe/Dublin",
+                themeColor = "0xFF009A44"
             ),
             venue = DVenue(
                 id = "main",
@@ -265,6 +266,7 @@ object Sessionize {
                     LocalDate(2023, 9, 14),
                     LocalDate(2023, 9, 15)
                 ),
+                themeColor = "0xFFFFBE29"
             ),
             venue = DVenue(
                 id = "main",
@@ -364,6 +366,7 @@ object Sessionize {
                 id = ConferenceId.DevFestStockholm2023.id,
                 name = "DevFest Stockholm 2023",
                 timeZone = "Europe/Stockholm",
+                themeColor = "0xFFFECC02"
             ),
             venue = DVenue(
                 id = "main",
@@ -387,7 +390,7 @@ object Sessionize {
                 id = ConferenceId.DevFestSriLanka2023.id,
                 name = "DevFest Sri Lanka 2023",
                 timeZone = "Asia/Colombo",
-                themeColor = "0xFF000080"
+                themeColor = "0xFFFFBE29"
             ),
             venue = DVenue(
                 id = "main",
@@ -433,7 +436,7 @@ object Sessionize {
                 id = ConferenceId.SheDevWarsaw2024.id,
                 name = "SHEDEV Warsaw 2024",
                 timeZone = "Europe/Warsaw",
-                themeColor = "0xFF800000"
+                themeColor = "0xFF512DA8"
                 ),
             venue = DVenue(
                 id = "main",

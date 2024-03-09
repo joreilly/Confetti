@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import com.materialkolor.PaletteStyle
 import com.materialkolor.rememberDynamicColorScheme
 import dev.johnoreilly.confetti.AppSettings
 import org.koin.compose.koinInject
@@ -22,7 +23,7 @@ fun ConferenceMaterialTheme(
 ) {
     val appSettings = koinInject<AppSettings>()
     val darkThemeConfigString by appSettings.settings.getStringFlow("darkThemeConfigKey", DarkThemeConfig.FOLLOW_SYSTEM.toString())
-        .collectAsState("FOLLOW_SYSTEM")
+        .collectAsState(DarkThemeConfig.FOLLOW_SYSTEM.toString())
     val darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfigString)
     val shouldUseDarkTheme = shouldUseDarkTheme(darkThemeConfig)
 

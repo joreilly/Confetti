@@ -1,22 +1,18 @@
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
-import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.InputFiles
-import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
-import java.awt.Color
 import java.awt.image.BufferedImage
 import java.awt.image.BufferedImage.TYPE_INT_ARGB
 import javax.imageio.ImageIO
-import org.gradle.api.file.RegularFile
-import org.gradle.api.file.RegularFileProperty
-import java.awt.geom.Point2D
 
 abstract class ReadmeScreenshotTask : DefaultTask() {
     @get:InputFiles
     abstract val selectedImages: ConfigurableFileCollection
 
-    @get:OutputDirectory
+    @get:OutputFile
     abstract val output: RegularFileProperty
 
     @TaskAction

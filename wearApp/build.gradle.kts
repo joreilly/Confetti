@@ -250,19 +250,19 @@ dependencies {
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {
-    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen_Colors_Material__reference.png")
-    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen_Colors_Material__reference.png")
-    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen_Colors_Material__reference.png")
-    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen_Colors_Material__reference.png")
-    selectedImages.from("snapshot/TileScreenshotTest/tile_Colors_Material__reference.png")
-    selectedImages.from("snapshot/ConferenceHomeScreenTest/conferenceHomeScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen[GenericLargeRound].png")
+    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen[GenericLargeRound].png")
+    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen[GenericLargeRound].png")
+    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen[GenericLargeRound].png")
+    selectedImages.from("snapshot/TileScreenshotTest/tile[GenericLargeRound].png")
+    selectedImages.from("snapshot/ConferenceHomeScreenTest/conferenceHomeScreen[GenericLargeRound].png")
     output.set(file("../fastlane/metadata/android/en-US/images/wearScreenshots"))
 }
 
 tasks.register<ReadmeScreenshotTask>("readmeScreenshot") {
-    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen_Colors_Material__reference.png")
-    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen_Colors_Material__reference.png")
-    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen_Colors_Material__reference.png")
-    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen_Colors_Material__reference.png")
+    selectedImages.from("snapshot/ConferenceScreenTest/conferencesScreen[GenericLargeRound].png")
+    selectedImages.from("snapshot/SessionsScreenTest/sessionsScreen[GenericLargeRound].png")
+    selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen[GenericLargeRound].png")
+    selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen[GenericLargeRound].png")
     output.set(file("images/wearScreenshots.png"))
 }

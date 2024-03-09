@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.SemanticsNodeInteraction
@@ -19,9 +20,9 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.test.core.app.ApplicationProvider
 import androidx.wear.compose.material.MaterialTheme
-import coil.Coil
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.LocalImageLoader
 import coil.test.FakeImageLoaderEngine
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.RoborazziOptions
@@ -137,7 +138,8 @@ abstract class BaseScreenshotTest {
             .components { add(fakeImageLoader) }
             .build()
 
-        imageLoader.override {
+        @Suppress("DEPRECATION")
+        CompositionLocalProvider(LocalImageLoader provides imageLoader) {
             AppScaffold(
                 modifier = Modifier
                     .fillMaxSize()
@@ -148,16 +150,6 @@ abstract class BaseScreenshotTest {
                     content()
                 }
             }
-        }
-    }
-
-    inline fun ImageLoader.override(function: () -> Unit) {
-        Coil.setImageLoader(this)
-
-        try {
-            function()
-        } finally {
-            Coil.reset()
         }
     }
 }

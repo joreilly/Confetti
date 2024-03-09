@@ -27,6 +27,6 @@ class ThemeTest(val seedColor: Theme) : BaseScreenshotTest() {
     companion object {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
-        fun params() = WearPreviewThemes().values
+        fun params() = WearPreviewThemes().values.toList()
     }
 }

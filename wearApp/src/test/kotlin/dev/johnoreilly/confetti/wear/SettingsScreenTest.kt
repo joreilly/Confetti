@@ -6,20 +6,12 @@ import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
-import androidx.core.graphics.drawable.toDrawable
-import coil.decode.DataSource
-import coil.request.SuccessResult
 import com.google.android.horologist.auth.data.common.model.AuthUser
-import com.google.android.horologist.images.coil.FakeImageLoader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.settings.SettingsListView
 import dev.johnoreilly.confetti.wear.settings.SettingsUiState
-import okio.Path.Companion.toPath
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner
@@ -28,19 +20,6 @@ import org.robolectric.ParameterizedRobolectricTestRunner
 class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest() {
     init {
         tolerance = 0.05f
-    }
-
-    @Before
-    fun loadImages() {
-        val johnBitmap = loadTestBitmap("john.jpg".toPath())
-
-        fakeImageLoader = FakeImageLoader {
-            SuccessResult(
-                drawable = johnBitmap.toDrawable(resources),
-                dataSource = DataSource.MEMORY,
-                request = it
-            )
-        }
     }
 
     @Test

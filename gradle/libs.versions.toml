@@ -79,6 +79,7 @@ car-app-automotive = "androidx.car.app:app-automotive:1.2.0"
 coil-base = { module = "io.coil-kt:coil-base", version.ref = "io-coil-kt" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "io-coil-kt" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "io-coil-kt" }
+coil-test = { module = "io.coil-kt:coil-test", version.ref = "io-coil-kt" }
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }

@@ -1,16 +1,17 @@
-@file:OptIn(ExperimentalRoborazziApi::class)
+@file:OptIn(ExperimentalRoborazziApi::class, ExperimentalCoilApi::class)
 
 package dev.johnoreilly.confetti.wear.screenshots
 
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
@@ -18,18 +19,24 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.test.core.app.ApplicationProvider
 import androidx.wear.compose.material.MaterialTheme
+import coil.Coil
+import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
+import coil.test.FakeImageLoaderEngine
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.ThresholdValidator
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ResponsiveTimeText
-import com.google.android.horologist.images.coil.FakeImageLoader
+import dev.johnoreilly.confetti.preview.JohnUrl
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.toColor
 import okio.FileSystem
 import okio.Path
+import okio.Path.Companion.toPath
 import org.junit.Assume
 import org.junit.Before
 import org.junit.Rule
@@ -59,7 +66,10 @@ abstract class BaseScreenshotTest {
 
     var tolerance: Float = 0.01f
 
-    var fakeImageLoader = FakeImageLoader.Never
+    open var fakeImageLoader: FakeImageLoaderEngine = FakeImageLoaderEngine.Builder()
+        .intercept({ it is String && it.startsWith(JohnUrl) }, loadTestBitmap("john.jpg".toPath()))
+        .intercept({ it is String && it.startsWith(MartinUrl) }, loadTestBitmap("martin.jpg".toPath()))
+        .build()
 
     open val device: WearDevice? = null
 
@@ -78,6 +88,10 @@ abstract class BaseScreenshotTest {
 
     val resources: Resources
         get() = applicationContext.resources
+
+    fun loadTestBitmap(path: Path): BitmapDrawable = FileSystem.RESOURCES.read(path) {
+        BitmapDrawable(resources, BitmapFactory.decodeStream(this.inputStream()))
+    }
 
     fun enableA11yTest() {
         // TODO reenable in follow up PR
@@ -102,10 +116,6 @@ abstract class BaseScreenshotTest {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
         fun params() = WearDevice.entries.toList()
-
-        fun loadTestBitmap(path: Path): Bitmap = FileSystem.RESOURCES.read(path) {
-            BitmapFactory.decodeStream(this.inputStream())
-        }
     }
 
     @AfterTest
@@ -120,18 +130,34 @@ abstract class BaseScreenshotTest {
             }
         }
     }
-}
 
-@Composable
-fun TestScaffold(content: @Composable () -> Unit) {
-    AppScaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background),
-        timeText = { ResponsiveTimeText(timeSource = FixedTimeSource) }
-    ) {
-        ConfettiTheme(seedColor = null.toColor()) {
-            content()
+    @Composable
+    fun TestScaffold(content: @Composable () -> Unit) {
+        val imageLoader = ImageLoader.Builder(LocalContext.current)
+            .components { add(fakeImageLoader) }
+            .build()
+
+        imageLoader.override {
+            AppScaffold(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background),
+                timeText = { ResponsiveTimeText(timeSource = FixedTimeSource) }
+            ) {
+                ConfettiTheme(seedColor = null.toColor()) {
+                    content()
+                }
+            }
+        }
+    }
+
+    inline fun ImageLoader.override(function: () -> Unit) {
+        Coil.setImageLoader(this)
+
+        try {
+            function()
+        } finally {
+            Coil.reset()
         }
     }
 }

@@ -8,7 +8,6 @@ import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.sessions.SessionsScreen
 import kotlinx.datetime.toKotlinLocalDateTime

@@ -12,7 +12,6 @@ import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.conferences
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
-import dev.johnoreilly.confetti.wear.screenshots.TestScaffold
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import org.junit.Test
 import org.junit.runner.RunWith

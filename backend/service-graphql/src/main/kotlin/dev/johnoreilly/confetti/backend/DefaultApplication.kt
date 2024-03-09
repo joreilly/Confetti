@@ -400,7 +400,7 @@ class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
 
         val uid = try {
             request.headers().firstHeader("authorization")
-                ?.substring("bearer_".length)
+                ?.substring("Bearer ".length)
                 ?.firebaseUid()
         } catch (e: FirebaseAuthException) {
             throw e

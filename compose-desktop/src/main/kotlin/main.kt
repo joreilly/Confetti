@@ -22,8 +22,11 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.di.initKoin
+import dev.johnoreilly.confetti.ui.ConferenceListView
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import org.koin.dsl.module
@@ -60,14 +63,23 @@ fun main() = application {
 
 @Composable
 fun MainLayout() {
+    val repository = koin.get<ConfettiRepository>()
     var conference by remember { mutableStateOf<GetConferencesQuery.Conference?>(null) }
+
+    var conferenceListByYear by remember { mutableStateOf<Map<Int, List<GetConferencesQuery.Conference>>>(emptyMap()) }
+
+    LaunchedEffect(conference) {
+        repository.conferences(FetchPolicy.CacheFirst).data?.conferences?.let {
+            conferenceListByYear = it.groupBy { it.days[0].year }
+        }
+    }
 
     conference?.let {
         ConferenceView(it) {
             conference = null
         }
     } ?: run {
-        ConferenceListView {
+        ConferenceListView(conferenceListByYear) {
             conference = it
         }
     }

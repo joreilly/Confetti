@@ -37,7 +37,7 @@ object TestFixtures {
             "",
             listOf(LocalDate.parse("2023-02-04"), LocalDate.parse("2023-02-05")),
             "Fosdem 2023",
-            "0xFF800000"
+            "0xFF008000"
         ),
         GetConferencesQuery.Conference(
             "droidconlondon2022",

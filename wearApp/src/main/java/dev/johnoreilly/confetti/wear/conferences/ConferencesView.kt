@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
@@ -26,6 +25,7 @@ import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.ui.toColor
 
 @Composable
 fun ConferencesRoute(
@@ -98,9 +98,9 @@ private fun ConferencesChip(
     conference: GetConferencesQuery.Conference,
     navigateToConference: (GetConferencesQuery.Conference) -> Unit
 ) {
-    val seedColor = conference.themeColor?.toLongOrNull()?.let {
-        Color(it)
-    }
+    println(conference.themeColor)
+
+    val seedColor = conference.themeColor?.toColor()
 
     ConfettiTheme(seedColor = seedColor) {
         Chip(

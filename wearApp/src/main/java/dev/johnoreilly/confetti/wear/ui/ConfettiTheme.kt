@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.material3.ColorScheme
@@ -15,7 +17,7 @@ fun ConfettiTheme(
     content: @Composable () -> Unit,
 ) {
     val colors = if (seedColor != null) {
-        val colorScheme = rememberDynamicColorScheme(seedColor, false)
+        val colorScheme = rememberDynamicColorScheme(seedColor = seedColor, isDark = true)
         colorScheme.toWearMaterialColors()
     } else {
         Colors()
@@ -40,5 +42,13 @@ fun ColorScheme.toWearMaterialColors(): Colors {
         onSurfaceVariant = this.onSurfaceVariant,
         onError = this.onError
     )
+}
+
+fun String?.toColor(): Color {
+    return this?.let {
+        runCatching {
+            Color(hexToLong(HexFormat { number.prefix = "0x" }))
+        }
+    }?.getOrNull() ?: Color(0xFF008000) // default if none set
 }
 

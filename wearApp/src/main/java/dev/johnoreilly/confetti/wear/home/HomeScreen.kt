@@ -189,22 +189,26 @@ private fun SectionedListScope.conferenceDaysSection(
         }
 
         loaded { date ->
-            // TODO format date
-            Chip(
-                label = dayFormatter.format(date.toJavaLocalDate()),
-                onClick = {
-                    daySelected(
-                        date
-                    )
-                },
-                colors = ChipDefaults.secondaryChipColors(),
-            )
+            DayChip(dayFormatter, date, daySelected = { daySelected(date) })
         }
 
         loading(count = 2) {
             PlaceholderChip(contentDescription = "")
         }
     }
+}
+
+@Composable
+fun DayChip(
+    dayFormatter: DateTimeFormatter,
+    date: LocalDate,
+    daySelected: () -> Unit
+) {
+    Chip(
+        label = dayFormatter.format(date.toJavaLocalDate()),
+        onClick = daySelected,
+        colors = ChipDefaults.secondaryChipColors(),
+    )
 }
 
 private fun SectionedListScope.bottomMenuSection(onSettingsClick: () -> Unit) {

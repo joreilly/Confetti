@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti.wear.navigation
 
 import android.content.Intent
 import android.util.Log
-import androidx.compose.ui.graphics.Color
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -26,6 +25,7 @@ import dev.johnoreilly.confetti.wear.AppUiState
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent.NetworkStatusAppState
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
+import dev.johnoreilly.confetti.wear.ui.toColor
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.toLocalDate
+import kotlinx.datetime.LocalDate
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -93,35 +93,30 @@ class DefaultWearAppComponent(
         authentication.currentUser,
         wearPreferencesStore.preferences,
     ) { conferenceData, user, wearPreferences ->
-        val seedColor = conferenceData?.config?.themeColor?.toLongOrNull()?.let { Color(it) }
+        val seedColor = conferenceData?.config?.themeColor?.toColor()
         AppUiState(
             defaultConference = conferenceData?.config?.id.orEmpty(),
             user = user,
             wearPreferences = wearPreferences,
             seedColor = seedColor
         )
-    }
-        .stateIn(
-            coroutineScope,
-            SharingStarted.Eagerly,
-            null
+    }.stateIn(
+            coroutineScope, SharingStarted.Eagerly, null
         )
 
-    override val networkState =
-        combine(
-            networkRepository.networkStatus,
-            dataRequestRepository.currentPeriodUsage(),
-        ) { networkStatus, currentPeriodUsage ->
-            NetworkStatusAppState(networks = networkStatus, dataUsage = currentPeriodUsage)
-        }
-            .stateIn(
-                coroutineScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = NetworkStatusAppState(
-                    networks = networkRepository.networkStatus.value,
-                    dataUsage = null,
-                ),
-            )
+    override val networkState = combine(
+        networkRepository.networkStatus,
+        dataRequestRepository.currentPeriodUsage(),
+    ) { networkStatus, currentPeriodUsage ->
+        NetworkStatusAppState(networks = networkStatus, dataUsage = currentPeriodUsage)
+    }.stateIn(
+            coroutineScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = NetworkStatusAppState(
+                networks = networkRepository.networkStatus.value,
+                dataUsage = null,
+            ),
+        )
 
     override suspend fun waitForConference(): String {
         return appState.map { it?.defaultConference }.firstOrNull() ?: AppSettings.CONFERENCE_NOT_SET
@@ -135,23 +130,18 @@ class DefaultWearAppComponent(
     override val config: Config
         get() = stack.value.active.configuration
 
-    override val stack: Value<ChildStack<Config, Child>> =
-        childStack(
-            source = navigation,
-            serializer = Config.serializer(),
-            initialStack = { initialConfig(intent) },
-            childFactory = this::buildChild,
-        )
+    override val stack: Value<ChildStack<Config, Child>> = childStack(
+        source = navigation,
+        serializer = Config.serializer(),
+        initialStack = { initialConfig(intent) },
+        childFactory = this::buildChild,
+    )
 
-    private fun initialConfig(intent: Intent) =
-        (deeplinkStack(intent) ?: listOf(Config.Loading))
+    private fun initialConfig(intent: Intent) = (deeplinkStack(intent) ?: listOf(Config.Loading))
 
     init {
         coroutineScope.launch {
-            authentication.currentUser
-                .map { it?.uid }
-                .distinctUntilChanged()
-                .collect(::onUserChanged)
+            authentication.currentUser.map { it?.uid }.distinctUntilChanged().collect(::onUserChanged)
         }
     }
 
@@ -193,7 +183,7 @@ class DefaultWearAppComponent(
             path.startsWith("/home/") -> Config.Home(user, path.substringAfter("home/"))
             path.startsWith("/sessions/") -> {
                 val (conference, date) = path.substringAfter("sessions/").split("/", limit = 2)
-                Config.ConferenceSessions(user, conference, date.toLocalDate())
+                Config.ConferenceSessions(user, conference, LocalDate.parse(date))
             }
 
             path.startsWith("/session/") -> {

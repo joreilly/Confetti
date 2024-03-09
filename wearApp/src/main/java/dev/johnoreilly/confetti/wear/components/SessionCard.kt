@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.CardDefaults
 import androidx.wear.compose.material.LocalContentColor
 import androidx.wear.compose.material.LocalTextStyle
 import androidx.wear.compose.material.MaterialTheme
@@ -45,7 +46,10 @@ fun SessionCard(
         TitleCard(
             modifier = modifier.fillMaxWidth(),
             onClick = { sessionSelected(session.id) },
-            title = { Text(text = session.title, maxLines = 2, overflow = TextOverflow.Ellipsis) }
+            title = { Text(text = session.title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+            backgroundPainter = CardDefaults.cardBackgroundPainter(),
+            contentColor = MaterialTheme.colors.onSurfaceVariant,
+            titleColor = MaterialTheme.colors.onSurface
         ) {
             if (session.speakers.isNotEmpty()) {
                 Spacer(modifier = Modifier.size(4.dp))

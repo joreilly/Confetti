@@ -108,8 +108,6 @@ fun LoadingScreen(component: WearAppComponent) {
     LaunchedEffect(Unit) {
         val conference = component.waitForConference()
 
-        println("Loading Screen " + conference)
-
         if (conference == AppSettings.CONFERENCE_NOT_SET) {
             component.showConferences()
         } else {

@@ -86,7 +86,6 @@ class DefaultWearAppComponent(
         authentication.currentUser,
         wearPreferencesStore.preferences,
     ) { conferenceData, user, wearPreferences ->
-        println("appState " + conferenceData)
         AppUiState(
             defaultConference = conferenceData.conference,
             user = user,

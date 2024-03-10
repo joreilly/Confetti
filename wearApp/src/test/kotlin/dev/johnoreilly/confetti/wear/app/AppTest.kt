@@ -33,7 +33,6 @@ class AppTest : BaseAppTest() {
     }
 
     @Test
-    @Ignore("No reliant on cached conference data, refactor this loading")
     fun launchHomeWithConference() {
         val activity = rule.activity
 

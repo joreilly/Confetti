@@ -59,6 +59,9 @@ class DefaultAppComponent(
             } else {
                 val conferenceThemeColor = repository.getConferenceThemeColor()
                 showConference(conference = conference, conferenceThemeColor = conferenceThemeColor)
+
+                // Take the opportunity to update any listeners of the conference
+                repository.updateConfenceListeners(conference, conferenceThemeColor)
             }
         }
 

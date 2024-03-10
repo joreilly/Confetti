@@ -44,7 +44,9 @@ class RefreshWorker(
             conferenceSetting.selectedConference().first()
 
         if (conference.isBlank()) {
-            Result.failure()
+
+
+            Result.success()
         } else {
             val fetchConferences = workerParams.inputData.getBoolean(FetchConferencesKey, false)
             val fetchImages = workerParams.inputData.getBoolean(FetchImagesKey, false)

@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -80,25 +81,17 @@ class DefaultWearAppComponent(
     private val networkRepository: NetworkRepository by inject()
     private val dataRequestRepository: DataRequestRepository by inject()
 
-    val conferenceDataFlow = phoneSettingsSync.conferenceFlow.map {
-        if (it.isNotBlank()) {
-            repository.conferenceData(it, FetchPolicy.CacheFirst).data
-        } else {
-            null
-        }
-    }
-
     override val appState: StateFlow<AppUiState?> = combine(
-        conferenceDataFlow,
+        phoneSettingsSync.conferenceFlow,
         authentication.currentUser,
         wearPreferencesStore.preferences,
     ) { conferenceData, user, wearPreferences ->
-        val seedColor = conferenceData?.config?.themeColor?.toColor()
+        println("appState " + conferenceData)
         AppUiState(
-            defaultConference = conferenceData?.config?.id.orEmpty(),
+            defaultConference = conferenceData.conference,
             user = user,
             wearPreferences = wearPreferences,
-            seedColor = seedColor
+            seedColor = conferenceData.colorScheme
         )
     }.stateIn(
             coroutineScope, SharingStarted.Eagerly, null
@@ -119,7 +112,7 @@ class DefaultWearAppComponent(
         )
 
     override suspend fun waitForConference(): String {
-        return appState.map { it?.defaultConference }.firstOrNull() ?: AppSettings.CONFERENCE_NOT_SET
+        return appState.filterNotNull().map { it.defaultConference }.firstOrNull() ?: AppSettings.CONFERENCE_NOT_SET
     }
 
     override val isWaitingOnThemeOrData: Boolean

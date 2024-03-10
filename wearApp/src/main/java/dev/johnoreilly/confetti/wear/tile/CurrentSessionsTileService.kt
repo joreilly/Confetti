@@ -42,7 +42,7 @@ class CurrentSessionsTileService : SuspendingTileService() {
     private suspend fun tileState(): ConfettiTileData {
         val user = authentication.currentUser.value
 
-        val conference = phoneSettingsSync.conferenceFlow.first()
+        val conference = phoneSettingsSync.conferenceFlow.first().conference
 
         if (conference.isBlank()) {
             return ConfettiTileData.NoConference

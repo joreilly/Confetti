@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.materialkolor.PaletteStyle
 import com.materialkolor.rememberDynamicColorScheme
+import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
 import org.koin.compose.koinInject
 
@@ -15,7 +16,7 @@ enum class DarkThemeConfig {
     FOLLOW_SYSTEM, LIGHT, DARK
 }
 
-@OptIn(ExperimentalStdlibApi::class)
+@OptIn(ExperimentalStdlibApi::class, ExperimentalSettingsApi::class)
 @Composable
 fun ConferenceMaterialTheme(
     seedColorString: String?,

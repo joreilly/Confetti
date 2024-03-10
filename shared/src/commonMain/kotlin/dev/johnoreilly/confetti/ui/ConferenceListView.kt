@@ -53,13 +53,16 @@ fun ConferenceListView(conferenceListByYear: Map<Int, List<GetConferencesQuery.C
             }
         }) {
         LazyColumn(Modifier.padding(it)) {
-            conferenceListByYear.forEach { (year, conferenceList) ->
-                stickyHeader {
-                    YearHeader(year.toString())
-                }
+            conferenceListByYear.keys.sortedDescending().forEach { year ->
+                val conferenceList = conferenceListByYear[year]
+                conferenceList?.let {
+                    stickyHeader {
+                        YearHeader(year.toString())
+                    }
 
-                items(conferenceList) { conference ->
-                    ConferenceCard(conference) { navigateToConference(conference) }
+                    items(conferenceList) { conference ->
+                        ConferenceCard(conference) { navigateToConference(conference) }
+                    }
                 }
             }
         }

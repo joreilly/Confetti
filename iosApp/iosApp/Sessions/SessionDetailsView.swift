@@ -5,13 +5,15 @@ import ConfettiKit
 
 struct SessionDetailsView: View {
     private let component: SessionDetailsComponent
+    private let conferenceThemeColor: String?
     @Environment(\.openURL) var openURL
 
     @StateValue
     private var uiState: SessionDetailsUiState
     
-    init(_ component: SessionDetailsComponent) {
+    init(_ component: SessionDetailsComponent, _ conferenceThemeColor: String?) {
         self.component = component
+        self.conferenceThemeColor = conferenceThemeColor
         _uiState = StateValue(component.uiState)
     }
 
@@ -24,6 +26,7 @@ struct SessionDetailsView: View {
                 //SessionDetailsContentView(component: component, session: state.sessionDetails)
                 SessionDetailsContentViewShared(
                     session: state.sessionDetails,
+                    conferenceThemeColor: conferenceThemeColor ?? "",
                     onSpeakerClick: { speakerId in
                         component.onSpeakerClicked(id: speakerId)
                     },
@@ -43,11 +46,13 @@ struct SessionDetailsView: View {
 // This version is using Compose for iOS....
 private struct SessionDetailsContentViewShared: UIViewControllerRepresentable {
     let session: SessionDetails
+    let conferenceThemeColor: String
     let onSpeakerClick: (String) -> Void
     let onSocialLinkClicked: (String) -> Void
     
     func makeUIViewController(context: Context) -> UIViewController {
         return SharedViewControllersKt.SessionDetailsViewController(session: session,
+            conferenceThemeColor: conferenceThemeColor,
             onSpeakerClick: onSpeakerClick, onSocialLinkClicked: onSocialLinkClicked)
     }
 

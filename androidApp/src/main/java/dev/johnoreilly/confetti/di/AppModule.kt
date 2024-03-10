@@ -33,10 +33,10 @@ val appModule = module {
         ).also { lifecycle.resume() }
     }
 
-    single {
+    single<ConfettiRepository> {
         ConfettiRepository().apply {
-            addConferenceListener {
-                get<WearSettingsSync>().setConference(it)
+            addConferenceListener { conference, colorScheme ->
+                get<WearSettingsSync>().setConference(conference, colorScheme)
             }
         }
     }

@@ -4,7 +4,6 @@ import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Mutation
 import com.apollographql.apollo3.api.Operation
-import com.apollographql.apollo3.api.apolloUnsafeCast
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
@@ -34,10 +33,16 @@ class ConfettiRepository : KoinComponent {
 
     private val apolloClientCache: ApolloClientCache by inject()
 
-    private val conferenceListeners: MutableList<suspend (String) -> Unit> = mutableListOf()
+    private val conferenceListeners: MutableList<suspend (String, String?) -> Unit> = mutableListOf()
 
-    fun addConferenceListener(onConferenceSet: suspend (String) -> Unit = {}) {
+    fun addConferenceListener(onConferenceSet: suspend (String, String?) -> Unit = { _, _ -> }) {
         conferenceListeners.add(onConferenceSet)
+    }
+
+    suspend fun updateConfenceListeners(conference: String, conferenceThemeColor: String?) {
+        conferenceListeners.forEach {
+            it(conference, conferenceThemeColor)
+        }
     }
 
     private suspend fun <D : Mutation.Data> modifyBookmarks(
@@ -212,9 +217,7 @@ class ConfettiRepository : KoinComponent {
         conferenceThemeColor?.let {
             appSettings.setConferenceThemeColor(conferenceThemeColor)
         }
-        conferenceListeners.forEach {
-            it(conference)
-        }
+        updateConfenceListeners(conference, conferenceThemeColor)
     }
 
     suspend fun refresh(conference: String, fetchPolicy: FetchPolicy) {

@@ -32,7 +32,7 @@ class NextSessionComplicationService :
     private val authentication: Authentication by inject()
 
     override suspend fun data(request: ComplicationRequest): NextSessionComplicationData {
-        val conference = phoneSettingsSync.conferenceFlow.first()
+        val conference = phoneSettingsSync.conferenceFlow.first().conference
         val user = authentication.currentUser.value
 
         if (conference.isBlank()) {

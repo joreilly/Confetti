@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -74,7 +75,7 @@ class DefaultSettingsComponent(
         }
             .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SettingsUiState.Loading)
 
-    private fun conferenceIdFlow(): Flow<String> = phoneSettingsSync.conferenceFlow
+    private fun conferenceIdFlow(): Flow<String> = phoneSettingsSync.conferenceFlow.map { it.conference }
 
     override fun refresh() {
         coroutineScope.launch {

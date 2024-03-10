@@ -85,10 +85,10 @@ class WearSettingsSync(
         }
     }
 
-    suspend fun setConference(conference: String) {
+    suspend fun setConference(conference: String, colorScheme: String?) {
         if (isAvailable()) {
             settingsDataStore.updateData {
-                it.copy(conference = conference)
+                it.copy(conference = conference, color_scheme = colorScheme)
             }
         }
     }

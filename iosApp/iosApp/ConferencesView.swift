@@ -13,53 +13,29 @@ struct ConferencesView: View {
     }
     
     var body: some View {
-        return NavigationView {
-            VStack  {
-                switch uiState {
-                case let uiState as ConferencesComponentSuccess:
-                    ConferencesByYearView(component: component, conferencesUiState: uiState)
-                case is ConferencesComponentError: ErrorView()
-                default: ProgressView()
+        VStack  {
+            switch uiState {
+            case let uiState as ConferencesComponentSuccess:
+                ConferenceListContentViewShared(conferences: uiState.conferenceListByYear) { conference in
+                    component.onConferenceClicked(conference: conference)
                 }
-            }.navigationBarTitle("Confetti", displayMode: .inline)
+            case is ConferencesComponentError: ErrorView()
+            default: ProgressView()
+            }
         }
     }
 }
 
-private struct ConferencesByYearView: View {
-    let component: ConferencesComponent
-    let conferencesUiState: ConferencesComponentSuccess
 
-    var body: some View {
-        VStack {
-            let conferencesByYear = conferencesUiState.conferenceListByYear
+private struct ConferenceListContentViewShared: UIViewControllerRepresentable {
+    let conferences: [KotlinInt : [GetConferencesQuery.Conference]]
+    let onConferenceClick: (GetConferencesQuery.Conference) -> Void
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        return SharedViewControllersKt.ConferenceListViewController(conferenceListByYear: conferences, onConferenceClick: onConferenceClick)
+    }
 
-            List {
-                ForEach(Array(conferencesByYear.keys).sorted { $0.intValue > $1.intValue }, id: \.self) { year in
-                    
-                    Section(header: HStack {
-                        Text(year.stringValue).font(.headline).bold()
-                    }) {
-                        let conferences = conferencesUiState.conferenceListByYear[year] ?? []
-                        ForEach(conferences, id: \.self) { conference in
-                            HStack {
-                                Text(conference.name)
-                                Spacer()
-                                Text("\(conference.days[0])")
-                            }
-                            .background(
-                                Rectangle()
-                                .foregroundColor(.clear)
-                                .contentShape(Rectangle())
-                            )
-                            .onTapGesture {
-                                component.onConferenceClicked(conference: conference)
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
     }
 }
 

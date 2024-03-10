@@ -28,7 +28,7 @@ struct MultiPaneView: View {
                 
                 let sessionDetailsChild = sessionDetails.child
                 if sessionDetailsChild != nil {
-                    SessionDetailsView(sessionDetailsChild!.instance)
+                    SessionDetailsView(sessionDetailsChild!.instance, "")
                         .frame(width: geometry.size.width * 0.7)
                         .transition(.opacity.animation(.easeInOut(duration: 0.25)))
                         .id(sessionDetailsChild!.configuration.hash)

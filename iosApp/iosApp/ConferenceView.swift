@@ -19,7 +19,7 @@ struct ConferenceView: View {
         ) { child in
             switch child {
             case let child as ConferenceComponentChild.Home: HomeView(child.component)
-            case let child as ConferenceComponentChild.SessionDetails: SessionDetailsView(child.component)
+            case let child as ConferenceComponentChild.SessionDetails: SessionDetailsView(child.component, component.conferenceThemeColor)
             case let child as ConferenceComponentChild.SpeakerDetails: SpeakerDetailsView(child.component)
             default: EmptyView()
             }

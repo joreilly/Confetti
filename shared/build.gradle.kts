@@ -85,7 +85,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.components.resources)
                 implementation(libs.image.loader)
-                api("com.materialkolor:material-kolor:1.4.3")
+                api("com.materialkolor:material-kolor:1.4.4")
 
                 // See https://github.com/cashapp/sqldelight/issues/4357
                 implementation(libs.stately.common)

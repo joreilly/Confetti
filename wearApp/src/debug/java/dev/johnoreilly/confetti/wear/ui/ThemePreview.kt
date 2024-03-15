@@ -22,11 +22,11 @@ class WearPreviewThemes : PreviewParameterProvider<Theme> {
     override val values: Sequence<Theme>
         get() = listOf(null, "0x800000", "0x008000", "0x000080").map {
             Theme(it.orEmpty(), it.toColor())
-            }.asSequence()
+        }.asSequence()
 }
 
 data class Theme(val name: String, val color: Color?) {
-    constructor(color: String): this(color, color.toColor())
+    constructor(color: String) : this(color, color.toColor())
 }
 
 @Composable
@@ -45,7 +45,12 @@ fun ThemePreview(seedColor: Theme) {
             ConferenceCard(conference = TestFixtures.conferences.first(), navigateToConference = {})
             SessionSpeakerChip(speaker = TestFixtures.JohnOreilly.speakerDetails, navigateToSpeaker = {})
             SessionCard(
-                session = TestFixtures.sessionDetails, sessionSelected = {}, currentTime = now
+                session = TestFixtures.sessionDetails,
+                sessionSelected = {},
+                currentTime = now,
+                addBookmark = {},
+                removeBookmark = {},
+                isBookmarked = false
             )
         }
     }

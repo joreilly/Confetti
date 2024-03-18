@@ -164,7 +164,7 @@ plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serializat
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp-plugin" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.2" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.7" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.8" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi-gradle-plugin" }
 scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.1.1"

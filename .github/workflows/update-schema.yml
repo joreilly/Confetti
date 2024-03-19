@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: apollographql/update-graphql-schema@59d4aa970db7d8559e48a5ddc5b3c09c052c88b0
+      - uses: apollographql/update-graphql-schema@1279b50996d73c3497a1079b622c70d47a2b59dc
         with:
           endpoint: "https://confetti-app.dev/graphql"
           schema: "shared/src/commonMain/graphql/schema.graphqls"

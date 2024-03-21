@@ -9,6 +9,10 @@ data class BookmarksUiState(
     val past: List<SessionDetails>,
     val now: LocalDateTime
 ) {
+    fun isBookmarked(id: String): Boolean {
+        return (upcoming.find { it.id == id } != null) || (past.find { it.id == id } != null)
+    }
+
     val hasUpcomingBookmarks: Boolean
         get() = upcoming.isNotEmpty()
 }

@@ -30,11 +30,14 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
                         BookmarksUiState(
                             conference = TestFixtures.kotlinConf2023.id,
                             upcoming = listOf(TestFixtures.sessionDetails),
+                            bookmarks = setOf(),
                             past = listOf(),
                             now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                         )
                     ),
-                    sessionSelected = {}
+                    sessionSelected = {},
+                    addBookmark = {},
+                    removeBookmark = {}
                 )
             }
         }

@@ -22,6 +22,8 @@ fun SessionsRoute(
     SessionsScreen(
         uiState = uiState,
         sessionSelected = component::onSessionClicked,
+        addBookmark = { component.addBookmark(it) },
+        removeBookmark = {  component.removeBookmark(it) }
     )
 }
 

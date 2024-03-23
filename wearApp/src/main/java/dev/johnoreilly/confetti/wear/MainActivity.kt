@@ -8,26 +8,41 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
+import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import com.google.firebase.FirebaseApp
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.wear.navigation.DefaultWearAppComponent
 import dev.johnoreilly.confetti.wear.navigation.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
+import dev.johnoreilly.confetti.wear.tile.TileSync
 import dev.johnoreilly.confetti.wear.ui.ConfettiApp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.annotation.KoinInternalApi
+import kotlin.time.Duration.Companion.seconds
 
 class MainActivity : ComponentActivity() {
     internal lateinit var appComponent: WearAppComponent
     private val analyticsLogger: AnalyticsLogger by inject()
 
+    private val tileSync: TileSync by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
         super.onCreate(savedInstanceState)
+
+        // Schedule an update of tiles if user keeps apps open for 5 seconds
+        lifecycleScope.launch {
+            delay(5.seconds)
+
+            tileSync.trackInstalledTiles(this@MainActivity)
+        }
 
         appComponent =
             DefaultWearAppComponent(

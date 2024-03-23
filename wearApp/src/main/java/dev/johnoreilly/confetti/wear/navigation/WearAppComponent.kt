@@ -12,6 +12,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
+import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import com.google.android.horologist.networks.data.DataRequestRepository
 import com.google.android.horologist.networks.data.DataUsageReport
 import com.google.android.horologist.networks.data.Networks
@@ -36,6 +37,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
+import org.koin.android.ext.android.inject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -80,6 +82,7 @@ class DefaultWearAppComponent(
     val wearPreferencesStore: WearPreferencesStore by inject()
     private val networkRepository: NetworkRepository by inject()
     private val dataRequestRepository: DataRequestRepository by inject()
+    private val wearAppHelper: WearDataLayerAppHelper by inject()
 
     override val appState: StateFlow<AppUiState?> = combine(
         phoneSettingsSync.conferenceFlow,
@@ -111,7 +114,15 @@ class DefaultWearAppComponent(
         )
 
     override suspend fun waitForConference(): String {
-        return appState.filterNotNull().map { it.defaultConference }.firstOrNull() ?: AppSettings.CONFERENCE_NOT_SET
+        val conference = appState.filterNotNull().map { it.defaultConference }.firstOrNull()
+
+        if (conference == null) {
+            wearAppHelper.markSetupNoLongerComplete()
+        } else {
+            wearAppHelper.markSetupComplete()
+        }
+
+        return conference ?: AppSettings.CONFERENCE_NOT_SET
     }
 
     override val isWaitingOnThemeOrData: Boolean

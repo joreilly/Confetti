@@ -35,6 +35,8 @@ class CurrentSessionsTileService : SuspendingTileService() {
 
     private val authentication: Authentication by inject()
 
+    private val tileSync: TileSync by inject()
+
     override suspend fun resourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ResourceBuilders.Resources {
         return renderer.produceRequestedResources(tileState(), requestParams)
     }

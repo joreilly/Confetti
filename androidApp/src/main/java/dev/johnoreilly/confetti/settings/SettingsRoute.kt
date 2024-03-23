@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
@@ -50,7 +49,6 @@ import dev.johnoreilly.confetti.DeveloperSettings
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.ThemeBrand
 import dev.johnoreilly.confetti.UserEditableSettings
-import dev.johnoreilly.confetti.WearStatus
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ui.supportsDynamicTheming
 
@@ -65,7 +63,6 @@ fun SettingsRoute(
         onChangeThemeBrand = component::updateThemeBrand,
         onChangeDynamicColorPreference = component::updateDynamicColorPreference,
         onChangeDarkThemeConfig = component::updateDarkThemeConfig,
-        onInstallOnWatch = component::installOnWatch,
         onChangeUseExperimentalFeatures = component::updateUseExperimentalFeatures,
         developerSettings = developerSettings,
         onEnableDeveloperMode = component::enableDeveloperMode
@@ -80,7 +77,6 @@ fun SettingsScreen(
     onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
-    onInstallOnWatch: (String) -> Unit,
     developerSettings: DeveloperSettings?,
     onEnableDeveloperMode: () -> Unit
 ) {
@@ -127,25 +123,6 @@ fun SettingsScreen(
                             onChangeDarkThemeConfig = onChangeDarkThemeConfig,
                             onChangeUseExperimentalFeatures = onChangeUseExperimentalFeatures,
                         )
-                    }
-                }
-
-                item {
-                    Row(
-                        modifier = Modifier
-                            .padding(top = 16.dp, start = 8.dp, end = 8.dp),
-                    ) {
-                        when (val wearStatus = userEditableSettings?.wearStatus) {
-                            is WearStatus.NotInstalled -> {
-                                Button(onClick = { onInstallOnWatch(wearStatus.nodeId) }) {
-                                    Text(stringResource(id = R.string.install_on_watch))
-                                }
-                            }
-
-                            else -> {
-                                Text(stringResource(id = R.string.no_paired_watch))
-                            }
-                        }
                     }
                 }
 

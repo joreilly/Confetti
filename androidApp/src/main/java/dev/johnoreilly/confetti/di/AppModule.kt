@@ -28,7 +28,6 @@ val appModule = module {
         DefaultSettingsComponent(
             componentContext = DefaultComponentContext(lifecycle),
             appSettings = get(),
-            wearSettingsSync = get(),
             authentication = get(),
         ).also { lifecycle.resume() }
     }

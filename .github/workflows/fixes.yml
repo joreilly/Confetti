@@ -15,6 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        ref: ${{ github.head_ref }}
         lfs: 'true'
 
     - uses: actions/setup-java@v4

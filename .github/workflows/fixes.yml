@@ -21,9 +21,12 @@ jobs:
 
     - name: Fix Screenshots
       run: ./gradlew :wearApp:verifyAndRecordRoborazziDebug
+      id: screenshotsverify
+      continue-on-error: true
 
     - name: Commit Screenshots
       uses: 'stefanzweifel/git-auto-commit-action@v5'
+      if: steps.screenshotsverify.outcome == 'failure'
       with:
         commit_message: '🤖 Updates screenshots'
         file_pattern: '**/snapshot/**/*.png'

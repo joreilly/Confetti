@@ -222,6 +222,8 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.coil.base)
 
+    implementation(libs.androidx.protolayout.material)
+
     coreLibraryDesugaring(libs.desugar)
 
     debugImplementation(libs.compose.ui.manifest)

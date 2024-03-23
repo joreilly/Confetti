@@ -22,7 +22,7 @@ import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
-import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.toColor
@@ -65,7 +65,7 @@ fun ConferencesView(
             modifier = modifier.fillMaxSize(), columnState = columnState
         ) {
             item {
-                SectionHeader("Conferences")
+                ScreenHeader("Conferences")
             }
 
             when (uiState) {

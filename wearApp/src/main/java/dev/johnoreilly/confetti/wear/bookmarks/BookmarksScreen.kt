@@ -17,6 +17,7 @@ import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
+import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -44,7 +45,7 @@ fun BookmarksScreen(
         ) {
             when (uiState) {
                 is QueryResult.Success -> {
-                    item { SectionHeader(text = stringResource(R.string.upcoming_sessions)) }
+                    item { ScreenHeader(text = stringResource(R.string.upcoming_sessions)) }
 
                     items(uiState.result.upcoming) { session ->
                         SessionCard(

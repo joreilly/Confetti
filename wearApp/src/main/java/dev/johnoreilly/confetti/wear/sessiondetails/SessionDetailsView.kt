@@ -15,7 +15,7 @@ import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
@@ -45,7 +45,7 @@ fun SessionDetailView(
                     val description = session.descriptionParagraphs()
 
                     item {
-                        SectionHeader(text = session.title)
+                        ScreenHeader(text = session.title)
                     }
 
                     item {

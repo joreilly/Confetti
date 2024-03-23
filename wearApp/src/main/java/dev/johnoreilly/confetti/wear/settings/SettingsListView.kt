@@ -36,11 +36,10 @@ import com.google.android.horologist.images.base.paintable.ImageVectorPaintable.
 import com.google.android.horologist.images.coil.CoilPaintable
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
-import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -69,7 +68,7 @@ fun SettingsListView(
             columnState = columnState,
         ) {
             item {
-                SectionHeader(text = stringResource(id = R.string.settings))
+                ScreenHeader(text = stringResource(id = R.string.settings))
             }
 
             item {

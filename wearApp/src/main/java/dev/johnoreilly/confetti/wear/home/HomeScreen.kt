@@ -43,6 +43,7 @@ import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
+import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -97,12 +98,12 @@ private fun SectionedListScope.titleSection(uiState: QueryResult<HomeUiState>) {
 
     section(state = titleSectionState) {
         loaded { conferenceName ->
-            ConferenceTitle(conferenceName)
+            ScreenHeader(conferenceName)
         }
 
         loading {
             val chipPlaceholderState = rememberPlaceholderState { false }
-            SectionHeader(
+            ScreenHeader(
                 "",
                 modifier = Modifier
                     .fillMaxWidth(0.75f)
@@ -221,21 +222,6 @@ private fun SectionedListScope.bottomMenuSection(onSettingsClick: () -> Unit) {
             )
         }
     }
-}
-
-@Composable
-fun ConferenceTitle(conferenceName: String) {
-    Text(
-        text = conferenceName,
-        modifier = Modifier
-            .semantics {
-                heading()
-            }
-            .padding(horizontal = 14.dp, vertical = 10.dp),
-        textAlign = TextAlign.Center,
-        overflow = TextOverflow.Ellipsis,
-        style = MaterialTheme.typography.title3,
-    )
 }
 
 @WearPreviewDevices

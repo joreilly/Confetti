@@ -16,7 +16,7 @@ class AppTest : BaseAppTest() {
         }
     }
 
-    @Test
+    @Test(timeout = 15_000)
     fun launchHomeWithNoConference() {
         val activity = rule.activity
 

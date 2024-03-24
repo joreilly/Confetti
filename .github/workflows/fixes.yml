@@ -31,6 +31,9 @@ jobs:
       id: screenshotsverify
       continue-on-error: true
 
+    - name: LFS workaround
+      run: git config lfs.locksverify false      
+
     - name: Commit Screenshots
       uses: 'stefanzweifel/git-auto-commit-action@v5'
       if: steps.screenshotsverify.outcome == 'failure'

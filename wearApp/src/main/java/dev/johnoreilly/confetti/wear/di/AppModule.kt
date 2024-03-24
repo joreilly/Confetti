@@ -11,6 +11,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel
 import com.google.android.horologist.auth.ui.googlesignin.signin.GoogleSignInViewModel
+import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import com.google.android.horologist.networks.battery.BatteryStatusMonitor
 import com.google.android.horologist.networks.data.DataRequestRepository
 import com.google.android.horologist.networks.data.RequestType
@@ -41,6 +42,7 @@ import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepositoryImpl
 import dev.johnoreilly.confetti.wear.networks.WearNetworkingRules
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
+import dev.johnoreilly.confetti.wear.tile.TileSync
 import dev.johnoreilly.confetti.wear.tile.TileUpdater
 import dev.johnoreilly.confetti.wear.work.WearConferenceSetting
 import dev.johnoreilly.confetti.work.AvatarType
@@ -198,6 +200,14 @@ val appModule = module {
 
     single<AvatarType> {
         { wearPhotoUrl }
+    }
+
+    single<TileSync> {
+        TileSync(get(), get())
+    }
+
+    single<WearDataLayerAppHelper> {
+        WearDataLayerAppHelper(context = androidContext(), registry = get(), scope = get())
     }
 
     single<FirebaseAuthUserRepository> { FirebaseAuthUserRepositoryImpl(get(), get()) }

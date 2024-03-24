@@ -10,7 +10,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
-import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import com.google.firebase.FirebaseApp
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.wear.navigation.DefaultWearAppComponent

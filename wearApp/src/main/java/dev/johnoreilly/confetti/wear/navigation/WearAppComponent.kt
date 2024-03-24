@@ -1,8 +1,8 @@
 package dev.johnoreilly.confetti.wear.navigation
 
 import android.content.Intent
+import android.os.Build
 import android.util.Log
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -26,7 +26,6 @@ import dev.johnoreilly.confetti.wear.AppUiState
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent.NetworkStatusAppState
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import dev.johnoreilly.confetti.wear.settings.WearPreferencesStore
-import dev.johnoreilly.confetti.wear.ui.toColor
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -37,9 +36,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
-import org.koin.android.ext.android.inject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+
 
 interface WearAppComponent {
     val config: Config
@@ -116,13 +115,22 @@ class DefaultWearAppComponent(
     override suspend fun waitForConference(): String {
         val conference = appState.filterNotNull().map { it.defaultConference }.firstOrNull()
 
-        if (conference == null) {
-            wearAppHelper.markSetupNoLongerComplete()
+        // Nasty hack to avoid failure on robolectric
+        if (!isRoboUnitTest()) {
+            if (conference == null) {
+                wearAppHelper.markSetupNoLongerComplete()
+            } else {
+                wearAppHelper.markSetupComplete()
+            }
         } else {
-            wearAppHelper.markSetupComplete()
+            Log.w("WearAppComponent", "WearDataLayerAppHelper not available")
         }
 
         return conference ?: AppSettings.CONFERENCE_NOT_SET
+    }
+
+    fun isRoboUnitTest(): Boolean {
+        return "robolectric" == Build.FINGERPRINT
     }
 
     override val isWaitingOnThemeOrData: Boolean

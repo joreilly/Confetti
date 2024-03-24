@@ -33,6 +33,7 @@ multiplatform-settings = "1.1.1"
 nav-compose = "2.7.7"
 okio = "3.9.0"
 protolayout-expression = "1.1.0"
+protolayout-material = "1.2.0-alpha01"
 protolayout-proto = "1.1.0"
 robolectric = "4.11.1"
 roborazzi-gradle-plugin = "1.11.0"
@@ -60,6 +61,7 @@ androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-lived
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout-expression" }
 androidx-protolayout-expression-pipeline = { module = "androidx.wear.protolayout:protolayout-expression-pipeline", version.ref = "protolayout-expression" }
+androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout-material" }
 androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-proto", version.ref = "protolayout-proto" }
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles-tooling-preview" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }

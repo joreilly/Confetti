@@ -76,6 +76,7 @@ class CurrentSessionsTileRenderer(
                 .setChipColors(ChipColors.primaryChipColors(theme))
                 .build()
         )
+        .setResponsiveContentInsetEnabled(true)
         .build()
 
     fun renderLoginTile(
@@ -98,6 +99,7 @@ class CurrentSessionsTileRenderer(
                 .setChipColors(ChipColors.primaryChipColors(theme))
                 .build()
         )
+        .setResponsiveContentInsetEnabled(true)
         .build()
 
     fun renderNoConferenceTile(
@@ -120,11 +122,13 @@ class CurrentSessionsTileRenderer(
                 .setChipColors(ChipColors.primaryChipColors(theme))
                 .build()
         )
+        .setResponsiveContentInsetEnabled(true)
         .build()
 
     fun conferenceLabel(state: String) = Text.Builder(context, state)
         .setTypography(TYPOGRAPHY_TITLE2)
         .setColor(ColorBuilders.argb(theme.primary))
+        .setMaxLines(2)
         .build()
 
     fun message(state: String) = Text.Builder(context, state)

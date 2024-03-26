@@ -3,7 +3,6 @@ package dev.johnoreilly.confetti.wear.complication
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
-import android.content.Context
 import android.content.Intent
 import androidx.core.net.toUri
 import androidx.wear.watchface.complications.data.ComplicationType
@@ -15,7 +14,6 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.toTimeZone
-import dev.johnoreilly.confetti.wear.MainActivity
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -38,13 +36,13 @@ class NextSessionComplicationService :
 
     override fun onComplicationActivated(complicationInstanceId: Int, type: ComplicationType) {
         runBlocking {
-            wearAppHelper.markComplicationAsActivated(this@NextSessionComplicationService.javaClass.simpleName, complicationInstanceId, type)
+            wearAppHelper.markComplicationAsActivated(this@NextSessionComplicationService.javaClass.name, complicationInstanceId, type)
         }
     }
 
     override fun onComplicationDeactivated(complicationInstanceId: Int) {
         runBlocking {
-            wearAppHelper.markComplicationAsDeactivated(this@NextSessionComplicationService.javaClass.simpleName, complicationInstanceId, ComplicationType.EMPTY)
+            wearAppHelper.markComplicationAsDeactivated(complicationInstanceId)
         }
     }
 

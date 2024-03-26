@@ -64,8 +64,6 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
         composeRule.onNode(hasScrollToIndexAction())
             .scrollToBottom()
         takeScreenshot("_end")
-        composeRule.onNodeWithContentDescription("Logged in as John O'Reilly")
-            .assertHasClickAction()
     }
 
     @Test

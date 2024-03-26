@@ -1,7 +1,6 @@
 package dev.johnoreilly.confetti.wear.navigation
 
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -115,8 +114,8 @@ class DefaultWearAppComponent(
     override suspend fun waitForConference(): String {
         val conference = appState.filterNotNull().map { it.defaultConference }.firstOrNull()
 
-        // Nasty hack to avoid failure on robolectric
-        if (!isRoboUnitTest()) {
+        // Workaround to avoid failure on robolectric
+        if (wearAppHelper.isAvailable()) {
             if (conference == null) {
                 wearAppHelper.markSetupNoLongerComplete()
             } else {
@@ -127,10 +126,6 @@ class DefaultWearAppComponent(
         }
 
         return conference ?: AppSettings.CONFERENCE_NOT_SET
-    }
-
-    fun isRoboUnitTest(): Boolean {
-        return "robolectric" == Build.FINGERPRINT
     }
 
     override val isWaitingOnThemeOrData: Boolean

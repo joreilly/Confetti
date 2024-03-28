@@ -30,6 +30,31 @@ object Sessionize {
         val speakers: List<DSpeaker>,
     )
 
+    suspend fun importAndroidMakers2024(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/ok1n6jgj/view/All"),
+            config = DConfig(
+                id = ConferenceId.AndroidMakers2024.id,
+                name = "AndroidMakers by droidcon 2024",
+                timeZone = "Europe/Paris",
+                themeColor = "0xffFB5C49"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Beffroi de Montrouge",
+                address = "Av. de la République, 92120 Montrouge",
+                description = mapOf(
+                    "en" to "Cool venue",
+                    "fr" to "Venue fraiche",
+                ),
+                latitude = 48.8188958,
+                longitude = 2.3193016,
+                imageUrl = "https://www.beffroidemontrouge.com/wp-content/uploads/2019/09/moebius-1.jpg",
+                floorPlanUrl = null
+            ),
+        )
+    }
+
     suspend fun importDevFestVenice2023(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/idarcge5/view/All"),

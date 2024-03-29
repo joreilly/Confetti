@@ -16,9 +16,7 @@ struct ConferencesView: View {
         VStack  {
             switch uiState {
             case let uiState as ConferencesComponentSuccess:
-                ConferenceListContentViewShared(conferences: uiState.conferenceListByYear) { conference in
-                    component.onConferenceClicked(conference: conference)
-                }
+                ConferenceListContentViewShared(component: component)
             case is ConferencesComponentError: ErrorView()
             default: ProgressView()
             }
@@ -28,11 +26,10 @@ struct ConferencesView: View {
 
 
 private struct ConferenceListContentViewShared: UIViewControllerRepresentable {
-    let conferences: [KotlinInt : [GetConferencesQuery.Conference]]
-    let onConferenceClick: (GetConferencesQuery.Conference) -> Void
+    let component: ConferencesComponent
     
     func makeUIViewController(context: Context) -> UIViewController {
-        return SharedViewControllersKt.ConferenceListViewController(conferenceListByYear: conferences, onConferenceClick: onConferenceClick)
+        return SharedViewControllersKt.ConferenceListViewController(component: component)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

@@ -16,6 +16,9 @@ dependencies {
     implementation(compose.material3)
     implementation(compose.components.resources)
 
+    implementation("com.arkivanov.decompose:decompose:2.2.2-compose-experimental")
+    implementation("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.2-compose-experimental")
+
     implementation("com.mikepenz:multiplatform-markdown-renderer-m3:0.13.0")
     implementation("com.mikepenz:multiplatform-markdown-renderer-jvm:0.13.0")
     implementation(project(":shared"))

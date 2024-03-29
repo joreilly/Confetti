@@ -16,6 +16,7 @@ googleid = "1.1.0"
 horologist = "0.6.6"
 image-loader = "1.7.8"
 io-coil-kt = "2.6.0"
+io-coil3-kt = "3.0.0-alpha06"
 kmp-nativecoroutines = "1.0.0-ALPHA-25"
 kmm-viewmodel = "1.0.0-ALPHA-20"
 koin-android = "3.5.3"
@@ -29,6 +30,7 @@ kotlinx-coroutines-play-services = "1.8.0"
 kotlinx-datetime = "0.6.0-RC.2"
 lifecycle = "2.7.0"
 lifecycle-livedata-ktx = "2.7.0"
+materialkolor = "1.4.4"
 multiplatform-settings = "1.1.1"
 nav-compose = "2.7.7"
 okio = "3.9.0"
@@ -82,6 +84,10 @@ coil-base = { module = "io.coil-kt:coil-base", version.ref = "io-coil-kt" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "io-coil-kt" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "io-coil-kt" }
 coil-test = { module = "io.coil-kt:coil-test", version.ref = "io-coil-kt" }
+coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "io-coil3-kt" }
+coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "io-coil3-kt" }
+materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
+
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }

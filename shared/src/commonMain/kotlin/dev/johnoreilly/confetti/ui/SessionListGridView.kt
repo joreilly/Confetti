@@ -1,9 +1,9 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+package dev.johnoreilly.confetti.ui
 
-package dev.johnoreilly.confetti.sessions
-
+import SessionListTabRow
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -29,11 +29,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.outlined.Bookmark
-import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -55,16 +53,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isLightning
-import dev.johnoreilly.confetti.ui.ErrorView
-import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.SignInDialog
-import dev.johnoreilly.confetti.utils.plus
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SessionListGridView(
     uiState: SessionsUiState,
@@ -75,8 +70,9 @@ fun SessionListGridView(
     isLoggedIn: Boolean,
     onRefresh: () -> Unit,
 ) {
+    println(uiState)
     when (uiState) {
-        SessionsUiState.Error -> ErrorView(onRefresh)
+        SessionsUiState.Error -> {} //ErrorView(onRefresh)
         SessionsUiState.Loading -> LoadingView()
 
         is SessionsUiState.Success -> {
@@ -122,10 +118,7 @@ fun SessionListGridView(
                             LazyColumn(
                                 modifier = Modifier
                                     .fillMaxWidth(),
-                                contentPadding = PaddingValues(end = 16.dp).plus(
-                                    WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-                                        .asPaddingValues()
-                                )
+                                contentPadding = PaddingValues(end = 16.dp)
                             ) {
                                 sessionsByStartTime.forEach {
                                     item {
@@ -188,7 +181,7 @@ fun SessionGridRow(
                     .height(220.dp)
                     .padding(bottom = 16.dp)
                     .border(BorderStroke(1.dp, MaterialTheme.colorScheme.primary)),
-                color = MaterialTheme.colorScheme.secondaryContainer
+                color = MaterialTheme.colorScheme.surfaceContainerLow
             ) {
                 Box(Modifier.fillMaxSize()) {
                     Column(
@@ -215,7 +208,8 @@ fun SessionGridRow(
                                 color = MaterialTheme.colorScheme.primaryContainer
                             ) {
                                 Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
-                                    Icon(Icons.Default.Bolt, "lightning")
+                                    // TODO find alternative
+                                    //Icon(Icons.Default.Bolt, "lightning")
                                     Spacer(Modifier.width(4.dp))
                                     Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
                                 }
@@ -318,12 +312,13 @@ private fun Bookmark(
                 }
             }
         ) {
-            Icon(
-                imageVector = Icons.Outlined.Bookmark,
-                contentDescription = "remove bookmark",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(8.dp)
-            )
+            // TODO find alternative
+//            Icon(
+//                imageVector = Icons.Outlined.Bookmark,
+//                contentDescription = "remove bookmark",
+//                tint = MaterialTheme.colorScheme.primary,
+//                modifier = Modifier.padding(8.dp)
+//            )
         }
     } else {
         IconButton(
@@ -336,17 +331,19 @@ private fun Bookmark(
                 }
             }
         ) {
-            Icon(
-                imageVector = Icons.Outlined.BookmarkAdd,
-                contentDescription = "add bookmark",
-                modifier = Modifier.padding(8.dp)
-            )
+// TODO find alternative
+//            Icon(
+//                imageVector = Icons.Outlined.BookmarkAdd,
+//                contentDescription = "add bookmark",
+//                modifier = Modifier.padding(8.dp)
+//            )
         }
     }
     if (showDialog) {
-        SignInDialog(
-            onDismissRequest = { showDialog = false },
-            onSignInClicked = onNavigateToSignIn
-        )
+        // TODO pass in?
+//        SignInDialog(
+//            onDismissRequest = { showDialog = false },
+//            onSignInClicked = onNavigateToSignIn
+//        )
     }
 }

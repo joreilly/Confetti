@@ -1,0 +1,13 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "dev.johnoreilly.confetti",
+    "sha256_cert_fingerprints":
+    [
+      "13:42:59:D2:F2:27:A3:BC:A9:A6:42:BD:CE:B9:FE:A8:60:84:F6:5C:F6:4A:4F:22:A7:EE:D8:31:AC:C1:A1:10",
+      "D5:02:C3:31:EB:EF:8D:DC:CE:16:2A:27:EC:98:B0:8D:10:BD:2C:05:03:52:19:76:84:1D:AD:8C:CC:1A:55:B0",
+      "D7:0B:43:8D:94:B4:6A:C2:1D:DC:4D:DE:A0:03:96:31:34:C7:6C:17:9E:A2:6A:17:69:98:4F:86:51:FA:A0:76"
+    ]
+  }
+}]

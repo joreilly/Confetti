@@ -32,6 +32,7 @@ private fun File.contentType() : String{
     return when (this.extension) {
         "html", "htm" -> "text/html"
         "css" -> "text/css"
+        "json" -> "application/json"
         else -> "application/octet-stream"
     }
 }

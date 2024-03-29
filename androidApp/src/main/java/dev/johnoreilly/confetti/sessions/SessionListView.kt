@@ -138,11 +138,14 @@ fun SessionListView(
                     ) {
                         LazyColumn(state = listState) {
                             sessions.forEach { (startTime, sessions) ->
+
                                 stickyHeader {
                                     ConfettiHeaderAndroid(icon = Icons.Filled.AccessTime, text = startTime)
                                 }
 
-                                items(sessions) { session ->
+                                val sortedSessions =
+                                    sessions.sortedBy { session -> uiState.rooms.indexOfFirst { it.name == session.room?.name } }
+                                items(sortedSessions) { session ->
                                     SessionItemView(
                                         session = session,
                                         sessionSelected = sessionSelected,

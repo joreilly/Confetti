@@ -81,6 +81,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="confetti"
+                    android:host="conference"
                 />
             </intent-filter>
         </activity>

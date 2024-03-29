@@ -34,6 +34,7 @@ class DefaultAppComponent(
     private val onSignOut: () -> Unit,
     private val onSignIn: () -> Unit,
     private val isMultiPane: Boolean = false,
+    initialConferenceId: String? = null,
 ) : AppComponent, KoinComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
@@ -53,15 +54,22 @@ class DefaultAppComponent(
 
     init {
         coroutineScope.launch {
-            val conference: String = repository.getConference()
-            if (conference == AppSettings.CONFERENCE_NOT_SET) {
-                showConferences()
+            if (initialConferenceId != null) {
+                // todo, consider changing how conference theme colors are decided so that only knowing the conference
+                //  ID is enough to also get the right color
+                repository.setConference(initialConferenceId, null)
+                showConference(conference = initialConferenceId, conferenceThemeColor = null)
             } else {
-                val conferenceThemeColor = repository.getConferenceThemeColor()
-                showConference(conference = conference, conferenceThemeColor = conferenceThemeColor)
+                val conference: String = repository.getConference()
+                if (conference == AppSettings.CONFERENCE_NOT_SET) {
+                    showConferences()
+                } else {
+                    val conferenceThemeColor = repository.getConferenceThemeColor()
+                    showConference(conference = conference, conferenceThemeColor = conferenceThemeColor)
 
-                // Take the opportunity to update any listeners of the conference
-                repository.updateConfenceListeners(conference, conferenceThemeColor)
+                    // Take the opportunity to update any listeners of the conference
+                    repository.updateConfenceListeners(conference, conferenceThemeColor)
+                }
             }
         }
 

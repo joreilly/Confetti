@@ -13,6 +13,11 @@ struct iOSApp: App {
     var body: some Scene {
         WindowGroup {
             ConfettiApp(appDelegate.root)
+                .onOpenURL(perform: { url in
+                    print("onOpenURL: url:\(url)")
+//                    let conferenceId // todo here extract the right thing out of the url once we can actually get it here
+//                    appDelegate.root.onConferenceDeepLink(conferenceId: conferenceId)
+                })
         }
         .onChange(of: phase) { newPhase in
             switch newPhase {

@@ -353,6 +353,23 @@ resource "google_storage_bucket" "tfstate" {
   }
 }
 
+import {
+  id = "confetti-landing-page"
+  to = google_storage_bucket.landing_page
+}
+
+resource "google_storage_bucket" "landing_page" {
+  provider      = google-beta
+  name          = "confetti-landing-page"
+  location      = "US"
+  storage_class = "STANDARD"
+
+  website {
+    main_page_suffix = "index.html"
+    not_found_page   = "404.html"
+  }
+}
+
 output "ip_addr" {
   value = google_compute_global_address.default.address
 }

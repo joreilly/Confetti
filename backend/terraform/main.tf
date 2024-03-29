@@ -353,6 +353,19 @@ resource "google_storage_bucket" "tfstate" {
   }
 }
 
+resource "google_storage_bucket" "landing_page" {
+  provider      = google-beta
+  name          = "confetti-landing-page"
+  # This bucket was created before everything was in terraform and uses a multi-region instead of var.region
+  location      = "US"
+  storage_class = "STANDARD"
+
+  website {
+    main_page_suffix = "index.html"
+    not_found_page   = "404.html"
+  }
+}
+
 output "ip_addr" {
   value = google_compute_global_address.default.address
 }

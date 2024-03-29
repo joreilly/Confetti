@@ -16,12 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.johnoreilly.confetti.ui.component.ConfettiBackground
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +39,7 @@ fun HomeScaffold(
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 32.dp),
+                                .padding(horizontal = 8.dp),
                             maxLines = 2,
                             textAlign = TextAlign.Center,
                             text = title ?: "",

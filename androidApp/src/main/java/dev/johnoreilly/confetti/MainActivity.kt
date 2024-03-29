@@ -90,13 +90,16 @@ class MainActivity : ComponentActivity() {
     }
 
     /**
-     * From a deep link like `confetti://conference/devfeststockholm2023` extracts `devfeststockholm2023`
+     * From a deep link like `https://confetti-app.dev/conference/devfeststockholm2023` extracts `devfeststockholm2023`
      */
     private fun Uri.extractConferenceIdOrNull(): String? {
-        if (host != "conference") return null
+        if (host != "confetti-app.dev") return null
         val path = path ?: return null
         if (path.firstOrNull() != '/') return null
-        val conferenceId = path.substring(1)
+        val parts = path.substring(1).split('/')
+        if (parts.size != 2) return null
+        if (parts[0] != "conference") return null
+        val conferenceId = parts[1]
         if (!conferenceId.all { it.isLetterOrDigit() }) return null
         return conferenceId
     }

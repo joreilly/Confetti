@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -57,6 +58,7 @@ class MainActivity : ComponentActivity() {
         val appComponent =
             DefaultAppComponent(
                 componentContext = defaultComponentContext(),
+                initialConferenceId = intent.data?.extractConferenceIdOrNull(),
                 onSignOut = {
                     lifecycleScope.launch {
                         credentialManager.clearCredentialState(ClearCredentialStateRequest())
@@ -85,6 +87,18 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * From a deep link like `confetti://conference/devfeststockholm2023` extracts `devfeststockholm2023`
+     */
+    private fun Uri.extractConferenceIdOrNull(): String? {
+        if (host != "conference") return null
+        val path = path ?: return null
+        if (path.firstOrNull() != '/') return null
+        val conferenceId = path.substring(1)
+        if (!conferenceId.all { it.isLetterOrDigit() }) return null
+        return conferenceId
     }
 }
 

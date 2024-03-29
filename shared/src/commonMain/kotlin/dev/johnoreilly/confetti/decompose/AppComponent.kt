@@ -22,6 +22,8 @@ import org.koin.core.component.inject
 interface AppComponent {
     val stack: Value<ChildStack<*, Child>>
 
+    fun onConferenceDeepLink(conferenceId: String)
+
     sealed class Child {
         object Loading : Child()
         class Conferences(val component: ConferencesComponent) : Child()
@@ -55,10 +57,7 @@ class DefaultAppComponent(
     init {
         coroutineScope.launch {
             if (initialConferenceId != null) {
-                // todo, consider changing how conference theme colors are decided so that only knowing the conference
-                //  ID is enough to also get the right color
-                repository.setConference(initialConferenceId, null)
-                showConference(conference = initialConferenceId, conferenceThemeColor = null)
+                selectAndNavigateToDeepLinkedConference(initialConferenceId)
             } else {
                 val conference: String = repository.getConference()
                 if (conference == AppSettings.CONFERENCE_NOT_SET) {
@@ -79,6 +78,19 @@ class DefaultAppComponent(
                 .distinctUntilChanged()
                 .collect(::onUserChanged)
         }
+    }
+
+    override fun onConferenceDeepLink(conferenceId: String) {
+        coroutineScope.launch {
+            selectAndNavigateToDeepLinkedConference(conferenceId)
+        }
+    }
+
+    private suspend fun selectAndNavigateToDeepLinkedConference(conferenceId: String) {
+        // todo, consider changing how conference theme colors are decided so that only knowing the conference
+        //  ID is enough to also get the right color
+        repository.setConference(conference = conferenceId, conferenceThemeColor = null)
+        showConference(conference = conferenceId, conferenceThemeColor = null)
     }
 
     private fun onUserChanged(uid: String?) {

@@ -353,11 +353,6 @@ resource "google_storage_bucket" "tfstate" {
   }
 }
 
-import {
-  id = "confetti-landing-page"
-  to = google_storage_bucket.landing_page
-}
-
 resource "google_storage_bucket" "landing_page" {
   provider      = google-beta
   name          = "confetti-landing-page"

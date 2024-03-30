@@ -30,7 +30,7 @@ fun ConferenceView(component: ConferenceComponent) {
             when (val child = it.instance) {
                 is ConferenceComponent.Child.Home -> HomeView(child.component)
                 is ConferenceComponent.Child.SessionDetails -> SessionDetailsUI(child.component)
-                is ConferenceComponent.Child.SpeakerDetails -> {} //SpeakerDetailsRoute(child.component)
+                is ConferenceComponent.Child.SpeakerDetails -> SpeakerDetailsUI(child.component)
                 is ConferenceComponent.Child.Settings -> {} //SettingsRoute(child.component)
             }
         }
@@ -91,9 +91,7 @@ fun HomeView(component: HomeComponent) {
                     )
                 }
                 is HomeComponent.Child.MultiPane -> Text(text = "Multi-pane mode is not yet supported")
-                is HomeComponent.Child.Speakers -> {
-
-                }
+                is HomeComponent.Child.Speakers -> SpeakersUI(child.component)
                 is HomeComponent.Child.Bookmarks -> {}
                 is HomeComponent.Child.Venue -> {}
                 is HomeComponent.Child.Search -> {}

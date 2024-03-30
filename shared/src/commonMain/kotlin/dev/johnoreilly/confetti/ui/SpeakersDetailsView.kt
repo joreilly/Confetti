@@ -1,20 +1,25 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+package dev.johnoreilly.confetti.ui
 
-package dev.johnoreilly.confetti.speakerdetails
-
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,7 +30,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,40 +37,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.SubcomposeAsyncImage
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
-import dev.johnoreilly.confetti.R
-import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
-import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
+import coil3.compose.AsyncImage
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.sessions
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.ui.ErrorView
-import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
-import dev.johnoreilly.confetti.ui.component.SocialIcon
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
-
-@Composable
-internal fun SpeakerDetailsRoute(
-    component: SpeakerDetailsComponent,
-) {
-    val uiState by component.uiState.subscribeAsState()
-
-    when (val uiState1 = uiState) {
-        is SpeakerDetailsUiState.Loading -> LoadingView()
-        is SpeakerDetailsUiState.Error -> ErrorView()
-        is SpeakerDetailsUiState.Success -> SpeakerDetailsView(
-            uiState1.details,
-            component::onSessionClicked,
-            component::onCloseClicked,
-        )
-    }
-}
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpeakerDetailsView(
     speaker: SpeakerDetails,
@@ -74,7 +54,7 @@ fun SpeakerDetailsView(
     popBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val context = LocalContext.current
+    //val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -90,7 +70,7 @@ fun SpeakerDetailsView(
                 },
                 navigationIcon = {
                     IconButton(onClick = { popBack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -123,23 +103,10 @@ fun SpeakerDetailsView(
 
                     Spacer(modifier = Modifier.size(16.dp))
 
-                    SubcomposeAsyncImage(
+
+                    AsyncImage(
                         model = speaker.photoUrl,
                         contentDescription = speaker.name,
-                        loading = {
-                            CircularProgressIndicator()
-                        },
-                        error = {
-                            Image(
-                                painter = painterResource(dev.johnoreilly.confetti.shared.R.drawable.ic_person_black_24dp),
-                                contentDescription = speaker.name,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier
-                                    .size(240.dp)
-                                    .clip(RoundedCornerShape(16.dp)),
-                                colorFilter = ColorFilter.tint(color = if (isSystemInDarkTheme()) Color.White else Color.Black)
-                            )
-                        },
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .size(240.dp)
@@ -166,12 +133,12 @@ fun SpeakerDetailsView(
                                 modifier = Modifier.size(24.dp),
                                 socialItem = socialsItem,
                                 onClick = {
-                                    runCatching {
-                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
-                                        context.startActivity(intent)
-                                    }.getOrElse { error ->
-                                        error.printStackTrace()
-                                    }
+//                                    runCatching {
+//                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
+//                                        context.startActivity(intent)
+//                                    }.getOrElse { error ->
+//                                        error.printStackTrace()
+//                                    }
                                 }
                             )
                         }
@@ -190,6 +157,7 @@ fun SpeakerDetailsView(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun SpeakerTalks(
     sessions: List<SpeakerDetails.Session>,
@@ -198,7 +166,7 @@ fun SpeakerTalks(
 ) {
     Column(Modifier.fillMaxWidth()) {
 
-        ConfettiHeaderAndroid(icon = Icons.Filled.Event, text = stringResource(id = R.string.sessions))
+        ConfettiHeader(icon = Icons.Filled.Person, text = stringResource(Res.string.sessions))
 
         Spacer(modifier = Modifier.size(8.dp))
 

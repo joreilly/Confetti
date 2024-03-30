@@ -72,7 +72,7 @@ fun SessionListGridView(
 ) {
     println(uiState)
     when (uiState) {
-        SessionsUiState.Error -> {} //ErrorView(onRefresh)
+        SessionsUiState.Error -> ErrorView(onRefresh)
         SessionsUiState.Loading -> LoadingView()
 
         is SessionsUiState.Success -> {

@@ -7,8 +7,6 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,12 +34,10 @@ fun ConferenceView(component: ConferenceComponent) {
                 is ConferenceComponent.Child.Settings -> {} //SettingsRoute(child.component)
             }
         }
-
     }
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(component: HomeComponent) {
     val stack by component.stack.subscribeAsState()

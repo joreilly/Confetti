@@ -14,9 +14,14 @@ struct iOSApp: App {
         WindowGroup {
             ConfettiApp(appDelegate.root)
                 .onOpenURL(perform: { url in
-                    print("onOpenURL: url:\(url)")
-//                    let conferenceId // todo here extract the right thing out of the url once we can actually get it here
-//                    appDelegate.root.onConferenceDeepLink(conferenceId: conferenceId)
+                    let pathComponents = url.pathComponents
+                    if pathComponents.count != 3 { return }
+                    if pathComponents[1] != "conference" { return }
+                    let conferenceId = pathComponents[2]
+                    for char in conferenceId {
+                        if !char.isLetter && !char.isNumber { return }
+                    }
+                    appDelegate.root.onConferenceDeepLink(conferenceId: conferenceId)
                 })
         }
         .onChange(of: phase) { newPhase in

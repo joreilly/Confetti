@@ -74,6 +74,10 @@ kotlin {
                 api(libs.bundles.apollo)
 
                 api(libs.decompose.decompose)
+                api("com.arkivanov.decompose:decompose:2.2.2-compose-experimental")
+                api("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.2-compose-experimental")
+                //implementation("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.2")
+
                 api(libs.essenty.lifecycle)
 
                 // Multiplatform Logging
@@ -85,7 +89,9 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.components.resources)
                 implementation(libs.image.loader)
-                api("com.materialkolor:material-kolor:1.4.4")
+                implementation(libs.coil3.compose)
+                implementation(libs.coil3.network.ktor)
+                api(libs.materialkolor)
 
                 // See https://github.com/cashapp/sqldelight/issues/4357
                 implementation(libs.stately.common)

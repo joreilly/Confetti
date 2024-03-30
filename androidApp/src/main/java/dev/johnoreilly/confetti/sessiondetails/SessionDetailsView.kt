@@ -44,9 +44,8 @@ import org.koin.compose.koinInject
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun SessionDetailsRoute(
-    component: SessionDetailsComponent,
-) {
+fun SessionDetailsRoute(component: SessionDetailsComponent) {
+
     val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
     val uiState by component.uiState.subscribeAsState()
     val isBookmarked by component.isBookmarked.collectAsStateWithLifecycle()

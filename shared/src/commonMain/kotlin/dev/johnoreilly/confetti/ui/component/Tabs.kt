@@ -10,16 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
-/**
- * Confetti tab. Wraps Material 3 [Tab] and shifts text label down.
- *
- * @param selected Whether this tab is selected or not.
- * @param onClick The callback to be invoked when this tab is selected.
- * @param modifier Modifier to be applied to the tab.
- * @param enabled Controls the enabled state of the tab. When `false`, this tab will not be
- * clickable and will appear disabled to accessibility services.
- * @param text The text label content.
- */
 @Composable
 fun ConfettiTab(
     selected: Boolean,
@@ -38,17 +28,11 @@ fun ConfettiTab(
             ProvideTextStyle(
                 value = style,
                 content = {
-                    Box(modifier = Modifier.padding(top = NiaTabDefaults.TabTopPadding)) {
+                    Box(modifier = Modifier.padding(top = 7.dp)) {
                         text()
                     }
                 }
             )
         }
     )
-}
-
-
-
-object NiaTabDefaults {
-    val TabTopPadding = 7.dp
 }

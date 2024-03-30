@@ -213,6 +213,7 @@ class ConfettiRepository : KoinComponent {
     }
 
     suspend fun setConference(conference: String, conferenceThemeColor: String?) {
+        println(conference)
         appSettings.setConference(conference)
         conferenceThemeColor?.let {
             appSettings.setConferenceThemeColor(conferenceThemeColor)

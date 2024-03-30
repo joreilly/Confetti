@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
 
 interface HomeComponent {
 
+    val conference: String
     val user: User?
     val stack: Value<ChildStack<*, Child>>
 
@@ -41,7 +42,7 @@ interface HomeComponent {
 
 class DefaultHomeComponent(
     componentContext: ComponentContext,
-    private val conference: String,
+    override val conference: String,
     override val user: User?,
     private val isMultiPane: Boolean,
     private val onSwitchConference: () -> Unit,

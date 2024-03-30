@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -19,21 +18,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import conferenceDayMonthFormat
 import dev.johnoreilly.confetti.GetConferencesQuery
+import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import kotlinx.datetime.LocalDate
 
 
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ConferenceListView(conferenceListByYear: Map<Int, List<GetConferencesQuery.Conference>>, navigateToConference: (GetConferencesQuery.Conference) -> Unit) {
+fun ConferenceListView(component: ConferencesComponent) {
     Scaffold(
         topBar = {
             Surface(tonalElevation = 0.dp) {
@@ -52,16 +54,29 @@ fun ConferenceListView(conferenceListByYear: Map<Int, List<GetConferencesQuery.C
                 )
             }
         }) {
-        LazyColumn(Modifier.padding(it)) {
-            conferenceListByYear.keys.sortedDescending().forEach { year ->
-                val conferenceList = conferenceListByYear[year]
-                conferenceList?.let {
-                    stickyHeader {
-                        YearHeader(year.toString())
-                    }
 
-                    items(conferenceList) { conference ->
-                        ConferenceCard(conference) { navigateToConference(conference) }
+        val uiState by component.uiState.subscribeAsState()
+
+        when (val uiState1 = uiState) {
+            ConferencesComponent.Error -> {} //ErrorView(component::refresh)
+            ConferencesComponent.Loading -> LoadingView()
+
+            is ConferencesComponent.Success -> {
+                LazyColumn(Modifier.padding(it)) {
+                    val conferenceListByYear = uiState1.conferenceListByYear
+                    conferenceListByYear.keys.sortedDescending().forEach { year ->
+                        val conferenceList = conferenceListByYear[year]
+                        conferenceList?.let {
+                            stickyHeader {
+                                YearHeader(year.toString())
+                            }
+
+                            items(conferenceList) { conference ->
+                                ConferenceCard(conference) {
+                                    component.onConferenceClicked(conference)
+                                }
+                            }
+                        }
                     }
                 }
             }

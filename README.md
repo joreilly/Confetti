@@ -50,8 +50,7 @@ Requires Xcode 14 or later for iOS client.
 
 <img width="500" alt="Wear Screenshots of Confetti screens" src="https://raw.githubusercontent.com/joreilly/Confetti/aaa91c53098754de5c568ec6611b7ab237d23bcb/wearApp/images/wearScreenshots.png">
 
-
-<img width="1205" alt="Desktop Screenshot of Confetti screens" src="https://user-images.githubusercontent.com/6302/227615364-dd349253-483b-45a6-9090-cc8b932bef1f.png">
+<img width="1356" alt="Screenshot 2024-03-30 at 19 46 48" src="https://github.com/joreilly/Confetti/assets/6302/0777a9d9-e620-4feb-9e28-a00f01978c1c">
 
 <img src="androidApp/snapshot/walkthroughAndroidAuto.gif" alt="Walkthrough of Confetti running on Android Auto" />
 

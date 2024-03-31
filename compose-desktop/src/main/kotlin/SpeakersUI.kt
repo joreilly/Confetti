@@ -12,6 +12,7 @@ import dev.johnoreilly.confetti.decompose.SpeakersUiState
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SpeakerDetailsView
+import dev.johnoreilly.confetti.ui.SpeakerGridView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

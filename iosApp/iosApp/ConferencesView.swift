@@ -15,7 +15,7 @@ struct ConferencesView: View {
     var body: some View {
         VStack  {
             switch uiState {
-            case let uiState as ConferencesComponentSuccess:
+            case is ConferencesComponentSuccess:
                 ConferenceListContentViewShared(component: component)
             case is ConferencesComponentError: ErrorView()
             default: ProgressView()

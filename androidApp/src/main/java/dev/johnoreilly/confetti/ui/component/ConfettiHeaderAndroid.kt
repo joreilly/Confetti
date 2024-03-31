@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ConfettiHeaderAndroid(
-    text: String,
-    icon: ImageVector? = null,
     modifier: Modifier = Modifier,
+    text: String,
+    icon: ImageVector? = null
 ) {
     val tonalElevation = LocalBackgroundTheme.current.tonalElevation
     ConfettiBackground(
@@ -33,7 +33,7 @@ fun ConfettiHeaderAndroid(
             .fillMaxWidth()
     ) {
         Column {
-            Divider()
+            HorizontalDivider()
             Row(
                 modifier = Modifier
                     .padding(
@@ -56,7 +56,7 @@ fun ConfettiHeaderAndroid(
                     fontWeight = FontWeight.Bold,
                 )
             }
-            Divider()
+            HorizontalDivider()
         }
     }
 }

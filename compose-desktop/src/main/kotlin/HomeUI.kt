@@ -93,7 +93,7 @@ fun HomeView(component: HomeComponent) {
                 is HomeComponent.Child.MultiPane -> Text(text = "Multi-pane mode is not yet supported")
                 is HomeComponent.Child.Speakers -> SpeakersUI(child.component)
                 is HomeComponent.Child.Bookmarks -> {}
-                is HomeComponent.Child.Venue -> {}
+                is HomeComponent.Child.Venue -> VenueUI(child.component)
                 is HomeComponent.Child.Search -> {}
                 is HomeComponent.Child.Recommendations -> GeminiQueryView(child.component)
             }

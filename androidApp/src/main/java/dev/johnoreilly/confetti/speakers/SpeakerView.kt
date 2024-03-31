@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.speakers
 
-import SpeakerGridView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -38,6 +37,7 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.HomeScaffold
 import dev.johnoreilly.confetti.ui.LoadingView
+import dev.johnoreilly.confetti.ui.SpeakerGridView
 import dev.johnoreilly.confetti.ui.isExpanded
 
 @Composable

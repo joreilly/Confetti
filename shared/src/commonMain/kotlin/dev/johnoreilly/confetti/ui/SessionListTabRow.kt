@@ -1,3 +1,5 @@
+package dev.johnoreilly.confetti.ui
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.MaterialTheme

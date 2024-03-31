@@ -39,7 +39,8 @@ fun SessionDetailsUI(component: SessionDetailsComponent) {
                 is SessionDetailsUiState.Error -> ErrorView()
 
                 is SessionDetailsUiState.Success ->
-                    SessionDetailViewSharedWrapper(state.sessionDetails, {}, {})
+                    SessionDetailViewSharedWrapper(state.sessionDetails,
+                        component::onSpeakerClicked, {})
             }
         }
     }

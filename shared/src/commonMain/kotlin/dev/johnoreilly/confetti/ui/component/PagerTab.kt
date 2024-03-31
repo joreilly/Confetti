@@ -4,9 +4,7 @@ package dev.johnoreilly.confetti.ui.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.TabPosition
-import androidx.compose.material3.TabRow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
@@ -15,12 +13,8 @@ import androidx.compose.ui.unit.lerp
 /**
  * WARNING: Forked from the original  PagerTab extension (com.google.accompanist.pager.PagerTab.kt)
  * in order to support material3 TabPosition.
- *
- * This indicator syncs up a [TabRow] or [ScrollableTabRow] tab indicator with a
- * [HorizontalPager] or [VerticalPager]. See the sample for a full demonstration.
- *
- * @sample com.google.accompanist.sample.pager.PagerWithTabs
  */
+@OptIn(ExperimentalFoundationApi::class)
 fun Modifier.pagerTabIndicatorOffset(
     pagerState: PagerState,
     tabPositions: List<TabPosition>,

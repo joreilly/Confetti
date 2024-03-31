@@ -45,6 +45,6 @@
     <string name="recommendations_search_placeholder">Quel sujet vous intéresse?</string>
     <string name="install_on_watch">Installer l\'app sur WearOS</string>
     <string name="no_paired_watch">Pas de montre appairée</string>
-    <string name="empty_text">Aucun bookmark</string>
+    <string name="no_bookmarks">Aucun favori défini</string>
     <string name="privacy_policy">Politique de confidentialité</string>
 </resources>

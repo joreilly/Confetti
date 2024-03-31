@@ -112,7 +112,7 @@ fun ConferenceCard(
 
 private fun getConferenceDatesString(days: List<LocalDate>): String {
     var conferenceDatesString = ""
-    if (days.size >= 1) {
+    if (days.isNotEmpty()) {
         conferenceDatesString = days[0].conferenceDayMonthFormat()
     }
     if (days.size == 2) {

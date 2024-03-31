@@ -16,10 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -30,7 +27,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -111,7 +108,7 @@ fun SettingsScreen(
                 .clipToBounds()
                 .padding(it)
         ) {
-            Divider(Modifier.padding(top = 8.dp))
+            HorizontalDivider(Modifier.padding(top = 8.dp))
 
             LazyColumn(modifier = Modifier.weight(1f)) {
                 item {
@@ -164,7 +161,7 @@ fun SettingsScreen(
 
             HorizontalDivider()
 
-            var developerModeCount by remember { mutableStateOf(0) }
+            var developerModeCount by remember { mutableIntStateOf(0) }
             Box(modifier = Modifier.run {
                 if (developerSettings == null) {
                     clickable {
@@ -307,53 +304,4 @@ fun SettingsDialogThemeChooserRow(
     }
 }
 
-@Composable
-fun CheckboxWithLabel(
-    text: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .toggleable(
-                value = checked,
-                onValueChange = { onCheckedChange(!checked) },
-                role = Role.Checkbox
-            )
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Checkbox(
-            checked = checked,
-            onCheckedChange = null
-        )
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(start = 16.dp)
-        )
-    }
-}
 
-
-@Composable
-private fun TextLink(text: String, url: String) {
-    val launchResourceIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    val context = LocalContext.current
-
-    Text(
-        text = text,
-        style = MaterialTheme.typography.labelLarge,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier
-            .padding(vertical = 8.dp)
-            .clickable {
-                runCatching {
-                    startActivity(context, launchResourceIntent, null)
-                }.getOrElse { error ->
-                    error.printStackTrace()
-                }
-            }
-    )
-}

@@ -2,6 +2,8 @@ package dev.johnoreilly.confetti.ui
 
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.FaultyDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.isFront
@@ -16,6 +18,7 @@ import dev.johnoreilly.confetti.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.settings.SettingsRoute
 import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsRoute
 
+@OptIn(ExperimentalDecomposeApi::class, FaultyDecomposeApi::class)
 @Composable
 fun ConferenceRoute(
     component: ConferenceComponent,

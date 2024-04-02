@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,13 +32,10 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.seiko.imageloader.model.ImageAction
-import com.seiko.imageloader.rememberImageSuccessPainter
-import com.seiko.imageloader.ui.AutoSizeBox
+import coil3.compose.AsyncImage
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.facebook
 import confetti.shared.generated.resources.github
-import confetti.shared.generated.resources.ic_person_black_24dp
 import confetti.shared.generated.resources.linkedin
 import confetti.shared.generated.resources.twitter
 import confetti.shared.generated.resources.web
@@ -149,30 +144,13 @@ internal fun SessionSpeakerInfo(
     ) {
         Row {
             speaker.photoUrl?.let {
-                AutoSizeBox(speaker.photoUrl) { action ->
-                    when (action) {
-                        is ImageAction.Success -> {
-                            Image(
-                                rememberImageSuccessPainter(action), null,
-                                modifier = Modifier.size(64.dp).clip(CircleShape),
-                                contentScale = ContentScale.Crop,
-                            )
-                        }
-                        is ImageAction.Loading -> {
-                            CircularProgressIndicator()
-                        }
-                        is ImageAction.Failure -> {
-                            Image(
-                                painter = painterResource(Res.drawable.ic_person_black_24dp),
-                                contentDescription = speaker.name,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier.size(64.dp).clip(CircleShape)
-                            )
-                        }
-                    }
-                }
-
-
+                AsyncImage(
+                    model = speaker.photoUrl,
+                    contentDescription = speaker.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(64.dp)
+                        .clip(CircleShape)
+                )
             }
 
             Column(Modifier.padding(horizontal = 8.dp)) {

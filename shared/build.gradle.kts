@@ -76,7 +76,6 @@ kotlin {
                 api(libs.decompose.decompose)
                 api("com.arkivanov.decompose:decompose:2.2.2-compose-experimental")
                 api("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.2-compose-experimental")
-                //implementation("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.2")
 
                 api(libs.essenty.lifecycle)
 
@@ -88,7 +87,6 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.components.resources)
-                implementation(libs.image.loader)
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor)
                 api(libs.materialkolor)

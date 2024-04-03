@@ -20,4 +20,5 @@ interface DataSource {
   fun addBookmark(sessionId: String): Set<String>
   fun removeBookmark(sessionId: String): Set<String>
   fun speaker(id: String): Speaker
+  fun deleteUserData()
 }

@@ -97,6 +97,12 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
         return datastore.readSpeaker(conf, id).toSpeaker()
     }
 
+    override fun deleteUserData() {
+        if (uid != null) {
+            datastore.removeBookmarks(uid)
+        }
+    }
+
     override fun sessions(
         first: Int,
         after: String?,

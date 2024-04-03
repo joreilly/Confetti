@@ -60,12 +60,14 @@ import org.springframework.boot.autoconfigure.web.ErrorProperties
 import org.springframework.boot.autoconfigure.web.ServerProperties
 import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler
+import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.runApplication
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes
 import org.springframework.boot.web.reactive.error.ErrorAttributes
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
 import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
@@ -87,7 +89,6 @@ import org.springframework.web.reactive.function.server.queryParamOrNull
 import org.springframework.web.reactive.result.view.ViewResolver
 import org.springframework.web.server.ServerWebExchange
 import java.net.http.HttpClient
-import java.util.Date
 import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
@@ -347,7 +348,7 @@ class DefaultApplication {
 
     companion object {
         val KEY_UID = "uid"
-        val KEY_CONFERENCE = "uid"
+        val KEY_CONFERENCE = "conference"
         val KEY_SOURCE = "source"
         val KEY_REQUEST = "request"
         val KEY_HEADERS = "headers"
@@ -539,3 +540,11 @@ internal val config = SchemaGeneratorConfig(
     hooks = CustomSchemaGeneratorHooks(),
     additionalTypes = setOf(graphqlInstantType, graphqlLocalDateType, graphqlLocalDateTimeType)
 )
+
+
+@Component
+class StartupApplicationListener : ApplicationListener<ApplicationReadyEvent> {
+    override fun onApplicationEvent(event: ApplicationReadyEvent?) {
+        initializeFirebase()
+    }
+}

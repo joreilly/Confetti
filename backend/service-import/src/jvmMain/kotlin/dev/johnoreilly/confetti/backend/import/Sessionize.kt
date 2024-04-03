@@ -4,6 +4,7 @@ import GridTable
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.datastore.DConfig
 import dev.johnoreilly.confetti.backend.datastore.DLink
+import dev.johnoreilly.confetti.backend.datastore.DPartner
 import dev.johnoreilly.confetti.backend.datastore.DPartnerGroup
 import dev.johnoreilly.confetti.backend.datastore.DRoom
 import dev.johnoreilly.confetti.backend.datastore.DSession
@@ -40,7 +41,7 @@ object Sessionize {
                 themeColor = "0xffFB5C49"
             ),
             venue = DVenue(
-                id = "main",
+                id = "conference",
                 name = "Beffroi de Montrouge",
                 address = "Av. de la République, 92120 Montrouge",
                 description = mapOf(
@@ -52,6 +53,114 @@ object Sessionize {
                 imageUrl = "https://www.beffroidemontrouge.com/wp-content/uploads/2019/09/moebius-1.jpg",
                 floorPlanUrl = null
             ),
+            partnerGroups = listOf(
+                DPartnerGroup(
+                    key = "gold",
+                    partners = listOf(
+                        DPartner(
+                            name = "RevenueCat",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2023/01/revenue-cat-1-1024x1024.png",
+                            url = "https://www.revenuecat.com"
+                        )
+                    )
+                ),
+                DPartnerGroup(
+                    key = "silver",
+                    partners = listOf(
+                        DPartner(
+                            name = "bitrise",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/Bitrise_Logo___Transparent_Bg_1-1024x379.png",
+                            url = "https://bitrise.io/?utm_source=sponsorship&utm_medium=referral&utm_campaign=androidmakers-paris-2024&utm_content=droidcon-homepage"
+                        ),
+                        DPartner(
+                            name = "zimperium",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/ZIMPERIUM_logo__3_-ai-1024x155.png",
+                            url = "https://www.zimperium.com/"
+                        )
+                    )
+                ),
+                DPartnerGroup(
+                    key = "bronze",
+                    partners = listOf(
+                        DPartner(
+                            name = "appvestor",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/Appvestor_logo__1_-ai-1024x252.png",
+                            url = "https://appvestor.com/"
+                        ),
+                        DPartner(
+                            name = "koin",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/koin_logo_grand_format_horizontal__1_-1024x383.png",
+                            url = "https://www.kotzilla.io/"
+                        ),
+                        DPartner(
+                            name = "runway",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/wordmark_runway_tld_fit-eps-1.png",
+                            url = "https://runway.team/"
+                        ),
+                        DPartner(
+                            name = "yavin",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/logo_yavin-ai-1024x441.png",
+                            url = "https://yavin.com/"
+                        ),
+                    )
+                ),
+                DPartnerGroup(
+                    key = "startup",
+                    partners = listOf(
+                        DPartner(
+                            name = "screenshotbot",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/screenshotbot_3-eps.png",
+                            url = "https://screenshotbot.io/"
+                        )
+                    )
+                ),
+                DPartnerGroup(
+                    key = "lanyard",
+                    partners = listOf(
+                        DPartner(
+                            name = "amo",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/AMO_LOGO_B-ai-1024x576.png",
+                            url = "amo.co"
+                        )
+                    )
+                ),
+                DPartnerGroup(
+                    key = "community",
+                    partners = listOf(
+                        DPartner(
+                            name = "DevCafé",
+                            logoUrl = "https://media.licdn.com/dms/image/C4E0BAQEp1c7VKQYloQ/company-logo_200_200/0/1679818335033/devcafe_logo?e=2147483647&v=beta&t=qFJ0bfeZ3oCyNnFKtNczprkeSVDhF7u1Bpf4QD-_M7w",
+                            url = "https://twitter.com/DevCafeYt"
+                        ),
+                        DPartner(
+                            name = "Groundbreaker",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/Groundbreaker_adobeRGB_1_1_1_1_1.png",
+                            url = "https://groundbreaker.org/"
+                        ),
+                        DPartner(
+                            name = "leboncoin",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/LBC_tech_couleurs_RVB-ai-1024x1024.png",
+                            url = "https://medium.com/leboncoin-tech-blog"
+                        ),
+                        DPartner(
+                            name = "stickermule",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/02-sticker-mule-logo-light-1024x349.png",
+                            url = "https://www.stickermule.com/eu/custom-stickers"
+                        ),
+                        DPartner(
+                            name = "WomenTechMakers",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/1630517187498.jpg",
+                            url = "https://www.linkedin.com/company/womentechmakers/"
+                        ),
+                        DPartner(
+                            name = "Women who code",
+                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/WWCode_FullLogo_Black-1024x444.png",
+                            url = "https://womenwhocode.com/"
+                        )
+                    )
+
+                )
+            )
         )
     }
 

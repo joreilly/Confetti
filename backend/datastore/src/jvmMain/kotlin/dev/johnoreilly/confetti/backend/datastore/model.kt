@@ -62,6 +62,7 @@ data class DPartnerGroup(
 data class DPartner(
   val name: String,
   val logoUrl: String,
+  val logoUrlDark: String? = null,
   val url: String,
 )
 

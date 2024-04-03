@@ -75,6 +75,7 @@ object Sessionize {
                         DPartner(
                             name = "zimperium",
                             logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/ZIMPERIUM_logo__3_-ai-1024x155.png",
+                            logoUrlDark = "https://github.com/joreilly/Confetti/assets/3974977/5bf38c6c-5ebb-4225-a006-988f8a17d150",
                             url = "https://www.zimperium.com/"
                         )
                     )

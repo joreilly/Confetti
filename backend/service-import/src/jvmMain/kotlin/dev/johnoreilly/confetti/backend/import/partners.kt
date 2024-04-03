@@ -60,6 +60,7 @@ private fun JsonPartner.toDPartner(): DPartner {
     return DPartner(
         name = name,
         logoUrl = photoUrl,
+        logoUrlDark = null,
         url = url
     )
 }

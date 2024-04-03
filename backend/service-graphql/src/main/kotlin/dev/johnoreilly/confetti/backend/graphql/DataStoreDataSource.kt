@@ -250,6 +250,7 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
         return Partner(
             name = name,
             logoUrl = logoUrl,
+            logoUrlDark = logoUrlDark,
             url = url
         )
     }

@@ -505,7 +505,8 @@ class DataStore {
         return mapOf(
             "name" to this.name,
             "url" to this.url,
-            "logoUrl" to this.logoUrl
+            "logoUrl" to this.logoUrl,
+            "logoUrlDark" to this.logoUrlDark,
         )
     }
 
@@ -513,7 +514,8 @@ class DataStore {
         return DPartner(
             name = get("name").asString,
             url = get("url").asString,
-            logoUrl = get("logoUrl").asString
+            logoUrl = get("logoUrl").asString,
+            logoUrlDark = get("logoUrlDark")?.asString,
         )
     }
 

@@ -306,8 +306,20 @@ data class PartnerGroup(
 data class Partner(
     val name: String,
     val logoUrl: String,
+    val logoUrlDark: String?,
     val url: String,
-)
+) {
+    /**
+     * @param dark returns the logo for use on a dark background or fallbacks to the light mode if none exist
+     */
+    fun logoUrl(dark: Boolean? = false): String {
+        return if (dark == true) {
+            logoUrlDark ?: logoUrl
+        } else {
+            logoUrl
+        }
+    }
+}
 
 /**
  * @property floorPlanUrl the url to an image containing the floor plan

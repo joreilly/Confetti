@@ -5,6 +5,7 @@ import com.expediagroup.graphql.generator.annotations.GraphQLDescription
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
+import com.google.firebase.auth.FirebaseAuth
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_SOURCE
 import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_UID
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
@@ -33,6 +34,20 @@ class RootMutation : Mutation {
 
     fun removeBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
         return Bookmarks(dfe.source().removeBookmark(sessionId).toList())
+    }
+
+    /**
+     * Deletes the current user account, requires authentication
+     */
+    fun deleteAccount(dfe: DataFetchingEnvironment): Boolean {
+        val uid = dfe.uid()
+        if (uid == null) {
+            return false
+        }
+
+        FirebaseAuth.getInstance().deleteUser(uid)
+        dfe.source().deleteUserData()
+        return true
     }
 }
 

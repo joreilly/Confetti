@@ -713,6 +713,29 @@ class DataStore {
             .toSpeaker()
     }
 
+    fun removeBookmarks(uid: String?) {
+        val query = Query.newKeyQueryBuilder()
+            .setKind(KIND_BOOKMARKS)
+            .setLimit(100)
+            .setFilter(
+                StructuredQuery.PropertyFilter.hasAncestor(
+                    keyFactory.setKind(KIND_USER).newKey(uid)
+                )
+            )
+            .build()
+
+        while (true) {
+            val result = datastore.run(query)
+
+            val keys = result.asSequence().toList().toTypedArray()
+            datastore.delete(*keys)
+
+            if (keys.isEmpty() || result.moreResults == QueryResultBatch.MoreResultsType.NO_MORE_RESULTS) {
+                break
+            }
+        }
+    }
+
     companion object {
         fun <T, R> Iterator<T>.map(block: (T) -> R) = buildList<R> {
             this@map.forEach {

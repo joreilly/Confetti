@@ -8,11 +8,11 @@ plugins {
     id("com.apollographql.apollo3")
     id("org.jetbrains.compose")
     id("com.google.devtools.ksp")
-    id("co.touchlab.faktory.kmmbridge")
     id("com.squareup.wire")
     id("maven-publish")
     id("kotlinx-serialization")
     id("io.github.luca992.multiplatform-swiftpackage") version "2.2.1"
+    alias(libs.plugins.kmmbridge)
     alias(libs.plugins.buildkonfig)
 }
 
@@ -218,12 +218,13 @@ dependencies {
     coreLibraryDesugaring(libs.desugar)
 }
 
+version = "0.9"
 kmmbridge {
     frameworkName.set("ConfettiKit")
+    addGithubPackagesRepository()
     mavenPublishArtifacts()
-    githubReleaseVersions()
     spm()
-    versionPrefix.set("0.8")
+    timestampVersions()
 }
 
 kotlin.sourceSets.all {

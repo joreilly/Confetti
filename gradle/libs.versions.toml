@@ -19,6 +19,7 @@ io-coil-kt = "2.6.0"
 io-coil3-kt = "3.0.0-alpha06"
 kmp-nativecoroutines = "1.0.0-ALPHA-25"
 kmm-viewmodel = "1.0.0-ALPHA-20"
+kmmbridge = "0.5.2"
 koin-android = "3.5.3"
 koin-android-compose = "3.5.3"
 koin-compose-multiplatform = "1.1.2"
@@ -166,7 +167,6 @@ plugin-android-application = "com.android.tools.build:gradle:8.2.2"
 plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
 plugin-google-services = "com.google.gms:google-services:4.4.1"
-plugin-kmmbridge = "co.touchlab.faktory:kmmbridge:0.3.7"
 plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin", version.ref = "kmp-nativecoroutines" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
@@ -210,3 +210,4 @@ apollo = ["apollo-normalized-cache-in-memory", "apollo-normalized-cache-sqlite",
 
 [plugins]
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "kmmbridge" }

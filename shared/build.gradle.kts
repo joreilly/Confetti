@@ -11,7 +11,7 @@ plugins {
     id("com.squareup.wire")
     id("maven-publish")
     id("kotlinx-serialization")
-    id("io.github.luca992.multiplatform-swiftpackage") version "2.2.1"
+    id("io.github.luca992.multiplatform-swiftpackage") version "2.2.2"
     alias(libs.plugins.kmmbridge)
     alias(libs.plugins.buildkonfig)
 }

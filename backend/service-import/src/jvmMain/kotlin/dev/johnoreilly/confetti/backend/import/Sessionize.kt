@@ -33,7 +33,10 @@ object Sessionize {
 
     suspend fun importAndroidMakers2024(): Int {
         return writeData(
-            getData("https://sessionize.com/api/v2/ok1n6jgj/view/All"),
+            getData(
+                url = "https://sessionize.com/api/v2/ok1n6jgj/view/All",
+                gridSmartUrl = "https://sessionize.com/api/v2/ok1n6jgj/view/GridSmart",
+            ),
             config = DConfig(
                 id = ConferenceId.AndroidMakers2024.id,
                 name = "AndroidMakers by droidcon 2024",
@@ -470,7 +473,7 @@ object Sessionize {
 
     suspend fun importAndroidMakers2023(): Int {
         return writeData(
-            getData(androidMakers2023, ::getLinks),
+            getData(androidMakers2023, null, ::getLinks),
             config = DConfig(
                 id = ConferenceId.AndroidMakers2023.id,
                 name = "Android Makers by droidcon",
@@ -572,14 +575,14 @@ object Sessionize {
                 name = "SHEDEV Warsaw 2024",
                 timeZone = "Europe/Warsaw",
                 themeColor = "0xFF512DA8"
-                ),
+            ),
             venue = DVenue(
                 id = "main",
                 name = "Google for Startups Campus Warsaw",
                 address = "Plac Konesera 10, 03-736 Warszawa",
                 description = mapOf(
                     "en" to "Google for Startups Campus Warsaw",
-                    ),
+                ),
                 latitude = 52.2561388,
                 longitude = 21.0453105,
                 imageUrl = "https://i.postimg.cc/GmVdqZsq/campus-outside.jpg",
@@ -606,6 +609,7 @@ object Sessionize {
 
     private suspend fun getData(
         url: String,
+        gridSmartUrl: String? = null,
         linksFor: suspend ((String) -> List<DLink>) = { emptyList() }
     ): SessionizeData {
         val data = getJsonUrl(url)
@@ -618,33 +622,12 @@ object Sessionize {
             }.map {
                 it["id"] to it["name"]
             }.toMap()
-        val sessions = data.asMap["sessions"].asList.map {
-            it.asMap
-        }.mapNotNull {
-            if (it.get("startsAt") == null || it.get("endsAt") == null) {
-                /**
-                 * Guard against sessions that are not scheduled.
-                 */
-                return@mapNotNull null
-            }
-            DSession(
-                id = it.get("id").asString,
-                type = if (it.get("isServiceSession").cast()) "service" else "talk",
-                title = it.get("title").asString,
-                description = it.get("description")?.asString,
-                language = "en-US",
-                start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
-                end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
-                complexity = null,
-                feedbackId = null,
-                tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
-                    categories.get(categoryId)?.asString
-                },
-                rooms = listOf(it.get("roomId").toString()),
-                speakers = it.get("speakers").asList.map { it.asString },
-                shortDescription = null,
-                links = linksFor(it.get("id").asString),
-            )
+
+
+        val sessions = if (gridSmartUrl != null) {
+            getSessions(gridSmartUrl, categories, linksFor)
+        } else {
+            getSessions(data!!, categories, linksFor)
         }
 
         var rooms = data.asMap["rooms"].asList.map { it.asMap }.map {
@@ -680,5 +663,81 @@ object Sessionize {
             sessions = sessions,
             speakers = speakers
         )
+    }
+
+    private suspend fun getSessions(
+        gridSmart: String,
+        categories: Map<Any?, Any?>,
+        linksFor: suspend (String) -> List<DLink>
+    ): List<DSession> {
+        val data = getJsonUrl(gridSmart)
+
+        return data.asList.flatMap { it.asMap["rooms"].asList }
+            .flatMap { it.asMap["sessions"].asList }
+            .map {
+                it.asMap
+            }
+            .mapNotNull {
+                if (it.get("startsAt") == null || it.get("endsAt") == null) {
+                    /**
+                     * Guard against sessions that are not scheduled.
+                     */
+                    return@mapNotNull null
+                }
+                DSession(
+                    id = it.get("id").asString,
+                    type = if (it.get("isServiceSession").cast()) "service" else "talk",
+                    title = it.get("title").asString,
+                    description = it.get("description")?.asString,
+                    language = "en-US",
+                    start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
+                    end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
+                    complexity = null,
+                    feedbackId = null,
+                    tags = it.get("categoryItems")?.asList.orEmpty().mapNotNull { categoryId ->
+                        categories.get(categoryId)?.asString
+                    },
+                    rooms = listOf(it.get("roomId").toString()),
+                    speakers = it.get("speakers")?.asList.orEmpty().map { it.asMap["id"].asString },
+                    shortDescription = null,
+                    links = linksFor(it.get("id").asString),
+                )
+            }
+
+    }
+
+    private suspend fun getSessions(
+        data: Any,
+        categories: Map<Any?, Any?>,
+        linksFor: suspend (String) -> List<DLink>
+    ): List<DSession> {
+        return data.asMap["sessions"].asList.map {
+            it.asMap
+        }.mapNotNull {
+            if (it.get("startsAt") == null || it.get("endsAt") == null) {
+                /**
+                 * Guard against sessions that are not scheduled.
+                 */
+                return@mapNotNull null
+            }
+            DSession(
+                id = it.get("id").asString,
+                type = if (it.get("isServiceSession").cast()) "service" else "talk",
+                title = it.get("title").asString,
+                description = it.get("description")?.asString,
+                language = "en-US",
+                start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
+                end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
+                complexity = null,
+                feedbackId = null,
+                tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
+                    categories.get(categoryId)?.asString
+                },
+                rooms = listOf(it.get("roomId").toString()),
+                speakers = it.get("speakers").asList.map { it.asString },
+                shortDescription = null,
+                links = linksFor(it.get("id").asString),
+            )
+        }
     }
 }

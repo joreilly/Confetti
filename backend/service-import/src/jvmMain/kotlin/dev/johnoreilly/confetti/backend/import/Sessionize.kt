@@ -62,7 +62,8 @@ object Sessionize {
                     partners = listOf(
                         DPartner(
                             name = "RevenueCat",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2023/01/revenue-cat-1-1024x1024.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/revenuecat.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/revenuecat_dark.png",
                             url = "https://www.revenuecat.com"
                         )
                     )
@@ -72,13 +73,14 @@ object Sessionize {
                     partners = listOf(
                         DPartner(
                             name = "bitrise",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/Bitrise_Logo___Transparent_Bg_1-1024x379.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/bitrise.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/bitrise_dark.png",
                             url = "https://bitrise.io/?utm_source=sponsorship&utm_medium=referral&utm_campaign=androidmakers-paris-2024&utm_content=droidcon-homepage"
                         ),
                         DPartner(
                             name = "zimperium",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/ZIMPERIUM_logo__3_-ai-1024x155.png",
-                            logoUrlDark = "https://github.com/joreilly/Confetti/assets/3974977/5bf38c6c-5ebb-4225-a006-988f8a17d150",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/zimperium.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/zimperium_dark.png",
                             url = "https://www.zimperium.com/"
                         )
                     )
@@ -88,22 +90,26 @@ object Sessionize {
                     partners = listOf(
                         DPartner(
                             name = "appvestor",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/Appvestor_logo__1_-ai-1024x252.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/appvestor.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/appvestor_dark.png",
                             url = "https://appvestor.com/"
                         ),
                         DPartner(
                             name = "koin",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/koin_logo_grand_format_horizontal__1_-1024x383.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/koin.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/koin_dark.png",
                             url = "https://www.kotzilla.io/"
                         ),
                         DPartner(
                             name = "runway",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/wordmark_runway_tld_fit-eps-1.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/runway.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/runway_dark.png",
                             url = "https://runway.team/"
                         ),
                         DPartner(
                             name = "yavin",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/logo_yavin-ai-1024x441.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/yavin.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/yavin_dark.png",
                             url = "https://yavin.com/"
                         ),
                     )
@@ -113,7 +119,8 @@ object Sessionize {
                     partners = listOf(
                         DPartner(
                             name = "screenshotbot",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/screenshotbot_3-eps.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/screenshotbot.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/screenshotbot_dark.png",
                             url = "https://screenshotbot.io/"
                         )
                     )
@@ -123,7 +130,8 @@ object Sessionize {
                     partners = listOf(
                         DPartner(
                             name = "amo",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/AMO_LOGO_B-ai-1024x576.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/amo.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/amo_dark.png",
                             url = "amo.co"
                         )
                     )
@@ -133,32 +141,38 @@ object Sessionize {
                     partners = listOf(
                         DPartner(
                             name = "DevCafé",
-                            logoUrl = "https://media.licdn.com/dms/image/C4E0BAQEp1c7VKQYloQ/company-logo_200_200/0/1679818335033/devcafe_logo?e=2147483647&v=beta&t=qFJ0bfeZ3oCyNnFKtNczprkeSVDhF7u1Bpf4QD-_M7w",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/devcafe.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/devcafe_dark.png",
                             url = "https://twitter.com/DevCafeYt"
                         ),
                         DPartner(
                             name = "Groundbreaker",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/Groundbreaker_adobeRGB_1_1_1_1_1.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/groundbreaker.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/groundbreaker_dark.png",
                             url = "https://groundbreaker.org/"
                         ),
                         DPartner(
                             name = "leboncoin",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/02/LBC_tech_couleurs_RVB-ai-1024x1024.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/leboncoin.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/leboncoin_dark.png",
                             url = "https://medium.com/leboncoin-tech-blog"
                         ),
                         DPartner(
                             name = "stickermule",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/02-sticker-mule-logo-light-1024x349.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/stickermule.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/stickermule_dark.png",
                             url = "https://www.stickermule.com/eu/custom-stickers"
                         ),
                         DPartner(
                             name = "WomenTechMakers",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/1630517187498.jpg",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/womentechmakers.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/womentechmakers_dark.png",
                             url = "https://www.linkedin.com/company/womentechmakers/"
                         ),
                         DPartner(
                             name = "Women who code",
-                            logoUrl = "https://androidmakers.droidcon.com/wp-content/uploads/sites/5/2024/03/WWCode_FullLogo_Black-1024x444.png",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/women who code.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/women who code_dark.png",
                             url = "https://womenwhocode.com/"
                         )
                     )

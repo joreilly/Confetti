@@ -13,6 +13,7 @@ import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import net.mbonnin.bare.graphql.asBoolean
 import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
@@ -54,7 +55,7 @@ object Sessionize {
                 latitude = 48.8188958,
                 longitude = 2.3193016,
                 imageUrl = "https://www.beffroidemontrouge.com/wp-content/uploads/2019/09/moebius-1.jpg",
-                floorPlanUrl = null
+                floorPlanUrl = "https://storage.googleapis.com/androidmakers-static/floor_plan.png"
             ),
             partnerGroups = listOf(
                 DPartnerGroup(
@@ -621,6 +622,9 @@ object Sessionize {
         )
     }
 
+    /**
+     * @param gridSmartUrl extra json to get the service sessions from. The service sessions are not always in the View/All url
+     */
     private suspend fun getData(
         url: String,
         gridSmartUrl: String? = null,
@@ -638,10 +642,9 @@ object Sessionize {
             }.toMap()
 
 
-        val sessions = if (gridSmartUrl != null) {
-            getSessions(gridSmartUrl, categories, linksFor)
-        } else {
-            getSessions(data!!, categories, linksFor)
+        var sessions = getSessions(data!!, categories, linksFor)
+        if (gridSmartUrl != null) {
+            sessions = sessions + getServiceSessions(gridSmartUrl, categories, linksFor)
         }
 
         var rooms = data.asMap["rooms"].asList.map { it.asMap }.map {
@@ -679,7 +682,7 @@ object Sessionize {
         )
     }
 
-    private suspend fun getSessions(
+    private suspend fun getServiceSessions(
         gridSmart: String,
         categories: Map<Any?, Any?>,
         linksFor: suspend (String) -> List<DLink>
@@ -692,25 +695,30 @@ object Sessionize {
                 it.asMap
             }
             .mapNotNull {
+                if ((it.get("isServiceSession") as? Boolean) != true) {
+                    // Filter service sessions
+                    return@mapNotNull null
+                }
                 if (it.get("startsAt") == null || it.get("endsAt") == null) {
                     /**
                      * Guard against sessions that are not scheduled.
                      */
                     return@mapNotNull null
                 }
+                val tags = it.get("categoryItems")?.asList.orEmpty().mapNotNull { categoryId ->
+                    categories.get(categoryId)?.asString
+                }
                 DSession(
                     id = it.get("id").asString,
                     type = if (it.get("isServiceSession").cast()) "service" else "talk",
                     title = it.get("title").asString,
                     description = it.get("description")?.asString,
-                    language = "en-US",
+                    language = tags.toLanguage(),
                     start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
                     end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
                     complexity = null,
                     feedbackId = null,
-                    tags = it.get("categoryItems")?.asList.orEmpty().mapNotNull { categoryId ->
-                        categories.get(categoryId)?.asString
-                    },
+                    tags = tags,
                     rooms = listOf(it.get("roomId").toString()),
                     speakers = it.get("speakers")?.asList.orEmpty().map { it.asMap["id"].asString },
                     shortDescription = null,
@@ -734,19 +742,20 @@ object Sessionize {
                  */
                 return@mapNotNull null
             }
+            val tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
+                categories.get(categoryId)?.asString
+            }
             DSession(
                 id = it.get("id").asString,
                 type = if (it.get("isServiceSession").cast()) "service" else "talk",
                 title = it.get("title").asString,
                 description = it.get("description")?.asString,
-                language = "en-US",
+                language = tags.toLanguage(),
                 start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
                 end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
                 complexity = null,
                 feedbackId = null,
-                tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
-                    categories.get(categoryId)?.asString
-                },
+                tags = tags,
                 rooms = listOf(it.get("roomId").toString()),
                 speakers = it.get("speakers").asList.map { it.asString },
                 shortDescription = null,
@@ -754,4 +763,8 @@ object Sessionize {
             )
         }
     }
+}
+
+private fun List<String>.toLanguage(): String {
+    return if(contains("French")) "French" else "English"
 }

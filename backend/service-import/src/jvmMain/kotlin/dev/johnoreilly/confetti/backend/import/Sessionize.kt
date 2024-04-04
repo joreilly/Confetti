@@ -54,7 +54,7 @@ object Sessionize {
                 latitude = 48.8188958,
                 longitude = 2.3193016,
                 imageUrl = "https://www.beffroidemontrouge.com/wp-content/uploads/2019/09/moebius-1.jpg",
-                floorPlanUrl = null
+                floorPlanUrl = "https://storage.googleapis.com/androidmakers-static/floor_plan.png"
             ),
             partnerGroups = listOf(
                 DPartnerGroup(

@@ -222,7 +222,6 @@ version = "0.9"
 kmmbridge {
     frameworkName.set("ConfettiKit")
     addGithubPackagesRepository()
-    mavenPublishArtifacts()
     spm()
     timestampVersions()
 }

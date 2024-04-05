@@ -5,10 +5,6 @@ on:
 #    branches:
 #      - "main"
 
-env:
-  MAVEN_USERNAME: ${{ secrets.REPSY_USERNAME }}
-  MAVEN_PASSWORD: ${{ secrets.REPSY_PASSWORD }}
-
 jobs:
   call-kmmbridge-publish:
     permissions:
@@ -19,4 +15,4 @@ jobs:
       jvmVersion: 17
       versionBaseProperty: LIBRARY_VERSION
     secrets:
-      gradle_params: -DMAVEN_USERNAME=${{env.MAVEN_USERNAME}} -DMAVEN_PASSWORD=${{env.MAVEN_PASSWORD}}
+      gradle_params: -DMAVEN_USERNAME=${{ secrets.MAVEN_USERNAME }} -DMAVEN_PASSWORD=${{ secrets.MAVEN_PASSWORD }}

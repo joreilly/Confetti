@@ -247,16 +247,16 @@ tasks.create("runJvmMain", JavaExec::class.java) {
     this.mainClass.set("dev.johnoreilly.confetti.MainKt")
 }
 
-publishing {
-    repositories {
-        maven {
-            url = uri("https://repo.repsy.io/mvn/joreilly/confetti")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME") ?: System.getProperty("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD") ?: System.getProperty("MAVEN_PASSWORD")            }
-        }
-    }
-}
+//publishing {
+//    repositories {
+//        maven {
+//            url = uri("https://repo.repsy.io/mvn/joreilly/confetti")
+//            credentials {
+//                username = System.getenv("MAVEN_USERNAME") ?: System.getProperty("MAVEN_USERNAME")
+//                password = System.getenv("MAVEN_PASSWORD") ?: System.getProperty("MAVEN_PASSWORD")            }
+//        }
+//    }
+//}
 
 multiplatformSwiftPackage {
     packageName("ConfettiKit")

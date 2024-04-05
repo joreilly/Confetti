@@ -218,13 +218,21 @@ dependencies {
     coreLibraryDesugaring(libs.desugar)
 }
 
-version = "0.9"
+val autoVersion = project.property(
+    if (project.hasProperty("AUTO_VERSION")) {
+        "AUTO_VERSION"
+    } else {
+        "LIBRARY_VERSION"
+    }
+) as String
+
 kmmbridge {
     frameworkName.set("ConfettiKit")
-    addGithubPackagesRepository()
+    mavenPublishArtifacts()
     spm()
-    timestampVersions()
 }
+
+addGithubPackagesRepository()
 
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")

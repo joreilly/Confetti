@@ -18,8 +18,6 @@ plugins {
 
 configureCompilerOptions()
 
-version = "1.0"
-
 dependencies {
     implementation(platform(libs.firebase.bom))
 }
@@ -225,6 +223,8 @@ val autoVersion = project.property(
         "LIBRARY_VERSION"
     }
 ) as String
+
+version = autoVersion
 
 kmmbridge {
     frameworkName.set("ConfettiKit")

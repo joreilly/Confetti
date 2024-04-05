@@ -4,6 +4,11 @@ on:
 #  push:
 #    branches:
 #      - "main"
+
+env:
+  MAVEN_USERNAME: ${{ secrets.REPSY_USERNAME }}
+  MAVEN_PASSWORD: ${{ secrets.REPSY_PASSWORD }}
+
 jobs:
   call-kmmbridge-publish:
     permissions:

@@ -320,8 +320,8 @@ data class PartnerGroup(
 
 data class Partner(
     val name: String,
-    val logoUrl: String,
-    val logoUrlDark: String?,
+    private val logoUrl: String,
+    private val logoUrlDark: String?,
     val url: String,
 ) {
     /**

@@ -13,3 +13,5 @@ jobs:
     with:
       jvmVersion: 17
       versionBaseProperty: LIBRARY_VERSION
+    secrets:
+      gradle_params: -DMAVEN_USERNAME=${{env.MAVEN_USERNAME}} -DMAVEN_PASSWORD=${{env.MAVEN_PASSWORD}}

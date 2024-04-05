@@ -252,9 +252,8 @@ publishing {
         maven {
             url = uri("https://repo.repsy.io/mvn/joreilly/confetti")
             credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
+                username = System.getenv("MAVEN_USERNAME") ?: System.getProperty("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD") ?: System.getProperty("MAVEN_PASSWORD")            }
         }
     }
 }

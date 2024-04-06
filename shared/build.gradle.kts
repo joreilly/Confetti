@@ -11,7 +11,6 @@ plugins {
     id("com.squareup.wire")
     id("maven-publish")
     id("kotlinx-serialization")
-    id("io.github.luca992.multiplatform-swiftpackage") version "2.2.1"
     alias(libs.plugins.kmmbridge)
     alias(libs.plugins.buildkonfig)
 }
@@ -245,26 +244,6 @@ tasks.create("runJvmMain", JavaExec::class.java) {
     }
     this.setClasspath(jars)
     this.mainClass.set("dev.johnoreilly.confetti.MainKt")
-}
-
-//publishing {
-//    repositories {
-//        maven {
-//            url = uri("https://repo.repsy.io/mvn/joreilly/confetti")
-//            credentials {
-//                username = System.getenv("MAVEN_USERNAME") ?: System.getProperty("MAVEN_USERNAME")
-//                password = System.getenv("MAVEN_PASSWORD") ?: System.getProperty("MAVEN_PASSWORD")            }
-//        }
-//    }
-//}
-
-multiplatformSwiftPackage {
-    packageName("ConfettiKit")
-    swiftToolsVersion("5.9")
-    targetPlatforms {
-        iOS { v("14") }
-        macOS { v("12")}
-    }
 }
 
 buildkonfig {

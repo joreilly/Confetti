@@ -86,13 +86,11 @@ type PageInfo {
 }
 
 type Partner {
-  logoUrl(dark: Boolean): String!
-
-  logoUrlDark: String
-
   name: String!
 
   url: String!
+
+  logoUrl(dark: Boolean): String!
 }
 
 type PartnerGroup {

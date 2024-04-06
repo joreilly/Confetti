@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState

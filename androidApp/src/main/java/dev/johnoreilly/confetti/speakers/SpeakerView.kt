@@ -29,7 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.SpeakersComponent
 import dev.johnoreilly.confetti.decompose.SpeakersUiState

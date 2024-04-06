@@ -71,8 +71,7 @@ kotlin {
                 api(libs.bundles.apollo)
 
                 api(libs.decompose.decompose)
-                api("com.arkivanov.decompose:decompose:2.2.2-compose-experimental")
-                api("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.2-compose-experimental")
+                api(libs.decompose.extensions.compose)
 
                 api(libs.essenty.lifecycle)
 

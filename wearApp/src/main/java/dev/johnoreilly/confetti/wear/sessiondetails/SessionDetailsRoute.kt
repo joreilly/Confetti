@@ -2,7 +2,7 @@ package dev.johnoreilly.confetti.wear.sessiondetails
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
 
 @Composable

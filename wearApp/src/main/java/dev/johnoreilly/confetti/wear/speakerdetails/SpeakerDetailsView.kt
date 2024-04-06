@@ -26,7 +26,7 @@ import androidx.wear.compose.material.placeholder
 import androidx.wear.compose.material.rememberPlaceholderState
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType

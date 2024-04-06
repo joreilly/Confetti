@@ -1,13 +1,14 @@
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.apollographql.apollo3.ApolloClient
 import com.arkivanov.decompose.DefaultComponentContext
-import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleController
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
+import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import dev.johnoreilly.confetti.decompose.AppComponent
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
@@ -34,17 +35,16 @@ fun main() {
     val lifecycle = LifecycleRegistry()
 
     val appComponent =
-        DefaultAppComponent(
-            componentContext = DefaultComponentContext(lifecycle),
-            onSignOut = {},
-            onSignIn = {}
-        )
-
-
+        runOnUiThread {
+            DefaultAppComponent(
+                componentContext = DefaultComponentContext(lifecycle),
+                onSignOut = {},
+                onSignIn = {}
+            )
+        }
 
     application {
         val windowState = rememberWindowState()
-        LifecycleController(lifecycle, windowState)
 
         LaunchedEffect(key1 = this) {
             Napier.base(DebugAntilog())
@@ -55,6 +55,12 @@ fun main() {
             state = windowState,
             title = "Confetti"
         ) {
+            LifecycleController(
+                lifecycleRegistry = lifecycle,
+                windowState = windowState,
+                windowInfo = LocalWindowInfo.current,
+            )
+
             MaterialTheme {
                 MainLayout(appComponent)
             }

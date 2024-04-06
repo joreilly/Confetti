@@ -2,8 +2,8 @@
 import PackageDescription
 
 // BEGIN KMMBRIDGE VARIABLES BLOCK (do not edit)
-let remoteKotlinUrl = "https://repo.repsy.io/mvn/joreilly/confetti/Confetti/shared-kmmbridge/0.8.14/shared-kmmbridge-0.8.14.zip"
-let remoteKotlinChecksum = "c7ca2aebe004a16e7562e25456b044778a4b4d2fc7a4f0bb47b440b6ba5cfba3"
+let remoteKotlinUrl = "https://maven.pkg.github.com/joreilly/Confetti/Confetti/shared-kmmbridge/0.9.7/shared-kmmbridge-0.9.7.zip"
+let remoteKotlinChecksum = "ed0b6e9ae1a0018e41ead73d0036bd9f3e90adc34efd085a47a391c2f31d32f5"
 let packageName = "ConfettiKit"
 // END KMMBRIDGE BLOCK
 

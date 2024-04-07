@@ -2,7 +2,6 @@
 
 package dev.johnoreilly.confetti
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -35,6 +34,8 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
+    private var isDeepLinkHandledPreviously = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,10 +58,11 @@ class MainActivity : ComponentActivity() {
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val initialConferenceId = intent.extractConferenceIdOrNull()
+        isDeepLinkHandledPreviously = savedInstanceState?.getBoolean(KEY_DEEP_LINK_HANDLED) ?: false
+        val initialConferenceId = intent.data?.extractConferenceIdOrNull(isDeepLinkHandledPreviously)
         if (initialConferenceId != null) {
             intent.setData(null)
-            Log.d("Stelios", "after:${intent.extractConferenceIdOrNull()}")
+            isDeepLinkHandledPreviously = true
         }
         Log.d("Stelios", "initialConferenceId:$initialConferenceId")
         val appComponent =
@@ -102,28 +104,28 @@ class MainActivity : ComponentActivity() {
     /**
      * From a deep link like `https://confetti-app.dev/conference/devfeststockholm2023` extracts `devfeststockholm2023`
      */
-    private fun Intent.extractConferenceIdOrNull(): String? {
-        run {
-            val flags = intent.flags
-            Log.d("Stelios", "Intent.FLAG_ACTIVITY_NEW_TASK was ${flags and Intent.FLAG_ACTIVITY_NEW_TASK}")
-            Log.d("Stelios", "Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY was ${flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY}")
-        }
-        val launchedFromHistoryAfterProcessDeath = (intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK) != 0 &&
-            (intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0
-        if(launchedFromHistoryAfterProcessDeath) {
+    private fun Uri.extractConferenceIdOrNull(isDeepLinkHandledPreviously: Boolean): String? {
+        if (isDeepLinkHandledPreviously) {
             return null
         }
-        with(data ?: return null) {
-            if (host != "confetti-app.dev") return null
-            val path = path ?: return null
-            if (path.firstOrNull() != '/') return null
-            val parts = path.substring(1).split('/')
-            if (parts.size != 2) return null
-            if (parts[0] != "conference") return null
-            val conferenceId = parts[1]
-            if (!conferenceId.all { it.isLetterOrDigit() }) return null
-            return conferenceId
-        }
+        if (host != "confetti-app.dev") return null
+        val path = path ?: return null
+        if (path.firstOrNull() != '/') return null
+        val parts = path.substring(1).split('/')
+        if (parts.size != 2) return null
+        if (parts[0] != "conference") return null
+        val conferenceId = parts[1]
+        if (!conferenceId.all { it.isLetterOrDigit() }) return null
+        return conferenceId
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(KEY_DEEP_LINK_HANDLED, isDeepLinkHandledPreviously)
+    }
+
+    companion object {
+        const val KEY_DEEP_LINK_HANDLED: String = "dev.johnoreilly.confetti.KEY_DEEP_LINK_HANDLED"
     }
 }
 

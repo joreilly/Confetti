@@ -2,8 +2,10 @@
 
 package dev.johnoreilly.confetti
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -55,7 +57,12 @@ class MainActivity : ComponentActivity() {
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val initialConferenceId = intent.data?.extractConferenceIdOrNull()
+        val initialConferenceId = intent.extractConferenceIdOrNull()
+        if (initialConferenceId != null) {
+            intent.setData(null)
+            Log.d("Stelios", "after:${intent.extractConferenceIdOrNull()}")
+        }
+        Log.d("Stelios", "initialConferenceId:$initialConferenceId")
         val appComponent =
             DefaultAppComponent(
                 componentContext = defaultComponentContext(
@@ -95,16 +102,28 @@ class MainActivity : ComponentActivity() {
     /**
      * From a deep link like `https://confetti-app.dev/conference/devfeststockholm2023` extracts `devfeststockholm2023`
      */
-    private fun Uri.extractConferenceIdOrNull(): String? {
-        if (host != "confetti-app.dev") return null
-        val path = path ?: return null
-        if (path.firstOrNull() != '/') return null
-        val parts = path.substring(1).split('/')
-        if (parts.size != 2) return null
-        if (parts[0] != "conference") return null
-        val conferenceId = parts[1]
-        if (!conferenceId.all { it.isLetterOrDigit() }) return null
-        return conferenceId
+    private fun Intent.extractConferenceIdOrNull(): String? {
+        run {
+            val flags = intent.flags
+            Log.d("Stelios", "Intent.FLAG_ACTIVITY_NEW_TASK was ${flags and Intent.FLAG_ACTIVITY_NEW_TASK}")
+            Log.d("Stelios", "Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY was ${flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY}")
+        }
+        val launchedFromHistoryAfterProcessDeath = (intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK) != 0 &&
+            (intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0
+        if(launchedFromHistoryAfterProcessDeath) {
+            return null
+        }
+        with(data ?: return null) {
+            if (host != "confetti-app.dev") return null
+            val path = path ?: return null
+            if (path.firstOrNull() != '/') return null
+            val parts = path.substring(1).split('/')
+            if (parts.size != 2) return null
+            if (parts[0] != "conference") return null
+            val conferenceId = parts[1]
+            if (!conferenceId.all { it.isLetterOrDigit() }) return null
+            return conferenceId
+        }
     }
 }
 

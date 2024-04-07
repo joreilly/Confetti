@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.sessions
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,7 @@ import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isLightning
+import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.sessionSpeakers
 import dev.johnoreilly.confetti.ui.Bookmark
 import dev.johnoreilly.confetti.ui.ErrorView
@@ -215,6 +217,11 @@ fun SessionItemView(
             sessionSelected(session.id)
         })
     }
+
+    if (session.isService()) {
+        modifier = modifier.background(Color.White)
+    }
+
     Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {

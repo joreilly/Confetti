@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
-
-package dev.johnoreilly.confetti.sessions
+package dev.johnoreilly.confetti.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -14,15 +12,10 @@ import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,12 +23,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.outlined.Bookmark
-import androidx.compose.material.icons.outlined.BookmarkAdd
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -55,16 +42,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isLightning
-import dev.johnoreilly.confetti.ui.ErrorView
-import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.SignInDialog
-import dev.johnoreilly.confetti.utils.plus
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SessionListGridView(
     uiState: SessionsUiState,
@@ -75,6 +59,7 @@ fun SessionListGridView(
     isLoggedIn: Boolean,
     onRefresh: () -> Unit,
 ) {
+    println(uiState)
     when (uiState) {
         SessionsUiState.Error -> ErrorView(onRefresh)
         SessionsUiState.Loading -> LoadingView()
@@ -82,19 +67,19 @@ fun SessionListGridView(
         is SessionsUiState.Success -> {
 
             Column {
-                val pagerState = rememberPagerState() {
+                val pagerState = rememberPagerState {
                     uiState.formattedConfDates.size
                 }
 
                 SessionListTabRow(pagerState, uiState)
 
-                HorizontalPager(state = pagerState,) { page ->
+                HorizontalPager(state = pagerState) { page ->
 
                     Row(Modifier.horizontalScroll(rememberScrollState())) {
                         val sessionsByStartTime = uiState.sessionsByStartTimeList[page]
 
                         val rooms = uiState.rooms.filter { room ->
-                            sessionsByStartTime.values.any { it.any { it.room?.name == room.name } }
+                            sessionsByStartTime.values.any { session -> session.any { it.room?.name == room.name } }
                         }
 
                         val timeInfoWidth = 90.dp
@@ -122,10 +107,7 @@ fun SessionListGridView(
                             LazyColumn(
                                 modifier = Modifier
                                     .fillMaxWidth(),
-                                contentPadding = PaddingValues(end = 16.dp).plus(
-                                    WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-                                        .asPaddingValues()
-                                )
+                                contentPadding = PaddingValues(end = 16.dp)
                             ) {
                                 sessionsByStartTime.forEach {
                                     item {
@@ -188,7 +170,7 @@ fun SessionGridRow(
                     .height(220.dp)
                     .padding(bottom = 16.dp)
                     .border(BorderStroke(1.dp, MaterialTheme.colorScheme.primary)),
-                color = MaterialTheme.colorScheme.secondaryContainer
+                color = MaterialTheme.colorScheme.surfaceContainerLow
             ) {
                 Box(Modifier.fillMaxSize()) {
                     Column(
@@ -215,7 +197,8 @@ fun SessionGridRow(
                                 color = MaterialTheme.colorScheme.primaryContainer
                             ) {
                                 Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
-                                    Icon(Icons.Default.Bolt, "lightning")
+                                    // TODO find alternative
+                                    //Icon(Icons.Default.Bolt, "lightning")
                                     Spacer(Modifier.width(4.dp))
                                     Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
                                 }
@@ -318,12 +301,13 @@ private fun Bookmark(
                 }
             }
         ) {
-            Icon(
-                imageVector = Icons.Outlined.Bookmark,
-                contentDescription = "remove bookmark",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(8.dp)
-            )
+            // TODO find alternative
+//            Icon(
+//                imageVector = Icons.Outlined.Bookmark,
+//                contentDescription = "remove bookmark",
+//                tint = MaterialTheme.colorScheme.primary,
+//                modifier = Modifier.padding(8.dp)
+//            )
         }
     } else {
         IconButton(
@@ -336,11 +320,12 @@ private fun Bookmark(
                 }
             }
         ) {
-            Icon(
-                imageVector = Icons.Outlined.BookmarkAdd,
-                contentDescription = "add bookmark",
-                modifier = Modifier.padding(8.dp)
-            )
+// TODO find alternative
+//            Icon(
+//                imageVector = Icons.Outlined.BookmarkAdd,
+//                contentDescription = "add bookmark",
+//                modifier = Modifier.padding(8.dp)
+//            )
         }
     }
     if (showDialog) {

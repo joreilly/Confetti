@@ -206,7 +206,7 @@ dependencies {
     implementation(libs.material3.core)
 
     implementation(libs.decompose.decompose)
-    implementation(libs.decompose.extensions.compose.jetpack)
+    implementation(libs.decompose.extensions.compose)
 
     val excludeAndroidxDataStore = Action<ExternalModuleDependency> {
         // Crashlytics and PerfMon depend on datastore v1.0 but we're using v1.1
@@ -218,7 +218,7 @@ dependencies {
     implementation(libs.firebase.auth)
 
     implementation(libs.decompose.decompose)
-    implementation(libs.decompose.extensions.compose.jetpack)
+    implementation(libs.decompose.extensions.compose)
     implementation(libs.room.runtime)
     implementation(libs.coil.base)
 

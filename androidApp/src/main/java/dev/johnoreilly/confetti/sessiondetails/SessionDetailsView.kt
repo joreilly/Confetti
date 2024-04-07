@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -28,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
@@ -44,9 +45,8 @@ import org.koin.compose.koinInject
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun SessionDetailsRoute(
-    component: SessionDetailsComponent,
-) {
+fun SessionDetailsRoute(component: SessionDetailsComponent) {
+
     val user by koinInject<Authentication>().currentUser.collectAsStateWithLifecycle()
     val uiState by component.uiState.subscribeAsState()
     val isBookmarked by component.isBookmarked.collectAsStateWithLifecycle()
@@ -101,7 +101,7 @@ fun SessionDetailView(
                 title = {},
                 navigationIcon = {
                     IconButton(onClick = { popBack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(

@@ -70,6 +70,8 @@ input LocalDateTimeFilterInput {
 type Mutation {
   addBookmark(sessionId: String!): Bookmarks!
 
+  deleteAccount: Boolean!
+
   removeBookmark(sessionId: String!): Bookmarks!
 }
 
@@ -84,7 +86,9 @@ type PageInfo {
 }
 
 type Partner {
-  logoUrl: String!
+  logoUrl(dark: Boolean): String!
+
+  logoUrlDark: String
 
   name: String!
 

@@ -13,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ShapeDefaults
@@ -30,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.RecommendationsComponent
 import dev.johnoreilly.confetti.sessions.SessionItemView
@@ -39,7 +38,6 @@ import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.HomeScaffold
 import dev.johnoreilly.confetti.ui.LoadingView
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecommendationsRoute(
     component: RecommendationsComponent,
@@ -118,9 +116,9 @@ fun RecommendationsView(
                     session = session,
                     sessionSelected = navigateToSession,
                     isBookmarked = false, //bookmarks.contains(session.id),
-                    addBookmark = {  },
-                    removeBookmark = {  },
-                    onNavigateToSignIn = { },
+                    addBookmark = addBookmark,
+                    removeBookmark = removeBookmark,
+                    onNavigateToSignIn = {},
                     isLoggedIn = false,
                 )
             }

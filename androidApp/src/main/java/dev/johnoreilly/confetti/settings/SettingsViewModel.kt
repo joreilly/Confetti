@@ -12,7 +12,6 @@ import dev.johnoreilly.confetti.UserEditableSettings
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.decompose.coroutineScope
-import dev.johnoreilly.confetti.wear.WearSettingsSync
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -36,8 +35,8 @@ class DefaultSettingsComponent(
         if (!it) {
             flowOf(null)
         } else {
-            authentication.currentUser.map {
-                DeveloperSettings(token = it?.token(false))
+            authentication.currentUser.map { user ->
+                DeveloperSettings(token = user?.token(false))
             }
         }
     }.stateIn(

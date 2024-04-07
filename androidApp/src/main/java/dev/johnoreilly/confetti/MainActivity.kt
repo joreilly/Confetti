@@ -55,10 +55,13 @@ class MainActivity : ComponentActivity() {
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        val initialConferenceId = intent.data?.extractConferenceIdOrNull()
         val appComponent =
             DefaultAppComponent(
-                componentContext = defaultComponentContext(),
-                initialConferenceId = intent.data?.extractConferenceIdOrNull(),
+                componentContext = defaultComponentContext(
+                    discardSavedState = initialConferenceId != null,
+                ),
+                initialConferenceId = initialConferenceId,
                 onSignOut = {
                     lifecycleScope.launch {
                         credentialManager.clearCredentialState(ClearCredentialStateRequest())

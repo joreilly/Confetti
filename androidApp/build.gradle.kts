@@ -166,7 +166,7 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.decompose.decompose)
-    implementation(libs.decompose.extensions.compose.jetpack)
+    implementation(libs.decompose.extensions.compose)
 
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)

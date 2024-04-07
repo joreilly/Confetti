@@ -8,17 +8,14 @@ plugins {
     id("com.apollographql.apollo3")
     id("org.jetbrains.compose")
     id("com.google.devtools.ksp")
-    id("co.touchlab.faktory.kmmbridge")
     id("com.squareup.wire")
     id("maven-publish")
     id("kotlinx-serialization")
-    id("io.github.luca992.multiplatform-swiftpackage") version "2.2.1"
+    alias(libs.plugins.kmmbridge)
     alias(libs.plugins.buildkonfig)
 }
 
 configureCompilerOptions()
-
-version = "1.0"
 
 dependencies {
     implementation(platform(libs.firebase.bom))
@@ -74,6 +71,8 @@ kotlin {
                 api(libs.bundles.apollo)
 
                 api(libs.decompose.decompose)
+                api(libs.decompose.extensions.compose)
+
                 api(libs.essenty.lifecycle)
 
                 // Multiplatform Logging
@@ -84,8 +83,9 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.components.resources)
-                implementation(libs.image.loader)
-                api("com.materialkolor:material-kolor:1.4.4")
+                implementation(libs.coil3.compose)
+                implementation(libs.coil3.network.ktor)
+                api(libs.materialkolor)
 
                 // See https://github.com/cashapp/sqldelight/issues/4357
                 implementation(libs.stately.common)
@@ -214,13 +214,23 @@ dependencies {
     coreLibraryDesugaring(libs.desugar)
 }
 
+val autoVersion = project.property(
+    if (project.hasProperty("AUTO_VERSION")) {
+        "AUTO_VERSION"
+    } else {
+        "LIBRARY_VERSION"
+    }
+) as String
+
+version = autoVersion
+
 kmmbridge {
     frameworkName.set("ConfettiKit")
     mavenPublishArtifacts()
-    githubReleaseVersions()
     spm()
-    versionPrefix.set("0.8")
 }
+
+addGithubPackagesRepository()
 
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
@@ -233,27 +243,6 @@ tasks.create("runJvmMain", JavaExec::class.java) {
     }
     this.setClasspath(jars)
     this.mainClass.set("dev.johnoreilly.confetti.MainKt")
-}
-
-publishing {
-    repositories {
-        maven {
-            url = uri("https://repo.repsy.io/mvn/joreilly/confetti")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-    }
-}
-
-multiplatformSwiftPackage {
-    packageName("ConfettiKit")
-    swiftToolsVersion("5.9")
-    targetPlatforms {
-        iOS { v("14") }
-        macOS { v("12")}
-    }
 }
 
 buildkonfig {

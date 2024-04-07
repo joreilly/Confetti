@@ -22,8 +22,6 @@ import org.koin.core.component.inject
 interface AppComponent {
     val stack: Value<ChildStack<*, Child>>
 
-    fun onConferenceDeepLink(conferenceId: String)
-
     sealed class Child {
         object Loading : Child()
         class Conferences(val component: ConferencesComponent) : Child()
@@ -77,12 +75,6 @@ class DefaultAppComponent(
                 .map { it?.uid }
                 .distinctUntilChanged()
                 .collect(::onUserChanged)
-        }
-    }
-
-    override fun onConferenceDeepLink(conferenceId: String) {
-        coroutineScope.launch {
-            selectAndNavigateToDeepLinkedConference(conferenceId)
         }
     }
 

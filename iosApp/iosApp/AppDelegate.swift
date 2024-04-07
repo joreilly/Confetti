@@ -11,7 +11,7 @@ import ConfettiKit
 
 class AppDelegate : NSObject, UIApplicationDelegate {
     
-    let root: AppComponent
+    var root: AppComponent
     
     override init() {
         KoinKt.doInitKoin()
@@ -22,6 +22,16 @@ class AppDelegate : NSObject, UIApplicationDelegate {
             onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
             initialConferenceId: nil
+        )
+    }
+
+    func onConferenceDeepLink(conferenceId: String) {
+        root = DefaultAppComponent(
+            componentContext: DefaultComponentContext(lifecycle: ApplicationLifecycle()),
+            onSignOut: {},
+            onSignIn: {},
+            isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
+            initialConferenceId: conferenceId
         )
     }
 }

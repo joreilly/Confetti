@@ -4,6 +4,7 @@ import GridTable
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.datastore.DConfig
 import dev.johnoreilly.confetti.backend.datastore.DLink
+import dev.johnoreilly.confetti.backend.datastore.DPartner
 import dev.johnoreilly.confetti.backend.datastore.DPartnerGroup
 import dev.johnoreilly.confetti.backend.datastore.DRoom
 import dev.johnoreilly.confetti.backend.datastore.DSession
@@ -12,6 +13,7 @@ import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import net.mbonnin.bare.graphql.asBoolean
 import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
@@ -32,7 +34,10 @@ object Sessionize {
 
     suspend fun importAndroidMakers2024(): Int {
         return writeData(
-            getData("https://sessionize.com/api/v2/ok1n6jgj/view/All"),
+            getData(
+                url = "https://sessionize.com/api/v2/ok1n6jgj/view/All",
+                gridSmartUrl = "https://sessionize.com/api/v2/ok1n6jgj/view/GridSmart",
+            ),
             config = DConfig(
                 id = ConferenceId.AndroidMakers2024.id,
                 name = "AndroidMakers by droidcon 2024",
@@ -40,7 +45,7 @@ object Sessionize {
                 themeColor = "0xffFB5C49"
             ),
             venue = DVenue(
-                id = "main",
+                id = "conference",
                 name = "Beffroi de Montrouge",
                 address = "Av. de la République, 92120 Montrouge",
                 description = mapOf(
@@ -50,8 +55,131 @@ object Sessionize {
                 latitude = 48.8188958,
                 longitude = 2.3193016,
                 imageUrl = "https://www.beffroidemontrouge.com/wp-content/uploads/2019/09/moebius-1.jpg",
-                floorPlanUrl = null
+                floorPlanUrl = "https://storage.googleapis.com/androidmakers-static/floor_plan.png"
             ),
+            partnerGroups = listOf(
+                DPartnerGroup(
+                    key = "gold",
+                    partners = listOf(
+                        DPartner(
+                            name = "RevenueCat",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/revenuecat.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/revenuecat_dark.png",
+                            url = "https://www.revenuecat.com"
+                        )
+                    )
+                ),
+                DPartnerGroup(
+                    key = "silver",
+                    partners = listOf(
+                        DPartner(
+                            name = "bitrise",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/bitrise.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/bitrise_dark.png",
+                            url = "https://bitrise.io/?utm_source=sponsorship&utm_medium=referral&utm_campaign=androidmakers-paris-2024&utm_content=droidcon-homepage"
+                        ),
+                        DPartner(
+                            name = "zimperium",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/zimperium.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/zimperium_dark.png",
+                            url = "https://www.zimperium.com/"
+                        )
+                    )
+                ),
+                DPartnerGroup(
+                    key = "bronze",
+                    partners = listOf(
+                        DPartner(
+                            name = "appvestor",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/appvestor.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/appvestor_dark.png",
+                            url = "https://appvestor.com/"
+                        ),
+                        DPartner(
+                            name = "koin",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/koin.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/koin_dark.png",
+                            url = "https://www.kotzilla.io/"
+                        ),
+                        DPartner(
+                            name = "runway",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/runway.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/runway_dark.png",
+                            url = "https://runway.team/"
+                        ),
+                        DPartner(
+                            name = "yavin",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/yavin.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/yavin_dark.png",
+                            url = "https://yavin.com/"
+                        ),
+                    )
+                ),
+                DPartnerGroup(
+                    key = "startup",
+                    partners = listOf(
+                        DPartner(
+                            name = "screenshotbot",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/screenshotbot.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/screenshotbot_dark.png",
+                            url = "https://screenshotbot.io/"
+                        )
+                    )
+                ),
+                DPartnerGroup(
+                    key = "lanyard",
+                    partners = listOf(
+                        DPartner(
+                            name = "amo",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/amo.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/amo_dark.png",
+                            url = "amo.co"
+                        )
+                    )
+                ),
+                DPartnerGroup(
+                    key = "community",
+                    partners = listOf(
+                        DPartner(
+                            name = "DevCafé",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/devcafe.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/devcafe_dark.png",
+                            url = "https://twitter.com/DevCafeYt"
+                        ),
+                        DPartner(
+                            name = "Groundbreaker",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/groundbreaker.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/groundbreaker_dark.png",
+                            url = "https://groundbreaker.org/"
+                        ),
+                        DPartner(
+                            name = "leboncoin",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/leboncoin.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/leboncoin_dark.png",
+                            url = "https://medium.com/leboncoin-tech-blog"
+                        ),
+                        DPartner(
+                            name = "stickermule",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/stickermule.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/stickermule_dark.png",
+                            url = "https://www.stickermule.com/eu/custom-stickers"
+                        ),
+                        DPartner(
+                            name = "WomenTechMakers",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/womentechmakers.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/womentechmakers_dark.png",
+                            url = "https://www.linkedin.com/company/womentechmakers/"
+                        ),
+                        DPartner(
+                            name = "Women who code",
+                            logoUrl = "https://storage.googleapis.com/androidmakers-static/partners/women who code.png",
+                            logoUrlDark = "https://storage.googleapis.com/androidmakers-static/partners/women who code_dark.png",
+                            url = "https://womenwhocode.com/"
+                        )
+                    )
+
+                )
+            )
         )
     }
 
@@ -360,7 +488,7 @@ object Sessionize {
 
     suspend fun importAndroidMakers2023(): Int {
         return writeData(
-            getData(androidMakers2023, ::getLinks),
+            getData(androidMakers2023, null, ::getLinks),
             config = DConfig(
                 id = ConferenceId.AndroidMakers2023.id,
                 name = "Android Makers by droidcon",
@@ -462,14 +590,14 @@ object Sessionize {
                 name = "SHEDEV Warsaw 2024",
                 timeZone = "Europe/Warsaw",
                 themeColor = "0xFF512DA8"
-                ),
+            ),
             venue = DVenue(
                 id = "main",
                 name = "Google for Startups Campus Warsaw",
                 address = "Plac Konesera 10, 03-736 Warszawa",
                 description = mapOf(
                     "en" to "Google for Startups Campus Warsaw",
-                    ),
+                ),
                 latitude = 52.2561388,
                 longitude = 21.0453105,
                 imageUrl = "https://i.postimg.cc/GmVdqZsq/campus-outside.jpg",
@@ -494,8 +622,12 @@ object Sessionize {
         )
     }
 
+    /**
+     * @param gridSmartUrl extra json to get the service sessions from. The service sessions are not always in the View/All url
+     */
     private suspend fun getData(
         url: String,
+        gridSmartUrl: String? = null,
         linksFor: suspend ((String) -> List<DLink>) = { emptyList() }
     ): SessionizeData {
         val data = getJsonUrl(url)
@@ -508,33 +640,11 @@ object Sessionize {
             }.map {
                 it["id"] to it["name"]
             }.toMap()
-        val sessions = data.asMap["sessions"].asList.map {
-            it.asMap
-        }.mapNotNull {
-            if (it.get("startsAt") == null || it.get("endsAt") == null) {
-                /**
-                 * Guard against sessions that are not scheduled.
-                 */
-                return@mapNotNull null
-            }
-            DSession(
-                id = it.get("id").asString,
-                type = if (it.get("isServiceSession").cast()) "service" else "talk",
-                title = it.get("title").asString,
-                description = it.get("description")?.asString,
-                language = "en-US",
-                start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
-                end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
-                complexity = null,
-                feedbackId = null,
-                tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
-                    categories.get(categoryId)?.asString
-                },
-                rooms = listOf(it.get("roomId").toString()),
-                speakers = it.get("speakers").asList.map { it.asString },
-                shortDescription = null,
-                links = linksFor(it.get("id").asString),
-            )
+
+
+        var sessions = getSessions(data!!, categories, linksFor)
+        if (gridSmartUrl != null) {
+            sessions = sessions + getServiceSessions(gridSmartUrl, categories, linksFor)
         }
 
         var rooms = data.asMap["rooms"].asList.map { it.asMap }.map {
@@ -571,4 +681,90 @@ object Sessionize {
             speakers = speakers
         )
     }
+
+    private suspend fun getServiceSessions(
+        gridSmart: String,
+        categories: Map<Any?, Any?>,
+        linksFor: suspend (String) -> List<DLink>
+    ): List<DSession> {
+        val data = getJsonUrl(gridSmart)
+
+        return data.asList.flatMap { it.asMap["rooms"].asList }
+            .flatMap { it.asMap["sessions"].asList }
+            .map {
+                it.asMap
+            }
+            .mapNotNull {
+                if ((it.get("isServiceSession") as? Boolean) != true) {
+                    // Filter service sessions
+                    return@mapNotNull null
+                }
+                if (it.get("startsAt") == null || it.get("endsAt") == null) {
+                    /**
+                     * Guard against sessions that are not scheduled.
+                     */
+                    return@mapNotNull null
+                }
+                val tags = it.get("categoryItems")?.asList.orEmpty().mapNotNull { categoryId ->
+                    categories.get(categoryId)?.asString
+                }
+                DSession(
+                    id = it.get("id").asString,
+                    type = if (it.get("isServiceSession").cast()) "service" else "talk",
+                    title = it.get("title").asString,
+                    description = it.get("description")?.asString,
+                    language = tags.toLanguage(),
+                    start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
+                    end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
+                    complexity = null,
+                    feedbackId = null,
+                    tags = tags,
+                    rooms = listOf(it.get("roomId").toString()),
+                    speakers = it.get("speakers")?.asList.orEmpty().map { it.asMap["id"].asString },
+                    shortDescription = null,
+                    links = linksFor(it.get("id").asString),
+                )
+            }
+
+    }
+
+    private suspend fun getSessions(
+        data: Any,
+        categories: Map<Any?, Any?>,
+        linksFor: suspend (String) -> List<DLink>
+    ): List<DSession> {
+        return data.asMap["sessions"].asList.map {
+            it.asMap
+        }.mapNotNull {
+            if (it.get("startsAt") == null || it.get("endsAt") == null) {
+                /**
+                 * Guard against sessions that are not scheduled.
+                 */
+                return@mapNotNull null
+            }
+            val tags = it.get("categoryItems").asList.mapNotNull { categoryId ->
+                categories.get(categoryId)?.asString
+            }
+            DSession(
+                id = it.get("id").asString,
+                type = if (it.get("isServiceSession").cast()) "service" else "talk",
+                title = it.get("title").asString,
+                description = it.get("description")?.asString,
+                language = tags.toLanguage(),
+                start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
+                end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
+                complexity = null,
+                feedbackId = null,
+                tags = tags,
+                rooms = listOf(it.get("roomId").toString()),
+                speakers = it.get("speakers").asList.map { it.asString },
+                shortDescription = null,
+                links = linksFor(it.get("id").asString),
+            )
+        }
+    }
+}
+
+private fun List<String>.toLanguage(): String {
+    return if(contains("French")) "French" else "English"
 }

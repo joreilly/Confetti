@@ -20,6 +20,8 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.res.stringResource
+import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.DateSessionsMap
 import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.LoadingView
@@ -71,7 +73,7 @@ private fun BookmarksContent(
 ) {
     Column {
         val pagerState = rememberPagerState(initialPage = 1) {
-            BookmarksTab.values().size
+            BookmarksTab.entries.size
         }
 
         BookmarksTabRow(pagerState = pagerState)
@@ -97,7 +99,7 @@ private enum class BookmarksTab(val title: String) {
 @Composable
 private fun BookmarksTabRow(pagerState: PagerState) {
     TabRow(selectedTabIndex = pagerState.currentPage) {
-        for ((index, tab) in BookmarksTab.values().withIndex()) {
+        for ((index, tab) in BookmarksTab.entries.withIndex()) {
             val tabScope = rememberCoroutineScope()
 
             ConfettiTab(
@@ -132,7 +134,7 @@ private fun BookmarksHorizontalPager(
             }
 
         if (displayedSessions.isEmpty()) {
-            EmptyView()
+            EmptyView(stringResource(id = R.string.no_bookmarks))
         } else {
             LazyColumn(
                 contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)

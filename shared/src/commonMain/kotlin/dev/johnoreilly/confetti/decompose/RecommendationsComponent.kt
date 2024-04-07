@@ -20,6 +20,7 @@ import org.koin.core.component.inject
 interface RecommendationsComponent {
     val uiState: Value<UiState>
 
+    val sessions: Flow<List<SessionDetails>>
     val bookmarks: Flow<Set<String>>
     val speakers: Flow<List<SpeakerDetails>>
 
@@ -72,7 +73,7 @@ class DefaultRecommendationsComponent(
         .speakers
         .filterIsInstance<SpeakersUiState.Success>()
 
-    private val sessions: Flow<List<SessionDetails>> = successSessions
+    override val sessions: Flow<List<SessionDetails>> = successSessions
         .map { state ->
             state
                 .sessionsByStartTimeList

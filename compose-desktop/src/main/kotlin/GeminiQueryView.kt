@@ -18,6 +18,7 @@ import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,36 +29,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.mikepenz.markdown.m3.Markdown
-import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GeminiApi
-import dev.johnoreilly.confetti.GetConferencesQuery
-import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.decompose.RecommendationsComponent
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 @Composable
-fun GeminiQueryView(conference: GetConferencesQuery.Conference) {
-    val geminiApi = remember { GeminiApi() }
-    var query by remember { mutableStateOf("") }
-    var queryResponse by remember { mutableStateOf("") }
-
-    val keyboardController = LocalSoftwareKeyboardController.current
-    var showProgress by remember { mutableStateOf(false) }
-
-    val repository = koin.get<ConfettiRepository>()
-    val sessionList = remember { mutableStateOf<List<SessionDetails>?>(emptyList()) }
+fun GeminiQueryView(component: RecommendationsComponent) {
+    val sessionList by component.sessions.collectAsState(emptyList())
     var conferenceInfo by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(conference) {
-        val conferenceData = repository.conferenceData(conference.id, FetchPolicy.CacheFirst)
-        sessionList.value = conferenceData.data?.sessions?.nodes?.map { it.sessionDetails }
-
+    LaunchedEffect(component) {
         conferenceInfo = "Speakers, Session ID, Title, Start Time, Description,\n"
-        sessionList.value?.forEach { session ->
+        sessionList.forEach { session ->
             session.sessionDescription?.let {
                 val speakers = session.speakers.joinToString(" ") { it.speakerDetails.name }
                 conferenceInfo += "${speakers}, ${session.id}, ${session.title}, ${session.startsAt}, ${session.sessionDescription}, \n"
@@ -65,6 +51,19 @@ fun GeminiQueryView(conference: GetConferencesQuery.Conference) {
         }
     }
 
+    RecommendationsView(conferenceInfo)
+}
+
+
+@Composable
+fun RecommendationsView(conferenceInfo: String) {
+    val geminiApi = remember { GeminiApi() }
+    var query by remember { mutableStateOf("") }
+    var queryResponse by remember { mutableStateOf("") }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    var showProgress by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
     Column(Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
         OutlinedTextField(

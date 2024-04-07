@@ -6,8 +6,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 
 fun SessionDetails.isBreak() = this.type == "break"
+fun SessionDetails.isService() = this.type == "service"
 
-fun SessionDetails.isLightning() = endsAt.toInstant(TimeZone.UTC)
+fun SessionDetails.isLightning() = !isService() &&
+    endsAt.toInstant(TimeZone.UTC)
     .minus(startsAt.toInstant(TimeZone.UTC))
     .inWholeMinutes <= 15
 

@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.R
 
 @Composable
-fun EmptyView() {
+fun EmptyView(text: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -22,7 +22,7 @@ fun EmptyView() {
     ) {
         Text(
             fontSize = 24.sp,
-            text = stringResource(id = R.string.empty_text)
+            text = text
         )
     }
 }

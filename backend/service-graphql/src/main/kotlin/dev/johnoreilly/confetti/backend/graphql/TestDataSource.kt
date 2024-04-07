@@ -155,4 +155,7 @@ class TestDataSource : DataSource {
     override fun speaker(id: String): Speaker {
         return speakers[0]
     }
+
+    override fun deleteUserData() {
+    }
 }

@@ -505,7 +505,8 @@ class DataStore {
         return mapOf(
             "name" to this.name,
             "url" to this.url,
-            "logoUrl" to this.logoUrl
+            "logoUrl" to this.logoUrl,
+            "logoUrlDark" to this.logoUrlDark,
         )
     }
 
@@ -513,7 +514,8 @@ class DataStore {
         return DPartner(
             name = get("name").asString,
             url = get("url").asString,
-            logoUrl = get("logoUrl").asString
+            logoUrl = get("logoUrl").asString,
+            logoUrlDark = get("logoUrlDark")?.asString,
         )
     }
 
@@ -711,6 +713,29 @@ class DataStore {
     fun readSpeaker(conf: String, id: String): DSpeaker {
         return datastore.get(keyFactory.setKind(KIND_SPEAKER).addAncestor(PathElement.of(KIND_CONF, conf)).newKey(id))
             .toSpeaker()
+    }
+
+    fun removeBookmarks(uid: String?) {
+        val query = Query.newKeyQueryBuilder()
+            .setKind(KIND_BOOKMARKS)
+            .setLimit(100)
+            .setFilter(
+                StructuredQuery.PropertyFilter.hasAncestor(
+                    keyFactory.setKind(KIND_USER).newKey(uid)
+                )
+            )
+            .build()
+
+        while (true) {
+            val result = datastore.run(query)
+
+            val keys = result.asSequence().toList().toTypedArray()
+            datastore.delete(*keys)
+
+            if (keys.isEmpty() || result.moreResults == QueryResultBatch.MoreResultsType.NO_MORE_RESULTS) {
+                break
+            }
+        }
     }
 
     companion object {

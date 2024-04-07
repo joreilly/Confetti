@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.ui.component.BackgroundTheme
 import dev.johnoreilly.confetti.ui.component.LocalBackgroundTheme
 

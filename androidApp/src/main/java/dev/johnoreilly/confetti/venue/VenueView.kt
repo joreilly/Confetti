@@ -22,7 +22,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.Venue
 import dev.johnoreilly.confetti.decompose.VenueComponent

@@ -13,7 +13,6 @@ dependencies {
     implementation(libs.plugin.kotlin.serialization)
     implementation(libs.plugin.kotlin.spring)
     implementation(libs.plugin.spring.boot)
-    implementation(libs.plugin.kmmbridge)
     implementation(libs.plugin.google.services)
     implementation(libs.plugin.firebase.crashlytics) {
         // Crashlytics depends on datastore v1.0 but we're using v1.1

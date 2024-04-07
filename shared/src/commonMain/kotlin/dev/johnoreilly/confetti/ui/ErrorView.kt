@@ -10,10 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.johnoreilly.confetti.R
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.oops
+import confetti.shared.generated.resources.retry
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ErrorView(onRefresh: (() ->Unit)? = null){
     Box(
@@ -23,7 +27,7 @@ fun ErrorView(onRefresh: (() ->Unit)? = null){
     ) {
         Column {
             Text(
-                text = stringResource(id = R.string.oops)
+                text = stringResource(Res.string.oops)
             )
             if (onRefresh != null) {
                 Button(
@@ -32,7 +36,7 @@ fun ErrorView(onRefresh: (() ->Unit)? = null){
                         .align(Alignment.CenterHorizontally)
                         .padding(16.dp)
                 ) {
-                    Text(text = stringResource(id = R.string.retry))
+                    Text(text = stringResource(Res.string.retry))
                 }
             }
         }

@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,6 +33,8 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
+    private var isDeepLinkHandledPreviously = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,9 +57,18 @@ class MainActivity : ComponentActivity() {
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        isDeepLinkHandledPreviously = savedInstanceState?.getBoolean(KEY_DEEP_LINK_HANDLED) ?: false
+        val initialConferenceId = intent.data?.extractConferenceIdOrNull(isDeepLinkHandledPreviously)
+        if (initialConferenceId != null) {
+            intent.setData(null)
+            isDeepLinkHandledPreviously = true
+        }
         val appComponent =
             DefaultAppComponent(
-                componentContext = defaultComponentContext(),
+                componentContext = defaultComponentContext(
+                    discardSavedState = initialConferenceId != null,
+                ),
+                initialConferenceId = initialConferenceId,
                 onSignOut = {
                     lifecycleScope.launch {
                         credentialManager.clearCredentialState(ClearCredentialStateRequest())
@@ -85,6 +97,33 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * From a deep link like `https://confetti-app.dev/conference/devfeststockholm2023` extracts `devfeststockholm2023`
+     */
+    private fun Uri.extractConferenceIdOrNull(isDeepLinkHandledPreviously: Boolean): String? {
+        if (isDeepLinkHandledPreviously) {
+            return null
+        }
+        if (host != "confetti-app.dev") return null
+        val path = path ?: return null
+        if (path.firstOrNull() != '/') return null
+        val parts = path.substring(1).split('/')
+        if (parts.size != 2) return null
+        if (parts[0] != "conference") return null
+        val conferenceId = parts[1]
+        if (!conferenceId.all { it.isLetterOrDigit() }) return null
+        return conferenceId
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(KEY_DEEP_LINK_HANDLED, isDeepLinkHandledPreviously)
+    }
+
+    companion object {
+        const val KEY_DEEP_LINK_HANDLED: String = "dev.johnoreilly.confetti.KEY_DEEP_LINK_HANDLED"
     }
 }
 

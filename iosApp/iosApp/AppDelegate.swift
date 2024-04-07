@@ -20,7 +20,8 @@ class AppDelegate : NSObject, UIApplicationDelegate {
             componentContext: DefaultComponentContext(lifecycle: ApplicationLifecycle()),
             onSignOut: {},
             onSignIn: {},
-            isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone
+            isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
+            initialConferenceId: nil
         )
     }
 }

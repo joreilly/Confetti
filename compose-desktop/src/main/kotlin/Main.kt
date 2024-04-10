@@ -7,6 +7,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.apollographql.apollo3.ApolloClient
 import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
@@ -15,8 +16,6 @@ import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.ui.ConferenceListView
 import dev.johnoreilly.confetti.ui.LoadingView
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
 import org.koin.dsl.module
 
 
@@ -31,6 +30,7 @@ val koin = initKoin {
     modules(mainModule())
 }.koin
 
+@OptIn(ExperimentalDecomposeApi::class)
 fun main() {
     val lifecycle = LifecycleRegistry()
 
@@ -45,10 +45,6 @@ fun main() {
 
     application {
         val windowState = rememberWindowState()
-
-        LaunchedEffect(key1 = this) {
-            Napier.base(DebugAntilog())
-        }
 
         Window(
             onCloseRequest = ::exitApplication,

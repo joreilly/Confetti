@@ -76,7 +76,7 @@ kotlin {
                 api(libs.essenty.lifecycle)
 
                 // Multiplatform Logging
-                api(libs.napier)
+                api(libs.kermit)
 
                 implementation(compose.ui)
                 implementation(compose.runtime)

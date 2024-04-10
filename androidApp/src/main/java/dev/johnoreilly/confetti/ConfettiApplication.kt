@@ -12,8 +12,6 @@ import dev.johnoreilly.confetti.di.appModule
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.work.SessionNotificationWorker
 import dev.johnoreilly.confetti.work.setupDailyRefresh
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
@@ -43,9 +41,6 @@ class ConfettiApplication : Application() {
                 Firebase.crashlytics.setCrashlyticsCollectionEnabled(false)
             }
         }
-
-        // Initialize Logging.
-        Napier.base(DebugAntilog())
 
         initKoin {
             androidLogger()

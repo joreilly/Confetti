@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,6 +61,7 @@ fun SessionDetailsRoute(component: SessionDetailsComponent) {
 
         is SessionDetailsUiState.Success ->
             SessionDetailView(
+                conference = state.conference,
                 session = state.sessionDetails,
                 popBack = component::onCloseClicked,
                 share = rememberShareDetails(state.sessionDetails),
@@ -79,6 +79,7 @@ fun SessionDetailsRoute(component: SessionDetailsComponent) {
 
 @Composable
 fun SessionDetailView(
+    conference: String,
     session: SessionDetails?,
     popBack: () -> Unit,
     share: () -> Unit,
@@ -133,6 +134,7 @@ fun SessionDetailView(
         Column(modifier = Modifier.padding(it)) {
 
             SessionDetailViewSharedWrapper(
+                conference = conference,
                 session = session,
                 onSpeakerClick = { speakerId ->  onSpeakerClick(speakerId) },
                 onSocialLinkClicked =  { socialItem ->

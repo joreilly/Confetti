@@ -304,6 +304,7 @@ class SessionsSimpleComponent(
         }
         return SessionsUiState.Success(
             now = dateService.now(),
+            conference = conference,
             conferenceName = conferenceName,
             venueLat = venueLat,
             venueLon = venueLon,
@@ -326,6 +327,7 @@ sealed interface SessionsUiState {
 
     data class Success(
         val now: LocalDateTime,
+        val conference: String,
         val conferenceName: String,
         val venueLat: Double?,
         val venueLon: Double?,

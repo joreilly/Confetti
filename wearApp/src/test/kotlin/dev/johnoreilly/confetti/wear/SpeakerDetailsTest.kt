@@ -25,7 +25,7 @@ class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest()
         composeRule.setContent {
             TestScaffold {
                 SpeakerDetailsView(
-                    uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
+                    uiState = SpeakerDetailsUiState.Success("myconf", JohnOreilly.speakerDetails),
                 )
             }
         }
@@ -43,7 +43,7 @@ class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest()
         composeRule.setContent {
             TestScaffold {
                 SpeakerDetailsView(
-                    uiState = SpeakerDetailsUiState.Success(JohnOreilly.speakerDetails),
+                    uiState = SpeakerDetailsUiState.Success("myconf", JohnOreilly.speakerDetails),
                 )
             }
         }

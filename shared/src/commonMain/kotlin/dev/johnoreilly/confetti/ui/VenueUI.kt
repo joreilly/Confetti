@@ -1,4 +1,6 @@
-import androidx.compose.material.Scaffold
+package dev.johnoreilly.confetti.ui
+
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text

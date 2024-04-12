@@ -1,3 +1,5 @@
+package dev.johnoreilly.confetti.ui
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

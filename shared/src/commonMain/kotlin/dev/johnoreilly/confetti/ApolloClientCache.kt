@@ -6,17 +6,14 @@ import com.apollographql.apollo3.api.ApolloRequest
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.ExecutionContext
 import com.apollographql.apollo3.api.Operation
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.apolloStore
 import com.apollographql.apollo3.cache.normalized.normalizedCache
-import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.exception.ApolloException
 import com.apollographql.apollo3.exception.ApolloHttpException
 import com.apollographql.apollo3.interceptor.ApolloInterceptor
 import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
 import com.apollographql.apollo3.network.NetworkMonitor
-import com.apollographql.apollo3.network.http.HttpNetworkTransport
-import dev.johnoreilly.confetti.di.getDatabaseName
+import dev.johnoreilly.confetti.di.getNormalizedCacheFactory
 import dev.johnoreilly.confetti.utils.registerApolloDebugServer
 import dev.johnoreilly.confetti.utils.unregisterApolloDebugServer
 import kotlinx.atomicfu.locks.reentrantLock
@@ -42,8 +39,8 @@ class TokenProviderContext(val tokenProvider: TokenProvider) : ExecutionContext.
 }
 
 class ApolloClientCache : KoinComponent {
-    val _clients = mutableMapOf<String, ApolloClient>()
-    val mutex = reentrantLock()
+    private val _clients = mutableMapOf<String, ApolloClient>()
+    private val mutex = reentrantLock()
 
     private val tokenProviderInterceptor = object : ApolloInterceptor {
         override fun <D : Operation.Data> intercept(
@@ -107,23 +104,20 @@ class ApolloClientCache : KoinComponent {
         uid: String?,
         writeToCacheAsynchronously: Boolean
     ): ApolloClient {
-        val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory(getDatabaseName(conference, uid))
-        val memoryFirstThenSqlCacheFactory = MemoryCacheFactory(10 * 1024 * 1024)
-            .chain(sqlNormalizedCacheFactory)
 
+        val normalizedCacheFactory = getNormalizedCacheFactory(conference, uid)
         return get<ApolloClient.Builder>()
-            .networkMonitor(
-                object : NetworkMonitor {
-                    override suspend fun isOnline(): Boolean {
-                        return true
-                    }
-                    override suspend fun waitForNetwork() {}
-                    override fun close() {}
-                }
-            )
+//            .networkMonitor(
+//                object : NetworkMonitor {
+//                    override val isOnline: Boolean
+//                        get() = true
+//                    override suspend fun waitForNetwork() {}
+//                    override fun close() {}
+//                }
+//            )
             .addHttpHeader("conference", conference)
             .normalizedCache(
-                memoryFirstThenSqlCacheFactory,
+                normalizedCacheFactory,
                 writeToCacheAsynchronously = writeToCacheAsynchronously
             )
             .autoPersistedQueries()

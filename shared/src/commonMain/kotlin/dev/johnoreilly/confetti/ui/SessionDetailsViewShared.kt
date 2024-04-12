@@ -53,6 +53,7 @@ import sessionTimeFormat
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun SessionDetailViewShared(
+    conference: String,
     session: SessionDetails?,
     onSpeakerClick: (speakerId: String) -> Unit,
     onSocialLinkClicked: (String) -> Unit
@@ -120,7 +121,7 @@ internal fun SessionDetailViewShared(
 
                     Column(modifier = Modifier.padding(contentPadding)) {
                         session.speakers.forEach { speaker ->
-                            SessionSpeakerInfo(speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
+                            SessionSpeakerInfo(conference, speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
                         }
                     }
 
@@ -134,6 +135,7 @@ internal fun SessionDetailViewShared(
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun SessionSpeakerInfo(
+    conference: String,
     speaker: SpeakerDetails,
     onSpeakerClick: (speakerId: String) -> Unit,
     onSocialLinkClick: (String) -> Unit
@@ -144,8 +146,9 @@ internal fun SessionSpeakerInfo(
     ) {
         Row {
             speaker.photoUrl?.let {
+                val url = "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
                 AsyncImage(
-                    model = speaker.photoUrl,
+                    model = url,
                     contentDescription = speaker.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.size(64.dp)

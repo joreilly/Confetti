@@ -94,10 +94,10 @@ fun ConferenceCard(
         Card(
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(8.dp))
+                .padding(8.dp)
                 .clickable(onClick = {
                     navigateToConference(conference)
                 })
-                .padding(8.dp)
                 .fillMaxWidth()
         ) {
             Column(Modifier.fillMaxWidth().padding(16.dp),

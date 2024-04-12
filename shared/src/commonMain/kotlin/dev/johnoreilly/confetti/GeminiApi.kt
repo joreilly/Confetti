@@ -1,8 +1,11 @@
 package dev.johnoreilly.confetti
 
 import dev.shreyaspatil.ai.client.generativeai.GenerativeModel
+import dev.shreyaspatil.ai.client.generativeai.type.BlockThreshold
 import dev.shreyaspatil.ai.client.generativeai.type.GenerateContentResponse
+import dev.shreyaspatil.ai.client.generativeai.type.HarmCategory
 import dev.shreyaspatil.ai.client.generativeai.type.PlatformImage
+import dev.shreyaspatil.ai.client.generativeai.type.SafetySetting
 import dev.shreyaspatil.ai.client.generativeai.type.content
 import kotlinx.coroutines.flow.Flow
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -16,8 +19,11 @@ class GeminiApi {
     )
 
     val generativeModel = GenerativeModel(
-        modelName = "gemini-pro",
-        apiKey = apiKey
+        //modelName = "gemini-pro",
+        modelName = "gemini-1.5-flash",
+        apiKey = apiKey,
+        safetySettings = listOf(SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.ONLY_HIGH))
+
     )
 
     fun generateContent(prompt: String): Flow<GenerateContentResponse> {

@@ -25,6 +25,7 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 
 @Composable
 fun SpeakerGridView(
+    conference: String,
     speakers: List<SpeakerDetails>,
     navigateToSpeaker: (id: String) -> Unit
 ) {
@@ -39,8 +40,11 @@ fun SpeakerGridView(
                         .padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+
+                    // proxy image requests through backend
+                    val url = "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
                     AsyncImage(
-                        model = speaker.photoUrl,
+                        model = url,
                         contentDescription = speaker.name,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier

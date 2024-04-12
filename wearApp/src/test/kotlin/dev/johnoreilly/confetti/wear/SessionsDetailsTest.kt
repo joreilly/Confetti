@@ -6,6 +6,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
+import dev.johnoreilly.confetti.wear.preview.TestFixtures.conference
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
@@ -22,7 +23,7 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
 
 
     val uiState = SessionDetailsUiState.Success(
-        sessionDetails
+        conference, sessionDetails
     )
 
     @Test

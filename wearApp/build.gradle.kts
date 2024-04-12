@@ -244,6 +244,7 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     implementation(libs.coil.test)
+    implementation(kotlin("test"))
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {

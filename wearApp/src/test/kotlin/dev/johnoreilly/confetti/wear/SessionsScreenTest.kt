@@ -24,7 +24,7 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
 
     val uiState = SessionsUiState.Success(
         LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime(),
-        "wearconf",
+        "wearconf", "wearconf",
         null,
         null,
         listOf(),

@@ -38,6 +38,7 @@ import dev.johnoreilly.confetti.wear.ui.toColor
 import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toPath
+import org.junit.After
 import org.junit.Assume
 import org.junit.Before
 import org.junit.Rule
@@ -49,7 +50,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
-import kotlin.test.AfterTest
 
 @RunWith(RobolectricTestRunner::class)
 @Config(
@@ -119,7 +119,7 @@ abstract class BaseScreenshotTest {
         fun params() = WearDevice.entries.toList()
     }
 
-    @AfterTest
+    @After
     fun teardown() {
         stopKoin()
     }

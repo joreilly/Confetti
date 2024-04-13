@@ -180,7 +180,7 @@ scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.1.1"
 scrimage-filters = "com.sksamuel.scrimage:scrimage-filters:4.1.1"
 snakeyaml = "org.yaml:snakeyaml:2.0"
 spring-web = "org.springframework:spring-web:6.1.5"
-stately-common = "co.touchlab:stately-common:2.0.6"
+stately-common = "co.touchlab:stately-common:2.0.7"
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }

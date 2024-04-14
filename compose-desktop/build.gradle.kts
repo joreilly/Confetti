@@ -19,7 +19,7 @@ dependencies {
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose)
 
-    implementation("com.mikepenz:multiplatform-markdown-renderer-m3:0.13.0")
+    implementation("com.mikepenz:multiplatform-markdown-renderer-m3:0.14.0")
     implementation("com.mikepenz:multiplatform-markdown-renderer-jvm:0.13.0")
     implementation(project(":shared"))
 }

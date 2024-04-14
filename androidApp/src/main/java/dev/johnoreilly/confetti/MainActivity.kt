@@ -2,7 +2,8 @@
 
 package dev.johnoreilly.confetti
 
-import android.net.Uri
+import android.app.TaskStackBuilder
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         isDeepLinkHandledPreviously = savedInstanceState?.getBoolean(KEY_DEEP_LINK_HANDLED) ?: false
-        val initialConferenceId = intent.data?.extractConferenceIdOrNull(isDeepLinkHandledPreviously)
+        val initialConferenceId = extractConferenceIdOrNull(intent, isDeepLinkHandledPreviously)
         if (initialConferenceId != null) {
             intent.setData(null)
             isDeepLinkHandledPreviously = true
@@ -101,20 +102,42 @@ class MainActivity : ComponentActivity() {
 
     /**
      * From a deep link like `https://confetti-app.dev/conference/devfeststockholm2023` extracts `devfeststockholm2023`
+     * In case we were asked to create a new task with [Intent.FLAG_ACTIVITY_NEW_TASK] it clears the entire activity
+     * and starts a new one to be in a predictably good state
      */
-    private fun Uri.extractConferenceIdOrNull(isDeepLinkHandledPreviously: Boolean): String? {
+    private fun extractConferenceIdOrNull(intent: Intent, isDeepLinkHandledPreviously: Boolean): String? {
+        val flags = intent.flags
+        if (flags and Intent.FLAG_ACTIVITY_NEW_TASK != 0 && flags and Intent.FLAG_ACTIVITY_CLEAR_TASK == 0) {
+            // From:
+            // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:navigation/navigation-runtime/src/main/java/androidx/navigation/NavController.kt;l=1487-1504?q=Intent.flags&ss=androidx%2Fplatform%2Fframeworks%2Fsupport:navigation%2F
+            // Someone called us with NEW_TASK, but we don't know what state our whole
+            // task stack is in, so we need to manually restart the whole stack to
+            // ensure we're in a predictably good state.
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            val taskStackBuilder = TaskStackBuilder
+                .create(this@MainActivity)
+                .addNextIntentWithParentStack(intent)
+            taskStackBuilder.startActivities()
+            this.finish()
+            // Disable second animation in case where the Activity is created twice.
+            @Suppress("DEPRECATION")
+            this.overridePendingTransition(0, 0)
+            return null
+        }
         if (isDeepLinkHandledPreviously) {
             return null
         }
-        if (host != "confetti-app.dev") return null
-        val path = path ?: return null
-        if (path.firstOrNull() != '/') return null
-        val parts = path.substring(1).split('/')
-        if (parts.size != 2) return null
-        if (parts[0] != "conference") return null
-        val conferenceId = parts[1]
-        if (!conferenceId.all { it.isLetterOrDigit() }) return null
-        return conferenceId
+        with(intent.data ?: return null) {
+            if (host != "confetti-app.dev") return null
+            val path = path ?: return null
+            if (path.firstOrNull() != '/') return null
+            val parts = path.substring(1).split('/')
+            if (parts.size != 2) return null
+            if (parts[0] != "conference") return null
+            val conferenceId = parts[1]
+            if (!conferenceId.all { it.isLetterOrDigit() }) return null
+            return conferenceId
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

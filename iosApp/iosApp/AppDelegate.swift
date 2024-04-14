@@ -11,13 +11,15 @@ import ConfettiKit
 
 class AppDelegate : NSObject, UIApplicationDelegate {
     
+    private var applicationLifecycle: ApplicationLifecycle
     var root: AppComponent
     
     override init() {
         KoinKt.doInitKoin()
 
+        applicationLifecycle = ApplicationLifecycle()
         root = DefaultAppComponent(
-            componentContext: DefaultComponentContext(lifecycle: ApplicationLifecycle()),
+            componentContext: DefaultComponentContext(lifecycle: applicationLifecycle),
             onSignOut: {},
             onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
@@ -26,8 +28,10 @@ class AppDelegate : NSObject, UIApplicationDelegate {
     }
 
     func onConferenceDeepLink(conferenceId: String) {
+        applicationLifecycle.destroy()
+        applicationLifecycle = ApplicationLifecycle()
         root = DefaultAppComponent(
-            componentContext: DefaultComponentContext(lifecycle: ApplicationLifecycle()),
+            componentContext: DefaultComponentContext(lifecycle: applicationLifecycle),
             onSignOut: {},
             onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,

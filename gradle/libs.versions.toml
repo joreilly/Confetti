@@ -2,28 +2,29 @@
 accompanist = "0.34.0"
 activity-compose = "1.8.2"
 androidx-lifecycle = "2.7.0"
-androidx-datastore = "1.1.0-beta02"
+androidx-datastore = "1.1.0-rc01"
 apollo = "4.0.0-beta.4"
-compose = "1.6.4"
+compose = "1.6.5"
 compose-multiplatform = "1.6.1"
 compose-compiler = "1.5.11-dev-k2.0.0-Beta4-21f5e479a96"
 compose-material-3 = "1.2.1"
-compose-ui-tooling = "1.3.0"
-credentials-play-services-auth = "1.2.1"
+compose-ui-tooling = "1.3.1"
+credentials-play-services-auth = "1.2.2"
 decompose = "3.0.0-beta01"
-essenty = "2.0.0-beta01"
+essenty = "2.0.0-beta02"
 googleid = "1.1.0"
-horologist = "0.6.6"
+horologist = "0.6.8"
 image-loader = "1.7.8"
 io-coil-kt = "2.6.0"
 io-coil3-kt = "3.0.0-alpha06"
-kmp-nativecoroutines = "1.0.0-ALPHA-25"
+kermit = "2.0.3"
+kmp-nativecoroutines = "1.0.0-ALPHA-27"
 kmm-viewmodel = "1.0.0-ALPHA-20"
 kmmbridge = "0.5.2"
-koin-android = "3.5.3"
-koin-android-compose = "3.5.3"
-koin-compose-multiplatform = "1.1.2"
-koin-core = "3.5.3"
+koin-android = "3.5.6"
+koin-android-compose = "3.5.6"
+koin-compose-multiplatform = "1.1.5"
+koin-core = "3.5.6"
 kotlin = "2.0.0-Beta4"
 ksp-plugin = "2.0.0-Beta4-1.0.17"
 kotlin-coroutines = "1.8.0"
@@ -38,15 +39,15 @@ okio = "3.9.0"
 protolayout-expression = "1.1.0"
 protolayout-material = "1.2.0-alpha01"
 protolayout-proto = "1.1.0"
-robolectric = "4.11.1"
-roborazzi-gradle-plugin = "1.11.0"
+robolectric = "4.12.1"
+roborazzi-gradle-plugin = "1.12.0"
 room = "2.6.1"
 snapshot-android = "v1.0.2"
 tiles-tooling-preview = "1.3.0"
 work-runtime-ktx = "2.9.0"
 generativeai = "0.2.2-1.0.0"
 buildkonfig = "0.15.1"
-roborazzi = "1.11.0"
+roborazzi = "1.12.0"
 
 
 [libraries]
@@ -106,13 +107,13 @@ federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-bom = "com.google.firebase:firebase-bom:32.8.0"
+firebase-bom = "com.google.firebase:firebase-bom:32.8.1"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
-firebase-mpp-auth = "dev.gitlive:firebase-auth:1.11.1"
-google-cloud-bom = "com.google.cloud:libraries-bom:26.32.0"
+firebase-mpp-auth = "dev.gitlive:firebase-auth:1.12.0"
+google-cloud-bom = "com.google.cloud:libraries-bom:26.37.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
-google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.18.4"
+google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.19.0"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.2"
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }
@@ -135,7 +136,7 @@ image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "imag
 jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.1"
 jsoup = "org.jsoup:jsoup:1.17.2"
 junit = "junit:junit:4.13.2"
-kaml = "com.charleskorn.kaml:kaml:0.57.0"
+kaml = "com.charleskorn.kaml:kaml:0.58.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
 koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin-android" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }
@@ -150,8 +151,8 @@ kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-cor
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
-ktor-cio = "io.ktor:ktor-server-cio:2.3.8"
-ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.8"
+ktor-cio = "io.ktor:ktor-server-cio:2.3.10"
+ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.10"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material-3" }
 material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material-3" }
@@ -171,15 +172,15 @@ plugin-kmp-nativecoroutines = { module = "com.rickclephas.kmp:kmp-nativecoroutin
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp-plugin" }
-plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.2" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.8" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.4" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.9" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi-gradle-plugin" }
 scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.1.1"
 scrimage-filters = "com.sksamuel.scrimage:scrimage-filters:4.1.1"
 snakeyaml = "org.yaml:snakeyaml:2.0"
-spring-web = "org.springframework:spring-web:6.1.5"
-stately-common = "co.touchlab:stately-common:2.0.6"
+spring-web = "org.springframework:spring-web:6.1.6"
+stately-common = "co.touchlab:stately-common:2.0.7"
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -191,11 +192,11 @@ splash-screen = "androidx.core:core-splashscreen:1.0.1"
 test-espressocore = "androidx.test.espresso:espresso-core:3.5.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.1"
-wear-compose-material = "androidx.wear.compose:compose-material:1.3.0"
+wear-compose-material = "androidx.wear.compose:compose-material:1.3.1"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
-napier = "io.github.aakira:napier:2.7.1"
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
-jib-core = "com.google.cloud.tools:jib-core:0.25.0"
+jib-core = "com.google.cloud.tools:jib-core:0.27.0"
 google-cloud-run = "com.google.cloud:google-cloud-run:0.35.0"
 
 generativeai = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }

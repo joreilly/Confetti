@@ -15,8 +15,6 @@ import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.wear.di.appModule
 import dev.johnoreilly.confetti.work.setupDailyRefresh
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
 import okhttp3.Call
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
@@ -49,9 +47,6 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
                 }
             }
         }
-
-        // Initialize Logging.
-        Napier.base(DebugAntilog())
 
         val androidContext = this@ConfettiApplication
         initWearApp(androidContext) {

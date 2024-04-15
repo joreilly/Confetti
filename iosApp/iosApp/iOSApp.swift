@@ -12,7 +12,7 @@ struct iOSApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ConfettiIosApp(appComponentHolder: appDelegate.appComponentHolder)
+            ConfettiIosApp(appDelegate: appDelegate)
                 .onOpenURL(perform: { url in
                     let pathComponents = url.pathComponents
                     if pathComponents.count != 3 { return }
@@ -38,11 +38,11 @@ struct iOSApp: App {
 
 struct ConfettiIosApp : View {
     @ObservedObject
-    var appComponentHolder: AppComponentHolder
+    var appDelegate: AppDelegate
     
     
     var body: some View {
-        ConfettiApp(appComponentHolder.appComponent)
+        ConfettiApp(appDelegate.appComponent)
     }
 }
 

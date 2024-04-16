@@ -9,19 +9,33 @@
 import SwiftUI
 import ConfettiKit
 
-class AppDelegate : NSObject, UIApplicationDelegate {
+class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
     
-    let root: AppComponent
+    private var applicationLifecycle: ApplicationLifecycle
+    @Published var appComponent: AppComponent
     
     override init() {
         KoinKt.doInitKoin()
 
-        root = DefaultAppComponent(
-            componentContext: DefaultComponentContext(lifecycle: ApplicationLifecycle()),
+        applicationLifecycle = ApplicationLifecycle()
+        appComponent = DefaultAppComponent(
+            componentContext: DefaultComponentContext(lifecycle: applicationLifecycle),
             onSignOut: {},
             onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
             initialConferenceId: nil
+        )
+    }
+
+    func onConferenceDeepLink(conferenceId: String) {
+        applicationLifecycle.destroy()
+        applicationLifecycle = ApplicationLifecycle()
+        appComponent = DefaultAppComponent(
+            componentContext: DefaultComponentContext(lifecycle: applicationLifecycle),
+            onSignOut: {},
+            onSignIn: {},
+            isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
+            initialConferenceId: conferenceId
         )
     }
 }

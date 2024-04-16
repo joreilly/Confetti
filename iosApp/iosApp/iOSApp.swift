@@ -12,7 +12,17 @@ struct iOSApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ConfettiApp(appDelegate.root)
+            ConfettiIosApp(appDelegate: appDelegate)
+                .onOpenURL(perform: { url in
+                    let pathComponents = url.pathComponents
+                    if pathComponents.count != 3 { return }
+                    if pathComponents[1] != "conference" { return }
+                    let conferenceId = pathComponents[2]
+                    for char in conferenceId {
+                        if !char.isLetter && !char.isNumber { return }
+                    }
+                    appDelegate.onConferenceDeepLink(conferenceId: conferenceId)
+                })
         }
         .onChange(of: phase) { newPhase in
             switch newPhase {
@@ -23,6 +33,16 @@ struct iOSApp: App {
         .backgroundTask(.appRefresh("refreshData")) {
             JobConferenceRefresh().refresh()
         }
+    }
+}
+
+struct ConfettiIosApp : View {
+    @ObservedObject
+    var appDelegate: AppDelegate
+    
+    
+    var body: some View {
+        ConfettiApp(appDelegate.appComponent)
     }
 }
 

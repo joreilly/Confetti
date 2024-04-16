@@ -55,10 +55,7 @@ class DefaultAppComponent(
     init {
         coroutineScope.launch {
             if (initialConferenceId != null) {
-                // todo, consider changing how conference theme colors are decided so that only knowing the conference
-                //  ID is enough to also get the right color
-                repository.setConference(initialConferenceId, null)
-                showConference(conference = initialConferenceId, conferenceThemeColor = null)
+                selectAndNavigateToDeepLinkedConference(initialConferenceId)
             } else {
                 val conference: String = repository.getConference()
                 if (conference == AppSettings.CONFERENCE_NOT_SET) {
@@ -79,6 +76,13 @@ class DefaultAppComponent(
                 .distinctUntilChanged()
                 .collect(::onUserChanged)
         }
+    }
+
+    private suspend fun selectAndNavigateToDeepLinkedConference(conferenceId: String) {
+        // todo, consider changing how conference theme colors are decided so that only knowing the conference
+        //  ID is enough to also get the right color
+        repository.setConference(conference = conferenceId, conferenceThemeColor = null)
+        showConference(conference = conferenceId, conferenceThemeColor = null)
     }
 
     private fun onUserChanged(uid: String?) {

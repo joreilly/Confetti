@@ -64,6 +64,9 @@ kotlin {
                 api(libs.kotlinx.datetime)
 
                 api(libs.bundles.multiplatform.settings)
+                api(libs.androidx.datastore)
+                api(libs.androidx.datastore.preferences)
+
                 api(libs.koin.core)
                 implementation(libs.koin.compose.multiplatform)
 
@@ -130,8 +133,6 @@ kotlin {
                 api(libs.androidx.work.runtime.ktx)
 
                 api(libs.multiplatform.settings.datastore)
-                api(libs.androidx.datastore)
-                api(libs.androidx.datastore.preferences)
 
                 api("com.mikepenz:multiplatform-markdown-renderer:0.14.0")
             }

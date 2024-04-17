@@ -2,7 +2,7 @@
 accompanist = "0.34.0"
 activity-compose = "1.8.2"
 androidx-lifecycle = "2.7.0"
-androidx-datastore = "1.1.0-rc01"
+androidx-datastore = "1.1.0"
 apollo = "4.0.0-beta.4"
 compose = "1.6.5"
 compose-multiplatform = "1.6.1"

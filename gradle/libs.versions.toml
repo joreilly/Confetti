@@ -115,7 +115,7 @@ google-cloud-bom = "com.google.cloud:libraries-bom:26.37.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.19.0"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
-graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.0.2"
+graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.1.1"
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }
 horologist-auth-ui = { module = "com.google.android.horologist:horologist-auth-ui", version.ref = "horologist" }
 horologist-auth-data = { module = "com.google.android.horologist:horologist-auth-data", version.ref = "horologist" }

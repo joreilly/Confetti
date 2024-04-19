@@ -7,8 +7,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
 
 
-class SpeakerDetailsScTest : BaseScreenshotTest(a11yEnabled = false) {
-
+class SpeakerDetailsScTest : BaseScreenshotTest() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
@@ -16,8 +15,8 @@ class SpeakerDetailsScTest : BaseScreenshotTest(a11yEnabled = false) {
         val mockSpeaker = SpeakerDetails(
             id = "",
             name = "Ben Zweber",
-            photoUrl = "",
-            photoUrlThumbnail = "",
+            photoUrl = null,
+            photoUrlThumbnail = null,
             tagline = "",
             company = "Big Nerd Ranch",
             companyLogoUrl = "",
@@ -27,6 +26,7 @@ class SpeakerDetailsScTest : BaseScreenshotTest(a11yEnabled = false) {
             socials = emptyList(),
             __typename = "Speaker",
         )
+
         takeScreenshot(
             darkTheme = true,
             disableDynamicTheming = true,

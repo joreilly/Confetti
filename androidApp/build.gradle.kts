@@ -8,6 +8,7 @@ plugins {
     kotlin("android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("io.github.takahirom.roborazzi")
 }
 
 configureCompilerOptions()
@@ -203,5 +204,9 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)
     testImplementation(libs.koin.test)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.rule)
+    testImplementation(libs.horologist.roboscreenshots)
     debugImplementation(libs.compose.ui.manifest)
 }

@@ -16,12 +16,6 @@ pluginManagement {
                 content {
                 }
             }
-            maven {
-                url = uri("https://jitpack.io")
-                content {
-                    includeGroup("com.github.QuickBirdEng.kotlin-snapshot-testing")
-                }
-            }
         }
     }
 
@@ -38,7 +32,6 @@ pluginManagement {
 rootProject.name = "Confetti"
 include(":androidApp")
 include(":androidBenchmark")
-include(":androidTest")
 include(":automotiveApp")
 include(":common:car")
 include(":shared")

@@ -1,17 +1,31 @@
+@file:OptIn(ExperimentalRoborazziApi::class, ExperimentalCoilApi::class)
+
 package dev.johnoreilly.confetti
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onRoot
+import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.LocalImageLoader
+import coil.test.FakeImageLoaderEngine
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.RoborazziOptions
+import com.github.takahirom.roborazzi.captureRoboImage
 import dev.johnoreilly.confetti.di.KoinTestApp
-import dev.johnoreilly.confetti.screenshot.RNGScreenshotTestRule
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Rule
+import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
@@ -26,18 +40,17 @@ import org.robolectric.annotation.GraphicsMode
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class BaseScreenshotTest(
-    record: Boolean = false,
-    tolerance: Float = 0.01f,
-    a11yEnabled: Boolean = false
 ) : KoinTest {
 
     @get:Rule
-    val screenshotTestRule = createScreenshotTestRule(
-        record = record,
-        tolerance = tolerance,
-        a11yEnabled = a11yEnabled,
-        directoryName = this::class.simpleName!!
-    )
+    val composeRule: ComposeContentTestRule = createComposeRule()
+
+    @get:Rule
+    val testName = TestName()
+
+    open val tolerance: Float = 0.05f
+
+    public open val imageLoader: FakeImageLoaderEngine? = null
 
     @ExperimentalCoroutinesApi
     fun takeScreenshot(
@@ -45,49 +58,60 @@ abstract class BaseScreenshotTest(
         disableDynamicTheming: Boolean,
         checks: suspend (rule: ComposeContentTestRule) -> Unit,
         content: @Composable () -> Unit
-    ) {
-        screenshotTestRule.takeScreenshot(checks = checks) {
-            ConfettiTheme(
-                darkTheme = darkTheme,
-                androidTheme = true,
-                disableDynamicTheming = disableDynamicTheming
-            ) {
-                Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                    content()
-                }
+    ) = runTest {
+        composeRule.setContent {
+            TestScaffold {
+                content()
             }
         }
+
+        composeRule.onRoot()
+            .captureRoboImage(
+                filePath = filename(), roborazziOptions = RoborazziOptions(
+                    compareOptions = RoborazziOptions.CompareOptions(changeThreshold = tolerance)
+                )
+            )
+
+        checks(composeRule)
     }
+
+    open fun filename() = "snapshot/${this.javaClass.simpleName}/${testName.methodName}.png"
 
     @After
     fun teardown() {
         stopKoin()
     }
-}
 
-private fun createScreenshotTestRule(
-    record: Boolean,
-    tolerance: Float = 0.1f,
-    a11yEnabled: Boolean = false,
-    directoryName: String
-): RNGScreenshotTestRule {
-    return ScreenshotTestRule(record, tolerance, a11yEnabled, directoryName)
-}
+    @Composable
+    open fun TestScaffold(content: @Composable () -> Unit) {
+        ConfettiTheme(
+            darkTheme = true,
+            androidTheme = true,
+            disableDynamicTheming = true
+        ) {
+            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                content()
+            }
+        }
+    }
 
-class ScreenshotTestRule(
-    record: Boolean,
-    tolerance: Float,
-    a11yEnabled: Boolean,
-    directoryName: String,
-) : RNGScreenshotTestRule(record, tolerance, a11yEnabled, directoryName) {
-    @ExperimentalCoroutinesApi
-    override fun takeScreenshot(
-        checks: suspend (rule: ComposeContentTestRule) -> Unit,
-        content: @Composable () -> Unit
-    ) {
-        super.takeScreenshot(
-            checks,
-            content = content
-        )
+    companion object {
+        @Suppress("DEPRECATION")
+        @Composable
+        public fun withImageLoader(
+            imageLoaderEngine: FakeImageLoaderEngine?,
+            content: @Composable () -> Unit,
+        ) {
+            if (imageLoaderEngine == null) {
+                content()
+            } else {
+                val imageLoader = ImageLoader.Builder(LocalContext.current)
+                    .components { add(imageLoaderEngine) }
+                    .build()
+                CompositionLocalProvider(LocalImageLoader provides imageLoader) {
+                    content()
+                }
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ plugins {
     kotlin("android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("io.github.takahirom.roborazzi")
 }
 
 configureCompilerOptions()
@@ -157,7 +158,6 @@ kotlin {
 dependencies {
     implementation(project(":common:car"))
     implementation(project(":shared"))
-    testImplementation(project(":androidTest"))
 
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
@@ -200,11 +200,13 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.androidx.credentials.play.services.auth)
 
-    testImplementation(libs.snapshot.android)
-
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)
     testImplementation(libs.koin.test)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.rule)
+    testImplementation(libs.coil.test)
     debugImplementation(libs.compose.ui.manifest)
 }

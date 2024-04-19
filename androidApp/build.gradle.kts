@@ -207,5 +207,6 @@ dependencies {
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
+    testImplementation(libs.coil.test)
     debugImplementation(libs.compose.ui.manifest)
 }

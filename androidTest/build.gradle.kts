@@ -19,6 +19,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.snapshot.android)
+
     implementation(libs.junit)
     implementation(libs.robolectric)
     implementation(libs.compose.ui.test.junit4)

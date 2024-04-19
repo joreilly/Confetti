@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {

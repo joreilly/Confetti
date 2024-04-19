@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package dev.johnoreilly.confetti.backend.import
 
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
@@ -8,6 +10,7 @@ import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -21,7 +24,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.executeAsync
+import okhttp3.coroutines.executeAsync
 
 object GraphQLSummit {
     private val okHttpClient = OkHttpClient.Builder()

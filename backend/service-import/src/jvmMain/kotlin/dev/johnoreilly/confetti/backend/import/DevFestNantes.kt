@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package dev.johnoreilly.confetti.backend.import
 
 import com.charleskorn.kaml.Yaml
@@ -18,6 +20,7 @@ import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -34,7 +37,7 @@ import net.mbonnin.bare.graphql.toAny
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.executeAsync
+import okhttp3.coroutines.executeAsync
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 

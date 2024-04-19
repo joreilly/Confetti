@@ -1,10 +1,10 @@
 [versions]
 accompanist = "0.34.0"
-activity-compose = "1.8.2"
+activity-compose = "1.9.0"
 androidx-lifecycle = "2.7.0"
 androidx-datastore = "1.1.0"
 apollo = "4.0.0-beta.4"
-compose = "1.6.5"
+compose = "1.6.6"
 compose-multiplatform = "1.6.1"
 compose-compiler = "1.5.11-dev-k2.0.0-Beta4-21f5e479a96"
 compose-material-3 = "1.2.1"
@@ -14,7 +14,6 @@ decompose = "3.0.0-beta01"
 essenty = "2.0.0-beta02"
 googleid = "1.1.0"
 horologist = "0.6.8"
-image-loader = "1.7.8"
 io-coil-kt = "2.6.0"
 io-coil3-kt = "3.0.0-alpha06"
 kermit = "2.0.3"
@@ -55,7 +54,7 @@ accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive",
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-testharness = { module = "com.google.accompanist:accompanist-testharness", version.ref = "accompanist" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.3"
+androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.2.4"
 androidx-complications-rendering = "androidx.wear.watchface:watchface-complications-rendering:1.2.1"
 androidx-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "compose-ui-tooling" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials-play-services-auth" }
@@ -132,7 +131,6 @@ horologist-networkawareness-db = { module = "com.google.android.horologist:horol
 horologist-networkawareness-okhttp = { module = "com.google.android.horologist:horologist-network-awareness-okhttp", version.ref = "horologist" }
 horologist-networkawareness-ui = { module = "com.google.android.horologist:horologist-network-awareness-ui", version.ref = "horologist" }
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
-image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
 jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.1"
 jsoup = "org.jsoup:jsoup:1.17.2"
 junit = "junit:junit:4.13.2"
@@ -159,10 +157,10 @@ material3-window-size = { module = "androidx.compose.material3:material3-window-
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
 multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
-okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.12"
-okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.12"
-okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12"
-play-services-auth = "com.google.android.gms:play-services-auth:21.0.0"
+okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.14"
+okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.14"
+okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14"
+play-services-auth = "com.google.android.gms:play-services-auth:21.1.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = "com.android.tools.build:gradle:8.2.2"
 plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }

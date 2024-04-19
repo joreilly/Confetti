@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.johnoreilly.confetti.car.signin
 
 import android.os.Binder

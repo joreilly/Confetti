@@ -9,8 +9,6 @@ import dev.johnoreilly.confetti.backend.datastore.DSession
 import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -19,18 +17,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import net.mbonnin.bare.graphql.asList
-import net.mbonnin.bare.graphql.asMap
-import net.mbonnin.bare.graphql.asString
-import net.mbonnin.bare.graphql.toAny
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.executeAsync
 import org.jsoup.Jsoup
 import java.io.File
 
@@ -40,15 +28,13 @@ object GraphQLSummit2023 {
         val dRooms = mutableListOf<DRoom>()
         val dSpeakers = mutableListOf<DSpeaker>()
 
-        File("/Users/mbonnin/git/summit/jsons").listFiles().filter { it.extension == "json" }.forEach {
-            val element = Json.parseToJsonElement(it.readText())
+        File("/Users/mbonnin/git/summit/jsons").listFiles().orEmpty()
+            .filter { it.extension == "json" }
+            .forEach { file ->
+            val element = Json.parseToJsonElement(file.readText())
             val helloPath = JsonPath.compile("$[0].data.event.sessions.data")
 
-            val sessions = element.resolveOrNull(helloPath)?.jsonArray
-
-            if (sessions == null) {
-                return@forEach
-            }
+            val sessions = element.resolveOrNull(helloPath)?.jsonArray ?: return@forEach
 
             sessions.forEach { it ->
                 val session = it.jsonObject

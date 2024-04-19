@@ -200,8 +200,6 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.androidx.credentials.play.services.auth)
 
-    testImplementation(libs.snapshot.android)
-
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)

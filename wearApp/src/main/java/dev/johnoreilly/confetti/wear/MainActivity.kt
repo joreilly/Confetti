@@ -66,15 +66,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        if (intent != null) {
-            val handled = appComponent.handleDeeplink(intent)
+        val handled = appComponent.handleDeeplink(intent)
 
-            if (handled) {
-                setIntent(intent)
-            }
+        if (handled) {
+            setIntent(intent)
         }
     }
 

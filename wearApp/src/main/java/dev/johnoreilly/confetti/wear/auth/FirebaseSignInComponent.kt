@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.johnoreilly.confetti.wear.auth
 
 import com.arkivanov.decompose.ComponentContext

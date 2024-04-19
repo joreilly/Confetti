@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -21,8 +19,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.snapshot.android)
-
     implementation(libs.junit)
     implementation(libs.robolectric)
     implementation(libs.compose.ui.test.junit4)

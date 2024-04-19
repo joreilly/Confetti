@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
@@ -12,12 +14,6 @@ pluginManagement {
             maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
             gradlePluginPortal {
                 content {
-                }
-            }
-            maven {
-                url = uri("https://jitpack.io")
-                content {
-                    includeGroup("com.github.QuickBirdEng.kotlin-snapshot-testing")
                 }
             }
         }

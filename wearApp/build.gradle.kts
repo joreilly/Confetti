@@ -239,8 +239,6 @@ dependencies {
     testImplementation(libs.koin.test)
     testImplementation(libs.koin.test.junit4)
     testImplementation(libs.accompanist.testharness)
-    testImplementation(libs.snapshot.android)
-    testImplementation(libs.snapshot.jvm)
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.androidx.complications.rendering)
     testImplementation(libs.horologist.compose.tools)

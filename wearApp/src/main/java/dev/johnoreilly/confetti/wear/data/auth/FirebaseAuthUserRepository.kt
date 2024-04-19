@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.johnoreilly.confetti.wear.data.auth
 
 import android.util.Log

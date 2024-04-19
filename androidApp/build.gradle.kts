@@ -207,6 +207,5 @@ dependencies {
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
-    testImplementation(libs.horologist.roboscreenshots)
     debugImplementation(libs.compose.ui.manifest)
 }

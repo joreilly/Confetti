@@ -89,10 +89,6 @@ kotlin {
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor)
                 api(libs.materialkolor)
-
-                // See https://github.com/cashapp/sqldelight/issues/4357
-                implementation(libs.stately.common)
-
                 api(libs.generativeai)
             }
         }

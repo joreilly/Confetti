@@ -157,7 +157,6 @@ kotlin {
 dependencies {
     implementation(project(":common:car"))
     implementation(project(":shared"))
-    testImplementation(project(":androidTest"))
 
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
@@ -199,8 +198,6 @@ dependencies {
 
     implementation(libs.googleid)
     implementation(libs.androidx.credentials.play.services.auth)
-
-    testImplementation(libs.snapshot.android)
 
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)

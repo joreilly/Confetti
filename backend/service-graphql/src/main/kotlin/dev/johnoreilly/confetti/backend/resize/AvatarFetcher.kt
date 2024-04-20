@@ -57,6 +57,7 @@ class AvatarFetcher(
                 .flatMap { dataBuffer ->
                     ok()
                         .contentType(MediaType.parseMediaType("image/png"))
+                        .header("Cache-Control", "public, max-age=1800")
                         .body(Mono.just(dataBuffer), DataBuffer::class.java)
                 }
                 .subscribeOn(Schedulers.boundedElastic())

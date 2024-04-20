@@ -606,6 +606,29 @@ object Sessionize {
         )
     }
 
+    suspend fun importKotlinConf2024(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/cdftbl11/view/All"),
+            config = DConfig(
+                id = ConferenceId.KotlinConf2024.id,
+                name = "KotlinConf 2024",
+                timeZone = "Europe/Copenhagen",
+                themeColor = "0xFF7A54F6"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Bella Center Copenhagen",
+                address = "Martha Christensens Vej 8, Copenhagen",
+                description = mapOf(
+                    "en" to "Bella Center Copenhagen",
+                ),
+                latitude = 55.6380,
+                longitude = 12.5788,
+                imageUrl = "https://kotlinconf.com/static/c5d6bade6577431967d36c9c6691e061/d4d5a/venue.webp",
+                floorPlanUrl = null
+            )
+        )
+    }
     internal fun writeData(
         sessionizeData: SessionizeData,
         config: DConfig,

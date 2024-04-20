@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti
 
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.annotations.ApolloExperimental
 import com.apollographql.apollo3.api.ApolloRequest
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.ExecutionContext
@@ -13,6 +14,8 @@ import com.apollographql.apollo3.exception.ApolloException
 import com.apollographql.apollo3.exception.ApolloHttpException
 import com.apollographql.apollo3.interceptor.ApolloInterceptor
 import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
+import com.apollographql.apollo3.network.NetworkMonitor
+import com.apollographql.apollo3.network.http.HttpNetworkTransport
 import dev.johnoreilly.confetti.di.getDatabaseName
 import dev.johnoreilly.confetti.utils.registerApolloDebugServer
 import dev.johnoreilly.confetti.utils.unregisterApolloDebugServer
@@ -98,6 +101,7 @@ class ApolloClientCache : KoinComponent {
         }
     }
 
+    @OptIn(ApolloExperimental::class)
     private fun clientFor(
         conference: String,
         uid: String?,
@@ -108,6 +112,14 @@ class ApolloClientCache : KoinComponent {
             .chain(sqlNormalizedCacheFactory)
 
         return get<ApolloClient.Builder>()
+            .networkMonitor(
+                object : NetworkMonitor {
+                    override val isOnline: Boolean
+                        get() = true
+                    override suspend fun waitForNetwork() {}
+                    override fun close() {}
+                }
+            )
             .addHttpHeader("conference", conference)
             .normalizedCache(
                 memoryFirstThenSqlCacheFactory,

@@ -9,11 +9,17 @@ import com.expediagroup.graphql.generator.SchemaGeneratorConfig
 import com.expediagroup.graphql.generator.TopLevelObject
 import com.expediagroup.graphql.generator.hooks.SchemaGeneratorHooks
 import com.expediagroup.graphql.generator.toSchema
+import com.expediagroup.graphql.server.execution.GraphQLRequestParser
 import com.expediagroup.graphql.server.spring.GraphQLConfigurationProperties
-import com.expediagroup.graphql.server.spring.GraphQLConfigurationProperties.PlaygroundConfigurationProperties
 import com.expediagroup.graphql.server.spring.execution.DefaultSpringGraphQLContextFactory
+import com.expediagroup.graphql.server.spring.execution.SpringGraphQLRequestParser
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLServer
+import com.expediagroup.graphql.server.types.GraphQLRequest
 import com.expediagroup.graphql.server.types.GraphQLResponse
+import com.expediagroup.graphql.server.types.GraphQLServerRequest
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.MapType
+import com.fasterxml.jackson.databind.type.TypeFactory
 import com.google.firebase.auth.FirebaseAuthException
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
@@ -50,6 +56,8 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Primary
+import org.springframework.http.HttpMethod
 import org.springframework.http.client.reactive.JdkClientHttpConnector
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
@@ -108,6 +116,12 @@ class DefaultApplication {
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", corsConfig)
         return CorsWebFilter(source)
+    }
+
+    @Bean
+    @Primary
+    fun parser(objectMapper: ObjectMapper): GraphQLRequestParser<ServerRequest> {
+        return ApqAwareSpringGraphQLRequestParser(objectMapper)
     }
 
     @Bean
@@ -264,6 +278,34 @@ class DefaultApplication {
     }
 }
 
+class ApqAwareSpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
+    SpringGraphQLRequestParser(objectMapper) {
+    private val mapTypeReference: MapType = TypeFactory.defaultInstance()
+        .constructMapType(HashMap::class.java, String::class.java, Any::class.java)
+
+    override suspend fun parseRequest(request: ServerRequest): GraphQLServerRequest? {
+        val graphqlRequest = super.parseRequest(request)
+
+        if (graphqlRequest == null && request.method().equals(HttpMethod.GET)) {
+            val extensions = request.queryParam("extensions").getOrNull()
+            val variables = request.queryParam("variables").getOrNull()
+            val operationName = request.queryParam("operationName").getOrNull()
+            val graphQLVariables: Map<String, Any>? = variables?.let {
+                objectMapper.readValue(it, mapTypeReference)
+            }
+            val graphQLExtensions: Map<String, Any>? = extensions?.let {
+                objectMapper.readValue(it, mapTypeReference)
+            }
+            return GraphQLRequest(
+                operationName = operationName,
+                variables = graphQLVariables,
+                extensions = graphQLExtensions
+            )
+        }
+
+        return graphqlRequest
+    }
+}
 
 class BadConferenceException(conference: String) :
     Exception("Unknown conference: '$conference', use Query.conferences without a header to get the list of possible values.")

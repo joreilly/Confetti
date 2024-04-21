@@ -31,7 +31,7 @@
     <string name="oops">Oops something went wrong</string>
     <string name="retry">Retry</string>
     <string name="update_wear">Update Wear Theme</string>
-    <string name="sign_in_for_bookmarks">In order to save your bookmarks, you'll need to sign in.</string>
+    <string name="sign_in_for_bookmarks">In order to save your bookmarks, you\'ll need to sign in.</string>
     <string name="cancel">CANCEL</string>
     <string name="sign_in">SIGN IN</string>
     <string name="sign_in_google">Sign in with Google</string>

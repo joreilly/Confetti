@@ -214,6 +214,7 @@ class DefaultApplication {
                         } else {
                             headers.put("Cache-Control", "public, max-age=$maxAge")
                         }
+                        headers.put("Vary", "conference")
 
                         var newExtensions: Map<Any, Any?>? =
                             graphQLResponse.extensions?.filterNot { it.key == "maxAge" }

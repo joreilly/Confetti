@@ -39,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.stack.Children
@@ -51,6 +52,7 @@ import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.account.AccountInfo
 import dev.johnoreilly.confetti.account.WearUiState
 import dev.johnoreilly.confetti.bookmarks.BookmarksRoute
+import dev.johnoreilly.confetti.calendar.AndroidUserCalendar
 import dev.johnoreilly.confetti.recommendations.RecommendationsRoute
 import dev.johnoreilly.confetti.search.SearchRoute
 import dev.johnoreilly.confetti.sessions.SessionsRoute
@@ -106,6 +108,7 @@ private fun Children(
 ) {
     val wearUiState = WearUiState()
 
+    val context = LocalContext.current
     val topBarActions: @Composable RowScope.() -> Unit = {
         IconButton(onClick = { component.onSearchClicked() }) {
             Icon(Icons.Outlined.Search, contentDescription = "search")
@@ -121,7 +124,12 @@ private fun Children(
             },
             installOnWear = {}, // FIXME: handle
             wearSettingsUiState = wearUiState,
-            showRecommendationsOption = component.isGeminiEnabled()
+            showRecommendationsOption = component.isGeminiEnabled(),
+            calendarIntegrationEnabled = component.isCalendarIntegrationEnabled(),
+            onAddCalendarEntry = {
+                AndroidUserCalendar.context = context
+                component.onAddCalendarEntryClicked()
+            }
         )
     }
 

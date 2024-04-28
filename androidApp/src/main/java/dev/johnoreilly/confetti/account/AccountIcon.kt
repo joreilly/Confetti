@@ -38,10 +38,12 @@ fun AccountIcon(
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onShowSettings: () -> Unit,
+    onAddCalendarEntry: () -> Unit,
     installOnWear: () -> Unit,
     wearSettingsUiState: WearUiState,
     info: AccountInfo?,
-    showRecommendationsOption: Boolean
+    showRecommendationsOption: Boolean,
+    calendarIntegrationEnabled: Boolean,
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -96,6 +98,15 @@ fun AccountIcon(
                 onSwitchConference()
             }
         )
+        if (calendarIntegrationEnabled) {
+            DropdownMenuItem(
+                text = { Text("Add Calendar Entry") },
+                onClick = {
+                    showMenu = false
+                    onAddCalendarEntry()
+                }
+            )
+        }
 
         if (showRecommendationsOption) {
             DropdownMenuItem(
@@ -142,7 +153,9 @@ private fun AccountIconPreview() {
                 installOnWear = {},
                 wearSettingsUiState = wearUiState,
                 info = AccountInfo(),
-                showRecommendationsOption = false
+                showRecommendationsOption = false,
+                onAddCalendarEntry = {},
+                calendarIntegrationEnabled = true
             )
         }
     }

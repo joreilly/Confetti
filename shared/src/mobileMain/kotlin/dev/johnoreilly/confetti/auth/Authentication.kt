@@ -29,6 +29,9 @@ class DefaultUser(
         } catch (e: FirebaseAuthException) {
             // TODO log to firebase
             null
+        } catch (e: Exception) {
+            // See https://github.com/firebase/firebase-android-sdk/issues/5328#issuecomment-1719386926
+            null
         }
     }
 }

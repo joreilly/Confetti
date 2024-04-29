@@ -219,7 +219,7 @@ fun SessionItemView(
     }
 
     if (session.isService()) {
-        modifier = modifier.background(Color.White)
+        modifier = modifier.background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f))
     }
 
     Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {

@@ -105,11 +105,7 @@ class RootQuery : Query {
     }
 
     fun session(dfe: DataFetchingEnvironment, id: String): Session {
-        val nodes = dfe.source().sessions(100, after = null, null, null)
-            .nodes
-
-        return nodes.firstOrNull { it.id == id }
-            ?: error("Cannot find id '$id' in ${nodes.size} nodes")
+        return dfe.source().sessions(listOf(id)).single()
     }
 
     fun config(dfe: DataFetchingEnvironment): Conference {

@@ -55,6 +55,7 @@ import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
+import dev.johnoreilly.confetti.ui.component.LocalBackgroundTheme
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -212,88 +213,96 @@ fun SessionItemView(
 ) {
 
     var modifier = Modifier.fillMaxSize()
+    val tonalElevation = if (!session.isService() && !session.isBreak()) {
+         8.dp
+    } else {
+        0.dp
+    }
     if (!session.isBreak()) {
         modifier = modifier.clickable(onClick = {
             sessionSelected(session.id)
         })
     }
 
-    if (session.isService()) {
-        modifier = modifier.background(Color.White)
-    }
 
-    Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-        Column(modifier = Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = session.title,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+
+    Surface(
+        tonalElevation = tonalElevation
+    ) {
+        Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+            Column(modifier = Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = session.title,
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                    )
+                }
+
+                session.room?.let { room ->
+                    Row(
+                        modifier = Modifier.padding(top = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            session.sessionSpeakers() ?: "",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier.padding(top = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            room.name,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Gray
+                        )
+                    }
+                }
+
+                if (session.isLightning()) {
+                    Surface(
+                        modifier = Modifier.padding(top = 8.dp),
+                        shape = MaterialTheme.shapes.small,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                    ) {
+                        Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
+                            Icon(Icons.Default.Bolt, "lightning")
+                            Spacer(Modifier.width(4.dp))
+                            Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
+                        }
+                    }
+                }
+            }
+
+
+            var showDialog by remember { mutableStateOf(false) }
+
+            if (!session.isBreak()) {
+                Bookmark(
+                    isBookmarked = isBookmarked,
+                    onBookmarkChange = { shouldAdd ->
+                        if (!isLoggedIn) {
+                            showDialog = true
+                            return@Bookmark
+                        }
+                        if (shouldAdd) {
+                            addBookmark(session.id)
+                        } else {
+                            removeBookmark(session.id)
+                        }
+                    }
                 )
             }
 
-            session.room?.let { room ->
-                Row(
-                    modifier = Modifier.padding(top = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        session.sessionSpeakers() ?: "",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-
-                Row(
-                    modifier = Modifier.padding(top = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        room.name,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Gray
-                    )
-                }
+            if (showDialog) {
+                SignInDialog(
+                    onDismissRequest = { showDialog = false },
+                    onSignInClicked = onNavigateToSignIn
+                )
             }
-
-            if (session.isLightning()) {
-                Surface(
-                    modifier = Modifier.padding(top = 8.dp),
-                    shape = MaterialTheme.shapes.small,
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                ) {
-                    Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
-                        Icon(Icons.Default.Bolt, "lightning")
-                        Spacer(Modifier.width(4.dp))
-                        Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
-                    }
-                }
-            }
-        }
-
-
-        var showDialog by remember { mutableStateOf(false) }
-
-        if (!session.isBreak()) {
-            Bookmark(
-                isBookmarked = isBookmarked,
-                onBookmarkChange = { shouldAdd ->
-                    if (!isLoggedIn) {
-                        showDialog = true
-                        return@Bookmark
-                    }
-                    if (shouldAdd) {
-                        addBookmark(session.id)
-                    } else {
-                        removeBookmark(session.id)
-                    }
-                }
-            )
-        }
-
-        if (showDialog) {
-            SignInDialog(
-                onDismissRequest = { showDialog = false },
-                onSignInClicked = onNavigateToSignIn
-            )
         }
     }
+
 }

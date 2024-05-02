@@ -57,7 +57,12 @@ class DefaultSettingsComponent(
             val authUser = FirebaseUserMapper.map(firebaseUser)
 
             if (developerMode) {
-                val token = firebaseUser?.getIdToken(false)?.await()
+                val token = try {
+                    firebaseUser?.getIdToken(false)?.await()
+                } catch (e: Exception) {
+                    // See https://github.com/firebase/firebase-android-sdk/issues/5328#issuecomment-1719386926
+                    null
+                }
                 SettingsUiState.Success(
                     developerMode = true,
                     authUser = authUser,
@@ -95,7 +100,11 @@ class DefaultSettingsComponent(
 
     override fun refreshToken() {
         coroutineScope.launch {
-            Firebase.auth.currentUser?.getIdToken(true)?.await()
+            try {
+                Firebase.auth.currentUser?.getIdToken(true)?.await()
+            } catch (e: Exception) {
+                // See https://github.com/firebase/firebase-android-sdk/issues/5328#issuecomment-1719386926
+            }
         }
     }
 

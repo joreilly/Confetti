@@ -34,7 +34,7 @@ suspend fun signIn(context: Context, authentication: Authentication) {
 
         when {
             credential is GoogleIdTokenCredential -> {
-                authentication.signIn(credential.id)
+                authentication.signIn(credential.idToken)
             }
             credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL -> {
                 val googleIdTokenCredential = GoogleIdTokenCredential

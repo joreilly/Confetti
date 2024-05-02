@@ -130,7 +130,7 @@ kotlin {
 
                 api(libs.multiplatform.settings.datastore)
 
-                api("com.mikepenz:multiplatform-markdown-renderer:0.14.0")
+                api("com.mikepenz:multiplatform-markdown-renderer:0.16.0")
             }
         }
 

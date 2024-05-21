@@ -7,6 +7,7 @@ plugins {
     id("com.android.library")
     id("com.apollographql.apollo3")
     id("org.jetbrains.compose")
+    alias(libs.plugins.compose.compiler)
     id("com.google.devtools.ksp")
     id("com.squareup.wire")
     id("maven-publish")

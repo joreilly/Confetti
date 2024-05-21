@@ -5,6 +5,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.apollographql.apollo3")
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {

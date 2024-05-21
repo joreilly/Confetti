@@ -10,6 +10,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
     id("io.github.takahirom.roborazzi")
+    alias(libs.plugins.compose.compiler)
 }
 
 configureCompilerOptions()
@@ -79,9 +80,6 @@ android {
         buildConfig = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
 
     testOptions {
         unitTests {

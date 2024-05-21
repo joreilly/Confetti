@@ -114,8 +114,9 @@ class ApolloClientCache : KoinComponent {
         return get<ApolloClient.Builder>()
             .networkMonitor(
                 object : NetworkMonitor {
-                    override val isOnline: Boolean
-                        get() = true
+                    override suspend fun isOnline(): Boolean {
+                        return true
+                    }
                     override suspend fun waitForNetwork() {}
                     override fun close() {}
                 }

@@ -8,6 +8,7 @@ plugins {
     kotlin("android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    alias(libs.plugins.compose.compiler)
 }
 
 configureCompilerOptions()
@@ -85,10 +86,6 @@ android {
         buildConfig = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-
     buildTypes {
         getByName("release") {
             isShrinkResources = true
@@ -138,7 +135,6 @@ dependencies {
     implementation(project(":common:car"))
     implementation(project(":shared"))
 
-    implementation(libs.compose.compiler)
     implementation(libs.lifecycle.runtime.compose)
 
     val excludeAndroidxDataStore = Action<ExternalModuleDependency> {

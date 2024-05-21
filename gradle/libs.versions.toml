@@ -1,10 +1,10 @@
 [versions]
 accompanist = "0.34.0"
 activity-compose = "1.9.0"
-androidx-lifecycle = "2.7.0"
-androidx-datastore = "1.1.0"
+androidx-lifecycle = "2.8.0"
+androidx-datastore = "1.1.1"
 apollo = "4.0.0-beta.5"
-compose = "1.6.6"
+compose = "1.6.7"
 compose-multiplatform = "1.6.2"
 compose-compiler = "1.5.11-dev-k2.0.0-Beta4-21f5e479a96"
 compose-material-3 = "1.2.1"
@@ -13,7 +13,7 @@ credentials-play-services-auth = "1.2.2"
 decompose = "3.0.0"
 essenty = "2.0.0"
 googleid = "1.1.0"
-horologist = "0.6.10"
+horologist = "0.6.12"
 io-coil-kt = "2.6.0"
 io-coil3-kt = "3.0.0-alpha06"
 kermit = "2.0.3"
@@ -26,17 +26,17 @@ koin-compose-multiplatform = "1.1.5"
 koin-core = "3.5.6"
 kotlin = "2.0.0-Beta4"
 ksp-plugin = "2.0.0-RC1-1.0.20"
-kotlin-coroutines = "1.8.0"
+kotlin-coroutines = "1.8.1"
 kotlinx-coroutines-play-services = "1.8.1"
 kotlinx-datetime = "0.6.0-RC.2"
-lifecycle = "2.7.0"
-lifecycle-livedata-ktx = "2.7.0"
+lifecycle = "2.8.0"
+lifecycle-livedata-ktx = "2.8.0"
 materialkolor = "1.5.1"
 multiplatform-settings = "1.1.1"
 nav-compose = "2.7.7"
 okio = "3.9.0"
 protolayout-expression = "1.1.0"
-protolayout-material = "1.2.0-alpha01"
+protolayout-material = "1.2.0-alpha03"
 protolayout-proto = "1.1.0"
 robolectric = "4.12.2"
 roborazzi-gradle-plugin = "1.16.1"
@@ -60,6 +60,7 @@ androidx-credentials-play-services-auth = { module = "androidx.credentials:crede
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout-expression" }
 androidx-protolayout-expression-pipeline = { module = "androidx.wear.protolayout:protolayout-expression-pipeline", version.ref = "protolayout-expression" }
@@ -105,7 +106,7 @@ federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-bom = "com.google.firebase:firebase-bom:32.8.1"
+firebase-bom = "com.google.firebase:firebase-bom:33.0.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.12.0"
@@ -160,7 +161,7 @@ multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-setti
 okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.14"
 okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.14"
 okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14"
-play-services-auth = "com.google.android.gms:play-services-auth:21.1.0"
+play-services-auth = "com.google.android.gms:play-services-auth:21.1.1"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = "com.android.tools.build:gradle:8.2.2"
 plugin-apollo = { module = "com.apollographql.apollo3:apollo-gradle-plugin", version.ref = "apollo" }

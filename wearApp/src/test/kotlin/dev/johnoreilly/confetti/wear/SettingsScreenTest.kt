@@ -39,11 +39,9 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 
     @Test
@@ -63,11 +61,9 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 
     @Test
@@ -93,12 +89,9 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
-
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
         composeRule.onNodeWithContentDescription("Logged in as John O'Reilly")
             .assertHasClickAction()
             .assertIsDisplayed()

@@ -66,12 +66,9 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
             .assertTouchHeightIsEqualTo(52.dp)
 
         takeScreenshot()
-
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
-
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
         composeRule.onNodeWithText("Conferences")
             .assertIsDisplayed()
             .assertHasNoClickAction()

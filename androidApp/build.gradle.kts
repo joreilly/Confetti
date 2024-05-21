@@ -170,6 +170,7 @@ dependencies {
 
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.process)
     implementation(libs.material3.core)
     implementation(libs.material3.window.size)
     implementation(libs.splash.screen)

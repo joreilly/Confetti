@@ -58,10 +58,8 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
         }
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         takeScreenshot()
-
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 }

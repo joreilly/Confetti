@@ -54,11 +54,9 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 
     @Test
@@ -74,12 +72,9 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
-
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
     }
 }

@@ -39,9 +39,8 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
             }
         }
         takeScreenshot()
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
+        composeRule.onNode(hasScrollToIndexAction())
+            .scrollToBottom()
+        takeScreenshot("_end")
     }
 }

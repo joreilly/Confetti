@@ -37,9 +37,11 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
         }
         composeRule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+
+        // Disabled temporarily, hangs roborazzi
+//        composeRule.onNode(hasScrollToIndexAction())
+//            .scrollToBottom()
+//        takeScreenshot("_end")
     }
 
     @Test
@@ -64,9 +66,12 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
             .assertTouchHeightIsEqualTo(52.dp)
 
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+
+        // Disabled temporarily, hangs roborazzi
+//        composeRule.onNode(hasScrollToIndexAction())
+//            .scrollToBottom()
+//        takeScreenshot("_end")
+
         composeRule.onNodeWithText("Conferences")
             .assertIsDisplayed()
             .assertHasNoClickAction()

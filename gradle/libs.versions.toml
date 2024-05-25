@@ -1,6 +1,9 @@
 [versions]
 kotlin = "2.0.0"
-ksp = "2.0.0-RC3-1.0.20"
+ksp = "2.0.0-1.0.21"
+kotlinx-coroutines = "1.8.1"
+kotlinx-datetime = "0.6.0"
+
 
 accompanist = "0.34.0"
 activity-compose = "1.9.0"
@@ -19,16 +22,14 @@ horologist = "0.6.12"
 io-coil-kt = "2.6.0"
 io-coil3-kt = "3.0.0-alpha06"
 kermit = "2.0.3"
-kmp-nativecoroutines = "1.0.0-ALPHA-30-kotlin-2.0.0-RC3"
+kmp-nativecoroutines = "1.0.0-ALPHA-31"
 kmm-viewmodel = "1.0.0-ALPHA-20"
 kmmbridge = "0.5.4"
 koin-android = "3.6.0-Beta4"
 koin-android-compose = "3.6.0-Beta4"
 koin-compose-multiplatform = "1.2.0-Beta4"
 koin-core = "3.5.6"
-kotlin-coroutines = "1.8.1"
-kotlinx-coroutines-play-services = "1.8.0"
-kotlinx-datetime = "0.6.0"
+kotlinx-coroutines-play-services = "1.8.1"
 lifecycle = "2.8.0"
 lifecycle-livedata-ktx = "2.8.0"
 materialkolor = "1.5.1"
@@ -144,9 +145,9 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin-core" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 kmm-viewmodel = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmm-viewmodel" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services" }
-kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 ktor-cio = "io.ktor:ktor-server-cio:2.3.10"

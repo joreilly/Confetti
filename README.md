@@ -70,4 +70,3 @@ The API is available at https://confetti-app.dev/graphiql
 You can query the list of conferences with `conferences.id` and chose what conference to query by
 passing a `"conference"` HTTP header 
 
-

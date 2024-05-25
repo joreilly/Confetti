@@ -29,10 +29,3 @@ tasks.register("quickChecks") {
     )
 }
 
-allprojects {
-    afterEvaluate {
-        extensions.findByType<ComposeExtension>()?.apply {
-            kotlinCompilerPlugin.set("1.5.9-kt-2.0.0-Beta4")
-        }
-    }
-}

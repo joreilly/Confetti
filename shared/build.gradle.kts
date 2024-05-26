@@ -153,6 +153,10 @@ kotlin {
     }
 }
 
+compose.resources {
+    publicResClass = true
+}
+
 android {
     compileSdk = AndroidSdk.compile
 

@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Confetti</string>
+
+
+    <string name="schedule">Programme</string>
+    <string name="sessions">Sessions</string>
+    <string name="speakers">Intervenants</string>
+    <string name="venue">Lieu</string>
+    <string name="gemini">Gemini</string>
+
+    <string name="search">Recherche</string>
+    <string name="bookmarks">Signets</string>
+    <string name="rooms">Salles</string>
+
+
+    <string name="settings_title">Paramètres</string>
+    <string name="loading">Chargement...</string>
+    <string name="theme">Theme</string>
+    <string name="brand_default">Defaut</string>
+    <string name="brand_android">Android</string>
+    <string name="dark_mode_preference">Mode sombre</string>
+    <string name="dark_mode_config_system_default">Système</string>
+    <string name="dark_mode_config_light">Clair</string>
+    <string name="dark_mode_config_dark">Sombre</string>
+    <string name="dynamic_color_preference">Couleur dynamique</string>
+    <string name="dynamic_color_yes">Oui</string>
+    <string name="dynamic_color_no">Non</string>
+    <string name="dismiss_dialog_button_text">OK</string>
+    <string name="use_experimental_features">Fonctionnalités Experimentales</string>
+    <string name="settings_boolean_true">Oui</string>
+    <string name="settings_boolean_false">Non</string>
+    <string name="developerSettings">Paramètres de developpement\n</string>
+    <string name="oops">Oops c\'est tout cassé</string>
+    <string name="retry">Réessayer</string>
+    <string name="update_wear">Synchoniser le theme WearOS</string>
+    <string name="sign_in_for_bookmarks">Connectez vous pour commenter.</string>
+    <string name="cancel">ANNULER</string>
+    <string name="sign_in">CONNEXION</string>
+    <string name="sign_in_google">Se connecter avec Google</string>
+    <string name="sign_out">Déconnexion</string>
+    <string name="sign_in_lowercase">Connexion</string>
+    <string name="switch_conference">Changer de conférence</string>
+    <string name="recommendations">Recommandations</string>
+    <string name="install_wear">Installer l\'app sur WearOS</string>
+    <string name="choose_conference">Conference</string>
+    <string name="search_placeholder">Que cherchez vous ?</string>
+    <string name="recommendations_search_placeholder">Quel sujet vous intéresse?</string>
+    <string name="install_on_watch">Installer l\'app sur WearOS</string>
+    <string name="no_paired_watch">Pas de montre appairée</string>
+    <string name="no_bookmarks">Aucun favori défini</string>
+    <string name="privacy_policy">Politique de confidentialité</string>
+</resources>

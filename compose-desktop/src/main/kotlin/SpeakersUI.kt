@@ -5,6 +5,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.decompose.SpeakersComponent
@@ -13,6 +15,7 @@ import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SpeakerDetailsView
 import dev.johnoreilly.confetti.ui.SpeakerGridView
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,7 +24,7 @@ fun SpeakersUI(component: SpeakersComponent) {
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text("Speakers")})
+            CenterAlignedTopAppBar(title = { Text(stringResource(Res.string.speakers)) })
         }
     ) {
         when (val state = uiState) {

@@ -15,10 +15,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.gemini
+import confetti.shared.generated.resources.oops
+import confetti.shared.generated.resources.schedule
+import confetti.shared.generated.resources.speakers
+import confetti.shared.generated.resources.venue
 import dev.johnoreilly.confetti.decompose.ConferenceComponent
 import dev.johnoreilly.confetti.decompose.HomeComponent
 import dev.johnoreilly.confetti.ui.ConferenceMaterialTheme
 import dev.johnoreilly.confetti.ui.SessionListGridView
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
@@ -50,25 +57,25 @@ fun HomeView(component: HomeComponent) {
                     icon = { Icon(Icons.Outlined.Home, contentDescription = "Home") },
                     selected = activeChild is HomeComponent.Child.Sessions,
                     onClick = component::onSessionsTabClicked,
-                    label = { Text(text = "Schedule") },
+                    label = { Text(text = stringResource(Res.string.schedule)) },
                 )
                 BottomNavigationItem(
                     icon = { Icon(Icons.Outlined.Person, contentDescription = "Home") },
                     selected = activeChild is HomeComponent.Child.Speakers,
                     onClick = component::onSpeakersTabClicked,
-                    label = { Text(text = "Speakers") },
+                    label = { Text(text = stringResource(Res.string.speakers)) },
                 )
                 BottomNavigationItem(
                     icon = { Icon(Icons.Outlined.LocationOn, contentDescription = "Home") },
                     selected = activeChild is HomeComponent.Child.Venue,
                     onClick = component::onVenueTabClicked,
-                    label = { Text(text = "Venue") },
+                    label = { Text(text = stringResource(Res.string.venue)) },
                 )
                 BottomNavigationItem(
                     icon = { Icon(Icons.Outlined.Search, contentDescription = "Search") },
                     selected = activeChild is HomeComponent.Child.Recommendations,
                     onClick = component::onGetRecommendationsClicked,
-                    label = { Text(text = "Gemini Query") }
+                    label = { Text(text = stringResource(Res.string.gemini)) },
                 )
             }
         }

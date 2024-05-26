@@ -4,7 +4,6 @@ plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
     alias(libs.plugins.compose.compiler)
-    application
 }
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -36,6 +35,9 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-application {
-    mainClass.set("MainKt")
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+        jvmArgs.add("-Duser.language=fr")
+    }
 }

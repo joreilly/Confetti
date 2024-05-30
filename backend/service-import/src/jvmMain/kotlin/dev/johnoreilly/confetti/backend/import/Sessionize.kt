@@ -13,7 +13,6 @@ import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import net.mbonnin.bare.graphql.asBoolean
 import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
@@ -327,12 +326,17 @@ object Sessionize {
         )
     }
 
-    suspend fun importDroidconBerlin(url: String, themeColor: String): Int {
+    suspend fun importDroidconBerlin(
+        id: String,
+        name: String,
+        url: String,
+        themeColor: String
+    ): Int {
         return writeData(
             getData(url),
             config = DConfig(
-                id = ConferenceId.DroidconBerlin2023.id,
-                name = "droidcon Berlin",
+                id = id,
+                name = name,
                 timeZone = "Europe/Berlin",
                 themeColor = themeColor
             ),
@@ -353,11 +357,21 @@ object Sessionize {
     }
 
     suspend fun importDroidconBerlin2023(): Int {
-        return importDroidconBerlin("https://sessionize.com/api/v2/axmfv7vn/view/All", "0xFFFFBE29")
+        return importDroidconBerlin(
+            ConferenceId.DroidconBerlin2023.id,
+            "droidcon Berlin",
+            "https://sessionize.com/api/v2/axmfv7vn/view/All",
+            "0xFFFFBE29"
+        )
     }
 
     suspend fun importDroidconBerlin2024(): Int {
-        return importDroidconBerlin("https://sessionize.com/api/v2/9l1y9920/view/All", "0xFFFFBE29")
+        return importDroidconBerlin(
+            ConferenceId.DroidconBerlin2024.id,
+            "droidcon Berlin 2024",
+            "https://sessionize.com/api/v2/9l1y9920/view/All",
+            "0xFFFFBE29"
+        )
     }
 
     private val businessDesignCenter = DVenue(

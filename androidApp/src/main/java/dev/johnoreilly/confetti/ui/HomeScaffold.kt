@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -34,7 +35,7 @@ fun HomeScaffold(
     Scaffold(
         topBar = {
             Surface(tonalElevation = 2.dp) {
-                MediumTopAppBar(
+                CenterAlignedTopAppBar(
                     title = {
                         Text(
                             modifier = Modifier

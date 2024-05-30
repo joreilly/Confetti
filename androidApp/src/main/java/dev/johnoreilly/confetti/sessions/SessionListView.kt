@@ -214,9 +214,9 @@ fun SessionItemView(
 
     var modifier = Modifier.fillMaxSize()
     val tonalElevation = if (!session.isService() && !session.isBreak()) {
-        2.dp
-    } else {
         0.dp
+    } else {
+        2.dp
     }
     if (!session.isBreak()) {
         modifier = modifier.clickable(onClick = {

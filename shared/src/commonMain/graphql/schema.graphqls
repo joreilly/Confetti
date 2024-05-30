@@ -86,13 +86,11 @@ type PageInfo {
 }
 
 type Partner {
-  logoUrl(dark: Boolean): String!
-
-  logoUrlDark: String
-
   name: String!
 
   url: String!
+
+  logoUrl(dark: Boolean): String!
 }
 
 type PartnerGroup {
@@ -127,8 +125,6 @@ type Query {
   venue(id: String!): Venue!
 
   venues: [Venue!]!
-
-  _service: _Service!
 }
 
 type Room {
@@ -267,10 +263,6 @@ type Venue {
   name: String!
 
   description(language: String): String!
-}
-
-type _Service {
-  sdl: String!
 }
 
 # See https://github.com/JetBrains/js-graphql-intellij-plugin/issues/665

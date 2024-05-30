@@ -39,7 +39,6 @@ fun HomeScaffold(
                     title = {
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth()
                                 .padding(horizontal = 8.dp),
                             maxLines = 2,
                             textAlign = TextAlign.Center,

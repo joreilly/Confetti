@@ -327,9 +327,9 @@ object Sessionize {
         )
     }
 
-    suspend fun importDroidconBerlin2023(): Int {
+    suspend fun importDroidconBerlin(url: String): Int {
         return writeData(
-            getData("https://sessionize.com/api/v2/axmfv7vn/view/All"),
+            getData(url),
             config = DConfig(
                 id = ConferenceId.DroidconBerlin2023.id,
                 name = "droidcon Berlin",
@@ -349,6 +349,14 @@ object Sessionize {
                 floorPlanUrl = null
             )
         )
+    }
+
+    suspend fun importDroidconBerlin2023(): Int {
+        return importDroidconBerlin("https://sessionize.com/api/v2/axmfv7vn/view/All")
+    }
+
+    suspend fun importDroidconBerlin2024(): Int {
+        return importDroidconBerlin("https://sessionize.com/api/v2/9l1y9920/view/All")
     }
 
     private val businessDesignCenter = DVenue(

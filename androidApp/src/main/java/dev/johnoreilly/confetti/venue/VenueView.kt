@@ -16,19 +16,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.venue
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.Venue
 import dev.johnoreilly.confetti.decompose.VenueComponent
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.HomeScaffold
 import dev.johnoreilly.confetti.ui.LoadingView
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
@@ -40,7 +42,7 @@ fun VenueRoute(
     val uiState by component.uiState.subscribeAsState()
 
     HomeScaffold(
-        title = stringResource(R.string.venue),
+        title = stringResource(Res.string.venue),
         windowSizeClass = windowSizeClass,
         topBarActions = topBarActions,
     ) {

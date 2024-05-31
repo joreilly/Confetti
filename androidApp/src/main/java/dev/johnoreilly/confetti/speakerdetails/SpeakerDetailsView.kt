@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -36,11 +35,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.sessions
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
@@ -49,6 +49,7 @@ import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.SocialIcon
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
@@ -199,7 +200,7 @@ fun SpeakerTalks(
 ) {
     Column(Modifier.fillMaxWidth()) {
 
-        ConfettiHeaderAndroid(icon = Icons.Filled.Event, text = stringResource(id = R.string.sessions))
+        ConfettiHeaderAndroid(icon = Icons.Filled.Event, text = stringResource(Res.string.sessions))
 
         Spacer(modifier = Modifier.size(8.dp))
 

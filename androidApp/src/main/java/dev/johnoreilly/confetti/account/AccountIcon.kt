@@ -20,12 +20,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.install_wear
+import confetti.shared.generated.resources.recommendations
+import confetti.shared.generated.resources.settings_title
+import confetti.shared.generated.resources.sign_in_lowercase
+import confetti.shared.generated.resources.sign_out
+import confetti.shared.generated.resources.switch_conference
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.ui.ConfettiTheme
+import org.jetbrains.compose.resources.stringResource
 
 data class AccountInfo(
     val photoUrl: String? = null,
@@ -74,7 +81,7 @@ fun AccountIcon(
     ) {
         if (info != null) {
             DropdownMenuItem(
-                text = { Text(stringResource(id = R.string.sign_out)) },
+                text = { Text(stringResource(Res.string.sign_out)) },
                 onClick = {
                     onSignOut()
                     showMenu = false
@@ -82,7 +89,7 @@ fun AccountIcon(
             )
         } else {
             DropdownMenuItem(
-                text = { Text(stringResource(id = R.string.sign_in_lowercase)) },
+                text = { Text(stringResource(Res.string.sign_in_lowercase)) },
                 onClick = {
                     showMenu = false
                     onSignIn()
@@ -90,7 +97,7 @@ fun AccountIcon(
             )
         }
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.switch_conference)) },
+            text = { Text(stringResource(Res.string.switch_conference)) },
             onClick = {
                 showMenu = false
                 onSwitchConference()
@@ -99,7 +106,7 @@ fun AccountIcon(
 
         if (showRecommendationsOption) {
             DropdownMenuItem(
-                text = { Text(stringResource(id = R.string.recommendations)) },
+                text = { Text(stringResource(Res.string.recommendations)) },
                 onClick = {
                     showMenu = false
                     onGetRecommendations()
@@ -108,7 +115,7 @@ fun AccountIcon(
         }
 
         DropdownMenuItem(
-            text = { Text(stringResource(id = R.string.settings_title)) },
+            text = { Text(stringResource(Res.string.settings_title)) },
             onClick = {
                 showMenu = false
                 onShowSettings()
@@ -116,7 +123,7 @@ fun AccountIcon(
         )
         if (wearSettingsUiState.showInstallOnWear) {
             DropdownMenuItem(
-                text = { Text(stringResource(id = R.string.install_wear)) },
+                text = { Text(stringResource(Res.string.install_wear)) },
                 onClick = {
                     showMenu = false
                     installOnWear()

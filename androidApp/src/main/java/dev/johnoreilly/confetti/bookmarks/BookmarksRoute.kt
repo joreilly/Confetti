@@ -4,11 +4,12 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.bookmarks
 import dev.johnoreilly.confetti.decompose.BookmarksComponent
-import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.ui.HomeScaffold
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BookmarksRoute(
@@ -30,7 +31,7 @@ fun BookmarksRoute(
         .collectAsStateWithLifecycle(initialValue = emptySet())
 
     HomeScaffold(
-        title = stringResource(R.string.bookmarks),
+        title = stringResource(Res.string.bookmarks),
         windowSizeClass = windowSizeClass,
         topBarActions = topBarActions,
     ) {

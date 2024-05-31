@@ -46,9 +46,12 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.search_placeholder
+import confetti.shared.generated.resources.sessions
+import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -58,6 +61,7 @@ import dev.johnoreilly.confetti.ui.ConfettiTypography
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.utils.rememberRunnable
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SearchView(
@@ -118,7 +122,7 @@ private fun LazyListScope.speakerItems(
         stickyHeader {
             ConfettiHeaderAndroid(
                 icon = Icons.Filled.Person,
-                text = stringResource(R.string.speakers),
+                text = stringResource(Res.string.speakers),
             )
         }
     }
@@ -144,7 +148,7 @@ private fun LazyListScope.sessionItems(
         stickyHeader {
             ConfettiHeaderAndroid(
                 icon = Icons.Filled.Event,
-                text = stringResource(R.string.sessions),
+                text = stringResource(Res.string.sessions),
             )
         }
     }
@@ -191,7 +195,7 @@ private fun SearchTextField(
             .fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
-        placeholder = { Text(stringResource(id = R.string.search_placeholder)) },
+        placeholder = { Text(stringResource(Res.string.search_placeholder)) },
         leadingIcon = { Icon(Icons.Filled.Search, "Search") },
         trailingIcon = {
             if (value.isNotBlank()) {

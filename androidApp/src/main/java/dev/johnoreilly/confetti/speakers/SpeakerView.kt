@@ -26,10 +26,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.SpeakersComponent
 import dev.johnoreilly.confetti.decompose.SpeakersUiState
@@ -39,6 +40,7 @@ import dev.johnoreilly.confetti.ui.HomeScaffold
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SpeakerGridView
 import dev.johnoreilly.confetti.ui.isExpanded
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SpeakersRoute(
@@ -49,7 +51,7 @@ fun SpeakersRoute(
     val uiState by component.uiState.subscribeAsState()
 
     HomeScaffold(
-        title = stringResource(R.string.speakers),
+        title = stringResource(Res.string.speakers),
         windowSizeClass = windowSizeClass,
         topBarActions = topBarActions,
     ) {

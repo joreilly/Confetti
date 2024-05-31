@@ -25,18 +25,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import dev.johnoreilly.confetti.R
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.recommendations
+import confetti.shared.generated.resources.recommendations_search_placeholder
 import dev.johnoreilly.confetti.decompose.RecommendationsComponent
 import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.ConfettiTypography
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.HomeScaffold
 import dev.johnoreilly.confetti.ui.LoadingView
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RecommendationsRoute(
@@ -54,7 +56,7 @@ fun RecommendationsRoute(
 
 
     HomeScaffold(
-        title = stringResource(R.string.recommendations),
+        title = stringResource(Res.string.recommendations),
         windowSizeClass = windowSizeClass,
         topBarActions = topBarActions,
     ) {
@@ -67,7 +69,7 @@ fun RecommendationsRoute(
                     .fillMaxWidth(),
                 value = query,
                 onValueChange = { query = it },
-                placeholder = { Text(stringResource(id = R.string.recommendations_search_placeholder)) },
+                placeholder = { Text(stringResource(Res.string.recommendations_search_placeholder)) },
                 leadingIcon = { Icon(Icons.Filled.Search, "Search") },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(

@@ -20,8 +20,8 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.res.stringResource
-import dev.johnoreilly.confetti.R
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.no_bookmarks
 import dev.johnoreilly.confetti.decompose.DateSessionsMap
 import dev.johnoreilly.confetti.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.LoadingView
@@ -30,6 +30,7 @@ import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.EmptyView
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -134,7 +135,7 @@ private fun BookmarksHorizontalPager(
             }
 
         if (displayedSessions.isEmpty()) {
-            EmptyView(stringResource(id = R.string.no_bookmarks))
+            EmptyView(stringResource(Res.string.no_bookmarks))
         } else {
             LazyColumn(
                 contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)

@@ -35,20 +35,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.brand_android
+import confetti.shared.generated.resources.brand_default
+import confetti.shared.generated.resources.dark_mode_config_dark
+import confetti.shared.generated.resources.dark_mode_config_light
+import confetti.shared.generated.resources.dark_mode_config_system_default
+import confetti.shared.generated.resources.dark_mode_preference
+import confetti.shared.generated.resources.developerSettings
+import confetti.shared.generated.resources.dynamic_color_preference
+import confetti.shared.generated.resources.privacy_policy
+import confetti.shared.generated.resources.settings_boolean_false
+import confetti.shared.generated.resources.settings_boolean_true
+import confetti.shared.generated.resources.settings_title
+import confetti.shared.generated.resources.theme
+import confetti.shared.generated.resources.use_experimental_features
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.DarkThemeConfig
 import dev.johnoreilly.confetti.DeveloperSettings
-import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.ThemeBrand
 import dev.johnoreilly.confetti.UserEditableSettings
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.ui.supportsDynamicTheming
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SettingsRoute(
@@ -92,7 +106,7 @@ fun SettingsScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.settings_title),
+                        text = stringResource(Res.string.settings_title),
                         style = MaterialTheme.typography.titleLarge,
                     )
                 },
@@ -141,14 +155,14 @@ fun SettingsScreen(
                             }
                             .padding(8.dp)
                     ) {
-                        Text(stringResource(id = R.string.privacy_policy))
+                        Text(stringResource(Res.string.privacy_policy))
                     }
                 }
 
                 if (developerSettings != null) {
                     item {
                         Column(modifier = Modifier.padding(8.dp)) {
-                            SettingsDialogSectionTitle(text = stringResource(R.string.developerSettings))
+                            SettingsDialogSectionTitle(text = stringResource(Res.string.developerSettings))
                             Text(
                                 "Token: ${developerSettings.token}",
                                 maxLines = 1,
@@ -199,48 +213,48 @@ private fun SettingsPanel(
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
 ) {
-    SettingsDialogSectionTitle(text = stringResource(R.string.theme))
+    SettingsDialogSectionTitle(text = stringResource(Res.string.theme))
     if (settings != null) {
         Column(Modifier.selectableGroup()) {
             SettingsDialogThemeChooserRow(
-                text = stringResource(R.string.brand_default),
+                text = stringResource(Res.string.brand_default),
                 selected = settings.brand == ThemeBrand.DEFAULT,
                 onClick = { onChangeThemeBrand(ThemeBrand.DEFAULT) },
             )
             SettingsDialogThemeChooserRow(
-                text = stringResource(R.string.brand_android),
+                text = stringResource(Res.string.brand_android),
                 selected = settings.brand == ThemeBrand.ANDROID,
                 onClick = { onChangeThemeBrand(ThemeBrand.ANDROID) },
             )
         }
         if (settings.brand == ThemeBrand.DEFAULT && supportDynamicColor) {
             BooleanSettings(
-                title = stringResource(R.string.dynamic_color_preference),
+                title = stringResource(Res.string.dynamic_color_preference),
                 value = settings.useDynamicColor,
                 onValueChange = { value -> onChangeDynamicColorPreference(value) }
             )
         }
 
         BooleanSettings(
-            title = stringResource(R.string.use_experimental_features),
+            title = stringResource(Res.string.use_experimental_features),
             value = settings.useExperimentalFeatures,
             onValueChange = { value -> onChangeUseExperimentalFeatures(value) }
         )
 
-        SettingsDialogSectionTitle(text = stringResource(R.string.dark_mode_preference))
+        SettingsDialogSectionTitle(text = stringResource(Res.string.dark_mode_preference))
         Column(Modifier.selectableGroup()) {
             SettingsDialogThemeChooserRow(
-                text = stringResource(R.string.dark_mode_config_system_default),
+                text = stringResource(Res.string.dark_mode_config_system_default),
                 selected = settings.darkThemeConfig == DarkThemeConfig.FOLLOW_SYSTEM,
                 onClick = { onChangeDarkThemeConfig(DarkThemeConfig.FOLLOW_SYSTEM) },
             )
             SettingsDialogThemeChooserRow(
-                text = stringResource(R.string.dark_mode_config_light),
+                text = stringResource(Res.string.dark_mode_config_light),
                 selected = settings.darkThemeConfig == DarkThemeConfig.LIGHT,
                 onClick = { onChangeDarkThemeConfig(DarkThemeConfig.LIGHT) },
             )
             SettingsDialogThemeChooserRow(
-                text = stringResource(R.string.dark_mode_config_dark),
+                text = stringResource(Res.string.dark_mode_config_dark),
                 selected = settings.darkThemeConfig == DarkThemeConfig.DARK,
                 onClick = { onChangeDarkThemeConfig(DarkThemeConfig.DARK) },
             )
@@ -257,12 +271,12 @@ private fun BooleanSettings(
     SettingsDialogSectionTitle(text = title)
     Column(Modifier.selectableGroup()) {
         SettingsDialogThemeChooserRow(
-            text = stringResource(R.string.settings_boolean_true),
+            text = stringResource(Res.string.settings_boolean_true),
             selected = value,
             onClick = { onValueChange(true) },
         )
         SettingsDialogThemeChooserRow(
-            text = stringResource(R.string.settings_boolean_false),
+            text = stringResource(Res.string.settings_boolean_false),
             selected = !value,
             onClick = { onValueChange(false) },
         )

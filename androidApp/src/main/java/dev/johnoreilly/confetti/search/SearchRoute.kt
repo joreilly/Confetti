@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.search
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.SearchComponent
 import dev.johnoreilly.confetti.ui.HomeScaffold
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SearchRoute(
@@ -33,7 +35,7 @@ fun SearchRoute(
         .collectAsStateWithLifecycle(initialValue = emptyList())
 
     HomeScaffold(
-        title = stringResource(id = R.string.search),
+        title = stringResource(Res.string.search),
         windowSizeClass = windowSizeClass,
         topBarActions = topBarActions,
     ) {

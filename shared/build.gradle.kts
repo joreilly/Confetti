@@ -86,7 +86,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                implementation(compose.components.resources)
+                api(compose.components.resources)
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor)
                 api(libs.materialkolor)

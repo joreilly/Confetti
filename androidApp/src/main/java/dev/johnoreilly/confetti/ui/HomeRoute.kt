@@ -39,14 +39,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.bookmarks
+import confetti.shared.generated.resources.schedule
+import confetti.shared.generated.resources.speakers
+import confetti.shared.generated.resources.venue
 import dev.johnoreilly.confetti.decompose.HomeComponent
-import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.account.AccountIcon
 import dev.johnoreilly.confetti.account.AccountInfo
 import dev.johnoreilly.confetti.account.WearUiState
@@ -56,6 +59,8 @@ import dev.johnoreilly.confetti.search.SearchRoute
 import dev.johnoreilly.confetti.sessions.SessionsRoute
 import dev.johnoreilly.confetti.speakers.SpeakersRoute
 import dev.johnoreilly.confetti.venue.VenueRoute
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HomeRoute(
@@ -234,7 +239,7 @@ private fun <T> T.NavigationButtons(
         isSelected: Boolean,
         selectedIcon: ImageVector,
         unselectedIcon: ImageVector,
-        textId: Int,
+        textResource: StringResource,
         onClick: () -> Unit,
     ) -> Unit,
 ) {
@@ -245,7 +250,7 @@ private fun <T> T.NavigationButtons(
         activeChild is HomeComponent.Child.Sessions,
         Icons.Filled.CalendarMonth,
         Icons.Outlined.CalendarMonth,
-        R.string.schedule,
+        Res.string.schedule,
         component::onSessionsTabClicked,
     )
 
@@ -253,7 +258,7 @@ private fun <T> T.NavigationButtons(
         activeChild is HomeComponent.Child.Speakers,
         Icons.Filled.Person,
         Icons.Outlined.Person,
-        R.string.speakers,
+        Res.string.speakers,
         component::onSpeakersTabClicked,
     )
 
@@ -261,7 +266,7 @@ private fun <T> T.NavigationButtons(
         activeChild is HomeComponent.Child.Bookmarks,
         Icons.Filled.Bookmarks,
         Icons.Outlined.Bookmarks,
-        R.string.bookmarks,
+        Res.string.bookmarks,
         component::onBookmarksTabClicked,
     )
 
@@ -269,7 +274,7 @@ private fun <T> T.NavigationButtons(
         activeChild is HomeComponent.Child.Venue,
         Icons.Filled.Place,
         Icons.Outlined.Place,
-        R.string.venue,
+        Res.string.venue,
         component::onVenueTabClicked,
     )
 }

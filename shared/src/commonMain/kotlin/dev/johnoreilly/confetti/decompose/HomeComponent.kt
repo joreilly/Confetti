@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.decompose
 
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -7,9 +8,14 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.BuildKonfig
-import dev.johnoreilly.confetti.decompose.HomeComponent.Child
+import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.User
+import dev.johnoreilly.confetti.calendar.UserCalendar
+import dev.johnoreilly.confetti.decompose.HomeComponent.Child
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 interface HomeComponent {
 
@@ -28,6 +34,8 @@ interface HomeComponent {
     fun onSignInClicked()
     fun onSignOutClicked()
     fun onShowSettingsClicked()
+    fun isCalendarIntegrationEnabled(): Boolean
+    fun onAddCalendarEntryClicked()
 
     sealed class Child {
         class Sessions(val component: SessionsComponent) : Child()
@@ -51,7 +59,11 @@ class DefaultHomeComponent(
     private val onSignIn: () -> Unit,
     private val onSignOut: () -> Unit,
     private val onShowSettings: () -> Unit,
-) : HomeComponent, ComponentContext by componentContext {
+) : HomeComponent, KoinComponent, ComponentContext by componentContext {
+    private val userCalendar: UserCalendar by inject()
+    private val repository: ConfettiRepository by inject()
+
+    private val coroutineScope = coroutineScope()
 
     private val navigation = StackNavigation<Config>()
 
@@ -142,6 +154,17 @@ class DefaultHomeComponent(
 
     override fun isGeminiEnabled(): Boolean {
         return BuildKonfig.GEMINI_API_KEY.isNotEmpty()
+    }
+
+    override fun isCalendarIntegrationEnabled(): Boolean {
+        return userCalendar.isEnabled
+    }
+
+    override fun onAddCalendarEntryClicked() {
+        coroutineScope.launch {
+            val conferenceDetails = repository.conferenceData(conference, FetchPolicy.CacheFirst).data!!
+            userCalendar.addConferenceEvent(conferenceDetails)
+        }
     }
 
     override fun onSessionsTabClicked() {

@@ -3,6 +3,7 @@
 
 package dev.johnoreilly.confetti.di
 
+import android.content.Context
 import androidx.credentials.CredentialManager
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
@@ -12,6 +13,8 @@ import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
+import dev.johnoreilly.confetti.calendar.AndroidUserCalendar
+import dev.johnoreilly.confetti.calendar.UserCalendar
 import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.settings.DefaultSettingsComponent
@@ -53,5 +56,10 @@ val appModule = module {
 
     single<WearSettingsSync> {
         WearSettingsSync(get(), get(), get())
+    }
+
+    single<UserCalendar> {
+        val context: Context = get()
+        AndroidUserCalendar(context)
     }
 }

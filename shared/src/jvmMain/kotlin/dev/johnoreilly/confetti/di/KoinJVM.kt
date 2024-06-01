@@ -1,9 +1,11 @@
-@file:OptIn(ExperimentalSettingsApi::class, ApolloExperimental::class)
+@file:OptIn(ExperimentalSettingsApi::class)
 
 package dev.johnoreilly.confetti.di
 
-import com.apollographql.apollo3.annotations.ApolloExperimental
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
+import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.PreferencesSettings
@@ -32,4 +34,8 @@ actual fun platformModule() = module {
     }
 }
 
-actual fun getDatabaseName(conference: String, uid: String?) = "jdbc:sqlite:$conference$uid.db"
+actual fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory {
+    val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory("jdbc:sqlite:$conference$uid.db")
+    return MemoryCacheFactory(10 * 1024 * 1024)
+        .chain(sqlNormalizedCacheFactory)
+}

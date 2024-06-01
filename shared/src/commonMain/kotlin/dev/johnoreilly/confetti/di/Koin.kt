@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.di
 
+import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.AppSettings
@@ -22,7 +23,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     }
 
 // called by iOS client
-fun initKoin() = initKoin() {}
+fun initKoin() = initKoin {}
 
 fun commonModule() = module {
     includes(platformModule())
@@ -34,4 +35,4 @@ fun commonModule() = module {
     singleOf(::GeminiApi)
 }
 
-expect fun getDatabaseName(conference: String, uid: String?): String
+expect fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory

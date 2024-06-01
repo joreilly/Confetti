@@ -70,7 +70,6 @@ class ConfettiRepository : KoinComponent {
 
         return response.data != null
     }
-
     suspend fun addBookmark(
         conference: String,
         uid: String?,

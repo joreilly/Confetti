@@ -75,6 +75,7 @@ fun SessionListViewPreview() {
             uiState = SessionsUiState.Success(
                 now = java.time.LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime(),
                 conferenceName = "wearconf",
+                conference = "wearconf",
                 venueLat = null,
                 venueLon = null,
                 confDates = listOf(),

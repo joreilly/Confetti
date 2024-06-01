@@ -45,6 +45,7 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpeakerDetailsView(
+    conference: String,
     speaker: SpeakerDetails,
     navigateToSession: (id: String) -> Unit,
     popBack: () -> Unit
@@ -98,9 +99,9 @@ fun SpeakerDetailsView(
 
                     Spacer(modifier = Modifier.size(16.dp))
 
-
+                    val url = "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
                     AsyncImage(
-                        model = speaker.photoUrl,
+                        model = url,
                         contentDescription = speaker.name,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier

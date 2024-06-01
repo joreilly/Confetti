@@ -116,6 +116,7 @@ object TestFixtures {
         )
     )
 
+    val conference = "myconference"
     val sessionDetails = SessionDetails(
         id = "368995",
         title = "Confetti: building a Kotlin Multiplatform conference app in 40min",

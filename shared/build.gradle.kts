@@ -1,5 +1,6 @@
 @file:Suppress("OPT_IN_USAGE")
 import com.codingfeline.buildkonfig.compiler.FieldSpec
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import java.util.Properties
 
 plugins {
@@ -9,7 +10,6 @@ plugins {
     id("org.jetbrains.compose")
     alias(libs.plugins.compose.compiler)
     id("com.google.devtools.ksp")
-    id("com.squareup.wire")
     id("maven-publish")
     id("kotlinx-serialization")
     alias(libs.plugins.kmmbridge)
@@ -22,12 +22,19 @@ dependencies {
     implementation(platform(libs.firebase.bom))
 }
 
-wire {
-    kotlin {
-    }
-}
 
 kotlin {
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "confetti"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "confetti.js"
+            }
+        }
+        binaries.executable()
+    }
+
     androidTarget()
     jvm()
 
@@ -64,9 +71,9 @@ kotlin {
                 implementation(libs.atomicfu)
                 api(libs.kotlinx.datetime)
 
+                //implementation("io.ktor:ktor-client-core:3.0.0-wasm2")
+
                 api(libs.bundles.multiplatform.settings)
-                api(libs.androidx.datastore)
-                api(libs.androidx.datastore.preferences)
 
                 api(libs.koin.core)
                 implementation(libs.koin.compose.multiplatform)
@@ -76,10 +83,8 @@ kotlin {
 
                 api(libs.decompose.decompose)
                 api(libs.decompose.extensions.compose)
-
                 api(libs.essenty.lifecycle)
 
-                // Multiplatform Logging
                 api(libs.kermit)
 
                 implementation(compose.ui)
@@ -87,9 +92,14 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 api(compose.components.resources)
+                implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor)
                 api(libs.materialkolor)
+                api(libs.compose.window.size)
+                implementation("com.mikepenz:multiplatform-markdown-renderer-m3:0.16.0")
+
                 api(libs.generativeai)
             }
         }
@@ -102,6 +112,7 @@ kotlin {
         val mobileMain by getting {
             dependencies {
                 implementation(libs.firebase.mpp.auth)
+                api(libs.apollo.normalized.cache.sqlite)
             }
         }
 
@@ -112,6 +123,7 @@ kotlin {
         androidMain {
             dependsOn(mobileMain)
             dependencies {
+                api(project(":proto"))
                 api(libs.androidx.lifecycle.viewmodel.ktx)
                 implementation(libs.okhttp)
                 implementation(libs.okhttp.coroutines)
@@ -130,6 +142,9 @@ kotlin {
                 api(libs.androidx.work.runtime.ktx)
 
                 api(libs.multiplatform.settings.datastore)
+                api(libs.androidx.datastore)
+                api(libs.androidx.datastore.preferences)
+
 
                 api("com.mikepenz:multiplatform-markdown-renderer:0.16.0")
             }
@@ -148,6 +163,13 @@ kotlin {
                 implementation(libs.okhttp)
                 implementation(libs.okhttp.coroutines)
                 implementation(libs.apollo.testing)
+                implementation(libs.apollo.normalized.cache.sqlite)
+            }
+        }
+
+        val wasmJsMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-js:3.0.0-wasm2")
             }
         }
     }

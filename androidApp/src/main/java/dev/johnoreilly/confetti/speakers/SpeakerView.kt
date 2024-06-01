@@ -58,7 +58,7 @@ fun SpeakersRoute(
         when (val state = uiState) {
             is SpeakersUiState.Success -> {
                 if (windowSizeClass.isExpanded) {
-                    SpeakerGridView(state.speakers, component::onSpeakerClicked)
+                    SpeakerGridView(state.conference, state.speakers, component::onSpeakerClicked)
                 } else {
                     SpeakerListView(state.speakers, component::onSpeakerClicked)
                 }

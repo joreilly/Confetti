@@ -19,8 +19,6 @@ dependencies {
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose)
 
-    implementation("com.mikepenz:multiplatform-markdown-renderer-m3:0.16.0")
-    implementation("com.mikepenz:multiplatform-markdown-renderer-jvm:0.16.0")
     implementation(project(":shared"))
 }
 
@@ -38,6 +36,6 @@ java {
 compose.desktop {
     application {
         mainClass = "MainKt"
-        jvmArgs.add("-Duser.language=fr")
+        //jvmArgs.add("-Duser.language=fr")
     }
 }

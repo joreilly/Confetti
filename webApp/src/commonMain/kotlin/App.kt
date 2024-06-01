@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Operation
-import com.apollographql.apollo3.exception.ApolloException
 import confetti.web.GetConferencesQuery
 import kotlinx.coroutines.flow.Flow
 

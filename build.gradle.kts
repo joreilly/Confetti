@@ -28,4 +28,3 @@ tasks.register("quickChecks") {
         ":wearApp:assembleDebugAndroidTest",
     )
 }
-

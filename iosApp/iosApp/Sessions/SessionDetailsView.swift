@@ -25,6 +25,7 @@ struct SessionDetailsView: View {
             case let state as SessionDetailsUiState.Success:
                 //SessionDetailsContentView(component: component, session: state.sessionDetails)
                 SessionDetailsContentViewShared(
+                    conference: state.conference,
                     session: state.sessionDetails,
                     conferenceThemeColor: conferenceThemeColor ?? "",
                     onSpeakerClick: { speakerId in
@@ -45,13 +46,16 @@ struct SessionDetailsView: View {
 
 // This version is using Compose for iOS....
 private struct SessionDetailsContentViewShared: UIViewControllerRepresentable {
+    let conference: String
     let session: SessionDetails
     let conferenceThemeColor: String
     let onSpeakerClick: (String) -> Void
     let onSocialLinkClicked: (String) -> Void
     
     func makeUIViewController(context: Context) -> UIViewController {
-        return SharedViewControllersKt.SessionDetailsViewController(session: session,
+        return SharedViewControllersKt.SessionDetailsViewController(
+            conference: conference,
+            session: session,
             conferenceThemeColor: conferenceThemeColor,
             onSpeakerClick: onSpeakerClick, onSocialLinkClicked: onSocialLinkClicked)
     }

@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 @OptIn(ExperimentalSettingsApi::class)
 class AppSettings(val settings: FlowSettings) {
@@ -34,11 +35,11 @@ class AppSettings(val settings: FlowSettings) {
     }
 
     suspend fun getConference(): String {
-        return settings.getString(CONFERENCE_SETTING, CONFERENCE_NOT_SET)
+        return settings.getStringFlow(CONFERENCE_SETTING, CONFERENCE_NOT_SET).first()
     }
 
     suspend fun getConferenceThemeColor(): String {
-        return settings.getString(CONFERENCE_THEME_COLOR_SETTING, "0xFF800000")
+        return settings.getStringFlow(CONFERENCE_THEME_COLOR_SETTING, "0xFF800000").first()
     }
 
     fun getConferenceFlow(): Flow<String> {

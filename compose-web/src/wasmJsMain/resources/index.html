@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Confetti</title>
+    <script type="application/javascript" src="confetti.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/x-icon"  sizes="512x512" href="/images/confetti.png">
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            overflow: hidden;
+            background-image: url("images/splash.png");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #warning {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            z-index: 100;
+        }
+        #warning li {
+            padding-bottom: 15px;
+        }
+
+        #warning span.code {
+            font-family: monospace;
+        }
+
+        ul {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+        }
+
+        #close {
+            position: absolute;
+            top: 0;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<canvas id="confettiCanvas"></canvas>
+</body>
+</html>

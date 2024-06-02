@@ -9,18 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.speakers
-import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.decompose.SpeakersComponent
 import dev.johnoreilly.confetti.decompose.SpeakersUiState
-import dev.johnoreilly.confetti.ui.ErrorView
-import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.SpeakerDetailsView
-import dev.johnoreilly.confetti.ui.SpeakerGridView
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,6 +43,7 @@ fun SpeakersUI(component: SpeakersComponent) {
 
 @Composable
 fun SpeakerDetailsUI(component: SpeakerDetailsComponent) {
+    val uriHandler = LocalUriHandler.current
     val uiState by component.uiState.subscribeAsState()
 
     when (val state = uiState) {
@@ -57,7 +54,7 @@ fun SpeakerDetailsUI(component: SpeakerDetailsComponent) {
             state.details,
             component::onSessionClicked,
             component::onCloseClicked,
-        )
+            uriHandler::openUri)
     }
 
 }

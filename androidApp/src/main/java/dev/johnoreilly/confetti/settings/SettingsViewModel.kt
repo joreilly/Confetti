@@ -1,9 +1,8 @@
-@file:OptIn(ExperimentalSettingsApi::class, ExperimentalCoroutinesApi::class)
+@file:OptIn(ExperimentalCoroutinesApi::class)
 
 package dev.johnoreilly.confetti.settings
 
 import com.arkivanov.decompose.ComponentContext
-import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.DarkThemeConfig
 import dev.johnoreilly.confetti.DeveloperSettings

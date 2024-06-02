@@ -11,3 +11,5 @@
 -keep class com.squareup.wire.** { *; }
 -keep class dev.johnoreilly.confetti.wear.proto.** { *; }
 -keep class androidx.car.app.** { *; }
+
+-dontwarn okhttp3.internal.Util

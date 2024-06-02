@@ -30,17 +30,19 @@ fun SessionsRoute(
         windowSizeClass = windowSizeClass,
         topBarActions = topBarActions,
     ) {
-        if (windowSizeClass.isExpanded) {
-            SessionListGridView(
-                uiState = uiState,
-                sessionSelected = component::onSessionClicked,
-                onRefresh = component::refresh,
-                addBookmark = component::addBookmark,
-                removeBookmark = component::removeBookmark,
-                onNavigateToSignIn = component::onSignInClicked,
-                isLoggedIn = component.isLoggedIn,
-            )
-        } else {
+        // comment out until issue with HorizontalPager in shared code
+        // is resolved
+//        if (windowSizeClass.isExpanded) {
+//            SessionListGridView(
+//                uiState = uiState,
+//                sessionSelected = component::onSessionClicked,
+//                onRefresh = component::refresh,
+//                addBookmark = component::addBookmark,
+//                removeBookmark = component::removeBookmark,
+//                onNavigateToSignIn = component::onSignInClicked,
+//                isLoggedIn = component.isLoggedIn,
+//            )
+//        } else {
             SessionListView(
                 uiState = uiState,
                 sessionSelected = component::onSessionClicked,
@@ -50,7 +52,7 @@ fun SessionsRoute(
                 onNavigateToSignIn = component::onSignInClicked,
                 isLoggedIn = component.isLoggedIn,
             )
-        }
+//        }
     }
 
     val addErrorCount by component.addErrorChannel.receiveAsFlow()

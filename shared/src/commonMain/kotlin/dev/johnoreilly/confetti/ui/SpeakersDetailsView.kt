@@ -48,7 +48,8 @@ fun SpeakerDetailsView(
     conference: String,
     speaker: SpeakerDetails,
     navigateToSession: (id: String) -> Unit,
-    popBack: () -> Unit
+    popBack: () -> Unit,
+    onSocialLinkClicked: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -128,14 +129,7 @@ fun SpeakerDetailsView(
                             SocialIcon(
                                 modifier = Modifier.size(24.dp),
                                 socialItem = socialsItem,
-                                onClick = {
-//                                    runCatching {
-//                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialsItem.url))
-//                                        context.startActivity(intent)
-//                                    }.getOrElse { error ->
-//                                        error.printStackTrace()
-//                                    }
-                                }
+                                onClick = { onSocialLinkClicked(socialsItem.url) }
                             )
                         }
                     }

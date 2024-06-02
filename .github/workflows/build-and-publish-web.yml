@@ -22,8 +22,8 @@ jobs:
         uses: actions/checkout@v4
 
       # Build application
-      - name: Test and Build
-        run: ./gradlew :compose-web:build
+      - name: Build
+        run: ./gradlew :compose-web:wasmJsBrowserProductionWebpack
 
       # If main branch update, deploy to gh-pages
       - name: Deploy

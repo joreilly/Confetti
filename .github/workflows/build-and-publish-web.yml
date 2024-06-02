@@ -28,9 +28,8 @@ jobs:
       # If main branch update, deploy to gh-pages
       - name: Deploy
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@v4.6.0
+        uses: JamesIves/github-pages-deploy-action@v4.6.1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: compose-web/build/dist/wasmJs/productionExecutable # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch

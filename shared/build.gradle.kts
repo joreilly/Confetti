@@ -71,10 +71,11 @@ kotlin {
                 implementation(libs.atomicfu)
                 api(libs.kotlinx.datetime)
 
-                //implementation("io.ktor:ktor-client-core:3.0.0-wasm2")
-
-                api(libs.bundles.multiplatform.settings)
-
+                // Needed until we can pull in v1.2 with coroutines//wasm support
+                //api(libs.bundles.multiplatform.settings)
+                implementation("com.russhwolf:multiplatform-settings:1.1.1") {
+                    exclude(group = "com.russhwolf", module = "multiplatform-settings-coroutines")
+                }
                 api(libs.koin.core)
                 implementation(libs.koin.compose.multiplatform)
 
@@ -141,7 +142,14 @@ kotlin {
 
                 api(libs.androidx.work.runtime.ktx)
 
-                api(libs.multiplatform.settings.datastore)
+                // Needed until we can pull in v1.2 with coroutines//wasm support
+                //api(libs.multiplatform.settings.datastore)
+                api("com.russhwolf:multiplatform-settings-datastore:1.1.1") {
+                    exclude(group = "com.russhwolf", module = "multiplatform-settings-coroutines")
+                }
+
+
+
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
 

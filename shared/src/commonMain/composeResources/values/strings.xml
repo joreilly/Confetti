@@ -47,5 +47,6 @@
     <string name="install_on_watch">Install on Watch</string>
     <string name="no_paired_watch">No paired Watch</string>
     <string name="empty_text">No data present</string>
+    <string name="no_bookmarks">No bookmarks set</string>
     <string name="privacy_policy">Privacy policy</string>
 </resources>

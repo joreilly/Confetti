@@ -28,21 +28,16 @@ For the Import server:
 
 # Deploying to Google Cloud Platform
 
-The GraphQL server, Import server as well as the static landing page are updated automatically when a PR is merged to main.
+The backend is deployed in Google Cloud on each push to main.
 
-The rest of the configuration is still a work in progress. Most of it is now in [terraform/main.tf](terraform/main.tf) but this requires a state that is currently only on my machine. Ultimately the goal is to deploy from CI as well.
+Confetti uses [Terraform](https://www.terraform.io/) to manage Google Cloud infrastructure. The configuration is in [terraform/main.tf](terraform/main.tf) and the terraform state stored in Google Cloud Storage.
 
-To update terraform resources:
+Terraform manages:
+* Google managed HTTPS certificate
+* The static IP
+* The load balancer to listen to that static IP and redirect to `GraphQL`, `Import`, `Landing`, etc... 
+* Google Cloud CDN
+* Artifact registry & Cloud Run resources
 
-```
-terraform apply
-```
-
-This:
-* Provisions a Google managed HTTPS certificate
-* Allocates a static IP
-* Configure a load balancer to listen to that static IP and redirect to `GraphQL`, `Import`, `Landing`, etc... 
-* Configure Google Cloud CDN
-* Creates Artifact registry & Cloud Run resources
-* It'll output the IP address of the load balancer to configure in Google Domains
+The DNS is managed outside of Terraform. Once `terraform apply` is run, it'll output the IP address of the load balancer to configure in Google Domains.
 

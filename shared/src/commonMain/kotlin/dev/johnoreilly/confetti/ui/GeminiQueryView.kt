@@ -82,7 +82,7 @@ fun RecommendationsView(conferenceInfo: String) {
                         coroutineScope.launch {
                             val prompt = "$query. Base on the following CSV: $conferenceInfo}"
                             queryResponse = ""
-                            geminiApi.generateContent(prompt)
+                            geminiApi.generateContentStream(prompt)
                                 .catch {
                                     showProgress = false
                                     queryResponse = it.message ?: "Error making gemini request"

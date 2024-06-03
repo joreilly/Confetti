@@ -10,8 +10,8 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -20,6 +20,7 @@ import org.koin.core.component.inject
 interface RecommendationsComponent {
     val uiState: Value<UiState>
 
+    val isLoggedIn: Boolean
     val sessions: Flow<List<SessionDetails>>
     val bookmarks: Flow<Set<String>>
     val speakers: Flow<List<SpeakerDetails>>
@@ -47,15 +48,16 @@ class DefaultRecommendationsComponent(
     private val geminiApi: GeminiApi by inject()
     private val coroutineScope = coroutineScope()
 
-    private val uiState2 = MutableStateFlow<RecommendationsComponent.UiState>(RecommendationsComponent.Initial)
+    private val uiStateStateFlow = MutableStateFlow<RecommendationsComponent.UiState>(RecommendationsComponent.Initial)
 
-    override val uiState = uiState2.asValue(initialValue = RecommendationsComponent.Loading, lifecycle = lifecycle)
+    override val uiState = uiStateStateFlow.asValue(initialValue = RecommendationsComponent.Loading, lifecycle = lifecycle)
+    override val isLoggedIn: Boolean = user != null
 
     private val sessionsComponent =
         SessionsSimpleComponent(
             componentContext = childContext("Sessions"),
             conference = conference,
-            user = null, //user,
+            user = user,
         )
 
     private val speakersComponent =
@@ -92,41 +94,42 @@ class DefaultRecommendationsComponent(
 
     override fun makeQuery(query: String) {
         coroutineScope.launch {
-            sessions.collect { sessions ->
-                var sessionsInfo = "Speakers,Session ID,Title,\n"
-                sessions.forEach { session ->
-                    session.sessionDescription?.let {
-                        val speakers = session.speakers.joinToString(" ") { it.speakerDetails.name }
-                        sessionsInfo += "$speakers, ${session.id}, ${session.title}, \n"
-                    }
+            val sessions = sessions.first()
+            var prompt =
+                """
+                You help selecting sessions at a conference based on the interest of the user.
+                The user will give you a query and you will select the most appropriate session. 
+                Output only the session id separated by a comma. 
+                Output up to 10 sessions.
+                
+                This is the list of sessions:
+                
+                """
+
+            sessions.forEach { session ->
+                session.sessionDescription?.let {
+                    prompt += "Session Id: ${session.id}\n"
+                    prompt += "Title: ${session.title}\n"
+                    prompt += "Description: ${session.sessionDescription}\n"
+                    prompt += "\n"
                 }
+            }
+            println("Prompt = $prompt")
 
-                val basePrompt =
-                    """    
-                    I would like to learn about $query. Which talks should I attend? 
-                    Show me the session ids in the result as comma delimited list. 
-                    Do not use markdown in the result.
-                    """
+            uiStateStateFlow.value = RecommendationsComponent.Loading
+            try {
+                val response = geminiApi.generateContent(prompt, query)
+                response.text?.let { queryResponse ->
+                    uiStateStateFlow.value = RecommendationsComponent.Success(RecommendationsInfo(queryResponse, emptyList()))
 
-                val prompt = " $basePrompt Base on the following CSV: $sessionsInfo}"
+                    sessionIdList.value = queryResponse.split(",", " ")
+                    println(sessionIdList.value)
 
-                var queryResponse = ""
-                uiState2.value = RecommendationsComponent.Loading
-                geminiApi.generateContent(prompt)
-                    .catch {
-                        uiState2.value = RecommendationsComponent.Error(it.message ?: "Error making gemini request")
-                    }
-                    .collect {
-                        queryResponse += it.text
-                        uiState2.value = RecommendationsComponent.Success(RecommendationsInfo(queryResponse, emptyList()))
-                    }
-
-
-                sessionIdList.value = queryResponse.split(",", " ")
-                println(sessionIdList.value)
-
-                val recommendedSessions = sessions.filter { it.id in sessionIdList.value  }
-                uiState2.value = RecommendationsComponent.Success(RecommendationsInfo(queryResponse, recommendedSessions))
+                    val recommendedSessions = sessions.filter { it.id in sessionIdList.value  }
+                    uiStateStateFlow.value = RecommendationsComponent.Success(RecommendationsInfo(queryResponse, recommendedSessions))
+                }
+            } catch (e: Exception) {
+                uiStateStateFlow.value = RecommendationsComponent.Error(e.message ?: "Unknown error")
             }
         }
     }

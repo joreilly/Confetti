@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -64,9 +65,7 @@ fun RecommendationsRoute(
             Modifier
                 .verticalScroll(rememberScrollState())) {
             OutlinedTextField(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.padding(16.dp).fillMaxWidth(),
                 value = query,
                 onValueChange = { query = it },
                 placeholder = { Text(stringResource(Res.string.recommendations_search_placeholder)) },
@@ -87,16 +86,17 @@ fun RecommendationsRoute(
 
             Spacer(Modifier.height(16.dp))
 
-            when (val uiState1 = uiState) {
+            when (val state = uiState) {
                 is RecommendationsComponent.Success -> {
-                    RecommendationsView(uiState = uiState1,
+                    RecommendationsView(uiState = state,
                         bookmarks = bookmarks,
                         addBookmark = component::addBookmark,
                         removeBookmark = component::removeBookmark,
-                        navigateToSession = component::onSessionClicked)
+                        navigateToSession = component::onSessionClicked,
+                        isLoggedIn = component.isLoggedIn)
                 }
                 is RecommendationsComponent.Loading -> { LoadingView() }
-                is RecommendationsComponent.Error -> { ErrorView() }
+                is RecommendationsComponent.Error -> { ErrorView(state) }
                 RecommendationsComponent.Initial -> {}
             }
         }
@@ -104,12 +104,21 @@ fun RecommendationsRoute(
 }
 
 @Composable
+fun ErrorView(state: RecommendationsComponent.Error) {
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(state.message)
+    }
+}
+
+
+@Composable
 fun RecommendationsView(
     uiState: RecommendationsComponent.Success,
     bookmarks: Set<String>,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
-    navigateToSession: (id: String) -> Unit
+    navigateToSession: (id: String) -> Unit,
+    isLoggedIn: Boolean
 ) {
     Column {
         uiState.data.recommendedSessions.forEach { session ->
@@ -117,11 +126,11 @@ fun RecommendationsView(
                 SessionItemView(
                     session = session,
                     sessionSelected = navigateToSession,
-                    isBookmarked = false, //bookmarks.contains(session.id),
+                    isBookmarked = bookmarks.contains(session.id),
                     addBookmark = addBookmark,
                     removeBookmark = removeBookmark,
                     onNavigateToSignIn = {},
-                    isLoggedIn = false,
+                    isLoggedIn = isLoggedIn,
                 )
             }
         }

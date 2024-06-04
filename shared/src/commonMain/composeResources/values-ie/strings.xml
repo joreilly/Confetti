@@ -1,0 +1,49 @@
+<resources>
+    <string name="schedule">Clár</string>
+    <string name="sessions">Seisiúin</string>
+    <string name="speakers">Cainteoirí</string>
+    <string name="venue">Ionad</string>
+    <string name="gemini">Gemini</string>
+    <string name="search">Cuardach</string>
+    <string name="bookmarks">Leabharmharcanna</string>
+    <string name="rooms">Seomraí</string>
+
+
+    <string name="settings_title">Socruithe</string>
+    <string name="loading">Ag Lódáil…</string>
+    <string name="theme">Téama</string>
+    <string name="brand_default">Réamhshocrú</string>
+    <string name="brand_android">Android</string>
+    <string name="dark_mode_preference">Roghchoice túsaíochta dorcha</string>
+    <string name="dark_mode_config_system_default">Réamhshocrú córais</string>
+    <string name="dark_mode_config_light">Éadrom</string>
+    <string name="dark_mode_config_dark">Dorcha</string>
+    <string name="dynamic_color_preference">Úsáid Dath Dinimiciúil</string>
+    <string name="dynamic_color_yes">Sea</string>
+    <string name="dynamic_color_no">Níl</string>
+    <string name="dismiss_dialog_button_text">OK</string>
+    <string name="use_experimental_features">Úsáid Gnéithe Turgnamhacha</string>
+    <string name="settings_boolean_true">Sea</string>
+    <string name="settings_boolean_false">Níl</string>
+    <string name="developerSettings">Socruithe Forbróra\n</string>
+    <string name="oops">Úps rud éigin a chuaigh mícheart</string>
+    <string name="retry">Atriall</string>
+    <string name="update_wear">Nuashonraigh Téama Caitheamh</string>
+    <string name="sign_in_for_bookmarks">Chun do leabharmharcanna a shábháil, beidh ort logáil isteach.</string>
+    <string name="cancel">CEALAIGH</string>
+    <string name="sign_in">LOG ISTEACH</string>
+    <string name="sign_in_google">Logáil Isteach le Google</string>
+    <string name="sign_out">Logáil Amach</string>
+    <string name="sign_in_lowercase">Log isteach</string>
+    <string name="switch_conference">Athraigh Comhdháil</string>
+    <string name="recommendations">Moltai</string>
+    <string name="install_wear">Stálaigh ar Caitheamh</string>
+    <string name="choose_conference">Roghnaigh Comhdháil</string>
+    <string name="search_placeholder">Cad atá tú ag lorg?</string>
+    <string name="recommendations_search_placeholder">Cén ábhar atá suim agat?</string>
+    <string name="install_on_watch">Stálaigh ar Uaireadóir</string>
+    <string name="no_paired_watch">Uaireadóir gan pháirnéireacht</string>
+    <string name="empty_text">Gan aon data i láthair</string>
+    <string name="no_bookmarks">Gan aon leabharmharcanna leagtha</string>
+    <string name="privacy_policy">Beartas Príobháideachta</string>
+</resources>

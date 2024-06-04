@@ -37,6 +37,7 @@ import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.facebook
 import confetti.shared.generated.resources.github
 import confetti.shared.generated.resources.linkedin
+import confetti.shared.generated.resources.speakers
 import confetti.shared.generated.resources.twitter
 import confetti.shared.generated.resources.web
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -47,6 +48,7 @@ import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import sessionStartDateTimeFormat
 import sessionTimeFormat
 
@@ -113,7 +115,7 @@ internal fun SessionDetailViewShared(
 
                 if (session.speakers.isNotEmpty()) {
                     ConfettiHeader(
-                        text = "Speakers",
+                        text = stringResource(Res.string.speakers),
                         icon = Icons.Filled.Person,
                     )
 

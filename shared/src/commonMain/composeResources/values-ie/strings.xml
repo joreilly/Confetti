@@ -46,4 +46,6 @@
     <string name="empty_text">Gan aon data i láthair</string>
     <string name="no_bookmarks">Gan aon leabharmharcanna leagtha</string>
     <string name="privacy_policy">Beartas Príobháideachta</string>
+    <string name="bookmarks_past">Caite</string>
+    <string name="bookmarks_upcoming">Le teacht</string>
 </resources>

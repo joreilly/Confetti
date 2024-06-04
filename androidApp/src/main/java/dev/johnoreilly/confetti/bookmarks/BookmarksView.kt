@@ -21,6 +21,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.bookmarks_past
+import confetti.shared.generated.resources.bookmarks_upcoming
 import confetti.shared.generated.resources.no_bookmarks
 import dev.johnoreilly.confetti.decompose.DateSessionsMap
 import dev.johnoreilly.confetti.sessions.SessionItemView
@@ -92,9 +94,9 @@ private fun BookmarksContent(
     }
 }
 
-private enum class BookmarksTab(val title: String) {
-    Past(title = "Past"),
-    Upcoming(title = "Upcoming")
+private enum class BookmarksTab(val title: @Composable () -> String) {
+    Past(title = { stringResource(resource = Res.string.bookmarks_past) }),
+    Upcoming(title = { stringResource(resource = Res.string.bookmarks_upcoming) })
 }
 
 @Composable
@@ -108,7 +110,7 @@ private fun BookmarksTabRow(pagerState: PagerState) {
                 onClick = {
                     tabScope.launch { pagerState.animateScrollToPage(index) }
                 },
-                text = { Text(text = tab.title) }
+                text = { Text(text = tab.title()) }
             )
         }
     }

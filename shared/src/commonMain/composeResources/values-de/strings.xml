@@ -44,4 +44,6 @@
     <string name="empty_text">Keine Daten vorhanden</string>
     <string name="no_bookmarks">Keine Lesezeichen gesetzt</string>
     <string name="privacy_policy">Datenschutzrichtlinie</string>
+    <string name="bookmarks_past">Vorbei</string>
+    <string name="bookmarks_upcoming">Anstehend</string>
 </resources>

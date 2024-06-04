@@ -44,4 +44,6 @@
     <string name="no_paired_watch">Pas de montre appairée</string>
     <string name="no_bookmarks">Aucun favori défini</string>
     <string name="privacy_policy">Politique de confidentialité</string>
+    <string name="bookmarks_past">Passé</string>
+    <string name="bookmarks_upcoming">À venir</string>
 </resources>

@@ -49,4 +49,6 @@
     <string name="empty_text">No data present</string>
     <string name="no_bookmarks">No bookmarks set</string>
     <string name="privacy_policy">Privacy policy</string>
+    <string name="bookmarks_past">Past</string>
+    <string name="bookmarks_upcoming">Upcoming</string>
 </resources>

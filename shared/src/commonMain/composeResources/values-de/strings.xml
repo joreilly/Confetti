@@ -1,18 +1,18 @@
 <resources>
     <string name="schedule">Zeitplan</string>
-    <string name="sessions">Sitzungen</string>
-    <string name="speakers">Redner</string>
+    <string name="sessions">Vorträge</string>
+    <string name="speakers">Sprecher</string>
     <string name="venue">Veranstaltungsort</string>
     <string name="search">Suchen</string>
     <string name="bookmarks">Lesezeichen</string>
-    <string name="rooms">Zimmer</string>
+    <string name="rooms">Räume</string>
 
     <string name="settings_title">Einstellungen</string>
     <string name="loading">Ladevorgang…</string>
-    <string name="theme">Thema</string>
+    <string name="theme">Design</string>
     <string name="brand_default">Standard</string>
     <string name="brand_android">Android</string>
-    <string name="dark_mode_preference">Dunkelmodus-Präferenz</string>
+    <string name="dark_mode_preference">Dunkelmodus-Einstellung</string>
     <string name="dark_mode_config_system_default">Systemstandard</string>
     <string name="dark_mode_config_light">Hell</string>
     <string name="dark_mode_config_dark">Dunkel</string>
@@ -27,7 +27,7 @@
     <string name="oops">Hoppla, etwas ist schief gelaufen</string>
     <string name="retry">Erneut versuchen</string>
     <string name="update_wear">Wear-Thema aktualisieren</string>
-    <string name="sign_in_for_bookmarks">Um Ihre Lesezeichen zu speichern, müssen Sie sich anmelden.</string>
+    <string name="sign_in_for_bookmarks">Um Lesezeichen zu speichern, müssen Sie sich anmelden.</string>
     <string name="cancel">ABBRECHEN</string>
     <string name="sign_in">ANMELDEN</string>
     <string name="sign_in_google">Mit Google anmelden</string>

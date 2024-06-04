@@ -36,6 +36,6 @@ java {
 compose.desktop {
     application {
         mainClass = "MainKt"
-        //jvmArgs.add("-Duser.language=fr")
+        jvmArgs.add("-Duser.language=ie")
     }
 }

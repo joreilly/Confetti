@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.backend.import
 
+import DevfestLille
 import com.google.cloud.datastore.Entity
 import com.google.cloud.datastore.StringValue
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
@@ -129,6 +130,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.AndroidMakers2024 -> Sessionize.importAndroidMakers2024()
         ConferenceId.KotlinConf2024 -> Sessionize.importKotlinConf2024()
         ConferenceId.DroidconBerlin2024 -> Sessionize.importDroidconBerlin2024()
+        ConferenceId.DevFestLille2024 -> DevfestLille.import()
 
         null -> error("")
     }

@@ -35,6 +35,7 @@ class DefaultAppComponent(
     private val onSignIn: () -> Unit,
     private val isMultiPane: Boolean = false,
     initialConferenceId: String? = null,
+    private val settingsComponent: SettingsComponent? = null
 ) : AppComponent, KoinComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
@@ -126,7 +127,8 @@ class DefaultAppComponent(
                             onSignOut()
                             authentication.signOut()
                         },
-                        onSignIn = onSignIn
+                        onSignIn = onSignIn,
+                        settingsComponent = settingsComponent
                     )
                 )
         }

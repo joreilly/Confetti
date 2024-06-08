@@ -19,12 +19,17 @@ import androidx.credentials.CredentialManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.decompose.handleDeepLink
 import dev.johnoreilly.confetti.account.signIn
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
-import dev.johnoreilly.confetti.decompose.SettingsComponent
+import dev.johnoreilly.confetti.decompose.ThemeBrand
+import dev.johnoreilly.confetti.decompose.UserEditableSettings
+import dev.johnoreilly.confetti.settings.DefaultSettingsComponent
 import dev.johnoreilly.confetti.ui.ConfettiApp
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
@@ -33,22 +38,14 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalDecomposeApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val settingsComponent: SettingsComponent by inject()
         var userEditableSettings by mutableStateOf<UserEditableSettings?>(null)
         val credentialManager: CredentialManager by inject()
         val authentication: Authentication by inject()
-
-        // Update the theme settings
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                settingsComponent.userEditableSettings.collect {
-                    userEditableSettings = it
-                }
-            }
-        }
+        val appSettings: AppSettings by inject()
 
 
         // Turn off the decor fitting system windows, which allows us to handle insets,
@@ -58,10 +55,16 @@ class MainActivity : ComponentActivity() {
         val appComponent =
             handleDeepLink { uri ->
                 val initialConferenceId = uri?.extractConferenceIdOrNull()
-                DefaultAppComponent(
-                    componentContext = defaultComponentContext(
-                        discardSavedState = initialConferenceId != null,
-                    ),
+                val rootComponentContext = defaultComponentContext(discardSavedState = initialConferenceId != null)
+
+                val settingsComponent = DefaultSettingsComponent(
+                    componentContext = rootComponentContext.childContext("settings"),
+                    appSettings = appSettings,
+                    authentication = authentication,
+                )
+
+                val appComponent = DefaultAppComponent(
+                    componentContext = rootComponentContext.childContext("app"),
                     initialConferenceId = initialConferenceId,
                     onSignOut = {
                         lifecycleScope.launch {
@@ -72,9 +75,23 @@ class MainActivity : ComponentActivity() {
                         lifecycleScope.launch {
                             signIn(this@MainActivity, authentication)
                         }
-                    }
+                    },
+                    settingsComponent = settingsComponent
                 )
+
+                appComponent to settingsComponent
             } ?: return
+
+
+        // Update the theme settings
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                appComponent.second.userEditableSettings.collect {
+                    userEditableSettings = it
+                }
+            }
+        }
+
 
         setContent {
             val windowSizeClass = calculateWindowSizeClass()
@@ -86,7 +103,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 ConfettiBackground {
                     ConfettiApp(
-                        component = appComponent,
+                        component = appComponent.first,
                         windowSizeClass = windowSizeClass,
                     )
                 }

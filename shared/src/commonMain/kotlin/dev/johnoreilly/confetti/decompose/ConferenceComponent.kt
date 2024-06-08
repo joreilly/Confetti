@@ -28,7 +28,7 @@ interface ConferenceComponent : BackHandlerOwner {
         class Home(val component: HomeComponent) : Child()
         class SessionDetails(val component: SessionDetailsComponent) : Child()
         class SpeakerDetails(val component: SpeakerDetailsComponent) : Child()
-        class Settings(val component: SettingsComponent) : Child()
+        class Settings(val component: SettingsComponent?) : Child()
     }
 }
 
@@ -41,9 +41,9 @@ class DefaultConferenceComponent(
     private val onSwitchConference: () -> Unit,
     private val onSignOut: () -> Unit,
     private val onSignIn: () -> Unit,
+    private val settingsComponent: SettingsComponent?
 ) : ConferenceComponent, KoinComponent, ComponentContext by componentContext {
 
-    private val settingsComponent: SettingsComponent by inject()
     private val navigation = StackNavigation<Config>()
 
     override val stack: Value<ChildStack<*, Child>> =

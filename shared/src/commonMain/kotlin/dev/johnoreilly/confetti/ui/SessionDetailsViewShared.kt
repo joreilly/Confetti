@@ -46,7 +46,6 @@ import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import sessionStartDateTimeFormat
@@ -134,7 +133,6 @@ internal fun SessionDetailViewShared(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun SessionSpeakerInfo(
     conference: String,
@@ -200,7 +198,6 @@ internal fun SessionSpeakerInfo(
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun SocialIcon(
     modifier: Modifier = Modifier,
@@ -220,7 +217,6 @@ internal fun SocialIcon(
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun SocialIcon(
     modifier: Modifier = Modifier,

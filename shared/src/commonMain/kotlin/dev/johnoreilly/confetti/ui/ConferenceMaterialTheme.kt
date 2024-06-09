@@ -19,28 +19,40 @@ fun ConferenceMaterialTheme(
     content: @Composable () -> Unit
 ) {
     val appSettings = koinInject<AppSettings>()
-    val darkThemeConfigString by appSettings.settings.getStringFlow("darkThemeConfigKey", DarkThemeConfig.FOLLOW_SYSTEM.toString())
-        .collectAsState(DarkThemeConfig.FOLLOW_SYSTEM.toString())
-    val darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfigString)
-    val shouldUseDarkTheme = shouldUseDarkTheme(darkThemeConfig)
+    val useDynamicColor by appSettings.settings.getBooleanFlow("useDynamicColorKey", false)
+        .collectAsState(false)
+
+    if (!useDynamicColor) {
+        val darkThemeConfigString by appSettings.settings.getStringFlow(
+            "darkThemeConfigKey",
+            DarkThemeConfig.FOLLOW_SYSTEM.toString()
+        )
+            .collectAsState(DarkThemeConfig.FOLLOW_SYSTEM.toString())
+        val darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfigString)
+        val shouldUseDarkTheme = shouldUseDarkTheme(darkThemeConfig)
 
 
-    var seedColor = Color(0xFF008000) // default if none set
-    seedColorString?.let {
-        try {
-            seedColor = Color(seedColorString.hexToLong(HexFormat { number.prefix = "0x" }))
-        } catch (e: Exception) {
-            println(e)
+        var seedColor = Color(0xFF008000) // default if none set
+        seedColorString?.let {
+            try {
+                seedColor = Color(seedColorString.hexToLong(HexFormat { number.prefix = "0x" }))
+            } catch (e: Exception) {
+                println(e)
+            }
         }
-    }
-    val colorScheme = rememberDynamicColorScheme(
-        seedColor,
-        shouldUseDarkTheme
-    )
+        val colorScheme = rememberDynamicColorScheme(
+            seedColor,
+            shouldUseDarkTheme
+        )
 
-    MaterialTheme(colorScheme = colorScheme) {
+        MaterialTheme(colorScheme = colorScheme) {
+            content()
+        }
+    } else {
         content()
     }
+
+
 }
 
 @Composable

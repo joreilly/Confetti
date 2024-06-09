@@ -9,11 +9,8 @@ import androidx.compose.ui.graphics.Color
 import com.materialkolor.rememberDynamicColorScheme
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import org.koin.compose.koinInject
-
-enum class DarkThemeConfig {
-    FOLLOW_SYSTEM, LIGHT, DARK
-}
 
 @OptIn(ExperimentalStdlibApi::class, ExperimentalSettingsApi::class)
 @Composable

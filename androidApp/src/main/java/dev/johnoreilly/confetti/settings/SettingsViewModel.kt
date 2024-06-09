@@ -1,17 +1,14 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package dev.johnoreilly.confetti.settings
 
 import com.arkivanov.decompose.ComponentContext
 import dev.johnoreilly.confetti.AppSettings
-import dev.johnoreilly.confetti.DarkThemeConfig
-import dev.johnoreilly.confetti.DeveloperSettings
-import dev.johnoreilly.confetti.ThemeBrand
-import dev.johnoreilly.confetti.UserEditableSettings
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.decompose.DarkThemeConfig
+import dev.johnoreilly.confetti.decompose.DeveloperSettings
 import dev.johnoreilly.confetti.decompose.SettingsComponent
+import dev.johnoreilly.confetti.decompose.ThemeBrand
+import dev.johnoreilly.confetti.decompose.UserEditableSettings
 import dev.johnoreilly.confetti.decompose.coroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

@@ -25,7 +25,6 @@ val koin = initKoin {
     modules(mainModule())
 }.koin
 
-@OptIn(ExperimentalDecomposeApi::class)
 fun main() {
     val lifecycle = LifecycleRegistry()
 

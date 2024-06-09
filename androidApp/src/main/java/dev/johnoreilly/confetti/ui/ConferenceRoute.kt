@@ -43,7 +43,11 @@ fun ConferenceRoute(
                 is Child.Home -> HomeRoute(child.component, windowSizeClass)
                 is Child.SessionDetails -> SessionDetailsRoute(child.component)
                 is Child.SpeakerDetails -> SpeakerDetailsRoute(child.component)
-                is Child.Settings -> SettingsRoute(child.component)
+                is Child.Settings -> {
+                    child.component?.let { childComponent ->
+                        SettingsRoute(childComponent, component::onBackClicked)
+                    }
+                }
             }
         }
 

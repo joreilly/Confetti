@@ -16,9 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -56,17 +60,18 @@ import confetti.shared.generated.resources.settings_title
 import confetti.shared.generated.resources.theme
 import confetti.shared.generated.resources.use_experimental_features
 import dev.johnoreilly.confetti.BuildConfig
-import dev.johnoreilly.confetti.DarkThemeConfig
-import dev.johnoreilly.confetti.DeveloperSettings
-import dev.johnoreilly.confetti.ThemeBrand
-import dev.johnoreilly.confetti.UserEditableSettings
+import dev.johnoreilly.confetti.decompose.DarkThemeConfig
+import dev.johnoreilly.confetti.decompose.DeveloperSettings
 import dev.johnoreilly.confetti.decompose.SettingsComponent
+import dev.johnoreilly.confetti.decompose.ThemeBrand
+import dev.johnoreilly.confetti.decompose.UserEditableSettings
 import dev.johnoreilly.confetti.ui.supportsDynamicTheming
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SettingsRoute(
     component: SettingsComponent,
+    popBack: () -> Unit
 ) {
     val userEditableSettings by component.userEditableSettings.collectAsStateWithLifecycle()
     val developerSettings by component.developerSettings.collectAsStateWithLifecycle()
@@ -77,7 +82,8 @@ fun SettingsRoute(
         onChangeDarkThemeConfig = component::updateDarkThemeConfig,
         onChangeUseExperimentalFeatures = component::updateUseExperimentalFeatures,
         developerSettings = developerSettings,
-        onEnableDeveloperMode = component::enableDeveloperMode
+        onEnableDeveloperMode = component::enableDeveloperMode,
+        popBack = popBack
     )
 }
 
@@ -90,7 +96,8 @@ fun SettingsScreen(
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
     developerSettings: DeveloperSettings?,
-    onEnableDeveloperMode: () -> Unit
+    onEnableDeveloperMode: () -> Unit,
+    popBack: () -> Unit
 ) {
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     /**
@@ -109,6 +116,11 @@ fun SettingsScreen(
                         text = stringResource(Res.string.settings_title),
                         style = MaterialTheme.typography.titleLarge,
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { popBack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent

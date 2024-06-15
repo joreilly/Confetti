@@ -1,8 +1,10 @@
 package dev.johnoreilly.confetti.venue
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
@@ -17,14 +19,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withAnnotation
+import androidx.compose.ui.text.withLink
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
 import coil.compose.AsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.venue
-import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.Venue
 import dev.johnoreilly.confetti.decompose.VenueComponent
 import dev.johnoreilly.confetti.ui.ErrorView
@@ -74,25 +81,24 @@ fun VenueView(venue: Venue) {
         Spacer(modifier = Modifier.height(8.dp))
         val mapLink = venue.mapLink
         val address = venue.address
-        if (mapLink != null && address != null) {
-            ClickableText(
-                text = AnnotatedString(
-                    text = address,
-                    spanStyle = SpanStyle(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        textDecoration = TextDecoration.Underline
-                    )
-                ),
-                style = MaterialTheme.typography.titleSmall,
-                onClick = {
-                    val gmmIntentUri = Uri.parse(mapLink)
-                    val mapsIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    context.startActivity(mapsIntent)
+        Text(
+            modifier = Modifier.clickable(onClick = dropUnlessResumed { openMap(context, mapLink) }),
+            text = buildAnnotatedString {
+                if (mapLink != null && address != null) {
+                    withStyle(
+                        style = SpanStyle(
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textDecoration = TextDecoration.Underline
+                        )
+                    ) {
+                        append(address)
+                    }
+                } else {
+                    append(address)
                 }
-            )
-        } else {
-            Text(venue.address.toString(), style = MaterialTheme.typography.titleSmall)
-        }
+            },
+            style = MaterialTheme.typography.titleSmall,
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Text(venue.description)
         Spacer(modifier = Modifier.height(16.dp))
@@ -105,6 +111,7 @@ fun VenueView(venue: Venue) {
                 containerColor = Color.White,
                 contentColor = MaterialTheme.colorScheme.primary
             ),
+            onClick = dropUnlessResumed { openMap(context, mapLink) },
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
@@ -162,4 +169,12 @@ fun VenueFloorPlanButton(
             )
         }
     }
+}
+
+private fun openMap(context: Context, mapUriString: String?) {
+    if (mapUriString == null) return
+
+    val mapUri = Uri.parse(mapUriString)
+    val mapIntent = Intent(Intent.ACTION_VIEW, mapUri)
+    context.startActivity(mapIntent)
 }

@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
@@ -24,20 +23,16 @@ import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.decompose.SessionsUiState
@@ -46,13 +41,7 @@ import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.sessionSpeakers
-import dev.johnoreilly.confetti.ui.ErrorView
-import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
-import dev.johnoreilly.confetti.ui.component.ConfettiTab
-import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -83,7 +72,11 @@ fun SessionListView(
 
                 SessionListTabRow(pagerState, uiState)
 
-                HorizontalPager(state = pagerState) { page ->
+                HorizontalPager(
+                    state = pagerState,
+                    // workaround for collapsing toolbar glicthing during the nested pager's lazy list scroll.
+                    pageNestedScrollConnection = remember { object : NestedScrollConnection {} },
+                ) { page ->
                     val sessions = uiState.sessionsByStartTimeList[page]
 
                     val initialItemIndex by remember {

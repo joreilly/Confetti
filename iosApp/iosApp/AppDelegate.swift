@@ -23,7 +23,8 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
             onSignOut: {},
             onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
-            initialConferenceId: nil
+            initialConferenceId: nil,
+            settingsComponent: nil
         )
     }
 
@@ -35,7 +36,8 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
             onSignOut: {},
             onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
-            initialConferenceId: conferenceId
+            initialConferenceId: conferenceId,
+            settingsComponent: nil
         )
     }
 }

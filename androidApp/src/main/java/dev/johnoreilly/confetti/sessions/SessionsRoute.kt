@@ -20,7 +20,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 fun SessionsRoute(
     component: SessionsComponent,
     windowSizeClass: WindowSizeClass,
-    topBarActions: @Composable RowScope.() -> Unit,
+    topBarNavigationIcon: @Composable () -> Unit = {},
+    topBarActions: @Composable RowScope.() -> Unit = {},
     snackbarHostState: SnackbarHostState,
 ) {
     val uiState by component.uiState.subscribeAsState()
@@ -28,6 +29,7 @@ fun SessionsRoute(
     HomeScaffold(
         title = (uiState as? SessionsUiState.Success)?.conferenceName,
         windowSizeClass = windowSizeClass,
+        topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,
     ) {
         // comment out until issue with HorizontalPager in shared code

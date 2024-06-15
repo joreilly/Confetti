@@ -46,13 +46,15 @@ import org.jetbrains.compose.resources.stringResource
 fun SpeakersRoute(
     component: SpeakersComponent,
     windowSizeClass: WindowSizeClass,
-    topBarActions: @Composable RowScope.() -> Unit,
+    topBarNavigationIcon: @Composable () -> Unit = {},
+    topBarActions: @Composable RowScope.() -> Unit = {},
 ) {
     val uiState by component.uiState.subscribeAsState()
 
     HomeScaffold(
         title = stringResource(Res.string.speakers),
         windowSizeClass = windowSizeClass,
+        topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,
     ) {
         when (val state = uiState) {

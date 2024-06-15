@@ -45,7 +45,8 @@ import org.jetbrains.compose.resources.stringResource
 fun RecommendationsRoute(
     component: RecommendationsComponent,
     windowSizeClass: WindowSizeClass,
-    topBarActions: @Composable RowScope.() -> Unit,
+    topBarNavigationIcon: @Composable () -> Unit = {},
+    topBarActions: @Composable RowScope.() -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     var query by remember { mutableStateOf("") }
@@ -55,10 +56,10 @@ fun RecommendationsRoute(
     val bookmarks by component.bookmarks
         .collectAsStateWithLifecycle(initialValue = emptySet())
 
-
     HomeScaffold(
         title = stringResource(Res.string.recommendations),
         windowSizeClass = windowSizeClass,
+        topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,
     ) {
         Column(

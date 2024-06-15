@@ -26,7 +26,8 @@ import androidx.compose.ui.unit.sp
 fun HomeScaffold(
     title: String?,
     windowSizeClass: WindowSizeClass,
-    topBarActions: @Composable RowScope.() -> Unit,
+    topBarNavigationIcon: @Composable () -> Unit = {},
+    topBarActions: @Composable RowScope.() -> Unit = {},
     content: @Composable BoxScope.() -> Unit,
 ) {
     val titleFontSize = if (windowSizeClass.isExpanded) {
@@ -55,6 +56,7 @@ fun HomeScaffold(
                         fontSize = titleFontSize,
                     )
                 },
+                navigationIcon = topBarNavigationIcon,
                 actions = topBarActions,
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent,

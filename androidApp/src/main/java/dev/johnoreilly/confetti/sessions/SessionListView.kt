@@ -3,7 +3,6 @@
 package dev.johnoreilly.confetti.sessions
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +54,6 @@ import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
-import dev.johnoreilly.confetti.ui.component.LocalBackgroundTheme
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -75,7 +73,7 @@ fun SessionListView(
         SessionsUiState.Error -> ErrorView(onRefresh)
         SessionsUiState.Loading -> LoadingView()
         is SessionsUiState.Success -> {
-            val state = rememberPullRefreshState(uiState.isRefreshing, onRefresh)
+            val pullRefreshState = rememberPullRefreshState(uiState.isRefreshing, onRefresh)
             Column {
                 val initialPageIndex by remember {
                     derivedStateOf { uiState.confDates.indexOf(uiState.now.date) }
@@ -136,7 +134,7 @@ fun SessionListView(
 
                     Box(
                         Modifier
-                            .pullRefresh(state)
+                            .pullRefresh(pullRefreshState)
                             .clipToBounds()
                     ) {
                         LazyColumn(state = listState) {
@@ -163,7 +161,7 @@ fun SessionListView(
                         }
                         PullRefreshIndicator(
                             uiState.isRefreshing,
-                            state,
+                            pullRefreshState,
                             Modifier.align(Alignment.TopCenter)
                         )
                     }

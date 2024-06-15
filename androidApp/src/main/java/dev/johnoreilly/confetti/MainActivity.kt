@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
@@ -40,17 +41,14 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalDecomposeApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
+
         super.onCreate(savedInstanceState)
 
         var userEditableSettings by mutableStateOf<UserEditableSettings?>(null)
         val credentialManager: CredentialManager by inject()
         val authentication: Authentication by inject()
         val appSettings: AppSettings by inject()
-
-
-        // Turn off the decor fitting system windows, which allows us to handle insets,
-        // including IME animations
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val appComponent =
             handleDeepLink { uri ->
@@ -148,4 +146,3 @@ private fun shouldUseAndroidTheme(
 private fun shouldDisableDynamicTheming(
     useDynamicColor: Boolean?
 ): Boolean = useDynamicColor?.not() ?: true
-

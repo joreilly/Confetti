@@ -1,8 +1,8 @@
-import XCTest
+import Testing
 
 import ConfettiKit
 
-final class ConfettiTests: XCTestCase {
+final class ConfettiTests {
     
     private let lifecycle = LifecycleRegistryKt.LifecycleRegistry(initialState: .resumed)
     
@@ -10,30 +10,19 @@ final class ConfettiTests: XCTestCase {
         DefaultComponentContext(lifecycle: lifecycle)
     }()
     
-    override func setUp() {
-        executionTimeAllowance = 60
-        continueAfterFailure = true
-    }
-    
-    override func setUpWithError() throws {
-    }
-
-    override func tearDownWithError() throws {
-    }
-
-    func testGetConferences() async throws {
-        let viewModel = DefaultConferencesComponent(
+    @Test func testGetConferences() async throws {
+        let conferenceComponent = DefaultConferencesComponent(
             componentContext: context,
             onConferenceSelected: { _ in }
         )
         
-        let uiState = await awaitForState(viewModel.uiState) { $0 as? ConferencesComponentSuccess }
+        let uiState = await awaitForState(conferenceComponent.uiState) { $0 as? ConferencesComponentSuccess }
         
-        XCTAssert(!uiState.conferenceListByYear.isEmpty)
+        #expect(!uiState.conferenceListByYear.isEmpty)
     }
     
-    func testGetSessions() async throws {
-        let viewModel = DefaultSessionsComponent(
+    @Test func testGetSessions() async throws {
+        let sessionsComponent = DefaultSessionsComponent(
             componentContext: context,
             conference: "test",
             user: nil,
@@ -41,9 +30,9 @@ final class ConfettiTests: XCTestCase {
             onSignIn: {}
         )
         
-        let uiState = await awaitForState(viewModel.uiState) { $0 as? SessionsUiStateSuccess }
+        let uiState = await awaitForState(sessionsComponent.uiState) { $0 as? SessionsUiStateSuccess }
 
-        XCTAssert(!uiState.sessionsByStartTimeList.isEmpty)
+        #expect(!uiState.sessionsByStartTimeList.isEmpty)
     }
 
 }

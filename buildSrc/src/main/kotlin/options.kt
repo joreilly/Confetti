@@ -22,10 +22,10 @@ fun Project.configureCompilerOptions(jvmVersion: Int = 17) {
         }
     }
 
-    project.tasks.withType(JavaCompile::class.java).configureEach {
-        // Ensure "org.gradle.jvm.version" is set to "8" in Gradle metadata of jvm-only modules.
-        it.options.release.set(jvmVersion)
-    }
+//    project.tasks.withType(JavaCompile::class.java).configureEach {
+//        // Ensure "org.gradle.jvm.version" is set to "8" in Gradle metadata of jvm-only modules.
+//        it.options.release.set(jvmVersion)
+//    }
 
     extensions.getByName("java").apply {
         this as JavaPluginExtension
@@ -34,11 +34,11 @@ fun Project.configureCompilerOptions(jvmVersion: Int = 17) {
         }
     }
 
-    extensions.findByName("android")?.apply{
-        this as BaseExtension
-        compileOptions {
-            it.sourceCompatibility = JavaVersion.toVersion(jvmVersion.toJavaVersion())
-            it.targetCompatibility = JavaVersion.toVersion(jvmVersion.toJavaVersion())
-        }
-    }
+//    extensions.findByName("android")?.apply{
+//        this as BaseExtension
+//        compileOptions {
+//            it.sourceCompatibility = JavaVersion.toVersion(jvmVersion.toJavaVersion())
+//            it.targetCompatibility = JavaVersion.toVersion(jvmVersion.toJavaVersion())
+//        }
+//    }
 }

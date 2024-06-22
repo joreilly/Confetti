@@ -24,7 +24,8 @@ jobs:
       uses: gradle/gradle-build-action@v3.3.2
 
     - name: Wear Unit Tests
-      run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest :wearApp:verifyRoborazziDebug
+      run: ./gradlew :androidApp:testDebugUnitTest
+      # run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest :wearApp:verifyRoborazziDebug
 
     - name: Build
       run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug

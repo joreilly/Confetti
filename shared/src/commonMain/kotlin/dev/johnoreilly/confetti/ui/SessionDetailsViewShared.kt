@@ -53,7 +53,7 @@ import sessionTimeFormat
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun SessionDetailViewShared(
+fun SessionDetailViewShared(
     conference: String,
     session: SessionDetails?,
     onSpeakerClick: (speakerId: String) -> Unit,

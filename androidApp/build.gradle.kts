@@ -10,6 +10,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("io.github.takahirom.roborazzi")
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.screenshot)
 }
 
 configureCompilerOptions()
@@ -140,6 +141,8 @@ android {
     }
 
     namespace = "dev.johnoreilly.confetti"
+
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
 
@@ -206,4 +209,6 @@ dependencies {
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.coil.test)
     debugImplementation(libs.compose.ui.manifest)
+
+    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 }

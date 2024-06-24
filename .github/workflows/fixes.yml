@@ -27,7 +27,7 @@ jobs:
       uses: gradle/gradle-build-action@v3.3.2
 
     - name: Fix Screenshots
-      run: ./gradlew :wearApp:updateScreenshotTest
+      run: ./gradlew updateScreenshotTest
       continue-on-error: true
 
     - name: LFS workaround

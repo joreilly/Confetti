@@ -31,6 +31,7 @@ import com.github.takahirom.roborazzi.captureRoboImage
 import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ResponsiveTimeText
 import dev.johnoreilly.confetti.preview.JohnUrl
+import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme

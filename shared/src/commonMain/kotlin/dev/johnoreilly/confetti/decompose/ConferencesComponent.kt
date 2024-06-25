@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.decompose.ConferencesComponent.Success
 import dev.johnoreilly.confetti.decompose.ConferencesComponent.UiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -47,6 +48,10 @@ class DefaultConferencesComponent(
     }
 
     override val uiState: Value<UiState> = flow {
+        println("Fetching content with 2 sec delay")
+        // simulate a delay
+        delay(2000)
+        println("emitted result")
         for (uiState in channel) {
             emit(uiState)
         }

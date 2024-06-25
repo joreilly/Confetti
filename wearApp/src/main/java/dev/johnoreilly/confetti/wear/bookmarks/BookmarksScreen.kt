@@ -30,6 +30,8 @@ import java.time.LocalDateTime
 fun BookmarksScreen(
     uiState: QueryResult<BookmarksUiState>,
     sessionSelected: (String) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
 ) {
     val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
         contentPadding = padding(
@@ -53,7 +55,10 @@ fun BookmarksScreen(
                             sessionSelected = {
                                 sessionSelected(it)
                             },
-                            currentTime = uiState.result.now
+                            currentTime = uiState.result.now,
+                            isBookmarked = true,
+                            addBookmark = {},
+                            removeBookmark = {}
                         )
                     }
 
@@ -73,7 +78,11 @@ fun BookmarksScreen(
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
-                            }, currentTime = uiState.result.now
+                            },
+                            currentTime = uiState.result.now,
+                            isBookmarked = true,
+                            addBookmark = {},
+                            removeBookmark = {}
                         )
                     }
 
@@ -110,6 +119,8 @@ fun BookmarksPreview() {
                 )
             ),
             sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 }

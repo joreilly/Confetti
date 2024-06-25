@@ -8,6 +8,8 @@ import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.SessionsSimpleComponent
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.decompose.asValue
+import dev.johnoreilly.confetti.decompose.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -16,15 +18,20 @@ interface ConferenceSessionsComponent {
     val uiState: Value<SessionsUiState>
 
     fun onSessionClicked(session: String)
+
+    fun addBookmark(sessionId: String)
+    fun removeBookmark(sessionId: String)
 }
 
 class DefaultConferenceSessionsComponent(
     componentContext: ComponentContext,
-    conference: String,
+    private val conference: String,
     date: LocalDate,
-    user: User?,
+    private val user: User?,
     private val onSessionSelected: (String) -> Unit,
 ) : ConferenceSessionsComponent, KoinComponent, ComponentContext by componentContext {
+    private val coroutineScope = coroutineScope()
+
     private val simpleComponent =
         SessionsSimpleComponent(
             componentContext = childContext(key = "Sessions"),
@@ -39,5 +46,17 @@ class DefaultConferenceSessionsComponent(
 
     override fun onSessionClicked(session: String) {
         onSessionSelected(session)
+    }
+
+    override fun addBookmark(sessionId: String) {
+        coroutineScope.launch {
+            repository.addBookmark(conference, user?.uid, user, sessionId)
+        }
+    }
+
+    override fun removeBookmark(sessionId: String) {
+        coroutineScope.launch {
+            repository.removeBookmark(conference, user?.uid, user, sessionId)
+        }
     }
 }

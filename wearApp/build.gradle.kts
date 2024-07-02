@@ -205,14 +205,16 @@ dependencies {
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose)
 
-    val excludeAndroidxDataStore = Action<ExternalModuleDependency> {
+    val excludeCrashlyticsConflicts = Action<ExternalModuleDependency> {
         // Crashlytics and PerfMon depend on datastore v1.0 but we're using v1.1
         exclude(group = "androidx.datastore", module = "datastore-preferences")
+        // https://github.com/firebase/firebase-android-sdk/issues/5997
+        exclude(group = "com.google.firebase", module = "protolite-well-known-types")
     }
-    implementation(libs.firebase.crashlytics, excludeAndroidxDataStore)
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.performance, excludeAndroidxDataStore)
-    implementation(libs.firebase.auth)
+    implementation(libs.firebase.crashlytics, excludeCrashlyticsConflicts)
+    implementation(libs.firebase.analytics, excludeCrashlyticsConflicts)
+    implementation(libs.firebase.performance, excludeCrashlyticsConflicts)
+    implementation(libs.firebase.auth, excludeCrashlyticsConflicts)
 
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose)

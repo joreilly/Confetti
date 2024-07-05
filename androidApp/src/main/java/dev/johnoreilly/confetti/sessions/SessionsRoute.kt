@@ -1,19 +1,21 @@
 package dev.johnoreilly.confetti.sessions
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.decompose.SessionsComponent
 import dev.johnoreilly.confetti.decompose.SessionsUiState
+import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.HomeScaffold
-import dev.johnoreilly.confetti.ui.SessionListGridView
-import dev.johnoreilly.confetti.ui.isExpanded
+import dev.johnoreilly.confetti.ui.SessionDetailViewShared
 import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
@@ -79,3 +81,38 @@ fun SessionsRoute(
         }
     }
 }
+
+
+@Preview
+@Composable
+fun SessionDetailsPreview() {
+    MaterialTheme {
+        SessionDetailViewShared(
+            conference = "kotlinconf2023",
+            session = sessionDetails,
+            onSpeakerClick = {},
+            onSocialLinkClicked = {}
+        )
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -25,7 +25,16 @@ struct SessionsView: View {
 private struct SessionsContentView: View {
     let component: SessionsComponent
     let sessionUiState: SessionsUiStateSuccess
-    @State private var selectedDateIndex: Int = 0
+
+    @State private var selectedDateIndex: Int
+
+    init(component: SessionsComponent, sessionUiState: SessionsUiStateSuccess) {
+        self.component = component
+        self.sessionUiState = sessionUiState
+
+        let today = self.sessionUiState.now.date
+        self.selectedDateIndex = self.sessionUiState.confDates.firstIndex(of: today) ?? 0
+    }
 
     var body: some View {
         VStack {

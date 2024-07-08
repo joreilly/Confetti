@@ -6,7 +6,7 @@ import java.util.Properties
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("com.apollographql.apollo3")
+    id("com.apollographql.apollo")
     id("org.jetbrains.compose")
     alias(libs.plugins.compose.compiler)
     id("com.google.devtools.ksp")
@@ -218,25 +218,25 @@ apollo {
         mapScalar(
             "LocalDateTime",
             "kotlinx.datetime.LocalDateTime",
-            "com.apollographql.apollo3.adapter.KotlinxLocalDateTimeAdapter"
+            "com.apollographql.apollo.adapter.KotlinxLocalDateTimeAdapter"
         )
 
         mapScalar(
             "LocalDate",
             "kotlinx.datetime.LocalDate",
-            "com.apollographql.apollo3.adapter.KotlinxLocalDateAdapter"
+            "com.apollographql.apollo.adapter.KotlinxLocalDateAdapter"
         )
 
         introspection {
             endpointUrl.set("https://confetti-app.dev/graphql")
-            schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+            schemaFiles.from(fileTree("src/commonMain/graphql/").include("**/*.graphqls"))
         }
         val apolloKey = System.getenv("APOLLO_KEY")
         if (apolloKey.isNullOrBlank().not()) {
             registry {
                 key.set(apolloKey)
                 graph.set("Confetti")
-                schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+                schemaFiles.from(fileTree("../shared/src/commonMain/graphql/").include("**/*.graphqls"))
             }
         }
     }

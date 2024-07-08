@@ -2,7 +2,7 @@
 
 package dev.johnoreilly.confetti.di
 
-import com.apollographql.apollo3.cache.normalized.api.NormalizedCacheFactory
+import com.apollographql.apollo.cache.normalized.api.NormalizedCacheFactory
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.AppSettings

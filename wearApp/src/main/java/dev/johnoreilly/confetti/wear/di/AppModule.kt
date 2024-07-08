@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.wear.tiles.TileService
 import coil.ImageLoader
 import coil.decode.SvgDecoder
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.horologist.auth.ui.common.screens.prompt.SignInPromptViewModel

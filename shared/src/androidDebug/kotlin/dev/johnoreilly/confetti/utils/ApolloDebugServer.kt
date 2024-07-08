@@ -1,7 +1,7 @@
 package dev.johnoreilly.confetti.utils
 
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.debugserver.ApolloDebugServer
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.debugserver.ApolloDebugServer
 
 actual fun ApolloClient.registerApolloDebugServer(conference: String) {
     if (isInUnitTests) {

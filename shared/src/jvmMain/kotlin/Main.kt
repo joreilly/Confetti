@@ -1,11 +1,11 @@
 package dev.johnoreilly.confetti
 
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.api.ApolloResponse
-import com.apollographql.apollo3.api.DefaultFakeResolver
-import com.apollographql.apollo3.api.FakeResolverContext
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.apollographql.apollo3.testing.MapTestNetworkTransport
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.ApolloResponse
+import com.apollographql.apollo.api.DefaultFakeResolver
+import com.apollographql.apollo.api.FakeResolverContext
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.testing.MapTestNetworkTransport
 import com.benasher44.uuid.uuid4
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.schema.__Schema

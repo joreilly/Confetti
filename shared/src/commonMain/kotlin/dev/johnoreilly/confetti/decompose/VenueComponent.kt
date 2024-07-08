@@ -1,6 +1,6 @@
 package dev.johnoreilly.confetti.decompose
 
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.ConfettiRepository

@@ -1,15 +1,15 @@
 package dev.johnoreilly.confetti
 
-import com.apollographql.apollo3.ApolloCall
-import com.apollographql.apollo3.api.ApolloResponse
-import com.apollographql.apollo3.api.Mutation
-import com.apollographql.apollo3.api.Operation
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
-import com.apollographql.apollo3.cache.normalized.apolloStore
-import com.apollographql.apollo3.cache.normalized.fetchPolicy
-import com.apollographql.apollo3.cache.normalized.optimisticUpdates
-import com.apollographql.apollo3.cache.normalized.watch
-import com.apollographql.apollo3.exception.DefaultApolloException
+import com.apollographql.apollo.ApolloCall
+import com.apollographql.apollo.api.ApolloResponse
+import com.apollographql.apollo.api.Mutation
+import com.apollographql.apollo.api.Operation
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.apolloStore
+import com.apollographql.apollo.cache.normalized.fetchPolicy
+import com.apollographql.apollo.cache.normalized.optimisticUpdates
+import com.apollographql.apollo.cache.normalized.watch
+import com.apollographql.apollo.exception.DefaultApolloException
 import com.benasher44.uuid.uuid4
 import dev.johnoreilly.confetti.type.buildBookmarks
 import kotlinx.coroutines.flow.Flow

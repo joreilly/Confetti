@@ -16,6 +16,7 @@ pluginManagement {
                 }
             }
             mavenCentral()
+            maven("https://s01.oss.sonatype.org/content/repositories/comapollographql-1124")
             gradlePluginPortal()
         }
     }

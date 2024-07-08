@@ -9,7 +9,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails

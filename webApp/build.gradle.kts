@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-    id("com.apollographql.apollo3")
+    id("com.apollographql.apollo")
     alias(libs.plugins.compose.compiler)
 }
 

@@ -229,14 +229,14 @@ apollo {
 
         introspection {
             endpointUrl.set("https://confetti-app.dev/graphql")
-            schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+            schemaFiles.from(fileTree("src/commonMain/graphql/").include("**/*.graphqls"))
         }
         val apolloKey = System.getenv("APOLLO_KEY")
         if (apolloKey.isNullOrBlank().not()) {
             registry {
                 key.set(apolloKey)
                 graph.set("Confetti")
-                schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
+                schemaFiles.from(fileTree("../shared/src/commonMain/graphql/").include("**/*.graphqls"))
             }
         }
     }

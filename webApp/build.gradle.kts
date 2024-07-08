@@ -39,7 +39,7 @@ compose.experimental {
 
 apollo {
     service("api") {
-        schemaFile.set(file("../shared/src/commonMain/graphql/schema.graphqls"))
+        schemaFiles.from(fileTree("../shared/src/commonMain/graphql/").include("**/*.graphqls"))
         packageName.set("confetti.web")
     }
 }

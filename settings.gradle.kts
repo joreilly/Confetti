@@ -10,7 +10,6 @@ pluginManagement {
                 }
             }
             mavenCentral()
-            maven("https://s01.oss.sonatype.org/content/repositories/comapollographql-1124")
             maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
             gradlePluginPortal {
                 content {

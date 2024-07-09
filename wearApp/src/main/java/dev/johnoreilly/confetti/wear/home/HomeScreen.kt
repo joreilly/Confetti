@@ -61,6 +61,8 @@ fun HomeScreen(
     sessionSelected: (String) -> Unit,
     daySelected: (LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
     onBookmarksClick: () -> Unit,
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
@@ -77,13 +79,20 @@ fun HomeScreen(
             modifier = Modifier.fillMaxSize(),
             columnState = columnState,
         ) {
-            titleSection(uiState)
+            titleSection(uiState = uiState)
 
-            bookmarksSection(uiState, bookmarksUiState, sessionSelected, onBookmarksClick)
+            bookmarksSection(
+                uiState = uiState,
+                bookmarksUiState = bookmarksUiState,
+                sessionSelected = sessionSelected,
+                addBookmark = addBookmark,
+                removeBookmark = removeBookmark,
+                onBookmarksClick = onBookmarksClick
+            )
 
-            conferenceDaysSection(uiState, daySelected, dayFormatter)
+            conferenceDaysSection(uiState = uiState, daySelected, dayFormatter)
 
-            bottomMenuSection(onSettingsClick)
+            bottomMenuSection(onSettingsClick = onSettingsClick)
         }
     }
 }
@@ -117,6 +126,8 @@ private fun SectionedListScope.bookmarksSection(
     uiState: QueryResult<HomeUiState>,
     bookmarksUiState: QueryResult<BookmarksUiState>,
     sessionSelected: (String) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
     onBookmarksClick: () -> Unit
 ) {
     val bookmarksSectionState = when (bookmarksUiState) {
@@ -140,11 +151,18 @@ private fun SectionedListScope.bookmarksSection(
 
         loaded { session ->
             key(session.id) {
-                SessionCard(session, sessionSelected = {
-                    if (uiState is QueryResult.Success) {
-                        sessionSelected(it)
-                    }
-                }, (bookmarksUiState as QueryResult.Success).result.now)
+                SessionCard(
+                    session = session,
+                    sessionSelected = {
+                        if (uiState is QueryResult.Success) {
+                            sessionSelected(it)
+                        }
+                    },
+                    currentTime = (bookmarksUiState as QueryResult.Success).result.now,
+                    addBookmark = addBookmark,
+                    removeBookmark = removeBookmark,
+                    isBookmarked = bookmarksUiState.result.isBookmarked(session.id)
+                )
             }
         }
 
@@ -251,6 +269,8 @@ fun HomeListViewPreview() {
             onSettingsClick = {},
             onBookmarksClick = {},
             daySelected = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 }

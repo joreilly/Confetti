@@ -211,7 +211,7 @@ private fun SearchTextField(
         keyboardActions = KeyboardActions(
             onSearch = { keyboardController?.hide() }
         ),
-        colors = TextFieldDefaults.textFieldColors(
+        colors = TextFieldDefaults.colors(
             // hide the indicator
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,

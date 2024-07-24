@@ -15,7 +15,8 @@ import org.jetbrains.compose.resources.stringResource
 fun BookmarksRoute(
     component: BookmarksComponent,
     windowSizeClass: WindowSizeClass,
-    topBarActions: @Composable RowScope.() -> Unit,
+    topBarNavigationIcon: @Composable () -> Unit = {},
+    topBarActions: @Composable RowScope.() -> Unit = {},
 ) {
     val loading by component
         .loading
@@ -33,6 +34,7 @@ fun BookmarksRoute(
     HomeScaffold(
         title = stringResource(Res.string.bookmarks),
         windowSizeClass = windowSizeClass,
+        topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,
     ) {
         BookmarksView(

@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-    id("com.apollographql.apollo3")
+    id("com.apollographql.apollo")
     alias(libs.plugins.compose.compiler)
 }
 
@@ -39,7 +39,7 @@ compose.experimental {
 
 apollo {
     service("api") {
-        schemaFile.set(file("../shared/src/commonMain/graphql/schema.graphqls"))
+        schemaFiles.from(fileTree("../shared/src/commonMain/graphql/").include("**/*.graphqls"))
         packageName.set("confetti.web")
     }
 }

@@ -25,21 +25,21 @@ struct HomeView: View {
                     systemImage: "calendar",
                     isActive: child is HomeComponentChild.Sessions,
                     action: component.onSessionsTabClicked
-                )
-                
+                ).frame(maxWidth: .infinity)
+
                 BottomTabView(
                     title: "Speakers",
                     systemImage: "person",
                     isActive: child is HomeComponentChild.Speakers,
                     action: component.onSpeakersTabClicked
-                )
-                
+                ).frame(maxWidth: .infinity)
+
                 BottomTabView(
                     title: "Venue",
                     systemImage: "location",
                     isActive: child is HomeComponentChild.Venue,
                     action: component.onVenueTabClicked
-                )
+                ).frame(maxWidth: .infinity)
 
             }
         }

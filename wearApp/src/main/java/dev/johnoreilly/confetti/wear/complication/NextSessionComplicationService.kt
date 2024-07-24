@@ -7,7 +7,7 @@ import android.content.Intent
 import androidx.core.net.toUri
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
-import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import com.google.android.horologist.tiles.complication.DataComplicationService
 import dev.johnoreilly.confetti.ConfettiRepository

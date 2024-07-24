@@ -36,7 +36,7 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.Bookmark
 import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.SessionDetailViewSharedWrapper
+import dev.johnoreilly.confetti.ui.SessionDetailViewShared
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.utils.format
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -133,7 +133,7 @@ fun SessionDetailView(
     ) {
         Column(modifier = Modifier.padding(it)) {
 
-            SessionDetailViewSharedWrapper(
+            SessionDetailViewShared(
                 conference = conference,
                 session = session,
                 onSpeakerClick = { speakerId ->  onSpeakerClick(speakerId) },

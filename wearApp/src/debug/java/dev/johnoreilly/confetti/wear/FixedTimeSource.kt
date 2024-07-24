@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.wear.screenshots
+package dev.johnoreilly.confetti.wear
 
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.material.TimeSource

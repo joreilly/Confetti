@@ -11,6 +11,7 @@ plugins {
     id("kotlinx-serialization")
     id("io.github.takahirom.roborazzi")
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.screenshot)
 }
 
 configureCompilerOptions()
@@ -80,7 +81,6 @@ android {
         buildConfig = true
     }
 
-
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -138,6 +138,8 @@ android {
     }
 
     namespace = "dev.johnoreilly.confetti"
+
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
 kotlin {
@@ -177,8 +179,8 @@ dependencies {
 
     implementation(libs.wear.compose.material)
     implementation(libs.horologist.compose.layout)
-    implementation(libs.horologist.compose.material)
-    implementation(libs.horologist.composables)
+    api(libs.horologist.compose.material)
+    api(libs.horologist.composables)
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
 
@@ -198,7 +200,7 @@ dependencies {
     implementation(libs.horologist.networkawareness.db)
     implementation(libs.horologist.networkawareness.okhttp)
     implementation(libs.horologist.networkawareness.ui)
-    implementation(libs.horologist.images.coil)
+    api(libs.horologist.images.coil)
 
     implementation(libs.material3.core)
 
@@ -219,7 +221,7 @@ dependencies {
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose)
     implementation(libs.room.runtime)
-    implementation(libs.coil.base)
+    api(libs.coil.base)
 
     implementation(libs.androidx.protolayout.material)
 
@@ -247,6 +249,8 @@ dependencies {
     testImplementation(libs.roborazzi.rule)
     implementation(libs.coil.test)
     implementation(kotlin("test"))
+
+    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {

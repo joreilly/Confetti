@@ -111,10 +111,7 @@ private fun Children(
 ) {
     val wearUiState = WearUiState()
 
-    val topBarActions: @Composable RowScope.() -> Unit = {
-        IconButton(onClick = { component.onSearchClicked() }) {
-            Icon(Icons.Outlined.Search, contentDescription = "search")
-        }
+    val topBarNavigationIcon = @Composable {
         AccountIcon(
             onSwitchConference = component::onSwitchConferenceClicked,
             onGetRecommendations = component::onGetRecommendationsClicked,
@@ -130,6 +127,12 @@ private fun Children(
         )
     }
 
+    val topBarActions: @Composable RowScope.() -> Unit = {
+        IconButton(onClick = { component.onSearchClicked() }) {
+            Icon(Icons.Outlined.Search, contentDescription = "search")
+        }
+    }
+
     Children(
         stack = component.stack,
         modifier = modifier,
@@ -140,6 +143,7 @@ private fun Children(
                 SessionsRoute(
                     component = child.component,
                     windowSizeClass = windowSizeClass,
+                    topBarNavigationIcon = topBarNavigationIcon,
                     topBarActions = topBarActions,
                     snackbarHostState = snackbarHostState,
                 )
@@ -150,6 +154,7 @@ private fun Children(
                 SpeakersRoute(
                     component = child.component,
                     windowSizeClass = windowSizeClass,
+                    topBarNavigationIcon = topBarNavigationIcon,
                     topBarActions = topBarActions,
                 )
 
@@ -157,6 +162,7 @@ private fun Children(
                 BookmarksRoute(
                     component = child.component,
                     windowSizeClass = windowSizeClass,
+                    topBarNavigationIcon = topBarNavigationIcon,
                     topBarActions = topBarActions,
                 )
 
@@ -164,6 +170,7 @@ private fun Children(
                 VenueRoute(
                     component = child.component,
                     windowSizeClass = windowSizeClass,
+                    topBarNavigationIcon = topBarNavigationIcon,
                     topBarActions = topBarActions,
                 )
 
@@ -171,6 +178,7 @@ private fun Children(
                 SearchRoute(
                     component = child.component,
                     windowSizeClass = windowSizeClass,
+                    topBarNavigationIcon = topBarNavigationIcon,
                     topBarActions = topBarActions,
                 )
 
@@ -178,6 +186,7 @@ private fun Children(
                 RecommendationsRoute(
                     component = child.component,
                     windowSizeClass = windowSizeClass,
+                    topBarNavigationIcon = topBarNavigationIcon,
                     topBarActions = topBarActions,
                 )
 

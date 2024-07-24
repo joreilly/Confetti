@@ -16,7 +16,8 @@ import org.jetbrains.compose.resources.stringResource
 fun SearchRoute(
     component: SearchComponent,
     windowSizeClass: WindowSizeClass,
-    topBarActions: @Composable RowScope.() -> Unit,
+    topBarNavigationIcon: @Composable () -> Unit = {},
+    topBarActions: @Composable RowScope.() -> Unit = {},
 ) {
     val search by component
         .search
@@ -37,6 +38,7 @@ fun SearchRoute(
     HomeScaffold(
         title = stringResource(Res.string.search),
         windowSizeClass = windowSizeClass,
+        topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,
     ) {
         SearchView(

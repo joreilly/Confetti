@@ -1,6 +1,6 @@
 package dev.johnoreilly.confetti.utils
 
-import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo.ApolloClient
 
 actual fun ApolloClient.registerApolloDebugServer(conference: String) {
     // no-op

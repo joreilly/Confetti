@@ -94,7 +94,6 @@ kotlin {
                 implementation(compose.material3)
                 api(compose.components.resources)
                 implementation(compose.components.resources)
-                implementation(compose.materialIconsExtended)
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor)
                 api(libs.materialkolor)

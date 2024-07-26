@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontStyle
@@ -34,19 +35,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import confetti.shared.generated.resources.Res
-import confetti.shared.generated.resources.facebook
-import confetti.shared.generated.resources.github
-import confetti.shared.generated.resources.linkedin
 import confetti.shared.generated.resources.speakers
-import confetti.shared.generated.resources.twitter
-import confetti.shared.generated.resources.web
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
+import dev.johnoreilly.confetti.ui.icons.Facebook
+import dev.johnoreilly.confetti.ui.icons.Github
+import dev.johnoreilly.confetti.ui.icons.Linkedin
+import dev.johnoreilly.confetti.ui.icons.Twitter
+import dev.johnoreilly.confetti.ui.icons.Web
 import kotlinx.datetime.LocalDateTime
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import sessionStartDateTimeFormat
 import sessionTimeFormat
@@ -201,7 +201,7 @@ internal fun SessionSpeakerInfo(
 @Composable
 internal fun SocialIcon(
     modifier: Modifier = Modifier,
-    resource: DrawableResource,
+    imageVector: ImageVector,
     contentDescription: String,
     onClick: () -> Unit
 ) {
@@ -209,7 +209,7 @@ internal fun SocialIcon(
     IconButton(onClick = onClick) {
         Icon(
             modifier = modifier,
-            painter = painterResource(resource),
+            imageVector = imageVector,
             contentDescription = contentDescription,
             tint = iconTint //Color(0, 128, 255)
         )
@@ -226,35 +226,35 @@ internal fun SocialIcon(
     when (socialItem.name.lowercase()) {
         "github" -> SocialIcon(
             modifier = modifier,
-            resource = Res.drawable.github,
+            imageVector = ConfettiIcons.Github,
             contentDescription = "Github",
             onClick = onClick
         )
 
         "linkedin" -> SocialIcon(
             modifier = modifier,
-            resource = Res.drawable.linkedin,
+            imageVector = ConfettiIcons.Linkedin,
             contentDescription = "LinkedIn",
             onClick = onClick
         )
 
         "twitter" -> SocialIcon(
             modifier = modifier,
-            resource = Res.drawable.twitter,
+            imageVector = ConfettiIcons.Twitter,
             contentDescription = "Twitter",
             onClick = onClick
         )
 
         "facebook" -> SocialIcon(
             modifier = modifier,
-            resource = Res.drawable.facebook,
+            imageVector = ConfettiIcons.Facebook,
             contentDescription = "Facebook",
             onClick = onClick
         )
 
         else -> SocialIcon(
             modifier = modifier,
-            resource = Res.drawable.web,
+            imageVector = ConfettiIcons.Web,
             contentDescription = "Web",
             onClick = onClick
         )

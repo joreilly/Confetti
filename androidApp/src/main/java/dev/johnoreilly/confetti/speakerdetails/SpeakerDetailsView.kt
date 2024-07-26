@@ -4,10 +4,16 @@ package dev.johnoreilly.confetti.speakerdetails
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -31,17 +37,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.sessions
-import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
@@ -49,6 +52,8 @@ import dev.johnoreilly.confetti.ui.ErrorView
 import dev.johnoreilly.confetti.ui.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeaderAndroid
 import dev.johnoreilly.confetti.ui.component.SocialIcon
+import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
+import dev.johnoreilly.confetti.ui.icons.Person
 import org.jetbrains.compose.resources.stringResource
 
 
@@ -132,14 +137,12 @@ fun SpeakerDetailsView(
                             CircularProgressIndicator()
                         },
                         error = {
-                            Image(
-                                painter = painterResource(dev.johnoreilly.confetti.shared.R.drawable.ic_person_black_24dp),
+                            Icon(
+                                imageVector = ConfettiIcons.Person,
                                 contentDescription = speaker.name,
-                                contentScale = ContentScale.Fit,
                                 modifier = Modifier
                                     .size(240.dp)
                                     .clip(RoundedCornerShape(16.dp)),
-                                colorFilter = ColorFilter.tint(color = if (isSystemInDarkTheme()) Color.White else Color.Black)
                             )
                         },
                         contentScale = ContentScale.Fit,

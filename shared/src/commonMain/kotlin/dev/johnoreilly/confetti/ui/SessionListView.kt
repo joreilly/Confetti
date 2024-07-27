@@ -17,9 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -42,6 +39,9 @@ import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.sessionSpeakers
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.icons.AccessTime
+import dev.johnoreilly.confetti.ui.icons.Bolt
+import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import kotlin.math.abs
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -129,7 +129,7 @@ fun SessionListView(
                             sessions.forEach { (startTime, sessions) ->
 
                                 stickyHeader {
-                                    ConfettiHeader(icon = Icons.Filled.AccessTime, text = startTime)
+                                    ConfettiHeader(icon = ConfettiIcons.AccessTime, text = startTime)
                                 }
 
                                 val sortedSessions =
@@ -216,7 +216,7 @@ fun SessionItemView(
                     color = MaterialTheme.colorScheme.primaryContainer,
                 ) {
                     Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
-                        Icon(Icons.Default.Bolt, "lightning")
+                        Icon(imageVector = ConfettiIcons.Bolt, contentDescription = "lightning")
                         Spacer(Modifier.width(4.dp))
                         Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
                     }

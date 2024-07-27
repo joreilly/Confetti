@@ -22,10 +22,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.outlined.Bookmark
-import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -51,6 +47,9 @@ import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.isService
+import dev.johnoreilly.confetti.ui.icons.Bolt
+import dev.johnoreilly.confetti.ui.icons.Bookmark
+import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -212,7 +211,7 @@ fun SessionGridRow(
                                 ) {
                                     Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
                                         // TODO find alternative
-                                        Icon(Icons.Default.Bolt, "lightning")
+                                        Icon(imageVector = ConfettiIcons.Bolt, contentDescription = "lightning")
                                         Spacer(Modifier.width(4.dp))
                                         Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
                                     }
@@ -298,7 +297,7 @@ private fun Bookmark(
             }
         ) {
             Icon(
-                imageVector = Icons.Outlined.Bookmark,
+                imageVector = ConfettiIcons.Bookmark,
                 contentDescription = "remove bookmark",
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(8.dp)

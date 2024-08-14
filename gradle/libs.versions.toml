@@ -9,7 +9,7 @@ accompanist = "0.34.0"
 activity-compose = "1.9.0"
 androidx-lifecycle = "2.8.2"
 androidx-datastore = "1.1.1"
-apollo = "4.0.0-rc.1"
+apollo = "4.0.0"
 compose = "1.7.0-beta05"
 compose-multiplatform = "1.6.11"
 compose-material3 = "1.2.1"
@@ -103,7 +103,7 @@ decompose-decompose = { module = "com.arkivanov.decompose:decompose", version.re
 decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 desugar = "com.android.tools:desugar_jdk_libs:2.0.4"
-federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4.4.1"
+federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4.5.0"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }

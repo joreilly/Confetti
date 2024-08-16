@@ -48,7 +48,7 @@ work-runtime-ktx = "2.9.0"
 generativeai = "0.5.0-1.0.0-wasm"
 buildkonfig = "0.15.1"
 roborazzi = "1.20.0"
-screenshot = "0.0.1-alpha02"
+screenshot = "0.0.1-alpha04"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }

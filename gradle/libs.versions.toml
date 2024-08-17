@@ -41,7 +41,7 @@ protolayout-expression = "1.1.0"
 protolayout-material = "1.2.0-alpha04"
 protolayout-proto = "1.1.0"
 robolectric = "4.13"
-roborazzi-gradle-plugin = "1.23.0"
+roborazzi = "1.23.0"
 room = "2.6.1"
 tiles-tooling-preview = "1.3.0"
 work-runtime-ktx = "2.9.0"
@@ -178,7 +178,7 @@ plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.2.5" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.9" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
-roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi-gradle-plugin" }
+roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
 scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.1.3"
 scrimage-filters = "com.sksamuel.scrimage:scrimage-filters:4.1.3"
 snakeyaml = "org.yaml:snakeyaml:2.2"

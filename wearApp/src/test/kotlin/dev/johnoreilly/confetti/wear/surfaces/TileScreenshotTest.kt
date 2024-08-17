@@ -5,7 +5,7 @@ package dev.johnoreilly.confetti.wear.surfaces
 
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import com.google.android.horologist.compose.tools.TileLayoutPreview
+import com.google.android.horologist.screenshots.tiles.TileLayoutPreview
 import dev.johnoreilly.confetti.GetBookmarkedSessionsQuery
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest

@@ -243,6 +243,7 @@ dependencies {
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.androidx.complications.rendering)
     testImplementation(libs.horologist.compose.tools)
+    testImplementation(libs.horologist.roboscreenshots)
     testImplementation(libs.horologist.images.coil)
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)

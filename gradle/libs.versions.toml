@@ -47,7 +47,6 @@ tiles-tooling-preview = "1.3.0"
 work-runtime-ktx = "2.9.0"
 generativeai = "0.5.0-1.0.0-wasm"
 buildkonfig = "0.15.1"
-screenshot = "0.0.1-alpha02"
 screenshot = "0.0.1-alpha04"
 
 [libraries]

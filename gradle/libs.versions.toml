@@ -179,7 +179,7 @@ plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plu
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.9" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
-scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.1.3"
+scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.2.0"
 scrimage-filters = "com.sksamuel.scrimage:scrimage-filters:4.1.3"
 snakeyaml = "org.yaml:snakeyaml:2.2"
 spring-web = "org.springframework:spring-web:6.1.12"

@@ -103,7 +103,7 @@ decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-co
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 desugar = "com.android.tools:desugar_jdk_libs:2.0.4"
 federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4.5.0"
-firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.2.0" }
+firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.3.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = "com.google.firebase:firebase-bom:33.1.2"

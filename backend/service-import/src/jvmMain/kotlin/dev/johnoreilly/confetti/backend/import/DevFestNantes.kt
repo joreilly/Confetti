@@ -48,6 +48,7 @@ private val okHttpClient = OkHttpClient.Builder()
 
 private val baseUrl2022 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/"
 private val baseUrl2023 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/"
+private val baseUrl2024 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2024/main/"
 private val json = Json {
     ignoreUnknownKeys = true
 }
@@ -77,6 +78,19 @@ suspend fun importDefvestNantes2023() = DevFestNantes(
     ),
     "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/home/album/wide/800.jpg",
     "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/plan-cite-transparent.png"
+).import()
+
+suspend fun importDefvestNantes2024() = DevFestNantes(
+    baseUrl2024,
+    "Devfest2024",
+    "main",
+    ConferenceId.DevFestNantes2024.id,
+    listOf(
+        LocalDate(2024, 10, 17),
+        LocalDate(2024, 10, 18)
+    ),
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2024/main/src/images/home/album/wide/2000.jpg",
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2024/main/src/images/plan-cite-transparent.png"
 ).import()
 
 class DevFestNantes(

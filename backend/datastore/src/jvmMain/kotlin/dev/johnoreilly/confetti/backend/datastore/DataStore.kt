@@ -631,6 +631,7 @@ class DataStore {
                 "days", when (conferenceId) {
                     ConferenceId.DroidConSF2022 -> listOf("2022-06-02", "2022-06-03")
                     ConferenceId.DevFestNantes2022 -> listOf("2022-10-20", "2022-10-21")
+                    ConferenceId.DevFestNantes2024 -> listOf("2024-10-17", "2024-10-18")
                     ConferenceId.FrenchKit2022 -> listOf("2022-09-29", "2022-09-30")
                     ConferenceId.GraphQLSummit2022 -> listOf("2022-10-04", "2022-10-05")
                     ConferenceId.DroidConLondon2022 -> listOf("2022-10-27", "2022-10-28")

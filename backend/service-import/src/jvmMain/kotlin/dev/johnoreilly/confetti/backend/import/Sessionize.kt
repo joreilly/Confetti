@@ -659,7 +659,8 @@ object Sessionize {
             config = DConfig(
                 id = ConferenceId.DroidConLisbon2024.id,
                 name = "droidcon Lisbon 2024",
-                timeZone = "Europe/Lisbon"
+                timeZone = "Europe/Lisbon",
+                themeColor = "0xFFFF7256"
             ),
             venue = DVenue(
                 id = "main",

@@ -652,6 +652,32 @@ object Sessionize {
             )
         )
     }
+
+    suspend fun importDroidconLisbon2024(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/k3h4w594/view/All"),
+            config = DConfig(
+                id = ConferenceId.DroidConLisbon2024.id,
+                name = "droidcon Lisbon 2024",
+                timeZone = "Europe/Lisbon"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Fórum Cultural de Alcochete",
+                address = "Fórum Cultural de Alcochete",
+                description = mapOf(
+                    "en" to "Fórum Cultural de Alcochete",
+                    "fr" to "Fórum Cultural de Alcochete.",
+                ),
+                latitude = 38.7458978,
+                longitude = -8.9743295,
+                imageUrl = "https://static.wixstatic.com/media/eb9bc0_1da6dc27109b4624b43f71701f60e90e~mv2.jpg/v1/crop/x_0,y_622,w_4096,h_1828/fill/w_531,h_237,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/forum%20cultural%20alcochete.jpg",
+                floorPlanUrl = null
+            )
+        )
+    }
+
+
     internal fun writeData(
         sessionizeData: SessionizeData,
         config: DConfig,

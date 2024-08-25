@@ -8,6 +8,7 @@ import dev.johnoreilly.confetti.backend.datastore.DataStore
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestGeorgia2023
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestMelbourne2023
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDroidconLisbon2023
+import dev.johnoreilly.confetti.backend.import.Sessionize.importDroidconLisbon2024
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.application.install
@@ -132,6 +133,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.KotlinConf2024 -> Sessionize.importKotlinConf2024()
         ConferenceId.DroidconBerlin2024 -> Sessionize.importDroidconBerlin2024()
         ConferenceId.DevFestLille2024 -> DevfestLille.import()
+        ConferenceId.DroidConLisbon2024 -> importDroidconLisbon2024()
 
         null -> error("")
     }

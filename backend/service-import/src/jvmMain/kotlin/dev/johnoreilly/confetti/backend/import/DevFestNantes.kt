@@ -267,7 +267,7 @@ class DevFestNantes(
                 bio = speaker.get("bio")?.asString,
                 tagline = null,
                 company = speaker.get("company")?.asString,
-                links = speaker.get("socials").asMap.entries.map {
+                links = speaker.get("socials")?.asMap?.entries.orEmpty().map {
                     val handle = it.value.asString.trim()
                     val url = when (it.key) {
                         "github" -> "https://github.com/$handle"
@@ -295,7 +295,8 @@ class DevFestNantes(
             id = id,
             name = "DevFest Nantes",
             timeZone = timeZone,
-            days = days
+            days = days,
+            themeColor = "0xffFB5C49"
         )
 
         DataStore().write(

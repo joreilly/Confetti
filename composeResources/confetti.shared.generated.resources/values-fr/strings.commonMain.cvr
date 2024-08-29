@@ -1,5 +1,6 @@
 version:0
-string|app_name|Q29uZmV0dGk=
+string|bookmarks_past|UGFzc8Op
+string|bookmarks_upcoming|w4AgdmVuaXI=
 string|bookmarks|U2lnbmV0cw==
 string|brand_android|QW5kcm9pZA==
 string|brand_default|RGVmYXV0
@@ -14,7 +15,6 @@ string|dismiss_dialog_button_text|T0s=
 string|dynamic_color_no|Tm9u
 string|dynamic_color_preference|Q291bGV1ciBkeW5hbWlxdWU=
 string|dynamic_color_yes|T3Vp
-string|gemini|R2VtaW5p
 string|install_on_watch|SW5zdGFsbGVyIGxcJ2FwcCBzdXIgV2Vhck9T
 string|install_wear|SW5zdGFsbGVyIGxcJ2FwcCBzdXIgV2Vhck9T
 string|loading|Q2hhcmdlbWVudC4uLg==

@@ -342,17 +342,6 @@ resource "google_cloud_run_service_iam_binding" "import" {
   ]
 }
 
-resource "google_storage_bucket" "tfstate" {
-  provider      = google-beta
-  name          = "confetti-tfstate"
-  force_destroy = false
-  location      = var.region
-  storage_class = "STANDARD"
-  versioning {
-    enabled = true
-  }
-}
-
 resource "google_storage_bucket" "landing_page" {
   provider      = google-beta
   name          = "confetti-landing-page"
@@ -364,6 +353,13 @@ resource "google_storage_bucket" "landing_page" {
     main_page_suffix = "index.html"
     not_found_page   = "404.html"
   }
+}
+
+resource "google_storage_bucket_iam_member" "member" {
+  provider = google-beta
+  bucket   = google_storage_bucket.landing_page.name
+  role     = "roles/storage.objectViewer"
+  member   = "allUsers"
 }
 
 output "ip_addr" {

@@ -51,3 +51,39 @@ kotlin {
 compose.experimental {
     web.application {}
 }
+
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.binaryen.BinaryenExec>().configureEach {
+    binaryenArgs = mutableListOf(
+        // Proposals
+        "--enable-gc",
+        "--enable-reference-types",
+        "--enable-exception-handling",
+        "--enable-bulk-memory",  // For array initialization from data sections
+
+        // Other options
+        "--enable-nontrapping-float-to-int",
+        "--closed-world",
+
+        // Optimizations:
+        // Note the order and repetition of the next options matter.
+        //
+        // About Binaryen optimizations:
+        // GC Optimization Guidebook -- https://github.com/WebAssembly/binaryen/wiki/GC-Optimization-Guidebook
+        // Optimizer Cookbook -- https://github.com/WebAssembly/binaryen/wiki/Optimizer-Cookbook
+        //
+        "--inline-functions-with-loops",
+        "--traps-never-happen",
+        "--fast-math",
+        // without "--type-merging" it produces increases the size
+        "--type-ssa",
+        "-O3",
+        "-O3",
+        "--gufa",
+        "-O3",
+        // requires --closed-world
+        "--type-merging",
+        "-O3",
+        "-Oz",
+    )
+}

@@ -31,6 +31,7 @@ val koin = initKoin {
 fun main() {
     val lifecycle = LifecycleRegistry(Lifecycle.State.STARTED)
 
+    println("JFOR, start of main")
     val appComponent =
         DefaultAppComponent(
             componentContext = DefaultComponentContext(lifecycle),

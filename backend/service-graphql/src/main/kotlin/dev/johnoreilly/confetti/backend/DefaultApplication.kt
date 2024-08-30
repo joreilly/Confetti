@@ -2,46 +2,18 @@
 
 package dev.johnoreilly.confetti.backend
 
-import com.apollographql.federation.graphqljava.tracing.FederatedTracingInstrumentation
-import com.expediagroup.graphql.apq.cache.DefaultAutomaticPersistedQueriesCache
-import com.expediagroup.graphql.apq.provider.AutomaticPersistedQueriesProvider
-import com.expediagroup.graphql.generator.SchemaGeneratorConfig
-import com.expediagroup.graphql.generator.TopLevelObject
-import com.expediagroup.graphql.generator.hooks.SchemaGeneratorHooks
-import com.expediagroup.graphql.generator.toSchema
-import com.expediagroup.graphql.server.execution.GraphQLRequestParser
-import com.expediagroup.graphql.server.spring.GraphQLConfigurationProperties
-import com.expediagroup.graphql.server.spring.execution.DefaultSpringGraphQLContextFactory
-import com.expediagroup.graphql.server.spring.execution.SpringGraphQLRequestParser
-import com.expediagroup.graphql.server.spring.execution.SpringGraphQLServer
-import com.expediagroup.graphql.server.types.GraphQLRequest
-import com.expediagroup.graphql.server.types.GraphQLResponse
-import com.expediagroup.graphql.server.types.GraphQLServerRequest
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.type.MapType
-import com.fasterxml.jackson.databind.type.TypeFactory
+import com.apollographql.apollo.api.ExecutionContext
+import com.apollographql.execution.*
+import com.apollographql.execution.spring.apolloSandboxRoutes
+import com.example.ServiceExecutableSchemaBuilder
 import com.google.firebase.auth.FirebaseAuthException
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
+import dev.johnoreilly.confetti.backend.graphql.DataSource
 import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
-import dev.johnoreilly.confetti.backend.graphql.RootMutation
-import dev.johnoreilly.confetti.backend.graphql.RootQuery
 import dev.johnoreilly.confetti.backend.graphql.TestDataSource
 import dev.johnoreilly.confetti.backend.resize.AvatarFetcher
 import dev.johnoreilly.confetti.backend.resize.AvatarSize
-import graphql.GraphQL
-import graphql.GraphQLContext
-import graphql.execution.AsyncSerialExecutionStrategy
-import graphql.execution.CoercedVariables
-import graphql.language.StringValue
-import graphql.language.Value
-import graphql.schema.*
-import graphql.schema.GraphqlTypeComparatorRegistry.AS_IS_REGISTRY
-import graphql.schema.idl.SchemaPrinter
-import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import net.mbonnin.bare.graphql.cast
+import okio.Buffer
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.web.ErrorProperties
@@ -56,8 +28,8 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Primary
 import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
 import org.springframework.http.client.reactive.JdkClientHttpConnector
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
@@ -68,43 +40,11 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.result.view.ViewResolver
 import java.net.http.HttpClient
-import java.util.*
 import kotlin.jvm.optionals.getOrNull
-import kotlin.reflect.KClass
-import kotlin.reflect.KType
 
-
-internal fun GraphQLSchema.print(): String {
-    return SchemaPrinter(
-        SchemaPrinter.Options.defaultOptions()
-            .setComparators(AS_IS_REGISTRY)
-            .includeIntrospectionTypes(true)
-            .includeScalarTypes(true)
-            .includeSchemaDefinition(true)
-            .includeDirectiveDefinitions(true)
-            .includeSchemaElement { true }
-    ).print(this)
-}
-
-fun buildSchema(): GraphQLSchema {
-    return toSchema(
-        config = config,
-        queries = topLevelQuery,
-        mutations = topLevelMutation,
-        subscriptions = emptyList()
-    )
-}
 
 @SpringBootApplication
 class DefaultApplication {
-    @Bean
-    fun schemaGeneratorConfig(): SchemaGeneratorConfig {
-        return config
-    }
-
-    @Bean
-    fun customHooks(): SchemaGeneratorHooks = CustomSchemaGeneratorHooks()
-
     @Bean
     fun corsWebFilter(): CorsWebFilter {
         val corsConfig = CorsConfiguration().apply {
@@ -116,12 +56,6 @@ class DefaultApplication {
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", corsConfig)
         return CorsWebFilter(source)
-    }
-
-    @Bean
-    @Primary
-    fun parser(objectMapper: ObjectMapper): GraphQLRequestParser<ServerRequest> {
-        return ApqAwareSpringGraphQLRequestParser(objectMapper)
     }
 
     @Bean
@@ -165,24 +99,16 @@ class DefaultApplication {
         return AvatarFetcher(webClient)
     }
 
-
     @Bean
-    fun graphql(graphQLSchema: GraphQLSchema): GraphQL {
-        val automaticPersistedQueryProvider =
-            AutomaticPersistedQueriesProvider(DefaultAutomaticPersistedQueriesCache())
-
-        return GraphQL
-            .newGraphQL(graphQLSchema)
-            .preparsedDocumentProvider(automaticPersistedQueryProvider)
-            .instrumentation(CacheControlInstrumentation())
-            .queryExecutionStrategy(AsyncSerialExecutionStrategy())
+    fun executableSchema(): ExecutableSchema {
+        return ServiceExecutableSchemaBuilder()
+            .persistedDocumentCache(InMemoryPersistedDocumentCache())
             .build()
     }
 
     @Bean
     fun routes(
-        config: GraphQLConfigurationProperties,
-        graphQLServer: SpringGraphQLServer,
+        executableSchema: ExecutableSchema,
         avatarFetcher: AvatarFetcher
     ) = coRouter {
         GET("/images/avatar/{conference}/{avatar}") {
@@ -195,54 +121,66 @@ class DefaultApplication {
             )
         }
 
-        val isEndpointRequest = POST(config.endpoint) or GET(config.endpoint)
-        val isNotWebSocketRequest = headers { isWebSocketHeaders(it) }.not()
-
-        (isEndpointRequest and isNotWebSocketRequest).invoke { serverRequest ->
-            try {
-                var graphQLResponse = graphQLServer.execute(serverRequest)
-                if (graphQLResponse != null) {
-                    val headers = mutableMapOf<String, String>()
-                    if (graphQLResponse is GraphQLResponse<*>) {
-                        var maxAge = graphQLResponse.extensions?.get("maxAge")?.cast<Int>() ?: 0
-                        if (!graphQLResponse.canBeCached()) {
-                            maxAge = 0
-                        }
-
-                        if (maxAge == 0) {
-                            headers.put("Cache-Control", "no-store")
-                        } else {
-                            headers.put("Cache-Control", "public, max-age=$maxAge")
-                        }
-                        headers.put("Vary", "conference")
-
-                        var newExtensions: Map<Any, Any?>? =
-                            graphQLResponse.extensions?.filterNot { it.key == "maxAge" }
-                        if (newExtensions?.isEmpty() == true) {
-                            newExtensions = null
-                        }
-                        graphQLResponse = graphQLResponse.copy(
-                            extensions = newExtensions
-                        )
-                    }
-
-                    ok().json()
-                        .apply {
-                            headers.entries.forEach {
-                                header(it.key, it.value)
-                            }
-                        }
-                        .bodyValueAndAwait(graphQLResponse)
-                } else {
-                    badRequest().buildAndAwait()
-                }
-            } catch (e: FirebaseAuthException) {
-                status(401).bodyValue(e.message ?: "FirebaseAuthException").awaitSingle()
+        (POST("/graphql") or GET("/graphql")).invoke { serverRequest ->
+            var conference = serverRequest.queryParam("conference").getOrNull()
+            if (conference == null) {
+                conference = serverRequest.headers().firstHeader("conference")
             }
+            if (conference == null) {
+                conference = ConferenceId.KotlinConf2023.id
+            }
+
+            val uid = try {
+                serverRequest.headers().firstHeader("authorization")
+                    ?.substring("Bearer ".length)
+                    ?.firebaseUid()
+            } catch (e: FirebaseAuthException) {
+                return@invoke status(401).bodyValueAndAwait(e.message ?: "FirebaseAuthException")
+            }
+
+            if (ConferenceId.entries.find { it.id == conference } == null && conference != "all") {
+                throw BadConferenceException(conference)
+            }
+            val source = when (conference) {
+                ConferenceId.TestConference.id -> TestDataSource()
+                else -> DataStoreDataSource(conference, uid)
+            }
+
+            val maxAge = when (conference) {
+                "test" -> 0L
+                else -> 1800L
+            }
+            val maxAgeContext = MaxAgeContext(maxAge)
+            val executionContext = UidContext(uid) + SourceContext(source) + ConferenceContext(conference) + maxAgeContext
+
+            val graphqlRequestResult = serverRequest.toGraphQLRequest()
+            if (!graphqlRequestResult.isSuccess) {
+                return@invoke badRequest().buildAndAwait()
+            }
+            val graphQLResponse = executableSchema.execute(graphqlRequestResult.getOrThrow(), executionContext)
+
+            return@invoke ok().contentType(MediaType.parseMediaType("application/graphql-response+json"))
+                .apply {
+                    if (maxAgeContext.maxAge == 0L || !graphQLResponse.canBeCached()) {
+                        header("Cache-Control", "no-store")
+                    } else {
+                        header("Cache-Control", "public, max-age=$maxAge")
+                    }
+                    header("Vary", "conference")
+                }
+                .bodyValueAndAwait(graphQLResponse.toByteArray())
         }
+
+        apolloSandboxRoutes("Confetti playground")
     }
 
-    private fun GraphQLResponse<*>.canBeCached(): Boolean {
+    private fun GraphQLResponse.toByteArray(): ByteArray {
+        val buffer = Buffer()
+        serialize(buffer)
+        return buffer.readByteArray()
+    }
+
+    private fun GraphQLResponse.canBeCached(): Boolean {
         if (errors.orEmpty().any {
                 it.message.lowercase()
                     .contains("PersistedQueryNotFound".lowercase())
@@ -279,191 +217,45 @@ class DefaultApplication {
     }
 }
 
-class ApqAwareSpringGraphQLRequestParser(private val objectMapper: ObjectMapper) :
-    SpringGraphQLRequestParser(objectMapper) {
-    private val mapTypeReference: MapType = TypeFactory.defaultInstance()
-        .constructMapType(HashMap::class.java, String::class.java, Any::class.java)
-
-    override suspend fun parseRequest(request: ServerRequest): GraphQLServerRequest? {
-        val graphqlRequest = super.parseRequest(request)
-
-        if (graphqlRequest == null && request.method().equals(HttpMethod.GET)) {
-            val extensions = request.queryParam("extensions").getOrNull()
-            val variables = request.queryParam("variables").getOrNull()
-            val operationName = request.queryParam("operationName").getOrNull()
-            val graphQLVariables: Map<String, Any>? = variables?.let {
-                objectMapper.readValue(it, mapTypeReference)
+suspend fun ServerRequest.toGraphQLRequest(): GraphQLResult<GraphQLRequest> {
+    return when (this.method()) {
+        HttpMethod.GET -> this.queryParams().toExternalValueMap().flatMap { it.parseGraphQLRequest() }
+        HttpMethod.POST -> {
+            awaitBody<String>().let {
+                Buffer().writeUtf8(it).parseGraphQLRequest()
             }
-            val graphQLExtensions: Map<String, Any>? = extensions?.let {
-                objectMapper.readValue(it, mapTypeReference)
-            }
-            return GraphQLRequest(
-                operationName = operationName,
-                variables = graphQLVariables,
-                extensions = graphQLExtensions
-            )
         }
-
-        return graphqlRequest
+        else -> GraphQLError(Exception("Unhandled method: ${method()}"))
     }
+}
+
+class UidContext(val uid: String?): ExecutionContext.Element {
+    companion object Key: ExecutionContext.Key<UidContext>
+
+    override val key = Key
+}
+class ConferenceContext(val conference: String): ExecutionContext.Element {
+    companion object Key: ExecutionContext.Key<ConferenceContext>
+
+    override val key = Key
+}
+class SourceContext(val source: DataSource): ExecutionContext.Element {
+    companion object Key: ExecutionContext.Key<SourceContext>
+
+    override val key = Key
+}
+class MaxAgeContext(var maxAge: Long): ExecutionContext.Element {
+    companion object Key: ExecutionContext.Key<MaxAgeContext>
+
+    override val key = Key
 }
 
 class BadConferenceException(conference: String) :
     Exception("Unknown conference: '$conference', use Query.conferences without a header to get the list of possible values.")
 
-@Component
-class MyGraphQLContextFactory : DefaultSpringGraphQLContextFactory() {
-    override suspend fun generateContext(request: ServerRequest): GraphQLContext {
-        var conference = request.queryParam("conference").getOrNull()
-        if (conference == null) {
-            conference = request.headers().firstHeader("conference")
-        }
-        if (conference == null) {
-            conference = ConferenceId.KotlinConf2023.id
-        }
-
-        val uid = try {
-            request.headers().firstHeader("authorization")
-                ?.substring("Bearer ".length)
-                ?.firebaseUid()
-        } catch (e: FirebaseAuthException) {
-            throw e
-        }
-
-        if (ConferenceId.entries.find { it.id == conference } == null && conference != "all") {
-            throw BadConferenceException(conference)
-        }
-        val source = when (conference) {
-            ConferenceId.TestConference.id -> TestDataSource()
-            else -> DataStoreDataSource(conference, uid)
-        }
-
-        val federatedTracing =
-            request.headers().firstHeader(FederatedTracingInstrumentation.FEDERATED_TRACING_HEADER_NAME) ?: "none"
-
-        return super.generateContext(request)
-            .put(DefaultApplication.KEY_SOURCE, source)
-            .put(DefaultApplication.KEY_REQUEST, request)
-            .put(DefaultApplication.KEY_CONFERENCE, conference)
-            .put(FederatedTracingInstrumentation.FEDERATED_TRACING_HEADER_NAME, federatedTracing)
-            .apply {
-                if (uid != null) {
-                    put(DefaultApplication.KEY_UID, uid)
-                }
-            }
-    }
-}
-
 fun runServer(): ConfigurableApplicationContext {
     return runApplication<DefaultApplication>()
 }
-
-class CustomSchemaGeneratorHooks : SchemaGeneratorHooks {
-    override fun willGenerateGraphQLType(type: KType): GraphQLType? =
-        when (type.classifier as? KClass<*>) {
-            Instant::class -> graphqlInstantType
-            LocalDate::class -> graphqlLocalDateType
-            LocalDateTime::class -> graphqlLocalDateTimeType
-            else -> null
-        }
-}
-
-val graphqlInstantType: GraphQLScalarType = GraphQLScalarType.newScalar()
-    .name("Instant")
-    .description("A type representing a formatted kotlinx.datetime.Instant")
-    .coercing(InstantCoercing)
-    .build()
-
-val graphqlLocalDateType = GraphQLScalarType.newScalar()
-    .name("LocalDate")
-    .description("A type representing a formatted kotlinx.datetime.LocalDate")
-    .coercing(LocalDateCoercing)
-    .build()!!
-
-val graphqlLocalDateTimeType = GraphQLScalarType.newScalar()
-    .name("LocalDateTime")
-    .description("A type representing a formatted kotlinx.datetime.LocalDateTime")
-    .coercing(LocalDateTimeCoercing)
-    .build()!!
-
-object InstantCoercing : Coercing<Instant, String> {
-    override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): Instant = runCatching {
-        Instant.parse(input.toString())
-    }.getOrElse {
-        throw CoercingParseValueException("Expected valid Instant but was $input")
-    }
-
-    override fun parseLiteral(input: Value<*>, variables: CoercedVariables, graphQLContext: GraphQLContext, locale: Locale): Instant {
-        val str = (input as? StringValue)?.value
-        return runCatching {
-            Instant.parse(str!!)
-        }.getOrElse {
-            throw CoercingParseLiteralException("Expected valid Instant literal but was $str")
-        }
-    }
-
-    override fun serialize(dataFetcherResult: Any,  graphQLContext: GraphQLContext, locale: Locale): String = runCatching {
-        dataFetcherResult.toString()
-    }.getOrElse {
-        throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
-    }
-}
-
-object LocalDateCoercing : Coercing<LocalDate, String> {
-    override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): LocalDate = runCatching {
-        LocalDate.parse(input.toString())
-    }.getOrElse {
-        throw CoercingParseValueException("Expected valid LocalDate but was $input")
-    }
-
-    override fun parseLiteral(input: Value<*>, variables: CoercedVariables, graphQLContext: GraphQLContext, locale: Locale): LocalDate {
-        val str = (input as? StringValue)?.value
-        return runCatching {
-            LocalDate.parse(str!!)
-        }.getOrElse {
-            throw CoercingParseLiteralException("Expected valid LocalDate literal but was $str")
-        }
-    }
-
-    override fun serialize(dataFetcherResult: Any,  graphQLContext: GraphQLContext, locale: Locale): String = runCatching {
-        dataFetcherResult.toString()
-    }.getOrElse {
-        throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
-    }
-}
-
-object LocalDateTimeCoercing : Coercing<LocalDateTime, String> {
-    override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): LocalDateTime = runCatching {
-        LocalDateTime.parse(input.toString())
-    }.getOrElse {
-        throw CoercingParseValueException("Expected valid LocalDateTime but was $input")
-    }
-
-    override fun parseLiteral(input: Value<*>, variables: CoercedVariables, graphQLContext: GraphQLContext, locale: Locale): LocalDateTime {
-        val str = (input as? StringValue)?.value
-        return runCatching {
-            LocalDateTime.parse(str!!)
-        }.getOrElse {
-            throw CoercingParseLiteralException("Expected valid LocalDateTime literal but was $str")
-        }
-    }
-
-    override fun serialize(dataFetcherResult: Any,  graphQLContext: GraphQLContext, locale: Locale): String = runCatching {
-        dataFetcherResult.toString()
-    }.getOrElse {
-        throw CoercingSerializeException("Data fetcher result $dataFetcherResult cannot be serialized to a String")
-    }
-}
-
-
-internal val topLevelQuery = listOf(TopLevelObject(RootQuery(), RootQuery::class))
-internal val topLevelMutation = listOf(TopLevelObject(RootMutation(), RootMutation::class))
-internal val config = SchemaGeneratorConfig(
-    supportedPackages = listOf("dev.johnoreilly.confetti.backend"),
-    hooks = CustomSchemaGeneratorHooks(),
-    additionalTypes = setOf(graphqlInstantType, graphqlLocalDateType, graphqlLocalDateTimeType)
-)
-
 
 @Component
 class StartupApplicationListener : ApplicationListener<ApplicationReadyEvent> {

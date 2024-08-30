@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -6,12 +5,15 @@ plugins {
   id("org.jetbrains.kotlin.plugin.spring")
   id("org.jetbrains.kotlin.plugin.serialization")
   id("org.springframework.boot")
+  id("com.google.devtools.ksp")
+  id("com.apollographql.execution")
 }
 
 configureCompilerOptions(17)
 
 dependencies {
-  implementation(libs.graphql.kotlin.spring.server)
+  implementation(libs.spring.boot.starter.webflux)
+  implementation(libs.apollo.execution.spring)
   implementation(libs.kotlinx.datetime)
   implementation(libs.kotlinx.serialization)
   implementation(libs.bare.graphQL)
@@ -22,7 +24,7 @@ dependencies {
   implementation(libs.apollo.tooling)
   implementation(libs.apollo.annotations)
   implementation(libs.firebase.admin)
-  implementation(libs.federation.jvm)
+  implementation(libs.kotlinx.coroutines.reactor)
 
   implementation(libs.scrimage.core)
   implementation(libs.scrimage.filters)
@@ -38,10 +40,19 @@ springBoot {
   mainClass.set("dev.johnoreilly.confetti.backend.MainKt")
 }
 
-tasks.register("updateSchema", JavaExec::class) {
-  classpath(configurations.getByName("runtimeClasspath"))
-  classpath(tasks.named("jar"))
-  mainClass.set("dev.johnoreilly.confetti.backend.UpdateSchemaKt")
+apolloExecution {
+  service("service") {
+    schemaFile.set(file("../../shared/src/commonMain/graphql/schema.graphqls"))
+  }
 }
-
 configureDeploy("graphql", "dev.johnoreilly.confetti.backend.MainKt")
+
+tasks.configureEach {
+  if (name == "kspTestKotlin") {
+    /**
+     * Running KSP on tests fails with '[ksp] No '@GraphQLQuery' class found'
+     * Disable that
+     */
+    enabled = false
+  }
+}

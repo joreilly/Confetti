@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-backend:
     runs-on: ubuntu-22.04
 
     steps:

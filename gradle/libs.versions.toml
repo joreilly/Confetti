@@ -3,6 +3,7 @@ kotlin = "2.0.10"
 ksp = "2.0.10-1.0.24"
 kotlinx-coroutines = "1.8.1"
 kotlinx-datetime = "0.6.0"
+apollo-kotlin-execution = "0.0.3"
 
 agp = "8.5.2"
 accompanist = "0.34.0"
@@ -44,6 +45,7 @@ robolectric = "4.13"
 room = "2.6.1"
 tiles-tooling-preview = "1.4.0"
 work-runtime-ktx = "2.9.1"
+spring = "3.3.3"
 generativeai = "0.5.0-1.0.0-wasm"
 buildkonfig = "0.15.1"
 roborazzi = "1.26.0"
@@ -74,6 +76,14 @@ apollo-adapters = { module = "com.apollographql.apollo:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo:apollo-normalized-cache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo:apollo-normalized-cache-sqlite" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
+apollo-execution-spring = { module = "com.apollographql.execution:apollo-execution-spring", version.ref = "apollo-kotlin-execution" }
+apollo-execution-gradle-plugin = { module = "com.apollographql.execution:apollo-execution-gradle-plugin", version.ref = "apollo-kotlin-execution" }
+spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
+spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }
+spring-webflux = "org.springframework:spring-webflux:6.1.10"
+spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
+ktor-server-netty = "io.ktor:ktor-server-netty:2.3.11"
 apollo-annotations = { module = "com.apollographql.apollo:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo:apollo-tooling", version.ref = "apollo" }
 apollo-testing = { module = "com.apollographql.apollo:apollo-testing-support" }
@@ -102,7 +112,6 @@ decompose-decompose = { module = "com.arkivanov.decompose:decompose", version.re
 decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 desugar = "com.android.tools:desugar_jdk_libs:2.0.4"
-federation-jvm = "com.apollographql.federation:federation-graphql-java-support:4.5.0"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.3.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
@@ -114,7 +123,6 @@ google-cloud-bom = "com.google.cloud:libraries-bom:26.44.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.21.1"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
-graphql-kotlin-spring-server = "com.expediagroup:graphql-kotlin-spring-server:7.1.4"
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }
 horologist-auth-ui = { module = "com.google.android.horologist:horologist-auth-ui", version.ref = "horologist" }
 horologist-auth-data = { module = "com.google.android.horologist:horologist-auth-data", version.ref = "horologist" }
@@ -146,6 +154,7 @@ koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 kmm-viewmodel = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmm-viewmodel" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }

@@ -1,45 +1,93 @@
 package dev.johnoreilly.confetti.backend.graphql
 
-import com.expediagroup.graphql.generator.annotations.GraphQLDeprecated
-import com.expediagroup.graphql.generator.annotations.GraphQLDescription
-import com.expediagroup.graphql.generator.annotations.GraphQLDirective
-import com.expediagroup.graphql.server.operations.Mutation
-import com.expediagroup.graphql.server.operations.Query
+import com.apollographql.apollo.api.ExecutionContext
+import com.apollographql.apollo.ast.GQLStringValue
+import com.apollographql.apollo.ast.GQLValue
+import com.apollographql.execution.Coercing
+import com.apollographql.execution.annotation.*
+import com.apollographql.execution.internal.ExternalValue
 import com.google.firebase.auth.FirebaseAuth
-import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_SOURCE
-import dev.johnoreilly.confetti.backend.DefaultApplication.Companion.KEY_UID
-import dev.johnoreilly.confetti.backend.datastore.ConferenceId
+import dev.johnoreilly.confetti.backend.*
 import dev.johnoreilly.confetti.backend.datastore.DDirection
 import dev.johnoreilly.confetti.backend.datastore.DOrderBy
 import dev.johnoreilly.confetti.backend.datastore.DataStore
-import graphql.introspection.Introspection
-import graphql.schema.DataFetchingEnvironment
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import org.springframework.stereotype.Component
+import kotlinx.datetime.Instant as KotlinxInstant
+import kotlinx.datetime.LocalDate as KotlinxLocalDate
+import kotlinx.datetime.LocalDateTime as KotlinxLocalDateTime
 
-@GraphQLDirective(
-    name = "requiresOptIn",
-    description = "This field can be changed without warning",
-    locations = [Introspection.DirectiveLocation.FIELD_DEFINITION]
-)
-annotation class RequiresOptIn(val feature: String)
+/**
+ * A type representing a formatted kotlinx.datetime.Instant
+ */
+@GraphQLScalar(InstantCoercing::class)
+typealias Instant = KotlinxInstant
+@GraphQLScalar(LocalDateCoercing::class)
+/**
+ * A type representing a formatted kotlinx.datetime.LocalDate
+ */
+typealias LocalDate = KotlinxLocalDate
+@GraphQLScalar(LocalDateTimeCoercing::class)
+/**
+ * A type representing a formatted kotlinx.datetime.LocalDateTime
+ */
+typealias LocalDateTime = KotlinxLocalDateTime
 
-@Component
-class RootMutation : Mutation {
-    fun addBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
+object InstantCoercing : Coercing<Instant> {
+    override fun serialize(internalValue: Instant): ExternalValue {
+        return internalValue.toString()
+    }
+
+    override fun deserialize(value: ExternalValue): Instant {
+        return Instant.parse(value as String)
+    }
+
+    override fun parseLiteral(value: GQLValue): Instant {
+        return Instant.parse((value as GQLStringValue).value)
+    }
+}
+
+object LocalDateCoercing : Coercing<LocalDate> {
+    override fun serialize(internalValue: LocalDate): ExternalValue {
+        return internalValue.toString()
+    }
+
+    override fun deserialize(value: ExternalValue): LocalDate {
+        return LocalDate.parse(value as String)
+    }
+
+    override fun parseLiteral(value: GQLValue): LocalDate {
+        return LocalDate.parse((value as GQLStringValue).value)
+    }
+}
+
+object LocalDateTimeCoercing : Coercing<LocalDateTime> {
+    override fun serialize(internalValue: LocalDateTime): ExternalValue {
+        return internalValue.toString()
+    }
+
+    override fun deserialize(value: ExternalValue): LocalDateTime {
+        return LocalDateTime.parse((value as String))
+    }
+
+    override fun parseLiteral(value: GQLValue): LocalDateTime {
+        return LocalDateTime.parse((value as GQLStringValue).value)
+    }
+}
+
+@GraphQLMutation
+@GraphQLName("Mutation")
+class RootMutation {
+    fun addBookmark(dfe: ExecutionContext, sessionId: String): Bookmarks {
         return Bookmarks(dfe.source().addBookmark(sessionId).toList())
     }
 
-    fun removeBookmark(dfe: DataFetchingEnvironment, sessionId: String): Bookmarks {
+    fun removeBookmark(dfe: ExecutionContext, sessionId: String): Bookmarks {
         return Bookmarks(dfe.source().removeBookmark(sessionId).toList())
     }
 
     /**
      * Deletes the current user account, requires authentication
      */
-    fun deleteAccount(dfe: DataFetchingEnvironment): Boolean {
+    fun deleteAccount(dfe: ExecutionContext): Boolean {
         val uid = dfe.uid()
         if (uid == null) {
             return false
@@ -51,21 +99,19 @@ class RootMutation : Mutation {
     }
 }
 
-@Component
-class RootQuery : Query {
-    fun rooms(dfe: DataFetchingEnvironment): List<Room> {
+@GraphQLQuery
+@GraphQLName("Query")
+class RootQuery {
+    fun rooms(dfe: ExecutionContext): List<Room> {
         return dfe.source().rooms()
     }
 
     fun sessions(
-        dfe: DataFetchingEnvironment,
-        first: Int? = 10,
-        after: String? = null,
-        filter: SessionFilter? = null,
-        orderBy: SessionOrderBy? = SessionOrderBy(
-            field = SessionField.STARTS_AT,
-            direction = OrderByDirection.ASCENDING
-        )
+        dfe: ExecutionContext,
+        @GraphQLDefault("10") first: Int?,
+        @GraphQLDefault("null") after: String?,
+        @GraphQLDefault("null") filter: SessionFilter?,
+        @GraphQLDefault("{field: STARTS_AT, direction: ASCENDING}") orderBy: SessionOrderBy?
     ): SessionConnection {
         return dfe.source().sessions(
             first ?: 10,
@@ -76,60 +122,64 @@ class RootQuery : Query {
     }
 
     @Deprecated("Use speakersPage instead")
-    fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
+    fun speakers(dfe: ExecutionContext): List<Speaker> {
         return dfe.source().speakers(first = 100, after = null).nodes
     }
 
     fun speakersPage(
-        dfe: DataFetchingEnvironment,
-        first: Int? = 10,
-        after: String? = null,
+        dfe: ExecutionContext,
+        @GraphQLDefault("null") first: Int?,
+        @GraphQLDefault("null") after: String?,
     ): SpeakerConnection {
         return dfe.source().speakers(first ?: 10, after)
     }
 
-    fun speaker(dfe: DataFetchingEnvironment, id: String): Speaker {
+    fun speaker(dfe: ExecutionContext, id: String): Speaker {
         return dfe.source().speaker(id)
     }
 
-    fun venue(dfe: DataFetchingEnvironment, id: String): Venue {
+    fun venue(dfe: ExecutionContext, id: String): Venue {
         return dfe.source().venues().first { it.id == id }
     }
 
-    fun venues(dfe: DataFetchingEnvironment): List<Venue> {
+    fun venues(dfe: ExecutionContext): List<Venue> {
         return dfe.source().venues()
     }
 
-    fun partnerGroups(dfe: DataFetchingEnvironment): List<PartnerGroup> {
+    fun partnerGroups(dfe: ExecutionContext): List<PartnerGroup> {
         return dfe.source().partnerGroups()
     }
 
-    fun session(dfe: DataFetchingEnvironment, id: String): Session {
+    fun session(dfe: ExecutionContext, id: String): Session {
         return dfe.source().sessions(listOf(id)).single()
     }
 
-    fun config(dfe: DataFetchingEnvironment): Conference {
+    fun config(dfe: ExecutionContext): Conference {
         return dfe.source().conference()
     }
 
-    @GraphQLDeprecated("Use bookmarkConnection instead")
-    fun bookmarks(dfe: DataFetchingEnvironment): Bookmarks? {
+    @Deprecated("Use bookmarkConnection instead")
+    fun bookmarks(dfe: ExecutionContext): Bookmarks? {
         if (dfe.uid() == null) {
             return null
         }
+
+        dfe.disableCaching()
         return Bookmarks(dfe.source().bookmarks().toList())
     }
 
-    fun bookmarkConnection(dfe: DataFetchingEnvironment): BookmarkConnection? {
+    fun bookmarkConnection(dfe: ExecutionContext): BookmarkConnection? {
         if (dfe.uid() == null) {
             return null
         }
+
+        dfe.disableCaching()
         return BookmarkConnection(
             nodes = dfe.source().sessions(dfe.source().bookmarks().toList())
         )
     }
 
-    fun conferences(orderBy: ConferenceOrderBy? = null): List<Conference> {
+    fun conferences(@GraphQLDefault("null") orderBy: ConferenceOrderBy?): List<Conference> {
         val orderBy1 =
             orderBy ?: ConferenceOrderBy(ConferenceField.DAYS, OrderByDirection.DESCENDING)
         return DataStore().readConfigs(
@@ -140,7 +190,11 @@ class RootQuery : Query {
     }
 }
 
-class  BookmarkConnection(
+private fun ExecutionContext.disableCaching() {
+    get(MaxAgeContext)!!.maxAge = 0
+}
+
+class BookmarkConnection(
     val nodes: List<Session>
 )
 
@@ -155,16 +209,19 @@ internal fun OrderByDirection.toDDirection(): DDirection {
     }
 }
 
+@GraphQLName("LocalDateTimeFilterInput")
 class LocalDateTimeFilter(
-    val before: LocalDateTime? = null,
-    val after: LocalDateTime? = null,
+    @GraphQLDefault("null") val before: LocalDateTime?,
+    @GraphQLDefault("null") val after: LocalDateTime?,
 )
 
+@GraphQLName("SessionFilterInput")
 class SessionFilter(
-    val startsAt: LocalDateTimeFilter? = null,
-    val endsAt: LocalDateTimeFilter? = null,
+    @GraphQLDefault("null") val startsAt: LocalDateTimeFilter?,
+    @GraphQLDefault("null") val endsAt: LocalDateTimeFilter?,
 )
 
+@GraphQLName("SessionOrderByInput")
 class SessionOrderBy(
     val field: SessionField,
     val direction: OrderByDirection
@@ -174,6 +231,7 @@ enum class SessionField(val value: String) {
     STARTS_AT("start"),
 }
 
+@GraphQLName("ConferenceOrderByInput")
 class ConferenceOrderBy(
     val field: ConferenceField,
     val direction: OrderByDirection
@@ -188,11 +246,12 @@ enum class ConferenceField(val value: String) {
     DAYS("days"),
 }
 
-fun DataFetchingEnvironment.uid(): String? {
-    return graphQlContext.get(KEY_UID)
+fun ExecutionContext.uid(): String? {
+    return get(UidContext)?.uid
 }
-private fun DataFetchingEnvironment.source(): DataSource {
-    return graphQlContext.get(KEY_SOURCE)
+
+private fun ExecutionContext.source(): DataSource {
+    return get(SourceContext)?.source ?: error("No SourceContext")
 }
 
 data class Room(
@@ -211,7 +270,7 @@ data class PageInfo(
     val endCursor: String?,
 )
 
-enum class  LinkType {
+enum class LinkType {
     YouTube,
     Audio,
     AudioUncompressed,
@@ -229,10 +288,14 @@ data class Session(
     val id: String,
     val title: String,
     val description: String?,
-    @GraphQLDescription("""A shorter version of description for use when real estate is scarce like watches for an example.
-This field might have the same value as description if a shortDescription is not available""")
+    /**
+     * A shorter version of description for use when real estate is scarce like watches for an example.
+     * This field might have the same value as description if a shortDescription is not available.
+     */
     val shortDescription: String?,
-    @GraphQLDescription("""An [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US""")
+    /**
+     * An [IETF language code](https://en.wikipedia.org/wiki/IETF_language_tag) like en-US.
+     */
     val language: String?,
     private val speakerIds: Set<String>,
     val tags: List<String>,
@@ -245,15 +308,17 @@ This field might have the same value as description if a shortDescription is not
     private val roomIds: Set<String>,
     val complexity: String?,
     val feedbackId: String?,
-    @GraphQLDescription("""One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format""")
+    /**
+     * One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format.
+     */
     val type: String,
     val links: List<Link>
 ) {
-    fun speakers(dfe: DataFetchingEnvironment): List<Speaker> {
+    fun speakers(dfe: ExecutionContext): List<Speaker> {
         return dfe.source().speakers(speakerIds.toList())
     }
 
-    fun room(dfe: DataFetchingEnvironment): Room? {
+    fun room(dfe: ExecutionContext): Room? {
         val roomId = roomIds.firstOrNull()
         if (roomId == null) {
             return null
@@ -263,7 +328,7 @@ This field might have the same value as description if a shortDescription is not
         }
     }
 
-    fun rooms(dfe: DataFetchingEnvironment): List<Room> {
+    fun rooms(dfe: ExecutionContext): List<Room> {
         return dfe.source().rooms().filter {
             roomIds.contains(it.id)
         }
@@ -289,7 +354,7 @@ data class Speaker(
     private val sessionIds: List<String>,
 ) {
     fun sessions(
-        dfe: DataFetchingEnvironment,
+        dfe: ExecutionContext,
     ): List<Session> {
         return dfe.source().sessions(
             sessionIds
@@ -323,7 +388,7 @@ data class Partner(
     /**
      * @param dark returns the logo for use on a dark background or fallbacks to the light mode if none exist
      */
-    fun logoUrl(dark: Boolean? = false): String {
+    fun logoUrl(@GraphQLDefault("false") dark: Boolean?): String {
         return if (dark == true) {
             logoUrlDark ?: logoUrl
         } else {
@@ -332,9 +397,6 @@ data class Partner(
     }
 }
 
-/**
- * @property floorPlanUrl the url to an image containing the floor plan
- */
 data class Venue(
     val id: String,
     val name: String,
@@ -342,6 +404,9 @@ data class Venue(
     val longitude: Double?,
     val address: String? = null,
     val imageUrl: String?,
+    /**
+     * the url to an image containing the floor plan
+     */
     val floorPlanUrl: String?,
     private val descriptions: Map<String, String>
 ) {
@@ -364,7 +429,7 @@ data class Venue(
             return descriptions.get("fr") ?: descriptions.get("en") ?: ""
         }
 
-    fun description(language: String? = "en"): String {
+    fun description(@GraphQLDefault("\"en\"") language: String?): String {
         return descriptions.get(language) ?: descriptions.get("en") ?: ""
     }
 }

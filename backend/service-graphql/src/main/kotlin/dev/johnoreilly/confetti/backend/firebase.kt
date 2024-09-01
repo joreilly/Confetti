@@ -5,7 +5,6 @@ import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
 import dev.johnoreilly.confetti.backend.datastore.googleCredentials
 
-
 // Paranoid check
 private var initialized = false
 
@@ -24,10 +23,5 @@ fun String.firebaseUid(): String? {
         return "testUser"
     }
 
-    return try {
-        FirebaseAuth.getInstance().verifyIdToken(this, true).uid
-    } catch (e: Exception) {
-        e.printStackTrace()
-        throw e
-    }
+    return FirebaseAuth.getInstance().verifyIdToken(this, true).uid
 }

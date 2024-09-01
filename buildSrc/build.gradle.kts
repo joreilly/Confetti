@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     `embedded-kotlin`
 }
@@ -8,6 +10,7 @@ dependencies {
     implementation(libs.plugin.kotlin)
     implementation(libs.plugin.android.application)
     implementation(libs.plugin.apollo)
+    implementation(libs.apollo.execution.gradle.plugin)
     implementation(libs.plugin.ksp)
     implementation(libs.plugin.kmp.nativecoroutines)
     implementation(libs.plugin.kotlin.serialization)
@@ -25,4 +28,12 @@ dependencies {
     implementation(libs.google.cloud.run)
     implementation(libs.kotlinx.datetime)
     implementation(libs.roborazzi.gradle.plugin)
+}
+
+tasks.withType(JavaCompile::class.java).configureEach {
+    this.options.release.set(17)
+}
+
+tasks.withType(KotlinCompile::class.java).configureEach {
+    this.kotlinOptions.jvmTarget = "17"
 }

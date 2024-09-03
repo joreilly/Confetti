@@ -232,4 +232,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 #noinspection SimilarGradleDependency
 ksp19 = { id = "com.google.devtools.ksp", version.ref = "ksp19" }
 kotlin19 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin19" }
-gratatouille = { id = "com.gradleup.gratatouille", version = "0.0.3" }
+gratatouille = { id = "com.gradleup.gratatouille", version = "0.0.4" }

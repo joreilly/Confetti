@@ -1,7 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    `embedded-kotlin`
+    alias(libs.plugins.kotlin19)
+    alias(libs.plugins.ksp19)
+    alias(libs.plugins.gratatouille)
 }
 
 dependencies {

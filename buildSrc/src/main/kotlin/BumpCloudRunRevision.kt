@@ -1,49 +1,43 @@
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
-import com.google.cloud.run.v2.*
+import com.google.cloud.run.v2.Service
+import com.google.cloud.run.v2.ServiceName
+import com.google.cloud.run.v2.ServicesClient
+import com.google.cloud.run.v2.ServicesSettings
+import gratatouille.GTaskAction
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.gradle.api.DefaultTask
-import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.TaskAction
 import java.io.ByteArrayInputStream
 import java.util.*
 
-abstract class BumpCloudRunRevision : DefaultTask() {
-    @get:Input
-    abstract val serviceName: Property<String>
+@GTaskAction
+fun bumpCloudRunRevision(serviceName: String) {
+    val servicesClient = ServicesClient.create(ServicesSettings.newBuilder()
+        .setCredentialsProvider(
+            GoogleCredentials.fromStream(
+                ByteArrayInputStream(gcpServiceAccountJson.encodeToByteArray())
+            ).let {
+                FixedCredentialsProvider.create(it)
+            }
+        )
+        .build())
 
-    @TaskAction
-    fun taskAction() {
-        val serviceName = serviceName.get()
-        val servicesClient = ServicesClient.create(ServicesSettings.newBuilder()
-            .setCredentialsProvider(
-                GoogleCredentials.fromStream(
-                    ByteArrayInputStream(gcpServiceAccountJson.encodeToByteArray())
-                ).let {
-                    FixedCredentialsProvider.create(it)
-                }
-            )
-            .build())
+    val fullName = ServiceName.of(gcpProjectName, gcpRegion, serviceName).toString()
+    val existingService = servicesClient.getService(fullName)
+    val newService = Service.newBuilder()
+        .setName(fullName)
+        .setTemplate(
+            existingService.template
+                .toBuilder()
+                .setRevision("$serviceName-${revision()}")
+                .build()
+        )
+        .build()
 
-        val fullName = ServiceName.of(gcpProjectName, gcpRegion, serviceName).toString()
-        val existingService = servicesClient.getService(fullName)
-        val newService = Service.newBuilder()
-            .setName(fullName)
-            .setTemplate(
-                existingService.template
-                    .toBuilder()
-                    .setRevision("$serviceName-${revision()}")
-                    .build()
-            )
-            .build()
+    servicesClient.updateServiceAsync(newService).get()
 
-        servicesClient.updateServiceAsync(newService).get()
-
-        servicesClient.close()
-    }
+    servicesClient.close()
 }
 
 /**

@@ -1,4 +1,6 @@
 [versions]
+kotlin19 = "1.9.24"
+ksp19 = "1.9.24-1.0.20"
 kotlin = "2.0.10"
 ksp = "2.0.10-1.0.24"
 kotlinx-coroutines = "1.8.1"
@@ -225,3 +227,9 @@ kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "kmmbridge" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}
+#noinspection SimilarGradleDependency
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+#noinspection SimilarGradleDependency
+ksp19 = { id = "com.google.devtools.ksp", version.ref = "ksp19" }
+kotlin19 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin19" }
+gratatouille = { id = "com.gradleup.gratatouille", version = "0.0.3" }

@@ -153,7 +153,7 @@ kotlin {
                 api(libs.androidx.datastore.preferences)
 
 
-                api("com.mikepenz:multiplatform-markdown-renderer:0.16.0")
+                api("com.mikepenz:multiplatform-markdown-renderer:0.26.0")
             }
         }
 

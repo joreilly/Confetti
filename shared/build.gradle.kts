@@ -98,7 +98,7 @@ kotlin {
                 implementation(libs.coil3.network.ktor)
                 api(libs.materialkolor)
                 api(libs.compose.window.size)
-                implementation("com.mikepenz:multiplatform-markdown-renderer-m3:0.16.0")
+                implementation("com.mikepenz:multiplatform-markdown-renderer-m3:0.26.0")
 
                 api(libs.generativeai)
             }

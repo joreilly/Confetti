@@ -35,5 +35,7 @@ fun HomeRoute(
             onBookmarksClick = {
                 component.onBookmarksClick()
             },
+            addBookmark = { component.addBookmark(it) },
+            removeBookmark = { component.removeBookmark(it) },
         )
 }

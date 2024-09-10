@@ -15,5 +15,7 @@ fun BookmarksRoute(
         sessionSelected = {
             component.onSessionClicked(it)
         },
+        addBookmark = {},
+        removeBookmark = {}
     )
 }

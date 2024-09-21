@@ -10,7 +10,7 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.StorageSettings
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
-import com.russhwolf.settings.serialization.toRuntimeObservable
+import com.russhwolf.settings.observable.makeObservable
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.WasmDateService
@@ -21,7 +21,7 @@ import org.koin.dsl.module
 @OptIn(ExperimentalSettingsApi::class)
 actual fun platformModule() = module {
     single<Authentication> { Authentication.Disabled }
-    single<FlowSettings> {  StorageSettings().toRuntimeObservable().toFlowSettings() }
+    single<FlowSettings> {  StorageSettings().makeObservable().toFlowSettings() }
     singleOf(::WasmDateService) { bind<DateService>() }
     single<FetchPolicy> {
         FetchPolicy.CacheAndNetwork

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
@@ -23,6 +24,8 @@ import dev.johnoreilly.confetti.di.KoinTestApp
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.PreviewContextConfigurationEffect
 import org.junit.After
 import org.junit.Rule
 import org.junit.rules.TestName
@@ -52,6 +55,7 @@ abstract class BaseScreenshotTest(
 
     public open val imageLoader: FakeImageLoaderEngine? = null
 
+    @OptIn(ExperimentalResourceApi::class)
     @ExperimentalCoroutinesApi
     fun takeScreenshot(
         darkTheme: Boolean,
@@ -61,7 +65,11 @@ abstract class BaseScreenshotTest(
     ) = runTest {
         composeRule.setContent {
             TestScaffold {
-                content()
+                CompositionLocalProvider(LocalInspectionMode provides true) {
+                    // https://github.com/robolectric/robolectric/issues/9603
+                    PreviewContextConfigurationEffect() // This sets the context required the compose resources
+                    content()
+                }
             }
         }
 

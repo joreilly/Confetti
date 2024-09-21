@@ -1,6 +1,5 @@
 @file:Suppress("OPT_IN_USAGE")
 import com.codingfeline.buildkonfig.compiler.FieldSpec
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import java.util.Properties
 
 plugins {
@@ -24,7 +23,6 @@ dependencies {
 
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "confetti"
         browser {
@@ -71,11 +69,7 @@ kotlin {
                 implementation(libs.atomicfu)
                 api(libs.kotlinx.datetime)
 
-                // Needed until we can pull in v1.2 with coroutines//wasm support
-                //api(libs.bundles.multiplatform.settings)
-                implementation("com.russhwolf:multiplatform-settings:1.1.1") {
-                    exclude(group = "com.russhwolf", module = "multiplatform-settings-coroutines")
-                }
+                api(libs.bundles.multiplatform.settings)
                 api(libs.koin.core)
                 implementation(libs.koin.compose.multiplatform)
 
@@ -98,7 +92,8 @@ kotlin {
                 implementation(libs.coil3.network.ktor)
                 api(libs.materialkolor)
                 api(libs.compose.window.size)
-                implementation("com.mikepenz:multiplatform-markdown-renderer-m3:0.16.0")
+                api("com.mikepenz:multiplatform-markdown-renderer-m3:0.26.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.5.4")
 
                 api(libs.generativeai)
             }
@@ -141,19 +136,9 @@ kotlin {
 
                 api(libs.androidx.work.runtime.ktx)
 
-                // Needed until we can pull in v1.2 with coroutines//wasm support
-                //api(libs.multiplatform.settings.datastore)
-                api("com.russhwolf:multiplatform-settings-datastore:1.1.1") {
-                    exclude(group = "com.russhwolf", module = "multiplatform-settings-coroutines")
-                }
-
-
-
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
-
-
-                api("com.mikepenz:multiplatform-markdown-renderer:0.16.0")
+                api(libs.multiplatform.settings.datastore)
             }
         }
 
@@ -176,7 +161,6 @@ kotlin {
 
         val wasmJsMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-js:3.0.0-wasm2")
             }
         }
     }

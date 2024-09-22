@@ -85,7 +85,7 @@ spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-s
 spring-webflux = "org.springframework:spring-webflux:6.1.12"
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring" }
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
-ktor-server-netty = "io.ktor:ktor-server-netty:2.3.11"
+ktor-server-netty = "io.ktor:ktor-server-netty:2.3.12"
 apollo-annotations = { module = "com.apollographql.apollo:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo:apollo-tooling", version.ref = "apollo" }
 apollo-testing = { module = "com.apollographql.apollo:apollo-testing-support" }

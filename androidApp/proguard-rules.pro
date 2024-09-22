@@ -12,4 +12,6 @@
 -keep class dev.johnoreilly.confetti.wear.proto.** { *; }
 -keep class androidx.car.app.** { *; }
 
+-keep class com.google.firebase.** { *; }
+
 -dontwarn okhttp3.internal.Util

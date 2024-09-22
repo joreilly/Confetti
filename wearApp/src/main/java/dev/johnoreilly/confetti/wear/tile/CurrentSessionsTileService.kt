@@ -51,7 +51,7 @@ class CurrentSessionsTileService : SuspendingTileService() {
         }
 
         val seedColor = repository.getConferenceThemeColor().toColor()
-        renderer.colors.value = dynamicColorScheme(seedColor = seedColor, isDark = true).toWearMaterialColors()
+        renderer.colors.value = dynamicColorScheme(seedColor = seedColor, isAmoled = false, isDark = true).toWearMaterialColors()
 
         val responseData = repository.bookmarkedSessionsQuery(
             conference, user?.uid, user, FetchPolicy.CacheOnly

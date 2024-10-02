@@ -679,6 +679,19 @@ object Sessionize {
     }
 
 
+    suspend fun importDroidconLondon2024(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/3mv3elsd/view/All"),
+            config = DConfig(
+                id = ConferenceId.DroidConLondon2024.id,
+                name = "droidcon London 2024",
+                timeZone = "Europe/London",
+                themeColor = "0xFF75E1C6"
+            ),
+            venue = businessDesignCenter,
+        )
+    }
+
     internal fun writeData(
         sessionizeData: SessionizeData,
         config: DConfig,

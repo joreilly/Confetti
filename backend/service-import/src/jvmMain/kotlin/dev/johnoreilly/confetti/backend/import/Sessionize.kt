@@ -11,8 +11,11 @@ import dev.johnoreilly.confetti.backend.datastore.DSession
 import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
@@ -681,7 +684,7 @@ object Sessionize {
 
     suspend fun importDroidconLondon2024(): Int {
         return writeData(
-            getData("https://sessionize.com/api/v2/3mv3elsd/view/All"),
+            getData(url = "https://sessionize.com/api/v2/3mv3elsd/view/All", zoneId = "Europe/London"),
             config = DConfig(
                 id = ConferenceId.DroidConLondon2024.id,
                 name = "droidcon London 2024",
@@ -708,13 +711,28 @@ object Sessionize {
         )
     }
 
+    private fun String.toLocalDateTime(zoneId: String?): LocalDateTime {
+        return if (this.endsWith("Z")) {
+            /*
+             * Sessionize has a "use UTC timezone for schedule" that we need to accommodate
+             */
+            require(zoneId != null) {
+                "Sessionize was configured with UTC times and you need to pass a zoneId to convert it to a local time"
+            }
+            Instant.parse(this).toLocalDateTime(TimeZone.of(zoneId))
+        } else {
+            LocalDateTime.parse(this)
+        }
+    }
+
     /**
      * @param gridSmartUrl extra json to get the service sessions from. The service sessions are not always in the View/All url
      */
     private suspend fun getData(
         url: String,
         gridSmartUrl: String? = null,
-        linksFor: suspend ((String) -> List<DLink>) = { emptyList() }
+        linksFor: suspend ((String) -> List<DLink>) = { emptyList() },
+        zoneId: String? = null,
     ): SessionizeData {
         val data = getJsonUrl(url)
 
@@ -728,9 +746,9 @@ object Sessionize {
             }.toMap()
 
 
-        var sessions = getSessions(data!!, categories, linksFor)
+        var sessions = getSessions(data!!, categories, zoneId, linksFor)
         if (gridSmartUrl != null) {
-            sessions = sessions + getServiceSessions(gridSmartUrl, categories, linksFor)
+            sessions = sessions + getServiceSessions(gridSmartUrl, categories, linksFor, zoneId)
         }
 
         var rooms = data.asMap["rooms"].asList.map { it.asMap }.map {
@@ -771,7 +789,8 @@ object Sessionize {
     private suspend fun getServiceSessions(
         gridSmart: String,
         categories: Map<Any?, Any?>,
-        linksFor: suspend (String) -> List<DLink>
+        linksFor: suspend (String) -> List<DLink>,
+        zoneId: String?,
     ): List<DSession> {
         val data = getJsonUrl(gridSmart)
 
@@ -800,8 +819,8 @@ object Sessionize {
                     title = it.get("title").asString,
                     description = it.get("description")?.asString,
                     language = tags.toLanguage(),
-                    start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
-                    end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
+                    start = it.get("startsAt").asString.toLocalDateTime(zoneId),
+                    end = it.get("endsAt").asString.toLocalDateTime(zoneId),
                     complexity = null,
                     feedbackId = null,
                     tags = tags,
@@ -817,6 +836,7 @@ object Sessionize {
     private suspend fun getSessions(
         data: Any,
         categories: Map<Any?, Any?>,
+        zoneId: String?,
         linksFor: suspend (String) -> List<DLink>
     ): List<DSession> {
         return data.asMap["sessions"].asList.map {
@@ -837,8 +857,8 @@ object Sessionize {
                 title = it.get("title").asString,
                 description = it.get("description")?.asString,
                 language = tags.toLanguage(),
-                start = it.get("startsAt").asString.let { LocalDateTime.parse(it) },
-                end = it.get("endsAt").asString.let { LocalDateTime.parse(it) },
+                start = it.get("startsAt").asString.toLocalDateTime(zoneId),
+                end = it.get("endsAt").asString.toLocalDateTime(zoneId),
                 complexity = null,
                 feedbackId = null,
                 tags = tags,

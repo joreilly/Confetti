@@ -3,19 +3,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.SessionDetailViewShared
+import dev.johnoreilly.confetti.ui.SessionDetailsPreview
 
 class ScreenshotTest {
 
     @Preview(showBackground = true)
     @Composable
-    fun SessionDetailsPreview() {
-        MaterialTheme {
-            SessionDetailViewShared(
-                conference = "kotlinconf2023",
-                session = sessionDetails,
-                onSpeakerClick = {},
-                onSocialLinkClicked = {}
-            )
-        }
+    fun SessionDetailsScreenshotPreview() {
+        SessionDetailsPreview()
     }
 }

@@ -1,0 +1,19 @@
+package dev.johnoreilly.confetti.ui
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import dev.johnoreilly.confetti.preview.sessionDetails
+
+@Preview
+@Composable
+fun SessionDetailsPreview() {
+    MaterialTheme {
+        SessionDetailViewShared(
+            conference = "kotlinconf2023",
+            session = sessionDetails,
+            onSpeakerClick = {},
+            onSocialLinkClicked = {}
+        )
+    }
+}

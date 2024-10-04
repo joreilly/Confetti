@@ -123,6 +123,7 @@ kotlin {
                 implementation(libs.okhttp)
                 implementation(libs.okhttp.coroutines)
                 implementation(libs.okhttp.logging.interceptor)
+                implementation(libs.compose.ui.tooling)
                 api(libs.coil.base)
                 api(libs.koin.android)
                 api(libs.koin.compose.multiplatform)

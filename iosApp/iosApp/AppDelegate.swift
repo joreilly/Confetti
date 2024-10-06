@@ -9,8 +9,8 @@
 import SwiftUI
 import ConfettiKit
 
+
 class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
-    
     private var applicationLifecycle: ApplicationLifecycle
     @Published var appComponent: AppComponent
     
@@ -20,8 +20,24 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
         applicationLifecycle = ApplicationLifecycle()
         appComponent = DefaultAppComponent(
             componentContext: DefaultComponentContext(lifecycle: applicationLifecycle),
-            onSignOut: {},
-            onSignIn: {},
+            onSignOut: {
+                Task {
+                    do {
+                        try await Authentication().logout()
+                    } catch let e {
+                        print("Exception logging out, \(e)")
+                    }
+                }
+            },
+            onSignIn: {
+                Task {
+                    do {
+                        try await Authentication().googleOauth()
+                    } catch AuthenticationError.runtimeError(let errorMessage) {
+                        print("Exception logging in, \(errorMessage)")
+                    }
+                }
+            },
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,
             initialConferenceId: nil,
             settingsComponent: nil

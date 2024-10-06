@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseCore
 import ConfettiKit
 import BackgroundTasks
 
@@ -9,6 +10,11 @@ struct iOSApp: App {
 
     @UIApplicationDelegateAdaptor(AppDelegate.self)
     var appDelegate: AppDelegate
+    
+    init() {
+        // Firebase initialization
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {

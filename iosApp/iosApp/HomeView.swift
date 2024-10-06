@@ -1,14 +1,19 @@
 import SwiftUI
+import GoogleSignIn
 import ConfettiKit
+import FirebaseCore
+import FirebaseAuth
 
 struct HomeView: View {
     private let component: HomeComponent
+    private let userLoggedIn: Bool
     
     @StateValue
     private var stack: ChildStack<AnyObject, HomeComponentChild>
     
-    init(_ component: HomeComponent) {
+    init(_ component: HomeComponent, _ userLoggedIn: Bool) {
         self.component = component
+        self.userLoggedIn = userLoggedIn
         _stack = StateValue(component.stack)
     }
     
@@ -47,6 +52,11 @@ struct HomeView: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button("Switch Conference", action: component.onSwitchConferenceClicked)
+                    if (userLoggedIn) {
+                        Button("Sign out", action: component.onSignOutClicked)
+                    } else {
+                        Button("Sign in", action: component.onSignInClicked)
+                    }
                     if (component.isGeminiEnabled()) {
                         Button("Recommendations", action: component.onGetRecommendationsClicked)
                     }

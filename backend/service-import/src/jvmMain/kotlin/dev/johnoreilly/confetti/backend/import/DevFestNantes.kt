@@ -278,7 +278,7 @@ class DevFestNantes(
                     }
                     DLink(key = it.key, url = url)
                 },
-                photoUrl = speaker.get("photoUrl")?.asString?.let { "${baseUrl}src$it" },
+                photoUrl = speaker.get("photoUrl")?.asString?.let { "${baseUrl}static$it" },
                 companyLogoUrl = speaker.get("companyLogo")?.asString?.let { "${baseUrl}src$it" },
                 city = speaker.get("city")?.asString,
             )

@@ -1,5 +1,5 @@
 import SwiftUI
-import MarkdownUI
+//import MarkdownUI
 import ConfettiKit
 
 struct RecommendationsView: View {

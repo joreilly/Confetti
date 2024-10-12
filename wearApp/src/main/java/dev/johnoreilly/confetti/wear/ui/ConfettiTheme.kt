@@ -17,7 +17,7 @@ fun ConfettiTheme(
     content: @Composable () -> Unit,
 ) {
     val colors = if (seedColor != null) {
-        val colorScheme = rememberDynamicColorScheme(seedColor = seedColor, isDark = true)
+        val colorScheme = rememberDynamicColorScheme(seedColor = seedColor, isDark = true, isAmoled = false)
         colorScheme.toWearMaterialColors()
     } else {
         Colors()

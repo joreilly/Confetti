@@ -41,8 +41,9 @@ fun ConferenceMaterialTheme(
             }
         }
         val colorScheme = rememberDynamicColorScheme(
-            seedColor,
-            shouldUseDarkTheme
+            primary = seedColor,
+            isDark = shouldUseDarkTheme,
+            isAmoled = false
         )
 
         MaterialTheme(colorScheme = colorScheme) {

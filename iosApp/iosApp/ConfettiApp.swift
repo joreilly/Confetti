@@ -11,8 +11,6 @@ struct ConfettiApp: View {
     @StateValue
     private var stack: ChildStack<AnyObject, AppComponentChild>
     
-    @State private var userLoggedIn = (Auth.auth().currentUser != nil)
-    
     init(_ component: AppComponent) {
         self.component = component
         _stack = StateValue(component.stack)
@@ -25,7 +23,7 @@ struct ConfettiApp: View {
             switch stack.active.instance {
             case is AppComponentChild.Loading: ProgressView()
             case let child as AppComponentChild.Conferences: ConferencesView(child.component)
-            case let child as AppComponentChild.Conference: ConferenceView(child.component, userLoggedIn)
+            case let child as AppComponentChild.Conference: ConferenceView(child.component)
             default: EmptyView()
             }
         }.onOpenURL{ url in
@@ -35,12 +33,10 @@ struct ConfettiApp: View {
             //Firebase state change listeneer
             Auth.auth().addStateDidChangeListener{ auth, user in
                 if let user {
-                    userLoggedIn = true
                     print("user logged in")
                     let confettiUser = NativeTokenProvider(user: user)
                     component.setUser(user: confettiUser)
                 } else {
-                    userLoggedIn = false
                     print("user logged out")
                     component.setUser(user: nil)
                 }

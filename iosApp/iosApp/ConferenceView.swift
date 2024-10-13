@@ -3,14 +3,12 @@ import ConfettiKit
 
 struct ConferenceView: View {
     private let component: ConferenceComponent
-    private let userLoggedIn: Bool
     
     @StateValue
     private var stack: ChildStack<AnyObject, ConferenceComponentChild>
     
-    init(_ component: ConferenceComponent, _ userLoggedIn: Bool) {
+    init(_ component: ConferenceComponent) {
         self.component = component
-        self.userLoggedIn = userLoggedIn
         _stack = StateValue(component.stack)
     }
     
@@ -20,7 +18,7 @@ struct ConferenceView: View {
             onBack: component.onBackClicked
         ) { child in
             switch child {
-            case let child as ConferenceComponentChild.Home: HomeView(child.component, userLoggedIn)
+            case let child as ConferenceComponentChild.Home: HomeView(child.component)
             case let child as ConferenceComponentChild.SessionDetails: SessionDetailsView(child.component, component.conferenceThemeColor)
             case let child as ConferenceComponentChild.SpeakerDetails: SpeakerDetailsView(child.component)
             default: EmptyView()

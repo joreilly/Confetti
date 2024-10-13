@@ -6,14 +6,12 @@ import FirebaseAuth
 
 struct HomeView: View {
     private let component: HomeComponent
-    private let userLoggedIn: Bool
     
     @StateValue
     private var stack: ChildStack<AnyObject, HomeComponentChild>
     
-    init(_ component: HomeComponent, _ userLoggedIn: Bool) {
+    init(_ component: HomeComponent) {
         self.component = component
-        self.userLoggedIn = userLoggedIn
         _stack = StateValue(component.stack)
     }
     
@@ -52,7 +50,7 @@ struct HomeView: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button("Switch Conference", action: component.onSwitchConferenceClicked)
-                    if (userLoggedIn) {
+                    if (component.user != nil) {
                         Button("Sign out", action: component.onSignOutClicked)
                     } else {
                         Button("Sign in", action: component.onSignInClicked)
@@ -61,7 +59,18 @@ struct HomeView: View {
                         Button("Recommendations", action: component.onGetRecommendationsClicked)
                     }
                 } label: {
-                    Image(systemName: "gearshape")
+                    if let photoUrl = component.user?.photoUrl {
+                        AsyncImage(url: URL(string: photoUrl), content: { image in
+                            image.resizable()
+                        }, placeholder: {
+                            ProgressView()
+                        })
+                        .frame(width: 32, height: 32)
+                        .clipShape(Circle())
+                    } else {
+                        Image(systemName: "person.crop.circle")
+                            .frame(width: 32, height: 32)
+                    }
                 }
             }
         }

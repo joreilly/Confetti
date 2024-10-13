@@ -51,7 +51,6 @@ import dev.johnoreilly.confetti.ui.icons.Bolt
 import dev.johnoreilly.confetti.ui.icons.Bookmark
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SessionListGridView(
     uiState: SessionsUiState,
@@ -240,7 +239,6 @@ fun SessionGridRow(
 }
 
 @Composable
-@OptIn(ExperimentalLayoutApi::class)
 private fun Speakers(conference: String, session: SessionDetails) {
     session.speakers.forEach { speaker ->
         Row(

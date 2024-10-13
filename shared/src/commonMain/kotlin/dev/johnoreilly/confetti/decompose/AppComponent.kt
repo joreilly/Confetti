@@ -22,6 +22,8 @@ import org.koin.core.component.inject
 interface AppComponent {
     val stack: Value<ChildStack<*, Child>>
 
+    fun setUser(user: User?)
+
     sealed class Child {
         object Loading : Child()
         class Conferences(val component: ConferencesComponent) : Child()
@@ -43,7 +45,7 @@ class DefaultAppComponent(
     private val repository: ConfettiRepository by inject()
     private val navigation = StackNavigation<Config>()
 
-    private val user: User? get() = authentication.currentUser.value
+    private var user: User? = null
 
     override val stack: Value<ChildStack<*, Child>> =
         childStack(
@@ -70,13 +72,12 @@ class DefaultAppComponent(
                 }
             }
         }
+    }
 
-        coroutineScope.launch {
-            authentication.currentUser
-                .map { it?.uid }
-                .distinctUntilChanged()
-                .collect(::onUserChanged)
-        }
+
+    override fun setUser(user: User?) {
+        this.user = user
+        onUserChanged(user?.uid)
     }
 
     private suspend fun selectAndNavigateToDeepLinkedConference(conferenceId: String) {
@@ -118,7 +119,7 @@ class DefaultAppComponent(
                 Child.Conference(
                     DefaultConferenceComponent(
                         componentContext = componentContext,
-                        user = authentication.currentUser.value,
+                        user = user, 
                         conference = config.conference,
                         conferenceThemeColor = config.conferenceThemeColor,
                         isMultiPane = isMultiPane,

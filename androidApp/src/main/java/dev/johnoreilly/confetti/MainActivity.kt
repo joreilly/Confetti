@@ -35,6 +35,8 @@ import dev.johnoreilly.confetti.settings.DefaultSettingsComponent
 import dev.johnoreilly.confetti.ui.ConfettiApp
 import dev.johnoreilly.confetti.ui.ConfettiTheme
 import dev.johnoreilly.confetti.ui.component.ConfettiBackground
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -84,6 +86,13 @@ class MainActivity : ComponentActivity() {
                 appComponent to settingsComponent
             } ?: return
 
+
+        lifecycleScope.launch {
+            authentication.currentUser
+                .collect {
+                    appComponent.first.setUser(it)
+                }
+        }
 
         // Update the theme settings
         lifecycleScope.launch {

@@ -5,7 +5,7 @@ import GoogleSignIn
 
 struct Authentication {
     @MainActor
-    func googleOauth() async throws {
+    func googleOauth() async throws -> User {
         // google sign in
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             fatalError("no firbase clientID found")
@@ -35,7 +35,8 @@ struct Authentication {
         let credential = GoogleAuthProvider.credential(
             withIDToken: idToken, accessToken: user.accessToken.tokenString
         )
-        try await Auth.auth().signIn(with: credential)
+        let authResult = try await Auth.auth().signIn(with: credential)
+        return authResult.user
     }
     
     func logout() async throws {

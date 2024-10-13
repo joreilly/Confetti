@@ -154,6 +154,9 @@ class ConfettiRepository : KoinComponent {
         tokenProvider: TokenProvider?,
         fetchPolicy: FetchPolicy
     ): ApolloCall<GetBookmarkedSessionsQuery.Data> {
+
+        println("JFOR, bookmarkedSessionsQuery, uid = $uid")
+
         return apolloClientCache.getClient(conference, uid).query(GetBookmarkedSessionsQuery())
             .tokenProvider(tokenProvider)
             .fetchPolicy(fetchPolicy)

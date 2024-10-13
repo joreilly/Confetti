@@ -58,11 +58,23 @@ private struct SessionsContentView: View {
                                                     
                         let sessions = sessionUiState.sessionsByStartTimeList[selectedDateIndex][key] ?? []
                         ForEach(sessions, id: \.self) { session in
-                            SessionView(session: session)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .contentShape(Rectangle())
-                                .onTapGesture { component.onSessionClicked(id: session.id) }
-                                .listRowBackground(session.id == sessionUiState.selectedSessionId ? Color(.systemFill) : Color(uiColor: .systemBackground))
+                            SessionView(
+                                session: session,
+                                isBookmarked: sessionUiState.bookmarks.contains(session.id),
+                                addBookmark: {
+                                    component.addBookmark(sessionId: session.id)
+                                },
+                                removeBookmark: {
+                                    component.removeBookmark(sessionId: session.id)
+                                },
+                                isLoggedIn: component.isLoggedIn
+                            )
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                component.onSessionClicked(id: session.id)
+                            }
+                            .listRowBackground(session.id == sessionUiState.selectedSessionId ? Color(.systemFill) : Color(uiColor: .systemBackground))
                         }
                     }
                     
@@ -85,21 +97,41 @@ private struct SessionsContentView: View {
 
 private struct SessionView: View {
     var session: SessionDetails
-    
+    var isBookmarked: Bool
+    var addBookmark: () -> Void
+    var removeBookmark: () -> Void
+    let isLoggedIn: Bool
+
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(session.title).font(.headline)
-            if session.room != nil {
-                Text(session.sessionSpeakers() ?? "").font(.subheadline)
-                Text(session.room?.name ?? "").font(.subheadline).foregroundColor(.gray)
+        HStack {
+            VStack(alignment: .leading) {
+                Text(session.title).font(.headline)
+                if session.room != nil {
+                    Text(session.sessionSpeakers() ?? "").font(.subheadline)
+                    Text(session.room?.name ?? "").font(.subheadline).foregroundColor(.gray)
+                }
+                if session.isLightning() {
+                    Text("Lightning / \(session.startsAt.time)-\(session.endsAt.time)")
+                        .colorInvert()
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.primary)
+                        .cornerRadius(8)
+                }
             }
-            if session.isLightning() {
-                Text("Lightning / \(session.startsAt.time)-\(session.endsAt.time)")
-                    .colorInvert()
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.primary)
-                    .cornerRadius(8)
+            
+            if (isLoggedIn) {
+                Spacer()
+                
+                Button(action: {}, label: {
+                    isBookmarked ? Image(systemName: "bookmark.fill") : Image(systemName: "bookmark")
+                }).onTapGesture {
+                    if (isBookmarked) {
+                        removeBookmark()
+                    } else {
+                        addBookmark()
+                    }
+                }
             }
         }
     }

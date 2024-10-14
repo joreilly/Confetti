@@ -485,7 +485,7 @@ class DevFestNantes(
 private fun String.toDuration(): Duration? {
     return when(this) {
         "quickie" -> 20.minutes
-        "conference" -> 40.minutes
+        "conference" -> 50.minutes
         "codelab" -> 120.minutes
         else -> {
             println("Unknown type: $this")

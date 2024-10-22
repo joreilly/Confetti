@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.Text
 
 @Composable
 fun ThemeSwatches(seedColor: Theme) {
@@ -15,48 +15,48 @@ fun ThemeSwatches(seedColor: Theme) {
         Column {
             Text(
                 text = "onPrimary / primary",
-                color = MaterialTheme.colors.onPrimary,
-                modifier = Modifier.background(MaterialTheme.colors.primary)
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.background(MaterialTheme.colorScheme.primary)
             )
             Text(
                 text = "onPrimary / primaryVariant",
-                color = MaterialTheme.colors.onPrimary,
-                modifier = Modifier.background(MaterialTheme.colors.primaryVariant)
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.background(MaterialTheme.colorScheme.primaryDim)
             )
             Text(
                 text = "onSecondary / secondary",
-                color = MaterialTheme.colors.onSecondary,
-                modifier = Modifier.background(MaterialTheme.colors.secondary)
+                color = MaterialTheme.colorScheme.onSecondary,
+                modifier = Modifier.background(MaterialTheme.colorScheme.secondary)
             )
             Text(
                 text = "onSecondary / secondaryVariant",
-                color = MaterialTheme.colors.onSecondary,
-                modifier = Modifier.background(MaterialTheme.colors.secondaryVariant)
+                color = MaterialTheme.colorScheme.onSecondary,
+                modifier = Modifier.background(MaterialTheme.colorScheme.secondaryDim)
             )
             Text(
                 text = "onSurface / surface",
-                color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.background(MaterialTheme.colors.surface)
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)
             )
             Text(
                 text = "onSurfaceVariant / surface",
-                color = MaterialTheme.colors.onSurfaceVariant,
-                modifier = Modifier.background(MaterialTheme.colors.surface)
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerLow)
             )
             Text(
                 text = "onSurfaceVariant / surface",
-                color = MaterialTheme.colors.onSurfaceVariant,
-                modifier = Modifier.background(MaterialTheme.colors.surface)
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHigh)
             )
             Text(
                 text = "onBackground / background",
-                color = MaterialTheme.colors.onBackground,
-                modifier = Modifier.background(MaterialTheme.colors.background)
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.background(MaterialTheme.colorScheme.background)
             )
             Text(
                 text = "onError / error",
-                color = MaterialTheme.colors.onError,
-                modifier = Modifier.background(MaterialTheme.colors.error)
+                color = MaterialTheme.colorScheme.onError,
+                modifier = Modifier.background(MaterialTheme.colorScheme.error)
             )
         }
     }

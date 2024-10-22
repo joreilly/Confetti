@@ -15,6 +15,7 @@ pluginManagement {
                 content {
                 }
             }
+            maven(url = uri("https://androidx.dev/snapshots/builds/12534296/artifacts/repository/"))
         }
     }
 

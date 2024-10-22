@@ -4,17 +4,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.padding
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
@@ -30,18 +26,15 @@ import java.time.LocalDateTime
 fun BookmarksScreen(
     uiState: QueryResult<BookmarksUiState>,
     sessionSelected: (String) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
 ) {
-    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
-        contentPadding = padding(
-            first = ItemType.Text,
-            last = ItemType.Card
-        )
-    )
+    val columnState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
+        TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
-            columnState = columnState,
+            state = columnState,
         ) {
             when (uiState) {
                 is QueryResult.Success -> {
@@ -53,7 +46,10 @@ fun BookmarksScreen(
                             sessionSelected = {
                                 sessionSelected(it)
                             },
-                            currentTime = uiState.result.now
+                            currentTime = uiState.result.now,
+                            isBookmarked = true,
+                            addBookmark = {},
+                            removeBookmark = {}
                         )
                     }
 
@@ -61,7 +57,6 @@ fun BookmarksScreen(
                         item {
                             Text(
                                 stringResource(id = R.string.no_upcoming),
-                                modifier = Modifier.listTextPadding()
                             )
                         }
                     }
@@ -73,7 +68,11 @@ fun BookmarksScreen(
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
-                            }, currentTime = uiState.result.now
+                            },
+                            currentTime = uiState.result.now,
+                            isBookmarked = true,
+                            addBookmark = {},
+                            removeBookmark = {}
                         )
                     }
 
@@ -81,7 +80,6 @@ fun BookmarksScreen(
                         item {
                             Text(
                                 stringResource(id = R.string.no_past),
-                                modifier = Modifier.listTextPadding()
                             )
                         }
                     }
@@ -110,6 +108,8 @@ fun BookmarksPreview() {
                 )
             ),
             sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 }

@@ -4,18 +4,16 @@ package dev.johnoreilly.confetti.wear.sessions
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import androidx.wear.compose.material3.ScreenScaffold
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
+import dev.johnoreilly.confetti.wear.home.transformingListPadding
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import kotlinx.datetime.toKotlinLocalDateTime
@@ -24,18 +22,16 @@ import kotlinx.datetime.toKotlinLocalDateTime
 fun SessionsScreen(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
 ) {
-    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ItemType.Text,
-            last = ItemType.Card
-        )
-    )
+    val columnState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
+        TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
-            columnState = columnState,
+            state = columnState,
+            contentPadding = transformingListPadding(),
         ) {
             when (uiState) {
                 is SessionsUiState.Success -> {
@@ -52,7 +48,10 @@ fun SessionsScreen(
                                 sessionSelected = {
                                     sessionSelected(it)
                                 },
-                                uiState.now
+                                uiState.now,
+                                isBookmarked = uiState.bookmarks.contains(session.id),
+                                addBookmark = addBookmark,
+                                removeBookmark = removeBookmark,
                             )
                         }
                     }
@@ -95,6 +94,8 @@ fun SessionListViewPreview() {
                 selectedSessionId = null,
             ),
             sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 

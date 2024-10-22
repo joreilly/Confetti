@@ -1,15 +1,15 @@
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
-import androidx.wear.compose.material.Colors
-import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material3.ColorScheme
+import androidx.wear.compose.material3.MaterialTheme
 
 @Composable
 fun ConfettiThemeFixed(
-    colors: Colors = Colors(),
+    colors: ColorScheme = ColorScheme(),
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(colors = colors, typography = MaterialTheme.typography.withPlatformStyle()) {
+    MaterialTheme(colorScheme = colors, typography = MaterialTheme.typography) {
         content()
     }
 }

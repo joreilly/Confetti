@@ -4,15 +4,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.Text
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.ScreenScaffold
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
@@ -27,17 +23,12 @@ fun SessionDetailView(
 ) {
     val timeFormatter = remember { DateTimeFormatter.ofPattern("eeee HH:mm") }
 
-    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ItemType.Text,
-            last = ItemType.Chip
-        )
-    )
+    val columnState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
+        TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
-            columnState = columnState
+            state = columnState,
         ) {
             when (uiState) {
                 is SessionDetailsUiState.Success -> {
@@ -54,14 +45,12 @@ fun SessionDetailView(
                         }
                         Text(
                             time,
-                            modifier = Modifier.listTextPadding()
                         )
                     }
 
                     items(description) {
                         Text(
                             text = it,
-                            modifier = Modifier.listTextPadding()
                         )
                     }
 

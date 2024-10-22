@@ -2,15 +2,16 @@ package dev.johnoreilly.confetti.wear.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.wear.compose.material.ChipDefaults
-import androidx.wear.compose.material.CircularProgressIndicator
-import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.material3.Icon
 import coil.compose.SubcomposeAsyncImage
-import com.google.android.horologist.compose.material.Chip
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
@@ -27,9 +28,8 @@ fun SessionSpeakerChip(
     speaker: SpeakerDetails,
     navigateToSpeaker: (String) -> Unit
 ) {
-    Chip(
+    Button(
         modifier = modifier,
-        label = speaker.fullNameAndCompany(),
         icon = {
             SubcomposeAsyncImage(
                 model = speaker.wearPhotoUrl,
@@ -42,18 +42,24 @@ fun SessionSpeakerChip(
                         imageVector = ConfettiIcons.Person,
                         contentDescription = speaker.name,
                         modifier = Modifier
-                            .size(ChipDefaults.LargeIconSize)
+                            .size(ButtonDefaults.LargeIconSize)
                             .clip(CircleShape),
                     )
                 },
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .size(ChipDefaults.LargeIconSize)
+                    .size(ButtonDefaults.LargeIconSize)
                     .clip(CircleShape)
             )
         },
-        secondaryLabel = speaker.tagline,
+        secondaryLabel = speaker.tagline?.let {
+            {
+                Text(it)
+            }
+        },
         onClick = { navigateToSpeaker(speaker.id) }
-    )
+    ) {
+        Text(speaker.fullNameAndCompany())
+    }
 }
 

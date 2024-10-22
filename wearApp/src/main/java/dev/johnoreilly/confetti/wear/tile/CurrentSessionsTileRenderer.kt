@@ -3,34 +3,25 @@
 package dev.johnoreilly.confetti.wear.tile
 
 import android.content.Context
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
-import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.wear.protolayout.ActionBuilders.LoadAction
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ModifiersBuilders.Clickable
+import androidx.wear.protolayout.TypeBuilders.StringProp
 import androidx.wear.protolayout.material.Chip
 import androidx.wear.protolayout.material.ChipColors
-import androidx.wear.protolayout.material.CompactChip
-import androidx.wear.protolayout.material.Text
-import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_BODY1
-import androidx.wear.protolayout.material.Typography.TYPOGRAPHY_TITLE2
 import androidx.wear.protolayout.material.layouts.MultiSlotLayout
-import androidx.wear.protolayout.material.layouts.PrimaryLayout
+import androidx.wear.protolayout.material3.*
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.NoConference
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.NotLoggedIn
-import dev.johnoreilly.confetti.wear.ui.toTileColors
 import kotlinx.coroutines.flow.MutableStateFlow
-import androidx.wear.compose.material.Colors as WearComposeColors
+import androidx.wear.compose.material3.ColorScheme as WearComposeColors
 
 class CurrentSessionsTileRenderer(
     context: Context
@@ -38,17 +29,21 @@ class CurrentSessionsTileRenderer(
     SingleTileLayoutRenderer<ConfettiTileData, ConfettiTileData>(context) {
     val colors = MutableStateFlow(WearComposeColors())
 
-    override fun createTheme(): androidx.wear.protolayout.material.Colors =
-        colors.value.toTileColors()
+    // TODO
+//    override fun createTheme(): androidx.wear.protolayout.material.Colors =
+//        colors.value.toTileColors()
 
     override fun renderTile(
         state: ConfettiTileData,
         deviceParameters: DeviceParameters
-    ): LayoutElementBuilders.LayoutElement = when (state) {
-        is CurrentSessionsData -> renderBookmarksTile(state, deviceParameters)
-        is NotLoggedIn -> renderLoginTile(state, deviceParameters)
-        is NoConference -> renderNoConferenceTile(state, deviceParameters)
-    }
+    ): LayoutElementBuilders.LayoutElement =
+        materialScope(context, deviceParameters) {
+            when (state) {
+                is CurrentSessionsData -> renderBookmarksTile(state)
+                is NotLoggedIn -> renderLoginTile(state)
+                is NoConference -> renderNoConferenceTile()
+            }
+        }
 
     override fun getResourcesVersionForTileState(state: ConfettiTileData): String {
         return (state as? CurrentSessionsData)?.bookmarks.orEmpty()
@@ -56,108 +51,83 @@ class CurrentSessionsTileRenderer(
             .joinToString(":") { it.id }
     }
 
-    fun renderBookmarksTile(
+    fun MaterialScope.renderBookmarksTile(
         state: CurrentSessionsData,
-        deviceParameters: DeviceParameters
-    ): LayoutElementBuilders.LayoutElement = PrimaryLayout.Builder(deviceParameters)
-        .setPrimaryLabelTextContent(
-            conferenceLabel(state.conference.name)
-        )
-        .setContent(
-            sessionsList(state, state.bookmarks, deviceParameters)
-        )
-        .setPrimaryChipContent(
-            CompactChip.Builder(
-                context,
-                "Bookmarks",
-                browseClickable(state.conference.id),
-                deviceParameters
-            )
-                .setChipColors(ChipColors.primaryChipColors(theme))
-                .build()
-        )
-        .setResponsiveContentInsetEnabled(true)
-        .build()
+    ): LayoutElementBuilders.LayoutElement = primaryLayout(
+        mainSlot = {
+            sessionsList(state, state.bookmarks)
+        },
+        titleSlot = { conferenceLabel(state.conference.name) },
+        bottomSlot = {
+            textEdgeButton(
+                onClick = browseClickable(state.conference.id),
+                contentDescription = string("Bookmarks"),
+                labelContent = { text(string("Bookmarks")) })
+        })
 
-    fun renderLoginTile(
+    fun MaterialScope.renderLoginTile(
         state: NotLoggedIn,
-        deviceParameters: DeviceParameters
-    ): LayoutElementBuilders.LayoutElement = PrimaryLayout.Builder(deviceParameters)
-        .setPrimaryLabelTextContent(
-            conferenceLabel(state.conference?.name ?: "Confetti")
-        )
-        .setContent(
-            message("Not Logged In")
-        )
-        .setPrimaryChipContent(
-            CompactChip.Builder(
-                context,
-                "Login",
-                loginClickable(),
-                deviceParameters
-            )
-                .setChipColors(ChipColors.primaryChipColors(theme))
-                .build()
-        )
-        .setResponsiveContentInsetEnabled(true)
-        .build()
+    ): LayoutElementBuilders.LayoutElement = primaryLayout(
+        mainSlot = {
+            text(string("Not Logged In"))
+        },
+        titleSlot = { conferenceLabel(state.conference?.name ?: "Confetti") },
+        bottomSlot = {
+            textEdgeButton(
+                onClick = loginClickable(),
+                contentDescription = string("Login"),
+                labelContent = { text(string("Login")) })
+        })
 
-    fun renderNoConferenceTile(
-        state: NoConference,
-        deviceParameters: DeviceParameters
-    ): LayoutElementBuilders.LayoutElement = PrimaryLayout.Builder(deviceParameters)
-        .setPrimaryLabelTextContent(
-            conferenceLabel("Confetti")
-        )
-        .setContent(
-            message("No Conference Selected")
-        )
-        .setPrimaryChipContent(
-            CompactChip.Builder(
-                context,
-                "Conferences",
-                conferencesClickable(),
-                deviceParameters
-            )
-                .setChipColors(ChipColors.primaryChipColors(theme))
-                .build()
-        )
-        .setResponsiveContentInsetEnabled(true)
-        .build()
+    fun MaterialScope.renderNoConferenceTile(
+    ): LayoutElementBuilders.LayoutElement = primaryLayout(
+        mainSlot = {
+            text(string("No Conference Selected"))
+        },
+        titleSlot = { conferenceLabel("Confetti") },
+        bottomSlot = {
+            textEdgeButton(
+                onClick = conferencesClickable(),
+                contentDescription = string("Conferences"),
+                labelContent = { text(string("Conferences")) })
+        })
 
-    fun conferenceLabel(state: String) = Text.Builder(context, state)
-        .setTypography(TYPOGRAPHY_TITLE2)
-        .setColor(ColorBuilders.argb(theme.primary))
-        .setMaxLines(2)
-        .build()
+    fun MaterialScope.conferenceLabel(state: String) =
+        text(string(state), typography = Typography.TITLE_MEDIUM, color = color(theme.primary), maxLines = 2)
 
-    fun message(state: String) = Text.Builder(context, state)
-        .setTypography(TYPOGRAPHY_BODY1)
-        .setColor(ColorBuilders.argb(theme.primary))
-        .build()
+    fun MaterialScope.message(state: String) =
+        text(string(state), typography = Typography.BODY_LARGE, color = color(theme.primary))
 
-    fun sessionsList(
+    fun MaterialScope.sessionsList(
         state: CurrentSessionsData,
         sessions: List<SessionDetails>,
-        deviceParameters: DeviceParameters
     ) =
         MultiSlotLayout.Builder()
             .apply {
                 sessions.take(3).forEach {
-                    addSlotContent(sessionChip(state, it, deviceParameters))
+                    addSlotContent(sessionChip(state, it))
                 }
             }
             .build()
 
-    private fun sessionChip(
+    fun string(text: String) = StringProp.Builder(text)
+        .build()
+
+    fun color(color: Color) = ColorBuilders.ColorProp.Builder(color.toArgb())
+        .build()
+
+    fun color(color: Int) = ColorBuilders.ColorProp.Builder(color)
+        .build()
+
+    private fun MaterialScope.sessionChip(
         state: CurrentSessionsData,
         sessionDetails: SessionDetails,
-        deviceParameters: DeviceParameters
     ): LayoutElementBuilders.LayoutElement =
+        // TODO material3 Button?
         Chip.Builder(
             context,
             sessionClickable(state.conference.id, sessionDetails),
-            deviceParameters
+            this.deviceConfiguration
         )
             .setChipColors(ChipColors.secondaryChipColors(theme))
             .setPrimaryLabelContent(sessionDetails.title)

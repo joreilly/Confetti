@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalWearMaterialApi::class)
-
 package dev.johnoreilly.confetti.wear.speakerdetails
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,21 +11,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.CircularProgressIndicator
-import androidx.wear.compose.material.ExperimentalWearMaterialApi
-import androidx.wear.compose.material.Icon
-import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.placeholder
-import androidx.wear.compose.material.rememberPlaceholderState
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.placeholder
+import androidx.wear.compose.material3.rememberPlaceholderState
 import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import androidx.wear.compose.material3.ScreenScaffold
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
@@ -46,17 +39,12 @@ fun SpeakerDetailsRoute(
 fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
     val placeholderState = rememberPlaceholderState { uiState !is SpeakerDetailsUiState.Loading }
 
-    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ItemType.Icon,
-            last = ItemType.Text
-        )
-    )
+    val columnState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
+        TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
-            columnState = columnState
+            state = columnState,
         ) {
             if (uiState is SpeakerDetailsUiState.Loading) {
                 item {
@@ -131,7 +119,6 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                     item {
                         Text(
                             text = speaker?.tagline ?: "",
-                            modifier = Modifier.listTextPadding()
                         )
                     }
                 }
@@ -140,7 +127,6 @@ fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
                     item {
                         Text(
                             text = speaker?.bio ?: "",
-                            modifier = Modifier.listTextPadding()
                         )
                     }
                 }

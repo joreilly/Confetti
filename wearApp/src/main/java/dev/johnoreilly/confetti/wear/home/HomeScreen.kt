@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.wear.home
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -24,6 +25,8 @@ import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
+import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
@@ -58,6 +61,7 @@ fun HomeScreen(
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
+            contentPadding = transformingListPadding()
         ) {
             titleSection(uiState = uiState)
 
@@ -76,6 +80,12 @@ fun HomeScreen(
         }
     }
 }
+
+@Composable
+fun transformingListPadding(first: ItemType = ItemType.Text, last: ItemType = ItemType.Card): PaddingValues = ScalingLazyColumnDefaults.padding(
+    first = first,
+    last = last,
+)()
 
 private fun TransformingLazyColumnScope.titleSection(uiState: QueryResult<HomeUiState>) {
     when (uiState) {

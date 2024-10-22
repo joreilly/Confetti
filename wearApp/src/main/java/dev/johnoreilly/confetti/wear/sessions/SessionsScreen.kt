@@ -13,6 +13,7 @@ import androidx.wear.compose.material3.ScreenScaffold
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
+import dev.johnoreilly.confetti.wear.home.transformingListPadding
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import kotlinx.datetime.toKotlinLocalDateTime
@@ -30,6 +31,7 @@ fun SessionsScreen(
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
+            contentPadding = transformingListPadding(),
         ) {
             when (uiState) {
                 is SessionsUiState.Success -> {

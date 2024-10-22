@@ -206,7 +206,7 @@ test-espressocore = "androidx.test.espresso:espresso-core:3.6.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
 wear-complications-data = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.1"
 wear-compose-material = "androidx.wear.compose:compose-material:1.5.0-alpha04"
-wear-compose-material3 = "androidx.wear.compose:compose-material3:1.0.0-alpha27"
+wear-compose-material3 = "androidx.wear.compose:compose-material3:1.0.0-SNAPSHOT"
 xoxo = "net.mbonnin.xoxo:xoxo:0.3"
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 

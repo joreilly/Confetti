@@ -21,6 +21,7 @@ import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.wear.components.PlaceholderButton
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
+import dev.johnoreilly.confetti.wear.home.transformingListPadding
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.toColor
@@ -55,7 +56,9 @@ fun ConferencesView(
 
     ScreenScaffold(scrollState = columnState) {
         TransformingLazyColumn(
-            modifier = modifier.fillMaxSize(), state = columnState
+            modifier = modifier.fillMaxSize(),
+            state = columnState,
+            contentPadding = transformingListPadding()
         ) {
             item {
                 ScreenHeader("Conferences")

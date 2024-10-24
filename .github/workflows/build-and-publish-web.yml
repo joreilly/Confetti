@@ -28,7 +28,7 @@ jobs:
       # If main branch update, deploy to gh-pages
       - name: Deploy
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        uses: JamesIves/github-pages-deploy-action@v4.6.8
         with:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: compose-web/build/dist/wasmJs/productionExecutable # The folder the action should deploy.

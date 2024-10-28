@@ -124,7 +124,7 @@ firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.13.0"
 google-cloud-bom = "com.google.cloud:libraries-bom:26.44.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
-google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.21.1"
+google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.24.1"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 horologist-auth-composables = { module = "com.google.android.horologist:horologist-auth-composables", version.ref = "horologist" }
 horologist-auth-ui = { module = "com.google.android.horologist:horologist-auth-ui", version.ref = "horologist" }

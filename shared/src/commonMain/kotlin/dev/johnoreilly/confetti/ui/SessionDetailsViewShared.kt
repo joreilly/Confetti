@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -69,11 +70,13 @@ fun SessionDetailViewShared(
                     .verticalScroll(state = scrollState)
             ) {
                 Column(modifier = Modifier.padding(contentPadding)) {
-                    Text(
-                        text = session.title,
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleLarge
-                    )
+                    SelectionContainer {
+                        Text(
+                            text = session.title,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
 
                     Spacer(modifier = Modifier.size(16.dp))
 
@@ -94,10 +97,12 @@ fun SessionDetailViewShared(
 
                     Spacer(modifier = Modifier.size(16.dp))
 
-                    Text(
-                        text = session.sessionDescription ?: "",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                    SelectionContainer {
+                        Text(
+                            text = session.sessionDescription ?: "",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
 
                     if (session.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.size(16.dp))

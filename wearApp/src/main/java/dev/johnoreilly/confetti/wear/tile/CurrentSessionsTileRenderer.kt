@@ -170,7 +170,7 @@ class CurrentSessionsTileRenderer(
     ): Clickable =
         Clickable.Builder()
             .setOnClick(LoadAction.Builder().build())
-            .setId("session/{${conference}}/{${sessionDetails.id}}")
+            .setId("session/${conference}/${sessionDetails.id}")
             .build()
 
     private fun browseClickable(

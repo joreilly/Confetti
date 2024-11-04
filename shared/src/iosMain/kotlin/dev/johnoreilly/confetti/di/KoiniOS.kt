@@ -7,6 +7,7 @@ import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.apollographql.apollo.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo.cache.normalized.api.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
@@ -30,6 +31,7 @@ actual fun platformModule() = module {
     factory {
         ApolloClient.Builder()
             .serverUrl("https://confetti-app.dev/graphql")
+            .addHttpInterceptor(ApolloClientAwarenessInterceptor("confetti-ios", "fixme"))
     }
 }
 

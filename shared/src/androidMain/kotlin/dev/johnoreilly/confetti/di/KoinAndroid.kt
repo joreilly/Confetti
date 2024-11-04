@@ -7,6 +7,7 @@
 package dev.johnoreilly.confetti.di
 
 import android.content.Context
+import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.WorkManager
@@ -17,6 +18,7 @@ import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.apollographql.apollo.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo.cache.normalized.api.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
 import com.apollographql.apollo.network.http.DefaultHttpEngine
 import com.apollographql.apollo.network.ws.DefaultWebSocketEngine
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
@@ -69,6 +71,7 @@ actual fun platformModule() = module {
         ApolloClient.Builder()
             .serverUrl("https://confetti-app.dev/graphql")
             .httpEngine(DefaultHttpEngine(get<Call.Factory>(named("API"))))
+            .addHttpInterceptor(ApolloClientAwarenessInterceptor("confetti-android", androidContext().versionCode))
             .webSocketEngine(DefaultWebSocketEngine(get<WebSocket.Factory>()))
     }
     single<Call.Factory>(qualifier = named("API")) {
@@ -123,3 +126,14 @@ actual fun getNormalizedCacheFactory(conference: String, uid: String?): Normaliz
     return MemoryCacheFactory(10 * 1024 * 1024)
         .chain(sqlNormalizedCacheFactory)
 }
+
+private val Context.versionCode: String
+    get() {
+        return packageManager.getPackageInfo(packageName, 0).let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                it.longVersionCode
+            } else {
+                it.versionCode
+            }
+        }.toString()
+    }

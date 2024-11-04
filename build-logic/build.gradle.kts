@@ -7,6 +7,7 @@ plugins {
 }
 
 dependencies {
+    implementation(gradleApi())
     implementation(platform(libs.google.cloud.bom))
     implementation(platform(libs.firebase.bom))
     implementation(libs.plugin.kotlin)
@@ -32,6 +33,7 @@ dependencies {
     implementation(libs.roborazzi.gradle.plugin)
 }
 
+group = "build-logic"
 tasks.withType(JavaCompile::class.java).configureEach {
     this.options.release.set(17)
 }

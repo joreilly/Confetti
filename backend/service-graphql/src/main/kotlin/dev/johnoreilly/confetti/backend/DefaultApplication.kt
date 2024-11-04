@@ -162,7 +162,15 @@ class DefaultApplication {
                 else -> 1800L
             }
             val maxAgeContext = MaxAgeContext(maxAge)
-            val executionContext = UidContext(uid) + SourceContext(source) + ConferenceContext(conference) + maxAgeContext + ApolloReportingOperationContext()
+
+            val executionContext = UidContext(uid) +
+                SourceContext(source) +
+                ConferenceContext(conference) +
+                maxAgeContext +
+                ApolloReportingOperationContext(
+                    serverRequest.headers().header("apollographql-client-name").firstOrNull(),
+                    serverRequest.headers().header("apollographql-client-version").firstOrNull(),
+                )
 
             val graphqlRequestResult = serverRequest.parseAsGraphQLRequest()
             if (!graphqlRequestResult.isSuccess) {
@@ -229,23 +237,26 @@ class DefaultApplication {
 }
 
 
-class UidContext(val uid: String?): ExecutionContext.Element {
-    companion object Key: ExecutionContext.Key<UidContext>
+class UidContext(val uid: String?) : ExecutionContext.Element {
+    companion object Key : ExecutionContext.Key<UidContext>
 
     override val key = Key
 }
-class ConferenceContext(val conference: String): ExecutionContext.Element {
-    companion object Key: ExecutionContext.Key<ConferenceContext>
+
+class ConferenceContext(val conference: String) : ExecutionContext.Element {
+    companion object Key : ExecutionContext.Key<ConferenceContext>
 
     override val key = Key
 }
-class SourceContext(val source: DataSource): ExecutionContext.Element {
-    companion object Key: ExecutionContext.Key<SourceContext>
+
+class SourceContext(val source: DataSource) : ExecutionContext.Element {
+    companion object Key : ExecutionContext.Key<SourceContext>
 
     override val key = Key
 }
-class MaxAgeContext(var maxAge: Long): ExecutionContext.Element {
-    companion object Key: ExecutionContext.Key<MaxAgeContext>
+
+class MaxAgeContext(var maxAge: Long) : ExecutionContext.Element {
+    companion object Key : ExecutionContext.Key<MaxAgeContext>
 
     override val key = Key
 }

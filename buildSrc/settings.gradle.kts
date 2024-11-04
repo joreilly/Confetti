@@ -17,6 +17,12 @@ pluginManagement {
             }
             mavenCentral()
             gradlePluginPortal()
+            exclusiveContent {
+                forRepository { it.maven("https://storage.googleapis.com/apollo-snapshots/m2") }
+                filter {
+                    includeGroup("com.apollographql.execution")
+                }
+            }
         }
     }
 }

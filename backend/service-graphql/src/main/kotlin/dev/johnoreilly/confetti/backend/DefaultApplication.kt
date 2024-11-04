@@ -4,6 +4,8 @@ package dev.johnoreilly.confetti.backend
 
 import com.apollographql.apollo.api.ExecutionContext
 import com.apollographql.execution.*
+import com.apollographql.execution.reporting.ApolloReportingInstrumentation
+import com.apollographql.execution.reporting.ApolloReportingOperationContext
 import com.apollographql.execution.spring.apolloSandboxRoutes
 import com.example.ServiceExecutableSchemaBuilder
 import com.google.firebase.auth.FirebaseAuthException
@@ -103,6 +105,10 @@ class DefaultApplication {
     fun executableSchema(): ExecutableSchema {
         return ServiceExecutableSchemaBuilder()
             .persistedDocumentCache(InMemoryPersistedDocumentCache())
+            .apply {
+                val apolloKey = System.getenv("APOLLO_KEY")
+                addInstrumentation(ApolloReportingInstrumentation(apolloKey))
+            }
             .build()
     }
 
@@ -151,7 +157,7 @@ class DefaultApplication {
                 else -> 1800L
             }
             val maxAgeContext = MaxAgeContext(maxAge)
-            val executionContext = UidContext(uid) + SourceContext(source) + ConferenceContext(conference) + maxAgeContext
+            val executionContext = UidContext(uid) + SourceContext(source) + ConferenceContext(conference) + maxAgeContext + ApolloReportingOperationContext()
 
             val graphqlRequestResult = serverRequest.toGraphQLRequest()
             if (!graphqlRequestResult.isSuccess) {

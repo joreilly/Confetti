@@ -1,7 +1,11 @@
-import org.jetbrains.compose.ComposeExtension
-
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+    id("base")
+}
+
+buildscript {
+    dependencies {
+        classpath("build-logic:build-logic")
+    }
 }
 
 tasks.register("setupCredentials") {

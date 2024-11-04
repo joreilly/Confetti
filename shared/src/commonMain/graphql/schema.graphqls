@@ -12,7 +12,7 @@ type Query {
   }
   ): SessionConnection!
 
-  speakers: [Speaker!]! @deprecated
+  speakers: [Speaker!]! @deprecated(reason: "Use speakersPage instead")
 
   speakersPage(first: Int = null, after: String = null): SpeakerConnection!
 
@@ -28,7 +28,7 @@ type Query {
 
   config: Conference!
 
-  bookmarks: Bookmarks @deprecated
+  bookmarks: Bookmarks @deprecated(reason: "Use bookmarkConnection instead")
 
   bookmarkConnection: BookmarkConnection
 
@@ -120,9 +120,9 @@ type Venue {
   """
   floorPlanUrl: String
 
-  coordinates: String @deprecated
+  coordinates: String @deprecated(reason: "use latitude and longitude instead")
 
-  descriptionFr: String! @deprecated
+  descriptionFr: String! @deprecated(reason: "use description(language: \"fr\") instead")
 
   description(language: String = "en"): String!
 }
@@ -153,9 +153,9 @@ type Session {
 
   tags: [String!]!
 
-  startInstant: Instant! @deprecated
+  startInstant: Instant! @deprecated(reason: "use startsAt instead")
 
-  endInstant: Instant! @deprecated
+  endInstant: Instant! @deprecated(reason: "use endsAt instead")
 
   startsAt: LocalDateTime!
 
@@ -230,7 +230,7 @@ enum OrderByDirection {
 type Social {
   icon: String
 
-  link: String! @deprecated
+  link: String! @deprecated(reason: "use url instead")
 
   name: String!
 
@@ -282,3 +282,157 @@ enum LinkType {
 
   Other
 }
+
+type __Schema {
+  description: String
+
+  types: [__Type!]!
+
+  queryType: __Type!
+
+  mutationType: __Type
+
+  subscriptionType: __Type
+
+  directives: [__Directive!]!
+}
+
+type __Type {
+  kind: __TypeKind!
+
+  name: String
+
+  description: String
+
+  fields(includeDeprecated: Boolean = false): [__Field!]
+
+  interfaces: [__Type!]
+
+  possibleTypes: [__Type!]
+
+  enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
+
+  inputFields(includeDeprecated: Boolean = false): [__InputValue!]
+
+  ofType: __Type
+
+  specifiedByURL: String
+}
+
+enum __TypeKind {
+  SCALAR
+
+  OBJECT
+
+  INTERFACE
+
+  UNION
+
+  ENUM
+
+  INPUT_OBJECT
+
+  LIST
+
+  NON_NULL
+}
+
+type __Field {
+  name: String!
+
+  description: String
+
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
+
+  type: __Type!
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+type __InputValue {
+  name: String!
+
+  description: String
+
+  type: __Type!
+
+  defaultValue: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+type __EnumValue {
+  name: String!
+
+  description: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
+}
+
+type __Directive {
+  name: String!
+
+  description: String
+
+  locations: [__DirectiveLocation!]!
+
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
+
+  isRepeatable: Boolean!
+}
+
+enum __DirectiveLocation {
+  QUERY
+
+  MUTATION
+
+  SUBSCRIPTION
+
+  FIELD
+
+  FRAGMENT_DEFINITION
+
+  FRAGMENT_SPREAD
+
+  INLINE_FRAGMENT
+
+  VARIABLE_DEFINITION
+
+  SCHEMA
+
+  SCALAR
+
+  OBJECT
+
+  FIELD_DEFINITION
+
+  ARGUMENT_DEFINITION
+
+  INTERFACE
+
+  UNION
+
+  ENUM
+
+  ENUM_VALUE
+
+  INPUT_OBJECT
+
+  INPUT_FIELD_DEFINITION
+}
+
+directive @skip (if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+directive @include (if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+directive @deprecated (reason: String = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|INPUT_FIELD_DEFINITION|ENUM_VALUE
+
+directive @defer (label: String, if: Boolean! = true) on FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+directive @specifiedBy (url: String!) on SCALAR

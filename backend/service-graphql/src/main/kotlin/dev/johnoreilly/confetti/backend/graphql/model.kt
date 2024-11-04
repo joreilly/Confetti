@@ -5,7 +5,7 @@ import com.apollographql.apollo.ast.GQLStringValue
 import com.apollographql.apollo.ast.GQLValue
 import com.apollographql.execution.Coercing
 import com.apollographql.execution.annotation.*
-import com.apollographql.execution.internal.ExternalValue
+import com.apollographql.execution.ExternalValue
 import com.google.firebase.auth.FirebaseAuth
 import dev.johnoreilly.confetti.backend.*
 import dev.johnoreilly.confetti.backend.datastore.DDirection

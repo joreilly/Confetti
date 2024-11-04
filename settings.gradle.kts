@@ -3,7 +3,7 @@
 pluginManagement {
     listOf(repositories, dependencyResolutionManagement.repositories).forEach {
         it.apply {
-           google {
+            google {
                 content {
                     includeGroupByRegex(".*google.*")
                     includeGroupByRegex(".*android.*")
@@ -11,8 +11,10 @@ pluginManagement {
             }
             mavenCentral()
             maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
-            gradlePluginPortal {
-                content {
+            exclusiveContent {
+                forRepository { it.maven("https://storage.googleapis.com/apollo-snapshots/m2") }
+                filter {
+                    includeVersionByRegex("com.apollographql.execution", ".*", ".*SNAPSHOT.*")
                 }
             }
         }

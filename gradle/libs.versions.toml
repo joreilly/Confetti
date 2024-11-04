@@ -5,7 +5,7 @@ kotlin = "2.0.21"
 ksp = "2.0.21-1.0.25"
 kotlinx-coroutines = "1.9.0"
 kotlinx-datetime = "0.6.1"
-apollo-kotlin-execution = "0.0.3"
+apollo-kotlin-execution = "0.1.1-SNAPSHOT-986719ba0628b6c939bc47d0677875a38fe1b503"
 
 agp = "8.7.1"
 accompanist = "0.34.0"
@@ -80,6 +80,7 @@ apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo:apollo-
 apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo:apollo-normalized-cache-sqlite" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
 apollo-execution-spring = { module = "com.apollographql.execution:apollo-execution-spring", version.ref = "apollo-kotlin-execution" }
+apollo-execution-reporting = { module = "com.apollographql.execution:apollo-execution-reporting", version.ref = "apollo-kotlin-execution" }
 apollo-execution-gradle-plugin = { module = "com.apollographql.execution:apollo-execution-gradle-plugin", version.ref = "apollo-kotlin-execution" }
 spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
 spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }

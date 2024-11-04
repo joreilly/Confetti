@@ -84,7 +84,7 @@ apollo-execution-reporting = { module = "com.apollographql.execution:apollo-exec
 apollo-execution-gradle-plugin = { module = "com.apollographql.execution:apollo-execution-gradle-plugin", version.ref = "apollo-kotlin-execution" }
 spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
 spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }
-spring-webflux = "org.springframework:spring-webflux:6.1.12"
+spring-webflux = "org.springframework:spring-webflux:6.1.14"
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring" }
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
 ktor-server-netty = "io.ktor:ktor-server-netty:2.3.12"

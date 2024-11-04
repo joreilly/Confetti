@@ -286,7 +286,25 @@ resource "google_cloud_run_v2_service" "graphql" {
         cpu_idle = true
         startup_cpu_boost = true
       }
+      env {
+        name = "APOLLO_KEY"
+        value_source {
+          secret_key_ref {
+            secret = google_secret_manager_secret.apollo-key.secret_id
+            version = "latest"
+          }
+        }
+      }
     }
+  }
+}
+
+resource "google_secret_manager_secret" "apollo-key" {
+  provider = google-beta
+  secret_id = "apollo-key"
+
+  replication {
+    auto {}
   }
 }
 
@@ -364,4 +382,10 @@ resource "google_storage_bucket_iam_member" "member" {
 
 output "ip_addr" {
   value = google_compute_global_address.default.address
+}
+
+# This is for enabling APIs
+resource "google_project_service" "project" {
+  provider = google-beta
+  service = "secretmanager.googleapis.com"
 }

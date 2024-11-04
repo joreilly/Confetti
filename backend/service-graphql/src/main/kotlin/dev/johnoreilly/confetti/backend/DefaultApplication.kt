@@ -3,10 +3,13 @@
 package dev.johnoreilly.confetti.backend
 
 import com.apollographql.apollo.api.ExecutionContext
-import com.apollographql.execution.*
+import com.apollographql.execution.ExecutableSchema
+import com.apollographql.execution.GraphQLResponse
+import com.apollographql.execution.InMemoryPersistedDocumentCache
 import com.apollographql.execution.reporting.ApolloReportingInstrumentation
 import com.apollographql.execution.reporting.ApolloReportingOperationContext
 import com.apollographql.execution.spring.apolloSandboxRoutes
+import com.apollographql.execution.spring.parseAsGraphQLRequest
 import com.example.ServiceExecutableSchemaBuilder
 import com.google.firebase.auth.FirebaseAuthException
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
@@ -30,7 +33,6 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.http.client.reactive.JdkClientHttpConnector
 import org.springframework.http.codec.ServerCodecConfigurer
@@ -107,6 +109,9 @@ class DefaultApplication {
             .persistedDocumentCache(InMemoryPersistedDocumentCache())
             .apply {
                 val apolloKey = System.getenv("APOLLO_KEY")
+                if (apolloKey != null) {
+                    println("Enabling Apollo Reporting")
+                }
                 addInstrumentation(ApolloReportingInstrumentation(apolloKey))
             }
             .build()
@@ -159,7 +164,7 @@ class DefaultApplication {
             val maxAgeContext = MaxAgeContext(maxAge)
             val executionContext = UidContext(uid) + SourceContext(source) + ConferenceContext(conference) + maxAgeContext + ApolloReportingOperationContext()
 
-            val graphqlRequestResult = serverRequest.toGraphQLRequest()
+            val graphqlRequestResult = serverRequest.parseAsGraphQLRequest()
             if (!graphqlRequestResult.isSuccess) {
                 return@invoke badRequest().buildAndAwait()
             }
@@ -223,17 +228,6 @@ class DefaultApplication {
     }
 }
 
-suspend fun ServerRequest.toGraphQLRequest(): GraphQLResult<GraphQLRequest> {
-    return when (this.method()) {
-        HttpMethod.GET -> this.queryParams().toExternalValueMap().flatMap { it.parseGraphQLRequest() }
-        HttpMethod.POST -> {
-            awaitBody<String>().let {
-                Buffer().writeUtf8(it).parseGraphQLRequest()
-            }
-        }
-        else -> GraphQLError(Exception("Unhandled method: ${method()}"))
-    }
-}
 
 class UidContext(val uid: String?): ExecutionContext.Element {
     companion object Key: ExecutionContext.Key<UidContext>

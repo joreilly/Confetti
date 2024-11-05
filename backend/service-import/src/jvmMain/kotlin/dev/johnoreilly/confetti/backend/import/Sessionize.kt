@@ -699,7 +699,7 @@ object Sessionize {
         return writeData(
             getData("https://sessionize.com/api/v2/r14kt8fj/view/All"),
             config = DConfig(
-                id = ConferenceId.DevFestVenice2023.id,
+                id = ConferenceId.DevFestVenice2024.id,
                 name = "DevFest Venice 2024",
                 timeZone = "Europe/Rome",
                 themeColor = "0xFF0000FF"

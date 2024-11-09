@@ -46,7 +46,6 @@ fun SessionDetailView(
                     item {
                         ScreenHeader(
                             modifier = Modifier
-                                .fillMaxWidth()
                                 .scrollTransform(this@item), text = session.title
                         )
                     }

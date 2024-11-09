@@ -90,7 +90,6 @@ private fun TransformingLazyColumnScope.titleSection(uiState: QueryResult<HomeUi
             item {
                 ScreenHeader(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .scrollTransform(this@item), text = uiState.result.conferenceName
                 )
             }

@@ -68,7 +68,6 @@ fun ConferencesView(
             item {
                 ScreenHeader(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .scrollTransform(this@item), text = "Conferences"
                 )
             }

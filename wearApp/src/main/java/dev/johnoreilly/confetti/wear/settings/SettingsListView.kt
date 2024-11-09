@@ -68,7 +68,6 @@ fun SettingsListView(
             item {
                 ScreenHeader(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .scrollTransform(this@item),
                     text = stringResource(id = R.string.settings)
                 )

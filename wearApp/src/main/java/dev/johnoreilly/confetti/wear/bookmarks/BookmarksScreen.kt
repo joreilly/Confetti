@@ -49,7 +49,6 @@ fun BookmarksScreen(
                     item {
                         ScreenHeader(
                             modifier = Modifier
-                                .fillMaxWidth()
                                 .scrollTransform(this@item),
                             text = stringResource(R.string.upcoming_sessions)
                         )

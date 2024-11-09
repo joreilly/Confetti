@@ -30,6 +30,7 @@ import com.github.takahirom.roborazzi.ThresholdValidator
 import com.github.takahirom.roborazzi.captureRoboImage
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.TimeText
+import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import dev.johnoreilly.confetti.preview.JohnUrl
 import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
@@ -55,8 +56,8 @@ import org.robolectric.annotation.GraphicsMode
 @RunWith(RobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,
-    sdk = [33],
-    qualifiers = "w227dp-h227dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
+    sdk = [34],
+    qualifiers = RobolectricDeviceQualifiers.WearOSLargeRound
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class BaseScreenshotTest {

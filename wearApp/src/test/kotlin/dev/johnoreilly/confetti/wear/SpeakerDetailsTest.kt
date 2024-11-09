@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
@@ -31,7 +32,7 @@ class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest()
         }
         composeRule.onNodeWithText("John O'Reilly").assertIsDisplayed()
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
+        composeRule.onNode(hasScrollAction())
             .scrollToBottom()
         takeScreenshot("_end")
     }
@@ -49,7 +50,7 @@ class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest()
         }
         composeRule.onNodeWithText("John O'Reilly").assertIsDisplayed()
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
+        composeRule.onNode(hasScrollAction())
             .scrollToBottom()
         takeScreenshot("_end")
     }

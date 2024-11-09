@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.decompose.SessionsUiState
@@ -56,7 +57,7 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
+        composeRule.onNode(hasScrollAction())
             .scrollToBottom()
         takeScreenshot("_end")
     }
@@ -76,7 +77,7 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
+        composeRule.onNode(hasScrollAction())
             .scrollToBottom()
         takeScreenshot("_end")
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()

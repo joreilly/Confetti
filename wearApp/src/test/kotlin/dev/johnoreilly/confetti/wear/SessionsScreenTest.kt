@@ -49,7 +49,9 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             TestScaffold {
                 SessionsScreen(
                     uiState = uiState,
-                    sessionSelected = {}
+                    sessionSelected = {},
+                    addBookmark = {},
+                    removeBookmark = {}
                 )
             }
         }
@@ -68,6 +70,8 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
                 SessionsScreen(
                     uiState = uiState,
                     sessionSelected = {},
+                    addBookmark = {},
+                    removeBookmark = {}
                 )
             }
         }

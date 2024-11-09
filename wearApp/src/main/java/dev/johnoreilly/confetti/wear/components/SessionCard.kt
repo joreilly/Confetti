@@ -118,7 +118,12 @@ private fun SessionCardContent(
                 LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant,
                 LocalTextStyle provides MaterialTheme.typography.labelMedium,
             ) {
-                Text(session.room?.name ?: "", modifier = Modifier.weight(1f))
+                Text(
+                    session.room?.name.orEmpty(),
+                    modifier = Modifier.weight(1f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
+                )
 
                 timeDisplay()
             }

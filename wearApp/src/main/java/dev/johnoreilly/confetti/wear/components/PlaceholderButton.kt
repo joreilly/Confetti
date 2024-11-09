@@ -95,9 +95,9 @@ fun rememberActivePlaceholderState(isContentReady: () -> Boolean): PlaceholderSt
 
     ActiveFocusListener { focused ->
         if (focused) {
-            if (!placeholderState.isShowContent) {
+            if (placeholderState.isHidden) {
                 launch {
-                    placeholderState.startPlaceholderAnimation()
+                    placeholderState.animatePlaceholder()
                 }
             }
         }

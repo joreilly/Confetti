@@ -60,6 +60,7 @@ fun SessionCard(
         Text(session.title, modifier = modifier)
     } else {
         SwipeToReveal(
+            revealState = revealState,
             actions = {
                 primaryAction(
                     icon = {

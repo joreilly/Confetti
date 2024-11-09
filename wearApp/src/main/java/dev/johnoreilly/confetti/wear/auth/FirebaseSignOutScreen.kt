@@ -8,12 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.wear.compose.material.CircularProgressIndicator
-import androidx.wear.compose.material.Text
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.material.Confirmation
+import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.material3.Confirmation
+import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.Text
 import dev.johnoreilly.confetti.R
 
 @Composable
@@ -41,13 +40,16 @@ fun FirebaseSignOutScreen(
                     component.signedOut()
                 }
                 Confirmation(
-                    onTimeout = { component.navigateUp() }
-                ) {
-                    Text(
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        textAlign = TextAlign.Center,
-                        text = stringResource(id = R.string.google_sign_out_success_message)
-                    )
+                    show = true,
+                    onDismissRequest = {
+                        component.navigateUp()
+                    },
+                    text = {
+                        Text(
+                            text = stringResource(id = R.string.google_sign_out_success_message)
+                        )
+                    }) {
+                    // WAT!?
                 }
             }
 
@@ -63,8 +65,7 @@ fun FirebaseSignOutScreen(
 @Composable
 private fun LoadingView() {
     Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
     }

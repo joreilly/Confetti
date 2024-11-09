@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.wear.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LteMobiledata
@@ -17,23 +18,21 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ListSubHeader
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SwitchButton
+import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import com.google.android.horologist.compose.material.Chip
-import com.google.android.horologist.compose.material.SecondaryTitle
-import com.google.android.horologist.compose.material.ToggleChip
-import com.google.android.horologist.compose.material.ToggleChipToggleControl
-import com.google.android.horologist.images.base.paintable.ImageVectorPaintable.Companion.asPaintable
-import com.google.android.horologist.images.coil.CoilPaintable
+import coil.compose.AsyncImage
+import com.google.android.horologist.compose.layout.ColumnItemType
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
@@ -55,34 +54,46 @@ fun SettingsListView(
     onEnableDeveloperMode: () -> Unit,
     updatePreferences: (WearPreferences) -> Unit
 ) {
-    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Text,
-            last = ScalingLazyColumnDefaults.ItemType.Chip
-        )
-    )
+    val columnState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
+        TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
-            columnState = columnState,
+            state = columnState,
+            contentPadding = rememberResponsiveColumnPadding(
+                first = ColumnItemType.ListHeader,
+                last = ColumnItemType.Button
+            ),
         ) {
             item {
-                ScreenHeader(text = stringResource(id = R.string.settings))
+                ScreenHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .scrollTransform(this@item),
+                    text = stringResource(id = R.string.settings)
+                )
             }
 
             item {
-                Chip(
-                    label = stringResource(R.string.settings_change_conference),
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .scrollTransform(this@item),
                     onClick = conferenceCleared,
-                )
+                ) {
+                    Text(stringResource(R.string.settings_change_conference))
+                }
             }
 
             item {
-                Chip(
-                    label = stringResource(R.string.settings_refresh),
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .scrollTransform(this@item),
                     onClick = onRefreshClick,
-                )
+                ) {
+                    Text(stringResource(R.string.settings_refresh))
+                }
             }
 
             if (uiState is SettingsUiState.Success) {
@@ -92,38 +103,53 @@ fun SettingsListView(
                 item {
                     val authUser = uiState.authUser
                     if (authUser == null) {
-                        Chip(
-                            label = stringResource(R.string.settings_sign_in),
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .scrollTransform(this@item),
                             onClick = navigateToGoogleSignIn,
-                        )
+                        ) {
+                            Text(stringResource(R.string.settings_sign_in))
+                        }
                     } else {
                         val clickActionLabel = stringResource(R.string.settings_action_sign_out)
                         val chipContentDescription = stringResource(
                             R.string.settings_sign_out_chip_content_description,
                             authUser.displayName ?: stringResource(R.string.settings_empty_name)
                         )
-                        Chip(
-                            modifier = Modifier.clearAndSetSemantics {
-                                contentDescription = chipContentDescription
-                                onClick(clickActionLabel) {
-                                    navigateToGoogleSignOut()
-                                    true
-                                }
-                            },
-                            label = stringResource(R.string.settings_sign_out),
-                            icon = CoilPaintable(authUser.avatarUri),
-                            largeIcon = true,
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .scrollTransform(this@item)
+                                .clearAndSetSemantics {
+                                    contentDescription = chipContentDescription
+                                    onClick(clickActionLabel) {
+                                        navigateToGoogleSignOut()
+                                        true
+                                    }
+                                },
+                            icon = { AsyncImage(model = authUser.avatarUri, contentDescription = null) },
                             onClick = navigateToGoogleSignOut
-                        )
+                        ) {
+                            Text(stringResource(R.string.settings_sign_out))
+                        }
                     }
                 }
 
                 item {
-                    ToggleChip(
-                        label = stringResource(R.string.settings_allow_lte),
-                        icon = Icons.Default.LteMobiledata,
+                    SwitchButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .scrollTransform(this@item),
+                        label = { Text(stringResource(R.string.settings_allow_lte)) },
+                        icon = {
+                            androidx.wear.compose.material3.Icon(
+                                imageVector = Icons.Default.LteMobiledata,
+                                contentDescription = null
+                            )
+                        },
                         checked = networkPreferences?.allowLte ?: false,
-                        onCheckedChanged = {
+                        onCheckedChange = {
                             if (wearPreferences != null) {
                                 updatePreferences(
                                     wearPreferences.copy(
@@ -135,19 +161,30 @@ fun SettingsListView(
                                 )
                             }
                         },
-                        toggleControl = ToggleChipToggleControl.Switch,
                         enabled = wearPreferences != null
                     )
                 }
 
                 item {
-                    Chip(
-                        label = when (wearPreferences?.showNetworks) {
-                            NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA -> stringResource(R.string.settings_show_networks_and_data)
-                            NetworkDetail.NETWORK_DETAIL_NETWORKS -> stringResource(R.string.settings_show_networks)
-                            else -> stringResource(R.string.settings_hide_networks)
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .scrollTransform(this@item),
+                        label = {
+                            Text(
+                                when (wearPreferences?.showNetworks) {
+                                    NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA -> stringResource(R.string.settings_show_networks_and_data)
+                                    NetworkDetail.NETWORK_DETAIL_NETWORKS -> stringResource(R.string.settings_show_networks)
+                                    else -> stringResource(R.string.settings_hide_networks)
+                                }
+                            )
                         },
-                        icon = Icons.Default.NetworkPing.asPaintable(),
+                        icon = {
+                            androidx.wear.compose.material3.Icon(
+                                imageVector = Icons.Default.NetworkPing,
+                                contentDescription = null
+                            )
+                        },
                         onClick = {
                             if (wearPreferences != null) {
                                 updatePreferences(
@@ -169,8 +206,9 @@ fun SettingsListView(
                     var developerModeCount by remember { mutableIntStateOf(0) }
                     Text(
                         modifier = Modifier
+                            .fillMaxWidth()
+                            .scrollTransform(this@item)
                             .padding(top = 10.dp)
-                            .listTextPadding()
                             .run {
                                 if (!uiState.developerMode) {
                                     clickable {
@@ -195,7 +233,7 @@ fun SettingsListView(
     }
 }
 
-private fun ScalingLazyListScope.developerModeOptions(
+private fun TransformingLazyColumnScope.developerModeOptions(
     uiState: SettingsUiState.Success,
     onRefreshToken: () -> Unit
 ) {
@@ -203,15 +241,24 @@ private fun ScalingLazyListScope.developerModeOptions(
     val token = uiState.token
 
     item {
-        SecondaryTitle(
-            text = "Developer Mode",
-        )
+        ListSubHeader(
+            modifier = Modifier
+                .fillMaxWidth()
+                .scrollTransform(this@item),
+        ) {
+            Text(
+                text = "Developer Mode",
+            )
+        }
     }
 
     if (firebaseUser != null) {
         item {
             Text(
-                style = MaterialTheme.typography.caption3,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .scrollTransform(this@item),
+                style = MaterialTheme.typography.labelSmall,
                 text = "Email: ${firebaseUser.email}"
             )
         }
@@ -219,26 +266,41 @@ private fun ScalingLazyListScope.developerModeOptions(
         if (token != null) {
             item {
                 Text(
-                    style = MaterialTheme.typography.caption3,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .scrollTransform(this@item),
+                    style = MaterialTheme.typography.labelSmall,
                     text = "Provider: ${token.signInProvider}"
                 )
             }
             item {
                 Text(
-                    style = MaterialTheme.typography.caption3,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .scrollTransform(this@item),
+                    style = MaterialTheme.typography.labelSmall,
                     text = "Expires: ${token.expirationTimestamp.localTime()}"
                 )
             }
             item {
                 Text(
-                    style = MaterialTheme.typography.caption3,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .scrollTransform(this@item),
+                    style = MaterialTheme.typography.labelSmall,
                     text = "Issued: ${token.issuedAtTimestamp.localTime()}"
                 )
             }
         }
 
         item {
-            Chip(label = "Refresh Token", onClick = onRefreshToken)
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .scrollTransform(this@item),
+                label = { Text("Refresh Token") },
+                onClick = onRefreshToken
+            )
         }
     }
 }

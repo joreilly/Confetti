@@ -17,6 +17,7 @@ pluginManagement {
                     includeVersionByRegex("com.apollographql.execution", ".*", ".*SNAPSHOT.*")
                 }
             }
+            maven(url = uri("https://androidx.dev/snapshots/builds/12534296/artifacts/repository/"))
         }
     }
 

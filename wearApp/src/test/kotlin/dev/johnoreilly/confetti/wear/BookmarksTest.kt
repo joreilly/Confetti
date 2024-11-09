@@ -34,7 +34,9 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
                             now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                         )
                     ),
-                    sessionSelected = {}
+                    sessionSelected = {},
+                    addBookmark = {},
+                    removeBookmark = {}
                 )
             }
         }

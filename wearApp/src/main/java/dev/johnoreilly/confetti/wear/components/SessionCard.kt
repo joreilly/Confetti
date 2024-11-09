@@ -103,18 +103,13 @@ private fun SessionCardContent(
     ) {
         if (session.speakers.isNotEmpty()) {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                session.speakers.forEach { speaker ->
-                    Row {
-                        // TODO add avatar
-                        Text(
-                            session.speakers.joinToString(", ") { speaker.speakerDetails.name },
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Light,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                }
+                Text(
+                    session.speakers.joinToString(", ") { it.speakerDetails.name },
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Light,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
         Spacer(modifier = Modifier.size(4.dp))

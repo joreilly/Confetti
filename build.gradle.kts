@@ -32,13 +32,3 @@ tasks.register("quickChecks") {
         ":wearApp:assembleDebugAndroidTest",
     )
 }
-
-subprojects {
-    configurations.all {
-        resolutionStrategy.eachDependency {
-            if (requested.group == "androidx.lifecycle") {
-                useVersion("2.8.6")
-            }
-        }
-    }
-}

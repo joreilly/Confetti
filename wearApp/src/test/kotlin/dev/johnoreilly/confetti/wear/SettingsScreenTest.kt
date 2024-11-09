@@ -62,7 +62,7 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
+        composeRule.onNode(hasScrollAction())
             .scrollToBottom()
         takeScreenshot("_end")
     }

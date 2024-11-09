@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.wear.app
 import android.content.Intent
 import androidx.core.net.toUri
 import dev.johnoreilly.confetti.wear.navigation.Config
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDate
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -35,7 +36,7 @@ class NavigationTest : BaseAppTest() {
         assertEquals(Config.Home(null, "test"), appComponent.config)
 
         appComponent.handleDeeplink("confetti://confetti/sessions/test/2023-01-01".toDeepLink())
-        assertEquals(Config.ConferenceSessions(null, "test", date = "2023-01-01".toLocalDate()), appComponent.config)
+        assertEquals(Config.ConferenceSessions(null, "test", date = LocalDate.Formats.ISO.parse("2023-01-01")), appComponent.config)
 
         appComponent.handleDeeplink("confetti://confetti/session/test/session1".toDeepLink())
         assertEquals(Config.SessionDetails(null, "test", "session1"), appComponent.config)

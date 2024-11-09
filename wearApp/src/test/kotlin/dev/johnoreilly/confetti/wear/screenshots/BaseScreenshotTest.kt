@@ -33,7 +33,6 @@ import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.ThresholdValidator
 import com.github.takahirom.roborazzi.captureRoboImage
 import dev.johnoreilly.confetti.preview.JohnUrl
-import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -162,4 +161,9 @@ abstract class BaseScreenshotTest {
             }
         }
     }
+}
+
+object FixedTimeSource : androidx.wear.compose.material3.TimeSource {
+    @Composable
+    override fun currentTime(): String = "10:10"
 }

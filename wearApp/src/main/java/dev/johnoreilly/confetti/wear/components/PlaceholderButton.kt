@@ -33,7 +33,7 @@ public fun PlaceholderButton(
     onClick: () -> Unit = {},
     placeholderState: PlaceholderState = rememberActivePlaceholderState { false },
     secondaryLabel: Boolean = true,
-    icon: Boolean = true,
+    hasIcon: Boolean = true,
     colors: ButtonColors = PlaceholderDefaults.placeholderButtonColors(placeholderState),
     enabled: Boolean = false,
 ) {
@@ -71,7 +71,7 @@ public fun PlaceholderButton(
         } else {
             null
         },
-        icon = if (icon) {
+        icon = if (hasIcon) {
             {
                 Box(
                     modifier = Modifier

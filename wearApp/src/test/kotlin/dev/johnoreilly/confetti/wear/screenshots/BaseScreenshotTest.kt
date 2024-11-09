@@ -14,23 +14,24 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.test.core.app.ApplicationProvider
+import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.TimeText
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.LocalImageLoader
 import coil.test.FakeImageLoaderEngine
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.ThresholdValidator
 import com.github.takahirom.roborazzi.captureRoboImage
-import androidx.wear.compose.material3.AppScaffold
-import androidx.wear.compose.material3.TimeText
-import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import dev.johnoreilly.confetti.preview.JohnUrl
 import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
@@ -132,6 +133,11 @@ abstract class BaseScreenshotTest {
                 swipeUp(durationMillis = 10)
             }
         }
+    }
+
+    open fun scrollToBottom() {
+        composeRule.onNode(hasScrollAction()).scrollToBottom()
+        composeRule.waitForIdle()
     }
 
     @Composable

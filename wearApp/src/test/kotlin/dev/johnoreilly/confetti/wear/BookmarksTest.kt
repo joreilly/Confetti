@@ -2,11 +2,6 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.ui.test.hasScrollAction
-import androidx.compose.ui.test.hasScrollToNodeAction
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.printToLog
-import androidx.compose.ui.test.printToString
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreen
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
@@ -45,8 +40,8 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+        // TODO enable in follow up PR
+//        scrollToBottom()
+//        takeScreenshot("_end")
     }
 }

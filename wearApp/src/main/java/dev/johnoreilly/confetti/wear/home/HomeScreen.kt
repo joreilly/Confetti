@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.wear.home
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -27,8 +26,6 @@ import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
@@ -52,8 +49,8 @@ fun HomeScreen(
     sessionSelected: (String) -> Unit,
     daySelected: (LocalDate) -> Unit,
     onSettingsClick: () -> Unit,
-    addBookmark: (sessionId: String) -> Unit,
-    removeBookmark: (sessionId: String) -> Unit,
+    addBookmark: ((sessionId: String) -> Unit)?,
+    removeBookmark: ((sessionId: String) -> Unit)?,
     onBookmarksClick: () -> Unit,
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
@@ -120,8 +117,8 @@ private fun TransformingLazyColumnScope.bookmarksSection(
     uiState: QueryResult<HomeUiState>,
     bookmarksUiState: QueryResult<BookmarksUiState>,
     sessionSelected: (String) -> Unit,
-    addBookmark: (sessionId: String) -> Unit,
-    removeBookmark: (sessionId: String) -> Unit,
+    addBookmark: ((sessionId: String) -> Unit)?,
+    removeBookmark: ((sessionId: String) -> Unit)?,
     onBookmarksClick: () -> Unit
 ) {
     item {

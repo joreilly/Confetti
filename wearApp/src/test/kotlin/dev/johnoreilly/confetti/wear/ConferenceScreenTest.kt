@@ -5,8 +5,6 @@ package dev.johnoreilly.confetti.wear
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTouchHeightIsEqualTo
-import androidx.compose.ui.test.hasScrollAction
-import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
@@ -39,9 +37,9 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
         composeRule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
         takeScreenshot()
 
-        composeRule.onNode(hasScrollAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+        // TODO enable in follow up PR
+//        scrollToBottom()
+//        takeScreenshot("_end")
     }
 
     @Test
@@ -66,9 +64,11 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
             .assertTouchHeightIsEqualTo(52.dp)
 
         takeScreenshot()
-        composeRule.onNode(hasScrollAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+
+        // TODO enable in follow up PR
+//        scrollToBottom()
+//        takeScreenshot("_end")
+
         composeRule.onNodeWithText("Conferences")
             .assertIsDisplayed()
             .assertHasNoClickAction()

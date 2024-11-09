@@ -32,11 +32,9 @@ import androidx.wear.compose.material3.TitleCard
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
-import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
-import org.intellij.markdown.parser.CancellationToken
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -46,8 +44,8 @@ fun SessionCard(
     sessionSelected: (sessionId: String) -> Unit,
     currentTime: LocalDateTime,
     isBookmarked: Boolean,
-    addBookmark: (sessionId: String) -> Unit,
-    removeBookmark: (sessionId: String) -> Unit,
+    addBookmark: ((sessionId: String) -> Unit)?,
+    removeBookmark: ((sessionId: String) -> Unit)?,
     modifier: Modifier = Modifier,
     timeDisplay: @Composable () -> Unit = {
         SessionTime(session, currentTime)
@@ -58,8 +56,11 @@ fun SessionCard(
 
     if (session.isBreak()) {
         Text(session.title, modifier = modifier)
+    } else if (addBookmark == null || removeBookmark == null) {
+        SessionCardContent(modifier, sessionSelected, session, timeDisplay)
     } else {
         SwipeToReveal(
+            modifier = modifier,
             revealState = revealState,
             actions = {
                 primaryAction(
@@ -79,46 +80,54 @@ fun SessionCard(
                 )
             }
         ) {
-            TitleCard(
-                modifier = modifier.fillMaxWidth(),
-                onClick = { sessionSelected(session.id) },
-                title = { Text(text = session.title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
-            ) {
-                if (session.speakers.isNotEmpty()) {
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        session.speakers.forEach { speaker ->
-                            SpeakerLabel(speaker)
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.size(4.dp))
-                Row {
-                    CompositionLocalProvider(
-                        LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant,
-                        LocalTextStyle provides MaterialTheme.typography.labelLarge,
-                    ) {
-                        Text(session.room?.name ?: "", modifier = Modifier.weight(1f))
-
-                        timeDisplay()
-                    }
-                }
-            }
+            SessionCardContent(
+                sessionSelected = sessionSelected,
+                session = session,
+                timeDisplay = timeDisplay
+            )
         }
     }
 }
 
 @Composable
-fun SpeakerLabel(speaker: SessionDetails.Speaker) {
-    Row {
-        // TODO add avatar
-        Text(
-            speaker.speakerDetails.name,
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.Light,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
+private fun SessionCardContent(
+    modifier: Modifier = Modifier,
+    sessionSelected: (sessionId: String) -> Unit,
+    session: SessionDetails,
+    timeDisplay: @Composable () -> Unit
+) {
+    TitleCard(
+        modifier = modifier.fillMaxWidth(),
+        onClick = { sessionSelected(session.id) },
+        title = { Text(text = session.title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+    ) {
+        if (session.speakers.isNotEmpty()) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                session.speakers.forEach { speaker ->
+                    Row {
+                        // TODO add avatar
+                        Text(
+                            session.speakers.joinToString(", ") { speaker.speakerDetails.name },
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Light,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+        }
+        Spacer(modifier = Modifier.size(4.dp))
+        Row {
+            CompositionLocalProvider(
+                LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant,
+                LocalTextStyle provides MaterialTheme.typography.labelMedium,
+            ) {
+                Text(session.room?.name ?: "", modifier = Modifier.weight(1f))
+
+                timeDisplay()
+            }
+        }
     }
 }
 

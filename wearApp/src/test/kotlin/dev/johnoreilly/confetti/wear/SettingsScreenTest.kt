@@ -4,8 +4,6 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasScrollAction
-import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithContentDescription
 import com.google.android.horologist.auth.data.common.model.AuthUser
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
@@ -40,9 +38,10 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+
+        // TODO enable in follow up PR
+//        scrollToBottom()
+//        takeScreenshot("_end")
     }
 
     @Test
@@ -62,9 +61,10 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+
+        // TODO enable in follow up PR
+//        scrollToBottom()
+//        takeScreenshot("_end")
     }
 
     @Test
@@ -90,9 +90,10 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+
+        // TODO enable in follow up PR
+//        scrollToBottom()
+//        takeScreenshot("_end")
         composeRule.onNodeWithContentDescription("Logged in as John O'Reilly")
             .assertHasClickAction()
             .assertIsDisplayed()

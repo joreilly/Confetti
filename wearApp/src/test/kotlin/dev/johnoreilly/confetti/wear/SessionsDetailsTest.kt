@@ -4,6 +4,7 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.conference
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
@@ -26,9 +27,12 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
 
     @Test
     fun sessionDetailsScreen() {
+        val columnState = TransformingLazyColumnState()
+
         composeRule.setContent {
             TestScaffold {
                 SessionDetailView(
+                    columnState = columnState,
                     uiState = uiState,
                     navigateToSpeaker = {},
                 )
@@ -37,9 +41,8 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         takeScreenshot()
 
-        // TODO enable in follow up PR
-//        scrollToBottom()
-//        takeScreenshot("_end")
+        columnState.requestScrollToItem(20, 0)
+        takeScreenshot("_end")
     }
 
     @Test
@@ -57,8 +60,7 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         takeScreenshot()
 
-        // TODO enable in follow up PR
-//        scrollToBottom()
-//        takeScreenshot("_end")
+        scrollToBottom()
+        takeScreenshot("_end")
     }
 }

@@ -20,6 +20,7 @@ import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ListSubHeader
@@ -52,10 +53,9 @@ fun SettingsListView(
     onRefreshClick: () -> Unit,
     onRefreshToken: () -> Unit,
     onEnableDeveloperMode: () -> Unit,
-    updatePreferences: (WearPreferences) -> Unit
+    updatePreferences: (WearPreferences) -> Unit,
+    columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
-    val columnState = rememberTransformingLazyColumnState()
-
     ScreenScaffold(scrollState = columnState) {
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),

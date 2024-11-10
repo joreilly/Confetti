@@ -6,11 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.lazy.scrollTransform
+//import androidx.wear.compose.material3.lazy.scrollTransform
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
@@ -23,11 +24,10 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun SessionDetailView(
     uiState: SessionDetailsUiState,
+    columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
     navigateToSpeaker: (String) -> Unit
 ) {
     val timeFormatter = remember { DateTimeFormatter.ofPattern("eeee HH:mm") }
-
-    val columnState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = columnState) {
         TransformingLazyColumn(
@@ -45,8 +45,9 @@ fun SessionDetailView(
 
                     item {
                         ScreenHeader(
-                            modifier = Modifier
-                                .scrollTransform(this@item), text = session.title
+                            modifier = Modifier,
+//                                .scrollTransform(this@item),
+                            text = session.title
                         )
                     }
 
@@ -56,8 +57,8 @@ fun SessionDetailView(
                         }
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@item),
+                                .fillMaxWidth(),
+//                                .scrollTransform(this@item),
                             text = time,
                         )
                     }
@@ -65,8 +66,8 @@ fun SessionDetailView(
                     items(description) {
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@items),
+                                .fillMaxWidth(),
+//                                .scrollTransform(this@items),
                             text = it,
                         )
                     }
@@ -74,8 +75,8 @@ fun SessionDetailView(
                     items(session.speakers) { speaker ->
                         SessionSpeakerChip(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@items),
+                                .fillMaxWidth(),
+//                                .scrollTransform(this@items),
                             speaker = speaker.speakerDetails,
                             navigateToSpeaker = navigateToSpeaker
                         )

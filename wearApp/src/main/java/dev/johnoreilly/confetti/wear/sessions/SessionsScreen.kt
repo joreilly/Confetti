@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
@@ -27,9 +28,8 @@ fun SessionsScreen(
     sessionSelected: (sessionId: String) -> Unit,
     addBookmark: ((sessionId: String) -> Unit)?,
     removeBookmark: ((sessionId: String) -> Unit)?,
+    columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
-    val columnState = rememberTransformingLazyColumnState()
-
     ScreenScaffold(scrollState = columnState) {
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),

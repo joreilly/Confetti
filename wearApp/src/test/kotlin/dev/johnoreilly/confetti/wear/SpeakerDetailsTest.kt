@@ -4,6 +4,7 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnOreilly
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
@@ -21,9 +22,12 @@ class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest()
 
     @Test
     fun speakerDetailsScreen() {
+        val columnState = TransformingLazyColumnState()
+
         composeRule.setContent {
             TestScaffold {
                 SpeakerDetailsView(
+                    columnState = columnState,
                     uiState = SpeakerDetailsUiState.Success("myconf", JohnOreilly.speakerDetails),
                 )
             }
@@ -31,9 +35,8 @@ class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest()
         composeRule.onNodeWithText("John O'Reilly").assertIsDisplayed()
         takeScreenshot()
 
-        // TODO enable in follow up PR
-//        scrollToBottom()
-//        takeScreenshot("_end")
+        columnState.requestScrollToItem(20, 0)
+        takeScreenshot("_end")
     }
 
     @Test
@@ -50,8 +53,7 @@ class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest()
         composeRule.onNodeWithText("John O'Reilly").assertIsDisplayed()
         takeScreenshot()
 
-        // TODO enable in follow up PR
-//        scrollToBottom()
-//        takeScreenshot("_end")
+        scrollToBottom()
+        takeScreenshot("_end")
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.Icon
@@ -39,10 +40,11 @@ fun SpeakerDetailsRoute(
 }
 
 @Composable
-fun SpeakerDetailsView(uiState: SpeakerDetailsUiState) {
+fun SpeakerDetailsView(
+    uiState: SpeakerDetailsUiState,
+    columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
+) {
     val placeholderState = rememberPlaceholderState { uiState !is SpeakerDetailsUiState.Loading }
-
-    val columnState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = columnState) {
         TransformingLazyColumn(

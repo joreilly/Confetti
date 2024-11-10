@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
@@ -53,10 +54,9 @@ fun ConferencesRoute(
 fun ConferencesView(
     uiState: ConferencesComponent.UiState,
     navigateToConference: (GetConferencesQuery.Conference) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
-    val columnState = rememberTransformingLazyColumnState()
-
     ScreenScaffold(scrollState = columnState) {
         TransformingLazyColumn(
             modifier = modifier.fillMaxSize(), state = columnState,

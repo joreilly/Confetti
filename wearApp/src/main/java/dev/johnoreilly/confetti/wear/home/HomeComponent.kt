@@ -13,6 +13,7 @@ import dev.johnoreilly.confetti.wear.bookmarks.DefaultBookmarksComponent.Compani
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -26,12 +27,14 @@ interface HomeComponent {
     fun onDayClicked(it: LocalDate)
     fun onSettingsClicked()
     fun onBookmarksClick()
+    fun addBookmark(sessionId: String)
+    fun removeBookmark(sessionId: String)
 }
 
 class DefaultHomeComponent(
     componentContext: ComponentContext,
-    conference: String,
-    user: User?,
+    private val conference: String,
+    private val user: User?,
     private val onSessionSelected: (String) -> Unit,
     private val onDaySelected: (LocalDate) -> Unit,
     private val onSettingsSelected: () -> Unit,
@@ -72,6 +75,18 @@ class DefaultHomeComponent(
 
     override fun onBookmarksClick() {
         onBookmarksToggled()
+    }
+
+    override fun addBookmark(sessionId: String) {
+        coroutineScope.launch {
+            repository.addBookmark(conference, user?.uid, user, sessionId)
+        }
+    }
+
+    override fun removeBookmark(sessionId: String) {
+        coroutineScope.launch {
+            repository.removeBookmark(conference, user?.uid, user, sessionId)
+        }
     }
 
     companion object {

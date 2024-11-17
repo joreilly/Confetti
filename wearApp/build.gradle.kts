@@ -160,6 +160,8 @@ dependencies {
     implementation(libs.compose.material.icons.extended)
     implementation(libs.activity.compose)
     implementation(libs.okio)
+    implementation(libs.wear.compose.material3)
+    implementation(libs.androidx.protolayout.material3)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)

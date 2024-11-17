@@ -3,8 +3,8 @@
 package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.conference
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.sessionDetails
@@ -21,16 +21,18 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
         tolerance = 0.02f
     }
 
-
     val uiState = SessionDetailsUiState.Success(
         conference, sessionDetails
     )
 
     @Test
     fun sessionDetailsScreen() {
+        val columnState = TransformingLazyColumnState()
+
         composeRule.setContent {
             TestScaffold {
                 SessionDetailView(
+                    columnState = columnState,
                     uiState = uiState,
                     navigateToSpeaker = {},
                 )
@@ -39,10 +41,8 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         takeScreenshot()
 
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
+        columnState.requestScrollToItem(20, 0)
+        takeScreenshot("_end")
     }
 
     @Test
@@ -59,8 +59,8 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
         }
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
-            .scrollToBottom()
+
+        scrollToBottom()
         takeScreenshot("_end")
     }
 }

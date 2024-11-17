@@ -2,17 +2,19 @@ package dev.johnoreilly.confetti.wear.sessions
 
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import com.google.android.horologist.compose.layout.ColumnItemType
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
@@ -24,18 +26,18 @@ import kotlinx.datetime.toKotlinLocalDateTime
 fun SessionsScreen(
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
+    addBookmark: ((sessionId: String) -> Unit)?,
+    removeBookmark: ((sessionId: String) -> Unit)?,
+    columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
-    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ItemType.Text,
-            last = ItemType.Card
-        )
-    )
-
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
+        TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
-            columnState = columnState,
+            state = columnState,
+            contentPadding = rememberResponsiveColumnPadding(
+                first = ColumnItemType.ListHeader,
+                last = ColumnItemType.Card
+            ),
         ) {
             when (uiState) {
                 is SessionsUiState.Success -> {
@@ -43,16 +45,26 @@ fun SessionsScreen(
 
                     sessions.forEach { (time, sessionsAtTime) ->
                         item {
-                            SectionHeader(time)
+                            SectionHeader(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .scrollTransform(this@item), text = time
+                            )
                         }
 
                         items(sessionsAtTime) { session ->
                             SessionCard(
-                                session,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .scrollTransform(this@items),
+                                session = session,
                                 sessionSelected = {
                                     sessionSelected(it)
                                 },
-                                uiState.now
+                                currentTime = uiState.now,
+                                isBookmarked = uiState.bookmarks.contains(session.id),
+                                addBookmark = addBookmark,
+                                removeBookmark = removeBookmark,
                             )
                         }
                     }
@@ -95,6 +107,8 @@ fun SessionListViewPreview() {
                 selectedSessionId = null,
             ),
             sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 

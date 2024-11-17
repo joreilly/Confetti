@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.material3.TimeText
 import com.google.android.horologist.networks.ui.DataUsageTimeText
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
@@ -26,20 +26,11 @@ fun ConfettiApp(
     component: WearAppComponent
 ) {
     val appState by component.appState.collectAsStateWithLifecycle()
-    val preferences = appState?.wearPreferences
 
     ConfettiTheme(seedColor = appState?.seedColor) {
         SwipeToDismissBox(
             component.stack,
             onDismissed = { component.navigateUp() },
-            timeText = {
-                val showNetworks = preferences?.showNetworks
-                if (showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS || showNetworks == NetworkDetail.NETWORK_DETAIL_NETWORKS_AND_DATA) {
-                    NetworkTimeText(component, showNetworks)
-                } else {
-                    TimeText()
-                }
-            },
         ) { configuration ->
             when (val child = configuration.instance) {
                 is Child.Conferences -> ConferencesRoute(

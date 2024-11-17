@@ -14,24 +14,25 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.test.core.app.ApplicationProvider
-import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material3.AppScaffold
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.TimeText
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.LocalImageLoader
 import coil.test.FakeImageLoaderEngine
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.ThresholdValidator
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.google.android.horologist.compose.layout.AppScaffold
-import com.google.android.horologist.compose.layout.ResponsiveTimeText
 import dev.johnoreilly.confetti.preview.JohnUrl
-import dev.johnoreilly.confetti.wear.FixedTimeSource
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.MartinUrl
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
@@ -55,8 +56,8 @@ import org.robolectric.annotation.GraphicsMode
 @RunWith(RobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,
-    sdk = [33],
-    qualifiers = "w227dp-h227dp-small-notlong-round-watch-xhdpi-keyshidden-nonav"
+    sdk = [34],
+    qualifiers = RobolectricDeviceQualifiers.WearOSLargeRound
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class BaseScreenshotTest {
@@ -133,6 +134,11 @@ abstract class BaseScreenshotTest {
         }
     }
 
+    open fun scrollToBottom() {
+        composeRule.onNode(hasScrollAction()).scrollToBottom()
+        composeRule.waitForIdle()
+    }
+
     @Composable
     fun TestScaffold(content: @Composable () -> Unit) {
         val imageLoader = ImageLoader.Builder(LocalContext.current)
@@ -144,8 +150,10 @@ abstract class BaseScreenshotTest {
             AppScaffold(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colors.background),
-                timeText = { ResponsiveTimeText(timeSource = FixedTimeSource) }
+                    .background(MaterialTheme.colorScheme.background),
+                timeText = { TimeText(timeSource = FixedTimeSource) {
+                    time()
+                } }
             ) {
                 ConfettiTheme(seedColor = null.toColor()) {
                     content()
@@ -153,4 +161,9 @@ abstract class BaseScreenshotTest {
             }
         }
     }
+}
+
+object FixedTimeSource : androidx.wear.compose.material3.TimeSource {
+    @Composable
+    override fun currentTime(): String = "10:10"
 }

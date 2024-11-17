@@ -2,10 +2,9 @@
 
 package dev.johnoreilly.confetti.wear.ui
 
-import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.wear.compose.material.Colors
+import androidx.wear.compose.material3.ColorScheme
 import com.materialkolor.rememberDynamicColorScheme
 
 /**
@@ -18,22 +17,23 @@ fun ConfettiTheme(
 ) {
     val colors = if (seedColor != null) {
         val colorScheme = rememberDynamicColorScheme(seedColor = seedColor, isDark = true, isAmoled = false)
+        // TODO
         colorScheme.toWearMaterialColors()
     } else {
-        Colors()
+        ColorScheme()
     }
 
     ConfettiThemeFixed(colors = colors, content = content)
 }
 
-fun ColorScheme.toWearMaterialColors(): Colors {
-    return Colors(
+fun androidx.compose.material3.ColorScheme.toWearMaterialColors(): ColorScheme {
+    return ColorScheme(
         primary = this.primary,
-        primaryVariant = this.primaryContainer,
+//        primaryVariant = this.primaryContainer,
         secondary = this.secondary,
-        secondaryVariant = this.secondaryContainer,
+//        secondaryVariant = this.secondaryContainer,
         background = Color.Black,
-        surface = this.surface,
+//        surface = this.surface,
         error = this.error,
         onPrimary = this.onPrimary,
         onSecondary = this.onSecondary,

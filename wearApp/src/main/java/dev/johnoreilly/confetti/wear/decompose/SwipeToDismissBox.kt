@@ -4,25 +4,19 @@ package dev.johnoreilly.confetti.wear.decompose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
-import androidx.wear.compose.foundation.lazy.ScalingLazyListState
-import androidx.wear.compose.material.SwipeToDismissBox
-import androidx.wear.compose.material.SwipeToDismissKeys
-import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.foundation.SwipeToDismissKeys
+import androidx.wear.compose.material3.SwipeToDismissBox
+import androidx.wear.compose.material3.TimeText
+import androidx.wear.compose.material3.AppScaffold
 import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import com.google.android.horologist.compose.layout.AppScaffold
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
 
 /**
  * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
@@ -39,7 +33,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: Value<ChildStack<C, T>>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() },
+    timeText: @Composable () -> Unit = { TimeText() { time() } },
     content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val state = stack.subscribeAsState()
@@ -68,7 +62,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: ChildStack<C, T>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() },
+    timeText: @Composable () -> Unit = { TimeText() { time() } },
     content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val active: Child.Created<C, T> = stack.active
@@ -83,7 +77,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
             modifier = modifier,
             backgroundKey = background?.configuration ?: SwipeToDismissKeys.Background,
             contentKey = active.configuration,
-            hasBackground = background != null,
+            userSwipeEnabled = background != null,
         ) { isBackground ->
             val child = background?.takeIf { isBackground } ?: active
             holder.SaveableStateProvider(child.configuration.key()) {

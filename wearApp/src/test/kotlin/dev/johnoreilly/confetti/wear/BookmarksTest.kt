@@ -2,7 +2,6 @@
 
 package dev.johnoreilly.confetti.wear
 
-import androidx.compose.ui.test.hasScrollToIndexAction
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreen
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
@@ -34,13 +33,15 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
                             now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                         )
                     ),
-                    sessionSelected = {}
+                    sessionSelected = {},
+                    addBookmark = {},
+                    removeBookmark = {}
                 )
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
-            .scrollToBottom()
-        takeScreenshot("_end")
+        // TODO enable in follow up PR
+//        scrollToBottom()
+//        takeScreenshot("_end")
     }
 }

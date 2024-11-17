@@ -1,20 +1,20 @@
 package dev.johnoreilly.confetti.wear.bookmarks
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.listTextPadding
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.padding
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import com.google.android.horologist.compose.layout.ColumnItemType
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
@@ -30,58 +30,89 @@ import java.time.LocalDateTime
 fun BookmarksScreen(
     uiState: QueryResult<BookmarksUiState>,
     sessionSelected: (String) -> Unit,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
 ) {
-    val columnState: ScalingLazyColumnState = rememberResponsiveColumnState(
-        contentPadding = padding(
-            first = ItemType.Text,
-            last = ItemType.Card
-        )
-    )
+    val columnState = rememberTransformingLazyColumnState()
 
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
+        TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
-            columnState = columnState,
+            state = columnState,
+            contentPadding = rememberResponsiveColumnPadding(
+                first = ColumnItemType.ListHeader,
+                last = ColumnItemType.Card
+            ),
         ) {
             when (uiState) {
                 is QueryResult.Success -> {
-                    item { ScreenHeader(text = stringResource(R.string.upcoming_sessions)) }
+                    item {
+                        ScreenHeader(
+                            modifier = Modifier
+                                .scrollTransform(this@item),
+                            text = stringResource(R.string.upcoming_sessions)
+                        )
+                    }
 
                     items(uiState.result.upcoming) { session ->
                         SessionCard(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .scrollTransform(this@items),
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
                             },
-                            currentTime = uiState.result.now
+                            currentTime = uiState.result.now,
+                            isBookmarked = true,
+                            addBookmark = addBookmark,
+                            removeBookmark = removeBookmark
                         )
                     }
 
                     if (!uiState.result.hasUpcomingBookmarks) {
                         item {
                             Text(
-                                stringResource(id = R.string.no_upcoming),
-                                modifier = Modifier.listTextPadding()
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .scrollTransform(this@item),
+                                text = stringResource(id = R.string.no_upcoming),
                             )
                         }
                     }
 
-                    item { SectionHeader(text = stringResource(id = R.string.past_sessions)) }
+                    item {
+                        SectionHeader(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .scrollTransform(this@item),
+                            text = stringResource(id = R.string.past_sessions)
+                        )
+                    }
 
                     items(uiState.result.past) { session ->
                         SessionCard(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .scrollTransform(this@items),
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
-                            }, currentTime = uiState.result.now
+                            },
+                            currentTime = uiState.result.now,
+                            isBookmarked = true,
+                            addBookmark = {},
+                            removeBookmark = {}
                         )
                     }
 
                     if (uiState.result.past.isEmpty()) {
                         item {
                             Text(
-                                stringResource(id = R.string.no_past),
-                                modifier = Modifier.listTextPadding()
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .scrollTransform(this@item),
+                                text = stringResource(id = R.string.no_past),
                             )
                         }
                     }
@@ -110,6 +141,8 @@ fun BookmarksPreview() {
                 )
             ),
             sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 }

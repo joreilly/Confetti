@@ -4,8 +4,8 @@ package dev.johnoreilly.confetti.wear
 
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import com.google.android.horologist.auth.data.common.model.AuthUser
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
@@ -24,9 +24,12 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
 
     @Test
     fun loggedOutSettings() {
+        val columnState = TransformingLazyColumnState()
+
         composeRule.setContent {
             TestScaffold {
                 SettingsListView(
+                    columnState = columnState,
                     uiState = SettingsUiState.Success(null),
                     conferenceCleared = { },
                     navigateToGoogleSignIn = { },
@@ -39,16 +42,19 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
-            .scrollToBottom()
+
+        columnState.requestScrollToItem(20, 0)
         takeScreenshot("_end")
     }
 
     @Test
     fun loggedInSettings() {
+        val columnState = TransformingLazyColumnState()
+
         composeRule.setContent {
             TestScaffold {
                 SettingsListView(
+                    columnState = columnState,
                     uiState = SettingsUiState.Success(AuthUser("John O'Reilly", avatarUri = JohnUrl)),
                     conferenceCleared = { },
                     navigateToGoogleSignIn = { },
@@ -61,8 +67,8 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
-            .scrollToBottom()
+
+        columnState.requestScrollToItem(20, 0)
         takeScreenshot("_end")
     }
 
@@ -89,8 +95,8 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             }
         }
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
-            .scrollToBottom()
+
+        scrollToBottom()
         takeScreenshot("_end")
         composeRule.onNodeWithContentDescription("Logged in as John O'Reilly")
             .assertHasClickAction()

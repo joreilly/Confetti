@@ -5,9 +5,9 @@ package dev.johnoreilly.confetti.wear
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTouchHeightIsEqualTo
-import androidx.compose.ui.test.hasScrollToIndexAction
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.wear.conferences.ConferencesView
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.conferences
@@ -25,9 +25,12 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
 
     @Test
     fun conferencesScreen() {
+        val columnState = TransformingLazyColumnState()
+
         composeRule.setContent {
             TestScaffold {
                 ConferencesView(
+                    columnState = columnState,
                     uiState = ConferencesComponent.Success(
                         conferences.groupBy { it.days.first().year }
                     ),
@@ -38,10 +41,8 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
         composeRule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
         takeScreenshot()
 
-        // Disabled temporarily, hangs roborazzi
-//        composeRule.onNode(hasScrollToIndexAction())
-//            .scrollToBottom()
-//        takeScreenshot("_end")
+        columnState.requestScrollToItem(20, 0)
+        takeScreenshot("_end")
     }
 
     @Test
@@ -66,9 +67,10 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
             .assertTouchHeightIsEqualTo(52.dp)
 
         takeScreenshot()
-        composeRule.onNode(hasScrollToIndexAction())
-            .scrollToBottom()
+
+        scrollToBottom()
         takeScreenshot("_end")
+
         composeRule.onNodeWithText("Conferences")
             .assertIsDisplayed()
             .assertHasNoClickAction()

@@ -1,13 +1,11 @@
-package dev.johnoreilly.confetti.ui
+package dev.johnoreilly.confetti.ui.sessions
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,6 +45,9 @@ import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.isService
+import dev.johnoreilly.confetti.ui.SignInDialog
+import dev.johnoreilly.confetti.ui.component.ErrorView
+import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.icons.Bolt
 import dev.johnoreilly.confetti.ui.icons.Bookmark
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons

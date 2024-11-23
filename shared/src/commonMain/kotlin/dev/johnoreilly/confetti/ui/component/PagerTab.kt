@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class, ExperimentalFoundationApi::class)
-
 package dev.johnoreilly.confetti.ui.component
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.TabPosition
 import androidx.compose.ui.Modifier
@@ -14,7 +11,6 @@ import androidx.compose.ui.unit.lerp
  * WARNING: Forked from the original  PagerTab extension (com.google.accompanist.pager.PagerTab.kt)
  * in order to support material3 TabPosition.
  */
-@OptIn(ExperimentalFoundationApi::class)
 fun Modifier.pagerTabIndicatorOffset(
     pagerState: PagerState,
     tabPositions: List<TabPosition>,

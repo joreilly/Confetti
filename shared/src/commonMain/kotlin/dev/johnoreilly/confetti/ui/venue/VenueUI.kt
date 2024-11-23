@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.ui
+package dev.johnoreilly.confetti.ui.venue
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,9 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.decompose.VenueComponent
-import dev.johnoreilly.confetti.ui.ErrorView
-import dev.johnoreilly.confetti.ui.LoadingView
-import dev.johnoreilly.confetti.ui.VenueView
+import dev.johnoreilly.confetti.ui.component.LoadingView
+import dev.johnoreilly.confetti.ui.component.ErrorView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

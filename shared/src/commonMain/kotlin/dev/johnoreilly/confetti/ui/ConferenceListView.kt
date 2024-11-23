@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -29,6 +30,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import conferenceDayMonthFormat
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
+import dev.johnoreilly.confetti.ui.component.LoadingView
 import kotlinx.datetime.LocalDate
 
 
@@ -36,8 +38,10 @@ import kotlinx.datetime.LocalDate
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ConferenceListView(component: ConferencesComponent) {
+
     Scaffold(
         topBar = {
+            CenterAlignedTopAppBar(title = { Text("Confetti")})
             Surface(tonalElevation = 0.dp) {
                 MediumTopAppBar(
                     title = {
@@ -53,7 +57,8 @@ fun ConferenceListView(component: ConferencesComponent) {
                     }
                 )
             }
-        }) {
+        }
+    ) {
 
         val uiState by component.uiState.subscribeAsState()
 

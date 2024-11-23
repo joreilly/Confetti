@@ -719,6 +719,30 @@ object Sessionize {
         )
     }
 
+    suspend fun importDevFestWarsaw2024(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/mzjxwflc/view/All"),
+            config = DConfig(
+                id = ConferenceId.DevFestWarsaw2024.id,
+                name = "DevFest Warsaw 2024",
+                timeZone = "Europe/Warsaw",
+                themeColor = "0xFF512DA8"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Google for Startups Campus Warsaw",
+                address = "Plac Konesera 10, 03-736 Warszawa",
+                description = mapOf(
+                    "en" to "Google for Startups Campus Warsaw",
+                ),
+                latitude = 52.2561388,
+                longitude = 21.0453105,
+                imageUrl = "https://i.postimg.cc/GmVdqZsq/campus-outside.jpg",
+                floorPlanUrl = null
+            ),
+        )
+    }
+
     internal fun writeData(
         sessionizeData: SessionizeData,
         config: DConfig,

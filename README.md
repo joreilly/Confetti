@@ -9,12 +9,12 @@ height="80">](https://play.google.com/store/apps/details?id=dev.johnoreilly.conf
 alt="Get it on App Store"
 height="80">](https://apps.apple.com/us/app/confetti/id1660211390)
 
-Kotlin Multiplatform GraphQL project (backend and clients) to allow viewing of conference information for a range of conferences.
+Kotlin/Compose Multiplatform GraphQL project (backend and clients) to allow viewing of conference information for a range of conferences.
 
 Includes:
 
-- SwiftUI iOS client
-- Jetpack Compose Android client
+- Compose iOS client
+- Compose Android client
 - Compose for Desktop client (early version)
 - Compose for Wear OS client (contributed by https://github.com/yschimke)
 - Compose for iOS (session details screen shared across platforms)
@@ -43,6 +43,10 @@ Requires Xcode 14 or later for iOS client.
 ### Screenshots
 
 <img width="1203" alt="Screenshot 2023-04-02 at 14 28 02" src="https://user-images.githubusercontent.com/6302/229355816-b1f6b769-4c7f-49a1-9fba-4c9cb1f6955d.png">
+
+
+<img width="434" alt="Screenshot 2024-11-30 at 18 48 39" src="https://github.com/user-attachments/assets/7d63470b-1965-4d67-940f-0ab1791d52a2">
+
 
 
 ![Tablet Screenshot of Confetti](https://user-images.githubusercontent.com/6302/227476725-edd577f5-2abd-4660-a777-decef84fbb9b.png)

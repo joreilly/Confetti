@@ -29,7 +29,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.time.Duration
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class RefreshWorker(
     private val appContext: Context,
     private val workerParams: WorkerParameters

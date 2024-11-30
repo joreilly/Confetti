@@ -14,7 +14,8 @@ androidx-lifecycle = "2.8.7"
 androidx-datastore = "1.1.1"
 apollo = "4.0.1"
 compose = "1.7.5"
-compose-multiplatform = "1.7.0"
+composeLifecyleRuntime="2.8.4"
+compose-multiplatform = "1.7.1"
 compose-material3 = "1.3.1"
 compose-ui-tooling = "1.4.0"
 composeWindowSize = "0.5.0"
@@ -26,7 +27,7 @@ horologist = "0.7.4-alpha"
 io-coil-kt = "2.7.0"
 io-coil3-kt = "3.0.1"
 kermit = "2.0.4"
-kmp-nativecoroutines = "1.0.0-ALPHA-36"
+kmp-nativecoroutines = "1.0.0-ALPHA-37"
 kmm-viewmodel = "1.0.0-ALPHA-21"
 kmmbridge = "0.5.7"
 koin-android = "4.0.0"
@@ -38,18 +39,18 @@ lifecycle = "2.8.7"
 lifecycle-livedata-ktx = "2.8.7"
 materialkolor = "2.0.0"
 multiplatform-settings = "1.2.0"
-nav-compose = "2.8.3"
-okio = "3.9.0"
-protolayout = "1.3.0-alpha03"
+nav-compose = "2.8.4"
+okio = "3.9.1"
+protolayout = "1.3.0-alpha04"
 robolectric = "4.13"
 room = "2.6.1"
-tiles-tooling-preview = "1.5.0-alpha03"
-work-runtime-ktx = "2.9.1"
+tiles-tooling-preview = "1.5.0-alpha04"
+work-runtime-ktx = "2.10.0"
 spring = "3.3.3"
 generativeai = "0.9.0-1.0.1-wasm"
 buildkonfig = "0.15.2"
 roborazzi = "1.31.0"
-screenshot = "0.0.1-alpha07"
+screenshot = "0.0.1-alpha08"
 
 
 [libraries]
@@ -74,6 +75,7 @@ androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-p
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles-tooling-preview" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
+lifecyle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "composeLifecyleRuntime" }
 apollo-adapters = { module = "com.apollographql.apollo:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo:apollo-normalized-cache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo:apollo-normalized-cache-sqlite" }

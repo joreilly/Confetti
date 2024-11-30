@@ -43,11 +43,15 @@
 //
 //    override val userEditableSettings: StateFlow<UserEditableSettings?> =
 //        combine(
+//            settings.getStringFlow(brandKey, ThemeBrand.DEFAULT.toString()),
 //            settings.getStringFlow(darkThemeConfigKey, DarkThemeConfig.FOLLOW_SYSTEM.toString()),
+//            settings.getBooleanFlow(useDynamicColorKey, false),
 //            appSettings.experimentalFeaturesEnabledFlow,
-//        ) { darkThemeConfig, useExperimentalFeatures ->
+//        ) { themeBrand, darkThemeConfig, useDynamicColor, useExperimentalFeatures ->
 //            UserEditableSettings(
+//                brand = ThemeBrand.valueOf(themeBrand),
 //                useExperimentalFeatures = useExperimentalFeatures,
+//                useDynamicColor = useDynamicColor,
 //                darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfig),
 //            )
 //        }.stateIn(
@@ -56,9 +60,21 @@
 //            initialValue = null,
 //        )
 //
+//    override fun updateThemeBrand(themeBrand: ThemeBrand) {
+//        coroutineScope.launch {
+//            settings.putString(brandKey, themeBrand.toString())
+//        }
+//    }
+//
 //    override fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
 //        coroutineScope.launch {
 //            settings.putString(darkThemeConfigKey, darkThemeConfig.toString())
+//        }
+//    }
+//
+//    override fun updateDynamicColorPreference(useDynamicColor: Boolean) {
+//        coroutineScope.launch {
+//            settings.putBoolean(useDynamicColorKey, useDynamicColor)
 //        }
 //    }
 //
@@ -76,6 +92,8 @@
 //    }
 //
 //    companion object {
+//        const val brandKey = "brandKey"
+//        const val useDynamicColorKey = "useDynamicColorKey"
 //        const val darkThemeConfigKey = "darkThemeConfigKey"
 //    }
 //}

@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.ui
+package dev.johnoreilly.confetti.ui.speakers
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -17,6 +17,8 @@ import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.decompose.SpeakersComponent
 import dev.johnoreilly.confetti.decompose.SpeakersUiState
+import dev.johnoreilly.confetti.ui.component.LoadingView
+import dev.johnoreilly.confetti.ui.component.ErrorView
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)

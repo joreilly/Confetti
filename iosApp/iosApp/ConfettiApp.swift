@@ -5,43 +5,40 @@ import Combine
 import ConfettiKit
 import FirebaseCore
 
-struct ConfettiApp: View {
-    private let component: AppComponent
+
+struct ComposeView: UIViewControllerRepresentable {
+    let component: DefaultAppComponent
     
-    @StateValue
-    private var stack: ChildStack<AnyObject, AppComponentChild>
-    
-    init(_ component: AppComponent) {
-        self.component = component
-        _stack = StateValue(component.stack)
-        
-        UITabBar.appearance().backgroundColor = UIColor.systemBackground
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewControllerKt.MainViewController(component: component)
     }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+
+struct ConfettiApp: View {
+    let component: DefaultAppComponent
     
     var body: some View {
-        VStack {
-            switch stack.active.instance {
-            case is AppComponentChild.Loading: ProgressView()
-            case let child as AppComponentChild.Conferences: ConferencesView(child.component)
-            case let child as AppComponentChild.Conference: ConferenceView(child.component)
-            default: EmptyView()
-            }
-        }.onOpenURL{ url in
-            //Handle Google Oauth URL
-            GIDSignIn.sharedInstance.handle(url)
-        }.onAppear{
-            //Firebase state change listeneer
-            Auth.auth().addStateDidChangeListener{ auth, user in
-                if let user {
-                    print("user logged in")
-                    let confettiUser = NativeTokenProvider(user: user)
-                    component.setUser(user: confettiUser)
-                } else {
-                    print("user logged out")
-                    component.setUser(user: nil)
+        ComposeView(component: component)
+            .ignoresSafeArea()
+            .onOpenURL{ url in
+                //Handle Google Oauth URL
+                GIDSignIn.sharedInstance.handle(url)
+            }.onAppear{
+                //Firebase state change listeneer
+                Auth.auth().addStateDidChangeListener{ auth, user in
+                    if let user {
+                        print("user logged in")
+                        let confettiUser = NativeTokenProvider(user: user)
+                        component.setUser(user: confettiUser)
+                    } else {
+                        print("user logged out")
+                        component.setUser(user: nil)
+                    }
                 }
             }
-        }
     }
 }
 

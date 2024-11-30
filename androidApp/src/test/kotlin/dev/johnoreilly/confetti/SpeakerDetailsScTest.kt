@@ -2,7 +2,7 @@ package dev.johnoreilly.confetti
 
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.speakerdetails.SpeakerDetailsView
+import dev.johnoreilly.confetti.ui.speakers.SpeakerDetailsView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
 
@@ -35,9 +35,11 @@ class SpeakerDetailsScTest : BaseScreenshotTest() {
             }
         ) {
             SpeakerDetailsView(
+                conference = "droidconLondon2014",
                 speaker = mockSpeaker,
                 navigateToSession = {},
-                popBack = {}
+                popBack = {},
+                onSocialLinkClicked = {}
             )
         }
     }

@@ -4,18 +4,15 @@ package dev.johnoreilly.confetti
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.view.WindowCompat
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.Lifecycle
@@ -31,12 +28,7 @@ import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.decompose.ThemeBrand
 import dev.johnoreilly.confetti.decompose.UserEditableSettings
-import dev.johnoreilly.confetti.settings.DefaultSettingsComponent
-import dev.johnoreilly.confetti.ui.ConfettiApp
-import dev.johnoreilly.confetti.ui.ConfettiTheme
-import dev.johnoreilly.confetti.ui.component.ConfettiBackground
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import dev.johnoreilly.confetti.ui.App
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -45,27 +37,23 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalDecomposeApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
-        // Fix for three-button nav not properly going edge-to-edge.
-        // TODO: https://issuetracker.google.com/issues/298296168
-        window.setFlags(FLAG_LAYOUT_NO_LIMITS, FLAG_LAYOUT_NO_LIMITS)
-
         super.onCreate(savedInstanceState)
 
         var userEditableSettings by mutableStateOf<UserEditableSettings?>(null)
         val credentialManager: CredentialManager by inject()
         val authentication: Authentication by inject()
-        val appSettings: AppSettings by inject()
+
 
         val appComponent =
             handleDeepLink { uri ->
                 val initialConferenceId = uri?.extractConferenceIdOrNull()
                 val rootComponentContext = defaultComponentContext(discardSavedState = initialConferenceId != null)
 
-                val settingsComponent = DefaultSettingsComponent(
-                    componentContext = rootComponentContext.childContext("settings"),
-                    appSettings = appSettings,
-                    authentication = authentication,
-                )
+//                val settingsComponent = SettingsComponent(
+//                    componentContext = rootComponentContext.childContext("settings"),
+//                    appSettings = appSettings,
+//                    authentication = authentication,
+//                )
 
                 val appComponent = DefaultAppComponent(
                     componentContext = rootComponentContext.childContext("app"),
@@ -79,46 +67,31 @@ class MainActivity : ComponentActivity() {
                         lifecycleScope.launch {
                             signIn(this@MainActivity, authentication)
                         }
-                    },
-                    settingsComponent = settingsComponent
+                    }
                 )
-
-                appComponent to settingsComponent
+                appComponent
             } ?: return
 
 
         lifecycleScope.launch {
             authentication.currentUser
                 .collect {
-                    appComponent.first.setUser(it)
+                    appComponent.setUser(it)
                 }
         }
 
-        // Update the theme settings
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                appComponent.second.userEditableSettings.collect {
-                    userEditableSettings = it
-                }
-            }
-        }
-
+//        // Update the theme settings
+//        lifecycleScope.launch {
+//            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                appComponent.second.userEditableSettings.collect {
+//                    userEditableSettings = it
+//                }
+//            }
+//        }
+//
 
         setContent {
-            val windowSizeClass = calculateWindowSizeClass()
-
-            ConfettiTheme(
-                darkTheme = shouldUseDarkTheme(userEditableSettings?.darkThemeConfig),
-                androidTheme = shouldUseAndroidTheme(userEditableSettings?.brand),
-                disableDynamicTheming = shouldDisableDynamicTheming(userEditableSettings?.useDynamicColor)
-            ) {
-                ConfettiBackground {
-                    ConfettiApp(
-                        component = appComponent.first,
-                        windowSizeClass = windowSizeClass,
-                    )
-                }
-            }
+            App(component = appComponent)
         }
     }
 

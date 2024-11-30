@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.ui
+package dev.johnoreilly.confetti.ui.sessions
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

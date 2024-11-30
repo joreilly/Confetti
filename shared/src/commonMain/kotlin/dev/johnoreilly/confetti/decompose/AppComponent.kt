@@ -42,10 +42,18 @@ class DefaultAppComponent(
 
     private val coroutineScope = coroutineScope()
     private val authentication: Authentication by inject()
+    val appSettings: AppSettings by inject()
     private val repository: ConfettiRepository by inject()
     private val navigation = StackNavigation<Config>()
 
     private var user: User? = null
+
+    private val defaultSettingsComponent = DefaultSettingsComponent(
+        componentContext = componentContext,
+        appSettings = appSettings,
+        authentication = authentication
+    )
+
 
     override val stack: Value<ChildStack<*, Child>> =
         childStack(
@@ -129,7 +137,7 @@ class DefaultAppComponent(
                             authentication.signOut()
                         },
                         onSignIn = onSignIn,
-                        settingsComponent = settingsComponent
+                        settingsComponent = defaultSettingsComponent
                     )
                 )
         }

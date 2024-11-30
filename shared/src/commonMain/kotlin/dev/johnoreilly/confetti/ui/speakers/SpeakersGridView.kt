@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.ui
+package dev.johnoreilly.confetti.ui.speakers
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -30,8 +30,8 @@ fun SpeakerGridView(
     navigateToSpeaker: (id: String) -> Unit
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(200.dp),
-        contentPadding = PaddingValues(16.dp),
+        columns = GridCells.Adaptive(150.dp),
+        contentPadding = PaddingValues(12.dp),
         content = {
             items(speakers) { speaker ->
                 Column(

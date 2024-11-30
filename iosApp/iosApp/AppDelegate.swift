@@ -12,7 +12,7 @@ import ConfettiKit
 
 class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
     private var applicationLifecycle: ApplicationLifecycle
-    @Published var appComponent: AppComponent
+    @Published var appComponent: DefaultAppComponent
     
     override init() {
         KoinKt.doInitKoin()

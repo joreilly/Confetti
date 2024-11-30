@@ -14,7 +14,7 @@ import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import dev.johnoreilly.confetti.auth.User
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+
 
 interface ConferenceComponent : BackHandlerOwner {
 

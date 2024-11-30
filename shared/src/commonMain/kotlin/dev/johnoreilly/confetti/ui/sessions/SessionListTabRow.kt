@@ -1,6 +1,5 @@
-package dev.johnoreilly.confetti.ui
+package dev.johnoreilly.confetti.ui.sessions
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRow
@@ -15,7 +14,6 @@ import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SessionListTabRow(pagerState: PagerState, uiState: SessionsUiState.Success) {
     TabRow(

@@ -1,4 +1,4 @@
-package dev.johnoreilly.confetti.ui
+package dev.johnoreilly.confetti.ui.venue
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

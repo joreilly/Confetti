@@ -42,8 +42,6 @@ Requires Xcode 14 or later for iOS client.
 
 ### Screenshots
 
-<img width="1203" alt="Screenshot 2023-04-02 at 14 28 02" src="https://user-images.githubusercontent.com/6302/229355816-b1f6b769-4c7f-49a1-9fba-4c9cb1f6955d.png">
-
 
 <img width="434" alt="Screenshot 2024-11-30 at 18 48 39" src="https://github.com/user-attachments/assets/7d63470b-1965-4d67-940f-0ab1791d52a2">
 

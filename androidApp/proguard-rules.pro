@@ -15,3 +15,4 @@
 -keep class com.google.firebase.** { *; }
 
 -dontwarn okhttp3.internal.Util
+-dontwarn io.ktor.client.network.sockets.SocketTimeoutException

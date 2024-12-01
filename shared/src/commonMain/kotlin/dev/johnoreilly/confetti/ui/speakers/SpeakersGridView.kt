@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
+import coil3.compose.SubcomposeAsyncImage
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 
 
@@ -43,9 +44,12 @@ fun SpeakerGridView(
 
                     // proxy image requests through backend
                     val url = "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
-                    AsyncImage(
+                    SubcomposeAsyncImage(
                         model = url,
                         contentDescription = speaker.name,
+                        loading = {
+                            CircularProgressIndicator()
+                        },
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .size(150.dp)

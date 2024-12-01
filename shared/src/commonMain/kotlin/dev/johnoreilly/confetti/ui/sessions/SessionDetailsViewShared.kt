@@ -19,6 +19,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +35,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import coil3.compose.SubcomposeAsyncImage
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -152,11 +153,15 @@ internal fun SessionSpeakerInfo(
         Row {
             speaker.photoUrl?.let {
                 val url = "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
-                AsyncImage(
+                SubcomposeAsyncImage(
                     model = url,
                     contentDescription = speaker.name,
+                    loading = {
+                        CircularProgressIndicator()
+                    },
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(64.dp)
+                    modifier = Modifier
+                        .size(64.dp)
                         .clip(CircleShape)
                 )
             }

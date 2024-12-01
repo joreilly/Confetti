@@ -90,6 +90,8 @@ kotlin {
                 api(compose.components.resources)
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor)
+                implementation(libs.cupertino.adaptive)
+                implementation(libs.cupertino.iconsExtended)
                 api(libs.materialkolor)
                 api(libs.compose.window.size)
                 implementation(libs.lifecyle.runtime)

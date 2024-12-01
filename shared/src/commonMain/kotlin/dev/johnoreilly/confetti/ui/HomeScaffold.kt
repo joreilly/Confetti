@@ -22,8 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.utils.isCompact
 import dev.johnoreilly.confetti.utils.isExpanded
+import io.github.alexzhirkevich.cupertino.adaptive.AdaptiveScaffold
+import io.github.alexzhirkevich.cupertino.adaptive.AdaptiveTopAppBar
+import io.github.alexzhirkevich.cupertino.adaptive.ExperimentalAdaptiveApi
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAdaptiveApi::class)
 @Composable
 fun HomeScaffold(
     title: String?,
@@ -44,10 +47,10 @@ fun HomeScaffold(
         TopAppBarDefaults.pinnedScrollBehavior()
     }
 
-    Scaffold(
+    AdaptiveScaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            AdaptiveTopAppBar(
                 title = {
                     Text(
                         modifier = Modifier
@@ -60,11 +63,11 @@ fun HomeScaffold(
                 },
                 navigationIcon = topBarNavigationIcon,
                 actions = topBarActions,
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                ),
-                scrollBehavior = scrollBehavior,
+//                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+//                    containerColor = Color.Transparent,
+//                    scrolledContainerColor = Color.Transparent,
+//                ),
+//                scrollBehavior = scrollBehavior,
             )
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0),

@@ -58,6 +58,13 @@ import dev.johnoreilly.confetti.ui.speakers.SpeakerDetailsUI
 import dev.johnoreilly.confetti.ui.speakers.SpeakersUI
 import dev.johnoreilly.confetti.ui.venue.VenueUI
 import dev.johnoreilly.confetti.utils.isExpanded
+import io.github.alexzhirkevich.cupertino.adaptive.AdaptiveNavigationBar
+import io.github.alexzhirkevich.cupertino.adaptive.AdaptiveNavigationBarItem
+import io.github.alexzhirkevich.cupertino.adaptive.AdaptiveScaffold
+import io.github.alexzhirkevich.cupertino.adaptive.AdaptiveTheme
+import io.github.alexzhirkevich.cupertino.adaptive.ExperimentalAdaptiveApi
+import io.github.alexzhirkevich.cupertino.adaptive.Theme
+import io.github.alexzhirkevich.cupertino.theme.CupertinoTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -72,9 +79,39 @@ fun App(component: DefaultAppComponent) {
 }
 
 
+@OptIn(ExperimentalAdaptiveApi::class)
 @Composable
 fun ConferenceView(component: ConferenceComponent) {
-    ConferenceMaterialTheme(component.conferenceThemeColor) {
+
+
+    //ConferenceMaterialTheme(component.conferenceThemeColor) {
+    AdaptiveTheme(
+        material = {
+            ConferenceMaterialTheme(
+                seedColorString = component.conferenceThemeColor,
+//                colorScheme = if (useDarkTheme) {
+//                    androidx.compose.material3.darkColorScheme()
+//                } else {
+//                    androidx.compose.material3.lightColorScheme()
+//                },
+                content = it
+            )
+        },
+        cupertino = {
+            CupertinoTheme(
+//                colorScheme = if (useDarkTheme) {
+//                    darkColorScheme()
+//                } else {
+//                    lightColorScheme()
+//                },
+                content = it
+            )
+
+        },
+        target = Theme.Material3
+    ) {
+
+
         Children(stack = component.stack) {
             when (val child = it.instance) {
                 is ConferenceComponent.Child.Home -> HomeView(child.component)
@@ -87,6 +124,8 @@ fun ConferenceView(component: ConferenceComponent) {
                 }
             }
         }
+
+
     }
 }
 
@@ -126,7 +165,7 @@ fun HomeView(component: HomeComponent) {
             }
         }
 
-        Scaffold(
+        AdaptiveScaffold(
             bottomBar = { if (!shouldShowNavRail) BottomBar(component) },
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             contentWindowInsets = WindowInsets(0.dp)
@@ -194,16 +233,17 @@ private fun NavigationRail(component: HomeComponent) {
 }
 
 
+@OptIn(ExperimentalAdaptiveApi::class)
 @Composable
 private fun BottomBar(component: HomeComponent) {
     Column {
         HorizontalDivider()
-        NavigationBar(
-            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            tonalElevation = 0.dp,
+        AdaptiveNavigationBar(
+            //contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            //tonalElevation = 0.dp,
         ) {
             NavigationButtons(component = component) { isSelected, selectedIcon, unselectedIcon, text, onClick ->
-                NavigationBarItem(
+                AdaptiveNavigationBarItem(
                     selected = isSelected,
                     onClick = onClick,
                     icon = {

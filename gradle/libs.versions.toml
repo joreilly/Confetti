@@ -88,7 +88,7 @@ spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-s
 spring-webflux = "org.springframework:spring-webflux:6.1.14"
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring" }
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
-ktor-server-netty = "io.ktor:ktor-server-netty:2.3.12"
+ktor-server-netty = "io.ktor:ktor-server-netty:2.3.13"
 apollo-annotations = { module = "com.apollographql.apollo:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo:apollo-tooling", version.ref = "apollo" }
 apollo-testing = { module = "com.apollographql.apollo:apollo-testing-support" }
@@ -164,8 +164,8 @@ kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-cor
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3"
-ktor-cio = "io.ktor:ktor-server-cio:2.3.12"
-ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.12"
+ktor-cio = "io.ktor:ktor-server-cio:2.3.13"
+ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.13"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }

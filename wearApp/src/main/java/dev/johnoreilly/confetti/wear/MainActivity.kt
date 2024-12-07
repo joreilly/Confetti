@@ -8,10 +8,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.credentials.ClearCredentialStateRequest
+import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.firebase.FirebaseApp
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.wear.account.signIn
 import dev.johnoreilly.confetti.wear.navigation.DefaultWearAppComponent
 import dev.johnoreilly.confetti.wear.navigation.NavigationHelper.logNavigationEvent
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
@@ -30,6 +34,8 @@ class MainActivity : ComponentActivity() {
     private val analyticsLogger: AnalyticsLogger by inject()
 
     private val tileSync: TileSync by inject()
+    val credentialManager: CredentialManager by inject()
+    val authentication: Authentication by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -46,7 +52,17 @@ class MainActivity : ComponentActivity() {
         appComponent =
             DefaultWearAppComponent(
                 componentContext = defaultComponentContext(),
-                intent = intent
+                intent = intent,
+                onSignOut = {
+                    lifecycleScope.launch {
+                        credentialManager.clearCredentialState(ClearCredentialStateRequest())
+                    }
+                },
+                onSignIn = {
+                    lifecycleScope.launch {
+                        signIn(this@MainActivity, authentication)
+                    }
+                }
             )
 
         setContent {

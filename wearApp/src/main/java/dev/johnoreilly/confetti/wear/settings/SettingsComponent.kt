@@ -1,13 +1,9 @@
 package dev.johnoreilly.confetti.wear.settings
 
 import com.arkivanov.decompose.ComponentContext
-import com.google.firebase.auth.auth
-import com.google.firebase.Firebase
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.decompose.coroutineScope
-import dev.johnoreilly.confetti.wear.data.auth.FirebaseAuthUserRepository
-import dev.johnoreilly.confetti.wear.data.auth.FirebaseUserMapper
-import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +14,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -26,48 +21,38 @@ interface SettingsComponent {
     val uiState: StateFlow<SettingsUiState>
 
     fun enableDeveloperMode()
-    fun refreshToken()
     fun refresh()
+    fun signIn()
+    fun signOut()
     fun onSwitchConferenceSelected()
-    fun navigateToGoogleSignIn()
-    fun navigateToGoogleSignOut()
     fun updatePreferences(wearPreferences: WearPreferences)
 }
 
 class DefaultSettingsComponent(
     componentContext: ComponentContext,
-    val onNavigateToGoogleSignIn: () -> Unit,
-    val onNavigateToGoogleSignOut: () -> Unit,
     val onNavigateToConferences: () -> Unit,
+    private val onSignOut: () -> Unit,
+    private val onSignIn: () -> Unit,
 ) : SettingsComponent, KoinComponent, ComponentContext by componentContext {
-    private val userRepository: FirebaseAuthUserRepository by inject()
     private val appSettings: AppSettings by inject()
     private val phoneSettingsSync: PhoneSettingsSync by inject()
     private val workManagerConferenceRefresh: WorkManagerConferenceRefresh by inject()
     private val wearPreferencesStore: WearPreferencesStore by inject()
+    private val authentication: Authentication by inject()
 
     private val coroutineScope = coroutineScope()
 
     override val uiState: StateFlow<SettingsUiState> =
         combine(
-            userRepository.firebaseAuthFlow,
+            authentication.currentUser,
             appSettings.developerModeFlow(),
             wearPreferencesStore.preferences
-        ) { firebaseUser, developerMode, preferences ->
-            val authUser = FirebaseUserMapper.map(firebaseUser)
+        ) { authUser, developerMode, preferences ->
 
             if (developerMode) {
-                val token = try {
-                    firebaseUser?.getIdToken(false)?.await()
-                } catch (e: Exception) {
-                    // See https://github.com/firebase/firebase-android-sdk/issues/5328#issuecomment-1719386926
-                    null
-                }
                 SettingsUiState.Success(
                     developerMode = true,
                     authUser = authUser,
-                    firebaseUser = firebaseUser,
-                    token = token,
                     wearPreferences = preferences
                 )
             } else {
@@ -92,32 +77,22 @@ class DefaultSettingsComponent(
         }
     }
 
+    override fun signIn() {
+        onSignIn()
+    }
+
+    override fun signOut() {
+        onSignOut()
+    }
+
     override fun enableDeveloperMode() {
         coroutineScope.launch {
             appSettings.setDeveloperMode(true)
         }
     }
 
-    override fun refreshToken() {
-        coroutineScope.launch {
-            try {
-                Firebase.auth.currentUser?.getIdToken(true)?.await()
-            } catch (e: Exception) {
-                // See https://github.com/firebase/firebase-android-sdk/issues/5328#issuecomment-1719386926
-            }
-        }
-    }
-
     override fun onSwitchConferenceSelected() {
         onNavigateToConferences()
-    }
-
-    override fun navigateToGoogleSignIn() {
-        onNavigateToGoogleSignIn()
-    }
-
-    override fun navigateToGoogleSignOut() {
-        onNavigateToGoogleSignOut()
     }
 
     override fun updatePreferences(wearPreferences: WearPreferences) {

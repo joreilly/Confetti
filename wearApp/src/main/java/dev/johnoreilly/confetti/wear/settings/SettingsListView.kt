@@ -18,6 +18,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
@@ -40,6 +41,7 @@ import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -48,10 +50,9 @@ import java.time.ZoneId
 fun SettingsListView(
     uiState: SettingsUiState,
     conferenceCleared: () -> Unit,
-    navigateToGoogleSignIn: () -> Unit,
-    navigateToGoogleSignOut: () -> Unit,
     onRefreshClick: () -> Unit,
-    onRefreshToken: () -> Unit,
+    onSignIn: () -> Unit,
+    onSignOut: () -> Unit,
     onEnableDeveloperMode: () -> Unit,
     updatePreferences: (WearPreferences) -> Unit,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
@@ -106,7 +107,7 @@ fun SettingsListView(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .scrollTransform(this@item),
-                            onClick = navigateToGoogleSignIn,
+                            onClick = onSignIn,
                         ) {
                             Text(stringResource(R.string.settings_sign_in))
                         }
@@ -114,7 +115,7 @@ fun SettingsListView(
                         val clickActionLabel = stringResource(R.string.settings_action_sign_out)
                         val chipContentDescription = stringResource(
                             R.string.settings_sign_out_chip_content_description,
-                            authUser.displayName ?: stringResource(R.string.settings_empty_name)
+                            authUser.name
                         )
                         Button(
                             modifier = Modifier
@@ -123,12 +124,12 @@ fun SettingsListView(
                                 .clearAndSetSemantics {
                                     contentDescription = chipContentDescription
                                     onClick(clickActionLabel) {
-                                        navigateToGoogleSignOut()
+                                        onSignOut()
                                         true
                                     }
                                 },
-                            icon = { AsyncImage(model = authUser.avatarUri, contentDescription = null) },
-                            onClick = navigateToGoogleSignOut
+                            icon = { AsyncImage(model = authUser.photoUrl, contentDescription = null) },
+                            onClick = { onSignOut() }
                         ) {
                             Text(stringResource(R.string.settings_sign_out))
                         }
@@ -225,7 +226,7 @@ fun SettingsListView(
                 }
 
                 if (uiState.developerMode) {
-                    developerModeOptions(uiState, onRefreshToken)
+                    developerModeOptions(uiState)
                 }
             }
         }
@@ -234,10 +235,8 @@ fun SettingsListView(
 
 private fun TransformingLazyColumnScope.developerModeOptions(
     uiState: SettingsUiState.Success,
-    onRefreshToken: () -> Unit
 ) {
-    val firebaseUser = uiState.firebaseUser
-    val token = uiState.token
+    val authUser = uiState.authUser
 
     item {
         ListSubHeader(
@@ -251,54 +250,14 @@ private fun TransformingLazyColumnScope.developerModeOptions(
         }
     }
 
-    if (firebaseUser != null) {
+    if (authUser != null) {
         item {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .scrollTransform(this@item),
                 style = MaterialTheme.typography.labelSmall,
-                text = "Email: ${firebaseUser.email}"
-            )
-        }
-
-        if (token != null) {
-            item {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .scrollTransform(this@item),
-                    style = MaterialTheme.typography.labelSmall,
-                    text = "Provider: ${token.signInProvider}"
-                )
-            }
-            item {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .scrollTransform(this@item),
-                    style = MaterialTheme.typography.labelSmall,
-                    text = "Expires: ${token.expirationTimestamp.localTime()}"
-                )
-            }
-            item {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .scrollTransform(this@item),
-                    style = MaterialTheme.typography.labelSmall,
-                    text = "Issued: ${token.issuedAtTimestamp.localTime()}"
-                )
-            }
-        }
-
-        item {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .scrollTransform(this@item),
-                label = { Text("Refresh Token") },
-                onClick = onRefreshToken
+                text = "Email: ${authUser.email}"
             )
         }
     }
@@ -314,11 +273,10 @@ private fun Long.localTime(): LocalDateTime =
 fun SettingsListViewPreview() {
     SettingsListView(
         conferenceCleared = {},
-        navigateToGoogleSignIn = { },
-        navigateToGoogleSignOut = { },
-        uiState = SettingsUiState.Success(null),
+        onSignIn = { },
+        onSignOut = { },
+        uiState = SettingsUiState.Success(),
         onRefreshClick = {},
-        onRefreshToken = {},
         onEnableDeveloperMode = {},
         updatePreferences = {}
     )

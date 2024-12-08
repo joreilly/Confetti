@@ -1,9 +1,6 @@
 package dev.johnoreilly.confetti.wear.auth
 
 import dev.johnoreilly.confetti.auth.Authentication
-import dev.johnoreilly.confetti.auth.SignInError
-import dev.johnoreilly.confetti.auth.SignInResult
-import dev.johnoreilly.confetti.auth.SignInSuccess
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.CoroutineScope
@@ -14,6 +11,18 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 
+/**
+ * Authentication implementation for Wear OS that leverages phone authentication.
+ *
+ * This class primarily uses a default local authentication mechanism but adds the ability to
+ * seamlessly sign in using an ID token synced from the user's phone.
+ *
+ * @param settingsSync An instance of [PhoneSettingsSync] to access phone settings,
+ * specifically the ID token.
+ * @param defaultAuthentication The default authentication mechanism to be used when
+ * phone authentication is not available or fails.
+ * @param coroutineScope The coroutine scope in which the authentication operations are performed.
+ */
 class WearAuthentication(
     val settingsSync: PhoneSettingsSync,
     val defaultAuthentication: Authentication,
@@ -33,20 +42,4 @@ class WearAuthentication(
         started = SharingStarted.Lazily,
         initialValue = defaultAuthentication.currentUser.value
     )
-
-    override suspend fun signIn(idToken: String): SignInResult {
-        val token = settingsSync.settingsFlow.first().idToken
-
-        return if (token != null) {
-            defaultAuthentication.signIn(token)
-            SignInSuccess
-        } else {
-            defaultAuthentication.signOut()
-            SignInError(Exception("No mobile idToken"))
-        }
-    }
-
-    override fun signOut() {
-        defaultAuthentication.signOut()
-    }
 }

@@ -20,12 +20,6 @@ class NavigationTest : BaseAppTest() {
             appComponent.config !is Config.Loading
         }
 
-        appComponent.handleDeeplink("confetti://confetti/signIn".toDeepLink())
-        assertEquals(Config.GoogleSignIn, appComponent.config)
-
-        appComponent.handleDeeplink("confetti://confetti/signOut".toDeepLink())
-        assertEquals(Config.GoogleSignOut, appComponent.config)
-
         appComponent.handleDeeplink("confetti://confetti/settings".toDeepLink())
         assertEquals(Config.Settings, appComponent.config)
 

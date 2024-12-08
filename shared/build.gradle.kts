@@ -93,7 +93,7 @@ kotlin {
                 api(libs.materialkolor)
                 api(libs.compose.window.size)
                 implementation(libs.lifecyle.runtime)
-                api("com.mikepenz:multiplatform-markdown-renderer-m3:0.26.0")
+                api("com.mikepenz:multiplatform-markdown-renderer-m3:0.27.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.5.4")
 
                 api(libs.generativeai)

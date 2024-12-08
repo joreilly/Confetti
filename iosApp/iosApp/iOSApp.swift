@@ -48,7 +48,7 @@ struct ConfettiIosApp : View {
     
     
     var body: some View {
-        ConfettiApp(component: appDelegate.appComponent)
+        ConfettiApp(component: appDelegate.appComponent, backDispatcher: appDelegate.backDispatcher)
     }
 }
 

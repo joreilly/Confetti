@@ -37,6 +37,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import confetti.shared.generated.resources.Res
@@ -71,11 +73,17 @@ fun App(component: DefaultAppComponent) {
     }
 }
 
-
+@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 fun ConferenceView(component: ConferenceComponent) {
     ConferenceMaterialTheme(component.conferenceThemeColor) {
-        Children(stack = component.stack) {
+        ChildStack(
+            stack = component.stack,
+            animation = predictiveBackAnimation(
+                backHandler = component.backHandler,
+                onBack = component::onBackClicked,
+            ),
+        ) {
             when (val child = it.instance) {
                 is ConferenceComponent.Child.Home -> HomeView(child.component)
                 is ConferenceComponent.Child.SessionDetails -> SessionDetailsUI(child.component)
@@ -89,7 +97,6 @@ fun ConferenceView(component: ConferenceComponent) {
         }
     }
 }
-
 
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -143,6 +150,7 @@ fun HomeView(component: HomeComponent) {
                                 topBarActions = topBarActions,
                                 snackbarHostState = snackbarHostState
                             )
+
                         is HomeComponent.Child.MultiPane -> Text(text = "Multi-pane mode is not yet supported")
                         is HomeComponent.Child.Speakers -> SpeakersUI(child.component)
                         is HomeComponent.Child.Bookmarks ->
@@ -152,6 +160,7 @@ fun HomeView(component: HomeComponent) {
                                 topBarNavigationIcon = topBarNavigationIcon,
                                 topBarActions = topBarActions,
                             )
+
                         is HomeComponent.Child.Venue -> VenueUI(child.component)
 
                         is HomeComponent.Child.Search ->

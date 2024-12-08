@@ -11,6 +11,7 @@ import ConfettiKit
 
 
 class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
+    let backDispatcher: BackDispatcher = BackDispatcherKt.BackDispatcher()
     private var applicationLifecycle: ApplicationLifecycle
     @Published var appComponent: DefaultAppComponent
     
@@ -19,7 +20,12 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
 
         applicationLifecycle = ApplicationLifecycle()
         appComponent = DefaultAppComponent(
-            componentContext: DefaultComponentContext(lifecycle: applicationLifecycle),
+            componentContext: DefaultComponentContext(
+                lifecycle: applicationLifecycle,
+                stateKeeper: nil,
+                instanceKeeper: nil,
+                backHandler: backDispatcher
+            ),
             onSignOut: {
                 Task {
                     do {
@@ -48,7 +54,12 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
         applicationLifecycle.destroy()
         applicationLifecycle = ApplicationLifecycle()
         appComponent = DefaultAppComponent(
-            componentContext: DefaultComponentContext(lifecycle: applicationLifecycle),
+            componentContext: DefaultComponentContext(
+                lifecycle: applicationLifecycle,
+                stateKeeper: nil,
+                instanceKeeper: nil,
+                backHandler: backDispatcher
+            ),
             onSignOut: {},
             onSignIn: {},
             isMultiPane: UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone,

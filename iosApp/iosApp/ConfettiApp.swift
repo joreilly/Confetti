@@ -8,9 +8,10 @@ import FirebaseCore
 
 struct ComposeView: UIViewControllerRepresentable {
     let component: DefaultAppComponent
+    let backDispatcher: BackDispatcher
     
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController(component: component)
+        MainViewControllerKt.MainViewController(component: component, backDispatcher: backDispatcher)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
@@ -19,9 +20,10 @@ struct ComposeView: UIViewControllerRepresentable {
 
 struct ConfettiApp: View {
     let component: DefaultAppComponent
+    let backDispatcher: BackDispatcher
     
     var body: some View {
-        ComposeView(component: component)
+        ComposeView(component: component, backDispatcher: backDispatcher)
             .ignoresSafeArea()
             .onOpenURL{ url in
                 //Handle Google Oauth URL

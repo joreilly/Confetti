@@ -4,11 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.wear.compose.material3.TimeText
 import com.google.android.horologist.networks.ui.DataUsageTimeText
 import dev.johnoreilly.confetti.AppSettings
-import dev.johnoreilly.confetti.wear.auth.FirebaseSignInScreen
-import dev.johnoreilly.confetti.wear.auth.FirebaseSignOutScreen
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksRoute
 import dev.johnoreilly.confetti.wear.conferences.ConferencesRoute
 import dev.johnoreilly.confetti.wear.decompose.SwipeToDismissBox
@@ -58,12 +55,6 @@ fun ConfettiApp(
                         component
                     )
                 }
-
-                is Child.GoogleSignIn -> {
-                    FirebaseSignInScreen(child.component)
-                }
-
-                is Child.GoogleSignOut -> FirebaseSignOutScreen(child.component)
 
                 is Child.Home -> HomeRoute(
                     child.component

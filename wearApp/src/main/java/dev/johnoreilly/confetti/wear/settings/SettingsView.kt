@@ -13,17 +13,14 @@ fun SettingsRoute(
     SettingsListView(
         uiState = uiState,
         conferenceCleared = component::onSwitchConferenceSelected,
-        navigateToGoogleSignIn = component::navigateToGoogleSignIn,
-        navigateToGoogleSignOut = component::navigateToGoogleSignOut,
         onRefreshClick = {
             component.refresh()
         },
         onEnableDeveloperMode = {
             component.enableDeveloperMode()
         },
-        onRefreshToken = {
-            component.refreshToken()
-        },
+        onSignIn = { component.signIn() },
+        onSignOut = { component.signOut() },
         updatePreferences = component::updatePreferences
     )
 }

@@ -184,11 +184,10 @@ dependencies {
     implementation(libs.androidx.protolayout.expression)
     implementation(libs.androidx.protolayout.expression.pipeline)
 
-    implementation(libs.horologist.auth.composables)
-    implementation(libs.horologist.auth.ui)
-    implementation(libs.horologist.auth.data)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.play.services.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.googleid)
 
     implementation(libs.horologist.datalayer)
     implementation(libs.horologist.datalayer.watch)

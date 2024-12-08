@@ -11,6 +11,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.firebase.FirebaseApp
+import dev.johnoreilly.confetti.account.SignInProcess
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.wear.navigation.DefaultWearAppComponent
 import dev.johnoreilly.confetti.wear.navigation.NavigationHelper.logNavigationEvent
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
     private val analyticsLogger: AnalyticsLogger by inject()
 
     private val tileSync: TileSync by inject()
+    val signInProcess: SignInProcess by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -46,7 +48,17 @@ class MainActivity : ComponentActivity() {
         appComponent =
             DefaultWearAppComponent(
                 componentContext = defaultComponentContext(),
-                intent = intent
+                intent = intent,
+                onSignOut = {
+                    lifecycleScope.launch {
+                        signInProcess.signOut()
+                    }
+                },
+                onSignIn = {
+                    lifecycleScope.launch {
+                        signInProcess.signIn(this@MainActivity)
+                    }
+                }
             )
 
         setContent {

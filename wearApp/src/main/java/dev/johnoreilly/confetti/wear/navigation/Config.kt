@@ -72,12 +72,6 @@ sealed class Config {
     data object Settings : Config()
 
     @Serializable
-    data object GoogleSignIn : Config()
-
-    @Serializable
-    data object GoogleSignOut : Config()
-
-    @Serializable
     data class Bookmarks(
         override val uid: String?, // Unused, but needed to recreated the component when the user changes
         override val conference: String,

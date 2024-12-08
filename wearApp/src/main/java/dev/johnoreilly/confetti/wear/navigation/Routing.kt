@@ -5,8 +5,6 @@ import com.arkivanov.decompose.router.stack.push
 import dev.johnoreilly.confetti.decompose.DefaultConferencesComponent
 import dev.johnoreilly.confetti.decompose.DefaultSessionDetailsComponent
 import dev.johnoreilly.confetti.decompose.DefaultSpeakerDetailsComponent
-import dev.johnoreilly.confetti.wear.auth.DefaultFirebaseSignInComponent
-import dev.johnoreilly.confetti.wear.auth.DefaultFirebaseSignOutComponent
 import dev.johnoreilly.confetti.wear.bookmarks.DefaultBookmarksComponent
 import dev.johnoreilly.confetti.wear.home.DefaultHomeComponent
 import dev.johnoreilly.confetti.wear.sessions.DefaultConferenceSessionsComponent
@@ -72,29 +70,9 @@ fun DefaultWearAppComponent.buildChild(config: Config, componentContext: Compone
         is Config.Settings -> Child.Settings(
             DefaultSettingsComponent(
                 componentContext,
-                onNavigateToGoogleSignIn = {
-                    navigation.push(Config.GoogleSignIn)
-                },
-                onNavigateToGoogleSignOut = {
-                    navigation.push(Config.GoogleSignOut)
-                },
-                onNavigateToConferences = this::showConferences
-            )
-        )
-
-        is Config.GoogleSignIn -> Child.GoogleSignIn(
-            DefaultFirebaseSignInComponent(
-                componentContext,
-                authCancelled = { navigateUp() },
-                authSucceed = { navigateUp() }
-            )
-        )
-
-        is Config.GoogleSignOut -> Child.GoogleSignOut(
-            DefaultFirebaseSignOutComponent(
-                componentContext,
-                onSignedOut = { onUserChanged(null) },
-                onNavigateUp = { navigateUp() }
+                onNavigateToConferences = this::showConferences,
+                onSignOut = this.onSignOut,
+                onSignIn = this.onSignIn,
             )
         )
 

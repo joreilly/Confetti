@@ -65,6 +65,13 @@ class DefaultAppComponent(
 
     init {
         coroutineScope.launch {
+            authentication.currentUser
+                .collect {
+                    setUser(it)
+                }
+        }
+
+        coroutineScope.launch {
             if (initialConferenceId != null) {
                 selectAndNavigateToDeepLinkedConference(initialConferenceId)
             } else {

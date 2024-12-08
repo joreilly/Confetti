@@ -33,5 +33,5 @@ interface Authentication {
 }
 
 sealed interface SignInResult
-object SignInSuccess : SignInResult
+data object SignInSuccess : SignInResult
 class SignInError(val e: Exception) : SignInResult

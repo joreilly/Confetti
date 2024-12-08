@@ -71,6 +71,8 @@ interface WearAppComponent {
 class DefaultWearAppComponent(
     componentContext: ComponentContext,
     intent: Intent,
+    val onSignOut: () -> Unit,
+    val onSignIn: () -> Unit,
 ) : WearAppComponent, KoinComponent, ComponentContext by componentContext {
     internal val coroutineScope = coroutineScope()
     private val authentication: Authentication by inject()
@@ -182,8 +184,6 @@ class DefaultWearAppComponent(
         val path = uri.substringAfter("confetti://confetti")
 
         return when {
-            path == "/signIn" -> Config.GoogleSignIn
-            path == "/signOut" -> Config.GoogleSignOut
             path == "/settings" -> Config.Settings
             path == "/conferences" -> Config.Conferences
             path.startsWith("/home/") -> Config.Home(user, path.substringAfter("home/"))

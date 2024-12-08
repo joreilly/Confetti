@@ -7,6 +7,7 @@ message WearSettings {
   reserved 1, 3;
   string conference = 2;
   optional string color_scheme = 4;
+  optional string idToken = 5;
 }
 
 message WearPreferences {

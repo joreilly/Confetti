@@ -107,7 +107,7 @@ kotlin {
 
         val mobileMain by getting {
             dependencies {
-                implementation(libs.firebase.mpp.auth)
+                api(libs.firebase.mpp.auth)
                 api(libs.apollo.normalized.cache.sqlite)
             }
         }
@@ -140,6 +140,7 @@ kotlin {
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
                 api(libs.multiplatform.settings.datastore)
+                implementation(libs.googleid)
             }
         }
 

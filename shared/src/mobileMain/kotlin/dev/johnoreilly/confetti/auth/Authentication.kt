@@ -37,7 +37,8 @@ class DefaultUser(
 }
 
 class DefaultAuthentication(
-    val coroutineScope: CoroutineScope
+    val coroutineScope: CoroutineScope,
+    val onTokenChanged: (String?) -> Unit = {},
 ) : Authentication {
     override val currentUser: StateFlow<User?> = Firebase.auth.authStateChanged.map { it?.toUser() }
         .stateIn(coroutineScope, SharingStarted.Eagerly, Firebase.auth.currentUser?.toUser())
@@ -46,6 +47,7 @@ class DefaultAuthentication(
         val credential = GoogleAuthProvider.credential(idToken, null)
         return try {
             Firebase.auth.signInWithCredential(credential)
+            onTokenChanged(idToken)
             SignInSuccess
         } catch (e: FirebaseAuthException) {
             // TODO log to firebase

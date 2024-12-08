@@ -12,6 +12,8 @@
 -keep class dev.johnoreilly.confetti.wear.proto.** { *; }
 -keep class androidx.car.app.** { *; }
 
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite { <fields>; }
+
 -keep class com.google.firebase.** { *; }
 
 -dontwarn okhttp3.internal.Util

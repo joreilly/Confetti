@@ -6,4 +6,7 @@
 -dontwarn kotlinx.serialization.Serializable
 
 -keep class com.squareup.wire.** { *; }
--keep class dev.johnoreilly.confetti.wear.proto.** { *; }
+
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite { <fields>; }
+
+-keep class com.google.firebase.** { *; }

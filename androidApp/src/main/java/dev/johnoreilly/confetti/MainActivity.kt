@@ -13,15 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.credentials.ClearCredentialStateRequest
-import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.decompose.handleDeepLink
-import dev.johnoreilly.confetti.account.signIn
-import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.account.SignInProcess
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.decompose.ThemeBrand
@@ -38,9 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         var userEditableSettings by mutableStateOf<UserEditableSettings?>(null)
-        val credentialManager: CredentialManager by inject()
-        val authentication: Authentication by inject()
-
+        val signInProcess: SignInProcess by inject()
 
         val appComponent =
             handleDeepLink { uri ->
@@ -58,25 +53,17 @@ class MainActivity : ComponentActivity() {
                     initialConferenceId = initialConferenceId,
                     onSignOut = {
                         lifecycleScope.launch {
-                            credentialManager.clearCredentialState(ClearCredentialStateRequest())
+                            signInProcess.signOut()
                         }
                     },
                     onSignIn = {
                         lifecycleScope.launch {
-                            signIn(this@MainActivity, authentication)
+                            signInProcess.signIn(this@MainActivity)
                         }
                     }
                 )
                 appComponent
             } ?: return
-
-
-        lifecycleScope.launch {
-            authentication.currentUser
-                .collect {
-                    appComponent.setUser(it)
-                }
-        }
 
 //        // Update the theme settings
 //        lifecycleScope.launch {

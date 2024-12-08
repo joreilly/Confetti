@@ -140,6 +140,7 @@ kotlin {
                 api(libs.androidx.datastore)
                 api(libs.androidx.datastore.preferences)
                 api(libs.multiplatform.settings.datastore)
+                implementation(libs.googleid)
             }
         }
 

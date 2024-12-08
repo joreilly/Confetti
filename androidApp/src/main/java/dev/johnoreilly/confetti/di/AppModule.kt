@@ -1,5 +1,4 @@
-@file:Suppress("RemoveExplicitTypeArguments")
-@file:OptIn(ExperimentalHorologistApi::class)
+@file:Suppress("RemoveExplicitTypeArguments") @file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.di
 
@@ -7,6 +6,8 @@ import androidx.credentials.CredentialManager
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.datalayer.phone.PhoneDataLayerAppHelper
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.account.SignInProcess
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.decompose.ConferenceRefresh
@@ -31,7 +32,14 @@ val appModule = module {
     single<ConferenceRefresh> { WorkManagerConferenceRefresh(get()) }
 
     singleOf(::WorkManagerConferenceRefresh) { bind<ConferenceRefresh>() }
-    singleOf(::DefaultAuthentication) { bind<Authentication>() }
+    single<Authentication> {
+        val wearSettingsSync = get<WearSettingsSync>()
+        DefaultAuthentication(
+            coroutineScope = get(), onTokenChanged = { idToken ->
+                wearSettingsSync.updateIdToken(idToken)
+            }
+        )
+    }
 
     single<PhoneDataLayerAppHelper> {
         PhoneDataLayerAppHelper(androidContext(), get())
@@ -39,5 +47,13 @@ val appModule = module {
 
     single<WearSettingsSync> {
         WearSettingsSync(get(), get(), get())
+    }
+
+    single<SignInProcess> {
+        SignInProcess(
+            credentialManager = get(),
+            authentication = get(),
+            webClientId = androidContext().getString(R.string.default_web_client_id)
+        )
     }
 }

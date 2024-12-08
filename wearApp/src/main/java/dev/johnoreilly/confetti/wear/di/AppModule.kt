@@ -29,9 +29,11 @@ import com.google.android.horologist.networks.status.NetworkRepositoryImpl
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import dev.johnoreilly.confetti.R
+import dev.johnoreilly.confetti.account.SignInProcess
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.decompose.ConferenceRefresh
+import dev.johnoreilly.confetti.wear.auth.WearAuthentication
 import dev.johnoreilly.confetti.wear.complication.ComplicationUpdater
 import dev.johnoreilly.confetti.wear.components.wearPhotoUrl
 import dev.johnoreilly.confetti.wear.networks.WearNetworkingRules
@@ -58,14 +60,15 @@ val appModule = module {
     single { TileService.getUpdater(androidContext()) }
     singleOf(::ComplicationUpdater)
     singleOf(::TileUpdater)
-    single {
-        try {
+    single<Authentication> {
+        val defaultAuthentication = try {
             DefaultAuthentication(get())
         } catch (ise: IllegalStateException) {
             // We wont have firebase when running in Robolectric
             // TODO override just in robolectric
             Authentication.Disabled
         }
+        WearAuthentication(get(), defaultAuthentication, get())
     }
     single {
         Firebase.auth
@@ -75,6 +78,14 @@ val appModule = module {
     }
 
     single { CredentialManager.create(get()) }
+
+    single<SignInProcess> {
+        SignInProcess(
+            credentialManager = get(),
+            authentication = get(),
+            webClientId = androidContext().getString(R.string.default_web_client_id)
+        )
+    }
 
     single<BatteryStatusMonitor> { BatteryStatusMonitor(androidContext()) }
 

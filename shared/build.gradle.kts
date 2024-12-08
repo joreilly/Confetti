@@ -107,7 +107,7 @@ kotlin {
 
         val mobileMain by getting {
             dependencies {
-                implementation(libs.firebase.mpp.auth)
+                api(libs.firebase.mpp.auth)
                 api(libs.apollo.normalized.cache.sqlite)
             }
         }

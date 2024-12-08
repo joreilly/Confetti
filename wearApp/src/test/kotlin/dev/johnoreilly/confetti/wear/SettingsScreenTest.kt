@@ -6,7 +6,7 @@ import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
-import com.google.android.horologist.auth.data.common.model.AuthUser
+import dev.johnoreilly.confetti.auth.DefaultUser
 import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnUrl
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
@@ -30,12 +30,11 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             TestScaffold {
                 SettingsListView(
                     columnState = columnState,
-                    uiState = SettingsUiState.Success(null),
+                    uiState = SettingsUiState.Success(),
                     conferenceCleared = { },
-                    navigateToGoogleSignIn = { },
-                    navigateToGoogleSignOut = { },
+                    onSignIn = { },
+                    onSignOut = { },
                     onRefreshClick = {},
-                    onRefreshToken = {},
                     onEnableDeveloperMode = {},
                     updatePreferences = {}
                 )
@@ -55,12 +54,19 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
             TestScaffold {
                 SettingsListView(
                     columnState = columnState,
-                    uiState = SettingsUiState.Success(AuthUser("John O'Reilly", avatarUri = JohnUrl)),
+                    uiState = SettingsUiState.Success(
+                        authUser = DefaultUser(
+                            name = "John O'Reilly",
+                            photoUrl = JohnUrl,
+                            email = null,
+                            user_ = null,
+                            uid = "uid"
+                        )
+                    ),
                     conferenceCleared = { },
-                    navigateToGoogleSignIn = { },
-                    navigateToGoogleSignOut = { },
+                    onSignIn = { },
+                    onSignOut = { },
                     onRefreshClick = {},
-                    onRefreshToken = {},
                     onEnableDeveloperMode = {},
                     updatePreferences = {}
                 )
@@ -83,12 +89,19 @@ class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
         composeRule.setContent {
             TestScaffold {
                 SettingsListView(
-                    uiState = SettingsUiState.Success(AuthUser("John O'Reilly", avatarUri = JohnUrl)),
+                    uiState = SettingsUiState.Success(
+                        authUser = DefaultUser(
+                            name = "John O'Reilly",
+                            photoUrl = JohnUrl,
+                            email = null,
+                            user_ = null,
+                            uid = "uid"
+                        )
+                    ),
                     conferenceCleared = { },
-                    navigateToGoogleSignIn = { },
-                    navigateToGoogleSignOut = { },
+                    onSignIn = { },
+                    onSignOut = { },
                     onRefreshClick = {},
-                    onRefreshToken = {},
                     onEnableDeveloperMode = {},
                     updatePreferences = {}
                 )

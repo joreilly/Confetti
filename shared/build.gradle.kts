@@ -47,6 +47,7 @@ kotlin {
 
             export(libs.decompose.decompose)
             export(libs.essenty.lifecycle)
+            export(libs.essenty.backhandler)
         }
     }
 
@@ -78,7 +79,9 @@ kotlin {
 
                 api(libs.decompose.decompose)
                 api(libs.decompose.extensions.compose)
+                api(libs.decompose.extensions.compose.experimental)
                 api(libs.essenty.lifecycle)
+                api(libs.essenty.backhandler)
 
                 api(libs.kermit)
 

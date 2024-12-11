@@ -83,7 +83,9 @@ val appModule = module {
         SignInProcess(
             credentialManager = get(),
             authentication = get(),
-            webClientId = androidContext().getString(R.string.default_web_client_id)
+            webClientId = androidContext().getString(R.string.default_web_client_id),
+            // Sign in with Google creation flow not supported on Wear 5.1
+            useSignInWithGoogle = false,
         )
     }
 

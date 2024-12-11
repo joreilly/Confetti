@@ -8,6 +8,7 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dev.johnoreilly.confetti.auth.Authentication
@@ -16,13 +17,34 @@ class SignInProcess(
     val credentialManager: CredentialManager,
     val authentication: Authentication,
     val webClientId: String,
+    val useSignInWithGoogle: Boolean = true,
 ) {
+    /**
+     * Initiates the sign-in process.
+     *
+     * This function attempts to sign in the user using Sign in With Google.
+     * It first checks if `useSignInWithGoogle` is enabled and builds the appropriate credential option.
+     * Then, it sends a request to the Credential Manager to obtain a credential.
+     * If successful, it extracts the ID token from the credential and passes it to [Authentication].
+     * In case of errors, it handles exceptions and logs them.
+     *
+     * @see https://developer.android.com/identity/sign-in/credential-manager-siwg
+     *
+     * @param activityContext The context of the activity initiating the sign-in process.
+     */
     suspend fun signIn(activityContext: Context) {
-        val googleIdOption: GetSignInWithGoogleOption = GetSignInWithGoogleOption.Builder(webClientId)
-            .build()
+        val googleAuthOption = if (useSignInWithGoogle) {
+            GetSignInWithGoogleOption.Builder(webClientId)
+                .build()
+        } else {
+            GetGoogleIdOption.Builder()
+                .setFilterByAuthorizedAccounts(true)
+                .setServerClientId(webClientId)
+                .build()
+        }
 
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
-            .addCredentialOption(googleIdOption)
+            .addCredentialOption(googleAuthOption)
             .build()
 
         try {
@@ -38,7 +60,7 @@ class SignInProcess(
                     authentication.signIn(credential.idToken)
                 }
 
-                credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL -> {
+                credential is CustomCredential -> {
                     val googleIdTokenCredential = GoogleIdTokenCredential
                         .createFrom(credential.data)
                     authentication.signIn(googleIdTokenCredential.idToken)
@@ -59,6 +81,13 @@ class SignInProcess(
         }
     }
 
+    /**
+     * Signs the user out of the application.
+     *
+     * This function performs the following actions:
+     * 1. Clears the stored user credentials using [CredentialManager].
+     * 2. Signs the user out via [Authentication].
+     */
     suspend fun signOut() {
         credentialManager.clearCredentialState(ClearCredentialStateRequest())
 

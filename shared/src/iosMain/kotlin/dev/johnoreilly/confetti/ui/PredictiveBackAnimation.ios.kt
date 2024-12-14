@@ -1,11 +1,19 @@
 package dev.johnoreilly.confetti.ui
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.*
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.PredictiveBackParams
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.StackAnimation
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.StackAnimator
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.stackAnimator
 import com.arkivanov.decompose.extensions.compose.stack.animation.isFront
 import com.arkivanov.essenty.backhandler.BackHandler
 
@@ -15,18 +23,27 @@ internal actual fun <C : Any, T : Any> predictiveBackAnimation(
     onBack: () -> Unit,
 ): StackAnimation<C, T> =
     stackAnimation(
-        animator = iosLikeSlide(),
         predictiveBackParams = {
             PredictiveBackParams(
                 backHandler = backHandler,
                 onBack = onBack,
             )
         },
+        selector = { _, _, _, isPredictiveBack ->
+            iosLikeSlide(iosAnimationSpec(isPredictiveBack = isPredictiveBack))
+        },
     )
 
+private fun iosAnimationSpec(isPredictiveBack: Boolean): FiniteAnimationSpec<Float> =
+    if (isPredictiveBack) {
+        tween(easing = LinearEasing, durationMillis = 150)
+    } else {
+        tween(easing = FastOutSlowInEasing)
+    }
+
 @ExperimentalDecomposeApi
-private fun iosLikeSlide(): StackAnimator =
-    stackAnimator { factor, direction ->
+private fun iosLikeSlide(animationSpec: FiniteAnimationSpec<Float>): StackAnimator =
+    stackAnimator(animationSpec = animationSpec) { factor, direction ->
         Modifier
             .then(if (direction.isFront) Modifier else Modifier.fade(factor + 1F))
             .offsetXFactor(factor = if (direction.isFront) factor else factor * 0.5F)

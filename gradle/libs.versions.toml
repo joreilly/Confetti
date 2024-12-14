@@ -2,7 +2,7 @@
 kotlin19 = "1.9.24"
 ksp19 = "1.9.24-1.0.20"
 kotlin = "2.1.0"
-ksp = "2.1.0-1.0.28"
+ksp = "2.1.0-1.0.29"
 kotlinx-coroutines = "1.9.0"
 kotlinx-datetime = "0.6.1"
 apollo-kotlin-execution = "0.1.1-SNAPSHOT-3e89cc694ab96bae7b4c1b7b6394c211065551c1"

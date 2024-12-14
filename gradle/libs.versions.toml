@@ -120,7 +120,7 @@ decompose-extensions-compose-experimental = { module = "com.arkivanov.decompose:
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 essenty-backhandler = { module = "com.arkivanov.essenty:back-handler", version.ref = "essenty" }
 desugar = "com.android.tools:desugar_jdk_libs:2.1.3"
-firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.3.0" }
+firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.4.2" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = "com.google.firebase:firebase-bom:33.7.0"

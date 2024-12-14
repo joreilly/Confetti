@@ -15,27 +15,12 @@
 		1A4EB90C2CB2FD8C008AD1BC /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4EB90B2CB2FD8C008AD1BC /* GoogleSignIn */; };
 		1A4EB90E2CB30222008AD1BC /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EB90D2CB30222008AD1BC /* Authentication.swift */; };
 		1A4EB9102CB3027B008AD1BC /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EB90F2CB3027B008AD1BC /* Login.swift */; };
-		1A584D112B8277680047DDD2 /* RecommendationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A584D102B8277680047DDD2 /* RecommendationsView.swift */; };
 		1A8F347A29C4BA1A00327F0A /* ConfettiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8F347929C4BA1A00327F0A /* ConfettiTests.swift */; };
-		1AC8AB642AD2993D0067704E /* VenueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8AB632AD2993D0067704E /* VenueView.swift */; };
-		1AEAB76E28FDB69F00B06D90 /* SessionSpeakerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAB76D28FDB69F00B06D90 /* SessionSpeakerInfo.swift */; };
-		1AF675CC28F1F1F100CC1C26 /* SpeakerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF675CB28F1F1F100CC1C26 /* SpeakerListView.swift */; };
-		1AF675CE28F1F1FE00CC1C26 /* SpeakerDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF675CD28F1F1FE00CC1C26 /* SpeakerDetailsView.swift */; };
-		1AF675D028F1F20B00CC1C26 /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF675CF28F1F20B00CC1C26 /* SessionListView.swift */; };
-		1AF675D228F1F21700CC1C26 /* SessionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF675D128F1F21700CC1C26 /* SessionDetailsView.swift */; };
+		1AD69C812D0D8FD000C539CE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD69C802D0D8FD000C539CE /* Utils.swift */; };
+		1AD69C822D0D900200C539CE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD69C802D0D8FD000C539CE /* Utils.swift */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ConfettiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ConfettiApp.swift */; };
-		79062A462A0DA3CC00E38089 /* ObservableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79062A452A0DA3CC00E38089 /* ObservableValue.swift */; };
-		79062A482A0DA43400E38089 /* StateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79062A472A0DA43400E38089 /* StateValue.swift */; };
 		79062A4A2A0DA4FF00E38089 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79062A492A0DA4FF00E38089 /* AppDelegate.swift */; };
-		79421C202A1580C60042D5B5 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2612A10E97B00824824 /* Utils.swift */; };
-		79AF2C4D2A9A6D0A0011EAC4 /* MultiPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AF2C4C2A9A6D090011EAC4 /* MultiPaneView.swift */; };
-		79BEE2602A102AED00824824 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE25F2A102AED00824824 /* StackView.swift */; };
-		79BEE2622A10E97B00824824 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2612A10E97B00824824 /* Utils.swift */; };
-		79BEE2642A11134600824824 /* ConferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2632A11134600824824 /* ConferenceView.swift */; };
-		79BEE2662A11137D00824824 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2652A11137D00824824 /* HomeView.swift */; };
-		79BEE2682A1114EB00824824 /* ConferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2672A1114EB00824824 /* ConferencesView.swift */; };
-		79BEE26A2A11154D00824824 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BEE2692A11154D00824824 /* ErrorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,32 +52,17 @@
 		1A4EB9092CB2F9A9008AD1BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A4EB90D2CB30222008AD1BC /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		1A4EB90F2CB3027B008AD1BC /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
-		1A584D102B8277680047DDD2 /* RecommendationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsView.swift; sourceTree = "<group>"; };
 		1A64E7D12A3DB98500D291F2 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
 		1A64E7D42A3DB9BF00D291F2 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
 		1A8F347729C4BA1900327F0A /* ConfettiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConfettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8F347929C4BA1A00327F0A /* ConfettiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiTests.swift; sourceTree = "<group>"; };
-		1AC8AB632AD2993D0067704E /* VenueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueView.swift; sourceTree = "<group>"; };
-		1AEAB76D28FDB69F00B06D90 /* SessionSpeakerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSpeakerInfo.swift; sourceTree = "<group>"; };
-		1AF675CB28F1F1F100CC1C26 /* SpeakerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerListView.swift; sourceTree = "<group>"; };
-		1AF675CD28F1F1FE00CC1C26 /* SpeakerDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerDetailsView.swift; sourceTree = "<group>"; };
-		1AF675CF28F1F20B00CC1C26 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
-		1AF675D128F1F21700CC1C26 /* SessionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailsView.swift; sourceTree = "<group>"; };
+		1AD69C802D0D8FD000C539CE /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		550D7BF32BB75551004D5D59 /* iosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosApp.entitlements; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Confetti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Confetti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ConfettiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiApp.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		79062A452A0DA3CC00E38089 /* ObservableValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableValue.swift; sourceTree = "<group>"; };
-		79062A472A0DA43400E38089 /* StateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateValue.swift; sourceTree = "<group>"; };
 		79062A492A0DA4FF00E38089 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		79AF2C4C2A9A6D090011EAC4 /* MultiPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPaneView.swift; sourceTree = "<group>"; };
-		79BEE25F2A102AED00824824 /* StackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
-		79BEE2612A10E97B00824824 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		79BEE2632A11134600824824 /* ConferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConferenceView.swift; sourceTree = "<group>"; };
-		79BEE2652A11137D00824824 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		79BEE2672A1114EB00824824 /* ConferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConferencesView.swift; sourceTree = "<group>"; };
-		79BEE2692A11154D00824824 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,47 +94,12 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		1A584D0F2B8277440047DDD2 /* Recommendations */ = {
-			isa = PBXGroup;
-			children = (
-				1A584D102B8277680047DDD2 /* RecommendationsView.swift */,
-			);
-			path = Recommendations;
-			sourceTree = "<group>";
-		};
 		1A8F347829C4BA1900327F0A /* ConfettiTests */ = {
 			isa = PBXGroup;
 			children = (
 				1A8F347929C4BA1A00327F0A /* ConfettiTests.swift */,
 			);
 			path = ConfettiTests;
-			sourceTree = "<group>";
-		};
-		1AC8AB652AD2997C0067704E /* Venue */ = {
-			isa = PBXGroup;
-			children = (
-				1AC8AB632AD2993D0067704E /* VenueView.swift */,
-			);
-			path = Venue;
-			sourceTree = "<group>";
-		};
-		1AF675C928F1F06800CC1C26 /* Sessions */ = {
-			isa = PBXGroup;
-			children = (
-				1AF675CF28F1F20B00CC1C26 /* SessionListView.swift */,
-				1AF675D128F1F21700CC1C26 /* SessionDetailsView.swift */,
-				1AEAB76D28FDB69F00B06D90 /* SessionSpeakerInfo.swift */,
-			);
-			path = Sessions;
-			sourceTree = "<group>";
-		};
-		1AF675CA28F1F0F300CC1C26 /* Speakers */ = {
-			isa = PBXGroup;
-			children = (
-				1AF675CB28F1F1F100CC1C26 /* SpeakerListView.swift */,
-				1AF675CD28F1F1FE00CC1C26 /* SpeakerDetailsView.swift */,
-			);
-			path = Speakers;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -190,26 +125,14 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				1AD69C802D0D8FD000C539CE /* Utils.swift */,
 				550D7BF32BB75551004D5D59 /* iosApp.entitlements */,
-				1A584D0F2B8277440047DDD2 /* Recommendations */,
-				1AC8AB652AD2997C0067704E /* Venue */,
-				1AF675CA28F1F0F300CC1C26 /* Speakers */,
-				1AF675C928F1F06800CC1C26 /* Sessions */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ConfettiApp.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
-				79062A452A0DA3CC00E38089 /* ObservableValue.swift */,
-				79062A472A0DA43400E38089 /* StateValue.swift */,
 				79062A492A0DA4FF00E38089 /* AppDelegate.swift */,
-				79BEE25F2A102AED00824824 /* StackView.swift */,
-				79BEE2612A10E97B00824824 /* Utils.swift */,
-				79BEE2632A11134600824824 /* ConferenceView.swift */,
-				79BEE2652A11137D00824824 /* HomeView.swift */,
-				79BEE2672A1114EB00824824 /* ConferencesView.swift */,
-				79BEE2692A11154D00824824 /* ErrorView.swift */,
-				79AF2C4C2A9A6D090011EAC4 /* MultiPaneView.swift */,
 				1A4EB90D2CB30222008AD1BC /* Authentication.swift */,
 				1A4EB90F2CB3027B008AD1BC /* Login.swift */,
 			);
@@ -360,7 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A8F347A29C4BA1A00327F0A /* ConfettiTests.swift in Sources */,
-				79421C202A1580C60042D5B5 /* Utils.swift in Sources */,
+				1AD69C822D0D900200C539CE /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,25 +293,10 @@
 			files = (
 				1A4EB9102CB3027B008AD1BC /* Login.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
-				79BEE2662A11137D00824824 /* HomeView.swift in Sources */,
-				79BEE2602A102AED00824824 /* StackView.swift in Sources */,
 				1A4EB90E2CB30222008AD1BC /* Authentication.swift in Sources */,
-				1AF675D028F1F20B00CC1C26 /* SessionListView.swift in Sources */,
-				79062A462A0DA3CC00E38089 /* ObservableValue.swift in Sources */,
-				1AF675D228F1F21700CC1C26 /* SessionDetailsView.swift in Sources */,
-				79BEE2682A1114EB00824824 /* ConferencesView.swift in Sources */,
-				79062A482A0DA43400E38089 /* StateValue.swift in Sources */,
-				1AF675CE28F1F1FE00CC1C26 /* SpeakerDetailsView.swift in Sources */,
-				1AF675CC28F1F1F100CC1C26 /* SpeakerListView.swift in Sources */,
-				1AEAB76E28FDB69F00B06D90 /* SessionSpeakerInfo.swift in Sources */,
 				79062A4A2A0DA4FF00E38089 /* AppDelegate.swift in Sources */,
 				7555FF83242A565900829871 /* ConfettiApp.swift in Sources */,
-				79BEE2622A10E97B00824824 /* Utils.swift in Sources */,
-				1AC8AB642AD2993D0067704E /* VenueView.swift in Sources */,
-				1A584D112B8277680047DDD2 /* RecommendationsView.swift in Sources */,
-				79BEE2642A11134600824824 /* ConferenceView.swift in Sources */,
-				79BEE26A2A11154D00824824 /* ErrorView.swift in Sources */,
-				79AF2C4D2A9A6D0A0011EAC4 /* MultiPaneView.swift in Sources */,
+				1AD69C812D0D8FD000C539CE /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -168,7 +168,6 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.koin.workmanager)
 
-    implementation(libs.kmm.viewmodel)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.koin.android)
     implementation(libs.androidx.lifecycle.livedata.ktx)
@@ -234,7 +233,6 @@ dependencies {
     testImplementation(libs.compose.ui.test.junit4)
     testImplementation(libs.koin.test)
     testImplementation(libs.koin.test.junit4)
-    testImplementation(libs.accompanist.testharness)
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.androidx.complications.rendering)
     testImplementation(libs.horologist.compose.tools)

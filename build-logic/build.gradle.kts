@@ -15,7 +15,6 @@ dependencies {
     implementation(libs.plugin.apollo)
     implementation(libs.apollo.execution.gradle.plugin)
     implementation(libs.plugin.ksp)
-    implementation(libs.plugin.kmp.nativecoroutines)
     implementation(libs.plugin.kotlin.serialization)
     implementation(libs.plugin.kotlin.spring)
     implementation(libs.plugin.spring.boot)

@@ -168,8 +168,6 @@ fun ConfettiTheme(
     disableDynamicTheming: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    SystemBarsColorEffect(isSystemInDarkTheme = darkTheme)
-
     val (colorScheme, backgroundTheme) = mobileThemes(androidTheme, darkTheme, disableDynamicTheming)
 
     CompositionLocalProvider(

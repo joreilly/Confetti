@@ -174,8 +174,6 @@ dependencies {
     implementation(libs.material3.core)
     implementation(libs.splash.screen)
 
-    implementation(libs.accompanist.adaptive)
-    implementation(libs.accompanist.systemuicontroller)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
@@ -183,8 +181,6 @@ dependencies {
 
     implementation(libs.horologist.datalayer)
     implementation(libs.horologist.datalayer.phone)
-
-    implementation(libs.kmm.viewmodel)
 
     val excludeCrashlyticsConflicts = Action<ExternalModuleDependency> {
         // Crashlytics and PerfMon depend on datastore v1.0 but we're using v1.1

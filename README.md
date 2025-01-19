@@ -65,7 +65,7 @@ Gemini based talk recommendations for particuar conference are included in the m
 
 ### API
 
-The API is available at https://confetti-app.dev/graphql
+The API is available at https://confetti-app.dev/graphql ([IDE](https://confetti-app.dev/playground)).
 You can query the list of conferences with `conferences.id` and chose what conference to query by
 passing a `"conference"` HTTP header 
 

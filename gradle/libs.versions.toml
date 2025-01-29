@@ -1,6 +1,6 @@
 [versions]
 kotlin19 = "1.9.25"
-ksp19 = "1.9.25-1.0.20"
+ksp19 = "2.1.10-1.0.29"
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 kotlinx-coroutines = "1.9.0"

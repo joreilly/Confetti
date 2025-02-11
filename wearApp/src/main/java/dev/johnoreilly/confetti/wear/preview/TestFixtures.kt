@@ -19,14 +19,16 @@ object TestFixtures {
             LocalDate.parse("2023-04-14")
         ),
         "KotlinConf 2023",
-        "0xFF800000"
+        "0xFF800000",
+        __typename = "Conference",
     )
 
     val kotlinConf2023Config = GetBookmarkedSessionsQuery.Config(
         kotlinConf2023.id,
         "",
         kotlinConf2023.days,
-        kotlinConf2023.name
+        kotlinConf2023.name,
+        __typename = "Conference"
     )
 
     // Generate from FetchDataTest.fetchConferences
@@ -37,42 +39,48 @@ object TestFixtures {
             "",
             listOf(LocalDate.parse("2023-02-04"), LocalDate.parse("2023-02-05")),
             "Fosdem 2023",
-            "0xFF008000"
+            "0xFF008000",
+            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
             "droidconlondon2022",
             "",
             listOf(LocalDate.parse("2022-10-27"), LocalDate.parse("2022-10-28")),
             "droidcon London",
-            "0xFF800000"
+            "0xFF800000",
+            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
             "devfestnantes",
             "",
             listOf(LocalDate.parse("2022-10-20"), LocalDate.parse("2022-10-21")),
             "DevFest Nantes",
-            "0xFF800000"
+            "0xFF800000",
+            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
             "graphqlsummit2022",
             "",
             listOf(LocalDate.parse("2022-10-04"), LocalDate.parse("2022-10-05")),
             "GraphQL Summit",
-            "0xFF800000"
+            "0xFF800000",
+            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
             "frenchkit2022",
             "",
             listOf(LocalDate.parse("2022-09-29"), LocalDate.parse("2022-09-30")),
             "FrenchKit",
-            "0xFF800000"
+            "0xFF800000",
+            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
             "droidconsf",
             "",
             listOf(LocalDate.parse("2022-06-02"), LocalDate.parse("2022-06-03")),
             "droidcon SF",
-            "0xFF800000"
+            "0xFF800000",
+            __typename = "Conference",
         )
     )
 
@@ -134,7 +142,7 @@ The talk will cover
             JohnOreilly,
             MartinBonnin
         ),
-        room = SessionDetails.Room(name = "Effectenbeurszaal"),
+        room = SessionDetails.Room(name = "Effectenbeurszaal", id = "1", __typename = "Room"),
         tags = listOf(),
         __typename = "Session"
     )

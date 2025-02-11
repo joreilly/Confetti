@@ -33,7 +33,8 @@ class TileScreenshotTest(override val device: WearDevice) : BaseScreenshotTest()
                         TestFixtures.kotlinConf2023.id,
                         "",
                         TestFixtures.kotlinConf2023.days,
-                        TestFixtures.kotlinConf2023.name
+                        TestFixtures.kotlinConf2023.name,
+                        __typename = "Conference",
                     ),
                     listOf(
                         TestFixtures.sessionDetails
@@ -62,7 +63,8 @@ class TileScreenshotTest(override val device: WearDevice) : BaseScreenshotTest()
                         TestFixtures.kotlinConf2023.id,
                         "",
                         TestFixtures.kotlinConf2023.days,
-                        TestFixtures.kotlinConf2023.name
+                        TestFixtures.kotlinConf2023.name,
+                        __typename = "Conference",
                     )
                 )
             }

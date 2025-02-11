@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.wear.tiles.TileService
 import coil.ImageLoader
 import coil.decode.SvgDecoder
-import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.cache.normalized.FetchPolicy
 import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import com.google.android.horologist.networks.battery.BatteryStatusMonitor
 import com.google.android.horologist.networks.data.DataRequestRepository

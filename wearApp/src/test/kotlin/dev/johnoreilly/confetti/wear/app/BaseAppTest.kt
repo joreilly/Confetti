@@ -1,7 +1,7 @@
 package dev.johnoreilly.confetti.wear.app
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.apollographql.apollo.cache.normalized.sql.ApolloInitializer
+import com.apollographql.cache.normalized.sql.ApolloInitializer
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.MainActivity
 import kotlinx.coroutines.runBlocking

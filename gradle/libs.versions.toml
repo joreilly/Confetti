@@ -11,7 +11,8 @@ agp = "8.8.0"
 activity-compose = "1.10.0"
 androidx-lifecycle = "2.8.7"
 androidx-datastore = "1.1.2"
-apollo = "4.1.0"
+apollo = "4.1.1"
+apollo-cache = "0.0.6"
 compose = "1.7.7"
 composeLifecyleRuntime="2.8.4"
 compose-multiplatform = "1.7.3"
@@ -72,8 +73,8 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
 lifecyle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "composeLifecyleRuntime" }
 apollo-adapters = { module = "com.apollographql.apollo:apollo-adapters" }
-apollo-normalized-cache-in-memory = { module = "com.apollographql.apollo:apollo-normalized-cache" }
-apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo:apollo-normalized-cache-sqlite" }
+apollo-normalized-cache-in-memory = { module = "com.apollographql.cache:normalized-cache-incubating", version.ref = "apollo-cache" }
+apollo-normalized-cache-sqlite = { module = "com.apollographql.cache:normalized-cache-sqlite-incubating", version.ref = "apollo-cache" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
 apollo-execution-spring = { module = "com.apollographql.execution:apollo-execution-spring", version.ref = "apollo-kotlin-execution" }
 apollo-execution-reporting = { module = "com.apollographql.execution:apollo-execution-reporting", version.ref = "apollo-kotlin-execution" }

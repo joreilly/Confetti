@@ -4,11 +4,11 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Mutation
 import com.apollographql.apollo.api.Operation
-import com.apollographql.apollo.cache.normalized.FetchPolicy
-import com.apollographql.apollo.cache.normalized.apolloStore
-import com.apollographql.apollo.cache.normalized.fetchPolicy
-import com.apollographql.apollo.cache.normalized.optimisticUpdates
-import com.apollographql.apollo.cache.normalized.watch
+import com.apollographql.cache.normalized.FetchPolicy
+import com.apollographql.cache.normalized.apolloStore
+import com.apollographql.cache.normalized.fetchPolicy
+import com.apollographql.cache.normalized.optimisticUpdates
+import com.apollographql.cache.normalized.watch
 import com.apollographql.apollo.exception.DefaultApolloException
 import com.benasher44.uuid.uuid4
 import dev.johnoreilly.confetti.type.buildBookmarks
@@ -54,8 +54,9 @@ class ConfettiRepository : KoinComponent {
     ): Boolean {
         val client = apolloClientCache.getClient(conference, uid)
         val optimisticData = try {
-            val bookmarks = client.apolloStore.readOperation(GetBookmarksQuery()).bookmarks
-            data(bookmarks!!.sessionIds, bookmarks.id)
+            client.apolloStore.readOperation(GetBookmarksQuery()).data?.bookmarks?.let { bookmarks ->
+                data(bookmarks.sessionIds, bookmarks.id)
+            }
         } catch (e: Exception) {
             null
         }

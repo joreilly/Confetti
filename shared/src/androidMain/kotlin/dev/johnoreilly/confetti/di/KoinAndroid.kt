@@ -14,10 +14,10 @@ import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.cache.normalized.FetchPolicy
-import com.apollographql.apollo.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo.cache.normalized.api.NormalizedCacheFactory
-import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.apollographql.cache.normalized.FetchPolicy
+import com.apollographql.cache.normalized.memory.MemoryCacheFactory
+import com.apollographql.cache.normalized.api.NormalizedCacheFactory
+import com.apollographql.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
 import com.apollographql.apollo.network.http.DefaultHttpEngine
 import com.apollographql.apollo.network.ws.DefaultWebSocketEngine

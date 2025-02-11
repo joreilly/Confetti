@@ -6,8 +6,8 @@ import com.apollographql.apollo.api.ApolloRequest
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.ExecutionContext
 import com.apollographql.apollo.api.Operation
-import com.apollographql.apollo.cache.normalized.apolloStore
-import com.apollographql.apollo.cache.normalized.normalizedCache
+import com.apollographql.cache.normalized.apolloStore
+import com.apollographql.cache.normalized.normalizedCache
 import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.interceptor.ApolloInterceptor

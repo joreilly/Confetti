@@ -75,6 +75,7 @@ lifecyle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtim
 apollo-adapters = { module = "com.apollographql.apollo:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.cache:normalized-cache-incubating", version.ref = "apollo-cache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.cache:normalized-cache-sqlite-incubating", version.ref = "apollo-cache" }
+apollo-normalized-cache-compiler-plugin = { module = "com.apollographql.cache:normalized-cache-apollo-compiler-plugin", version.ref = "apollo-cache" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
 apollo-execution-spring = { module = "com.apollographql.execution:apollo-execution-spring", version.ref = "apollo-kotlin-execution" }
 apollo-execution-reporting = { module = "com.apollographql.execution:apollo-execution-reporting", version.ref = "apollo-kotlin-execution" }

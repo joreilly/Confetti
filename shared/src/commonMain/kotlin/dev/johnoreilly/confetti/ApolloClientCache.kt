@@ -13,6 +13,10 @@ import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.interceptor.ApolloInterceptor
 import com.apollographql.apollo.interceptor.ApolloInterceptorChain
 import com.apollographql.apollo.network.NetworkMonitor
+import com.apollographql.cache.normalized.api.CacheControlCacheResolver
+import com.apollographql.cache.normalized.api.SchemaCoordinatesMaxAgeProvider
+import com.apollographql.cache.normalized.storeReceiveDate
+import dev.johnoreilly.confetti.cache.Cache
 import dev.johnoreilly.confetti.di.getNormalizedCacheFactory
 import dev.johnoreilly.confetti.utils.registerApolloDebugServer
 import dev.johnoreilly.confetti.utils.unregisterApolloDebugServer
@@ -25,6 +29,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import kotlin.time.Duration
 
 interface TokenProvider {
     suspend fun token(forceRefresh: Boolean): String?
@@ -118,8 +123,15 @@ class ApolloClientCache : KoinComponent {
             .addHttpHeader("conference", conference)
             .normalizedCache(
                 normalizedCacheFactory,
-                writeToCacheAsynchronously = writeToCacheAsynchronously
+                writeToCacheAsynchronously = writeToCacheAsynchronously,
+                cacheResolver = CacheControlCacheResolver(
+                    SchemaCoordinatesMaxAgeProvider(
+                        maxAges = Cache.maxAges,
+                        defaultMaxAge = Duration.INFINITE,
+                    )
+                ),
             )
+            .storeReceiveDate(true)
             .autoPersistedQueries()
             .addInterceptor(tokenProviderInterceptor)
             .build()

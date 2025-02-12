@@ -15,6 +15,10 @@ import androidx.wear.protolayout.material.Chip
 import androidx.wear.protolayout.material.ChipColors
 import androidx.wear.protolayout.material.layouts.MultiSlotLayout
 import androidx.wear.protolayout.material3.*
+import androidx.wear.protolayout.modifiers.LayoutModifier
+import androidx.wear.protolayout.modifiers.contentDescription
+import androidx.wear.protolayout.types.LayoutColor
+import androidx.wear.protolayout.types.LayoutString
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData
@@ -61,42 +65,42 @@ class CurrentSessionsTileRenderer(
         bottomSlot = {
             textEdgeButton(
                 onClick = browseClickable(state.conference.id),
-                contentDescription = string("Bookmarks"),
-                labelContent = { text(string("Bookmarks")) })
+                modifier = LayoutModifier.contentDescription("Bookmarks"),
+                labelContent = { text(LayoutString("Bookmarks")) })
         })
 
     fun MaterialScope.renderLoginTile(
         state: NotLoggedIn,
     ): LayoutElementBuilders.LayoutElement = primaryLayout(
         mainSlot = {
-            text(string("Not Logged In"))
+            text(LayoutString("Not Logged In"))
         },
         titleSlot = { conferenceLabel(state.conference?.name ?: "Confetti") },
         bottomSlot = {
             textEdgeButton(
                 onClick = loginClickable(),
-                contentDescription = string("Login"),
-                labelContent = { text(string("Login")) })
+                modifier = LayoutModifier.contentDescription("Login"),
+                labelContent = { text(LayoutString("Login")) })
         })
 
     fun MaterialScope.renderNoConferenceTile(
     ): LayoutElementBuilders.LayoutElement = primaryLayout(
         mainSlot = {
-            text(string("No Conference Selected"))
+            text(LayoutString("No Conference Selected"))
         },
         titleSlot = { conferenceLabel("Confetti") },
         bottomSlot = {
             textEdgeButton(
                 onClick = conferencesClickable(),
-                contentDescription = string("Conferences"),
-                labelContent = { text(string("Conferences")) })
+                modifier = LayoutModifier.contentDescription("Conferences"),
+                labelContent = { text(LayoutString("Conferences")) })
         })
 
     fun MaterialScope.conferenceLabel(state: String) =
-        text(string(state), typography = Typography.TITLE_MEDIUM, color = color(theme.primary), maxLines = 2)
+        text(LayoutString(state), typography = Typography.TITLE_MEDIUM, color = LayoutColor(theme.primary), maxLines = 2)
 
     fun MaterialScope.message(state: String) =
-        text(string(state), typography = Typography.BODY_LARGE, color = color(theme.primary))
+        text(LayoutString(state), typography = Typography.BODY_LARGE, color = LayoutColor(theme.primary))
 
     fun MaterialScope.sessionsList(
         state: CurrentSessionsData,

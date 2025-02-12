@@ -70,6 +70,7 @@ fun SessionCard(
                             contentDescription = if (isBookmarked) "Remove Bookmark" else "Bookmark"
                         )
                     },
+                    text = { Text(if (isBookmarked) "Unbookmark" else "Bookmark") },
                     label = if (isBookmarked) "Unbookmark" else "Bookmark",
                     onClick = {
                         if (isBookmarked) removeBookmark(session.id) else addBookmark(session.id)

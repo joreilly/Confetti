@@ -18,7 +18,6 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
@@ -29,7 +28,6 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import coil.compose.AsyncImage
@@ -41,7 +39,6 @@ import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
-import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -68,8 +65,6 @@ fun SettingsListView(
         ) {
             item {
                 ScreenHeader(
-                    modifier = Modifier
-                        .scrollTransform(this@item),
                     text = stringResource(id = R.string.settings)
                 )
             }
@@ -77,8 +72,7 @@ fun SettingsListView(
             item {
                 Button(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .scrollTransform(this@item),
+                        .fillMaxWidth(),
                     onClick = conferenceCleared,
                 ) {
                     Text(stringResource(R.string.settings_change_conference))
@@ -88,8 +82,7 @@ fun SettingsListView(
             item {
                 Button(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .scrollTransform(this@item),
+                        .fillMaxWidth(),
                     onClick = onRefreshClick,
                 ) {
                     Text(stringResource(R.string.settings_refresh))
@@ -105,8 +98,7 @@ fun SettingsListView(
                     if (authUser == null) {
                         Button(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@item),
+                                .fillMaxWidth(),
                             onClick = onSignIn,
                         ) {
                             Text(stringResource(R.string.settings_sign_in))
@@ -120,7 +112,6 @@ fun SettingsListView(
                         Button(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .scrollTransform(this@item)
                                 .clearAndSetSemantics {
                                     contentDescription = chipContentDescription
                                     onClick(clickActionLabel) {
@@ -139,8 +130,7 @@ fun SettingsListView(
                 item {
                     SwitchButton(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .scrollTransform(this@item),
+                            .fillMaxWidth(),
                         label = { Text(stringResource(R.string.settings_allow_lte)) },
                         icon = {
                             androidx.wear.compose.material3.Icon(
@@ -168,8 +158,7 @@ fun SettingsListView(
                 item {
                     Button(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .scrollTransform(this@item),
+                            .fillMaxWidth(),
                         label = {
                             Text(
                                 when (wearPreferences?.showNetworks) {
@@ -207,7 +196,6 @@ fun SettingsListView(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .scrollTransform(this@item)
                             .padding(top = 10.dp)
                             .run {
                                 if (!uiState.developerMode) {
@@ -241,8 +229,7 @@ private fun TransformingLazyColumnScope.developerModeOptions(
     item {
         ListSubHeader(
             modifier = Modifier
-                .fillMaxWidth()
-                .scrollTransform(this@item),
+                .fillMaxWidth(),
         ) {
             Text(
                 text = "Developer Mode",
@@ -254,8 +241,7 @@ private fun TransformingLazyColumnScope.developerModeOptions(
         item {
             Text(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .scrollTransform(this@item),
+                    .fillMaxWidth(),
                 style = MaterialTheme.typography.labelSmall,
                 text = "Email: ${authUser.email}"
             )

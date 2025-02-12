@@ -14,7 +14,6 @@ import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
@@ -67,8 +66,7 @@ fun ConferencesView(
         ) {
             item {
                 ScreenHeader(
-                    modifier = Modifier
-                        .scrollTransform(this@item), text = "Conferences"
+                    text = "Conferences"
                 )
             }
 
@@ -77,8 +75,7 @@ fun ConferencesView(
                     items(5) {
                         PlaceholderButton(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@items),
+                                .fillMaxWidth(),
                         )
                     }
                 }
@@ -88,8 +85,7 @@ fun ConferencesView(
                     items(uiState.relevantConferences) { conference ->
                         ConferencesChip(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@items),
+                                .fillMaxWidth(),
                             conference,
                             navigateToConference,
                         )

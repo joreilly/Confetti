@@ -20,7 +20,6 @@ import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
@@ -89,8 +88,7 @@ private fun TransformingLazyColumnScope.titleSection(uiState: QueryResult<HomeUi
         is QueryResult.Success -> {
             item {
                 ScreenHeader(
-                    modifier = Modifier
-                        .scrollTransform(this@item), text = uiState.result.conferenceName
+                    text = uiState.result.conferenceName
                 )
             }
         }
@@ -103,7 +101,6 @@ private fun TransformingLazyColumnScope.titleSection(uiState: QueryResult<HomeUi
                     modifier = Modifier
                         .fillMaxWidth(0.75f)
                         .placeholder(chipPlaceholderState)
-                        .scrollTransform(this@item)
                 )
             }
         }
@@ -123,8 +120,7 @@ private fun TransformingLazyColumnScope.bookmarksSection(
     item {
         SectionHeader(
             modifier = Modifier
-                .fillMaxWidth()
-                .scrollTransform(this@item),
+                .fillMaxWidth(),
             text = stringResource(R.string.home_bookmarked_sessions)
         )
     }
@@ -136,8 +132,7 @@ private fun TransformingLazyColumnScope.bookmarksSection(
                 key(session.id) {
                     SessionCard(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .scrollTransform(this@items),
+                            .fillMaxWidth(),
                         session = session, sessionSelected = {
                             if (uiState is QueryResult.Success) {
                                 sessionSelected(it)
@@ -154,8 +149,7 @@ private fun TransformingLazyColumnScope.bookmarksSection(
                 item {
                     Text(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .scrollTransform(this@item),
+                            .fillMaxWidth(),
                         text = stringResource(id = R.string.no_upcoming),
                     )
                 }
@@ -168,8 +162,7 @@ private fun TransformingLazyColumnScope.bookmarksSection(
     item {
         OutlinedButton(
             modifier = Modifier
-                .fillMaxWidth()
-                .scrollTransform(this@item),
+                .fillMaxWidth(),
             onClick = {
                 if (uiState is QueryResult.Success) {
                     onBookmarksClick()
@@ -189,8 +182,7 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
     item {
         SectionHeader(
             modifier = Modifier
-                .fillMaxWidth()
-                .scrollTransform(this@item),
+                .fillMaxWidth(),
             text = stringResource(id = R.string.conference_days)
         )
     }
@@ -199,8 +191,7 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
             items(uiState.result.confDates) { date ->
                 DayChip(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .scrollTransform(this@items),
+                        .fillMaxWidth(),
                     dayFormatter,
                     date,
                     daySelected = { daySelected(date) })
@@ -237,8 +228,7 @@ private fun TransformingLazyColumnScope.bottomMenuSection(onSettingsClick: () ->
     item {
         IconButton(
             modifier = Modifier
-                .fillMaxWidth()
-                .scrollTransform(this@item),
+                .fillMaxWidth(),
             onClick = onSettingsClick
         ) {
             Icon(

@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.cache.normalized.FetchPolicy
-import com.apollographql.cache.normalized.fetchPolicy
 import dev.johnoreilly.confetti.di.initKoin
 import kotlinx.coroutines.runBlocking
 import org.junit.Ignore

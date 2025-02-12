@@ -6,7 +6,6 @@ import com.apollographql.apollo.api.Mutation
 import com.apollographql.apollo.api.Operation
 import com.apollographql.cache.normalized.FetchPolicy
 import com.apollographql.cache.normalized.apolloStore
-import com.apollographql.cache.normalized.fetchPolicy
 import com.apollographql.cache.normalized.optimisticUpdates
 import com.apollographql.cache.normalized.watch
 import com.apollographql.apollo.exception.DefaultApolloException

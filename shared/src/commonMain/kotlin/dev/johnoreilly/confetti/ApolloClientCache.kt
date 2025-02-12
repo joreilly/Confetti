@@ -15,6 +15,7 @@ import com.apollographql.apollo.interceptor.ApolloInterceptorChain
 import com.apollographql.apollo.network.NetworkMonitor
 import com.apollographql.cache.normalized.api.CacheControlCacheResolver
 import com.apollographql.cache.normalized.api.SchemaCoordinatesMaxAgeProvider
+import com.apollographql.cache.normalized.maxStale
 import com.apollographql.cache.normalized.storeReceiveDate
 import dev.johnoreilly.confetti.cache.Cache
 import dev.johnoreilly.confetti.di.getNormalizedCacheFactory
@@ -132,6 +133,7 @@ class ApolloClientCache : KoinComponent {
                 ),
             )
             .storeReceiveDate(true)
+            .maxStale(Duration.INFINITE)
             .autoPersistedQueries()
             .addInterceptor(tokenProviderInterceptor)
             .build()

@@ -62,7 +62,7 @@ The talk will cover
         JohnOreilly,
         MartinBonnin
     ),
-    room = SessionDetails.Room(name = "Effectenbeurszaal"),
+    room = SessionDetails.Room(name = "Effectenbeurszaal", id = "0", __typename = "Room"),
     tags = listOf(),
     __typename = "Session"
 )

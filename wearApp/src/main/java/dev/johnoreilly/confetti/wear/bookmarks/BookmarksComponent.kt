@@ -1,6 +1,6 @@
 package dev.johnoreilly.confetti.wear.bookmarks
 
-import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetBookmarkedSessionsQuery

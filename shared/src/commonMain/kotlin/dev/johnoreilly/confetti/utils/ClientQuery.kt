@@ -3,8 +3,8 @@ package dev.johnoreilly.confetti.utils
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Error
 import com.apollographql.apollo.api.Query
-import com.apollographql.apollo.cache.normalized.CacheInfo
-import com.apollographql.apollo.cache.normalized.cacheInfo
+import com.apollographql.cache.normalized.CacheInfo
+import com.apollographql.cache.normalized.cacheInfo
 import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.exception.CacheMissException
 import kotlinx.coroutines.flow.Flow

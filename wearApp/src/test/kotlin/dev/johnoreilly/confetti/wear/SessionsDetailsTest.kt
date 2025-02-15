@@ -41,7 +41,11 @@ class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest(
         composeRule.onNodeWithText("Thursday 14:00").assertIsDisplayed()
         takeScreenshot()
 
-        columnState.dispatchRawDelta(1000f)
+        columnState.dispatchRawDelta(2000f)
+        composeRule.waitForIdle()
+        // TODO file bug for this
+        columnState.dispatchRawDelta(500f)
+        composeRule.waitForIdle()
         takeScreenshot("_end")
     }
 

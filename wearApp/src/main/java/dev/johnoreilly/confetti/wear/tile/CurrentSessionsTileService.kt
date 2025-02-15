@@ -7,7 +7,7 @@ import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
-import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.cache.normalized.FetchPolicy
 import com.google.android.horologist.tiles.SuspendingTileService
 import com.materialkolor.dynamicColorScheme
 import dev.johnoreilly.confetti.ConfettiRepository

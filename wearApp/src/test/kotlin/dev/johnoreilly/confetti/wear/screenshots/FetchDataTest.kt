@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
-import com.apollographql.apollo.cache.normalized.sql.ApolloInitializer
+import com.apollographql.cache.normalized.sql.ApolloInitializer
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.GetSessionsQuery

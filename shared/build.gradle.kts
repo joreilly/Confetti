@@ -227,6 +227,10 @@ apollo {
                 schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
             }
         }
+
+        plugin(libs.apollo.normalized.cache.compiler.plugin.get()) {
+            argument("packageName", packageName.get())
+        }
     }
 }
 

@@ -60,7 +60,7 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
         }
         takeScreenshot()
 
-        columnState.requestScrollToItem(20, 0)
+        columnState.dispatchRawDelta(1000f)
         takeScreenshot("_end")
     }
 

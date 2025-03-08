@@ -1,0 +1,19 @@
+appId: dev.johnoreilly.confetti
+---
+- launchApp:
+    clearState: true
+- scrollUntilVisible:
+    element:
+      id: androidmakers2024
+- tapOn:
+    id: androidmakers2024
+- assertVisible: "AndroidMakers by droidcon 2024"
+- scrollUntilVisible:
+    element:
+      text: "Kotlin Multiplatform.*"
+- tapOn: "Kotlin Multiplatform.*"
+- assertVisible: "Kotlin Multiplatform at Stable and Beyond"
+- tapOn: "Back"
+
+Swift-friendly API Generator for Kotlin Multiplatform
+When Swift calls Kotlin through Objective-C, critical Kotlin language features are dropped. SKIE bridges modern types and coroutines in the best way: with real Swift.

@@ -35,7 +35,6 @@ class DefaultAppComponent(
     componentContext: ComponentContext,
     private val onSignOut: () -> Unit,
     private val onSignIn: () -> Unit,
-    private val isMultiPane: Boolean = false,
     initialConferenceId: String? = null,
     private val settingsComponent: SettingsComponent? = null
 ) : AppComponent, KoinComponent, ComponentContext by componentContext {
@@ -137,7 +136,6 @@ class DefaultAppComponent(
                         user = user, 
                         conference = config.conference,
                         conferenceThemeColor = config.conferenceThemeColor,
-                        isMultiPane = isMultiPane,
                         onSwitchConference = ::showConferences,
                         onSignOut = {
                             onSignOut()

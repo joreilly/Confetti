@@ -151,7 +151,6 @@ fun HomeView(component: HomeComponent) {
                                 snackbarHostState = snackbarHostState
                             )
 
-                        is HomeComponent.Child.MultiPane -> Text(text = "Multi-pane mode is not yet supported")
                         is HomeComponent.Child.Speakers -> SpeakersUI(child.component)
                         is HomeComponent.Child.Bookmarks ->
                             BookmarksUI(

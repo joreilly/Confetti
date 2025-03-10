@@ -10,7 +10,6 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
-import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ColumnItemType
@@ -47,16 +46,14 @@ fun SessionsScreen(
                         item {
                             SectionHeader(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .scrollTransform(this@item), text = time
+                                    .fillMaxWidth(), text = time
                             )
                         }
 
                         items(sessionsAtTime) { session ->
                             SessionCard(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .scrollTransform(this@items),
+                                    .fillMaxWidth(),
                                 session = session,
                                 sessionSelected = {
                                     sessionSelected(it)

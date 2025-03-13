@@ -10,7 +10,6 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ColumnItemType
@@ -48,8 +47,6 @@ fun BookmarksScreen(
                 is QueryResult.Success -> {
                     item {
                         ScreenHeader(
-                            modifier = Modifier
-                                .scrollTransform(this@item),
                             text = stringResource(R.string.upcoming_sessions)
                         )
                     }
@@ -57,8 +54,7 @@ fun BookmarksScreen(
                     items(uiState.result.upcoming) { session ->
                         SessionCard(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@items),
+                                .fillMaxWidth(),
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
@@ -74,8 +70,7 @@ fun BookmarksScreen(
                         item {
                             Text(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .scrollTransform(this@item),
+                                    .fillMaxWidth(),
                                 text = stringResource(id = R.string.no_upcoming),
                             )
                         }
@@ -84,8 +79,7 @@ fun BookmarksScreen(
                     item {
                         SectionHeader(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@item),
+                                .fillMaxWidth(),
                             text = stringResource(id = R.string.past_sessions)
                         )
                     }
@@ -93,8 +87,7 @@ fun BookmarksScreen(
                     items(uiState.result.past) { session ->
                         SessionCard(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@items),
+                                .fillMaxWidth(),
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
@@ -110,8 +103,7 @@ fun BookmarksScreen(
                         item {
                             Text(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .scrollTransform(this@item),
+                                    .fillMaxWidth(),
                                 text = stringResource(id = R.string.no_past),
                             )
                         }

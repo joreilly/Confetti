@@ -41,7 +41,7 @@ class ConferenceScreenTest(override val device: WearDevice) : BaseScreenshotTest
         composeRule.onNodeWithText("KotlinConf 2023").assertIsDisplayed()
         takeScreenshot()
 
-        columnState.requestScrollToItem(20, 0)
+        columnState.dispatchRawDelta(1000f)
         takeScreenshot("_end")
     }
 

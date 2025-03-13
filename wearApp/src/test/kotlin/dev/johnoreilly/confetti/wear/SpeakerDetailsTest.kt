@@ -35,7 +35,7 @@ class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest()
         composeRule.onNodeWithText("John O'Reilly").assertIsDisplayed()
         takeScreenshot()
 
-        columnState.requestScrollToItem(20, 0)
+        columnState.dispatchRawDelta(1000f)
         takeScreenshot("_end")
     }
 

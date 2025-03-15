@@ -43,21 +43,14 @@ fun SessionItemView(
 ) {
 
     var modifier = Modifier.fillMaxSize()
-    val tonalElevation = if (!session.isService() && !session.isBreak()) {
-        0.dp
-    } else {
-        2.dp
-    }
-    if (!session.isBreak()) {
+    if (!session.isService() && !session.isBreak()) {
         modifier = modifier.clickable(onClick = {
             sessionSelected(session.id)
         })
     }
 
 
-    Surface(
-        tonalElevation = tonalElevation
-    ) {
+    Surface {
         Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -108,7 +101,7 @@ fun SessionItemView(
 
             var showDialog by remember { mutableStateOf(false) }
 
-            if (!session.isBreak()) {
+            if (!session.isBreak() && !session.isService()) {
                 Bookmark(
                     isBookmarked = isBookmarked,
                     onBookmarkChange = { shouldAdd ->

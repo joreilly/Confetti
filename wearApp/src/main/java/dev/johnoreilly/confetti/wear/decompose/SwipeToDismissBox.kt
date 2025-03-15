@@ -33,7 +33,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: Value<ChildStack<C, T>>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() { time() } },
+    timeText: @Composable () -> Unit = { TimeText() },
     content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val state = stack.subscribeAsState()
@@ -62,7 +62,7 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: ChildStack<C, T>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() { time() } },
+    timeText: @Composable () -> Unit = { TimeText() },
     content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val active: Child.Created<C, T> = stack.active

@@ -18,7 +18,6 @@ import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.lazy.scrollTransform
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.rememberPlaceholderState
 import coil.compose.SubcomposeAsyncImage
@@ -61,7 +60,6 @@ fun SpeakerDetailsView(
                         imageVector = ConfettiIcons.Person,
                         contentDescription = "",
                         modifier = Modifier
-                            .scrollTransform(this@item)
                             .size(80.dp)
                             .clip(RoundedCornerShape(16.dp))
                     )
@@ -76,7 +74,6 @@ fun SpeakerDetailsView(
                             .clip(RoundedCornerShape(12.dp))
                             .height(24.dp)
                             .placeholder(placeholderState)
-                            .scrollTransform(this@item)
                     )
                 }
 
@@ -89,15 +86,13 @@ fun SpeakerDetailsView(
                             .clip(RoundedCornerShape(12.dp))
                             .height(24.dp)
                             .placeholder(placeholderState)
-                            .scrollTransform(this@item)
                     )
                 }
 
                 item {
                     Text(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .scrollTransform(this@item), text = ""
+                            .fillMaxWidth(), text = ""
                     )
                 }
             } else {
@@ -121,7 +116,6 @@ fun SpeakerDetailsView(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .scrollTransform(this@item)
                             .size(80.dp)
                             .clip(RoundedCornerShape(16.dp))
                     )
@@ -130,8 +124,7 @@ fun SpeakerDetailsView(
                 item {
                     SectionHeader(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .scrollTransform(this@item),
+                            .fillMaxWidth(),
                         text = speaker?.name ?: "",
                     )
                 }
@@ -140,8 +133,7 @@ fun SpeakerDetailsView(
                     item {
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@item),
+                                .fillMaxWidth(),
                             text = speaker?.tagline ?: "",
                         )
                     }
@@ -151,8 +143,7 @@ fun SpeakerDetailsView(
                     item {
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .scrollTransform(this@item),
+                                .fillMaxWidth(),
                             text = speaker?.bio ?: "",
                         )
                     }

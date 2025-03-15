@@ -151,9 +151,7 @@ abstract class BaseScreenshotTest {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background),
-                timeText = { TimeText(timeSource = FixedTimeSource) {
-                    time()
-                } }
+                timeText = { TimeText(timeSource = FixedTimeSource) }
             ) {
                 ConfettiTheme(seedColor = null.toColor()) {
                     content()

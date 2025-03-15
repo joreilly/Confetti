@@ -15,6 +15,8 @@ import androidx.wear.protolayout.material.Chip
 import androidx.wear.protolayout.material.ChipColors
 import androidx.wear.protolayout.material.layouts.MultiSlotLayout
 import androidx.wear.protolayout.material3.*
+import androidx.wear.protolayout.types.argb
+import androidx.wear.protolayout.types.layoutString
 import com.google.android.horologist.tiles.render.SingleTileLayoutRenderer
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData
@@ -61,42 +63,39 @@ class CurrentSessionsTileRenderer(
         bottomSlot = {
             textEdgeButton(
                 onClick = browseClickable(state.conference.id),
-                contentDescription = string("Bookmarks"),
-                labelContent = { text(string("Bookmarks")) })
+                labelContent = { text("Bookmarks".layoutString) })
         })
 
     fun MaterialScope.renderLoginTile(
         state: NotLoggedIn,
     ): LayoutElementBuilders.LayoutElement = primaryLayout(
         mainSlot = {
-            text(string("Not Logged In"))
+            text("Not Logged In".layoutString)
         },
         titleSlot = { conferenceLabel(state.conference?.name ?: "Confetti") },
         bottomSlot = {
             textEdgeButton(
                 onClick = loginClickable(),
-                contentDescription = string("Login"),
-                labelContent = { text(string("Login")) })
+                labelContent = { text("Login".layoutString) })
         })
 
     fun MaterialScope.renderNoConferenceTile(
     ): LayoutElementBuilders.LayoutElement = primaryLayout(
         mainSlot = {
-            text(string("No Conference Selected"))
+            text("No Conference Selected".layoutString)
         },
         titleSlot = { conferenceLabel("Confetti") },
         bottomSlot = {
             textEdgeButton(
                 onClick = conferencesClickable(),
-                contentDescription = string("Conferences"),
-                labelContent = { text(string("Conferences")) })
+                labelContent = { text("Conferences".layoutString) })
         })
 
     fun MaterialScope.conferenceLabel(state: String) =
-        text(string(state), typography = Typography.TITLE_MEDIUM, color = color(theme.primary), maxLines = 2)
+        text(state.layoutString, typography = Typography.TITLE_MEDIUM, color = theme.primary.argb, maxLines = 2)
 
     fun MaterialScope.message(state: String) =
-        text(string(state), typography = Typography.BODY_LARGE, color = color(theme.primary))
+        text(state.layoutString, typography = Typography.BODY_LARGE, color = theme.primary.argb)
 
     fun MaterialScope.sessionsList(
         state: CurrentSessionsData,

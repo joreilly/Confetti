@@ -39,6 +39,7 @@ enum class ConferenceId(val id: String) {
     DevFestVenice2024("devfestvenice2024"),
     DevFestWarsaw2024("devfestwarsaw2024"),
     AndroidMakers2025("androidmakers2025"),
+    KotlinConf2025("kotlinconf2025"),
     ;
 
     companion object {

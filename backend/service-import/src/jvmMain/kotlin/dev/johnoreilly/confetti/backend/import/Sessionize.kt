@@ -694,6 +694,7 @@ object Sessionize {
                 id = ConferenceId.KotlinConf2025.id,
                 name = "KotlinConf 2025",
                 timeZone = "Europe/Copenhagen",
+                days = listOf(LocalDate(2025, 5, 22), LocalDate(2025, 5, 23)),
                 themeColor = "0xFF7F52FF"
             ),
             venue = DVenue(

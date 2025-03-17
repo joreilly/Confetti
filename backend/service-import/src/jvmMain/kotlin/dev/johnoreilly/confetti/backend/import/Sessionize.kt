@@ -686,7 +686,10 @@ object Sessionize {
 
     suspend fun importKotlinConf2025(): Int {
         return writeData(
-            getData("https://sessionize.com/api/v2/oleuq4yu/view/All"),
+            getData(
+                url = "https://sessionize.com/api/v2/oleuq4yu/view/All",
+                zoneId = "Europe/Copenhagen",
+            ),
             config = DConfig(
                 id = ConferenceId.KotlinConf2025.id,
                 name = "KotlinConf 2025",

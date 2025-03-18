@@ -1,5 +1,3 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
-
 plugins {
     kotlin("multiplatform")
     id("kotlinx-serialization")
@@ -10,19 +8,6 @@ plugins {
 group = "com.example"
 version = "1.0-SNAPSHOT"
 
-
-val copyWasmResources = tasks.create("copyWasmResourcesWorkaround", Copy::class.java) {
-    from(project(":shared").file("src/commonMain/composeResources"))
-    into("build/processedResources/wasmJs/main")
-}
-
-
-afterEvaluate {
-    project.tasks.getByName("wasmJsProcessResources").finalizedBy(copyWasmResources)
-    project.tasks.getByName("wasmJsDevelopmentExecutableCompileSync").dependsOn(copyWasmResources)
-    project.tasks.getByName("wasmJsProductionExecutableCompileSync").dependsOn(copyWasmResources)
-}
-
 kotlin {
     wasmJs {
         moduleName = "confetti"
@@ -32,6 +17,10 @@ kotlin {
             }
         }
         binaries.executable()
+
+        tasks.named<ProcessResources>(compilations["main"].processResourcesTaskName) {
+            from(project(":shared").file("src/commonMain/composeResources"))
+        }
     }
 
     sourceSets {

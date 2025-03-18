@@ -206,7 +206,7 @@ wear-compose-material = "androidx.wear.compose:compose-material:1.5.0-alpha11"
 wear-compose-material3 = "androidx.wear.compose:compose-material3:1.0.0-alpha34"
 xoxo = "net.mbonnin.xoxo:xoxo:0.4.0"
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
-
+tink = "com.google.crypto.tink:tink:1.17.0"
 jib-core = "com.google.cloud.tools:jib-core:0.27.2"
 google-cloud-run = "com.google.cloud:google-cloud-run:0.54.0"
 

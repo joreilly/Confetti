@@ -51,9 +51,3 @@ kotlin {
 compose.experimental {
     web.application {}
 }
-
-tasks.configureEach {
-    if (name == "wasmJsJar") {
-        dependsOn("copyWasmResourcesWorkaround")
-    }
-}

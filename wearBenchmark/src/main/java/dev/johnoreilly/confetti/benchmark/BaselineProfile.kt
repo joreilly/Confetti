@@ -12,7 +12,7 @@ class BaselineProfile {
 
     @Test
     fun profile() {
-        baselineRule.collectBaselineProfile(
+        baselineRule.collect(
             packageName = "dev.johnoreilly.confetti"
         ) {
             startActivityAndWait()

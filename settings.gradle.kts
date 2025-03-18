@@ -32,8 +32,8 @@ pluginManagement {
 
 rootProject.name = "Confetti"
 include(":androidApp")
-include(":androidBenchmark")
-include(":automotiveApp")
+//include(":androidBenchmark")
+//include(":automotiveApp")
 include(":common:car")
 include(":shared")
 include(":backend")
@@ -44,7 +44,6 @@ include(":backend:terraform")
 include(":landing-page")
 include(":wearApp")
 include(":wearBenchmark")
-include(":webApp")
 include(":compose-desktop")
 include(":compose-web")
 include(":proto")

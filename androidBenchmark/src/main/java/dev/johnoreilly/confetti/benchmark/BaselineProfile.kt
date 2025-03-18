@@ -18,7 +18,7 @@ class BaselineProfile {
 
     @Test
     fun openAndScroll() {
-        baselineRule.collectBaselineProfile(
+        baselineRule.collect(
             packageName = "dev.johnoreilly.confetti"
         ) {
             pressHome()

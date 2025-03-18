@@ -54,11 +54,6 @@ compose.experimental {
 
 tasks.configureEach {
     if (name == "wasmJsJar") {
-        val wasmJsJar = this
-        tasks.configureEach {
-            if (name == "copyWasmResourcesWorkaround") {
-                wasmJsJar.dependsOn(this)
-            }
-        }
+        dependsOn("copyWasmResourcesWorkaround")
     }
 }

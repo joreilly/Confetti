@@ -35,6 +35,8 @@ fun ConferenceHomeScreen() {
             daySelected = {},
             onSettingsClick = {},
             onBookmarksClick = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 
@@ -72,6 +74,8 @@ fun ConferenceHomeScreenWithBookmarks() {
             daySelected = {},
             onSettingsClick = {},
             onBookmarksClick = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 
@@ -93,6 +97,8 @@ fun ConferenceHomeScreenLoading() {
             daySelected = {},
             onSettingsClick = {},
             onBookmarksClick = {},
+            addBookmark = {},
+            removeBookmark = {}
         )
     }
 

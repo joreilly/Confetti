@@ -4,11 +4,11 @@ import com.apollographql.apollo.api.ApolloRequest
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.MutableExecutionOptions
 import com.apollographql.apollo.api.Operation
-import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.interceptor.ApolloInterceptor
 import com.apollographql.apollo.interceptor.ApolloInterceptorChain
 import com.apollographql.cache.normalized.FetchPolicy
 import com.apollographql.cache.normalized.cacheInfo
+import com.apollographql.cache.normalized.errorsAsException
 import com.apollographql.cache.normalized.fetchFromCache
 import com.apollographql.cache.normalized.fetchPolicy
 import com.apollographql.cache.normalized.fetchPolicyInterceptor
@@ -53,7 +53,7 @@ private object CacheFirstInterceptor : ApolloInterceptor {
                     if (networkResponse.exception == null || !first) {
                         networkResponse
                     } else {
-                        cacheResponse.cacheMissAsException()
+                        cacheResponse.errorsAsException()
                     }
                 )
                 first = false
@@ -61,21 +61,3 @@ private object CacheFirstInterceptor : ApolloInterceptor {
         }
     }
 }
-
-private fun <D : Operation.Data> ApolloResponse<D>.cacheMissAsException(): ApolloResponse<D> {
-    return if (cacheInfo!!.isCacheHit) {
-        this
-    } else {
-        val cacheMissException =
-            errors.orEmpty().mapNotNull { it.extensions?.get("exception") as? ApolloException }.reduceOrNull { acc, e ->
-                acc.addSuppressed(e)
-                acc
-            }
-        newBuilder()
-            .exception(cacheMissException)
-            .data(null)
-            .errors(null)
-            .build()
-    }
-}
-

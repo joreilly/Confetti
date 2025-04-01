@@ -170,6 +170,7 @@ class SessionNotificationSender(
             .setGroup(GROUP)
             .setGroupSummary(true)
             .setAutoCancel(true)
+            .setLocalOnly(false)
             .setStyle(style)
             .extend(NotificationCompat.WearableExtender().setBridgeTag("session:summary"))
             .build()

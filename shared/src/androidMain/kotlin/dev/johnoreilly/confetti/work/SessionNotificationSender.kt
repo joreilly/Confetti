@@ -23,7 +23,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
-import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.days
 
 class SessionNotificationSender(
     private val context: Context,
@@ -31,9 +31,10 @@ class SessionNotificationSender(
     private val dateService: DateService,
     private val notificationManager: NotificationManagerCompat,
     private val authentication: Authentication,
-) {
+): NotificationSender {
 
-    suspend fun sendNotification() {
+    override suspend fun sendNotification() {
+        println("sendNotification")
         // If there is no signed-in user, skip.
         val user = authentication.currentUser.value ?: return
 
@@ -185,6 +186,6 @@ class SessionNotificationSender(
         private val SUMMARY_ID = 0
 
         // Minimum interval for work manager: MIN_PERIODIC_INTERVAL_MILLIS
-        val INTERVAL = 15.minutes
+        val INTERVAL = 15.days
     }
 }

@@ -34,6 +34,7 @@ import dev.johnoreilly.confetti.settings.WearSettingsSerializer
 import dev.johnoreilly.confetti.shared.BuildConfig
 import dev.johnoreilly.confetti.utils.AndroidDateService
 import dev.johnoreilly.confetti.utils.DateService
+import dev.johnoreilly.confetti.work.NotificationSender
 import dev.johnoreilly.confetti.work.RefreshWorker
 import dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.work.SessionNotificationWorker
@@ -115,6 +116,9 @@ actual fun platformModule() = module {
         ).apply {
             registerSerializer(WearSettingsSerializer)
         }
+    }
+    single<NotificationSender> {
+        get<SessionNotificationSender>()
     }
 }
 

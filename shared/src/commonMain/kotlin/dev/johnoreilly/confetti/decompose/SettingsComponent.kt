@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.decompose
 import com.arkivanov.decompose.ComponentContext
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.work.NotificationSender
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -40,12 +41,15 @@ interface SettingsComponent {
     fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
     fun updateUseExperimentalFeatures(value: Boolean)
     fun enableDeveloperMode()
+    fun sendNotifications()
+    val supportsNotifications: Boolean
 }
 
 class DefaultSettingsComponent(
     componentContext: ComponentContext,
     private val appSettings: AppSettings,
     private val authentication: Authentication,
+    private val notificationSender: NotificationSender?,
 ) : SettingsComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
@@ -98,6 +102,15 @@ class DefaultSettingsComponent(
             appSettings.setDeveloperMode(true)
         }
     }
+
+    override fun sendNotifications() {
+        coroutineScope.launch {
+            notificationSender?.sendNotification()
+        }
+    }
+
+    override val supportsNotifications: Boolean
+        get() = notificationSender != null
 
     companion object {
         const val darkThemeConfigKey = "darkThemeConfigKey"

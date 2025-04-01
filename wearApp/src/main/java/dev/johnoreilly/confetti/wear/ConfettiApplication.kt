@@ -2,6 +2,9 @@ package dev.johnoreilly.confetti.wear
 
 import android.app.Application
 import android.content.Context
+import android.os.Build
+import androidx.wear.phone.interactions.notifications.BridgingConfig
+import androidx.wear.phone.interactions.notifications.BridgingManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.google.android.horologist.networks.data.RequestType
@@ -38,6 +41,11 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
+
+        BridgingManager.fromContext(this).setConfig(
+            BridgingConfig.Builder(this, true)
+                .build()
+        )
 
         if (isFirebaseInstalled) {
             if (!BuildConfig.DEBUG) {

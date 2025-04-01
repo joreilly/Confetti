@@ -61,7 +61,7 @@ class SessionNotificationSender(
 
         // If current date is not in the conference range, skip.
         if (sessions.none { session -> session.startsAt.date == dateService.now().date }) {
-            return
+//            return
         }
 
         val bookmarks = repository.bookmarks(
@@ -142,6 +142,8 @@ class SessionNotificationSender(
             .setContentText("Starts at ${session.startsAt.time} in ${session.room?.name.orEmpty()}")
             .setGroup(GROUP)
             .setAutoCancel(true)
+            .setLocalOnly(false)
+            .extend(NotificationCompat.WearableExtender().setBridgeTag("session:reminder"))
             .build()
     }
 
@@ -169,12 +171,15 @@ class SessionNotificationSender(
             .setGroupSummary(true)
             .setAutoCancel(true)
             .setStyle(style)
+            .extend(NotificationCompat.WearableExtender().setBridgeTag("session:summary"))
             .build()
     }
 
     private fun sendNotification(id: Int, notification: Notification) {
         try {
+            println("Sending " + notification)
             notificationManager.notify(id, notification)
+            println("Sent")
         } catch (e: SecurityException) {
             Log.e("SessionNotification", "Permission for notification has not been granted.", e)
         }

@@ -105,7 +105,7 @@ class DefaultSettingsComponent(
 
     override fun sendNotifications() {
         coroutineScope.launch {
-            notificationSender?.sendNotification()
+            notificationSender?.sendNotification(NotificationSender.AllFuture)
         }
     }
 

@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti.wear
 
 import android.app.Application
 import android.content.Context
-import android.os.Build
 import androidx.wear.phone.interactions.notifications.BridgingConfig
 import androidx.wear.phone.interactions.notifications.BridgingManager
 import coil.ImageLoader
@@ -33,7 +32,7 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
         get() = try {
             FirebaseApp.getInstance()
             true
-        } catch (ise: IllegalStateException) {
+        } catch (_: IllegalStateException) {
             false
         }
 
@@ -43,13 +42,13 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
         super.onCreate()
 
         BridgingManager.fromContext(this).setConfig(
-            BridgingConfig.Builder(this, true)
+            BridgingConfig.Builder(this, /* isBridgingEnabled = */ true)
                 .build()
         )
 
         if (isFirebaseInstalled) {
             if (!BuildConfig.DEBUG) {
-                Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
+                Firebase.crashlytics.isCrashlyticsCollectionEnabled = true
                 Firebase.crashlytics.setCustomKeys {
                     key("appName", "wearApp")
                 }

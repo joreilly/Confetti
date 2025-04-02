@@ -23,7 +23,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
-import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
 class SessionNotificationSender(
     private val context: Context,
@@ -34,7 +34,6 @@ class SessionNotificationSender(
 ): NotificationSender {
 
     override suspend fun sendNotification() {
-        println("sendNotification")
         // If there is no signed-in user, skip.
         val user = authentication.currentUser.value ?: return
 
@@ -61,7 +60,7 @@ class SessionNotificationSender(
 
         // If current date is not in the conference range, skip.
         if (sessions.none { session -> session.startsAt.date == dateService.now().date }) {
-//            return
+            return
         }
 
         val bookmarks = repository.bookmarks(
@@ -178,9 +177,7 @@ class SessionNotificationSender(
 
     private fun sendNotification(id: Int, notification: Notification) {
         try {
-            println("Sending " + notification)
             notificationManager.notify(id, notification)
-            println("Sent")
         } catch (e: SecurityException) {
             Log.e("SessionNotification", "Permission for notification has not been granted.", e)
         }
@@ -192,6 +189,6 @@ class SessionNotificationSender(
         private val SUMMARY_ID = 0
 
         // Minimum interval for work manager: MIN_PERIODIC_INTERVAL_MILLIS
-        val INTERVAL = 15.days
+        val INTERVAL = 15.minutes
     }
 }

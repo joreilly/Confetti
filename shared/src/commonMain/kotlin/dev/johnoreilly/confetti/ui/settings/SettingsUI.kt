@@ -144,10 +144,8 @@ fun SettingsUI(
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
-                            if (supportsNotifications) {
-                                Button(onClick = onSendNotifications) {
-                                    Text("Send Notifications")
-                                }
+                            Button(onClick = onSendNotifications, enabled = supportsNotifications) {
+                                Text("Send Notifications")
                             }
                         }
                     }
@@ -177,7 +175,8 @@ fun SettingsUI(
                         Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text("Version: Unknown")
+                        // Keep version so developer mode is accessible
+                        Text("Version: ")
                     }
                 }
             }

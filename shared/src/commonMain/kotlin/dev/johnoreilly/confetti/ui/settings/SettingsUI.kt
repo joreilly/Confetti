@@ -16,6 +16,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -69,6 +70,8 @@ fun SettingsUI(
         onChangeUseExperimentalFeatures = component::updateUseExperimentalFeatures,
         developerSettings = developerSettings,
         onEnableDeveloperMode = component::enableDeveloperMode,
+        onSendNotifications = component::sendNotifications,
+        supportsNotifications = component.supportsNotifications,
         popBack = popBack
     )
 }
@@ -80,6 +83,8 @@ fun SettingsUI(
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
     developerSettings: DeveloperSettings?,
     onEnableDeveloperMode: () -> Unit,
+    onSendNotifications: () -> Unit,
+    supportsNotifications: Boolean,
     popBack: () -> Unit
 ) {
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -139,6 +144,9 @@ fun SettingsUI(
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
+                            Button(onClick = onSendNotifications, enabled = supportsNotifications) {
+                                Text("Send Notifications")
+                            }
                         }
                     }
                 }
@@ -167,7 +175,8 @@ fun SettingsUI(
                         Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        //Text("Version: ${BuildConfig.VERSION_NAME}")
+                        // Keep version so developer mode is accessible
+                        Text("Version: ")
                     }
                 }
             }

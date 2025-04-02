@@ -219,6 +219,9 @@ dependencies {
 
     implementation(libs.androidx.protolayout.material)
 
+    implementation(libs.androidx.wear)
+    implementation(libs.androidx.wear.phone.interactions)
+
     coreLibraryDesugaring(libs.desugar)
 
     debugImplementation(libs.compose.ui.manifest)

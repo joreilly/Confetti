@@ -15,15 +15,8 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.shared.R
 import dev.johnoreilly.confetti.utils.DateService
-import dev.johnoreilly.confetti.utils.nowInstant
+import dev.johnoreilly.confetti.work.NotificationSender.Selector
 import kotlinx.coroutines.flow.first
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.until
-import kotlin.time.Duration.Companion.minutes
 
 class SessionNotificationSender(
     private val context: Context,
@@ -31,9 +24,17 @@ class SessionNotificationSender(
     private val dateService: DateService,
     private val notificationManager: NotificationManagerCompat,
     private val authentication: Authentication,
-) {
+): NotificationSender {
 
-    suspend fun sendNotification() {
+    override suspend fun sendNotification(selector: Selector) {
+        val notificationsEnabled = notificationManager.areNotificationsEnabled()
+
+        println("notificationsEnabled")
+
+        if (!notificationsEnabled) {
+//            return
+        }
+
         // If there is no signed-in user, skip.
         val user = authentication.currentUser.value ?: return
 
@@ -58,11 +59,6 @@ class SessionNotificationSender(
             return
         }
 
-        // If current date is not in the conference range, skip.
-        if (sessions.none { session -> session.startsAt.date == dateService.now().date }) {
-            return
-        }
-
         val bookmarks = repository.bookmarks(
             conference = conferenceId,
             uid = user.uid,
@@ -78,12 +74,9 @@ class SessionNotificationSender(
             bookmarks.contains(session.id)
         }
 
-        val sessionsTimeZone = TimeZone.of(sessionsResponse.data?.config?.timezone.orEmpty())
-        val timeZonedNow = dateService.nowInstant()
+        val now = dateService.now()
         val upcomingSessions = bookmarkedSessions.filter { session ->
-            val timeZonedStartsAt = session.startsAt.toInstant(sessionsTimeZone)
-            val untilInMinutes = timeZonedNow.until(timeZonedStartsAt, DateTimeUnit.MINUTE)
-            untilInMinutes in 0..INTERVAL.inWholeMinutes
+            selector.matches(now, session)
         }
 
         // If there are no bookmarked upcoming sessions, skip.
@@ -102,16 +95,6 @@ class SessionNotificationSender(
         for ((id, session) in upcomingSessions.reversed().withIndex()) {
             sendNotification(id, createNotification(session))
         }
-    }
-
-    /**
-     * Creates an interval from [DateService.now] up to [INTERVAL], with the device time zone.
-     */
-    private fun createIntervalRangeFromNow(): ClosedRange<LocalDateTime> {
-        val timeZone = TimeZone.currentSystemDefault()
-        val now = dateService.now()
-        val future = (now.toInstant(timeZone) + INTERVAL).toLocalDateTime(timeZone)
-        return now..future
     }
 
     private fun createNotificationChannel() {
@@ -141,6 +124,8 @@ class SessionNotificationSender(
             .setContentText("Starts at ${session.startsAt.time} in ${session.room?.name.orEmpty()}")
             .setGroup(GROUP)
             .setAutoCancel(true)
+            .setLocalOnly(false)
+            .extend(NotificationCompat.WearableExtender().setBridgeTag("session:reminder"))
             .build()
     }
 
@@ -167,7 +152,9 @@ class SessionNotificationSender(
             .setGroup(GROUP)
             .setGroupSummary(true)
             .setAutoCancel(true)
+            .setLocalOnly(false)
             .setStyle(style)
+            .extend(NotificationCompat.WearableExtender().setBridgeTag("session:summary"))
             .build()
     }
 
@@ -183,8 +170,5 @@ class SessionNotificationSender(
         private val CHANNEL_ID = "SessionNotification"
         private val GROUP = "dev.johnoreilly.confetti.SESSIONS_ALERT"
         private val SUMMARY_ID = 0
-
-        // Minimum interval for work manager: MIN_PERIODIC_INTERVAL_MILLIS
-        val INTERVAL = 15.minutes
     }
 }

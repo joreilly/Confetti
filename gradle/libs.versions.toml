@@ -43,6 +43,8 @@ protolayout = "1.3.0-alpha10"
 robolectric = "4.14.1"
 room = "2.6.1"
 tiles-tooling-preview = "1.5.0-alpha10"
+wear = "1.3.0"
+wearPhoneInteractions = "1.1.0"
 work-runtime-ktx = "2.10.0"
 spring = "3.4.4"
 generativeai = "0.9.0-1.0.1-wasm"
@@ -69,6 +71,8 @@ androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayou
 androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version = "1.0.0-alpha27" }
 androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-proto", version.ref = "protolayout" }
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles-tooling-preview" }
+androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
+androidx-wear-phone-interactions = { module = "androidx.wear:wear-phone-interactions", version.ref = "wearPhoneInteractions" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
 lifecyle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "composeLifecyleRuntime" }

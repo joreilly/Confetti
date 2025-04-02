@@ -4,14 +4,12 @@ import android.content.Context
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import dev.johnoreilly.confetti.work.SessionNotificationSender.Companion.INTERVAL
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.toJavaDuration
 
 // Using a custom constructor has caused a crash inside Koin.
@@ -29,7 +27,7 @@ class SessionNotificationWorker(
         }
 
         return try {
-            notifier.sendNotification()
+            notifier.sendNotification(Selector)
             Result.success()
         } catch (e: Throwable) {
             Result.retry()
@@ -40,20 +38,9 @@ class SessionNotificationWorker(
 
         private val TAG = SessionNotificationWorker::class.java.simpleName
 
-        fun startOneTimeWorkRequest(workManager: WorkManager) {
-            val workRequest = OneTimeWorkRequestBuilder<SessionNotificationWorker>()
-                .build()
-
-            workManager.enqueueUniqueWork(
-                TAG,
-                ExistingWorkPolicy.REPLACE,
-                workRequest,
-            )
-        }
-
         fun startPeriodicWorkRequest(workManager: WorkManager) {
             val workRequest =
-                PeriodicWorkRequestBuilder<SessionNotificationWorker>(INTERVAL.toJavaDuration())
+                PeriodicWorkRequestBuilder<SessionNotificationWorker>(Selector.within.toJavaDuration())
                     .setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())
                     .build()
 
@@ -67,5 +54,8 @@ class SessionNotificationWorker(
         fun cancelWorkRequest(workManager: WorkManager) {
             workManager.cancelUniqueWork(TAG)
         }
+
+        // Minimum interval for work manager: MIN_PERIODIC_INTERVAL_MILLIS
+        val Selector = NotificationSender.Today(15.minutes)
     }
 }

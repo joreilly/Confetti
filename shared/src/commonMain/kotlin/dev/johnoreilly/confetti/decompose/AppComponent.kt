@@ -12,6 +12,7 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.AppComponent.Child
+import dev.johnoreilly.confetti.work.NotificationSender
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -44,13 +45,15 @@ class DefaultAppComponent(
     val appSettings: AppSettings by inject()
     private val repository: ConfettiRepository by inject()
     private val navigation = StackNavigation<Config>()
+    private val notificationSender: NotificationSender? by inject()
 
     private var user: User? = null
 
     private val defaultSettingsComponent = DefaultSettingsComponent(
         componentContext = componentContext,
         appSettings = appSettings,
-        authentication = authentication
+        authentication = authentication,
+        notificationSender = notificationSender,
     )
 
 

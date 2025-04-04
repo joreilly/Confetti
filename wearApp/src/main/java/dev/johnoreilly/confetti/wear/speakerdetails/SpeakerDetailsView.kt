@@ -41,18 +41,20 @@ fun SpeakerDetailsRoute(
 @Composable
 fun SpeakerDetailsView(
     uiState: SpeakerDetailsUiState,
+    modifier: Modifier = Modifier,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
     val placeholderState = rememberPlaceholderState { uiState !is SpeakerDetailsUiState.Loading }
 
-    ScreenScaffold(scrollState = columnState) {
+    val columnPadding = rememberResponsiveColumnPadding(
+        first = ColumnItemType.IconButton,
+        last = ColumnItemType.BodyText
+    )
+    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
-            contentPadding = rememberResponsiveColumnPadding(
-                first = ColumnItemType.IconButton,
-                last = ColumnItemType.BodyText
-            ),
+            contentPadding = contentPadding,
         ) {
             if (uiState is SpeakerDetailsUiState.Loading) {
                 item {

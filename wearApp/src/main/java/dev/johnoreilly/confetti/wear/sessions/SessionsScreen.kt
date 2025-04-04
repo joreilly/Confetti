@@ -28,15 +28,17 @@ fun SessionsScreen(
     addBookmark: ((sessionId: String) -> Unit)?,
     removeBookmark: ((sessionId: String) -> Unit)?,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
+    modifier: Modifier = Modifier,
 ) {
-    ScreenScaffold(scrollState = columnState) {
+    val columnPadding = rememberResponsiveColumnPadding(
+        first = ColumnItemType.ListHeader,
+        last = ColumnItemType.Card
+    )
+    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
-            contentPadding = rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader,
-                last = ColumnItemType.Card
-            ),
+            contentPadding = contentPadding,
         ) {
             when (uiState) {
                 is SessionsUiState.Success -> {

@@ -24,18 +24,19 @@ import java.time.format.DateTimeFormatter
 fun SessionDetailView(
     uiState: SessionDetailsUiState,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
-    navigateToSpeaker: (String) -> Unit
+    navigateToSpeaker: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val timeFormatter = remember { DateTimeFormatter.ofPattern("eeee HH:mm") }
-
-    ScreenScaffold(scrollState = columnState) {
+    val columnPadding = rememberResponsiveColumnPadding(
+        first = ColumnItemType.ListHeader,
+        last = ColumnItemType.Button
+    )
+    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
-            contentPadding = rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader,
-                last = ColumnItemType.Button
-            ),
+            contentPadding = contentPadding,
         ) {
             when (uiState) {
                 is SessionDetailsUiState.Success -> {

@@ -31,17 +31,19 @@ fun BookmarksScreen(
     sessionSelected: (String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
     removeBookmark: (sessionId: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val columnState = rememberTransformingLazyColumnState()
 
-    ScreenScaffold(scrollState = columnState) {
+    val columnPadding = rememberResponsiveColumnPadding(
+        first = ColumnItemType.ListHeader,
+        last = ColumnItemType.Card
+    )
+    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
-            contentPadding = rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader,
-                last = ColumnItemType.Card
-            ),
+            contentPadding = contentPadding,
         ) {
             when (uiState) {
                 is QueryResult.Success -> {

@@ -11,7 +11,6 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
-//import androidx.wear.compose.material3.lazy.scrollTransform
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
@@ -46,7 +45,6 @@ fun SessionDetailView(
                     item {
                         ScreenHeader(
                             modifier = Modifier,
-//                                .scrollTransform(this@item),
                             text = session.title
                         )
                     }
@@ -58,7 +56,6 @@ fun SessionDetailView(
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth(),
-//                                .scrollTransform(this@item),
                             text = time,
                         )
                     }
@@ -67,7 +64,6 @@ fun SessionDetailView(
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth(),
-//                                .scrollTransform(this@items),
                             text = it,
                         )
                     }
@@ -76,7 +72,6 @@ fun SessionDetailView(
                         SessionSpeakerChip(
                             modifier = Modifier
                                 .fillMaxWidth(),
-//                                .scrollTransform(this@items),
                             speaker = speaker.speakerDetails,
                             navigateToSpeaker = navigateToSpeaker
                         )

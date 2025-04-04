@@ -51,19 +51,21 @@ fun HomeScreen(
     addBookmark: ((sessionId: String) -> Unit)?,
     removeBookmark: ((sessionId: String) -> Unit)?,
     onBookmarksClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
 
     val columnState = rememberTransformingLazyColumnState()
 
-    ScreenScaffold(scrollState = columnState) {
+    val columnPadding = rememberResponsiveColumnPadding(
+        first = ColumnItemType.ListHeader,
+        last = ColumnItemType.IconButton
+    )
+    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
-            contentPadding = rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader,
-                last = ColumnItemType.IconButton,
-            ),
+            contentPadding = contentPadding,
         ) {
             titleSection(uiState = uiState)
 
@@ -87,7 +89,8 @@ private fun TransformingLazyColumnScope.titleSection(uiState: QueryResult<HomeUi
     when (uiState) {
         is QueryResult.Success -> {
             item {
-                ScreenHeader(text = uiState.result.conferenceName
+                ScreenHeader(
+                    text = uiState.result.conferenceName
                 )
             }
         }

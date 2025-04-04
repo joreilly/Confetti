@@ -18,7 +18,6 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
@@ -56,16 +55,19 @@ fun ConferencesView(
     modifier: Modifier = Modifier,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
-    ScreenScaffold(scrollState = columnState) {
+    val columnPadding = rememberResponsiveColumnPadding(
+        first = ColumnItemType.ListHeader,
+        last = ColumnItemType.Button
+    )
+    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
-            modifier = modifier.fillMaxSize(), state = columnState,
-            contentPadding = rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader,
-                last = ItemType.Chip
-            ),
+            modifier = Modifier.fillMaxSize(),
+            state = columnState,
+            contentPadding = contentPadding,
         ) {
             item {
-                ScreenHeader(text = "Conferences"
+                ScreenHeader(
+                    text = "Conferences"
                 )
             }
 

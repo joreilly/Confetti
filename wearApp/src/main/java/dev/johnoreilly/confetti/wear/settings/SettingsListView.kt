@@ -39,7 +39,6 @@ import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
-import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -54,15 +53,17 @@ fun SettingsListView(
     onEnableDeveloperMode: () -> Unit,
     updatePreferences: (WearPreferences) -> Unit,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
+    modifier: Modifier = Modifier,
 ) {
-    ScreenScaffold(scrollState = columnState) {
+    val columnPadding = rememberResponsiveColumnPadding(
+        first = ColumnItemType.ListHeader,
+        last = ColumnItemType.Button
+    )
+    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
-            contentPadding = rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader,
-                last = ColumnItemType.Button
-            ),
+            contentPadding = contentPadding,
         ) {
             item {
                 ScreenHeader(
@@ -250,10 +251,6 @@ private fun TransformingLazyColumnScope.developerModeOptions(
         }
     }
 }
-
-@Composable
-private fun Long.localTime(): LocalDateTime =
-    Instant.ofEpochSecond(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
 
 @WearPreviewDevices
 @WearPreviewFontScales

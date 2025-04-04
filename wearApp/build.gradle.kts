@@ -231,6 +231,8 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.tiles.tooling.preview)
 
+    screenshotTestImplementation(libs.androidx.tiles.tooling)
+
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.compose.ui.test.junit4)

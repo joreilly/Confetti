@@ -72,6 +72,7 @@ androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayou
 androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version = "1.0.0-alpha27" }
 androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-proto", version.ref = "protolayout" }
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles-tooling-preview" }
+androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tiles-tooling-preview" }
 androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
 androidx-wear-phone-interactions = { module = "androidx.wear:wear-phone-interactions", version.ref = "wearPhoneInteractions" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }

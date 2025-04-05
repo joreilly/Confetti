@@ -42,12 +42,6 @@ class MainActivity : ComponentActivity() {
                 val initialConferenceId = uri?.extractConferenceIdOrNull()
                 val rootComponentContext = defaultComponentContext(discardSavedState = initialConferenceId != null)
 
-//                val settingsComponent = SettingsComponent(
-//                    componentContext = rootComponentContext.childContext("settings"),
-//                    appSettings = appSettings,
-//                    authentication = authentication,
-//                )
-
                 val appComponent = DefaultAppComponent(
                     componentContext = rootComponentContext.childContext("app"),
                     initialConferenceId = initialConferenceId,
@@ -65,16 +59,6 @@ class MainActivity : ComponentActivity() {
                 appComponent
             } ?: return
 
-//        // Update the theme settings
-//        lifecycleScope.launch {
-//            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                appComponent.second.userEditableSettings.collect {
-//                    userEditableSettings = it
-//                }
-//            }
-//        }
-//
-
         setContent {
             App(component = appComponent)
         }
@@ -88,9 +72,8 @@ class MainActivity : ComponentActivity() {
         val path = path ?: return null
         if (path.firstOrNull() != '/') return null
         val parts = path.substring(1).split('/')
-        if (parts.size != 2) return null
         if (parts[0] != "conference") return null
-        val conferenceId = parts[1]
+        val conferenceId = parts.getOrNull(1) ?: return null
         if (!conferenceId.all { it.isLetterOrDigit() }) return null
         return conferenceId
     }

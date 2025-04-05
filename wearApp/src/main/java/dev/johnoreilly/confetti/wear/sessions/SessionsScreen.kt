@@ -104,6 +104,7 @@ fun SessionListViewPreview() {
                 isRefreshing = false,
                 searchString = "",
                 selectedSessionId = null,
+                notificationsActive = false,
             ),
             sessionSelected = {},
             addBookmark = {},

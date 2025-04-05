@@ -31,7 +31,7 @@ class SessionNotificationBuilder(
             .setGroup(GROUP)
             .setAutoCancel(false)
             .setLocalOnly(false)
-            .setContentIntent(openSessionIntent(session, conferenceId))
+            .setContentIntent(openSessionIntent(session, conferenceId, notificationId))
             .addAction(unbookmarkAction(conferenceId, session.id, notificationId))
             .extend(
                 NotificationCompat.WearableExtender()
@@ -39,10 +39,10 @@ class SessionNotificationBuilder(
             )
     }
 
-    private fun openSessionIntent(session: SessionDetails, conferenceId: String): PendingIntent? {
+    private fun openSessionIntent(session: SessionDetails, conferenceId: String, notificationId: Int): PendingIntent? {
         return PendingIntent.getActivity(
             context,
-            0,
+            notificationId,
             Intent(Intent.ACTION_VIEW, "https://confetti-app.dev/conference/${conferenceId}/session/${session.id}".toUri()),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -51,7 +51,7 @@ class SessionNotificationBuilder(
     private fun unbookmarkAction(conferenceId: String, sessionId: String, notificationId: Int): NotificationCompat.Action {
         val unbookmarkIntent = PendingIntent.getBroadcast(
             context,
-            0,
+            notificationId,
             Intent(context, NotificationReceiver::class.java).apply {
                 action = "REMOVE_BOOKMARK"
                 putExtra("conferenceId", conferenceId)

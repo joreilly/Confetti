@@ -32,7 +32,7 @@ class NotificationReceiver: BroadcastReceiver(), KoinComponent  {
     }
 
     private suspend fun removeBookmark(intent: Intent?) {
-        val conference = intent?.getStringExtra("conference") ?: return
+        val conference = intent?.getStringExtra("conferenceId") ?: return
         val sessionId = intent.getStringExtra("sessionId") ?: return
         val user = authentication.currentUser.value ?: return
 

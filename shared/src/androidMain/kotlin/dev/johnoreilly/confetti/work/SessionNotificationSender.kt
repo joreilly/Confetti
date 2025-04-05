@@ -85,8 +85,7 @@ class SessionNotificationSender(
 
         // If there are multiple notifications, we create a summary to group them.
         if (upcomingSessions.count() > 1) {
-            val notificationId = Random.nextInt(Integer.MAX_VALUE / 2, Integer.MAX_VALUE)
-            sendNotification(SUMMARY_ID, summaryNotificationBuilder.createSummaryNotification(upcomingSessions, notificationId).build())
+            sendNotification(SUMMARY_ID, summaryNotificationBuilder.createSummaryNotification(upcomingSessions, SUMMARY_ID).build())
         }
 
         // We reverse the sessions to show early sessions first.
@@ -114,6 +113,6 @@ class SessionNotificationSender(
     companion object {
         internal val CHANNEL_ID = "SessionNotification"
         internal val GROUP = "dev.johnoreilly.confetti.SESSIONS_ALERT"
-        private val SUMMARY_ID = 0
+        private val SUMMARY_ID = 10
     }
 }

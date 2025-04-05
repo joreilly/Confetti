@@ -24,6 +24,9 @@ class AppSettings(val settings: FlowSettings) {
         )
     }
 
+    val notificationsActiveFlow: Flow<Boolean>
+        get() = experimentalFeaturesEnabledFlow
+
     val experimentalFeaturesEnabledFlow = settings
         .getBooleanFlow(EXPERIMENTAL_FEATURES_ENABLED, false)
 

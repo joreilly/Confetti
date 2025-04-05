@@ -12,6 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.decompose.SessionsComponent
 import dev.johnoreilly.confetti.decompose.SessionsUiState
+import dev.johnoreilly.confetti.permissions.rememberNotificationPermissionState
 import dev.johnoreilly.confetti.ui.HomeScaffold
 import dev.johnoreilly.confetti.utils.isExpanded
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -25,6 +26,9 @@ fun SessionsUI(
     snackbarHostState: SnackbarHostState
 ) {
     val uiState by component.uiState.subscribeAsState()
+
+    val notificationPermissionState =
+        rememberNotificationPermissionState((uiState as? SessionsUiState.Success)?.notificationsActive)
 
     val title = (uiState as? SessionsUiState.Success)?.conferenceName ?: ""
     HomeScaffold(
@@ -48,7 +52,11 @@ fun SessionsUI(
                 SessionListView(
                     uiState = uiState,
                     sessionSelected = component::onSessionClicked,
-                    addBookmark = component::addBookmark,
+                    addBookmark = {
+                        // Bookmarks might be sent as notifications
+                        notificationPermissionState.maybeRequest()
+                        component.addBookmark(it)
+                    },
                     removeBookmark = component::removeBookmark,
                     onRefresh = component::refresh,
                     onNavigateToSignIn = component::onSignInClicked,

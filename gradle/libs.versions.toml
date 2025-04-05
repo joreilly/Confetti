@@ -38,6 +38,9 @@ materialkolor = "2.0.0"
 multiplatform-settings = "1.3.0"
 nav-compose = "2.8.9"
 okio = "3.10.2"
+permissions = "0.19.1"
+permissionsCompose = "0.19.1"
+permissionsNotifications = "0.19.1"
 protolayout = "1.3.0-alpha10"
 robolectric = "4.14.1"
 room = "2.6.1"
@@ -86,6 +89,9 @@ apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
 apollo-execution-spring = { module = "com.apollographql.execution:apollo-execution-spring", version.ref = "apollo-kotlin-execution" }
 apollo-execution-reporting = { module = "com.apollographql.execution:apollo-execution-reporting", version.ref = "apollo-kotlin-execution" }
 apollo-execution-gradle-plugin = { module = "com.apollographql.execution:apollo-execution-gradle-plugin", version.ref = "apollo-kotlin-execution" }
+permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissionsCompose" }
+permissions-notifications = { module = "dev.icerock.moko:permissions-notifications", version.ref = "permissionsNotifications" }
+permissions = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }
 spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
 spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }
 spring-webflux = "org.springframework:spring-webflux:6.2.5"

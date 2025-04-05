@@ -112,6 +112,10 @@ kotlin {
             dependencies {
                 api(libs.firebase.mpp.auth)
                 api(libs.apollo.normalized.cache.sqlite)
+
+                implementation(libs.permissions)
+                implementation(libs.permissions.notifications)
+                implementation(libs.permissions.compose)
             }
         }
 
@@ -121,6 +125,7 @@ kotlin {
 
         androidMain {
             dependsOn(mobileMain)
+
             dependencies {
                 api(project(":proto"))
                 api(libs.androidx.lifecycle.viewmodel.ktx)

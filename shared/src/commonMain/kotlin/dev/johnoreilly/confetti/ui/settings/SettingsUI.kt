@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -55,6 +54,7 @@ import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DeveloperSettings
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.decompose.UserEditableSettings
+import dev.johnoreilly.confetti.permissions.rememberNotificationPermissionState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -149,6 +149,29 @@ fun SettingsUI(
                             }
                         }
                     }
+                }
+
+                if (developerSettings != null && supportsNotifications) {
+                    item {
+                        val notificationPermissionState =
+                            rememberNotificationPermissionState(userEditableSettings?.useExperimentalFeatures)
+
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Button(
+                                onClick = { notificationPermissionState.maybeRequest() },
+                            ) {
+                                Text("Request Notification Permission")
+                            }
+                        }
+                    }
+
+//                    item {
+//                        Column(modifier = Modifier.padding(8.dp)) {
+//                            Button(onClick = { controller.openAppSettings() }) {
+//                                Text("App Notification Settings")
+//                            }
+//                        }
+//                    }
                 }
             }
 

@@ -40,7 +40,8 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
         listOf(),
         setOf(),
         false, "",
-        null
+        null,
+        false
     )
 
     @Test

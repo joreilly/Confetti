@@ -13,8 +13,10 @@ import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.IosDateService
+import dev.johnoreilly.confetti.work.NotificationSender
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -33,6 +35,7 @@ actual fun platformModule() = module {
             .serverUrl("https://confetti-app.dev/graphql")
             .addHttpInterceptor(ApolloClientAwarenessInterceptor("confetti-ios", "fixme"))
     }
+    single<NotificationSender> { SessionNotificationSender() }
 }
 
 actual fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory {

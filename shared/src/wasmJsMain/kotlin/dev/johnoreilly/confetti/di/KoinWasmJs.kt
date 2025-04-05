@@ -12,8 +12,10 @@ import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
 import com.russhwolf.settings.observable.makeObservable
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.WasmDateService
+import dev.johnoreilly.confetti.work.NotificationSender
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -26,6 +28,7 @@ actual fun platformModule() = module {
     single<FetchPolicy> {
         FetchPolicy.CacheAndNetwork
     }
+    single<NotificationSender> { SessionNotificationSender() }
 }
 
 actual fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory {

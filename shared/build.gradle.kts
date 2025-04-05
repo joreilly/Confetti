@@ -99,9 +99,6 @@ kotlin {
                 api("com.mikepenz:multiplatform-markdown-renderer-m3:0.27.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.7.0")
 
-                implementation(libs.permissions)
-                implementation(libs.permissions.notifications)
-
                 api(libs.generativeai)
             }
         }
@@ -115,6 +112,9 @@ kotlin {
             dependencies {
                 api(libs.firebase.mpp.auth)
                 api(libs.apollo.normalized.cache.sqlite)
+
+                implementation(libs.permissions)
+                implementation(libs.permissions.notifications)
                 implementation(libs.permissions.compose)
             }
         }

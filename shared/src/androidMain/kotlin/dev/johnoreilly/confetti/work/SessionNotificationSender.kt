@@ -29,10 +29,8 @@ class SessionNotificationSender(
     override suspend fun sendNotification(selector: Selector) {
         val notificationsEnabled = notificationManager.areNotificationsEnabled()
 
-        println("notificationsEnabled")
-
         if (!notificationsEnabled) {
-//            return
+            return
         }
 
         // If there is no signed-in user, skip.

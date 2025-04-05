@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -51,10 +50,14 @@ import confetti.shared.generated.resources.settings_boolean_false
 import confetti.shared.generated.resources.settings_boolean_true
 import confetti.shared.generated.resources.settings_title
 import confetti.shared.generated.resources.use_experimental_features
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DeveloperSettings
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.decompose.UserEditableSettings
+import dev.johnoreilly.confetti.permissions.rememberNotificationPermissionState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -87,6 +90,10 @@ fun SettingsUI(
     supportsNotifications: Boolean,
     popBack: () -> Unit
 ) {
+    val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
+    val controller: PermissionsController =
+        remember(factory) { factory.createPermissionsController() }
+
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     /**
      * usePlatformDefaultWidth = false is use as a temporary fix to allow
@@ -146,6 +153,29 @@ fun SettingsUI(
                             )
                             Button(onClick = onSendNotifications, enabled = supportsNotifications) {
                                 Text("Send Notifications")
+                            }
+                        }
+                    }
+                }
+
+                if (developerSettings != null && supportsNotifications) {
+                    item {
+                        val notificationPermissionState =
+                            rememberNotificationPermissionState(userEditableSettings?.useExperimentalFeatures)
+
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Button(
+                                onClick = { notificationPermissionState.maybeRequest() },
+                            ) {
+                                Text("Request Notification Permission")
+                            }
+                        }
+                    }
+
+                    item {
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Button(onClick = { controller.openAppSettings() }) {
+                                Text("App Notification Settings")
                             }
                         }
                     }

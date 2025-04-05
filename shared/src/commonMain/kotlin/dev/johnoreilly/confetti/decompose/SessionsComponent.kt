@@ -9,6 +9,7 @@ import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnStart
 import conferenceDateFormat
+import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetBookmarksQuery
 import dev.johnoreilly.confetti.GetConferenceDataQuery
@@ -140,6 +141,7 @@ class SessionsSimpleComponent(
     private val searchQuery = MutableStateFlow("")
     private val isRefreshing = MutableStateFlow(false)
     private val selectedSessionId = MutableStateFlow<String?>(null)
+    private val appSettings: AppSettings by inject()
 
     val uiState: StateFlow<SessionsUiState> =
         combineUiState()
@@ -251,6 +253,7 @@ class SessionsSimpleComponent(
                     isRefreshing,
                     searchQuery,
                     selectedSessionId,
+                    appSettings.notificationsActiveFlow,
                     ::uiStates
                 )
             }
@@ -265,6 +268,7 @@ class SessionsSimpleComponent(
         isRefreshing: Boolean,
         searchString: String,
         selectedSessionId: String?,
+        notificationsActive: Boolean,
     ): SessionsUiState {
         val bookmarksResponse = refreshData.bookmarksResponse
         val sessionsResponse = refreshData.sessionsResponse
@@ -317,6 +321,7 @@ class SessionsSimpleComponent(
             isRefreshing = isRefreshing,
             searchString = searchString,
             selectedSessionId = selectedSessionId,
+            notificationsActive = notificationsActive
         )
     }
 }
@@ -340,5 +345,6 @@ sealed interface SessionsUiState {
         val isRefreshing: Boolean,
         val searchString: String,
         val selectedSessionId: String?,
+        val notificationsActive: Boolean
     ) : SessionsUiState
 }

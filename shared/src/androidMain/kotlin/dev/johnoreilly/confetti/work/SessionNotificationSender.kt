@@ -1,22 +1,19 @@
 package dev.johnoreilly.confetti.work
 
 import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.apollographql.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
-import dev.johnoreilly.confetti.fragment.SessionDetails
-import dev.johnoreilly.confetti.shared.R
+import dev.johnoreilly.confetti.notifications.SessionNotificationBuilder
+import dev.johnoreilly.confetti.notifications.SummaryNotificationBuilder
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.work.NotificationSender.Selector
 import kotlinx.coroutines.flow.first
+import kotlin.random.Random
 
 class SessionNotificationSender(
     private val context: Context,
@@ -25,14 +22,14 @@ class SessionNotificationSender(
     private val notificationManager: NotificationManagerCompat,
     private val authentication: Authentication,
 ): NotificationSender {
+    private val sessionNotificationBuilder = SessionNotificationBuilder(context)
+    private val summaryNotificationBuilder = SummaryNotificationBuilder(context)
 
     override suspend fun sendNotification(selector: Selector) {
         val notificationsEnabled = notificationManager.areNotificationsEnabled()
 
-        println("notificationsEnabled")
-
         if (!notificationsEnabled) {
-//            return
+            return
         }
 
         // If there is no signed-in user, skip.
@@ -88,12 +85,14 @@ class SessionNotificationSender(
 
         // If there are multiple notifications, we create a summary to group them.
         if (upcomingSessions.count() > 1) {
-            sendNotification(SUMMARY_ID, createSummaryNotification(upcomingSessions))
+            val notificationId = Random.nextInt(Integer.MAX_VALUE / 2, Integer.MAX_VALUE)
+            sendNotification(SUMMARY_ID, summaryNotificationBuilder.createSummaryNotification(upcomingSessions, notificationId).build())
         }
 
         // We reverse the sessions to show early sessions first.
-        for ((id, session) in upcomingSessions.reversed().withIndex()) {
-            sendNotification(id, createNotification(session))
+        for (session in upcomingSessions.reversed()) {
+            val notificationId = Random.nextInt(Integer.MAX_VALUE / 2, Integer.MAX_VALUE)
+            sendNotification(notificationId, sessionNotificationBuilder.createNotification(session, conferenceId, notificationId).build())
         }
     }
 
@@ -101,61 +100,7 @@ class SessionNotificationSender(
         // Channels are only available on Android O+.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
-        val name = "Upcoming sessions"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-            description = ""
-        }
-
-        notificationManager.createNotificationChannel(channel)
-    }
-
-    private fun createNotification(session: SessionDetails): Notification {
-        val largeIcon = BitmapFactory.decodeResource(
-            context.resources,
-            R.mipmap.ic_launcher_round
-        )
-
-        return NotificationCompat
-            .Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher_round)
-            .setLargeIcon(largeIcon)
-            .setContentTitle(session.title)
-            .setContentText("Starts at ${session.startsAt.time} in ${session.room?.name.orEmpty()}")
-            .setGroup(GROUP)
-            .setAutoCancel(true)
-            .setLocalOnly(false)
-            .extend(NotificationCompat.WearableExtender().setBridgeTag("session:reminder"))
-            .build()
-    }
-
-    private fun createSummaryNotification(sessions: List<SessionDetails>): Notification {
-        val largeIcon = BitmapFactory.decodeResource(
-            context.resources,
-            R.mipmap.ic_launcher_round
-        )
-
-        // Apply scope function is failing with an error:
-        // InboxStyle.apply can only be called from within the same library group prefix.
-        val style = NotificationCompat.InboxStyle()
-            .setBigContentTitle("${sessions.count()} upcoming sessions")
-
-        // We only show up to a limited number of sessions to avoid pollute the user notifications.
-        for (session in sessions.take(4)) {
-            style.addLine(session.title)
-        }
-
-        return NotificationCompat
-            .Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher_round)
-            .setLargeIcon(largeIcon)
-            .setGroup(GROUP)
-            .setGroupSummary(true)
-            .setAutoCancel(true)
-            .setLocalOnly(false)
-            .setStyle(style)
-            .extend(NotificationCompat.WearableExtender().setBridgeTag("session:summary"))
-            .build()
+        notificationManager.createNotificationChannel(sessionNotificationBuilder.createChannel().build())
     }
 
     private fun sendNotification(id: Int, notification: Notification) {
@@ -167,8 +112,8 @@ class SessionNotificationSender(
     }
 
     companion object {
-        private val CHANNEL_ID = "SessionNotification"
-        private val GROUP = "dev.johnoreilly.confetti.SESSIONS_ALERT"
+        internal val CHANNEL_ID = "SessionNotification"
+        internal val GROUP = "dev.johnoreilly.confetti.SESSIONS_ALERT"
         private val SUMMARY_ID = 0
     }
 }

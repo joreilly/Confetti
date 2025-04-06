@@ -143,6 +143,8 @@ kotlin {
                 implementation(libs.firebase.analytics)
                 implementation(libs.compose.navigation)
 
+                implementation(libs.androidx.wear.phone.interactions)
+
                 api(libs.androidx.work.runtime.ktx)
 
                 api(libs.androidx.datastore)

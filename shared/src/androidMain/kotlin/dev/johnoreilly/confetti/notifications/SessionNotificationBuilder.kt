@@ -36,6 +36,7 @@ class SessionNotificationBuilder(
             .extend(
                 NotificationCompat.WearableExtender()
                     .setBridgeTag("session:reminder")
+                    .addAction(openOnWearAction(conferenceId, session.id, notificationId))
             )
     }
 
@@ -53,7 +54,7 @@ class SessionNotificationBuilder(
             context,
             notificationId,
             Intent(context, NotificationReceiver::class.java).apply {
-                action = "REMOVE_BOOKMARK"
+                action = NotificationReceiver.ActionRemoteBookmark
                 putExtra("conferenceId", conferenceId)
                 putExtra("sessionId", sessionId)
                 putExtra("notificationId", notificationId)
@@ -63,6 +64,23 @@ class SessionNotificationBuilder(
 
         return NotificationCompat.Action.Builder(null, "Remove Bookmark", unbookmarkIntent)
             .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_ARCHIVE)
+            .build()
+    }
+
+    private fun openOnWearAction(conferenceId: String, sessionId: String, notificationId: Int): NotificationCompat.Action {
+        val openOnWearIntent = PendingIntent.getBroadcast(
+            context,
+            notificationId,
+            Intent(context, NotificationReceiver::class.java).apply {
+                action = NotificationReceiver.ActionOpenOnWear
+                putExtra("conferenceId", conferenceId)
+                putExtra("sessionId", sessionId)
+                putExtra("notificationId", notificationId)
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        return NotificationCompat.Action.Builder(null, "Open on Watch", openOnWearIntent)
             .build()
     }
 

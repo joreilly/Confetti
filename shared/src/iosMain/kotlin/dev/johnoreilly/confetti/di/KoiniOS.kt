@@ -12,6 +12,7 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
+import dev.johnoreilly.confetti.appconfig.ApplicationInfo
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.utils.DateService
@@ -20,6 +21,7 @@ import dev.johnoreilly.confetti.work.NotificationSender
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import platform.Foundation.NSBundle
 import platform.Foundation.NSUserDefaults
 
 
@@ -36,10 +38,18 @@ actual fun platformModule() = module {
             .addHttpInterceptor(ApolloClientAwarenessInterceptor("confetti-ios", "fixme"))
     }
     single<NotificationSender> { SessionNotificationSender() }
+
+    single<ApplicationInfo> { getApplicationInfo() }
 }
 
 actual fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory {
     val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory("$conference$uid.db")
     return MemoryCacheFactory(10 * 1024 * 1024)
         .chain(sqlNormalizedCacheFactory)
+}
+
+private fun getApplicationInfo(): ApplicationInfo {
+    val versionName = NSBundle.mainBundle.infoDictionary
+        ?.get("CFBundleShortVersionString") as? String ?: ""
+    return ApplicationInfo(versionName)
 }

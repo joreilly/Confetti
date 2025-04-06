@@ -6,6 +6,7 @@
 
 package dev.johnoreilly.confetti.di
 
+import android.app.Application
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationManagerCompat
@@ -30,6 +31,7 @@ import com.russhwolf.settings.datastore.DataStoreSettings
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
+import dev.johnoreilly.confetti.appconfig.ApplicationInfo
 import dev.johnoreilly.confetti.settings.WearSettingsSerializer
 import dev.johnoreilly.confetti.shared.BuildConfig
 import dev.johnoreilly.confetti.utils.AndroidDateService
@@ -120,6 +122,8 @@ actual fun platformModule() = module {
     single<NotificationSender> {
         get<SessionNotificationSender>()
     }
+
+    single<ApplicationInfo> { getApplicationInfo(get()) }
 }
 
 val Context.settingsStore by preferencesDataStore("settings")
@@ -141,3 +145,10 @@ private val Context.versionCode: String
             }
         }.toString()
     }
+
+
+private fun getApplicationInfo(application: Application): ApplicationInfo {
+    val packageManager = application.packageManager
+    val versionName = packageManager.getPackageInfo(application.packageName, 0).versionName ?: ""
+    return ApplicationInfo(versionName)
+}

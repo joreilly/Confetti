@@ -51,6 +51,7 @@ import confetti.shared.generated.resources.settings_boolean_false
 import confetti.shared.generated.resources.settings_boolean_true
 import confetti.shared.generated.resources.settings_title
 import confetti.shared.generated.resources.use_experimental_features
+import dev.johnoreilly.confetti.appconfig.ApplicationInfo
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DeveloperSettings
 import dev.johnoreilly.confetti.decompose.SettingsComponent
@@ -65,11 +66,13 @@ fun SettingsUI(
 ) {
     val userEditableSettings by component.userEditableSettings.collectAsStateWithLifecycle()
     val developerSettings by component.developerSettings.collectAsStateWithLifecycle()
+
     SettingsUI(
         userEditableSettings = userEditableSettings,
         onChangeDarkThemeConfig = component::updateDarkThemeConfig,
         onChangeUseExperimentalFeatures = component::updateUseExperimentalFeatures,
         developerSettings = developerSettings,
+        applicationInfo = component.applicationInfo,
         onEnableDeveloperMode = component::enableDeveloperMode,
         onSendNotifications = component::sendNotifications,
         supportsNotifications = component.supportsNotifications,
@@ -84,6 +87,7 @@ fun SettingsUI(
     onChangeUseExperimentalFeatures: (value: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
     developerSettings: DeveloperSettings?,
+    applicationInfo: ApplicationInfo,
     onEnableDeveloperMode: () -> Unit,
     onSendNotifications: () -> Unit,
     supportsNotifications: Boolean,
@@ -203,8 +207,7 @@ fun SettingsUI(
                         Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        // Keep version so developer mode is accessible
-                        Text("Version: ")
+                        Text("Version: ${applicationInfo.versionName}")
                     }
                 }
             }

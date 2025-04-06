@@ -10,6 +10,7 @@ import com.google.firebase.crashlytics.setCustomKeys
 import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.di.appModule
 import dev.johnoreilly.confetti.di.initKoin
+import dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.work.SessionNotificationWorker
 import dev.johnoreilly.confetti.work.setupDailyRefresh
 import kotlinx.coroutines.launch
@@ -33,12 +34,12 @@ class ConfettiApplication : Application() {
 
         if (isFirebaseInstalled) {
             if (!BuildConfig.DEBUG) {
-                Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
+                Firebase.crashlytics.isCrashlyticsCollectionEnabled = true
                 Firebase.crashlytics.setCustomKeys {
                     key("appName", "androidApp")
                 }
             } else {
-                Firebase.crashlytics.setCrashlyticsCollectionEnabled(false)
+                Firebase.crashlytics.isCrashlyticsCollectionEnabled = false
             }
         }
 
@@ -54,13 +55,7 @@ class ConfettiApplication : Application() {
         setupDailyRefresh(workManager)
 
         ProcessLifecycleOwner.get().lifecycleScope.launch {
-            get<AppSettings>().experimentalFeaturesEnabledFlow.collect { isEnabled ->
-                if (isEnabled) {
-                    SessionNotificationWorker.startPeriodicWorkRequest(workManager)
-                } else {
-                    SessionNotificationWorker.cancelWorkRequest(workManager)
-                }
-            }
+            get<SessionNotificationSender>().updateSchedule()
         }
     }
 }

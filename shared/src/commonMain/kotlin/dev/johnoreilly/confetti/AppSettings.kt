@@ -24,8 +24,8 @@ class AppSettings(val settings: FlowSettings) {
         )
     }
 
-    val notificationsActiveFlow: Flow<Boolean>
-        get() = experimentalFeaturesEnabledFlow
+    val notificationsEnabledFlow: Flow<Boolean> = settings
+    .getBooleanFlow(NOTIFICATIONS_ENABLED, false)
 
     val experimentalFeaturesEnabledFlow = settings
         .getBooleanFlow(EXPERIMENTAL_FEATURES_ENABLED, false)
@@ -35,6 +35,10 @@ class AppSettings(val settings: FlowSettings) {
 
     suspend fun setExperimentalFeaturesEnabled(value: Boolean) {
         settings.putBoolean(EXPERIMENTAL_FEATURES_ENABLED, value)
+    }
+
+    suspend fun setNotificationsEnabled(value: Boolean) {
+        settings.putBoolean(NOTIFICATIONS_ENABLED, value)
     }
 
     suspend fun getConference(): String {
@@ -70,6 +74,7 @@ class AppSettings(val settings: FlowSettings) {
     companion object {
         const val DEVELOPER_MODE = "developer_mode"
         const val EXPERIMENTAL_FEATURES_ENABLED = "experimental_features_enabled"
+        const val NOTIFICATIONS_ENABLED = "notifications_enabled"
         const val ENABLED_LANGUAGES_SETTING = "enabled_languages_2"
         const val CONFERENCE_SETTING = "conference"
         const val CONFERENCE_THEME_COLOR_SETTING = "conferenceThemeColor"

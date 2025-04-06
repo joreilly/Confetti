@@ -46,6 +46,7 @@ import confetti.shared.generated.resources.dark_mode_config_light
 import confetti.shared.generated.resources.dark_mode_config_system_default
 import confetti.shared.generated.resources.dark_mode_preference
 import confetti.shared.generated.resources.developerSettings
+import confetti.shared.generated.resources.enable_notifications
 import confetti.shared.generated.resources.settings_boolean_false
 import confetti.shared.generated.resources.settings_boolean_true
 import confetti.shared.generated.resources.settings_title
@@ -72,6 +73,7 @@ fun SettingsUI(
         onEnableDeveloperMode = component::enableDeveloperMode,
         onSendNotifications = component::sendNotifications,
         supportsNotifications = component.supportsNotifications,
+        onNotificationsEnabled = component::updateNotificationsEnabled,
         popBack = popBack
     )
 }
@@ -85,6 +87,7 @@ fun SettingsUI(
     onEnableDeveloperMode: () -> Unit,
     onSendNotifications: () -> Unit,
     supportsNotifications: Boolean,
+    onNotificationsEnabled: (value: Boolean) -> Unit,
     popBack: () -> Unit
 ) {
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -131,6 +134,8 @@ fun SettingsUI(
                             settings = userEditableSettings,
                             onChangeDarkThemeConfig = onChangeDarkThemeConfig,
                             onChangeUseExperimentalFeatures = onChangeUseExperimentalFeatures,
+                            onChangeNotificationsEnabled = onNotificationsEnabled,
+                            supportsNotifications = supportsNotifications,
                         )
                     }
                 }
@@ -210,10 +215,19 @@ fun SettingsUI(
 @Composable
 private fun SettingsPanel(
     settings: UserEditableSettings?,
+    supportsNotifications: Boolean,
     onChangeUseExperimentalFeatures: (value: Boolean) -> Unit,
     onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
+    onChangeNotificationsEnabled: (value: Boolean) -> Unit,
 ) {
     if (settings != null) {
+        BooleanSettings(
+            title = stringResource(Res.string.enable_notifications),
+            value = settings.notificationsEnabled,
+            onValueChange = { value -> onChangeNotificationsEnabled(value) },
+            enabled = supportsNotifications
+        )
+
         BooleanSettings(
             title = stringResource(Res.string.use_experimental_features),
             value = settings.useExperimentalFeatures,
@@ -246,6 +260,7 @@ private fun BooleanSettings(
     title: String,
     value: Boolean,
     onValueChange: (Boolean) -> Unit,
+    enabled: Boolean = true,
 ) {
     SettingsDialogSectionTitle(text = title)
     Column(Modifier.selectableGroup()) {
@@ -253,11 +268,13 @@ private fun BooleanSettings(
             text = stringResource(Res.string.settings_boolean_true),
             selected = value,
             onClick = { onValueChange(true) },
+            enabled = enabled,
         )
         SettingsDialogThemeChooserRow(
             text = stringResource(Res.string.settings_boolean_false),
             selected = !value,
             onClick = { onValueChange(false) },
+            enabled = enabled,
         )
     }
 }
@@ -276,6 +293,7 @@ fun SettingsDialogThemeChooserRow(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
+    enabled: Boolean = true,
 ) {
     Row(
         Modifier
@@ -284,6 +302,7 @@ fun SettingsDialogThemeChooserRow(
                 selected = selected,
                 role = Role.RadioButton,
                 onClick = onClick,
+                enabled = enabled,
             )
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -291,6 +310,7 @@ fun SettingsDialogThemeChooserRow(
         RadioButton(
             selected = selected,
             onClick = null,
+            enabled = enabled,
         )
         Spacer(Modifier.width(8.dp))
         Text(text)

@@ -37,4 +37,8 @@ interface NotificationSender {
     }
 
     suspend fun sendNotification(selector: Selector = Today())
+
+    suspend fun updateSchedule() {}
+
+    fun updateSchedule(enabled: Boolean) {}
 }

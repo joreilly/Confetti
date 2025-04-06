@@ -5,13 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
-<!--
-    <uses-permission android:name="androidx.car.app.MAP_TEMPLATES"/>
--->
-
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
 
-    <uses-sdk android:minSdkVersion="21" tools:ignore="GradleOverrides" tools:overrideLibrary="com.google.android.horologist.datalayer.phone,androidx.wear.remote.interactions" />
+    <uses-sdk android:minSdkVersion="21" tools:ignore="GradleOverrides" tools:overrideLibrary="androidx.wear.phone.interactions,com.google.android.horologist.datalayer.phone,androidx.wear.remote.interactions" />
 
     <application
         android:name=".ConfettiApplication"
@@ -23,28 +19,12 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Confetti"
         android:localeConfig="@xml/locale_config"
-        android:enableOnBackInvokedCallback="true">
+        android:enableOnBackInvokedCallback="true"
+            tools:ignore="UnusedAttribute">
 
         <meta-data
                 android:name="firebase_crashlytics_collection_enabled"
                 android:value="false" />
-<!--
-        <meta-data
-                android:name="com.google.android.gms.car.application"
-                android:resource="@xml/automotive_app_desc"
-                tools:ignore="MetadataTagInsideApplicationTag" />
-
-        <meta-data
-                android:name="androidx.car.app.theme"
-                android:resource="@style/NightAdjusted.Theme.Confetti"
-                tools:ignore="MetadataTagInsideApplicationTag" />
-
-        <meta-data android:name="androidx.car.app.minCarApiLevel"
-                android:value="1"
-                tools:ignore="MetadataTagInsideApplicationTag" />
--->
-
-
         <provider
                 android:name="androidx.startup.InitializationProvider"
                 android:authorities="${applicationId}.androidx-startup"
@@ -56,16 +36,7 @@
                     android:value="androidx.startup"
                     tools:node="remove" />
         </provider>
-<!--
-        <service
-                android:name=".car.ConfettiCarAppService"
-                android:exported="true">
-            <intent-filter>
-                <action android:name="androidx.car.app.CarAppService"/>
-                <category android:name="androidx.car.app.category.POI"/>
-            </intent-filter>
-        </service>
--->
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

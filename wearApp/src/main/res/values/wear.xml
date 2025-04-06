@@ -2,5 +2,6 @@
     <string-array name="android_wear_capabilities">
         <item>horologist_watch</item>
         <item>data_layer_app_helper_device_watch</item>
+        <item>confetti_wear_app</item>
     </string-array>
 </resources>

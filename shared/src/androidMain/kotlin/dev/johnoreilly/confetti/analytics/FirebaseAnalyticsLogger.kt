@@ -1,9 +1,9 @@
 package dev.johnoreilly.confetti.analytics
 
+import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import com.google.firebase.analytics.logEvent
-import com.google.firebase.Firebase
 
 object FirebaseAnalyticsLogger : AnalyticsLogger {
     val analytics by lazy { Firebase.analytics }

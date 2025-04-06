@@ -14,13 +14,13 @@ import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import com.apollographql.apollo.ApolloClient
-import com.apollographql.cache.normalized.FetchPolicy
-import com.apollographql.cache.normalized.memory.MemoryCacheFactory
-import com.apollographql.cache.normalized.api.NormalizedCacheFactory
-import com.apollographql.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
 import com.apollographql.apollo.network.http.DefaultHttpEngine
 import com.apollographql.apollo.network.ws.DefaultWebSocketEngine
+import com.apollographql.cache.normalized.FetchPolicy
+import com.apollographql.cache.normalized.api.NormalizedCacheFactory
+import com.apollographql.cache.normalized.memory.MemoryCacheFactory
+import com.apollographql.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.data.WearDataLayerRegistry
 import com.russhwolf.settings.ExperimentalSettingsApi

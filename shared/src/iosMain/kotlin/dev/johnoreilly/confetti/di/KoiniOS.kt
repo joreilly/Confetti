@@ -3,11 +3,11 @@
 package dev.johnoreilly.confetti.di
 
 import com.apollographql.apollo.ApolloClient
-import com.apollographql.cache.normalized.FetchPolicy
-import com.apollographql.cache.normalized.memory.MemoryCacheFactory
-import com.apollographql.cache.normalized.api.NormalizedCacheFactory
-import com.apollographql.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
+import com.apollographql.cache.normalized.FetchPolicy
+import com.apollographql.cache.normalized.api.NormalizedCacheFactory
+import com.apollographql.cache.normalized.memory.MemoryCacheFactory
+import com.apollographql.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings

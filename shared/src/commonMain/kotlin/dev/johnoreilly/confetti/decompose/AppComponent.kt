@@ -13,8 +13,6 @@ import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.AppComponent.Child
 import dev.johnoreilly.confetti.work.NotificationSender
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent

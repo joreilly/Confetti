@@ -28,8 +28,8 @@ import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.sessionSpeakers
-import dev.johnoreilly.confetti.ui.bookmarks.Bookmark
 import dev.johnoreilly.confetti.ui.SignInDialog
+import dev.johnoreilly.confetti.ui.bookmarks.Bookmark
 
 @Composable
 fun SessionItemView(

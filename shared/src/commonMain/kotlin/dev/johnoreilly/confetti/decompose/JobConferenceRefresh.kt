@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti.decompose
 
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.ConfettiRepository
-import dev.johnoreilly.confetti.work.AvatarType
 import dev.johnoreilly.confetti.work.updateCache
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

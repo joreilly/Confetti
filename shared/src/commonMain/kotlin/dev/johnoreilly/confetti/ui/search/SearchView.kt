@@ -3,7 +3,7 @@
     ExperimentalFoundationApi::class, ExperimentalLayoutApi::class
 )
 
-package dev.johnoreilly.confetti.search
+package dev.johnoreilly.confetti.ui.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -54,8 +54,8 @@ import confetti.shared.generated.resources.sessions
 import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
 import org.jetbrains.compose.resources.stringResource

@@ -38,8 +38,8 @@ import coil3.compose.AsyncImage
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.sessions
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
-import dev.johnoreilly.confetti.ui.sessions.SocialIcon
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.sessions.SocialIcon
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)

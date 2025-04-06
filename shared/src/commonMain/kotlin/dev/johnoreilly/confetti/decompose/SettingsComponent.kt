@@ -5,6 +5,7 @@ package dev.johnoreilly.confetti.decompose
 import com.arkivanov.decompose.ComponentContext
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.appconfig.ApplicationInfo
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.work.NotificationSender
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,6 +17,8 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 data class DeveloperSettings(
     val token: String?
@@ -42,6 +45,7 @@ interface SettingsComponent {
 
     val developerSettings: StateFlow<DeveloperSettings?>
     val userEditableSettings: StateFlow<UserEditableSettings?>
+    val applicationInfo: ApplicationInfo
 
     fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
     fun updateUseExperimentalFeatures(value: Boolean)
@@ -51,15 +55,17 @@ interface SettingsComponent {
     val supportsNotifications: Boolean
 }
 
+@OptIn(ExperimentalSettingsApi::class)
 class DefaultSettingsComponent(
     componentContext: ComponentContext,
     private val appSettings: AppSettings,
     private val authentication: Authentication,
     private val notificationSender: NotificationSender?,
-) : SettingsComponent, ComponentContext by componentContext {
+) : SettingsComponent, KoinComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
     private val settings = appSettings.settings
+    override val applicationInfo: ApplicationInfo by inject()
 
     override val developerSettings: StateFlow<DeveloperSettings?> = appSettings.developerModeFlow().flatMapLatest {
         if (!it) {

@@ -3,7 +3,7 @@
     ExperimentalFoundationApi::class, ExperimentalLayoutApi::class
 )
 
-package dev.johnoreilly.confetti.search
+package dev.johnoreilly.confetti.ui.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column

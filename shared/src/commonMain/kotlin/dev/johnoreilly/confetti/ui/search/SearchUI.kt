@@ -1,9 +1,8 @@
-package dev.johnoreilly.confetti.search
+package dev.johnoreilly.confetti.ui.search
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import confetti.shared.generated.resources.Res

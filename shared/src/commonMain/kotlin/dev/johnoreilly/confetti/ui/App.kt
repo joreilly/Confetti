@@ -46,13 +46,13 @@ import confetti.shared.generated.resources.bookmarks
 import confetti.shared.generated.resources.schedule
 import confetti.shared.generated.resources.speakers
 import confetti.shared.generated.resources.venue
-import dev.johnoreilly.confetti.bookmarks.BookmarksUI
+import dev.johnoreilly.confetti.ui.bookmarks.BookmarksUI
 import dev.johnoreilly.confetti.decompose.AppComponent
 import dev.johnoreilly.confetti.decompose.ConferenceComponent
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.decompose.HomeComponent
-import dev.johnoreilly.confetti.search.SearchUI
-import dev.johnoreilly.confetti.settings.SettingsUI
+import dev.johnoreilly.confetti.ui.search.SearchUI
+import dev.johnoreilly.confetti.ui.settings.SettingsUI
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.sessions.SessionDetailsUI
 import dev.johnoreilly.confetti.ui.sessions.SessionsUI

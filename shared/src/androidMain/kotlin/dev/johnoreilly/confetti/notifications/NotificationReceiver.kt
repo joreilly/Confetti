@@ -28,7 +28,7 @@ class NotificationReceiver: BroadcastReceiver(), KoinComponent  {
     private val notificationManager: NotificationManagerCompat by inject()
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == ActionRemoteBookmark) {
+        if (intent.action == ActionRemoveBookmark) {
             doAsync {
                 removeBookmark(intent)
                 val notificationId = intent.getIntExtra("notificationId", -1)
@@ -86,7 +86,7 @@ class NotificationReceiver: BroadcastReceiver(), KoinComponent  {
     }
 
     companion object {
-        val ActionRemoteBookmark = "REMOVE_BOOKMARK"
+        val ActionRemoveBookmark = "REMOVE_BOOKMARK"
         val ActionOpenOnWear = "OPEN_ON_WEAR"
     }
 }

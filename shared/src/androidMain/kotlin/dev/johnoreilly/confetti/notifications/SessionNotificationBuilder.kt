@@ -54,7 +54,7 @@ class SessionNotificationBuilder(
             context,
             notificationId,
             Intent(context, NotificationReceiver::class.java).apply {
-                action = NotificationReceiver.ActionRemoteBookmark
+                action = NotificationReceiver.ActionRemoveBookmark
                 putExtra("conferenceId", conferenceId)
                 putExtra("sessionId", sessionId)
                 putExtra("notificationId", notificationId)

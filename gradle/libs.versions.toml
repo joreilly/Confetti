@@ -102,7 +102,7 @@ apollo-annotations = { module = "com.apollographql.apollo:apollo-annotations", v
 apollo-tooling = { module = "com.apollographql.apollo:apollo-tooling", version.ref = "apollo" }
 apollo-testing = { module = "com.apollographql.apollo:apollo-testing-support" }
 apollo-debug-server = { module = "com.apollographql.apollo:apollo-debug-server" }
-atomicfu = "org.jetbrains.kotlinx:atomicfu:0.26.1"
+atomicfu = "org.jetbrains.kotlinx:atomicfu:0.27.0"
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
 car-app-auto = "androidx.car.app:app:1.4.0"
 car-app-automotive = "androidx.car.app:app-automotive:1.4.0"

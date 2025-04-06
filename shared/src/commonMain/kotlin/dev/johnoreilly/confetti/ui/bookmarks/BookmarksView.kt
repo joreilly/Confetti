@@ -25,10 +25,10 @@ import confetti.shared.generated.resources.bookmarks_past
 import confetti.shared.generated.resources.bookmarks_upcoming
 import confetti.shared.generated.resources.no_bookmarks
 import dev.johnoreilly.confetti.decompose.DateSessionsMap
-import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.EmptyView
+import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource

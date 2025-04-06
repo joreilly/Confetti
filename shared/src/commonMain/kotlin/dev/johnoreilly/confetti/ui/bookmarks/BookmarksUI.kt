@@ -9,7 +9,6 @@ import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.bookmarks
 import dev.johnoreilly.confetti.decompose.BookmarksComponent
 import dev.johnoreilly.confetti.ui.HomeScaffold
-import dev.johnoreilly.confetti.ui.bookmarks.BookmarksView
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

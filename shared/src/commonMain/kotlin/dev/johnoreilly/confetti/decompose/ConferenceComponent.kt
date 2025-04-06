@@ -10,8 +10,8 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
-import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import dev.johnoreilly.confetti.auth.User
+import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 

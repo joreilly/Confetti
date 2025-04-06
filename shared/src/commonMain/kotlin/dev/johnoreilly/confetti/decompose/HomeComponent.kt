@@ -7,8 +7,8 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.BuildKonfig
-import dev.johnoreilly.confetti.decompose.HomeComponent.Child
 import dev.johnoreilly.confetti.auth.User
+import dev.johnoreilly.confetti.decompose.HomeComponent.Child
 import kotlinx.serialization.Serializable
 
 interface HomeComponent {

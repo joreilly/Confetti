@@ -2,17 +2,17 @@ package dev.johnoreilly.confetti.ui.venue
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.decompose.VenueComponent
-import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.component.ErrorView
+import dev.johnoreilly.confetti.ui.component.LoadingView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

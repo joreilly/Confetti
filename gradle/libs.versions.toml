@@ -156,7 +156,7 @@ horologist-roboscreenshots = { module = "com.google.android.horologist:horologis
 jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.2"
 jsoup = "org.jsoup:jsoup:1.18.3"
 junit = "junit:junit:4.13.2"
-kaml = "com.charleskorn.kaml:kaml:0.66.0"
+kaml = "com.charleskorn.kaml:kaml:0.74.0"
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
 koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin-android" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-android-compose" }

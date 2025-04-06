@@ -1,9 +1,13 @@
+@file:OptIn(ExperimentalSettingsApi::class, ExperimentalCoroutinesApi::class)
+
 package dev.johnoreilly.confetti.decompose
 
 import com.arkivanov.decompose.ComponentContext
+import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.work.NotificationSender
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -23,6 +27,7 @@ data class DeveloperSettings(
 data class UserEditableSettings(
     val darkThemeConfig: DarkThemeConfig,
     val useExperimentalFeatures: Boolean,
+    val notificationsEnabled: Boolean,
 )
 
 enum class ThemeBrand {
@@ -40,6 +45,7 @@ interface SettingsComponent {
 
     fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
     fun updateUseExperimentalFeatures(value: Boolean)
+    fun updateNotificationsEnabled(value: Boolean)
     fun enableDeveloperMode()
     fun sendNotifications()
     val supportsNotifications: Boolean
@@ -73,10 +79,12 @@ class DefaultSettingsComponent(
         combine(
             settings.getStringFlow(darkThemeConfigKey, DarkThemeConfig.FOLLOW_SYSTEM.toString()),
             appSettings.experimentalFeaturesEnabledFlow,
-        ) { darkThemeConfig, useExperimentalFeatures ->
+            appSettings.notificationsEnabledFlow,
+        ) { darkThemeConfig, useExperimentalFeatures, useNotifications ->
             UserEditableSettings(
                 useExperimentalFeatures = useExperimentalFeatures,
                 darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfig),
+                notificationsEnabled = useNotifications
             )
         }.stateIn(
             scope = coroutineScope,
@@ -96,6 +104,12 @@ class DefaultSettingsComponent(
         }
     }
 
+    override fun updateNotificationsEnabled(value: Boolean) {
+        coroutineScope.launch {
+            appSettings.setNotificationsEnabled(value)
+            notificationSender?.updateSchedule(value)
+        }
+    }
 
     override fun enableDeveloperMode() {
         coroutineScope.launch {

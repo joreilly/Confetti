@@ -253,7 +253,7 @@ class SessionsSimpleComponent(
                     isRefreshing,
                     searchQuery,
                     selectedSessionId,
-                    appSettings.notificationsActiveFlow,
+                    appSettings.notificationsEnabledFlow,
                     ::uiStates
                 )
             }

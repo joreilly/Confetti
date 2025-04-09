@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.items
@@ -17,10 +19,13 @@ import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
+import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.OutlinedButton
+import androidx.wear.compose.material3.PlaceholderState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.placeholder
+import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
@@ -30,7 +35,6 @@ import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.PlaceholderButton
-import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -61,13 +65,19 @@ fun HomeScreen(
         first = ColumnItemType.ListHeader,
         last = ColumnItemType.IconButton
     )
+    val placeholderState = rememberPlaceholderState {
+        uiState !is QueryResult.Loading
+    }
+    LaunchedEffect(Unit) {
+        placeholderState.animatePlaceholder()
+    }
     ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
             contentPadding = contentPadding,
         ) {
-            titleSection(uiState = uiState)
+            titleSection(uiState = uiState, placeholderState = placeholderState)
 
             bookmarksSection(
                 uiState = uiState,
@@ -85,25 +95,24 @@ fun HomeScreen(
     }
 }
 
-private fun TransformingLazyColumnScope.titleSection(uiState: QueryResult<HomeUiState>) {
+private fun TransformingLazyColumnScope.titleSection(
+    uiState: QueryResult<HomeUiState>,
+    placeholderState: PlaceholderState
+) {
     when (uiState) {
-        is QueryResult.Success -> {
+        is QueryResult.Success, QueryResult.Loading -> {
             item {
-                ScreenHeader(
-                    text = uiState.result.conferenceName
-                )
-            }
-        }
-
-        QueryResult.Loading -> {
-            item {
-                val chipPlaceholderState = rememberPlaceholderState { false }
-                ScreenHeader(
-                    "",
-                    modifier = Modifier
-                        .fillMaxWidth(0.75f)
-                        .placeholder(chipPlaceholderState)
-                )
+                ListHeader(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .placeholderShimmer(placeholderState)
+                            .placeholder(placeholderState),
+                        text = (uiState as? QueryResult.Success)?.result?.conferenceName ?: " \n ",
+                        textAlign = TextAlign.Center,
+                        maxLines = 2,
+                    )
+                }
             }
         }
 

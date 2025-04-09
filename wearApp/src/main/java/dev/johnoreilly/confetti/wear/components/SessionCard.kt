@@ -26,9 +26,13 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.LocalContentColor
 import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.PlaceholderState
 import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TitleCard
+import androidx.wear.compose.material3.placeholder
+import androidx.wear.compose.material3.placeholderShimmer
+import androidx.wear.compose.material3.rememberPlaceholderState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
@@ -40,51 +44,64 @@ import java.time.format.FormatStyle
 
 @Composable
 fun SessionCard(
-    session: SessionDetails,
+    session: SessionDetails?,
     sessionSelected: (sessionId: String) -> Unit,
-    currentTime: LocalDateTime,
+    currentTime: LocalDateTime?,
     isBookmarked: Boolean,
     addBookmark: ((sessionId: String) -> Unit)?,
     removeBookmark: ((sessionId: String) -> Unit)?,
     modifier: Modifier = Modifier,
     timeDisplay: @Composable () -> Unit = {
-        SessionTime(session, currentTime)
-    }
+        if (session != null && currentTime != null) {
+            SessionTime(session, currentTime)
+        }
+    },
+    placeholderState: PlaceholderState = rememberPlaceholderState { true },
 ) {
     val coroutineScope = rememberCoroutineScope()
     val revealState = rememberRevealState()
 
-    if (session.isBreak()) {
+    if (session?.isBreak() == true) {
         Text(session.title, modifier = modifier)
-    } else if (addBookmark == null || removeBookmark == null) {
-        SessionCardContent(modifier, sessionSelected, session, timeDisplay)
     } else {
-        SwipeToReveal(
-            modifier = modifier,
-            revealState = revealState,
-            actions = {
-                primaryAction(
-                    icon = {
-                        Icon(
-                            if (isBookmarked) Icons.Default.BookmarkAdded else Icons.Default.BookmarkBorder,
-                            contentDescription = if (isBookmarked) "Remove Bookmark" else "Bookmark"
-                        )
-                    },
-                    text = { Text(if (isBookmarked) "Unbookmark" else "Bookmark") },
-                    onClick = {
-                        if (isBookmarked) removeBookmark(session.id) else addBookmark(session.id)
-                        coroutineScope.launch {
-                            revealState.animateTo(RevealValue.Covered)
-                        }
-                    },
-                )
-            }
-        ) {
+        val sessionCard = @Composable {
             SessionCardContent(
+                modifier = modifier,
                 sessionSelected = sessionSelected,
                 session = session,
+                placeholderState = placeholderState,
                 timeDisplay = timeDisplay
             )
+        }
+
+        if (addBookmark == null || removeBookmark == null) {
+            sessionCard()
+        } else {
+            SwipeToReveal(
+                modifier = modifier,
+                revealState = revealState,
+                actions = {
+                    primaryAction(
+                        icon = {
+                            Icon(
+                                if (isBookmarked) Icons.Default.BookmarkAdded else Icons.Default.BookmarkBorder,
+                                contentDescription = if (isBookmarked) "Remove Bookmark" else "Bookmark"
+                            )
+                        },
+                        text = { Text(if (isBookmarked) "Unbookmark" else "Bookmark") },
+                        onClick = {
+                            if (session != null) {
+                                if (isBookmarked) removeBookmark(session.id) else addBookmark(session.id)
+                            }
+                            coroutineScope.launch {
+                                revealState.animateTo(RevealValue.Covered)
+                            }
+                        },
+                    )
+                }
+            ) {
+                sessionCard()
+            }
         }
     }
 }
@@ -93,36 +110,57 @@ fun SessionCard(
 private fun SessionCardContent(
     modifier: Modifier = Modifier,
     sessionSelected: (sessionId: String) -> Unit,
-    session: SessionDetails,
+    session: SessionDetails?,
+    placeholderState: PlaceholderState,
     timeDisplay: @Composable () -> Unit
 ) {
     TitleCard(
-        modifier = modifier.fillMaxWidth(),
-        onClick = { sessionSelected(session.id) },
-        title = { Text(text = session.title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+        modifier = modifier
+            .fillMaxWidth()
+            .placeholderShimmer(placeholderState),
+        onClick = {
+            if (session != null) {
+                sessionSelected(session.id)
+            }
+        },
+        title = {
+            Text(
+                text = session?.title.orEmpty(),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .placeholder(placeholderState)
+            )
+        },
     ) {
-        if (session.speakers.isNotEmpty()) {
+        if (session?.speakers?.isNotEmpty() ?: true) {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
-                    session.speakers.joinToString(", ") { it.speakerDetails.name },
+                    session?.speakers.orEmpty().joinToString(", ") { it.speakerDetails.name },
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Light,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .placeholder(placeholderState)
                 )
             }
+            Spacer(modifier = Modifier.size(4.dp))
         }
-        Spacer(modifier = Modifier.size(4.dp))
         Row {
             CompositionLocalProvider(
                 LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant,
                 LocalTextStyle provides MaterialTheme.typography.labelMedium,
             ) {
                 Text(
-                    session.room?.name.orEmpty(),
-                    modifier = Modifier.weight(1f),
+                    session?.room?.name.orEmpty(),
                     maxLines = 1,
-                    overflow = TextOverflow.Clip
+                    overflow = TextOverflow.Clip,
+                    modifier = Modifier
+                        .weight(1f)
+                        .placeholder(placeholderState)
                 )
 
                 timeDisplay()

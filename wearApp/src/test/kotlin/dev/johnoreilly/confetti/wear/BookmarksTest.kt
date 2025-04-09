@@ -26,22 +26,61 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
             TestScaffold {
                 BookmarksScreen(
                     uiState = QueryResult.Success(
-                        BookmarksUiState(
-                            conference = TestFixtures.kotlinConf2023.id,
-                            upcoming = listOf(TestFixtures.sessionDetails),
-                            past = listOf(),
-                            now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
-                        )
-                    ),
-                    sessionSelected = {},
-                    addBookmark = {},
-                    removeBookmark = {}
-                )
+                    BookmarksUiState(
+                        conference = TestFixtures.kotlinConf2023.id,
+                        upcoming = listOf(TestFixtures.sessionDetails),
+                        past = listOf(),
+                        now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                    )
+                ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
             }
         }
         takeScreenshot()
-        // TODO enable in follow up PR
-//        scrollToBottom()
-//        takeScreenshot("_end")
+    }
+
+    @Test
+    fun bookmarksLoading() {
+        composeRule.setContent {
+            TestScaffold {
+                BookmarksScreen(
+                    uiState = QueryResult.Loading,
+                    sessionSelected = {},
+                    addBookmark = {},
+                    removeBookmark = {})
+            }
+        }
+        takeScreenshot()
+    }
+
+    @Test
+    fun bookmarksError() {
+        composeRule.setContent {
+            TestScaffold {
+                BookmarksScreen(
+                    uiState = QueryResult.Error(Exception("Some Error")),
+                    sessionSelected = {},
+                    addBookmark = {},
+                    removeBookmark = {})
+            }
+        }
+        takeScreenshot()
+    }
+
+    @Test
+    fun bookmarksEmpty() {
+        composeRule.setContent {
+            TestScaffold {
+                BookmarksScreen(
+                    uiState = QueryResult.Success(
+                    BookmarksUiState(
+                        conference = "wearconf",
+                        upcoming = emptyList(),
+                        past = emptyList(),
+                        now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                    )
+                ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
+            }
+        }
+        takeScreenshot()
     }
 }

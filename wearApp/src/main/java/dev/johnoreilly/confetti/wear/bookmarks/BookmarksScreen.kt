@@ -71,6 +71,7 @@ fun BookmarksScreen(
                             addBookmark = addBookmark,
                             removeBookmark = removeBookmark,
                             modifier = Modifier.fillMaxWidth(),
+                            placeholderState = placeholderState,
                         )
                     }
 

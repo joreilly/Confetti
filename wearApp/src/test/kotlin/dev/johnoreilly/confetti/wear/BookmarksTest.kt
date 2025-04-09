@@ -35,6 +35,7 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
                 ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
             }
         }
+        takeScreenshot()
     }
 
     @Test
@@ -48,6 +49,7 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
                     removeBookmark = {})
             }
         }
+        takeScreenshot()
     }
 
     @Test
@@ -61,6 +63,7 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
                     removeBookmark = {})
             }
         }
+        takeScreenshot()
     }
 
     @Test

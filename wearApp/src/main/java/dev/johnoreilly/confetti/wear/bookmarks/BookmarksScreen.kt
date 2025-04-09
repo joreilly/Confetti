@@ -8,8 +8,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.compose.layout.ColumnItemType
@@ -38,6 +40,7 @@ fun BookmarksScreen(
     val columnPadding = rememberResponsiveColumnPadding(
         first = ColumnItemType.ListHeader, last = ColumnItemType.Card
     )
+    val placeholderState = rememberPlaceholderState { uiState !is QueryResult.Loading }
     ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -45,28 +48,33 @@ fun BookmarksScreen(
             contentPadding = contentPadding,
         ) {
             when (uiState) {
-                is QueryResult.Success -> {
+                is QueryResult.Success, QueryResult.Loading -> {
                     item {
                         ScreenHeader(
                             text = stringResource(R.string.upcoming_sessions)
                         )
                     }
 
-                    items(uiState.result.upcoming) { session ->
+                    val upcoming = (uiState as? QueryResult.Success)?.result?.upcoming
+                    val now = (uiState as? QueryResult.Success)?.result?.now
+                    val itemCount = upcoming?.size ?: 2
+
+                    items(itemCount) {
+                        val session = upcoming?.get(it)
                         SessionCard(
-                            modifier = Modifier.fillMaxWidth(),
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
                             },
-                            currentTime = uiState.result.now,
+                            currentTime = now,
                             isBookmarked = true,
                             addBookmark = addBookmark,
-                            removeBookmark = removeBookmark
+                            removeBookmark = removeBookmark,
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
 
-                    if (!uiState.result.hasUpcomingBookmarks) {
+                    if ((uiState as? QueryResult.Success)?.result?.hasUpcomingBookmarks == false) {
                         item {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
@@ -81,31 +89,47 @@ fun BookmarksScreen(
                         )
                     }
 
-                    items(uiState.result.past) { session ->
-                        SessionCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            session = session,
-                            sessionSelected = {
-                                sessionSelected(it)
-                            },
-                            currentTime = uiState.result.now,
-                            isBookmarked = true,
-                            addBookmark = {},
-                            removeBookmark = {})
-                    }
-
-                    if (uiState.result.past.isEmpty()) {
-                        item {
-                            Text(
+                    if (uiState is QueryResult.Success) {
+                        items(uiState.result.past) { session ->
+                            SessionCard(
+                                session = session,
+                                sessionSelected = {
+                                    sessionSelected(it)
+                                },
+                                currentTime = uiState.result.now,
+                                isBookmarked = true,
+                                addBookmark = {},
+                                removeBookmark = {},
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(id = R.string.no_past),
                             )
+                        }
+
+                        if (uiState.result.past.isEmpty()) {
+                            item {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = stringResource(id = R.string.no_past),
+                                )
+                            }
                         }
                     }
                 }
 
-                is QueryResult.Loading -> {}
-                is QueryResult.Error -> {}
+                is QueryResult.Error -> {
+                    item {
+                        ScreenHeader(
+                            text = stringResource(R.string.upcoming_sessions)
+                        )
+                    }
+                    item {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = uiState.exception.message ?: "Unknown Error Occurred",
+                            color = MaterialTheme.colorScheme.errorDim
+                        )
+                    }
+                }
+
                 else -> {}
             }
         }
@@ -145,6 +169,19 @@ fun BookmarksPreviewError() {
     ConfettiThemeFixed {
         BookmarksScreen(
             uiState = QueryResult.Error(Exception("Boom")),
+            sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {})
+    }
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun BookmarksPreviewErrorLong() {
+    ConfettiThemeFixed {
+        BookmarksScreen(
+            uiState = QueryResult.Error(Exception("Boom: This is a long error message for testing purposes and to ensure it will be cropped correctly.")),
             sessionSelected = {},
             addBookmark = {},
             removeBookmark = {})

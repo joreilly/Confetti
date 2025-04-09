@@ -39,7 +39,7 @@ class DefaultBookmarksComponent(
     private val complicationUpdater: ComplicationUpdater by inject()
 
     override val uiState: StateFlow<QueryResult<BookmarksUiState>> =
-        repository.bookmarkedSessionsQuery(conference, user?.uid, user, FetchPolicy.CacheAndNetwork)
+        repository.bookmarkedSessionsQuery(conference, user?.uid, user, FetchPolicy.NetworkFirst)
             .toUiState {
                 it.toUiState()
             }.onEach {

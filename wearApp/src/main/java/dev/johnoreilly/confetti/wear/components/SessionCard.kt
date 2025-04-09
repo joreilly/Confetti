@@ -134,7 +134,7 @@ private fun SessionCardContent(
             )
         },
     ) {
-        if (session?.speakers?.isEmpty() != false) {
+        if (session?.speakers?.isNotEmpty() ?: true) {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
                     session?.speakers.orEmpty().joinToString(", ") { it.speakerDetails.name },

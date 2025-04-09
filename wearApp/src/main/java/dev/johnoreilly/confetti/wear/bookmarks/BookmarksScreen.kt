@@ -104,17 +104,9 @@ fun BookmarksScreen(
                     }
                 }
 
-                else -> {
-                    item {
-                        when (uiState) {
-                            is QueryResult.Loading -> {}
-                            is QueryResult.Error -> {}
-                            else -> {
-                                // do nothing
-                            }
-                        }
-                    }
-                }
+                is QueryResult.Loading -> {}
+                is QueryResult.Error -> {}
+                else -> {}
             }
         }
     }
@@ -127,13 +119,13 @@ fun BookmarksPreview() {
     ConfettiThemeFixed {
         BookmarksScreen(
             uiState = QueryResult.Success(
-            BookmarksUiState(
-                conference = TestFixtures.kotlinConf2023.id,
-                upcoming = listOf(TestFixtures.sessionDetails),
-                past = listOf(),
-                now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
-            )
-        ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
+                BookmarksUiState(
+                    conference = TestFixtures.kotlinConf2023.id,
+                    upcoming = listOf(TestFixtures.sessionDetails),
+                    past = listOf(),
+                    now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                )
+            ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
     }
 }
 
@@ -167,13 +159,13 @@ fun BookmarksPreviewEmpty() {
     ConfettiThemeFixed {
         BookmarksScreen(
             uiState = QueryResult.Success(
-            BookmarksUiState(
-                conference = TestFixtures.kotlinConf2023.id,
-                upcoming = listOf(),
-                past = listOf(),
-                now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
-            )
-        ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
+                BookmarksUiState(
+                    conference = TestFixtures.kotlinConf2023.id,
+                    upcoming = listOf(),
+                    past = listOf(),
+                    now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                )
+            ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
     }
 }
 

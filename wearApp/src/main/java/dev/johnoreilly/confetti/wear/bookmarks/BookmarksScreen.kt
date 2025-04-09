@@ -36,8 +36,7 @@ fun BookmarksScreen(
     val columnState = rememberTransformingLazyColumnState()
 
     val columnPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
-        last = ColumnItemType.Card
+        first = ColumnItemType.ListHeader, last = ColumnItemType.Card
     )
     ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
@@ -55,8 +54,7 @@ fun BookmarksScreen(
 
                     items(uiState.result.upcoming) { session ->
                         SessionCard(
-                            modifier = Modifier
-                                .fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
@@ -71,8 +69,7 @@ fun BookmarksScreen(
                     if (!uiState.result.hasUpcomingBookmarks) {
                         item {
                             Text(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(id = R.string.no_upcoming),
                             )
                         }
@@ -80,16 +77,13 @@ fun BookmarksScreen(
 
                     item {
                         SectionHeader(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            text = stringResource(id = R.string.past_sessions)
+                            modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.past_sessions)
                         )
                     }
 
                     items(uiState.result.past) { session ->
                         SessionCard(
-                            modifier = Modifier
-                                .fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
@@ -97,15 +91,13 @@ fun BookmarksScreen(
                             currentTime = uiState.result.now,
                             isBookmarked = true,
                             addBookmark = {},
-                            removeBookmark = {}
-                        )
+                            removeBookmark = {})
                     }
 
                     if (uiState.result.past.isEmpty()) {
                         item {
                             Text(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(id = R.string.no_past),
                             )
                         }
@@ -113,7 +105,15 @@ fun BookmarksScreen(
                 }
 
                 else -> {
-                    // TODO
+                    item {
+                        when (uiState) {
+                            is QueryResult.Loading -> {}
+                            is QueryResult.Error -> {}
+                            else -> {
+                                // do nothing
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -127,16 +127,53 @@ fun BookmarksPreview() {
     ConfettiThemeFixed {
         BookmarksScreen(
             uiState = QueryResult.Success(
-                BookmarksUiState(
-                    conference = TestFixtures.kotlinConf2023.id,
-                    upcoming = listOf(TestFixtures.sessionDetails),
-                    past = listOf(),
-                    now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
-                )
-            ),
-            sessionSelected = {},
-            addBookmark = {},
-            removeBookmark = {}
-        )
+            BookmarksUiState(
+                conference = TestFixtures.kotlinConf2023.id,
+                upcoming = listOf(TestFixtures.sessionDetails),
+                past = listOf(),
+                now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+            )
+        ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
     }
 }
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun BookmarksPreviewLoading() {
+    ConfettiThemeFixed {
+        BookmarksScreen(uiState = QueryResult.Loading, sessionSelected = {}, addBookmark = {}, removeBookmark = {})
+    }
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun BookmarksPreviewError() {
+    ConfettiThemeFixed {
+        BookmarksScreen(
+            uiState = QueryResult.Error(Exception("Boom")),
+            sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {})
+    }
+}
+
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun BookmarksPreviewEmpty() {
+    ConfettiThemeFixed {
+        BookmarksScreen(
+            uiState = QueryResult.Success(
+            BookmarksUiState(
+                conference = TestFixtures.kotlinConf2023.id,
+                upcoming = listOf(),
+                past = listOf(),
+                now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+            )
+        ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
+    }
+}
+

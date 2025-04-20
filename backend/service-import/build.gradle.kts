@@ -26,7 +26,7 @@ kotlin {
         implementation(libs.bare.graphQL)
         implementation(libs.kotlinx.serialization)
 
-        implementation(project(":backend:datastore"))
+        implementation(projects.backend.datastore)
       }
     }
 

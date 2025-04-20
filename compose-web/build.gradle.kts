@@ -19,7 +19,7 @@ kotlin {
         binaries.executable()
 
         tasks.named<ProcessResources>(compilations["main"].processResourcesTaskName) {
-            from(project(":shared").file("src/commonMain/composeResources"))
+            from(projects.shared.dependencyProject.file("src/commonMain/composeResources"))
         }
     }
 
@@ -31,7 +31,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.components.resources)
-                implementation(project(":shared"))
+                implementation(projects.shared)
             }
         }
     }

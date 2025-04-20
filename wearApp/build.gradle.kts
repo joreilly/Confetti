@@ -149,7 +149,7 @@ dependencies {
 }
 
 dependencies {
-    implementation(project(":shared"))
+    implementation(projects.shared)
 
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)

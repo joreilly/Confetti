@@ -132,8 +132,8 @@ android {
 
 dependencies {
 
-    implementation(project(":common:car"))
-    implementation(project(":shared"))
+    implementation(projects.common.car)
+    implementation(projects.shared)
 
     implementation(libs.lifecycle.runtime.compose)
 

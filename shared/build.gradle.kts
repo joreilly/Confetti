@@ -129,7 +129,7 @@ kotlin {
             dependsOn(mobileMain)
 
             dependencies {
-                api(project(":proto"))
+                api(projects.proto)
                 api(libs.androidx.lifecycle.viewmodel.ktx)
                 implementation(libs.okhttp)
                 implementation(libs.okhttp.coroutines)

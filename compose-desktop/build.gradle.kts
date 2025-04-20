@@ -24,7 +24,7 @@ kotlin {
             implementation(libs.decompose.decompose)
             implementation(libs.decompose.extensions.compose)
 
-            implementation(project(":shared"))
+            implementation(projects.shared)
         }
     }
 }

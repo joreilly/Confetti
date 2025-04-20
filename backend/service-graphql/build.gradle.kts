@@ -18,7 +18,7 @@ dependencies {
   implementation(libs.kotlinx.datetime)
   implementation(libs.kotlinx.serialization)
   implementation(libs.bare.graphQL)
-  implementation(project(":backend:datastore"))
+  implementation(projects.backend.datastore)
   implementation(libs.okhttp)
   implementation(libs.reflect)
   implementation(libs.xoxo)

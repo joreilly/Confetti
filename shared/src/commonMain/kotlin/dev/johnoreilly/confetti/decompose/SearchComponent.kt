@@ -6,11 +6,15 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import doist.x.normalize.Form
+import doist.x.normalize.normalize
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -89,6 +93,7 @@ class DefaultSearchComponent(
         .combine(search) { sessions, search ->
             sessions.filter { filterSessions(it, search) }
         }
+        .flowOn(Dispatchers.Default)
 
     override val bookmarks: Flow<Set<String>> = successSessions
         .map { state -> state.bookmarks }
@@ -98,27 +103,53 @@ class DefaultSearchComponent(
         .combine(search) { sessions, search ->
             sessions.filter { filterSpeakers(it, search) }
         }
+        .flowOn(Dispatchers.Default)
 
     private fun filterSpeakers(details: SpeakerDetails, filter: String): Boolean {
         if (filter.isBlank()) return false
 
         val ignoreCase = true
-        return details.name.contains(filter, ignoreCase) ||
-            details.bio.orEmpty().contains(filter, ignoreCase) ||
-            details.city.orEmpty().contains(filter, ignoreCase) ||
-            details.company.orEmpty().contains(filter, ignoreCase)
+        val ignoreDiacritics = !filter.containsDiacritics()
+
+        return sequenceOf(
+            details.name,
+            details.bio.orEmpty(),
+            details.city.orEmpty(),
+            details.company.orEmpty(),
+        ).any { it.adjustWith(ignoreDiacritics).contains(filter, ignoreCase) }
     }
+
+    private val diacriticsRegex = "\\p{Mn}+".toRegex()
+
+    fun String.containsDiacritics(): Boolean = normalizeNfd().contains(diacriticsRegex)
+
+    fun String.adjustWith(ignoreDiacritics: Boolean): String {
+        return if (ignoreDiacritics) {
+            normalizeNfd().replace(diacriticsRegex, "")
+        } else {
+            this
+        }
+    }
+
+    private fun String.normalizeNfd(): String = normalize(Form.NFD)
 
     private fun filterSessions(details: SessionDetails, filter: String): Boolean {
         if (filter.isBlank()) return false
 
         val ignoreCase = true
-        return details.title.contains(filter, ignoreCase) ||
-            details.sessionDescription.orEmpty().contains(filter, ignoreCase) ||
-            details.room?.name.orEmpty().contains(filter, ignoreCase) ||
-            details.speakers.any { speaker ->
-                speaker.speakerDetails.name.contains(filter, ignoreCase)
+        val ignoreDiacritics = !filter.containsDiacritics()
+
+        return sequence {
+            yield(details.title)
+            yield(details.sessionDescription.orEmpty())
+            yield(details.room?.name.orEmpty())
+
+            details.speakers.forEach {
+                yield(it.speakerDetails.name)
             }
+        }.any {
+            it.adjustWith(ignoreDiacritics).contains(filter, ignoreCase)
+        }
     }
 
     override fun onSearchChange(query: String) {

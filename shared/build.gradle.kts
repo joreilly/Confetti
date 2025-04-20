@@ -100,6 +100,8 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.7.0")
 
                 api(libs.generativeai)
+
+                api(libs.doistx.normalize)
             }
         }
         commonTest {

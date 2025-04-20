@@ -1,25 +1,32 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm")
+    kotlin("multiplatform")
     id("org.jetbrains.compose")
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.composeHotReload)
 }
 
-@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-dependencies {
-    implementation(compose.desktop.currentOs)
+kotlin {
+    jvm()
 
-    implementation(compose.ui)
-    implementation(compose.runtime)
-    implementation(compose.foundation)
-    implementation(compose.material3)
-    implementation(compose.components.resources)
+    sourceSets {
+        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
 
-    implementation(libs.decompose.decompose)
-    implementation(libs.decompose.extensions.compose)
+            implementation(compose.ui)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
 
-    implementation(project(":shared"))
+            implementation(libs.decompose.decompose)
+            implementation(libs.decompose.extensions.compose)
+
+            implementation(project(":shared"))
+        }
+    }
 }
 
 tasks.withType<KotlinCompile> {

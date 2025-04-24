@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.google.cloud.run)
     implementation(libs.kotlinx.datetime)
     implementation(libs.roborazzi.gradle.plugin)
+    implementation(libs.compat.patrouille)
 }
 
 group = "build-logic"

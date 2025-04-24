@@ -3,9 +3,9 @@
 package dev.johnoreilly.confetti.backend
 
 import com.apollographql.apollo.api.ExecutionContext
-import com.apollographql.execution.ExecutableSchema
-import com.apollographql.execution.GraphQLResponse
-import com.apollographql.execution.InMemoryPersistedDocumentCache
+import com.apollographql.apollo.execution.ExecutableSchema
+import com.apollographql.apollo.execution.GraphQLResponse
+import com.apollographql.apollo.execution.InMemoryPersistedDocumentCache
 import com.apollographql.execution.reporting.ApolloReportingInstrumentation
 import com.apollographql.execution.reporting.ApolloReportingOperationContext
 import com.apollographql.execution.spring.apolloSandboxRoutes

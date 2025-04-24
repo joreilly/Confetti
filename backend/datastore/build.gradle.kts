@@ -1,8 +1,10 @@
+import compat.patrouille.configureJavaCompatibility
+
 plugins {
   kotlin("multiplatform")
 }
 
-configureCompilerOptions(17)
+configureJavaCompatibility(17)
 
 kotlin {
   jvm()

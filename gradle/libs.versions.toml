@@ -3,7 +3,8 @@ kotlin = "2.1.20"
 ksp = "2.1.20-2.0.0"
 kotlinx-coroutines = "1.10.1"
 kotlinx-datetime = "0.6.2"
-apollo-kotlin-execution = "0.1.1-SNAPSHOT-3e89cc694ab96bae7b4c1b7b6394c211065551c1"
+apollo-kotlin-execution = "0.1.1-SNAPSHOT-fd7fa806b95c5b9046494989a7dd478c47237e12"
+compatPatrouille = "0.0.0"
 
 agp = "8.8.0"
 activity-compose = "1.10.1"
@@ -222,7 +223,7 @@ kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 tink = "com.google.crypto.tink:tink:1.17.0"
 jib-core = "com.google.cloud.tools:jib-core:0.27.2"
 google-cloud-run = "com.google.cloud:google-cloud-run:0.54.0"
-
+compat-patrouille = { module = "com.gradleup.compat.patrouille:com.gradleup.compat.patrouille.gradle.plugin", version.ref = "compatPatrouille" }
 generativeai = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }
 
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
@@ -243,4 +244,4 @@ screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"
 kgp-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 gratatouille = { id = "com.gradleup.gratatouille", version = "0.0.4" }
-compat-patrouille = { id = "com.gradleup.compat.patrouille", version = "0.0.0" }
+compat-patrouille = { id = "com.gradleup.compat.patrouille", version.ref = "compatPatrouille" }

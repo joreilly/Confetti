@@ -1,8 +1,6 @@
 [versions]
-kotlin19 = "1.9.25"
-ksp19 = "1.9.25-1.0.20"
 kotlin = "2.1.20"
-ksp = "2.1.20-1.0.31"
+ksp = "2.1.20-2.0.0"
 kotlinx-coroutines = "1.10.1"
 kotlinx-datetime = "0.6.2"
 apollo-kotlin-execution = "0.1.1-SNAPSHOT-3e89cc694ab96bae7b4c1b7b6394c211065551c1"
@@ -200,7 +198,7 @@ plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serializat
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.4.4" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.11" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "5.3.1" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
 scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.3.0"
@@ -242,9 +240,7 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multip
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hot-reload" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}
-#noinspection SimilarGradleDependency
+kgp-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-#noinspection SimilarGradleDependency
-ksp19 = { id = "com.google.devtools.ksp", version.ref = "ksp19" }
-kotlin19 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin19" }
 gratatouille = { id = "com.gradleup.gratatouille", version = "0.0.4" }
+compat-patrouille = { id = "com.gradleup.compat.patrouille", version = "0.0.0" }

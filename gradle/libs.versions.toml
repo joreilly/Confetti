@@ -1,11 +1,10 @@
 [versions]
-kotlin19 = "1.9.25"
-ksp19 = "1.9.25-1.0.20"
 kotlin = "2.1.20"
-ksp = "2.1.20-1.0.31"
+ksp = "2.1.20-2.0.0"
 kotlinx-coroutines = "1.10.1"
 kotlinx-datetime = "0.6.2"
-apollo-kotlin-execution = "0.1.1-SNAPSHOT-3e89cc694ab96bae7b4c1b7b6394c211065551c1"
+apollo-kotlin-execution = "0.1.1-SNAPSHOT-fd7fa806b95c5b9046494989a7dd478c47237e12"
+compatPatrouille = "0.0.0"
 
 agp = "8.8.0"
 activity-compose = "1.10.1"
@@ -200,7 +199,7 @@ plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serializat
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.4.4" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "4.9.11" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "5.3.1" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
 scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.3.0"
@@ -224,7 +223,7 @@ kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 tink = "com.google.crypto.tink:tink:1.17.0"
 jib-core = "com.google.cloud.tools:jib-core:0.27.2"
 google-cloud-run = "com.google.cloud:google-cloud-run:0.54.0"
-
+compat-patrouille = { module = "com.gradleup.compat.patrouille:com.gradleup.compat.patrouille.gradle.plugin", version.ref = "compatPatrouille" }
 generativeai = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }
 
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
@@ -242,9 +241,7 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multip
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hot-reload" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}
-#noinspection SimilarGradleDependency
+kgp-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-#noinspection SimilarGradleDependency
-ksp19 = { id = "com.google.devtools.ksp", version.ref = "ksp19" }
-kotlin19 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin19" }
 gratatouille = { id = "com.gradleup.gratatouille", version = "0.0.4" }
+compat-patrouille = { id = "com.gradleup.compat.patrouille", version.ref = "compatPatrouille" }

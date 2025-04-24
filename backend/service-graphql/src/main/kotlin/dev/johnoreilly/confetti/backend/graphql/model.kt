@@ -3,9 +3,9 @@ package dev.johnoreilly.confetti.backend.graphql
 import com.apollographql.apollo.api.ExecutionContext
 import com.apollographql.apollo.ast.GQLStringValue
 import com.apollographql.apollo.ast.GQLValue
-import com.apollographql.execution.Coercing
+import com.apollographql.apollo.execution.Coercing
+import com.apollographql.apollo.execution.ExternalValue
 import com.apollographql.execution.annotation.*
-import com.apollographql.execution.ExternalValue
 import com.google.firebase.auth.FirebaseAuth
 import dev.johnoreilly.confetti.backend.*
 import dev.johnoreilly.confetti.backend.datastore.DDirection
@@ -20,15 +20,15 @@ import kotlinx.datetime.LocalDateTime as KotlinxLocalDateTime
  */
 @GraphQLScalar(InstantCoercing::class)
 typealias Instant = KotlinxInstant
-@GraphQLScalar(LocalDateCoercing::class)
 /**
  * A type representing a formatted kotlinx.datetime.LocalDate
  */
+@GraphQLScalar(LocalDateCoercing::class)
 typealias LocalDate = KotlinxLocalDate
-@GraphQLScalar(LocalDateTimeCoercing::class)
 /**
  * A type representing a formatted kotlinx.datetime.LocalDateTime
  */
+@GraphQLScalar(LocalDateTimeCoercing::class)
 typealias LocalDateTime = KotlinxLocalDateTime
 
 object InstantCoercing : Coercing<Instant> {

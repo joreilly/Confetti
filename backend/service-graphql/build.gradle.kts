@@ -1,3 +1,4 @@
+import compat.patrouille.configureJavaCompatibility
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -9,7 +10,7 @@ plugins {
   id("com.apollographql.execution")
 }
 
-configureCompilerOptions(17)
+configureJavaCompatibility(17)
 
 dependencies {
   implementation(libs.spring.boot.starter.webflux)

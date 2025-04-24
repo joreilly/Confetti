@@ -1,11 +1,12 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import compat.patrouille.configureJavaCompatibility
 
 plugins {
   kotlin("multiplatform")
   id("org.jetbrains.kotlin.plugin.serialization")
 }
 
-configureCompilerOptions(17)
+configureJavaCompatibility(17)
 
 kotlin {
   jvm()

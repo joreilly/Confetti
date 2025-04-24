@@ -1,9 +1,8 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    alias(libs.plugins.kotlin19)
-    alias(libs.plugins.ksp19)
+    alias(libs.plugins.kgp.jvm)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.gratatouille)
+    alias(libs.plugins.compat.patrouille)
 }
 
 dependencies {
@@ -33,13 +32,12 @@ dependencies {
     implementation(libs.google.cloud.run)
     implementation(libs.kotlinx.datetime)
     implementation(libs.roborazzi.gradle.plugin)
+    implementation(libs.compat.patrouille)
 }
 
 group = "build-logic"
-tasks.withType(JavaCompile::class.java).configureEach {
-    this.options.release.set(17)
-}
 
-tasks.withType(KotlinCompile::class.java).configureEach {
-    this.kotlinOptions.jvmTarget = "17"
+compatPatrouille {
+    java(17)
+    kotlin(embeddedKotlinVersion)
 }

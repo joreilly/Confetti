@@ -6,17 +6,17 @@ kotlinx-datetime = "0.6.2"
 apollo-kotlin-execution = "0.1.1-SNAPSHOT-fd7fa806b95c5b9046494989a7dd478c47237e12"
 compatPatrouille = "0.0.0"
 
-agp = "8.8.0"
+agp = "8.8.2"
 activity-compose = "1.10.1"
 androidx-lifecycle = "2.8.7"
-androidx-datastore = "1.1.4"
+androidx-datastore = "1.1.5"
 apollo = "4.1.1"
 apollo-cache = "0.0.8"
-compose = "1.7.8"
+compose = "1.8.0"
 compose-hot-reload = "1.0.0-alpha05"
-composeLifecyleRuntime="2.8.4"
-compose-multiplatform = "1.7.3"
-compose-material3 = "1.3.1"
+composeLifecyleRuntime="2.9.0-alpha07"
+compose-multiplatform = "1.8.0-rc01"
+compose-material3 = "1.3.2"
 composeWindowSize = "0.5.0"
 credentials = "1.5.0"
 decompose = "3.3.0"
@@ -28,8 +28,8 @@ io-coil-kt = "2.7.0"
 io-coil3-kt = "3.1.0"
 kermit = "2.0.5"
 kmmbridge = "0.5.7"
-koin-android = "4.0.0"
-koin-android-compose = "4.0.0"
+koin-android = "4.0.4"
+koin-android-compose = "4.0.4"
 koin-compose-multiplatform = "4.0.4"
 koin-core = "4.0.4"
 kotlinx-coroutines-play-services = "1.10.1"
@@ -37,22 +37,22 @@ lifecycle = "2.8.7"
 lifecycle-livedata-ktx = "2.8.7"
 materialkolor = "2.0.0"
 multiplatform-settings = "1.3.0"
-nav-compose = "2.8.9"
+nav-compose = "2.9.0-rc01"
 okio = "3.10.2"
 permissions = "0.19.1"
 permissionsCompose = "0.19.1"
 permissionsNotifications = "0.19.1"
-protolayout = "1.3.0-alpha10"
+protolayout = "1.3.0-beta01"
 robolectric = "4.14.1"
-room = "2.6.1"
-tiles-tooling-preview = "1.5.0-alpha10"
+room = "2.7.1"
+tiles-tooling-preview = "1.5.0-beta01"
 wear = "1.3.0"
-wear-watchface = "1.3.0-alpha06"
+wear-watchface = "1.3.0-alpha07"
 wear-compose = "1.5.0-alpha12"
 wearPhoneInteractions = "1.1.0"
-work-runtime-ktx = "2.10.0"
+work-runtime-ktx = "2.10.1"
 spring = "3.4.4"
-generativeai = "0.9.0-1.0.1-wasm"
+generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.15.2"
 roborazzi = "1.43.1"
 screenshot = "0.0.1-alpha09"
@@ -60,7 +60,7 @@ screenshot = "0.0.1-alpha09"
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.3.3"
+androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.3.4"
 androidx-complications-rendering = { module = "androidx.wear.watchface:watchface-complications-rendering", version.ref = "wear-watchface"}
 androidx-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "wear-compose" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
@@ -103,7 +103,7 @@ apollo-annotations = { module = "com.apollographql.apollo:apollo-annotations", v
 apollo-tooling = { module = "com.apollographql.apollo:apollo-tooling", version.ref = "apollo" }
 apollo-testing = { module = "com.apollographql.apollo:apollo-testing-support" }
 apollo-debug-server = { module = "com.apollographql.apollo:apollo-debug-server" }
-atomicfu = "org.jetbrains.kotlinx:atomicfu:0.26.1"
+atomicfu = "org.jetbrains.kotlinx:atomicfu:0.27.0"
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
 car-app-auto = "androidx.car.app:app:1.4.0"
 car-app-automotive = "androidx.car.app:app-automotive:1.4.0"
@@ -116,7 +116,7 @@ coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.r
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version = "1.7.6" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version = "1.7.8" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "nav-compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
@@ -133,11 +133,11 @@ desugar = "com.android.tools:desugar_jdk_libs:2.1.3"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.4.3" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-bom = "com.google.firebase:firebase-bom:33.9.0"
+firebase-bom = "com.google.firebase:firebase-bom:33.12.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.13.0"
-google-cloud-bom = "com.google.cloud:libraries-bom:26.51.0"
+google-cloud-bom = "com.google.cloud:libraries-bom:26.52.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.25.1"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
@@ -172,13 +172,11 @@ kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3"
+kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1"
 ktor-cio = "io.ktor:ktor-server-cio:2.3.13"
 ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.13"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
-
 compose-window-size = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "composeWindowSize" }
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
@@ -222,7 +220,7 @@ xoxo = "net.mbonnin.xoxo:xoxo:0.4.0"
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 tink = "com.google.crypto.tink:tink:1.17.0"
 jib-core = "com.google.cloud.tools:jib-core:0.27.2"
-google-cloud-run = "com.google.cloud:google-cloud-run:0.54.0"
+google-cloud-run = "com.google.cloud:google-cloud-run:0.55.0"
 compat-patrouille = { module = "com.gradleup.compat.patrouille:com.gradleup.compat.patrouille.gradle.plugin", version.ref = "compatPatrouille" }
 generativeai = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }
 

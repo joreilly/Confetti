@@ -64,7 +64,7 @@ class ConfettiApplication : Application(), AppFunctionConfiguration.Provider {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            get<AppSearchManager>().scheduleDailyUpdate()
+            get<AppSearchManager>().scheduleImmediate()
         }
     }
 

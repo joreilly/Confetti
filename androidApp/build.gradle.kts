@@ -56,6 +56,8 @@ android {
 
         resourceConfigurations += listOf("en", "fr")
 
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         ksp {
             arg("appfunctions:aggregateAppFunctions", "true")
             arg("appfunctions:generateMetadataFromSchema", "true")
@@ -225,4 +227,10 @@ dependencies {
     debugImplementation(libs.compose.ui.manifest)
 
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+
+    androidTestImplementation("androidx.test:core-ktx:1.6.1")
+    androidTestImplementation("androidx.test:rules:1.6.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
+    androidTestImplementation("androidx.test.ext:truth:1.6.0")
 }

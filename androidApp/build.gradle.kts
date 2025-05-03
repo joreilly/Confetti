@@ -11,6 +11,8 @@ plugins {
     id("io.github.takahirom.roborazzi")
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.screenshot)
+    id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 configureCompilerOptions()
@@ -53,6 +55,11 @@ android {
         versionName = versionName()
 
         resourceConfigurations += listOf("en", "fr")
+
+        ksp {
+            arg("appfunctions:aggregateAppFunctions", "true")
+            arg("appfunctions:generateMetadataFromSchema", "true")
+        }
     }
 
     signingConfigs {
@@ -197,6 +204,15 @@ dependencies {
 
     implementation(libs.googleid)
     implementation(libs.androidx.credentials.play.services.auth)
+
+    implementation(libs.androidx.appfunctions)
+    implementation(libs.androidx.appfunctions.service)
+    ksp(libs.androidx.appfunctions.compiler)
+    implementation(libs.androidx.appsearch)
+    implementation(libs.androidx.appsearch.ktx)
+    implementation(libs.androidx.appsearch.platform.storage)
+    implementation(libs.kotlinx.coroutines.guava)
+    kapt(libs.androidx.appsearch.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)

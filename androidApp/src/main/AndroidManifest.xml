@@ -58,6 +58,5 @@
         </activity>
 
         <activity android:name=".car.signin.SignInWithGoogleActivity" />
-
     </application>
 </manifest> 

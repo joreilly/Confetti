@@ -10,8 +10,8 @@ agp = "8.8.2"
 activity-compose = "1.10.1"
 androidx-lifecycle = "2.8.7"
 androidx-datastore = "1.1.5"
-apollo = "4.1.1"
-apollo-cache = "0.0.8"
+apollo = "4.2.0"
+apollo-cache = "1.0.0-alpha.1"
 compose = "1.8.0"
 compose-hot-reload = "1.0.0-alpha09"
 composeLifecyleRuntime="2.9.0-alpha07"
@@ -80,8 +80,8 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
 lifecyle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "composeLifecyleRuntime" }
 apollo-adapters = { module = "com.apollographql.apollo:apollo-adapters" }
-apollo-normalized-cache-in-memory = { module = "com.apollographql.cache:normalized-cache-incubating", version.ref = "apollo-cache" }
-apollo-normalized-cache-sqlite = { module = "com.apollographql.cache:normalized-cache-sqlite-incubating", version.ref = "apollo-cache" }
+apollo-normalized-cache-in-memory = { module = "com.apollographql.cache:normalized-cache", version.ref = "apollo-cache" }
+apollo-normalized-cache-sqlite = { module = "com.apollographql.cache:normalized-cache-sqlite", version.ref = "apollo-cache" }
 apollo-normalized-cache-compiler-plugin = { module = "com.apollographql.cache:normalized-cache-apollo-compiler-plugin", version.ref = "apollo-cache" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
 apollo-execution-spring = { module = "com.apollographql.execution:apollo-execution-spring", version.ref = "apollo-kotlin-execution" }

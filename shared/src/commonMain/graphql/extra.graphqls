@@ -8,6 +8,9 @@ extend schema
     import: ["@cacheControl", "@cacheControlField"]
 )
 
+extend type Venue
+@typePolicy(keyFields: "id")
+
 extend type Session
 @typePolicy(keyFields: "id")
 @cacheControl(maxAge: 14400)

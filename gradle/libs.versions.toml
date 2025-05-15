@@ -48,7 +48,7 @@ wear-watchface = "1.3.0-alpha07"
 wear-compose = "1.5.0-alpha12"
 wearPhoneInteractions = "1.1.0"
 work-runtime-ktx = "2.10.1"
-spring = "3.4.4"
+spring = "3.4.5"
 generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.15.2"
 roborazzi = "1.43.1"
@@ -193,7 +193,7 @@ plugin-google-services = "com.google.gms:google-services:4.4.2"
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
-plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.4.4" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.4.5" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "5.3.1" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }

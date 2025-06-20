@@ -27,6 +27,7 @@ object Sessionize {
     private val kotlinConf2023 = "https://sessionize.com/api/v2/rje6khfn/view/All"
     private val androidMakers2023 = "https://sessionize.com/api/v2/72i2tw4v/view/All"
     private val droidconNYC2023 = "https://sessionize.com/api/v2/gxz4vyyr/view/All"
+    private val droidconNYC2025 = "https://sessionize.com/api/v2/ua2tn6uh/view/All"
 
     data class SessionizeData(
         val rooms: List<DRoom>,
@@ -483,6 +484,33 @@ object Sessionize {
                 longitude = -73.9860439,
                 description = emptyMap(),
                 imageUrl = "https://nyc.droidcon.com/wp-content/uploads/sites/2/2023/04/nyc-hotel.png",
+                floorPlanUrl = null
+            ),
+            partnerGroups = emptyList()
+        )
+    }
+
+    suspend fun importDroidconNYC2025(): Int {
+        return writeData(
+            sessionizeData = getData(droidconNYC2025),
+            config = DConfig(
+                id = ConferenceId.DroidconNYC2025.id,
+                name = "droidcon New York 2025",
+                timeZone = "America/New_York",
+                days = listOf(
+                    LocalDate(2023, 9, 14),
+                    LocalDate(2023, 9, 15)
+                ),
+                themeColor = "0xFFFFBE29"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Brooklyn Storehouse",
+                address = "Building 293, Brooklyn Navy Yard, Assembly Rd, Brooklyn, NY 11205, USA",
+                latitude = 40.7027861,
+                longitude = -73.9722626,
+                description = emptyMap(),
+                imageUrl = "https://static.wixstatic.com/media/6e1ab2_89cf412f5058491fbabbed14ece5a790~mv2.jpg/v1/fill/w_600,h_340,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/venue.jpg",
                 floorPlanUrl = null
             ),
             partnerGroups = emptyList()

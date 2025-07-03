@@ -181,9 +181,9 @@ multiplatform-settings-serialization = { module = "com.russhwolf:multiplatform-s
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatform-settings" }
 multiplatform-settings-make-observable  = { module = "com.russhwolf:multiplatform-settings-make-observable", version.ref = "multiplatform-settings" }
 multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
-okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.14"
-okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.14"
-okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14"
+okhttp = "com.squareup.okhttp3:okhttp:5.0.0"
+okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0"
+okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0"
 play-services-auth = "com.google.android.gms:play-services-auth:21.3.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = { module = "com.android.tools.build:gradle", version.ref = "agp" }

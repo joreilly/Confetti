@@ -51,7 +51,7 @@ work-runtime-ktx = "2.10.1"
 spring = "3.4.4"
 generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.15.2"
-roborazzi = "1.43.1"
+roborazzi = "1.46.1"
 screenshot = "0.0.1-alpha09"
 
 

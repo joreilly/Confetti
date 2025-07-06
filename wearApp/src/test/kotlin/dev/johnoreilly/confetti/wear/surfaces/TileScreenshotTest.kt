@@ -30,11 +30,11 @@ class TileScreenshotTest(override val device: WearDevice) : BaseScreenshotTest()
             val tileState = remember {
                 CurrentSessionsData(
                     GetBookmarkedSessionsQuery.Config(
+                        __typename = "Conference",
                         TestFixtures.kotlinConf2023.id,
                         "",
                         TestFixtures.kotlinConf2023.days,
                         TestFixtures.kotlinConf2023.name,
-                        __typename = "Conference",
                     ),
                     listOf(
                         TestFixtures.sessionDetails
@@ -60,11 +60,11 @@ class TileScreenshotTest(override val device: WearDevice) : BaseScreenshotTest()
             val tileState = remember {
                 ConfettiTileData.NotLoggedIn(
                     GetBookmarkedSessionsQuery.Config(
+                        __typename = "Conference",
                         TestFixtures.kotlinConf2023.id,
                         "",
                         TestFixtures.kotlinConf2023.days,
                         TestFixtures.kotlinConf2023.name,
-                        __typename = "Conference",
                     )
                 )
             }

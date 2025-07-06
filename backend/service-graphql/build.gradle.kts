@@ -1,4 +1,5 @@
 import compat.patrouille.configureJavaCompatibility
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -35,7 +36,7 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions.jvmTarget = "17"
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
 }
 
 springBoot {

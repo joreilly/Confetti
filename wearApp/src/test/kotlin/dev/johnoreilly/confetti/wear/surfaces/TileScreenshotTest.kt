@@ -1,10 +1,12 @@
 
 @file:Suppress("UnstableApiUsage", "DEPRECATION")
+@file:OptIn(ExperimentalHorologistApi::class)
 
 package dev.johnoreilly.confetti.wear.surfaces
 
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.screenshots.tiles.TileLayoutPreview
 import dev.johnoreilly.confetti.GetBookmarkedSessionsQuery
 import dev.johnoreilly.confetti.wear.preview.TestFixtures

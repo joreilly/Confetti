@@ -24,7 +24,6 @@ dependencies {
 
 kotlin {
     wasmJs {
-        moduleName = "confetti"
         browser {
             commonWebpackConfig {
                 outputFileName = "confetti.js"

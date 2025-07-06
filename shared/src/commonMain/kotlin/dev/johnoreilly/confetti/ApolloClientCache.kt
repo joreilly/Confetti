@@ -149,7 +149,7 @@ class ApolloClientCache : KoinComponent {
         _clients.clear()
     }
 
-    fun clear() {
+    suspend fun clear() {
         _clients.values.forEach {
             it.apolloStore.clearAll()
             it.close()

@@ -10,7 +10,6 @@ version = "1.0-SNAPSHOT"
 
 kotlin {
     wasmJs {
-        moduleName = "confetti"
         browser {
             commonWebpackConfig {
                 outputFileName = "confetti.js"

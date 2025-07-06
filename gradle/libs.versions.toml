@@ -1,58 +1,59 @@
 [versions]
-kotlin = "2.1.20"
-ksp = "2.1.20-2.0.0"
-kotlinx-coroutines = "1.10.1"
-kotlinx-datetime = "0.6.2"
+kotlin = "2.2.0"
+ksp = "2.2.0-2.0.2"
+kotlinx-coroutines = "1.10.2"
+kotlinx-datetime = "0.6.0"
+kotlinx-serialization = "1.9.0"
 apollo-kotlin-execution = "0.1.1-SNAPSHOT-fd7fa806b95c5b9046494989a7dd478c47237e12"
 compatPatrouille = "0.0.0"
 
-agp = "8.8.2"
+agp = "8.11.0"
 activity-compose = "1.10.1"
-androidx-lifecycle = "2.8.7"
-androidx-datastore = "1.1.5"
-apollo = "4.2.0"
-apollo-cache = "1.0.0-alpha.1"
-compose = "1.8.0"
-compose-hot-reload = "1.0.0-alpha09"
-composeLifecyleRuntime="2.9.0-alpha07"
-compose-multiplatform = "1.8.0"
+androidx-lifecycle = "2.9.1"
+androidx-datastore = "1.1.7"
+apollo = "4.3.1"
+apollo-cache = "1.0.0-alpha.4"
+compose = "1.8.3"
+compose-hot-reload = "1.0.0-beta03"
+composeLifecyleRuntime="2.9.1"
+compose-multiplatform = "1.8.2"
 compose-material3 = "1.3.2"
 composeWindowSize = "0.5.0"
 credentials = "1.5.0"
-decompose = "3.4.0-alpha01"
+decompose = "3.4.0-alpha03"
 doistx-normalize = "1.2.0"
 essenty = "2.5.0"
 googleid = "1.1.1"
 horologist = "0.7.10-alpha"
 io-coil-kt = "2.7.0"
-io-coil3-kt = "3.2.0-rc02"
-kermit = "2.0.5"
+io-coil3-kt = "3.2.0"
+kermit = "2.0.6"
 kmmbridge = "0.5.7"
-koin = "4.1.0-Beta8"
-kotlinx-coroutines-play-services = "1.10.1"
-lifecycle = "2.8.7"
-lifecycle-livedata-ktx = "2.8.7"
-materialkolor = "2.0.0"
+koin = "4.1.0"
+kotlinx-coroutines-play-services = "1.10.2"
+lifecycle = "2.9.1"
+lifecycle-livedata-ktx = "2.9.1"
+materialkolor = "2.1.1"
 multiplatform-settings = "1.3.0"
-nav-compose = "2.9.0-rc01"
-okio = "3.10.2"
+nav-compose = "2.9.1"
+okio = "3.15.0"
 permissions = "0.19.1"
 permissionsCompose = "0.19.1"
 permissionsNotifications = "0.19.1"
-protolayout = "1.3.0-beta01"
-robolectric = "4.14.1"
-room = "2.7.1"
-tiles-tooling-preview = "1.5.0-beta01"
+protolayout = "1.3.0"
+robolectric = "4.15.1"
+room = "2.7.2"
+tiles-tooling-preview = "1.5.0"
 wear = "1.3.0"
 wear-watchface = "1.3.0-alpha07"
 wear-compose = "1.5.0-alpha12"
 wearPhoneInteractions = "1.1.0"
-work-runtime-ktx = "2.10.1"
-spring = "3.4.4"
+work-runtime-ktx = "2.10.2"
+spring = "3.5.3"
 generativeai = "0.9.0-1.1.0"
-buildkonfig = "0.15.2"
-roborazzi = "1.43.1"
-screenshot = "0.0.1-alpha09"
+buildkonfig = "0.17.1"
+roborazzi = "1.46.1"
+screenshot = "0.0.1-alpha10"
 
 
 [libraries]
@@ -70,7 +71,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout" }
 androidx-protolayout-expression-pipeline = { module = "androidx.wear.protolayout:protolayout-expression-pipeline", version.ref = "protolayout" }
 androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout" }
-androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version = "1.0.0-alpha27" }
+androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version = "1.3.0" }
 androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-proto", version.ref = "protolayout" }
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles-tooling-preview" }
 androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tiles-tooling-preview" }
@@ -130,7 +131,7 @@ desugar = "com.android.tools:desugar_jdk_libs:2.1.3"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.4.3" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-bom = "com.google.firebase:firebase-bom:33.12.0"
+firebase-bom = "com.google.firebase:firebase-bom:33.16.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:1.13.0"
@@ -169,7 +170,7 @@ kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1"
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 ktor-cio = "io.ktor:ktor-server-cio:2.3.13"
 ktor-status-pages = "io.ktor:ktor-server-status-pages:2.3.13"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
@@ -181,15 +182,15 @@ multiplatform-settings-serialization = { module = "com.russhwolf:multiplatform-s
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatform-settings" }
 multiplatform-settings-make-observable  = { module = "com.russhwolf:multiplatform-settings-make-observable", version.ref = "multiplatform-settings" }
 multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
-okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.14"
-okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0-alpha.14"
-okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14"
+okhttp = "com.squareup.okhttp3:okhttp:5.0.0"
+okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0"
+okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0"
 play-services-auth = "com.google.android.gms:play-services-auth:21.3.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo" }
-plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
-plugin-google-services = "com.google.gms:google-services:4.4.2"
+plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.4" }
+plugin-google-services = "com.google.gms:google-services:4.4.3"
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }

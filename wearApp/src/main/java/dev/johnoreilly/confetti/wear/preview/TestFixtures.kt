@@ -11,6 +11,7 @@ object TestFixtures {
     val sessionTime = LocalDateTime.parse("2023-04-13T14:00")
 
     val kotlinConf2023 = GetConferencesQuery.Conference(
+        __typename = "Conference",
         "kotlinconf2023",
         "",
         listOf(
@@ -20,67 +21,66 @@ object TestFixtures {
         ),
         "KotlinConf 2023",
         "0xFF800000",
-        __typename = "Conference",
     )
 
     val kotlinConf2023Config = GetBookmarkedSessionsQuery.Config(
+        __typename = "Conference",
         kotlinConf2023.id,
         "",
         kotlinConf2023.days,
         kotlinConf2023.name,
-        __typename = "Conference"
     )
 
     // Generate from FetchDataTest.fetchConferences
     val conferences = listOf(
         kotlinConf2023,
         GetConferencesQuery.Conference(
+            __typename = "Conference",
             "fosdem2023",
             "",
             listOf(LocalDate.parse("2023-02-04"), LocalDate.parse("2023-02-05")),
             "Fosdem 2023",
             "0xFF008000",
-            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
+            __typename = "Conference",
             "droidconlondon2022",
             "",
             listOf(LocalDate.parse("2022-10-27"), LocalDate.parse("2022-10-28")),
             "droidcon London",
             "0xFF800000",
-            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
+            __typename = "Conference",
             "devfestnantes",
             "",
             listOf(LocalDate.parse("2022-10-20"), LocalDate.parse("2022-10-21")),
             "DevFest Nantes",
             "0xFF800000",
-            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
+            __typename = "Conference",
             "graphqlsummit2022",
             "",
             listOf(LocalDate.parse("2022-10-04"), LocalDate.parse("2022-10-05")),
             "GraphQL Summit",
             "0xFF800000",
-            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
+            __typename = "Conference",
             "frenchkit2022",
             "",
             listOf(LocalDate.parse("2022-09-29"), LocalDate.parse("2022-09-30")),
             "FrenchKit",
             "0xFF800000",
-            __typename = "Conference",
         ),
         GetConferencesQuery.Conference(
+            __typename = "Conference",
             "droidconsf",
             "",
             listOf(LocalDate.parse("2022-06-02"), LocalDate.parse("2022-06-03")),
             "droidcon SF",
             "0xFF800000",
-            __typename = "Conference",
         )
     )
 

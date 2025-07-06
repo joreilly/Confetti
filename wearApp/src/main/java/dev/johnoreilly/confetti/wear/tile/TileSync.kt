@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalHorologistApi::class)
+
 package dev.johnoreilly.confetti.wear.tile
 
 import android.content.Context
 import androidx.concurrent.futures.await
 import androidx.wear.tiles.TileService
 import com.google.android.gms.wearable.PutDataRequest
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.data.WearDataLayerRegistry
 import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import kotlinx.coroutines.Dispatchers

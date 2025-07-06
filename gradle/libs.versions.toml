@@ -24,7 +24,7 @@ decompose = "3.4.0-alpha03"
 doistx-normalize = "1.2.0"
 essenty = "2.5.0"
 googleid = "1.1.1"
-horologist = "0.7.10-alpha"
+horologist = "0.7.14-beta"
 io-coil-kt = "2.7.0"
 io-coil3-kt = "3.2.0"
 kermit = "2.0.6"
@@ -46,7 +46,7 @@ room = "2.7.2"
 tiles-tooling-preview = "1.5.0"
 wear = "1.3.0"
 wear-watchface = "1.3.0-alpha07"
-wear-compose = "1.5.0-alpha12"
+wear-compose = "1.5.0-beta05"
 wearPhoneInteractions = "1.1.0"
 work-runtime-ktx = "2.10.2"
 spring = "3.5.3"
@@ -127,7 +127,7 @@ decompose-extensions-compose-experimental = { module = "com.arkivanov.decompose:
 doistx-normalize = { module = "com.doist.x:normalize", version.ref = "doistx-normalize" }
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 essenty-backhandler = { module = "com.arkivanov.essenty:back-handler", version.ref = "essenty" }
-desugar = "com.android.tools:desugar_jdk_libs:2.1.3"
+desugar = "com.android.tools:desugar_jdk_libs:2.1.5"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.4.3" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
@@ -195,7 +195,7 @@ plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serializat
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.4.4" }
-plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "5.3.1" }
+plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "5.3.3" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
 scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.3.0"
@@ -213,7 +213,7 @@ test-espressocore = "androidx.test.espresso:espresso-core:3.6.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
 wear-complications-data = { module = "androidx.wear.watchface:watchface-complications-data-source-ktx", version.ref = "wear-watchface"}
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wear-compose"}
-wear-compose-material3 = "androidx.wear.compose:compose-material3:1.0.0-alpha35"
+wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wear-compose"}
 xoxo = "net.mbonnin.xoxo:xoxo:0.4.0"
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 tink = "com.google.crypto.tink:tink:1.17.0"

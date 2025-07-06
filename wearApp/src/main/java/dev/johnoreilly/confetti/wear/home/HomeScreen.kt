@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -65,12 +64,7 @@ fun HomeScreen(
         first = ColumnItemType.ListHeader,
         last = ColumnItemType.IconButton
     )
-    val placeholderState = rememberPlaceholderState {
-        uiState !is QueryResult.Loading
-    }
-    LaunchedEffect(Unit) {
-        placeholderState.animatePlaceholder()
-    }
+    val placeholderState = rememberPlaceholderState(uiState is QueryResult.Loading)
     ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),

@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalLayoutApi::class)
+@file:OptIn(ExperimentalLayoutApi::class, ExperimentalWearFoundationApi::class)
 
 package dev.johnoreilly.confetti.wear.components
 
@@ -20,8 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.foundation.RevealValue
-import androidx.wear.compose.foundation.rememberRevealState
+import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.LocalContentColor
 import androidx.wear.compose.material3.LocalTextStyle
@@ -33,6 +32,7 @@ import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
+import androidx.wear.compose.material3.rememberRevealState
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isBreak
@@ -56,7 +56,7 @@ fun SessionCard(
             SessionTime(session, currentTime)
         }
     },
-    placeholderState: PlaceholderState = rememberPlaceholderState { true },
+    placeholderState: PlaceholderState = rememberPlaceholderState(false),
 ) {
     val coroutineScope = rememberCoroutineScope()
     val revealState = rememberRevealState()
@@ -80,8 +80,13 @@ fun SessionCard(
             SwipeToReveal(
                 modifier = modifier,
                 revealState = revealState,
-                actions = {
-                    primaryAction(
+                primaryAction = {
+                    PrimaryActionButton(
+                        onClick = {
+                            if (session != null) {
+                                if (isBookmarked) removeBookmark(session.id) else addBookmark(session.id)
+                            }
+                        },
                         icon = {
                             Icon(
                                 if (isBookmarked) Icons.Default.BookmarkAdded else Icons.Default.BookmarkBorder,
@@ -89,15 +94,12 @@ fun SessionCard(
                             )
                         },
                         text = { Text(if (isBookmarked) "Unbookmark" else "Bookmark") },
-                        onClick = {
-                            if (session != null) {
-                                if (isBookmarked) removeBookmark(session.id) else addBookmark(session.id)
-                            }
-                            coroutineScope.launch {
-                                revealState.animateTo(RevealValue.Covered)
-                            }
-                        },
                     )
+                },
+                onSwipePrimaryAction = {
+                    if (session != null) {
+                        if (isBookmarked) removeBookmark(session.id) else addBookmark(session.id)
+                    }
                 }
             ) {
                 sessionCard()

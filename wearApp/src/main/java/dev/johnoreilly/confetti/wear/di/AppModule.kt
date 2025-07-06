@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalHorologistApi::class)
+
 package dev.johnoreilly.confetti.wear.di
 
 import android.content.Context
@@ -8,6 +10,7 @@ import androidx.wear.tiles.TileService
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import com.apollographql.cache.normalized.FetchPolicy
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import com.google.android.horologist.networks.battery.BatteryStatusMonitor
 import com.google.android.horologist.networks.data.DataRequestRepository

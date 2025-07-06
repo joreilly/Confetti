@@ -218,7 +218,7 @@ xoxo = "net.mbonnin.xoxo:xoxo:0.4.0"
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 tink = "com.google.crypto.tink:tink:1.17.0"
 jib-core = "com.google.cloud.tools:jib-core:0.27.2"
-google-cloud-run = "com.google.cloud:google-cloud-run:0.55.0"
+google-cloud-run = "com.google.cloud:google-cloud-run:0.67.0"
 compat-patrouille = { module = "com.gradleup.compat.patrouille:com.gradleup.compat.patrouille.gradle.plugin", version.ref = "compatPatrouille" }
 generativeai = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }
 

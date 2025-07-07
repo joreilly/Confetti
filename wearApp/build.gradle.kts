@@ -87,11 +87,6 @@ android {
         }
     }
 
-    kotlinOptions {
-        freeCompilerArgs += "-opt-in=com.google.android.horologist.annotations.ExperimentalHorologistApi"
-        freeCompilerArgs += "-opt-in=androidx.wear.compose.material.ExperimentalWearMaterialApi"
-    }
-
     buildTypes {
         getByName("release") {
             isShrinkResources = true
@@ -240,7 +235,6 @@ dependencies {
     testImplementation(libs.koin.test.junit4)
     testImplementation(libs.androidx.work.testing)
     testImplementation(libs.androidx.complications.rendering)
-    testImplementation(libs.horologist.compose.tools)
     testImplementation(libs.horologist.roboscreenshots)
     testImplementation(libs.horologist.images.coil)
     testImplementation(libs.roborazzi)

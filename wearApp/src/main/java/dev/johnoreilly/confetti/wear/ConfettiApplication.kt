@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalHorologistApi::class)
+
 package dev.johnoreilly.confetti.wear
 
 import android.app.Application
@@ -6,6 +8,7 @@ import androidx.wear.phone.interactions.notifications.BridgingConfig
 import androidx.wear.phone.interactions.notifications.BridgingManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.networks.data.RequestType
 import com.google.android.horologist.networks.okhttp.impl.RequestTypeHolder.Companion.withDefaultRequestType
 import com.google.android.horologist.networks.okhttp.urlconnection.FirebaseUrlFactory

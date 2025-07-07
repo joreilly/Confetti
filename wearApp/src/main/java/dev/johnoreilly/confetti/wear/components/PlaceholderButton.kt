@@ -31,10 +31,9 @@ import kotlinx.coroutines.launch
 public fun PlaceholderButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    placeholderState: PlaceholderState = rememberActivePlaceholderState { false },
+    placeholderState: PlaceholderState = rememberPlaceholderState(true),
     secondaryLabel: Boolean = true,
     hasIcon: Boolean = true,
-    colors: ButtonColors = PlaceholderDefaults.placeholderButtonColors(placeholderState),
     enabled: Boolean = false,
 ) {
     Button(
@@ -83,25 +82,5 @@ public fun PlaceholderButton(
         } else {
             null
         },
-        colors = colors,
     )
-}
-
-@Composable
-fun rememberActivePlaceholderState(isContentReady: () -> Boolean): PlaceholderState {
-    val placeholderState = rememberPlaceholderState {
-        isContentReady()
-    }
-
-    ActiveFocusListener { focused ->
-        if (focused) {
-            if (placeholderState.isHidden) {
-                launch {
-                    placeholderState.animatePlaceholder()
-                }
-            }
-        }
-    }
-
-    return placeholderState
 }

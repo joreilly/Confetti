@@ -44,7 +44,7 @@ fun SpeakerDetailsView(
     modifier: Modifier = Modifier,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
-    val placeholderState = rememberPlaceholderState { uiState !is SpeakerDetailsUiState.Loading }
+    val placeholderState = rememberPlaceholderState(uiState is SpeakerDetailsUiState.Loading)
 
     val columnPadding = rememberResponsiveColumnPadding(
         first = ColumnItemType.IconButton,

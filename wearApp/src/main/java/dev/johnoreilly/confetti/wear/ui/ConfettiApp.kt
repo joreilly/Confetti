@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalHorologistApi::class)
+
 package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.networks.ui.DataUsageTimeText
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksRoute

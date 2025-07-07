@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalHorologistApi::class)
+
 package dev.johnoreilly.confetti.wear.navigation
 
 import android.content.Intent
@@ -11,6 +13,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.datalayer.watch.WearDataLayerAppHelper
 import com.google.android.horologist.networks.data.DataRequestRepository
 import com.google.android.horologist.networks.data.DataUsageReport

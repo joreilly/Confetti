@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalHorologistApi::class)
+
 package dev.johnoreilly.confetti.wear.tile
 
 import android.content.Context
 import androidx.wear.tiles.tooling.preview.Preview
 import androidx.wear.tiles.tooling.preview.TilePreviewData
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.render.TileLayoutRenderer
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.tile.ConfettiTileData.CurrentSessionsData

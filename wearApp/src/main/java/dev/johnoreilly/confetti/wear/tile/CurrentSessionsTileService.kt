@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalHorologistApi::class)
+
 package dev.johnoreilly.confetti.wear.tile
 
 import android.content.Intent
@@ -8,6 +10,7 @@ import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
 import com.apollographql.cache.normalized.FetchPolicy
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.SuspendingTileService
 import com.materialkolor.dynamicColorScheme
 import dev.johnoreilly.confetti.ConfettiRepository

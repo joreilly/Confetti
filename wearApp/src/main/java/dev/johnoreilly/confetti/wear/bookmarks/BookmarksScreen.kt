@@ -40,7 +40,7 @@ fun BookmarksScreen(
     val columnPadding = rememberResponsiveColumnPadding(
         first = ColumnItemType.ListHeader, last = ColumnItemType.Card
     )
-    val placeholderState = rememberPlaceholderState { uiState !is QueryResult.Loading }
+    val placeholderState = rememberPlaceholderState(uiState is QueryResult.Loading)
     ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),

@@ -9,7 +9,7 @@ object AndroidSdk {
 object WearSdk {
     const val min = 26
     const val compile = 36
-    const val target = 36
+    const val target = 35
 }
 
 object AutomotiveSdk {

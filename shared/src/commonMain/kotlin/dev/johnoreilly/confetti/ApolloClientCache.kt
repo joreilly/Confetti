@@ -123,6 +123,7 @@ class ApolloClientCache : KoinComponent {
             .addHttpHeader("conference", conference)
             .normalizedCache(
                 normalizedCacheFactory,
+                enableOptimisticUpdates = true,
                 writeToCacheAsynchronously = writeToCacheAsynchronously,
                 cacheResolver = CacheControlCacheResolver(
                     SchemaCoordinatesMaxAgeProvider(

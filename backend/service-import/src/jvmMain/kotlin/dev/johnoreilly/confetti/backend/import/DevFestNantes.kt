@@ -49,6 +49,7 @@ private val okHttpClient = OkHttpClient.Builder()
 private val baseUrl2022 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/"
 private val baseUrl2023 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/"
 private val baseUrl2024 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2024/main/"
+private val baseUrl2025 = "https://raw.githubusercontent.com/GDG-Nantes/Devfest2025/main/"
 private val json = Json {
     ignoreUnknownKeys = true
 }
@@ -64,7 +65,8 @@ suspend fun importDefvestNantes2022() =
             LocalDate(2022, 10, 21)
         ),
         "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/home/album/wide/amphi.jpg",
-        "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/plan-cite-blanc.png"
+        "https://raw.githubusercontent.com/GDG-Nantes/Devfest2022/master/src/images/plan-cite-blanc.png",
+        ""
     ).import()
 
 suspend fun importDefvestNantes2023() = DevFestNantes(
@@ -77,7 +79,8 @@ suspend fun importDefvestNantes2023() = DevFestNantes(
         LocalDate(2023, 10, 20)
     ),
     "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/home/album/wide/800.jpg",
-    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/plan-cite-transparent.png"
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2023/main/src/images/plan-cite-transparent.png",
+    ""
 ).import()
 
 suspend fun importDefvestNantes2024() = DevFestNantes(
@@ -90,8 +93,24 @@ suspend fun importDefvestNantes2024() = DevFestNantes(
         LocalDate(2024, 10, 18)
     ),
     "https://raw.githubusercontent.com/GDG-Nantes/Devfest2024/main/src/images/home/album/wide/2000.jpg",
-    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2024/main/src/images/plan-cite-transparent.png"
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2024/main/src/images/plan-cite-transparent.png",
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2024/main/static"
 ).import()
+
+suspend fun importDefvestNantes2025() = DevFestNantes(
+    baseUrl2025,
+    "Devfest2025",
+    "main",
+    ConferenceId.DevFestNantes2025.id,
+    listOf(
+        LocalDate(2025, 10, 16),
+        LocalDate(2025, 10, 17)
+    ),
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2025/main/src/images/home/album/equipe-amphi.jpg",
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2025/main/src/images/plan-cite-transparent.png",
+    "https://raw.githubusercontent.com/GDG-Nantes/Devfest2025/main/src/images/speakers/"
+).import()
+
 
 class DevFestNantes(
     private val baseUrl: String,
@@ -101,6 +120,7 @@ class DevFestNantes(
     private val days: List<LocalDate>,
     private val venueImageUrl: String,
     private val venueFloorPlanUrl: String,
+    private val speakerImagesBaseUrl: String,
 ) {
     private suspend fun getUrl(url: String): String {
         val request = Request(url.toHttpUrl())
@@ -278,7 +298,7 @@ class DevFestNantes(
                     }
                     DLink(key = it.key, url = url)
                 },
-                photoUrl = speaker.get("photoUrl")?.asString?.let { "${baseUrl}static$it" },
+                photoUrl = speaker.get("photoUrl")?.asString?.let { "${speakerImagesBaseUrl}$it" },
                 companyLogoUrl = speaker.get("companyLogo")?.asString?.let { "${baseUrl}src$it" },
                 city = speaker.get("city")?.asString,
             )

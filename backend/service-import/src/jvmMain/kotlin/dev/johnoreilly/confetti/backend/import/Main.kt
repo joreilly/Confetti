@@ -106,6 +106,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.DevFestNantes2022 -> importDefvestNantes2022()
         ConferenceId.DevFestNantes2023 -> importDefvestNantes2023()
         ConferenceId.DevFestNantes2024 -> importDefvestNantes2024()
+        ConferenceId.DevFestNantes2025 -> importDefvestNantes2025()
         ConferenceId.FrenchKit2022 -> FrenchKit.import()
         ConferenceId.GraphQLSummit2022 -> GraphQLSummit.import()
         ConferenceId.DroidConLondon2022 -> Sessionize.importDroidConLondon2022()

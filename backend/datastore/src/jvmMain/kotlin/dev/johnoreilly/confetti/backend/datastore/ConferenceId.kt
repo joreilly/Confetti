@@ -34,6 +34,7 @@ enum class ConferenceId(val id: String) {
     AndroidMakers2024("androidmakers2024"),
     KotlinConf2024("kotlinconf2024"),
     DroidconBerlin2024("droidconberlin2024"),
+    DroidconBerlin2025("droidconberlin2025"),
     DevFestLille2024("devfestlille2024"),
     DroidConLisbon2024("droidconlisbon2024"),
     DroidConLondon2024("droidconlondon2024"),

@@ -45,8 +45,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
+      - name: Set Xcode Version 16.4
+        shell: bash
+        run: |
+          xcodes select 16.4
+          
       - name: Build iOS app
-        run: xcodebuild -allowProvisioningUpdates -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 15'
+        run: xcodebuild -allowProvisioningUpdates -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 16 Pro'
 
       - name: Run iOS unit tests
-        run: xcodebuild -allowProvisioningUpdates -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 15' test -test-timeouts-enabled YES
+        run: xcodebuild -allowProvisioningUpdates -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 16 Pro' test -test-timeouts-enabled YES

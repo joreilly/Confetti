@@ -408,7 +408,7 @@ object Sessionize {
 
     suspend fun importDroidconBerlin2025(): Int {
         return importDroidconBerlin(
-            ConferenceId.DroidconBerlin2024.id,
+            ConferenceId.DroidconBerlin2025.id,
             "droidcon Berlin 2025",
             "https://sessionize.com/api/v2/ove96gci/view/All",
             "0xFFFFBE29"

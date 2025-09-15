@@ -96,7 +96,7 @@ kotlin {
                 api(libs.compose.window.size)
                 implementation(libs.lifecyle.runtime)
                 api("com.mikepenz:multiplatform-markdown-renderer-m3:0.35.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.7.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.8.0")
 
                 api(libs.generativeai)
 

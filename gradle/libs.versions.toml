@@ -2,7 +2,7 @@
 kotlin = "2.2.20-Beta1"
 ksp = "2.2.20-Beta1-2.0.2"
 kotlinx-coroutines = "1.10.2"
-kotlinx-datetime = "0.6.0"
+kotlinx-datetime = "0.7.1-0.6.x-compat"
 kotlinx-serialization = "1.9.0"
 apollo-kotlin-execution = "0.1.1-SNAPSHOT-fd7fa806b95c5b9046494989a7dd478c47237e12"
 compatPatrouille = "0.0.0"

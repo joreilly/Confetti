@@ -5,6 +5,7 @@ import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.ClearCredentialException
 import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
@@ -34,13 +35,9 @@ class SignInProcess(
      */
     suspend fun signIn(activityContext: Context) {
         val googleAuthOption = if (useSignInWithGoogle) {
-            GetSignInWithGoogleOption.Builder(webClientId)
-                .build()
+            GetSignInWithGoogleOption(serverClientId = webClientId)
         } else {
-            GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(true)
-                .setServerClientId(webClientId)
-                .build()
+            GetGoogleIdOption(serverClientId = webClientId, filterByAuthorizedAccounts = true)
         }
 
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
@@ -89,7 +86,11 @@ class SignInProcess(
      * 2. Signs the user out via [Authentication].
      */
     suspend fun signOut() {
-        credentialManager.clearCredentialState(ClearCredentialStateRequest())
+        try {
+            credentialManager.clearCredentialState(ClearCredentialStateRequest())
+        } catch (e: ClearCredentialException) {
+            println(e)
+        }
 
         authentication.signOut()
     }

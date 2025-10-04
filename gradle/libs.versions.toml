@@ -1,48 +1,46 @@
 [versions]
-kotlin = "2.2.20-Beta1"
-ksp = "2.2.20-Beta1-2.0.2"
+kotlin = "2.2.20"
+ksp = "2.2.20-2.0.2"
 kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.6.0"
 kotlinx-serialization = "1.9.0"
-apollo-kotlin-execution = "0.1.1-SNAPSHOT-fd7fa806b95c5b9046494989a7dd478c47237e12"
-compatPatrouille = "0.0.0"
+apollo-kotlin-execution = "0.1.1"
+compatPatrouille = "0.0.2"
 
-agp = "8.11.1"
-activity-compose = "1.10.1"
-androidx-lifecycle = "2.9.2"
+agp = "8.11.2"
+activity-compose = "1.11.0"
+androidx-lifecycle = "2.9.4"
 androidx-datastore = "1.1.7"
-apollo = "4.3.2"
-apollo-cache = "1.0.0-alpha.4"
-compose = "1.8.3"
-compose-hot-reload = "1.0.0-beta03"
-composeLifecyleRuntime="2.9.1"
-compose-multiplatform = "1.8.2"
-compose-material3 = "1.3.2"
+apollo = "4.3.3"
+apollo-cache = "1.0.0-alpha.6"
+compose = "1.9.2"
+compose-hot-reload = "1.0.0-beta09"
+composeLifecyleRuntime="2.9.4"
+compose-multiplatform = "1.9.0"
+compose-material3 = "1.4.0"
 composeWindowSize = "0.5.0"
 credentials = "1.5.0"
-decompose = "3.4.0-alpha03"
+decompose = "3.4.0"
 doistx-normalize = "1.2.0"
 essenty = "2.5.0"
 googleid = "1.1.1"
 horologist = "0.8.2-alpha"
 io-coil-kt = "2.7.0"
-io-coil3-kt = "3.2.0"
-kermit = "2.0.6"
-kmmbridge = "0.5.7"
-koin = "4.1.0"
+io-coil3-kt = "3.3.0"
+kermit = "2.0.8"
+kmmbridge = "1.2.1"
+koin = "4.1.1"
 kotlinx-coroutines-play-services = "1.10.2"
-lifecycle = "2.9.2"
-lifecycle-livedata-ktx = "2.9.2"
-materialkolor = "3.0.0"
+lifecycle = "2.9.4"
+lifecycle-livedata-ktx = "2.9.4"
+materialkolor = "3.0.1"
 multiplatform-settings = "1.3.0"
-nav-compose = "2.9.4"
-okio = "3.15.0"
-permissions = "0.19.1"
-permissionsCompose = "0.19.1"
-permissionsNotifications = "0.19.1"
+nav-compose = "2.9.5"
+okio = "3.16.0"
+permissions = "0.20.1"
 protolayout = "1.3.0"
-robolectric = "4.15.1"
-room = "2.7.2"
+robolectric = "4.16"
+room = "2.8.1"
 tiles-tooling-preview = "1.5.0"
 wear = "1.3.0"
 wear-watchface = "1.3.0-alpha07"
@@ -52,13 +50,13 @@ work-runtime-ktx = "2.10.2"
 spring = "3.5.3"
 generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.17.1"
-roborazzi = "1.46.1"
-screenshot = "0.0.1-alpha10"
+roborazzi = "1.50.0"
+screenshot = "0.0.1-alpha11"
 
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.3.4"
+androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.4.1"
 androidx-complications-rendering = { module = "androidx.wear.watchface:watchface-complications-rendering", version.ref = "wear-watchface"}
 androidx-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "wear-compose" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
@@ -88,8 +86,8 @@ apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
 apollo-execution-spring = { module = "com.apollographql.execution:apollo-execution-spring", version.ref = "apollo-kotlin-execution" }
 apollo-execution-reporting = { module = "com.apollographql.execution:apollo-execution-reporting", version.ref = "apollo-kotlin-execution" }
 apollo-execution-gradle-plugin = { module = "com.apollographql.execution:apollo-execution-gradle-plugin", version.ref = "apollo-kotlin-execution" }
-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissionsCompose" }
-permissions-notifications = { module = "dev.icerock.moko:permissions-notifications", version.ref = "permissionsNotifications" }
+permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissions" }
+permissions-notifications = { module = "dev.icerock.moko:permissions-notifications", version.ref = "permissions" }
 permissions = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }
 spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
 spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }
@@ -111,6 +109,7 @@ coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "io-coil-kt" }
 coil-test = { module = "io.coil-kt:coil-test", version.ref = "io-coil-kt" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "io-coil3-kt" }
 coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "io-coil3-kt" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "3.3.0" }
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
@@ -182,9 +181,9 @@ multiplatform-settings-serialization = { module = "com.russhwolf:multiplatform-s
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatform-settings" }
 multiplatform-settings-make-observable  = { module = "com.russhwolf:multiplatform-settings-make-observable", version.ref = "multiplatform-settings" }
 multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
-okhttp = "com.squareup.okhttp3:okhttp:5.0.0"
-okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.0.0"
-okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0"
+okhttp = "com.squareup.okhttp3:okhttp:5.1.0"
+okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.1.0"
+okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.1.0"
 play-services-auth = "com.google.android.gms:play-services-auth:21.3.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = { module = "com.android.tools.build:gradle", version.ref = "agp" }

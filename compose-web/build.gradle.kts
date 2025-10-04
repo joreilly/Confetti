@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("kotlinx-serialization")
@@ -16,10 +20,6 @@ kotlin {
             }
         }
         binaries.executable()
-
-        tasks.named<ProcessResources>(compilations["main"].processResourcesTaskName) {
-            from(projects.shared.dependencyProject.file("src/commonMain/composeResources"))
-        }
     }
 
     sourceSets {
@@ -34,8 +34,4 @@ kotlin {
             }
         }
     }
-}
-
-compose.experimental {
-    web.application {}
 }

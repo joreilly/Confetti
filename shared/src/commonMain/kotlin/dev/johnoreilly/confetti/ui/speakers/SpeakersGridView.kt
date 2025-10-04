@@ -43,7 +43,7 @@ fun SpeakerGridView(
                 ) {
 
                     // proxy image requests through backend
-                    val url = "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
+                    val url = speaker.photoUrl //"https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
                     SubcomposeAsyncImage(
                         model = url,
                         contentDescription = speaker.name,

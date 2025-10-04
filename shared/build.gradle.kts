@@ -262,8 +262,6 @@ kmmbridge {
     spm()
 }
 
-addGithubPackagesRepository()
-
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
 }

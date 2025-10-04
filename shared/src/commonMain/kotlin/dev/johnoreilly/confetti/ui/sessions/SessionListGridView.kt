@@ -249,7 +249,7 @@ private fun Speakers(conference: String, session: SessionDetails) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (speaker.speakerDetails.photoUrl?.isNotEmpty() == true) {
-                val url = "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
+                val url = speaker.speakerDetails.photoUrl //"https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
                 AsyncImage(
                     model = url,
                     contentDescription = speaker.speakerDetails.name,

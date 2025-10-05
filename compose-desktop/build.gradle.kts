@@ -15,7 +15,6 @@ kotlin {
         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
-
             implementation(compose.ui)
             implementation(compose.runtime)
             implementation(compose.foundation)

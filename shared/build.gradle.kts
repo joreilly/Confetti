@@ -96,7 +96,7 @@ kotlin {
                 api(libs.compose.window.size)
                 implementation(libs.lifecyle.runtime)
                 api("com.mikepenz:multiplatform-markdown-renderer-m3:0.35.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.7.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.8.0")
 
                 api(libs.generativeai)
 
@@ -163,6 +163,7 @@ kotlin {
 
         jvmMain {
             dependencies {
+                implementation(libs.ktor.client.java)
                 // hack to allow use of MainScope() in shared code used by JVM console app
                 implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.okhttp)

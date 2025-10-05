@@ -109,7 +109,7 @@ coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "io-coil-kt" }
 coil-test = { module = "io.coil-kt:coil-test", version.ref = "io-coil-kt" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "io-coil3-kt" }
 coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "io-coil3-kt" }
-ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "3.3.0" }
+ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version = "3.3.0" }
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }

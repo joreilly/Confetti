@@ -850,6 +850,30 @@ object Sessionize {
         )
     }
 
+    suspend fun importDevFestVenice2025(): Int {
+        return writeData(
+            getData("https://sessionize.com/api/v2/pybh3nyp/view/All"),
+            config = DConfig(
+                id = ConferenceId.DevFestVenice2025.id,
+                name = "DevFest Venice 2025",
+                timeZone = "Europe/Rome",
+                themeColor = "0xFF0000FF"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Campus Scientifico Università Ca' Foscari",
+                address = "Via Torino, 155 Mestre, Venezia VE, 30170",
+                description = mapOf(
+                    "en" to "Campus Scientifico Università Ca' Foscari",
+                ),
+                latitude = 45.4779997,
+                longitude = 12.2551719,
+                imageUrl = "https://live.staticflickr.com/65535/51266563060_17dacd7037_5k.jpg",
+                floorPlanUrl = null,
+            ),
+        )
+    }
+
     internal fun writeData(
         sessionizeData: SessionizeData,
         config: DConfig,

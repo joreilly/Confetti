@@ -8,6 +8,7 @@ import dev.johnoreilly.confetti.backend.datastore.DataStore
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestGeorgia2023
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestMelbourne2023
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestVenice2024
+import dev.johnoreilly.confetti.backend.import.Sessionize.importDevFestVenice2025
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDroidconLisbon2023
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDroidconLisbon2024
 import dev.johnoreilly.confetti.backend.import.Sessionize.importDroidconLondon2024
@@ -146,6 +147,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.AndroidMakers2025 -> Sessionize.importAndroidMakers2025()
         ConferenceId.KotlinConf2025 -> Sessionize.importKotlinConf2025()
         ConferenceId.DroidConLondon2025 -> importDroidconLondon2025()
+        ConferenceId.DevFestVenice2025 -> importDevFestVenice2025()
         null -> error("")
     }
 }

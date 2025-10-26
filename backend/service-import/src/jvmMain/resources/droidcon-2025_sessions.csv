@@ -1,0 +1,250 @@
+ID,Proposal title,Tags,Abstract,Speaker names,Level,Date,Start Time,Duration,Room
+7MATXR,"Mastering Advanced Koin Development: Lifecycles, Memory, Performance & Embedded Integrations","Jetpack / Architecture Components, Cross/Multi-Plattform Development, Best practices","Take your Koin skills to the next level with an advanced, hands-on session exploring real-world use cases that go beyond the basics of dependency injection. Whether you’re building complex applications with tricky scoping requirements, developing reusable libraries and SDKs, or striving to maximize performance and minimize memory overhead, this talk has you covered.
+
+Let’s dive deep into advanced Koin features, including the effective use of scopes for managing lifecycles and dependencies across diverse components. You'll also learn strategies for optimizing Koin configurations in library and SDK development, ensuring easy integration and high performance. Additionally, we’ll cover techniques for fine-tuning performance and memory usage, with a focus on best practices for reducing dependency resolution overhead. All of this while we look at how we can maximize your
+
+Let’s go through code examples and optimization tips, to let you get the knowledge to build efficient, scalable, and maintainable applications using Koin.",Arnaud Giuliani,Intermediate,2025-11-19,11:30,00:45,Sala 7
+8QPD7Y,"Kotlin Multiplatform on iOS ""Gotchas""","Cross/Multi-Plattform Development, Advanced Kotlin","Kotlin Multiplatform (KMP) has become a popular framework for sharing code across multiple platforms, particularly Android and iOS. However, there are some gotchas to look out for when migrating your Android app to iOS, making the developer experience suboptimal.
+
+In this talk, we will go through topics like:
+- Swift interop challenges
+- Framework problems
+- Accidental memory leaks
+- Architectural traps
+
+While these might sound super complicated to solve, there are best practices to mitigate their impact, if not solve them outright. By the end of this talk, the audience will have more confidence in discussing effective KMP code sharing with their iOS teammates.",Pamela Hill,Intermediate,2025-11-19,12:15,00:45,Sala 7
+AN7VLC,"The Urban Mine - Smart Android Containers for Reuse, Recycling and Recovery","AI/ML, IoT, Case studies / research","'Urban mining' is the practice of reclaiming valuable resources from the waste stream of cities and organizations.
+
+All over the world, organizations big and small struggle with surplus inventory, including office equipment, furniture, and electronics that inevitably end up as waste. Thanks to laws and enlightened self-interest, more and more organizations try to tackle this problem by adopting the 'Four Rs': Reduce, Reuse, Recycle, and Recover. Adopting the 'Four Rs' can be challenging for organizations due to the administrative costs and overhead involved.
+
+My startup is currently developing a smart container system, equipped with embedded Android devices, as part of a platform that automates the surplus inventory lifecycle. These containers  track the contents added to them, and can adapt to different reuse, recycling, or recovery scenarios.
+
+This talk will explore the technical challenges of building such an embedded system, including hardware selection, solar power integration, interfacing with sensors, edge-based machine learning, and cloud connectivity solutions.",Etienne Caron,Intermediate,2025-11-19,11:30,00:45,Sala 8
+AP7Q7N,Runtime App Security Analyses and Manipulation with FRIDA,"Development, Security","In this session, we dive into FRIDA, a powerful dynamic instrumentation toolkit used for analyzing and manipulating mobile applications at runtime. In this presentation we demonstrate how FRIDA can be leveraged for blackbox security analysis and runtime manipulation to uncover vulnerabilities and understand app behavior.
+
+Through live demos we’ll explore how FRIDA can be used to interact with an app’s internal functions without access to source code using an example application. We’ll also discuss countermeasures and techniques to protect your apps from these types of runtime manipulations.
+
+This talk is ideal for mobile developers, reverse engineers, and security researchers looking to understand the practical application of dynamic analysis tools in the mobile ecosystem.","Benedikt Löbbecke, Julius Fischer",Intermediate,2025-11-19,14:00,00:45,Sala 8
+BLHEFV,Building a Handwriting Recognition System for the New York Times Crosswords,"Jetpack / Architecture Components, Advanced Kotlin, AI/ML","This session explores the development of an experimental and potential future handwriting recognition feature for The New York Times Crossword app, on the New York Times Games Android App.
+
+We'll discuss the transformation of crossword squares into interactive ""SketchBoxes"" that capture user input, the challenges of determining input completion timing, and the preprocessing steps like downscaling and binarizing user-drawn characters.
+
+The talk will dive into the selection and training of a deep convolutional neural network (Deep-CNN) using augmented datasets to handle diverse handwriting styles, and the integration of the TensorFlow Lite model into the app for on-device inference.
+
+Key Takeaways & Learning Points:
+
+* Learn how to create responsive interfaces that accurately capture and process user handwriting.
+
+* Understand strategies to determine when a user has completed writing a character, balancing responsiveness and accuracy.
+
+* Explore methods for normalizing and preparing diverse handwriting inputs for machine learning models.
+Training Deep-CNNs with augmented datasets
+
+* Gain insights into enhancing model accuracy by expanding training data to include varied handwriting samples.
+Integrating machine learning models on-device with TensorFlow Lite
+
+* Discover best practices for deploying efficient ML models within mobile applications.
+
+As a Senior Android Engineer on The New York Times Games team, I led the exploration of this handwriting recognition work during MakerWeek 2023. My work involved designing the SketchBox component, implementing input handling mechanisms, preprocessing data, training the Deep-CNN model, and integrating it into the app using TensorFlow Lite. I have about 11 years of experience in Android development.
+
+Keywords: Handwriting recognition, machine learning, Android development, TensorFlow Lite, convolutional neural networks, on-device inference, data preprocessing, user input handling.
+
+This session was accepted at and Presented at DroidCon NYC 2025:  https://nyc.droidcon.com/speakers/shafik-quoraishee
+
+This work has been published in Nieman Lab:
+https://www.niemanlab.org/2024/01/how-the-new-york-times-is-building-experimental-handwriting-recognition-for-its-crosswords-app/
+
+And the New York Times:
+https://open.nytimes.com/experimenting-with-handwriting-recognition-for-new-york-times-crossword-a78e08fec08f",Shafik Quoraishee,Intermediate,2025-11-19,16:00,00:45,Sala 8
+EQRNMQ,Entrepreneurship for Engineers: How to Launch Your Own Company,"Development, Career / levelling up & skill focused talks, Case studies / research","You're a great engineer (or at least you think so), but where do you grow from here? Have you always wanted to create something of your own, but unsure what exactly or how to start? How do you find your blue ocean? What steps should you take first? Where do you find the time? Should you do everything solo or look for a co-founder? And if you're looking, who exactly should that be? Should you bootstrap everything yourself or seek investment?
+
+When you're tackling something radically new, you want at least some kind of roadmap. In this talk, we'll work together to draw that map, dispel doubts and fears, and take the first step into a world full of new opportunities.",Evgenii Matsiuk,Introductory and overview,2025-11-19,16:45,00:45,Sala 7
+GGWQDJ,AndroidXR: Adapt For the Future (and Present),"Development, What's new in Android","Android XR is no longer “coming”, it's here. With Android XR, developers can now build spatial apps using tools they already know like Compose and Unity.
+
+This talk showcases how to extend existing apps into immersive XR experiences with minimal changes. We'll cover what's available today, how to get started, and key challenges like performance and hardware support.
+
+Takeaways:
+
+- XR features you can use now on Android
+- How to adapt a 2D app to spatial UI
+- Live demos with Android Studio
+- Common pitfalls and how to avoid them",Eury Pérez Beltré,Intermediate,2025-11-19,16:45,00:45,Sala 8
+GWXS9V,The Complete Android UI Testing Landscape: From Journey to Traditional Approaches,Best practices,"Don't know where to start with Android UI testing? The new AI-powered Journey tests offer a low-code entry point that gets you testing immediately.
+
+In the first part of this talk, we'll explore how to create end-to-end UI tests quickly. We'll cover the fundamentals of effective UI testing and explore how to create effective natural language tests that help you catch bugs before your users do. This might be a perfect launchpad for a developer or team looking to establish a baseline of UI test without a steep learning curve.
+
+However, a single tool rarely fits all needs. In the second half, we will transition from this starting point to a more technical deep-dive. We will put Journey tests head-to-head with another Android UI testing tools, like Espresso, UiAutomator and Compose UI Test framework. Through practical examples, we'll analyze critical aspects, like execution speed, test reliability, flakiness patterns, and long-term maintenance costs at scale.
+
+By the end of this session, you will be able to start your testing journey and know exactly which path to take to improve your app's quality to a high level.",Alex Zhukovich,Intermediate,2025-11-19,14:45,00:45,Sala 8
+HEYFZS,Beyond Basics: Fluid Image Transitions & Gesture Sync in Compose,Design UX/UI,"Learn how to elevate your Jetpack Compose animations by building a smooth, gesture-driven transition from a card to a full-screen modal. In this talk, we’ll explore advanced techniques for creating seamless screen transitions, focusing on how to move an image from a compact card layout to a fully expanded modal while maintaining a fluid and responsive user experience.
+
+We’ll dive into the intricacies of layering views in Compose, ensuring the image and other UI elements transition smoothly between screens. You’ll see how to synchronize animations with user gestures, such as dragging the modal down to dismiss it, and how to handle edge cases for a natural feel.
+
+This example goes beyond the basics, showcasing how to combine Compose’s animation API, Modifier.graphicsLayer, and pointer input.
+By the end of this session, you’ll have a deep understanding of how to create advanced, gesture-aware animations in Jetpack Compose, along with practical code examples you can apply to your own projects.
+Perfect for developers looking to push the boundaries of Compose animations and deliver standout user experiences.",Piotr Prus,Advanced,2025-11-19,16:00,00:45,Sala 7
+LBAJZ9,Lessons learned after building apps with Kotlin Multiplatform,"Cross/Multi-Plattform Development, Advanced Kotlin","With Kotlin Multiplatform and Compose Multiplatform, you can share code and UI across multiple platforms, from Android and iOS to macOS, Windows, and Linux. But building apps on all these platforms brings unexpected challenges you don’t anticipate at the beginning.
+
+In this talk, I’ll share what I’ve learned (often the hard way) while developing apps with Kotlin Multiplatform. You’ll hear why sharing less code can sometimes save more time, how dealing with the iOS Keychain from background services turned into a debugging odyssey, and why placing your database in the wrong Windows folder can lead to silent data loss during app updates. We’ll also cover sandboxing on macOS, the trade-offs between using interfaces and `expect/actual`, and the complexities of distributing apps across platforms.
+
+Whether you’re just getting started with Kotlin Multiplatform or already deep into it, this talk might just save you from a few future debugging headaches.",Marco Gomiero,Intermediate,2025-11-20,11:30,00:45,Sala 7
+MWANMW,Integrating the Agent Payments Protocol (AP2) in an Android app,"AI/ML, Firebase","The rise of autonomous AI agents capable of transacting on behalf of users challenges traditional payment models that assume direct human intent. This necessitates a common foundation to securely establish an agent’s authority, address questions of authorization, authenticity, and accountability.
+
+This session will provide a technical deep dive into how the Agent Payments Protocol (AP2) establishes the necessary security and authorization frameworks for agent-initiated transactions. We will walk through integrating AP2 into an Android app that leverages Firebase AI Logic and the Gemini API for secure, compliant transactions between agents and merchants.
+
+You’ll learn how to:
+- Create a conversational shopping assistant using Firebase AI Logic on Android.
+- Secure payments using Digital Payment Credentials (DPC) and the AP2 protocol to ensure agent authenticity and accountability.",Rosário P. Fernandes,Intermediate,2025-11-20,09:30,00:50,Sala 7
+N9JXNX,"Hey, Gemini - help me cook a meal!","Development, Best practices, AI/ML, Firebase","Imagine an app that helps you plan meals, generates recipes from a picture of what's in your fridge, and shows what each recipe will look like once you cook it! Using Google's Gemini models, Firebase AI Logic and Remote Config, we'll explore how to build such an experience. We'll see how to:
+
+- **Generate text from images:** Analyze images of a fridge, cupboard or grocery store shelf, identify ingredients and generate meal recommendations.
+- **Generate text from text:** Take in consideration user preferences regarding cuisines, allergies and dietary restrictions.
+- **Generate images from text:** Create mouth-watering visuals based on generated recipes.
+- **Dynamically update the app:** Use Remote Config to deliver the latest AI model version and settings to app users without requiring an app update or affecting their current experience.
+
+This session is perfect for developers looking to get started with AI on Android apps, those wanting to learn about new features on Firebase AI Logic, and anyone seeking inspiration for creating innovative AI-powered applications.",Marina Coelho,Intermediate,2025-11-19,09:30,00:50,Sala 7
+NQL7XK,"Scaling Bluetooth on Android: Building for Reliability Across Phones, Wearables, and Beyond","Development, Infrastructure, CI/CD, Cross/Multi-Plattform Development, Bluetooth, Performance","Building a Bluetooth feature that works on your test phone is one thing. Shipping it across thousands of phones, wearables, and OS versions is another. This talk covers the real engineering behind making Bluetooth reliable at scale.
+
+We’ll walk through:
+
+Why Bluetooth fails across devices (OEM stack quirks, reconnection bugs, bonding edge cases)
+Design principles for scalable, crash-resilient Bluetooth services on Android
+AOSP insights: HAL integration, stack customization, and bt_config tweaks for wearables
+Lessons from scaling Meta’s smartglasses Bluetooth stack across Android and iOS
+Test infrastructure that catches flaky behavior: stack stress tests, CI bots, and auto-validation
+This session is ideal for platform engineers, OEM partners, and anyone dealing with Bluetooth at scale. You’ll walk away with patterns, pitfalls, and tools that apply whether you’re working on a fitness band, car, or companion app.",Nikheel Vishwas Savant,Advanced,2025-11-20,14:00,00:45,Sala 7
+QMA87R,Kotlin Multiplatform in Production: Scaling for Real Apps,"Development, Infrastructure, CI/CD, Cross/Multi-Plattform Development","Kotlin Multiplatform (KMP) promises a powerful way to share code across Android, iOS, and beyond—but what happens when your project grows? In this talk, we’ll explore what it takes to successfully scale a KMP codebase in real-world production environments.
+
+You’ll learn how to structure large multiplatform projects, manage dependencies effectively, and design a clean architecture that balances shared logic with platform-specific needs. We’ll dive into tooling, testing strategies, debugging techniques, and CI/CD considerations that are essential when working with cross-platform teams.
+
+Based on hard-earned lessons from real apps, this talk will help you avoid common pitfalls, streamline your workflow, and unlock the full potential of Kotlin Multiplatform in your next big project.
+
+Whether you’re just getting started or already deep in multiplatform development, you’ll walk away with actionable insights to take your shared codebase to the next level.","Andrea Della Porta, Alessandro Finocchiaro",Intermediate,2025-11-20,10:20,00:40,Sala 8
+RYJL9F,"Decomposing Compose UI: A Deep Dive into Measure, Layout, and Draw","Jetpack / Architecture Components, Cross/Multi-Plattform Development, Best practices, Design UX/UI","Decomposing Compose UI explores the inner workings of Compose’s UI system to reveal how composable functions transform into a mutable tree of layout nodes. This session examines how Compose UI integrates with its runtime, then delves into the three core layout phases—measure, layout, and draw. You’ll discover how composables such as Column, Box, and Row emit layout nodes. We'll look at how these nodes are efficiently rebuilt during recomposition, and learn about the impact of animations on the Compose UI tree.",Mohit Sarveiya,Advanced,2025-11-20,10:20,00:40,Sala 7
+S7BQLE,"You, me and Firebase Studio 🔥","AI/ML, Firebase","Imagine prototyping an app in minutes, not days! Firebase Studio, powered by AI, makes this a reality 🚀
+
+After a short introduction, we'll jump on the studio to live code together a full-stack application (frontend & backend) to showcase the capabilities of the tool and have a working demo by the end of this talk.
+
+How quickly we can prototype an app idea? What's the limitations? Is vibe-coding enough to build an app with Firebase Studio? We'll find out after this live session.",Julien Salvi,Introductory and overview,2025-11-20,16:00,00:45,Sala 8
+SFMERL,Beyond Hilt's Built-In Scopes: Scope shared dependencies to the current screen,"Development, Jetpack / Architecture Components, Best practices","Modern Android apps normally follow the Single-Activity architecture with Compose Navigation, but as screens grow complex with multiple UI components and ViewModels, we hit a fundamental limitation: there's no clean way to share dependencies at the screen level. Built-in Hilt scopes are either too broad (`@Singleton`, causing state leakage) or too narrow (`@ViewModelScoped`, preventing sharing).
+
+This talk introduces a custom Dagger component that solves this gap with screen-scoped dependency injection that matches the screen lifecycle.
+
+**Key Takeaways**
+- Understand Hilt's component hierarchy limitations
+- Learn how to build custom Hilt components and manage their lifecycle
+- Implement screen-scoped dependency injection with a practical example
+
+Perfect for developers already comfortable with Hilt/Dagger dependency injection, who hit this architectural wall and only found hacky solutions to work around it.",Luca Bettelli,Intermediate,2025-11-20,12:15,00:45,Sala 7
+TJMYAS,Post-Quantum Cryptography in Kotlin Multiplatform,"Development, Cross/Multi-Plattform Development, Best practices, Security, Open source","Quantum computing promises revolutionary advances in the coming years but also threatens current systems with “harvest now, decrypt later” attacks. This talk begins by introducing the fundamentals of quantum computing: qubits, spin, superposition, and entanglement. It then presents Quantum Key Distribution as the foundational concept for securing communication against quantum attacks, before transitioning to a practical example of post-quantum cryptography by focusing on Kyber, a NIST-standardized key encapsulation mechanism designed to resist quantum threats.
+
+In particular, we will integrate the KyberKotlin open source library, which implements the ML-KEM (CRYSTALS-Kyber) algorithm in an efficient and performant way, suitable for mobile devices and compatible with Kotlin Multiplatform. We will analyze the client and server KMP code step by step.
+
+This is a brand-new, original talk that bridges cutting-edge cryptographic research with real-world mobile development challenges, making quantum security accessible and relevant today, before it’s too late.",Emmanuele Villa,Advanced,2025-11-20,14:00,00:45,Sala 8
+UESMF9,"Goodbye Passwords, Welcome Passkeys!","Cross/Multi-Plattform Development, Security","In this talk, we’ll dive into the world of passkeys — what they are, how they work, and how to implement this modern authentication method in Android and iOS apps. We’ll start from the backend logic and walk through an example app built with Compose Multiplatform, leveraging native libraries for both platforms. Join this journey and unlock the full potential of Passkey Authentication!",Emanuele Maso,Introductory and overview,2025-11-20,12:15,00:45,Sala 8
+UJJFCP,Speeding Up on the Highway - MAN Driver App: A story of an app rewrite without Roadblocks Using KMP,"Development, Cross/Multi-Plattform Development, Case studies / research","Rewriting a production app from scratch is rarely a decision taken lightly—especially under the pressure of matching an existing feature set, adding new functionality, and delivering all of it within a one-year deadline.   
+
+In this talk, we’ll share how Kotlin Multiplatform (KMP) helped us rebuild our app from the ground up, the reasons behind our choice, the benefits we gained, and the challenges we faced. We’ll talk about some of frameworks/libraries that kept us moving fast and avoiding roadblocks.",Filipe Baptista,Introductory and overview,2025-11-19,14:00,00:45,Sala 7
+UNBN8W,Kotlin and Compose Multiplatform patterns for iOS interop,"Development, Jetpack / Architecture Components, Cross/Multi-Plattform Development, Advanced Kotlin, Firebase","Kotlin Multiplatform (KMP) and, more recently, Compose Multiplatform (CMP) have matured significantly in recent years and are gaining increasingly widespread adoption.
+
+However iOS integration continues to present its own set of challenges which also vary depending on the amount of UI code that's being shared. In this talk I'll use real world examples to outline a variety of different UI and non-UI patterns I've applied over the last 5 years when using KMP and CMP on iOS.",John O'Reilly,Intermediate,2025-11-20,16:00,00:45,Sala 7
+VFMSLH,Escape from Planet Regex - Kotlin to the Rescue,"Development, Cross/Multi-Plattform Development, Advanced Kotlin, DevOps","Calling All Aspiring Space Adventurers: Join the Elite Crew of the USS Singleton (the Federation's greatest explorer class vessel) Today!
+
+Embark on the thrilling adventure of a lifetime with the intrepid crew of the Singleton, as you navigate an uncharted (possibly dangerous) galaxy, where mastering Regex is not just an option—it's a matter of life-or-death!
+
+During your travels you'll uncover; not only a deep understanding of Regex itself (from basics to advanced), but also how to wield Kotlin to conquer any pattern matching challenge you face, equipping you with invaluable lifelong regex power!
+
+If that excites you, then signing up to the legendary personnel of the USS Singleton is for you! Here are just a few of the Benefits of the Job:
+
+* Properly learn Regex - From Amateur to Professional, so that you can actually put the knowledge to use!
+* Learn Kotlin APIs to work with Regex
+* Explore the vast cosmos & become an Intergalactic Hero having your name sung through the ages! (...possibly)
+
+Due to § 213-B:USSF Mandatory disclosure of hazardous workplaces; we must add: Possible “Challenges” of the role:
+
+* Ship may crash, leaving the crew stranded on an alien world
+* Possible loss of sanity and/or limbs
+* High chance of death.
+
+…But no need to worry, with the Captain & the crew of the USS Singleton, you are in very safe hands…So, what are you waiting for?
+Become a fabled starfarer today and unlock the secrets of Regex… ... Before it’s too late…",Ben Kadel,Introductory and overview,2025-11-19,10:20,00:40,Sala 7
+XC8RZL,AI for Devs: friend or foe,"Development, Career / levelling up & skill focused talks, AI/ML","How will developers' jobs change with AI - are they our partners, our juniors, our minions? Are they a junior's best friend but a senior's worst enemy? Developers' lives will change, but is it for the worse or for the better? Tips and tricks on how to use AI for all levels and how to prepare for the inevitable.","Sasa Sekulic, Ivan Morgillo",Introductory and overview,2025-11-19,12:15,00:45,Sala 8
+XVYHM8,Building Inclusive Jetpack Compose Apps: Leveraging Kotlin and the Accessibility Scanner,"Jetpack / Architecture Components, Best practices, Accessibility","Accessibility is a growing and important aspect in app development that isn’t always prioritized. Google’s efforts include making apps more accessible which are shown in their new standard of making UIs, using Jetpack Compose. Jetpack Compose with its Kotlin-based declarative approach offers a simplified path to building inclusive UIs. Within Jetpack Compose, there are powerful tools like the Accessibility Scanner to quickly identify and address common accessibility issues, improving the overall user experience. This talk will show that straightforward changes yield dramatic improvements for user experience. Through this 30-40 minute talk, strategies will be shown how to improve accessibility.
+
+In this presentation you will learn:
+- Why Accessibility is important
+- Kotlin-based Semantics
+- About navigational cues
+- Common accessibility pitfalls
+
+By the end of this talk you will be able to create apps that are more user friendly for a wide range of individuals, implement concrete strategies to increase inclusivity in your projects, and understand the importance of accessibility. In addition, you will learn how to leverage the Accessibility Scanner to pinpoint potential barriers.",Vanessa Johnson,Introductory and overview,2025-11-19,14:45,00:45,Sala 7
+XYTK8V,Shielding Privacy and Security with Zero-Knowledge Proofs: An Android Perspective,"Best practices, Security","In this insightful talk, we'll delve into the world of ZKPs, exploring their transformative potential to enhance privacy and security in real-world scenarios. We'll uncover how ZKPs empower us to:
+
+• Verify identities without exposing personal information
+
+• Share sensitive data without compromising confidentiality
+
+• Enable secure authentication without compromising user credentials
+
+To demonstrate the practical applications of ZKPs, we'll focus on the Android platform, showcasing how this technology can be seamlessly integrated into mobile applications. We'll examine real-world use cases, such as:
+
+• Proving age without revealing date of birth
+
+• Verifying medical records without exposing patient information
+
+• Enabling secure payments without sharing financial details
+
+Throughout the talk, we'll provide hands-on examples and code snippets, illustrating how to implement ZKPs in Android applications. We'll also address potential challenges and considerations in using ZKPs, equipping you with the knowledge to effectively integrate this groundbreaking technology into your development projects.
+
+By the end of this presentation, attendees will gain:
+
+• A deep understanding of ZKPs and their underlying principles
+
+• Insights into how ZKPs can enhance privacy and security in various applications
+
+• Practical skills in implementing ZKPs on the Android platform
+
+• A roadmap for exploring advanced ZKP applications in real-world scenarios",Bakhtar Sobat,Intermediate,2025-11-20,11:30,00:45,Sala 8
+YHEGTD,Navigating the Roadblocks to EAA Compliance,"What's new in Android, Best practices, Design UX/UI, Accessibility","How many of you found yourselves writing code, and making
+contentDescription = null? or contentDescription = ""arrow button""?
+
+My hope is that after my talk you won't do that anymore! Or maybe you have to do that?
+
+EU Parliament voted that all apps until 28 June 2025 should be compliant with Accessibility Act. (*+5 years transition *kind of* therefore the subject is still up to date)
+
+-What is EAA?
+-Disabilities
+-WCAG 2.2 Guidelines
+-How to make your apps compliant? (It is not as easy as one might think)
+-Examples and lessons learned
+-Tricks that let you go beyond just content descriptions.
+
+For many months now I've been working on making my company's App compliant, and I had to do a lot of research. This subject is a rabbit hole, and finding clear concise information is not always easy, making it very time consuming, and complex.
+
+I will show you our journey to EAA compliance, and share with you challenges, and pitfalls that I did not estimate.
+
+My hope is that with this talk i can save countless weeks of research for other people, and give you a few rules, and tips, after applying which your Apps should already be 80%+ more compliant.
+
+Maybe I could plant a seed that would make developers think about people with special needs, and in each closed ticket make their App at least slightly more inclusive.",Maxim Malişciuc,Intermediate,2025-11-20,14:45,00:45,Sala 8
+Z3FFEL,What's New in Android – exploring the latest advancements and features in Android development,"Development, What's new in Android","Android is one of the most widely used mobile platforms in the world, and it’s constantly evolving with new tools, APIs, and frameworks that empower developers to build faster, smarter, and more engaging apps. In this session, I will walk through the latest advancements in Android development, highlighting key updates that can supercharge your projects.
+
+From improvements in Jetpack libraries and architecture components to new capabilities in Kotlin, AI integrations, and tools for performance optimization, this session covers everything developers need to stay ahead of the curve. I’ll explain how these new features can be applied in real-world scenarios, share best practices, and provide code examples to help you immediately implement them.
+
+Whether you are a seasoned developer or just getting started, this session will ensure you’re up-to-date with the Android ecosystem and equipped to build apps that are more efficient, accessible, and future-ready.
+
+Key takeaways:
+✔ Latest Android libraries and tools you should be using
+✔ How Kotlin and AI features are shaping app development
+✔ Real-world examples and best practices for implementation
+✔ Optimizing performance and enhancing user experience
+✔ Preparing for upcoming trends in Android development",Saumya Singh,Intermediate,2025-11-20,16:45,00:45,Sala 7
+ZFH9SN,Swift on Android - Kotlin dev impressions,"Development, Case studies / research","Java and Kotlin have traditionally dominated the Android development landscape. But,
+it was recently announced that Android will become an officially supported platform for the Swift language.
+
+In the talk, we will dive into how to write Android code with Swift. 
+What is the current maturity of support? 
+Can Swift interop with Kotlin code? 
+Are there some challenges? 
+
+This talk won’t be a “language war,” but a practical look at how usable Swift really is for Android development today. 
+You’ll leave with a clear picture of its current capabilities, limitations, and interoperability — and a grounded verdict from a Kotlin developer who put Swift on Android to the test.",Karlo Čeh,Intermediate,2025-11-20,14:45,00:45,Sala 7

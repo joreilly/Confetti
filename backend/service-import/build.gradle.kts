@@ -26,7 +26,7 @@ kotlin {
         implementation(libs.kaml)
         implementation(libs.bare.graphQL)
         implementation(libs.kotlinx.serialization)
-
+        implementation(libs.kotlin.csv)
         implementation(projects.backend.datastore)
       }
     }

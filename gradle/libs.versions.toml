@@ -29,6 +29,7 @@ io-coil-kt = "2.7.0"
 io-coil3-kt = "3.3.0"
 kermit = "2.0.8"
 kmmbridge = "1.2.1"
+kotlin-csv = "1.10.0"
 koin = "4.1.1"
 kotlinx-coroutines-play-services = "1.10.2"
 lifecycle = "2.9.4"
@@ -163,6 +164,7 @@ koin-compose-multiplatform = { module = "io.insert-koin:koin-compose", version.r
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+kotlin-csv = { module = "com.jsoizo:kotlin-csv-jvm", version.ref = "kotlin-csv" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }

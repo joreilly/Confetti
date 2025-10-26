@@ -26,7 +26,8 @@ object DroidconItaly2025 {
         days = listOf(
             LocalDate(2025, 11, 19),
             LocalDate(2025, 11, 20)
-        )
+        ),
+        themeColor = "0xFFA1FF00"
     )
 
     private val venue = DVenue(

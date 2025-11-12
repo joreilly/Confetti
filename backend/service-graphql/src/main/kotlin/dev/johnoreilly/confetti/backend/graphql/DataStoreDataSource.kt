@@ -183,7 +183,8 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
                         LinkType.Other
                     }, url = it.url
                 )
-            }
+            },
+            recordingUrl = recordingUrl
         )
     }
 

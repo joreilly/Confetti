@@ -312,7 +312,8 @@ data class Session(
      * One of "break", "lunch", "party", "keynote", "talk" or any other conference-specific format.
      */
     val type: String,
-    val links: List<Link>
+    val links: List<Link>,
+    val recordingUrl: String?,
 ) {
     fun speakers(dfe: ExecutionContext): List<Speaker> {
         return dfe.source().speakers(speakerIds.toList())

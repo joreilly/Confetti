@@ -118,6 +118,7 @@ fragment SessionDetails on Session {
         name
     }
     tags
+    recordingUrl
 }
 
 fragment SpeakerDetails on Speaker {

@@ -17,7 +17,8 @@ data class DSession(
   val tags: List<String>,
   val rooms: List<String>,
   val speakers: List<String>,
-  val links: List<DLink>
+  val links: List<DLink>,
+  val recordingUrl: String? = null,
 )
 
 class DRoom(

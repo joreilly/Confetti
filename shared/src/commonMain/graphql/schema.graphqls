@@ -181,6 +181,8 @@ type Session {
 
   links: [Link!]!
 
+  recordingUrl: String
+
   speakers: [Speaker!]!
 
   room: Room

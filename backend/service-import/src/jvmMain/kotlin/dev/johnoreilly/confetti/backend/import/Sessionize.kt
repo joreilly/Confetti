@@ -1045,6 +1045,7 @@ object Sessionize {
                 speakers = it.get("speakers").asList.map { it.asString },
                 shortDescription = null,
                 links = linksFor(it.get("id").asString),
+                recordingUrl =  it.get("recordingUrl")?.asString,
             )
         }
     }

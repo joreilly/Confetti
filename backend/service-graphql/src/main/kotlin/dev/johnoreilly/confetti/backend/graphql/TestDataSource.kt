@@ -74,7 +74,8 @@ class TestDataSource : DataSource {
                     complexity = null,
                     feedbackId = null,
                     type = "talk",
-                    links = emptyList()
+                    links = emptyList(),
+                    recordingUrl = null
                 )
             },
             pageInfo = PageInfo(

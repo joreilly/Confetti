@@ -406,7 +406,8 @@ class DataStore {
             speakers = getList<StringValue>("speakers").map { it.get() },
             links = getListOrNull<StringValue>("links").orEmpty().map {
                 Json.parseToJsonElement(it.get()).toAny().asMap.toLink()
-            }
+            },
+            recordingUrl = getStringOrNull("recordingUrl"),
         )
     }
 

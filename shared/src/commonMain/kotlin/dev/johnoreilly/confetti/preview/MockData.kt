@@ -64,5 +64,6 @@ The talk will cover
     ),
     room = SessionDetails.Room(name = "Effectenbeurszaal", id = "0", __typename = "Room"),
     tags = listOf(),
-    __typename = "Session"
+    __typename = "Session",
+    recordingUrl = null
 )

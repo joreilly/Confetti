@@ -432,6 +432,7 @@ class DataStore {
                 "links",
                 links.map { it.toMap().toJsonElement().toString() }.toValue(excludeFromIndex = true)
             )
+            .set("recordingUrl", recordingUrl)
             .build()
     }
 

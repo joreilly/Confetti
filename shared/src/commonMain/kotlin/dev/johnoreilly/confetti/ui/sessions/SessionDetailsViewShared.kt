@@ -19,6 +19,8 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayCircle
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -129,6 +132,25 @@ fun SessionDetailViewShared(
                     Column(modifier = Modifier.padding(contentPadding)) {
                         session.speakers.forEach { speaker ->
                             SessionSpeakerInfo(conference, speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.size(16.dp))
+                }
+
+                session.recordingUrl?.let { recordingUrl ->
+                    val uriHandler = LocalUriHandler.current
+
+                    ConfettiHeader(
+                        text = "Recording",
+                        icon = Icons.Filled.PlayCircle,
+                    )
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
+                    Column(modifier = Modifier.padding(contentPadding)) {
+                        Button(onClick = { uriHandler.openUri(recordingUrl)}) {
+                            Text("Watch Recording")
                         }
                     }
 

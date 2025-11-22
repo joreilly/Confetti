@@ -20,7 +20,7 @@ class GeminiApi {
         configBuilder.temperature = 0.0f
 
         val generativeModel = GenerativeModel(
-            modelName = "gemini-1.5-flash",
+            modelName = "gemini-2.5-flash",
             apiKey = apiKey,
             generationConfig = configBuilder.build(),
             safetySettings = listOf(SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.ONLY_HIGH))
@@ -37,7 +37,7 @@ class GeminiApi {
         contentBuilder.text(prompt)
 
         val generativeModel = GenerativeModel(
-            modelName = "gemini-1.5-flash",
+            modelName = "gemini-2.5-flash",
             apiKey = apiKey,
             systemInstruction = contentBuilder.build(),
             generationConfig = configBuilder.build(),

@@ -152,6 +152,8 @@ kotlin {
                 api(libs.androidx.datastore.preferences)
                 api(libs.multiplatform.settings.datastore)
                 implementation(libs.googleid)
+
+                implementation(libs.genai.prompt)
             }
         }
 

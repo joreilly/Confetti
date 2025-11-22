@@ -12,6 +12,7 @@ import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.AppComponent.Child
+import dev.johnoreilly.confetti.prompt.PromptApi
 import dev.johnoreilly.confetti.work.NotificationSender
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -30,12 +31,15 @@ interface AppComponent {
     }
 }
 
+var iosPromptApi: PromptApi? = null
+
 class DefaultAppComponent(
     componentContext: ComponentContext,
     private val onSignOut: () -> Unit,
     private val onSignIn: () -> Unit,
     initialConferenceId: String? = null,
-    private val settingsComponent: SettingsComponent? = null
+    private val settingsComponent: SettingsComponent? = null,
+    private val promptApi: PromptApi? = null
 ) : AppComponent, KoinComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
@@ -64,6 +68,7 @@ class DefaultAppComponent(
         )
 
     init {
+        iosPromptApi = promptApi
         coroutineScope.launch {
             authentication.currentUser
                 .collect {

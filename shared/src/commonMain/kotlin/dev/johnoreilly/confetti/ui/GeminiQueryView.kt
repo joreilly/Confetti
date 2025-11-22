@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package dev.johnoreilly.confetti.ui
 
 import androidx.compose.foundation.layout.Arrangement
@@ -13,9 +15,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,34 +37,59 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.mikepenz.markdown.m3.Markdown
+import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.GeminiApi
 import dev.johnoreilly.confetti.decompose.RecommendationsComponent
+import dev.johnoreilly.confetti.decompose.SpeakersUiState
+import dev.johnoreilly.confetti.decompose.iosPromptApi
+import dev.johnoreilly.confetti.prompt.PromptApi
+import dev.johnoreilly.confetti.ui.component.ErrorView
+import dev.johnoreilly.confetti.ui.component.LoadingView
+import dev.johnoreilly.confetti.ui.speakers.SpeakerGridView
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import org.koin.core.component.inject
+import kotlin.getValue
 
 @Composable
 fun GeminiQueryView(component: RecommendationsComponent) {
     val sessionList by component.sessions.collectAsState(emptyList())
     var conferenceInfo by remember { mutableStateOf("") }
 
-    LaunchedEffect(component) {
-        conferenceInfo = "Speakers, Session ID, Title, Start Time, Description,\n"
+    LaunchedEffect(sessionList) {
+        conferenceInfo = "" //""Title\n"
         sessionList.forEach { session ->
             session.sessionDescription?.let {
-                val speakers = session.speakers.joinToString(" ") { it.speakerDetails.name }
-                conferenceInfo += "${speakers}, ${session.id}, ${session.title}, ${session.startsAt}, ${session.sessionDescription}, \n"
+                //val speakers = session.speakers.joinToString(" ") { it.speakerDetails.name }
+                conferenceInfo += "${session.title},\n"
             }
         }
     }
 
-    RecommendationsView(conferenceInfo)
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(title = { Text("AI query") })
+        }
+    ) {
+        Column(Modifier.padding(it)) {
+            RecommendationsView(conferenceInfo)
+        }
+    }
+
+
+
 }
 
 
 @Composable
 fun RecommendationsView(conferenceInfo: String) {
-    val geminiApi = remember { GeminiApi() }
+    //val geminiApi = remember { GeminiApi() }
+    val promptApi = koinInject<PromptApi>()
     var query by remember { mutableStateOf("") }
     var queryResponse by remember { mutableStateOf("") }
 
@@ -80,19 +110,23 @@ fun RecommendationsView(conferenceInfo: String) {
                     keyboardController?.hide()
                     if (query.isNotEmpty()) {
                         coroutineScope.launch {
-                            val prompt = "$query. Base on the following CSV: $conferenceInfo}"
-                            queryResponse = ""
-                            geminiApi.generateContentStream(prompt)
-                                .catch {
-                                    showProgress = false
-                                    queryResponse = it.message ?: "Error making gemini request"
-                                }
-                                .onStart { showProgress = true }
-                                .collect {
-                                    showProgress = false
-                                    println(it.text)
-                                    queryResponse += it.text
-                                }
+                            val prompt = "$query. Base on the following list of conference sessions: $conferenceInfo}"
+                            //queryResponse = ""
+
+
+                            queryResponse = iosPromptApi?.generateContent(prompt, query)?.text ?: "Error making gemini request"
+
+//                            promptApi.generateContentStream(prompt)
+//                                .catch {
+//                                    showProgress = false
+//                                    queryResponse = it.message ?: "Error making gemini request"
+//                                }
+//                                .onStart { showProgress = true }
+//                                .collect {
+//                                    showProgress = false
+//                                    println(it.text)
+//                                    queryResponse += it.text
+//                                }
 
                         }
                     }

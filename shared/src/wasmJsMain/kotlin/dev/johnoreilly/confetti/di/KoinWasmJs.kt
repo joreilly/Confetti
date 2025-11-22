@@ -13,6 +13,8 @@ import com.russhwolf.settings.coroutines.toFlowSettings
 import com.russhwolf.settings.observable.makeObservable
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.dev.johnoreilly.confetti.work.SessionNotificationSender
+import dev.johnoreilly.confetti.prompt.PromptApi
+import dev.johnoreilly.confetti.prompt.PromptApiWasmJs
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.WasmDateService
 import dev.johnoreilly.confetti.work.NotificationSender
@@ -29,6 +31,7 @@ actual fun platformModule() = module {
         FetchPolicy.CacheAndNetwork
     }
     single<NotificationSender> { SessionNotificationSender() }
+    single { PromptApiWasmJs(get()) }
 }
 
 actual fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory {

@@ -12,6 +12,8 @@ import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.dev.johnoreilly.confetti.work.SessionNotificationSender
+import dev.johnoreilly.confetti.prompt.PromptApi
+import dev.johnoreilly.confetti.prompt.PromptApiJvm
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.JvmDateService
 import dev.johnoreilly.confetti.work.NotificationSender
@@ -35,6 +37,7 @@ actual fun platformModule() = module {
         FetchPolicy.CacheAndNetwork
     }
     single<NotificationSender> { SessionNotificationSender() }
+    single { PromptApiJvm(get()) }
 }
 
 actual fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory {

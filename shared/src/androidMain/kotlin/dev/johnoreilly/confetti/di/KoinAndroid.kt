@@ -28,10 +28,13 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.datastore.DataStoreSettings
+import dev.johnoreilly.confetti.ai.OnDeviceAI
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
 import dev.johnoreilly.confetti.appconfig.ApplicationInfo
+import dev.johnoreilly.confetti.prompt.PromptApi
+import dev.johnoreilly.confetti.prompt.PromptApiAndroid
 import dev.johnoreilly.confetti.settings.WearSettingsSerializer
 import dev.johnoreilly.confetti.shared.BuildConfig
 import dev.johnoreilly.confetti.utils.AndroidDateService
@@ -122,6 +125,8 @@ actual fun platformModule() = module {
     single<NotificationSender> {
         get<SessionNotificationSender>()
     }
+    singleOf(::OnDeviceAI)
+    single<PromptApi> { PromptApiAndroid(get()) }
 
     single<ApplicationInfo> { getApplicationInfo(get()) }
 }

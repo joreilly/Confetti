@@ -19,6 +19,7 @@ import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.decompose.handleDeepLink
 import dev.johnoreilly.confetti.account.SignInProcess
+import dev.johnoreilly.confetti.ai.OnDeviceAI
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.decompose.ThemeBrand
@@ -58,6 +59,15 @@ class MainActivity : ComponentActivity() {
                 )
                 appComponent
             } ?: return
+
+
+        val o = OnDeviceAI()
+
+        lifecycleScope.launch {
+            o.checkFeatureStatus()
+        }
+
+
 
         setContent {
             App(component = appComponent)

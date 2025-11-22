@@ -4,10 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.ConfettiRepository
-import dev.johnoreilly.confetti.GeminiApi
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.prompt.PromptApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterIsInstance
@@ -45,7 +45,7 @@ class DefaultRecommendationsComponent(
 ) : RecommendationsComponent, KoinComponent, ComponentContext by componentContext {
 
     private val repository: ConfettiRepository by inject()
-    private val geminiApi: GeminiApi by inject()
+    private val promptApi: PromptApi by inject()
     private val coroutineScope = coroutineScope()
 
     private val uiStateStateFlow = MutableStateFlow<RecommendationsComponent.UiState>(RecommendationsComponent.Initial)
@@ -118,8 +118,10 @@ class DefaultRecommendationsComponent(
 
             uiStateStateFlow.value = RecommendationsComponent.Loading
             try {
-                val response = geminiApi.generateContent(prompt, query)
-                response.text?.let { queryResponse ->
+                //val response = promptApi.generateContent(prompt, query)
+
+                val response = iosPromptApi?.generateContent(prompt, query)
+                response?.text?.let { queryResponse ->
                     uiStateStateFlow.value = RecommendationsComponent.Success(RecommendationsInfo(queryResponse, emptyList()))
 
                     sessionIdList.value = queryResponse.split(",", " ")

@@ -45,7 +45,8 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
                 }
             },
             initialConferenceId: nil,
-            settingsComponent: nil
+            settingsComponent: nil,
+            promptApi: PromptApiIos()
         )
     }
 
@@ -62,7 +63,8 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
             onSignOut: {},
             onSignIn: {},
             initialConferenceId: conferenceId,
-            settingsComponent: nil
+            settingsComponent: nil,
+            promptApi: PromptApiIos()
         )
     }
 }

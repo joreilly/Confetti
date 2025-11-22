@@ -1,0 +1,18 @@
+appId: dev.johnoreilly.confetti
+---
+- launchApp:
+    clearState: true
+#- scrollUntilVisible:
+#    element:
+#      id: androidmakers2025
+- tapOn:
+    id: droidconLondon2025
+# - tapOn: "droidcon London 2025"
+- assertVisible: "droidcon London 2025"
+- tapOn: "31 Oct, 2025"
+- scrollUntilVisible:
+    element:
+      text: "Kotlin and Compose Multiplatform.*"
+- tapOn: "Kotlin and Compose Multiplatform.*"
+- assertVisible: "Kotlin and Compose Multiplatform patterns for iOS interop"
+- tapOn: "Back"

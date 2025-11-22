@@ -15,6 +15,8 @@ import com.russhwolf.settings.coroutines.toFlowSettings
 import dev.johnoreilly.confetti.appconfig.ApplicationInfo
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.dev.johnoreilly.confetti.work.SessionNotificationSender
+import dev.johnoreilly.confetti.prompt.PromptApi
+import dev.johnoreilly.confetti.prompt.PromptApiIos
 import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.utils.IosDateService
 import dev.johnoreilly.confetti.work.NotificationSender
@@ -38,6 +40,7 @@ actual fun platformModule() = module {
             .addHttpInterceptor(ApolloClientAwarenessInterceptor("confetti-ios", "fixme"))
     }
     single<NotificationSender> { SessionNotificationSender() }
+    single<PromptApi> { PromptApiIos(get()) }
 
     single<ApplicationInfo> { getApplicationInfo() }
 }

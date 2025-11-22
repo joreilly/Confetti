@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.icons.Icons
@@ -138,7 +139,7 @@ fun HomeView(component: HomeComponent) {
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             contentWindowInsets = WindowInsets(0.dp)
         ) { innerPadding ->
-            Column(modifier = Modifier.padding(innerPadding)) {
+            Column() {
 
                 Children(stack = component.stack) {
                     when (val child = it.instance) {

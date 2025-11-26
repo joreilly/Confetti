@@ -10,13 +10,9 @@ import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.interceptor.ApolloInterceptor
 import com.apollographql.apollo.interceptor.ApolloInterceptorChain
-import com.apollographql.cache.normalized.api.CacheControlCacheResolver
-import com.apollographql.cache.normalized.api.SchemaCoordinatesMaxAgeProvider
 import com.apollographql.cache.normalized.apolloStore
 import com.apollographql.cache.normalized.maxStale
-import com.apollographql.cache.normalized.normalizedCache
-import com.apollographql.cache.normalized.storeReceivedDate
-import dev.johnoreilly.confetti.cache.Cache
+import dev.johnoreilly.confetti.cache.Cache.cache
 import dev.johnoreilly.confetti.di.getNormalizedCacheFactory
 import dev.johnoreilly.confetti.utils.registerApolloDebugServer
 import dev.johnoreilly.confetti.utils.unregisterApolloDebugServer
@@ -121,18 +117,11 @@ class ApolloClientCache : KoinComponent {
 //                }
 //            )
             .addHttpHeader("conference", conference)
-            .normalizedCache(
+            .cache(
                 normalizedCacheFactory,
                 enableOptimisticUpdates = true,
                 writeToCacheAsynchronously = writeToCacheAsynchronously,
-                cacheResolver = CacheControlCacheResolver(
-                    SchemaCoordinatesMaxAgeProvider(
-                        maxAges = Cache.maxAges,
-                        defaultMaxAge = Duration.INFINITE,
-                    )
-                ),
             )
-            .storeReceivedDate(true)
             .maxStale(Duration.INFINITE)
             .autoPersistedQueries()
             .addInterceptor(tokenProviderInterceptor)

@@ -1,11 +1,8 @@
 extend schema
+@link(url: "https://specs.apollo.dev/kotlin_labs/v0.3")
 @link(
-    url: "https://specs.apollo.dev/kotlin_labs/v0.3",
-    import: ["@typePolicy", "@fieldPolicy"]
-)
-@link(
-    url: "https://specs.apollo.dev/cache/v0.1",
-    import: ["@cacheControl", "@cacheControlField"]
+    url: "https://specs.apollo.dev/cache/v0.3",
+    import: ["@typePolicy", "@fieldPolicy", "@cacheControl", "@cacheControlField"]
 )
 
 extend type Venue

@@ -238,7 +238,7 @@ apollo {
         }
 
         plugin(libs.apollo.normalized.cache.compiler.plugin.get()) {
-            argument("packageName", packageName.get())
+            argument("com.apollographql.cache.packageName", packageName.get())
         }
     }
 }

@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistApi::class)
+@file:OptIn(ExperimentalHorologistApi::class, ExperimentalTime::class)
 
 package dev.johnoreilly.confetti.wear.complication
 
@@ -20,10 +20,11 @@ import dev.johnoreilly.confetti.toTimeZone
 import dev.johnoreilly.confetti.wear.settings.PhoneSettingsSync
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toLocalDateTime
 import org.koin.android.ext.android.inject
 import java.time.Instant
+import kotlin.time.ExperimentalTime
+import kotlin.time.toKotlinInstant
 
 class NextSessionComplicationService :
     DataComplicationService<NextSessionComplicationData, NextSessionTemplate>() {

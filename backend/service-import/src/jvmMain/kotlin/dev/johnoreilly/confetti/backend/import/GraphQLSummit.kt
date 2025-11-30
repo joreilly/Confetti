@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
+@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 
 package dev.johnoreilly.confetti.backend.import
 
@@ -12,7 +12,6 @@ import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
@@ -25,6 +24,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.coroutines.executeAsync
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 object GraphQLSummit {
     private val okHttpClient = OkHttpClient.Builder()

@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti
 
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import kotlin.time.ExperimentalTime
 
 fun SessionDetails.isBreak() = this.type == "break"
 fun SessionDetails.isService() = this.type == "service"

@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.backend.graphql
 
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant

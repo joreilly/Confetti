@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.backend.import
 
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
@@ -8,12 +10,13 @@ import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 object TechConnection {
     private val venue = DVenue(

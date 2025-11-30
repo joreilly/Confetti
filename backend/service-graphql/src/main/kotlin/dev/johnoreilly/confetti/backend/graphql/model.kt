@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.backend.graphql
 
 import com.apollographql.apollo.api.ExecutionContext
+import kotlin.time.ExperimentalTime
 import com.apollographql.apollo.ast.GQLStringValue
 import com.apollographql.apollo.ast.GQLValue
 import com.apollographql.apollo.execution.Coercing
@@ -11,7 +14,7 @@ import dev.johnoreilly.confetti.backend.*
 import dev.johnoreilly.confetti.backend.datastore.DDirection
 import dev.johnoreilly.confetti.backend.datastore.DOrderBy
 import dev.johnoreilly.confetti.backend.datastore.DataStore
-import kotlinx.datetime.Instant as KotlinxInstant
+import kotlin.time.Instant as KotlinxInstant
 import kotlinx.datetime.LocalDate as KotlinxLocalDate
 import kotlinx.datetime.LocalDateTime as KotlinxLocalDateTime
 

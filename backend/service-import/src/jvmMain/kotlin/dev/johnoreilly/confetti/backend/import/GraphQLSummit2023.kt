@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.backend.import
 
 import com.nfeld.jsonpathkt.JsonPath
@@ -9,7 +11,6 @@ import dev.johnoreilly.confetti.backend.datastore.DSession
 import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -21,6 +22,8 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.jsoup.Jsoup
 import java.io.File
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 object GraphQLSummit2023 {
     fun import(): Int {

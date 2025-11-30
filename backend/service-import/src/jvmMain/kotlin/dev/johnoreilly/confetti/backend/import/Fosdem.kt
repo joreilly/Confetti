@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.backend.import
 
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
@@ -19,6 +21,7 @@ import okhttp3.Request
 import xoxo.XmlElement
 import xoxo.toXmlDocument
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.ExperimentalTime
 
 object Fosdem {
     private val timeZone = "Europe/Brussels"

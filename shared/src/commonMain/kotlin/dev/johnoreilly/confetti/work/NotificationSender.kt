@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.work
 
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -8,6 +10,7 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.until
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.ExperimentalTime
 
 interface NotificationSender {
     sealed interface Selector {

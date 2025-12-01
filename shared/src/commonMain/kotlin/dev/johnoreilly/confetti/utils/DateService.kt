@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.utils
 
 import kotlinx.coroutines.currentCoroutineContext
@@ -10,6 +12,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.ExperimentalTime
 
 interface DateService {
     // TODO create this in the correct TimeZone to avoid later calculations

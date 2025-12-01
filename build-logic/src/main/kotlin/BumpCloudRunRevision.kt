@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.run.v2.Service
@@ -5,11 +7,12 @@ import com.google.cloud.run.v2.ServiceName
 import com.google.cloud.run.v2.ServicesClient
 import com.google.cloud.run.v2.ServicesSettings
 import gratatouille.GTaskAction
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import java.io.ByteArrayInputStream
 import java.util.*
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @GTaskAction
 fun bumpCloudRunRevision(serviceName: String) {

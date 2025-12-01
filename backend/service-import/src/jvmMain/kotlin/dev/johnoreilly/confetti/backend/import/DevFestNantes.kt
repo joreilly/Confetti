@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
+@file:OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 
 package dev.johnoreilly.confetti.backend.import
 
@@ -40,6 +40,7 @@ import okhttp3.Request
 import okhttp3.coroutines.executeAsync
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.ExperimentalTime
 
 private val timeZone = "Europe/Paris"
 

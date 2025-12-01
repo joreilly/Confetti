@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.backend.graphql
 
 import dev.johnoreilly.confetti.backend.datastore.DComparatorGe
+import kotlin.time.ExperimentalTime
 import dev.johnoreilly.confetti.backend.datastore.DComparatorLe
 import dev.johnoreilly.confetti.backend.datastore.DConfig
 import dev.johnoreilly.confetti.backend.datastore.DFilter

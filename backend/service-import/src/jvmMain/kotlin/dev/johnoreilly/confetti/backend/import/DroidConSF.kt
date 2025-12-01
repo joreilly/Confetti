@@ -1,15 +1,18 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.backend.import
 
 
 import dev.johnoreilly.confetti.backend.datastore.*
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import okio.buffer
 import okio.source
 import xoxo.firstNonBlankTextContent
 import xoxo.toXmlDocument
 import xoxo.walkElements
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 
 private class SessionizeItem(
@@ -82,8 +85,8 @@ object DroidConSF {
                     title = item.title,
                     description = null,
                     language = item.language,
-                    start = item.start.toInstant().toLocalDateTime(TimeZone.of(TIMEZONE)),
-                    end = item.end.toInstant().toLocalDateTime(TimeZone.of(TIMEZONE)),
+                    start = Instant.parse(item.start).toLocalDateTime(TimeZone.of(TIMEZONE)),
+                    end = Instant.parse(item.end).toLocalDateTime(TimeZone.of(TIMEZONE)),
                     tags = emptyList(),
                     rooms = listOf(item.room),
                     speakers = item.speakers.map { it.id },

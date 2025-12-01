@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package dev.johnoreilly.confetti.backend.import
 
 import GridTable
@@ -11,7 +13,6 @@ import dev.johnoreilly.confetti.backend.datastore.DSession
 import dev.johnoreilly.confetti.backend.datastore.DSpeaker
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -20,6 +21,8 @@ import net.mbonnin.bare.graphql.asList
 import net.mbonnin.bare.graphql.asMap
 import net.mbonnin.bare.graphql.asString
 import net.mbonnin.bare.graphql.cast
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 object Sessionize {
     private val devFestStockholm2023 = "https://sessionize.com/api/v2/nt4ryvlm/view/all"

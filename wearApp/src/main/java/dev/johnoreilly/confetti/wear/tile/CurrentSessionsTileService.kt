@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalHorologistApi::class)
+@file:OptIn(ExperimentalHorologistApi::class, ExperimentalTime::class)
 
 package dev.johnoreilly.confetti.wear.tile
 
@@ -22,10 +22,11 @@ import dev.johnoreilly.confetti.wear.ui.toColor
 import dev.johnoreilly.confetti.wear.ui.toWearMaterialColors
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toLocalDateTime
 import org.koin.android.ext.android.inject
 import java.time.Instant
+import kotlin.time.ExperimentalTime
+import kotlin.time.toKotlinInstant
 
 class CurrentSessionsTileService : SuspendingTileService() {
     private val renderer = CurrentSessionsTileRenderer(this)

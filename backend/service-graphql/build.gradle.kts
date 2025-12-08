@@ -1,4 +1,4 @@
-import compat.patrouille.configureJavaCompatibility
+import tapmoc.configureJavaCompatibility
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -16,7 +16,7 @@ configureJavaCompatibility(17)
 dependencies {
   implementation(libs.spring.boot.starter.webflux)
   implementation(libs.apollo.execution.spring)
-  //implementation(libs.apollo.execution.reporting)
+  implementation(libs.apollo.execution.reporting)
   implementation(libs.kotlinx.datetime)
   implementation(libs.kotlinx.serialization)
   implementation(libs.bare.graphQL)

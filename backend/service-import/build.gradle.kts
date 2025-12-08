@@ -1,5 +1,4 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
-import compat.patrouille.configureJavaCompatibility
+import tapmoc.configureJavaCompatibility
 
 plugins {
   kotlin("multiplatform")

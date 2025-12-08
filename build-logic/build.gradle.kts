@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.kgp.jvm)
     alias(libs.plugins.ksp)
     alias(libs.plugins.gratatouille)
-    alias(libs.plugins.compat.patrouille)
+    alias(libs.plugins.tapmoc)
 }
 
 dependencies {
@@ -32,12 +32,12 @@ dependencies {
     implementation(libs.google.cloud.run)
     implementation(libs.kotlinx.datetime)
     implementation(libs.roborazzi.gradle.plugin)
-    implementation(libs.compat.patrouille)
+    implementation(libs.tapmoc)
 }
 
 group = "build-logic"
 
-compatPatrouille {
+tapmoc {
     java(17)
     kotlin(embeddedKotlinVersion)
 }

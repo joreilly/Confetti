@@ -1,4 +1,4 @@
-import compat.patrouille.configureJavaCompatibility
+import tapmoc.configureJavaCompatibility
 
 plugins {
   kotlin("multiplatform")

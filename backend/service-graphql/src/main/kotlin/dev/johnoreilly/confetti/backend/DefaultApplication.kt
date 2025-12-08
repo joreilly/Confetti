@@ -6,8 +6,8 @@ import com.apollographql.apollo.api.ExecutionContext
 import com.apollographql.apollo.execution.ExecutableSchema
 import com.apollographql.apollo.execution.GraphQLResponse
 import com.apollographql.apollo.execution.InMemoryPersistedDocumentCache
-import com.apollographql.execution.reporting.ApolloReportingInstrumentation
-import com.apollographql.execution.reporting.ApolloReportingOperationContext
+//import com.apollographql.execution.reporting.ApolloReportingInstrumentation
+//import com.apollographql.execution.reporting.ApolloReportingOperationContext
 import com.apollographql.execution.spring.apolloSandboxRoutes
 import com.apollographql.execution.spring.parseAsGraphQLRequest
 import com.example.ServiceExecutableSchemaBuilder
@@ -112,7 +112,7 @@ class DefaultApplication {
                 if (apolloKey != null) {
                     println("Enabling Apollo Reporting")
                 }
-                addInstrumentation(ApolloReportingInstrumentation(apolloKey))
+                //addInstrumentation(ApolloReportingInstrumentation(apolloKey))
             }
             .build()
     }
@@ -166,11 +166,11 @@ class DefaultApplication {
             val executionContext = UidContext(uid) +
                 SourceContext(source) +
                 ConferenceContext(conference) +
-                maxAgeContext +
-                ApolloReportingOperationContext(
-                    serverRequest.headers().header("apollographql-client-name").firstOrNull(),
-                    serverRequest.headers().header("apollographql-client-version").firstOrNull(),
-                )
+                maxAgeContext
+//                ApolloReportingOperationContext(
+//                    serverRequest.headers().header("apollographql-client-name").firstOrNull(),
+//                    serverRequest.headers().header("apollographql-client-version").firstOrNull(),
+//                )
 
             val graphqlRequestResult = serverRequest.parseAsGraphQLRequest()
             if (!graphqlRequestResult.isSuccess) {

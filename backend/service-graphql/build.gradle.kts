@@ -1,4 +1,4 @@
-import compat.patrouille.configureJavaCompatibility
+import tapmoc.configureJavaCompatibility
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 

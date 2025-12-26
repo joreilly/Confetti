@@ -240,5 +240,5 @@ composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "com
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}
 kgp-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-gratatouille = { id = "com.gradleup.gratatouille", version = "0.0.4" }
+gratatouille = { id = "com.gradleup.gratatouille", version = "0.2.1" }
 tapmoc = { id = "com.gradleup.tapmoc", version.ref = "tapmoc" }

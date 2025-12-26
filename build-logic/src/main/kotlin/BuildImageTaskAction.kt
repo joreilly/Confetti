@@ -3,13 +3,13 @@ import com.google.cloud.tools.jib.api.DockerDaemonImage
 import com.google.cloud.tools.jib.api.Jib
 import com.google.cloud.tools.jib.api.RegistryImage
 import com.google.cloud.tools.jib.api.buildplan.AbsoluteUnixPath
-import gratatouille.GInputFile
-import gratatouille.GInputFiles
-import gratatouille.GTaskAction
+import gratatouille.tasks.GInputFile
+import gratatouille.tasks.GInputFiles
+import gratatouille.tasks.GTask
 import kotlin.io.path.name
 
 
-@GTaskAction
+@GTask
 fun buildImage(
     jarFile: GInputFile,
     gcpServiceAccountJson: String?,

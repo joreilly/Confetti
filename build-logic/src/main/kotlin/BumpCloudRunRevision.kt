@@ -6,7 +6,7 @@ import com.google.cloud.run.v2.Service
 import com.google.cloud.run.v2.ServiceName
 import com.google.cloud.run.v2.ServicesClient
 import com.google.cloud.run.v2.ServicesSettings
-import gratatouille.GTaskAction
+import gratatouille.tasks.GTask
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import java.io.ByteArrayInputStream
@@ -14,7 +14,7 @@ import java.util.*
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-@GTaskAction
+@GTask
 fun bumpCloudRunRevision(serviceName: String) {
     val servicesClient = ServicesClient.create(ServicesSettings.newBuilder()
         .setCredentialsProvider(

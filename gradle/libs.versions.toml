@@ -217,7 +217,7 @@ wear-compose-material = { module = "androidx.wear.compose:compose-material", ver
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wear-compose"}
 xoxo = "net.mbonnin.xoxo:xoxo:0.4.0"
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
-tink = "com.google.crypto.tink:tink:1.17.0"
+tink = "com.google.crypto.tink:tink:1.20.0"
 jib-core = "com.google.cloud.tools:jib-core:0.27.2"
 google-cloud-run = "com.google.cloud:google-cloud-run:0.67.0"
 tapmoc = { module = "com.gradleup.tapmoc:com.gradleup.tapmoc.gradle.plugin", version.ref = "tapmoc" }

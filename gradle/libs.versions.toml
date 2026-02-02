@@ -92,7 +92,7 @@ permissions-notifications = { module = "dev.icerock.moko:permissions-notificatio
 permissions = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }
 spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
 spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }
-spring-webflux = "org.springframework:spring-webflux:6.2.5"
+spring-webflux = "org.springframework:spring-webflux:6.2.15"
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring" }
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
 ktor-server-netty = "io.ktor:ktor-server-netty:2.3.13"
@@ -202,7 +202,7 @@ roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gr
 scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.3.2"
 scrimage-filters = "com.sksamuel.scrimage:scrimage-filters:4.3.2"
 snakeyaml = "org.yaml:snakeyaml:2.3"
-spring-web = "org.springframework:spring-web:6.1.14"
+spring-web = "org.springframework:spring-web:6.2.15"
 stately-common = "co.touchlab:stately-common:2.1.0"
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }

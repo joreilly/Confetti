@@ -753,6 +753,34 @@ object Sessionize {
         )
     }
 
+    suspend fun importKotlinConf2026(): Int {
+        return writeData(
+            getData(
+                url = "https://sessionize.com/api/v2/2r0suvtg/view/All",
+                zoneId = "Europe/Copenhagen",
+            ),
+            config = DConfig(
+                id = ConferenceId.KotlinConf2026.id,
+                name = "KotlinConf 2026",
+                timeZone = "Europe/Munich",
+                days = listOf(LocalDate(2025, 5, 20), LocalDate(2025, 5, 22)),
+                themeColor = "0xFF7F52FF"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "ICM Munich",
+                address = "Messe, Munich",
+                description = mapOf(
+                    "en" to "ICM Munich",
+                ),
+                latitude = 48.1366,
+                longitude = 11.6925,
+                imageUrl = "https://kotlinconf.com/static/ab2c0b11991e57b740b29bf2dd85ff4e/8218c/image-1.webp",
+                floorPlanUrl = null
+            )
+        )
+    }
+
     suspend fun importDroidconLisbon2024(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/k3h4w594/view/All"),

@@ -757,12 +757,12 @@ object Sessionize {
         return writeData(
             getData(
                 url = "https://sessionize.com/api/v2/2r0suvtg/view/All",
-                zoneId = "Europe/Munich",
+                zoneId = "Europe/Berlin",
             ),
             config = DConfig(
                 id = ConferenceId.KotlinConf2026.id,
                 name = "KotlinConf 2026",
-                timeZone = "Europe/Munich",
+                timeZone = "Europe/Berlin",
                 days = listOf(LocalDate(2026, 5, 20), LocalDate(2026, 5, 22)),
                 themeColor = "0xFF7F52FF"
             ),

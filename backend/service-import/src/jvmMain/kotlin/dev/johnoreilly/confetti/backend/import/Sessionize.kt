@@ -38,6 +38,34 @@ object Sessionize {
         val speakers: List<DSpeaker>,
     )
 
+    suspend fun importAndroidMakers2026(): Int {
+        return writeData(
+            getData(
+                url = "https://sessionize.com/api/v2/kqy4c3ye/view/All",
+            ),
+            config = DConfig(
+                id = ConferenceId.AndroidMakers2026.id,
+                name = "AndroidMakers by droidcon 2026",
+                timeZone = "Europe/Paris",
+                themeColor = "0xffFB5C49"
+            ),
+            venue = DVenue(
+                id = "conference",
+                name = "Beffroi de Montrouge",
+                address = "Av. de la République, 92120 Montrouge",
+                description = mapOf(
+                    "en" to "Cool venue",
+                    "fr" to "Venue fraiche",
+                ),
+                latitude = 48.8188958,
+                longitude = 2.3193016,
+                imageUrl = "https://www.beffroidemontrouge.com/wp-content/uploads/2019/09/moebius-1.jpg",
+                floorPlanUrl = "https://storage.googleapis.com/androidmakers-static/floor_plan.png"
+            ),
+            partnerGroups = emptyList()
+        )
+    }
+
     suspend fun importAndroidMakers2025(): Int {
         return writeData(
             getData(

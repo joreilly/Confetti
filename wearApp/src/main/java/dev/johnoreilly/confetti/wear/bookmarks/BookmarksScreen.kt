@@ -4,25 +4,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import ee.schimke.composeai.preview.ScrollMode
+import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
+import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
 
@@ -36,12 +39,16 @@ fun BookmarksScreen(
     modifier: Modifier = Modifier,
 ) {
     val columnState = rememberTransformingLazyColumnState()
-
-    val columnPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader, last = ColumnItemType.Card
-    )
     val placeholderState = rememberPlaceholderState(uiState is QueryResult.Loading)
-    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
+    ScreenScaffold(
+        modifier = modifier,
+        scrollState = columnState,
+        scrollIndicator = {
+            if (!LocalScrollCaptureInProgress.current) {
+                ScrollIndicator(columnState)
+            }
+        },
+    ) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
@@ -141,7 +148,7 @@ fun BookmarksScreen(
 @WearPreviewFontScales
 @Composable
 fun BookmarksPreview() {
-    ConfettiThemeFixed {
+    ConfettiPreviewScaffold {
         BookmarksScreen(
             uiState = QueryResult.Success(
                 BookmarksUiState(
@@ -158,7 +165,7 @@ fun BookmarksPreview() {
 @WearPreviewFontScales
 @Composable
 fun BookmarksPreviewLoading() {
-    ConfettiThemeFixed {
+    ConfettiPreviewScaffold {
         BookmarksScreen(uiState = QueryResult.Loading, sessionSelected = {}, addBookmark = {}, removeBookmark = {})
     }
 }
@@ -167,7 +174,7 @@ fun BookmarksPreviewLoading() {
 @WearPreviewFontScales
 @Composable
 fun BookmarksPreviewError() {
-    ConfettiThemeFixed {
+    ConfettiPreviewScaffold {
         BookmarksScreen(
             uiState = QueryResult.Error(Exception("Boom")),
             sessionSelected = {},
@@ -180,7 +187,7 @@ fun BookmarksPreviewError() {
 @WearPreviewFontScales
 @Composable
 fun BookmarksPreviewErrorLong() {
-    ConfettiThemeFixed {
+    ConfettiPreviewScaffold {
         BookmarksScreen(
             uiState = QueryResult.Error(Exception("Boom: This is a long error message for testing purposes and to ensure it will be cropped correctly.")),
             sessionSelected = {},
@@ -194,7 +201,7 @@ fun BookmarksPreviewErrorLong() {
 @WearPreviewFontScales
 @Composable
 fun BookmarksPreviewEmpty() {
-    ConfettiThemeFixed {
+    ConfettiPreviewScaffold {
         BookmarksScreen(
             uiState = QueryResult.Success(
                 BookmarksUiState(
@@ -204,6 +211,34 @@ fun BookmarksPreviewEmpty() {
                     now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                 )
             ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
+    }
+}
+
+@WearPreviewLargeRound
+@ScrollingPreview(mode = ScrollMode.LONG)
+@Composable
+fun BookmarksPreviewLong() {
+    ConfettiPreviewScaffold {
+        BookmarksScreen(
+            uiState = QueryResult.Success(
+                BookmarksUiState(
+                    conference = TestFixtures.kotlinConf2023.id,
+                    upcoming = listOf(
+                        TestFixtures.sessionDetails,
+                        TestFixtures.sessionDetails.copy(id = "b", title = "Jetpack Compose Deep Dive"),
+                        TestFixtures.sessionDetails.copy(id = "c", title = "Server-Driven UI Patterns"),
+                    ),
+                    past = listOf(
+                        TestFixtures.sessionDetails.copy(id = "p1", title = "Kotlin Symbol Processing"),
+                        TestFixtures.sessionDetails.copy(id = "p2", title = "Building Resilient Wear Apps"),
+                    ),
+                    now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                )
+            ),
+            sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {},
+        )
     }
 }
 

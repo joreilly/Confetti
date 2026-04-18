@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LteMobiledata
 import androidx.compose.material.icons.filled.NetworkPing
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
@@ -23,19 +25,25 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.EdgeButton
+import androidx.wear.compose.material3.EdgeButtonSize
+import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListSubHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import coil.compose.AsyncImage
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import ee.schimke.composeai.preview.ScrollMode
+import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
+import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
@@ -55,11 +63,26 @@ fun SettingsListView(
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
     modifier: Modifier = Modifier,
 ) {
-    val columnPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
-        last = ColumnItemType.Button
-    )
-    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
+    ScreenScaffold(
+        modifier = modifier,
+        scrollState = columnState,
+        scrollIndicator = {
+            if (!LocalScrollCaptureInProgress.current) {
+                ScrollIndicator(columnState)
+            }
+        },
+        edgeButton = {
+            EdgeButton(
+                onClick = onRefreshClick,
+                buttonSize = EdgeButtonSize.Small,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = stringResource(R.string.settings_refresh),
+                )
+            }
+        },
+    ) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
@@ -79,16 +102,6 @@ fun SettingsListView(
                     onClick = conferenceCleared,
                 ) {
                     Text(stringResource(R.string.settings_change_conference))
-                }
-            }
-
-            item {
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    onClick = onRefreshClick,
-                ) {
-                    Text(stringResource(R.string.settings_refresh))
                 }
             }
 
@@ -256,13 +269,32 @@ private fun TransformingLazyColumnScope.developerModeOptions(
 @WearPreviewFontScales
 @Composable
 fun SettingsListViewPreview() {
-    SettingsListView(
-        conferenceCleared = {},
-        onSignIn = { },
-        onSignOut = { },
-        uiState = SettingsUiState.Success(),
-        onRefreshClick = {},
-        onEnableDeveloperMode = {},
-        updatePreferences = {}
-    )
+    ConfettiPreviewScaffold {
+        SettingsListView(
+            conferenceCleared = {},
+            onSignIn = { },
+            onSignOut = { },
+            uiState = SettingsUiState.Success(),
+            onRefreshClick = {},
+            onEnableDeveloperMode = {},
+            updatePreferences = {}
+        )
+    }
+}
+
+@WearPreviewLargeRound
+@ScrollingPreview(mode = ScrollMode.LONG)
+@Composable
+fun SettingsListViewLongPreview() {
+    ConfettiPreviewScaffold {
+        SettingsListView(
+            conferenceCleared = {},
+            onSignIn = { },
+            onSignOut = { },
+            uiState = SettingsUiState.Success(),
+            onRefreshClick = {},
+            onEnableDeveloperMode = {},
+            updatePreferences = {}
+        )
+    }
 }

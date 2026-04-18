@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.wear.compose.material3.AppScaffold
+import androidx.wear.compose.material3.TimeText
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.networks.ui.DataUsageTimeText
 import dev.johnoreilly.confetti.AppSettings
@@ -28,44 +30,21 @@ fun ConfettiApp(
     val appState by component.appState.collectAsStateWithLifecycle()
 
     ConfettiTheme(seedColor = appState?.seedColor) {
-        SwipeToDismissBox(
-            component.stack,
-            onDismissed = { component.navigateUp() },
-        ) { configuration ->
-            when (val child = configuration.instance) {
-                is Child.Conferences -> ConferencesRoute(
-                    child.component
-                )
-
-                is Child.ConferenceSessions -> SessionsRoute(
-                    child.component
-                )
-
-                is Child.SessionDetails -> SessionDetailsRoute(
-                    child.component
-                )
-
-                is Child.SpeakerDetails -> SpeakerDetailsRoute(
-                    child.component
-                )
-
-                is Child.Settings -> SettingsRoute(
-                    child.component
-                )
-
-                is Child.Loading -> {
-                    LoadingScreen(
-                        component
-                    )
+        AppScaffold(timeText = { TimeText() }) {
+            SwipeToDismissBox(
+                component.stack,
+                onDismissed = { component.navigateUp() },
+            ) { configuration ->
+                when (val child = configuration.instance) {
+                    is Child.Conferences -> ConferencesRoute(child.component)
+                    is Child.ConferenceSessions -> SessionsRoute(child.component)
+                    is Child.SessionDetails -> SessionDetailsRoute(child.component)
+                    is Child.SpeakerDetails -> SpeakerDetailsRoute(child.component)
+                    is Child.Settings -> SettingsRoute(child.component)
+                    is Child.Loading -> LoadingScreen(component)
+                    is Child.Home -> HomeRoute(child.component)
+                    is Child.Bookmarks -> BookmarksRoute(child.component)
                 }
-
-                is Child.Home -> HomeRoute(
-                    child.component
-                )
-
-                is Child.Bookmarks -> BookmarksRoute(
-                    child.component
-                )
             }
         }
     }

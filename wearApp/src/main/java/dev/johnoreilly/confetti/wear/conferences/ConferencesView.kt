@@ -20,8 +20,6 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import ee.schimke.composeai.preview.ScrollMode
-import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
@@ -84,7 +82,10 @@ fun ConferencesView(
                     items(5) {
                         PlaceholderButton(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .minimumVerticalContentPadding(
+                                    ButtonDefaults.minimumVerticalListContentPadding
+                                ),
                         )
                     }
                 }
@@ -94,7 +95,10 @@ fun ConferencesView(
                     items(uiState.relevantConferences) { conference ->
                         ConferencesChip(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .minimumVerticalContentPadding(
+                                    ButtonDefaults.minimumVerticalListContentPadding
+                                ),
                             conference,
                             navigateToConference,
                         )
@@ -143,7 +147,6 @@ fun ConferencesViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
 @Composable
 fun ConferencesViewLongPreview() {
     ConfettiPreviewScaffold {
@@ -155,3 +158,4 @@ fun ConferencesViewLongPreview() {
         )
     }
 }
+

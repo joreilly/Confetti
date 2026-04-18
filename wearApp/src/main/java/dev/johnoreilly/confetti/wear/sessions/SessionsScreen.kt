@@ -10,13 +10,12 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
-import ee.schimke.composeai.preview.ScrollMode
-import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
@@ -62,7 +61,10 @@ fun SessionsScreen(
                         items(sessionsAtTime) { session ->
                             SessionCard(
                                 modifier = Modifier
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .minimumVerticalContentPadding(
+                                        CardDefaults.minimumVerticalListContentPadding
+                                    ),
                                 session = session,
                                 sessionSelected = {
                                     sessionSelected(it)
@@ -121,7 +123,6 @@ fun SessionListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
 @Composable
 fun SessionListViewLongPreview() {
     ConfettiPreviewScaffold {
@@ -144,9 +145,6 @@ fun SessionListViewLongPreview() {
                             TestFixtures.sessionDetails.copy(id = "b1", title = "Coroutines + Flow Recipes"),
                             TestFixtures.sessionDetails.copy(id = "b2", title = "Wear Tiles Deep Dive"),
                         ),
-                        "16:00" to listOf(
-                            TestFixtures.sessionDetails.copy(id = "c1", title = "Material 3 Expressive"),
-                        ),
                     )
                 ),
                 speakers = listOf(),
@@ -163,3 +161,4 @@ fun SessionListViewLongPreview() {
         )
     }
 }
+

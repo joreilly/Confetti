@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
@@ -17,8 +18,6 @@ import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
-import ee.schimke.composeai.preview.ScrollMode
-import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
@@ -108,14 +107,22 @@ fun BookmarksScreen(
                                 isBookmarked = true,
                                 addBookmark = {},
                                 removeBookmark = {},
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .minimumVerticalContentPadding(
+                                        CardDefaults.minimumVerticalListContentPadding
+                                    ),
                             )
                         }
 
                         if (uiState.result.past.isEmpty()) {
                             item {
                                 Text(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .minimumVerticalContentPadding(
+                                            CardDefaults.minimumVerticalListContentPadding
+                                        ),
                                     text = stringResource(id = R.string.no_past),
                                 )
                             }
@@ -215,7 +222,6 @@ fun BookmarksPreviewEmpty() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
 @Composable
 fun BookmarksPreviewLong() {
     ConfettiPreviewScaffold {
@@ -241,4 +247,5 @@ fun BookmarksPreviewLong() {
         )
     }
 }
+
 

@@ -32,8 +32,6 @@ import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
-import ee.schimke.composeai.preview.ScrollMode
-import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
@@ -212,7 +210,10 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
             items(uiState.result.confDates) { date ->
                 DayChip(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .minimumVerticalContentPadding(
+                            ButtonDefaults.minimumVerticalListContentPadding
+                        ),
                     dayFormatter,
                     date,
                     daySelected = { daySelected(date) })
@@ -221,7 +222,13 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
 
         QueryResult.Loading -> {
             items(2) {
-                PlaceholderButton()
+                PlaceholderButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .minimumVerticalContentPadding(
+                            ButtonDefaults.minimumVerticalListContentPadding
+                        ),
+                )
             }
         }
 
@@ -279,7 +286,6 @@ fun HomeListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
 @Composable
 fun HomeListViewLongPreview() {
     ConfettiPreviewScaffold {
@@ -312,3 +318,4 @@ fun HomeListViewLongPreview() {
         )
     }
 }
+

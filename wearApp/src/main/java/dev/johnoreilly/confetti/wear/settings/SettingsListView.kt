@@ -38,8 +38,6 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import coil.compose.AsyncImage
-import ee.schimke.composeai.preview.ScrollMode
-import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
@@ -283,7 +281,6 @@ fun SettingsListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
 @Composable
 fun SettingsListViewLongPreview() {
     ConfettiPreviewScaffold {
@@ -298,3 +295,4 @@ fun SettingsListViewLongPreview() {
         )
     }
 }
+

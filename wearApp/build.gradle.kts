@@ -12,8 +12,6 @@ plugins {
     id("io.github.takahirom.roborazzi")
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.screenshot)
-
-    id("ee.schimke.composeai.preview") version "0.6.0"
 }
 
 configureCompilerOptions()
@@ -147,8 +145,6 @@ dependencies {
 
 dependencies {
     implementation(projects.shared)
-
-    implementation("ee.schimke.composeai:preview-annotations:0.6.0")
 
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)

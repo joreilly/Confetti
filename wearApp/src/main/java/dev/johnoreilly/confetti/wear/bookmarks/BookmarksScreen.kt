@@ -228,7 +228,7 @@ fun BookmarksPreviewEmpty() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun BookmarksPreviewLong() {
     ConfettiPreviewScaffold {

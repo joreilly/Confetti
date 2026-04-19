@@ -7,14 +7,17 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import dev.johnoreilly.confetti.R
 
 /**
- * Release-variant font sources for the Expressive typography: downloadable
- * fonts via Google Play services' Google Fonts provider. Keeps the APK small
- * (no bundled TTFs). Offline devices substitute the Compose font-loader's
- * system fallback until the download completes.
+ * Font sources for the Expressive typography: downloadable fonts via Google
+ * Play services' Google Fonts provider. Keeps the APK small (no bundled
+ * TTFs). Offline devices substitute the Compose font-loader's system
+ * fallback until the download completes.
  *
- * The debug variant bundles the actual variable TTFs so Robolectric
- * previews render the real fonts; see
- * `src/debug/java/dev/johnoreilly/confetti/wear/ui/FontFamilies.kt`.
+ * Under Robolectric previews the same code path works: the
+ * `ee.schimke.composeai.preview` plugin installs a shadow of
+ * `FontsContractCompat.requestFont` that resolves each `GoogleFont` against
+ * a local cache under `.compose-preview-history/fonts/`, fetched from the
+ * Google Fonts CSS API on first use and committed to the repo so subsequent
+ * builds are offline.
  */
 private val GoogleFontsProvider = GoogleFont.Provider(
     providerAuthority = "com.google.android.gms.fonts",

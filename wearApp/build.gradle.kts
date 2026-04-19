@@ -12,8 +12,7 @@ plugins {
     id("io.github.takahirom.roborazzi")
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.screenshot)
-
-    id("ee.schimke.composeai.preview") version "0.6.1"
+    alias(libs.plugins.composeai.preview)
 }
 
 configureCompilerOptions()

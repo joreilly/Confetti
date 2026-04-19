@@ -13,6 +13,7 @@ message WearSettings {
 message WearPreferences {
   NetworkDetail showNetworks = 1;
   NetworkPreferences networkPreferences = 2;
+  reserved 3;  // was Typography — dropped; Expressive is now the ship default.
 }
 
 enum NetworkDetail {

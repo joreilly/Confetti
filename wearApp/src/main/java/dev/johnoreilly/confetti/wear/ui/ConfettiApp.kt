@@ -28,8 +28,16 @@ fun ConfettiApp(
     component: WearAppComponent
 ) {
     val appState by component.appState.collectAsStateWithLifecycle()
+    // Curated conference theme overrides the backend-supplied seedColor +
+    // default typography when the active conference id is one we recognise
+    // (KotlinConf / AndroidMakers / Droidcon / DevFest). Everyone else keeps
+    // whatever the backend sent plus the default Expressive typography.
+    val conferenceTheme = conferenceThemeFor(appState?.defaultConference)
 
-    ConfettiTheme(seedColor = appState?.seedColor) {
+    ConfettiTheme(
+        seedColor = conferenceTheme?.seedColor ?: appState?.seedColor,
+        typography = conferenceTheme?.typography ?: ExpressiveTypography,
+    ) {
         AppScaffold(timeText = { TimeText() }) {
             SwipeToDismissBox(
                 component.stack,

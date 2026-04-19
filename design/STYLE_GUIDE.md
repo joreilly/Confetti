@@ -133,7 +133,76 @@ layout deterministic so a typography switch never reflows the whole screen.
   intentional and comes from the Wear compose-material3 library itself, not
   our code.
 
-## 4. Screen architecture
+## 4. Conference themes
+
+A confectti-running conference is a brand. KotlinConf's JetBrains purple,
+Droidcon's bright green, DevFest's Google Blue — these are recognisable on
+their own and the watch app should carry them visibly, not bury them behind
+a neutral house style.
+
+Four conferences get a curated [`ConferenceTheme`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConferenceTheme.kt):
+
+| Conference | Seed | Icon | Typography | Signature |
+|---|---|---|---|---|
+| **KotlinConf** | `#7F52FF` (JetBrains purple — the warm end of their red→purple gradient) | `Icons.Filled.Code` (⟨⟩) | Expressive (default) | Purple primary on black; gradient itself is too loud on a 24 dp chip |
+| **Android Makers** | `#E59A4F` (Parisian ochre, leaning into the droidcon-Paris venue palette) | `Icons.Filled.Android` | Expressive (default) | Warm ochre day chips + bug-droid iconography |
+| **Droidcon** | `#00D775` (their distinctive bright green) | `Icons.Filled.Adb` (droid bot) | Expressive (default) | Green dominant — the whole identity runs on it |
+| **DevFest** | `#4285F4` (Google Blue) | `Icons.Filled.Celebration` | **Google Sans Flex** | Google's own brand family, OFL-licensed since late 2025 |
+
+Everything else falls back to whatever `themeColor` the backend ships on
+the conference and the default Expressive typography — the lookup is a
+single switch in
+[`conferenceThemeFor()`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConferenceTheme.kt)
+keyed on a case-insensitive prefix of the conference id, so
+`kotlinconf2024`, `kotlinconf2025`, `kotlinconf2026` all pick up the same
+identity.
+
+### How the theme flows
+
+1. [`ConfettiApp`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiApp.kt) resolves `conferenceThemeFor(appState.defaultConference)`.
+2. If there's a curated theme, its `seedColor` and (optional) `typography`
+   override the backend-supplied values on `ConfettiTheme`.
+3. [`HomeScreen`'s title section](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt) asks the same lookup for the current conference id and renders
+   `theme.icon` above the name when one exists.
+
+That's the full extent of the conference-aware code. No per-conference
+components, no custom drawables, no bespoke screens. The identity is
+carried entirely by tokens + a single icon + (for DevFest) a typography
+swap. The point is that adding a new curated conference is one new branch
+of `conferenceThemeFor()` and nothing else.
+
+### What we deliberately didn't do
+
+- **No gradient fills** even though KotlinConf's brand gradient is
+  beautiful. Watch faces clip to the inscribed circle; a gradient at that
+  scale reads as noise.
+- **No custom logos**. Material icons (`Code`, `Android`, `Adb`,
+  `Celebration`) are recognisable enough at 16 dp and they update for free
+  as Material evolves. A bespoke bundled SVG per conference is a
+  maintenance obligation we don't need yet.
+- **No per-conference layout changes**. Every conference gets the same
+  Home / Bookmarks / Sessions shape. Identity travels through color,
+  icon, and (sparingly) typography — not structure.
+
+### Signature flourishes, used sparingly
+
+These are the one-off visual cues each conference leans on in the wild.
+We don't reproduce them literally — the notes are design context for
+future pivots.
+
+- **KotlinConf**: red→purple gradient. If we ever want a louder accent,
+  a single gradient `EdgeButton` stroke at the bottom edge would echo it
+  without drowning the content area.
+- **Android Makers**: pixel-art Eiffel Tower on their hero. Could
+  surface as a 1 dp outlined "pixel" border on the session-card
+  container under heavy inspiration, but even this risks looking cute
+  rather than expressive.
+- **Droidcon**: the green is the flourish. Nothing else needed.
+- **DevFest**: Google's organic squiggles. The celebration icon and
+  Google Sans Flex typography carry the right Google-event feel; adding
+  an illustrated squiggle to a 192-pixel circle would be clutter.
+
+## 5. Screen architecture
 
 Every top-level screen in Wear follows the same shape:
 
@@ -182,7 +251,7 @@ ScreenScaffold(
 | `ListHeader` | Top-of-screen title | Keep text centred, titleMedium |
 | `ListSubHeader` | Inline section break | Our `SectionHeader` wraps this — labelMedium in `primary` |
 
-## 5. Motion
+## 6. Motion
 
 - **M3 Expressive morphing** comes from `TransformingLazyColumn` itself —
   `rememberTransformationSpec()` + `SurfaceTransformation` on items. We
@@ -197,7 +266,7 @@ ScreenScaffold(
   `mainClock` and advances by `CAPTURE_ADVANCE_MS` — we don't need to
   hand-write `awaitIdle`.
 
-## 6. Mobile parity
+## 7. Mobile parity
 
 Today the Android phone app ships a fixed Material 3 color scheme
 (Purple/Orange/Blue, see [`androidApp/src/main/.../ui/Color.kt`](../androidApp/src/main/java/dev/johnoreilly/confetti/ui/Color.kt)
@@ -217,7 +286,7 @@ typography — is deliberately compatible with that surface:
 We don't do that migration in this PR — this guide just makes the shape
 explicit so the mobile work is a project plan, not an invention.
 
-## 7. Checklist when adding a new screen
+## 8. Checklist when adding a new screen
 
 - [ ] Uses `ScreenScaffold` with `contentPadding` passed into
       `TransformingLazyColumn`.

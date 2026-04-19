@@ -23,6 +23,17 @@ val ExpressiveTypography: Typography = Typography().withFamilies(
     body = InterFamily, label = InterFamily,
 )
 
+/**
+ * Google Sans Flex across the board — the family Google released under OFL
+ * in late 2025. Used by the DevFest conference theme via [ConferenceTheme].
+ * A single-family pairing matches the way Google uses it on
+ * developers.google.com and the DevFest site.
+ */
+val GoogleSansFlexTypography: Typography = Typography().withFamilies(
+    display = GoogleSansFlexFamily, title = GoogleSansFlexFamily,
+    body = GoogleSansFlexFamily, label = GoogleSansFlexFamily,
+)
+
 private fun Typography.withFamilies(
     display: FontFamily,
     title: FontFamily,

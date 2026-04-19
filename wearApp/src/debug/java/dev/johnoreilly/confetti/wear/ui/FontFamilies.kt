@@ -27,3 +27,6 @@ private fun variable(resourceId: Int): FontFamily = FontFamily(
 
 internal val RobotoFlexFamily: FontFamily = variable(R.font.roboto_flex_variable)
 internal val InterFamily: FontFamily = variable(R.font.inter_variable)
+/** Google Sans Flex — the brand family released by Google under OFL in late
+ *  2025. Used by the DevFest conference theme; see [ConferenceTheme]. */
+internal val GoogleSansFlexFamily: FontFamily = variable(R.font.google_sans_flex_variable)

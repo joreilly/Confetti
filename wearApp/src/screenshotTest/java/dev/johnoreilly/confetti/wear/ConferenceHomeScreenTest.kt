@@ -46,8 +46,6 @@ fun ConferenceHomeScreen() {
 }
 
 @WearPreviewLargeRound
-@WearPreviewSmallRound
-@WearPreviewFontScales
 @Composable
 fun ConferenceHomeScreenWithBookmarks() {
     TestScaffold {
@@ -85,8 +83,6 @@ fun ConferenceHomeScreenWithBookmarks() {
 }
 
 @WearPreviewLargeRound
-@WearPreviewSmallRound
-@WearPreviewFontScales
 @Composable
 fun ConferenceHomeScreenLoading() {
     TestScaffold {

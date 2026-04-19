@@ -12,13 +12,19 @@ import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsView
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.ParameterizedRobolectricTestRunner
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(ParameterizedRobolectricTestRunner::class)
-class SpeakerDetailsTest(override val device: WearDevice) : BaseScreenshotTest() {
+/**
+ * Speaker details is a scrolling detail view with avatar + bio. One device
+ * is sufficient — multi-device coverage belongs on the list/hero screens.
+ */
+@RunWith(RobolectricTestRunner::class)
+class SpeakerDetailsTest : BaseScreenshotTest() {
     init {
         tolerance = 0.02f
     }
+
+    override val device: WearDevice = WearDevice.GenericLargeRound
 
     @Test
     fun speakerDetailsScreen() {

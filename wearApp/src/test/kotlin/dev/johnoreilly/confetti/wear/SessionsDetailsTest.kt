@@ -13,13 +13,21 @@ import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailView
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.ParameterizedRobolectricTestRunner
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(ParameterizedRobolectricTestRunner::class)
-class SessionsDetailsTest(override val device: WearDevice) : BaseScreenshotTest() {
+/**
+ * Session details is a scrolling detail view — the layout behaviour is
+ * adequately covered by a single large-round device. The list screens
+ * upstream ([SessionsScreenTest]) exercise font-scale and small-round
+ * variants for us.
+ */
+@RunWith(RobolectricTestRunner::class)
+class SessionsDetailsTest : BaseScreenshotTest() {
     init {
         tolerance = 0.02f
     }
+
+    override val device: WearDevice = WearDevice.GenericLargeRound
 
     val uiState = SessionDetailsUiState.Success(
         conference, sessionDetails

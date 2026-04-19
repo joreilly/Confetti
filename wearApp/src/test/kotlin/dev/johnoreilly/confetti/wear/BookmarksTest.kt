@@ -14,6 +14,12 @@ import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner
 import java.time.LocalDateTime
 
+/**
+ * Hero coverage for the Bookmarks screen: the loaded-with-content state
+ * parameterized across the curated device triad in [BaseScreenshotTest.params].
+ * Loading / error / empty variants live in [BookmarksStatesTest] on a single
+ * device to avoid multiplying low-signal screenshots.
+ */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
     init {
@@ -30,52 +36,6 @@ class BookmarksTest(override val device: WearDevice) : BaseScreenshotTest() {
                         conference = TestFixtures.kotlinConf2023.id,
                         upcoming = listOf(TestFixtures.sessionDetails),
                         past = listOf(),
-                        now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
-                    )
-                ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})
-            }
-        }
-        takeScreenshot()
-    }
-
-    @Test
-    fun bookmarksLoading() {
-        composeRule.setContent {
-            TestScaffold {
-                BookmarksScreen(
-                    uiState = QueryResult.Loading,
-                    sessionSelected = {},
-                    addBookmark = {},
-                    removeBookmark = {})
-            }
-        }
-        takeScreenshot()
-    }
-
-    @Test
-    fun bookmarksError() {
-        composeRule.setContent {
-            TestScaffold {
-                BookmarksScreen(
-                    uiState = QueryResult.Error(Exception("Some Error")),
-                    sessionSelected = {},
-                    addBookmark = {},
-                    removeBookmark = {})
-            }
-        }
-        takeScreenshot()
-    }
-
-    @Test
-    fun bookmarksEmpty() {
-        composeRule.setContent {
-            TestScaffold {
-                BookmarksScreen(
-                    uiState = QueryResult.Success(
-                    BookmarksUiState(
-                        conference = "wearconf",
-                        upcoming = emptyList(),
-                        past = emptyList(),
                         now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
                     )
                 ), sessionSelected = {}, addBookmark = {}, removeBookmark = {})

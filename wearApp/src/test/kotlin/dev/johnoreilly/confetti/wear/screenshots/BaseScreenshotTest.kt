@@ -116,9 +116,21 @@ abstract class BaseScreenshotTest {
     }
 
     companion object {
+        /**
+         * Curated triad used by parameterized hero tests. Covers a small
+         * round watch, a large round watch, and a large-font configuration
+         * without running every layout through every known device.
+         *
+         * Data-variant tests (loading / error / empty) pin to a single
+         * device via subclasses that do not use [ParameterizedRobolectricTestRunner].
+         */
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
-        fun params() = WearDevice.entries.toList()
+        fun params() = listOf(
+            WearDevice.GenericSmallRound,
+            WearDevice.GenericLargeRound,
+            WearDevice.GooglePixelWatchLargeFont,
+        )
     }
 
     @After

@@ -85,6 +85,17 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            all {
+                // Robolectric's native-graphics path reflects into
+                // `java.nio.DirectByteBuffer.address()`. On JDK 17+ that
+                // requires explicit `--add-opens`, otherwise the first
+                // call throws InaccessibleObjectException and every
+                // subsequent test in the same JVM fails with a cached
+                // LinkageError. Affects any batched Roborazzi run on
+                // local JDK distributions that don't already open
+                // java.nio.
+                it.jvmArgs("--add-opens=java.base/java.nio=ALL-UNNAMED")
+            }
         }
     }
 

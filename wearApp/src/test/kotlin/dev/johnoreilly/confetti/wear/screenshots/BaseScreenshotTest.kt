@@ -76,7 +76,21 @@ abstract class BaseScreenshotTest {
 
     open val device: WearDevice? = null
 
-    open fun imageName(suffix: String) = "${testName.methodName}$suffix.png"
+    /**
+     * Screenshot filename. Parameterized runs already contain `[Device]`
+     * inside `testName.methodName`; non-parameterized subclasses don't,
+     * so we append it explicitly to keep the on-disk naming consistent
+     * across tiers.
+     */
+    open fun imageName(suffix: String): String {
+        val methodName = testName.methodName
+        val deviceSuffix = if (device != null && !methodName.contains('[')) {
+            "[${device!!.name}]"
+        } else {
+            ""
+        }
+        return "$methodName$deviceSuffix$suffix.png"
+    }
 
     @Before
     fun initDevice() {

@@ -21,6 +21,7 @@ import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.PlaceholderState
 import androidx.wear.compose.material3.ScreenScaffold
@@ -113,6 +114,10 @@ private fun TransformingLazyColumnScope.titleSection(
         is QueryResult.Success, QueryResult.Loading -> {
             item {
                 ListHeader(modifier = Modifier.fillMaxWidth()) {
+                    // Conference name is the app's headline on this screen — carry
+                    // the seedColor forward via `primary` and pick the largest
+                    // legible Wear title style so the chosen typography reads here
+                    // first.
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -121,6 +126,8 @@ private fun TransformingLazyColumnScope.titleSection(
                         text = (uiState as? QueryResult.Success)?.result?.conferenceName ?: " \n ",
                         textAlign = TextAlign.Center,
                         maxLines = 2,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary,
                     )
                 }
             }

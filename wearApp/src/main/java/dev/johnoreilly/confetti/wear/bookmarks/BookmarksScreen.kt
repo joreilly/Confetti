@@ -88,6 +88,8 @@ fun BookmarksScreen(
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(id = R.string.no_upcoming),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                     }
@@ -126,6 +128,8 @@ fun BookmarksScreen(
                                             CardDefaults.minimumVerticalListContentPadding
                                         ),
                                     text = stringResource(id = R.string.no_past),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                             }
                         }

@@ -152,6 +152,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
     implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.text.google.fonts)
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.splash.screen)

@@ -128,6 +128,10 @@ private fun SessionCardContent(
         title = {
             Text(
                 text = session?.title.orEmpty(),
+                // TitleCard's slot already applies titleMedium; we don't override it.
+                // Claiming onSurface explicitly just keeps the hierarchy consistent
+                // with the `onSurfaceVariant` secondary lines below.
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -140,8 +144,9 @@ private fun SessionCardContent(
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
                     session?.speakers.orEmpty().joinToString(", ") { it.speakerDetails.name },
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Light,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Normal,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier

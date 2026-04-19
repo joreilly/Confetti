@@ -28,8 +28,9 @@ fun ConfettiApp(
     component: WearAppComponent
 ) {
     val appState by component.appState.collectAsStateWithLifecycle()
+    val typographyChoice = TypographyChoice.fromProto(appState?.wearPreferences?.typography)
 
-    ConfettiTheme(seedColor = appState?.seedColor) {
+    ConfettiTheme(seedColor = appState?.seedColor, typography = typographyFor(typographyChoice)) {
         AppScaffold(timeText = { TimeText() }) {
             SwipeToDismissBox(
                 component.stack,

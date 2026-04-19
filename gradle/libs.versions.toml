@@ -228,6 +228,8 @@ roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", versi
 roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
 roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 
+composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composeai-preview" }
+
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines", "multiplatform-settings-serialization", "multiplatform-settings-make-observable"]
 apollo = ["apollo-normalized-cache-in-memory", "apollo-adapters"]

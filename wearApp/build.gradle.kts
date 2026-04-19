@@ -147,6 +147,8 @@ dependencies {
 dependencies {
     implementation(projects.shared)
 
+    implementation(libs.composeai.preview.annotations)
+
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
     implementation(libs.compose.ui.tooling)

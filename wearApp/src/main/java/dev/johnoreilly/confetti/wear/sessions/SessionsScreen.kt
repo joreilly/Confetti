@@ -16,6 +16,8 @@ import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import ee.schimke.composeai.preview.ScrollMode
+import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
@@ -123,6 +125,7 @@ fun SessionListViewPreview() {
 }
 
 @WearPreviewLargeRound
+@ScrollingPreview(mode = ScrollMode.LONG)
 @Composable
 fun SessionListViewLongPreview() {
     ConfettiPreviewScaffold {

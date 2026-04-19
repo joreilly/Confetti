@@ -14,13 +14,20 @@ import dev.johnoreilly.confetti.wear.settings.SettingsListView
 import dev.johnoreilly.confetti.wear.settings.SettingsUiState
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.ParameterizedRobolectricTestRunner
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(ParameterizedRobolectricTestRunner::class)
-class SettingsScreenTest(override val device: WearDevice) : BaseScreenshotTest() {
+/**
+ * Settings is a secondary list — content is short and layout stable across
+ * wear form factors. A single device is enough; the hero list screens carry
+ * the multi-device coverage.
+ */
+@RunWith(RobolectricTestRunner::class)
+class SettingsScreenTest : BaseScreenshotTest() {
     init {
         tolerance = 0.05f
     }
+
+    override val device: WearDevice = WearDevice.GenericLargeRound
 
     @Test
     fun loggedOutSettings() {

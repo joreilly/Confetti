@@ -76,7 +76,21 @@ abstract class BaseScreenshotTest {
 
     open val device: WearDevice? = null
 
-    open fun imageName(suffix: String) = "${testName.methodName}$suffix.png"
+    /**
+     * Screenshot filename. Parameterized runs already contain `[Device]`
+     * inside `testName.methodName`; non-parameterized subclasses don't,
+     * so we append it explicitly to keep the on-disk naming consistent
+     * across tiers.
+     */
+    open fun imageName(suffix: String): String {
+        val methodName = testName.methodName
+        val deviceSuffix = if (device != null && !methodName.contains('[')) {
+            "[${device!!.name}]"
+        } else {
+            ""
+        }
+        return "$methodName$deviceSuffix$suffix.png"
+    }
 
     @Before
     fun initDevice() {
@@ -116,9 +130,21 @@ abstract class BaseScreenshotTest {
     }
 
     companion object {
+        /**
+         * Curated triad used by parameterized hero tests. Covers a small
+         * round watch, a large round watch, and a large-font configuration
+         * without running every layout through every known device.
+         *
+         * Data-variant tests (loading / error / empty) pin to a single
+         * device via subclasses that do not use [ParameterizedRobolectricTestRunner].
+         */
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
-        fun params() = WearDevice.entries.toList()
+        fun params() = listOf(
+            WearDevice.GenericSmallRound,
+            WearDevice.GenericLargeRound,
+            WearDevice.GooglePixelWatchLargeFont,
+        )
     }
 
     @After

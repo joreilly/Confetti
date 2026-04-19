@@ -37,3 +37,6 @@ internal val InterFamily: FontFamily = downloadable("Inter")
 /** Google Sans Flex — the brand family released by Google under OFL in late
  *  2025. Used by the DevFest conference theme; see [ConferenceTheme]. */
 internal val GoogleSansFlexFamily: FontFamily = downloadable("Google Sans Flex")
+/** JetBrains Mono — JetBrains' OFL-licensed monospaced typeface. Used by
+ *  the KotlinConf conference theme for display/title roles. */
+internal val JetBrainsMonoFamily: FontFamily = downloadable("JetBrains Mono")

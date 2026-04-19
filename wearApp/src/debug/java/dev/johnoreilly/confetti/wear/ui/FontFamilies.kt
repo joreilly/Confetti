@@ -30,3 +30,7 @@ internal val InterFamily: FontFamily = variable(R.font.inter_variable)
 /** Google Sans Flex — the brand family released by Google under OFL in late
  *  2025. Used by the DevFest conference theme; see [ConferenceTheme]. */
 internal val GoogleSansFlexFamily: FontFamily = variable(R.font.google_sans_flex_variable)
+/** JetBrains Mono — JetBrains' OFL-licensed monospaced typeface for
+ *  developers. Used by the KotlinConf conference theme for display/title
+ *  roles; body + label stay on Inter to keep session-card text readable. */
+internal val JetBrainsMonoFamily: FontFamily = variable(R.font.jetbrains_mono_variable)

@@ -144,7 +144,7 @@ Four conferences get a curated [`ConferenceTheme`](../wearApp/src/main/java/dev/
 
 | Conference | Seed | Icon | Typography | Signature |
 |---|---|---|---|---|
-| **KotlinConf** | `#7F52FF` (JetBrains purple — the warm end of their red→purple gradient) | `Icons.Filled.Code` (⟨⟩) | Expressive (default) | Purple primary on black; gradient itself is too loud on a 24 dp chip |
+| **KotlinConf** | `#7F52FF` (JetBrains purple — the warm end of their red→purple gradient) | `Icons.Filled.Code` (⟨⟩) | **JetBrains Mono titles + Inter body** | JetBrains' own OFL-licensed monospace for titles gives the conference name a terminal/IDE feel; Inter keeps session cards readable |
 | **Android Makers** | `#E59A4F` (Parisian ochre, leaning into the droidcon-Paris venue palette) | `Icons.Filled.Android` | Expressive (default) | Warm ochre day chips + bug-droid iconography |
 | **Droidcon** | `#00D775` (their distinctive bright green) | `Icons.Filled.Adb` (droid bot) | Expressive (default) | Green dominant — the whole identity runs on it |
 | **DevFest** | `#4285F4` (Google Blue) | `Icons.Filled.Celebration` | **Google Sans Flex** | Google's own brand family, OFL-licensed since late 2025 |
@@ -183,6 +183,11 @@ of `conferenceThemeFor()` and nothing else.
 - **No per-conference layout changes**. Every conference gets the same
   Home / Bookmarks / Sessions shape. Identity travels through color,
   icon, and (sparingly) typography — not structure.
+- **No fully-monospaced conferences.** JetBrains Mono on titles is a
+  flourish; applying it to body + labels as well would get tiring to read
+  at 12–14 dp on a round face. The Inter body keeps session cards
+  breathing. Same principle would apply to any future conference that
+  wants a display-only brand face.
 
 ### Signature flourishes, used sparingly
 

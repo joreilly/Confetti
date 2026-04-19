@@ -41,10 +41,14 @@ fun conferenceThemeFor(id: String?): ConferenceTheme? {
         // KotlinConf: JetBrains purple — the warm end of the red→purple
         // gradient the 2025/2026 site leans on. Code brackets icon nods to
         // the language; the gradient itself is too loud for a 24 dp chip.
+        // Typography swap: JetBrains Mono for display/title (their own
+        // OFL-licensed face, gives conference names a terminal/IDE feel);
+        // Inter stays for body + label so session cards remain readable.
         normalised.startsWith("kotlinconf") -> ConferenceTheme(
             seedColor = Color(0xFF7F52FF),
             icon = Icons.Filled.Code,
-            signatureName = "KotlinConf purple",
+            signatureName = "KotlinConf purple + JetBrains Mono titles",
+            typography = KotlinConfTypography,
         )
         // AndroidMakers: warm Parisian ochre, leaning into the venue imagery
         // the droidcon-run edition uses. Android robot icon is the one piece

@@ -34,6 +34,18 @@ val GoogleSansFlexTypography: Typography = Typography().withFamilies(
     body = GoogleSansFlexFamily, label = GoogleSansFlexFamily,
 )
 
+/**
+ * KotlinConf's typography: JetBrains Mono for display + title + numerals —
+ * the company's own OFL-licensed monospace face — paired with Inter for body
+ * and label. Mono titles give the conference name a terminal/IDE feel that
+ * matches Kotlin's developer identity; Inter keeps session-card content
+ * readable at 12–14 dp where a full monospace body would be exhausting.
+ */
+val KotlinConfTypography: Typography = Typography().withFamilies(
+    display = JetBrainsMonoFamily, title = JetBrainsMonoFamily,
+    body = InterFamily, label = InterFamily,
+)
+
 private fun Typography.withFamilies(
     display: FontFamily,
     title: FontFamily,

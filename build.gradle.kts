@@ -1,5 +1,6 @@
 plugins {
     id("base")
+    alias(libs.plugins.composeai.preview) apply false
 }
 
 buildscript {

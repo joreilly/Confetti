@@ -1,16 +1,21 @@
 package dev.johnoreilly.confetti.wear.home
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.items
@@ -41,7 +46,9 @@ import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.PlaceholderButton
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
+import dev.johnoreilly.confetti.wear.preview.ConferenceFixtures
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
+import dev.johnoreilly.confetti.wear.ui.conferenceThemeFor
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
@@ -113,22 +120,43 @@ private fun TransformingLazyColumnScope.titleSection(
     when (uiState) {
         is QueryResult.Success, QueryResult.Loading -> {
             item {
+                val success = uiState as? QueryResult.Success
+                val conferenceTheme = conferenceThemeFor(success?.result?.conference)
                 ListHeader(modifier = Modifier.fillMaxWidth()) {
-                    // Conference name is the app's headline on this screen — carry
-                    // the seedColor forward via `primary` and pick the largest
-                    // legible Wear title style so the chosen typography reads here
-                    // first.
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .placeholderShimmer(placeholderState)
-                            .placeholder(placeholderState),
-                        text = (uiState as? QueryResult.Success)?.result?.conferenceName ?: " \n ",
-                        textAlign = TextAlign.Center,
-                        maxLines = 2,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                    ) {
+                        // A small primary-tinted icon above the conference
+                        // name acts as a brand anchor — one visual cue (+ the
+                        // seedColor tint) to tell KotlinConf from Droidcon
+                        // from DevFest at a glance. Unknown conferences skip
+                        // the icon rather than showing a generic stand-in.
+                        if (conferenceTheme != null && success != null) {
+                            Icon(
+                                imageVector = conferenceTheme.icon,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(16.dp),
+                            )
+                        }
+                        // Conference name is the app's headline on this screen
+                        // — carry the seedColor forward via `primary` and
+                        // pick the largest legible Wear title style so the
+                        // chosen typography reads here first.
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .placeholderShimmer(placeholderState)
+                                .placeholder(placeholderState),
+                            text = success?.result?.conferenceName ?: " \n ",
+                            textAlign = TextAlign.Center,
+                            maxLines = 2,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    }
                 }
             }
         }
@@ -325,6 +353,72 @@ fun HomeListViewLongPreview() {
             daySelected = {},
             addBookmark = {},
             removeBookmark = {}
+        )
+    }
+}
+
+/**
+ * Per-conference HomeScreen previews. Each renders a realistic schedule
+ * snapshot under the curated seedColor (and, for DevFest, the Google Sans
+ * Flex typography override) wired up by [conferenceThemeFor]. These are the
+ * visuals referenced in `design/STYLE_GUIDE.md` §4.
+ */
+@WearPreviewLargeRound
+@ScrollingPreview(mode = ScrollMode.LONG)
+@Composable
+fun HomeListViewKotlinConf() {
+    ConfettiPreviewScaffold(seedColor = conferenceThemeFor(ConferenceFixtures.kotlinConf.id)?.seedColor) {
+        HomeScreen(
+            uiState = QueryResult.Success(ConferenceFixtures.kotlinConfHome),
+            bookmarksUiState = QueryResult.Success(ConferenceFixtures.kotlinConfBookmarks),
+            sessionSelected = {}, onSettingsClick = {}, onBookmarksClick = {},
+            daySelected = {}, addBookmark = {}, removeBookmark = {},
+        )
+    }
+}
+
+@WearPreviewLargeRound
+@ScrollingPreview(mode = ScrollMode.LONG)
+@Composable
+fun HomeListViewAndroidMakers() {
+    ConfettiPreviewScaffold(seedColor = conferenceThemeFor(ConferenceFixtures.androidMakers.id)?.seedColor) {
+        HomeScreen(
+            uiState = QueryResult.Success(ConferenceFixtures.androidMakersHome),
+            bookmarksUiState = QueryResult.Success(ConferenceFixtures.androidMakersBookmarks),
+            sessionSelected = {}, onSettingsClick = {}, onBookmarksClick = {},
+            daySelected = {}, addBookmark = {}, removeBookmark = {},
+        )
+    }
+}
+
+@WearPreviewLargeRound
+@ScrollingPreview(mode = ScrollMode.LONG)
+@Composable
+fun HomeListViewDroidcon() {
+    ConfettiPreviewScaffold(seedColor = conferenceThemeFor(ConferenceFixtures.droidcon.id)?.seedColor) {
+        HomeScreen(
+            uiState = QueryResult.Success(ConferenceFixtures.droidconHome),
+            bookmarksUiState = QueryResult.Success(ConferenceFixtures.droidconBookmarks),
+            sessionSelected = {}, onSettingsClick = {}, onBookmarksClick = {},
+            daySelected = {}, addBookmark = {}, removeBookmark = {},
+        )
+    }
+}
+
+@WearPreviewLargeRound
+@ScrollingPreview(mode = ScrollMode.LONG)
+@Composable
+fun HomeListViewDevFest() {
+    val theme = conferenceThemeFor(ConferenceFixtures.devFest.id)
+    ConfettiPreviewScaffold(
+        seedColor = theme?.seedColor,
+        typography = theme?.typography ?: dev.johnoreilly.confetti.wear.ui.ExpressiveTypography,
+    ) {
+        HomeScreen(
+            uiState = QueryResult.Success(ConferenceFixtures.devFestHome),
+            bookmarksUiState = QueryResult.Success(ConferenceFixtures.devFestBookmarks),
+            sessionSelected = {}, onSettingsClick = {}, onBookmarksClick = {},
+            daySelected = {}, addBookmark = {}, removeBookmark = {},
         )
     }
 }

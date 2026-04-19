@@ -53,6 +53,7 @@ generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.17.1"
 roborazzi = "1.59.0"
 screenshot = "0.0.1-alpha14"
+composeai-preview = "0.6.1"
 
 
 [libraries]
@@ -238,6 +239,7 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multip
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hot-reload" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}
+composeai-preview = { id = "ee.schimke.composeai.preview", version.ref = "composeai-preview" }
 kgp-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 gratatouille = { id = "com.gradleup.gratatouille", version = "0.2.1" }

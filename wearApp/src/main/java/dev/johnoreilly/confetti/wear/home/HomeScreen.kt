@@ -323,7 +323,7 @@ fun HomeListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun HomeListViewLongPreview() {
     ConfettiPreviewScaffold {
@@ -364,7 +364,7 @@ fun HomeListViewLongPreview() {
  * visuals referenced in `design/STYLE_GUIDE.md` §4.
  */
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun HomeListViewKotlinConf() {
     val theme = conferenceThemeFor(ConferenceFixtures.kotlinConf.id)
@@ -382,7 +382,7 @@ fun HomeListViewKotlinConf() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun HomeListViewAndroidMakers() {
     ConfettiPreviewScaffold(seedColor = conferenceThemeFor(ConferenceFixtures.androidMakers.id)?.seedColor) {
@@ -396,7 +396,7 @@ fun HomeListViewAndroidMakers() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun HomeListViewDroidcon() {
     ConfettiPreviewScaffold(seedColor = conferenceThemeFor(ConferenceFixtures.droidcon.id)?.seedColor) {
@@ -410,7 +410,7 @@ fun HomeListViewDroidcon() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun HomeListViewDevFest() {
     val theme = conferenceThemeFor(ConferenceFixtures.devFest.id)

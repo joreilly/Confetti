@@ -125,7 +125,7 @@ fun SessionListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun SessionListViewLongPreview() {
     ConfettiPreviewScaffold {

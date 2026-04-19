@@ -285,7 +285,7 @@ fun SettingsListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun SettingsListViewLongPreview() {
     ConfettiPreviewScaffold {

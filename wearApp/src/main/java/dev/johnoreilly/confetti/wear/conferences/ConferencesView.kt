@@ -153,7 +153,7 @@ fun ConferencesViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun ConferencesViewLongPreview() {
     ConfettiPreviewScaffold {
@@ -173,7 +173,7 @@ fun ConferencesViewLongPreview() {
  * and DevFest blue — not a repeated backend-default red.
  */
 @WearPreviewLargeRound
-@ScrollingPreview(mode = ScrollMode.LONG)
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun ConferencesViewCuratedPreview() {
     val curated = listOf(

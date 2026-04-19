@@ -10,11 +10,10 @@ import androidx.wear.compose.material3.Typography
  * motion, the M3 Expressive poster font), Inter for body and label (hinted
  * for legibility at small sizes on round displays).
  *
- * The two [FontFamily] values — [RobotoFlexFamily] and [InterFamily] — are
- * defined per variant:
- *   - **debug** bundles variable TTFs from `res/font/` so Robolectric
- *     previews render the real fonts.
- *   - **release** uses downloadable GoogleFonts to keep the APK small.
+ * Both [FontFamily] values — [RobotoFlexFamily] and [InterFamily] — are
+ * downloadable `GoogleFont`s (see [FontFamilies.kt][FontFamilies]). Robolectric
+ * previews resolve them through the `ee.schimke.composeai.preview` plugin's
+ * committed font cache; production builds fetch via Google Play services.
  *
  * The Wear scale (sizes, weights, arc + numeral styles) is preserved as-is.
  */

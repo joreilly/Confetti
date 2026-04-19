@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Event
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.wear.compose.material3.Typography
+import dev.johnoreilly.confetti.GetConferencesQuery
 
 /**
  * A curated per-conference visual identity: a seed [Color] that drives the
@@ -84,3 +85,12 @@ fun conferenceThemeFor(id: String?): ConferenceTheme? {
 /** Fallback icon for conferences without a curated theme — used when we still
  *  want a consistent header shape. */
 val GenericConferenceIcon: ImageVector = Icons.Filled.Event
+
+/**
+ * Resolved seed [Color] for this conference: the curated theme wins over
+ * whatever `themeColor` the backend ships. Use this everywhere you'd
+ * otherwise call `conference.themeColor?.toColor()` — it keeps the four
+ * recognised conferences on-brand regardless of what the server thinks.
+ */
+fun GetConferencesQuery.Conference.seedColor(): Color? =
+    conferenceThemeFor(id)?.seedColor ?: themeColor?.toColor()

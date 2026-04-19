@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
@@ -16,28 +17,29 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.EdgeButton
+import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
-import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.PlaceholderState
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.PlaceholderButton
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
+import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
-import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toKotlinLocalDateTime
@@ -59,13 +61,27 @@ fun HomeScreen(
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
 
     val columnState = rememberTransformingLazyColumnState()
-
-    val columnPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
-        last = ColumnItemType.IconButton
-    )
     val placeholderState = rememberPlaceholderState(uiState is QueryResult.Loading)
-    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
+    ScreenScaffold(
+        modifier = modifier,
+        scrollState = columnState,
+        scrollIndicator = {
+            if (!LocalScrollCaptureInProgress.current) {
+                ScrollIndicator(columnState)
+            }
+        },
+        edgeButton = {
+            EdgeButton(
+                onClick = onSettingsClick,
+                buttonSize = EdgeButtonSize.Small,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = stringResource(R.string.home_settings_content_description),
+                )
+            }
+        },
+    ) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
@@ -83,8 +99,6 @@ fun HomeScreen(
             )
 
             conferenceDaysSection(uiState = uiState, daySelected = daySelected, dayFormatter = dayFormatter)
-
-            bottomMenuSection(onSettingsClick = onSettingsClick)
         }
     }
 }
@@ -196,7 +210,10 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
             items(uiState.result.confDates) { date ->
                 DayChip(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .minimumVerticalContentPadding(
+                            ButtonDefaults.minimumVerticalListContentPadding
+                        ),
                     dayFormatter,
                     date,
                     daySelected = { daySelected(date) })
@@ -205,7 +222,13 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
 
         QueryResult.Loading -> {
             items(2) {
-                PlaceholderButton()
+                PlaceholderButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .minimumVerticalContentPadding(
+                            ButtonDefaults.minimumVerticalListContentPadding
+                        ),
+                )
             }
         }
 
@@ -229,26 +252,11 @@ fun DayChip(
     }
 }
 
-private fun TransformingLazyColumnScope.bottomMenuSection(onSettingsClick: () -> Unit) {
-    item {
-        IconButton(
-            modifier = Modifier
-                .fillMaxWidth(),
-            onClick = onSettingsClick
-        ) {
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = stringResource(R.string.home_settings_content_description),
-            )
-        }
-    }
-}
-
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
 fun HomeListViewPreview() {
-    ConfettiThemeFixed {
+    ConfettiPreviewScaffold {
         HomeScreen(
             uiState = QueryResult.Success(
                 HomeUiState(
@@ -276,3 +284,38 @@ fun HomeListViewPreview() {
         )
     }
 }
+
+@WearPreviewLargeRound
+@Composable
+fun HomeListViewLongPreview() {
+    ConfettiPreviewScaffold {
+        HomeScreen(
+            uiState = QueryResult.Success(
+                HomeUiState(
+                    conference = TestFixtures.kotlinConf2023.id,
+                    conferenceName = TestFixtures.kotlinConf2023.name,
+                    confDates = TestFixtures.kotlinConf2023.days,
+                )
+            ),
+            bookmarksUiState = QueryResult.Success(
+                BookmarksUiState(
+                    conference = TestFixtures.kotlinConf2023.id,
+                    upcoming = listOf(
+                        TestFixtures.sessionDetails,
+                        TestFixtures.sessionDetails.copy(id = "2", title = "Advanced Coroutines"),
+                        TestFixtures.sessionDetails.copy(id = "3", title = "Compose Multiplatform"),
+                    ),
+                    past = listOf(),
+                    now = LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime()
+                )
+            ),
+            sessionSelected = {},
+            onSettingsClick = {},
+            onBookmarksClick = {},
+            daySelected = {},
+            addBookmark = {},
+            removeBookmark = {}
+        )
+    }
+}
+

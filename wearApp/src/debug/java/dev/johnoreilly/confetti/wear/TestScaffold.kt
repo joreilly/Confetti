@@ -15,6 +15,7 @@ import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.LocalImageLoader
 import coil.test.FakeImageLoaderEngine
+import dev.johnoreilly.confetti.wear.preview.FixedTimeSource
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.toColor
 

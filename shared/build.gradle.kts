@@ -125,8 +125,6 @@ kotlin {
         }
 
         androidMain {
-            dependsOn(mobileMain)
-
             dependencies {
                 api(projects.proto)
                 api(libs.androidx.lifecycle.viewmodel.ktx)

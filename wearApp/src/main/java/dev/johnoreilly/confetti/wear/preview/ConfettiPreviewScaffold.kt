@@ -10,21 +10,18 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.Typography
 import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed
-import dev.johnoreilly.confetti.wear.ui.TypographyChoice
-import dev.johnoreilly.confetti.wear.ui.typographyFor
+import dev.johnoreilly.confetti.wear.ui.ExpressiveTypography
 
 /**
  * Preview wrapper that mirrors production scaffolding: [MaterialTheme] +
  * [AppScaffold] with a fixed-time [TimeText] so rendered PNGs include the
- * system time and are deterministic across CI runs.
- *
- * Pass [typography] (or the convenience [typographyChoice]) to fan out a
- * single preview across font families without duplicating the screen body.
+ * system time and are deterministic across CI runs. Defaults to the ship
+ * [ExpressiveTypography]; override [typography] for design explorations.
  */
 @Composable
 fun ConfettiPreviewScaffold(
     colors: ColorScheme = ColorScheme(),
-    typography: Typography = Typography(),
+    typography: Typography = ExpressiveTypography,
     content: @Composable () -> Unit,
 ) {
     ConfettiThemeFixed(colors = colors, typography = typography) {
@@ -37,18 +34,4 @@ fun ConfettiPreviewScaffold(
             content()
         }
     }
-}
-
-/** Overload that picks a typography by [TypographyChoice]. */
-@Composable
-fun ConfettiPreviewScaffold(
-    typographyChoice: TypographyChoice,
-    colors: ColorScheme = ColorScheme(),
-    content: @Composable () -> Unit,
-) {
-    ConfettiPreviewScaffold(
-        colors = colors,
-        typography = typographyFor(typographyChoice),
-        content = content,
-    )
 }

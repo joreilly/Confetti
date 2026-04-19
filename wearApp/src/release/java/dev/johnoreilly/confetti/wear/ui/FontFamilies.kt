@@ -7,13 +7,13 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import dev.johnoreilly.confetti.R
 
 /**
- * Release-variant font sources: downloadable fonts via Google Play services'
- * Google Fonts provider. Keeps the APK small (no bundled TTFs). Offline
- * devices automatically substitute the Compose font-loader's system fallback
- * until the download completes.
+ * Release-variant font sources for the Expressive typography: downloadable
+ * fonts via Google Play services' Google Fonts provider. Keeps the APK small
+ * (no bundled TTFs). Offline devices substitute the Compose font-loader's
+ * system fallback until the download completes.
  *
- * The debug variant bundles the actual TTFs so Robolectric previews render
- * the selected typography faithfully; see
+ * The debug variant bundles the actual variable TTFs so Robolectric
+ * previews render the real fonts; see
  * `src/debug/java/dev/johnoreilly/confetti/wear/ui/FontFamilies.kt`.
  */
 private val GoogleFontsProvider = GoogleFont.Provider(
@@ -34,6 +34,3 @@ private fun downloadable(name: String): FontFamily {
 
 internal val RobotoFlexFamily: FontFamily = downloadable("Roboto Flex")
 internal val InterFamily: FontFamily = downloadable("Inter")
-internal val NewsreaderFamily: FontFamily = downloadable("Newsreader")
-internal val PublicSansFamily: FontFamily = downloadable("Public Sans")
-internal val SpaceGroteskFamily: FontFamily = downloadable("Space Grotesk")

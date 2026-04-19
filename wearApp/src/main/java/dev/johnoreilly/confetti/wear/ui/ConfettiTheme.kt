@@ -14,15 +14,15 @@ import com.materialkolor.rememberDynamicColorScheme
  * Given a conference [seedColor] we build a Material 3 dynamic dark scheme
  * via `materialkolor` and map every role it defines onto the Wear [ColorScheme]
  * — including the `surfaceContainer*` family, outlines, and error/tertiary.
- * Without a seed we fall back to the Wear defaults (which the framework
- * tunes per-watch-face).
+ * Without a seed we fall back to the Wear defaults.
  *
- * [typography] lets callers swap the font stack; see [TypographyChoice].
+ * [typography] defaults to [ExpressiveTypography] — Roboto Flex + Inter,
+ * the ship configuration described in `design/STYLE_GUIDE.md`.
  */
 @Composable
 fun ConfettiTheme(
     seedColor: Color?,
-    typography: Typography = Typography(),
+    typography: Typography = ExpressiveTypography,
     content: @Composable () -> Unit,
 ) {
     val colors = if (seedColor != null) {

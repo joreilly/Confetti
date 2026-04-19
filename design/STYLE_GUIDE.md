@@ -67,18 +67,43 @@ via `toWearMaterialColors()`.
 
 ## 3. Typography
 
-Four typography stacks ship with the Wear app. The user picks one in
-**Settings → Typography** (see
-[`SettingsListView.kt`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt)).
-Each is built from GoogleFonts downloadable fonts with automatic system
-fallback when offline — see [`Fonts.kt`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/Fonts.kt).
+Confetti Wear ships a single typography — **Expressive**: Roboto Flex for
+display, title, and numeral roles; Inter for body and label. This is the
+Material 3 Expressive poster pairing, and it's hard-wired into the theme
+(see [`Fonts.kt`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/Fonts.kt)
+and the per-variant
+[`FontFamilies.kt`](../wearApp/src/debug/java/dev/johnoreilly/confetti/wear/ui/FontFamilies.kt)).
+Debug builds bundle the variable TTFs in `res/font/` so Robolectric
+previews render the real fonts; release builds download via the Google
+Fonts provider to keep the APK small.
 
-| Choice | Display / Title | Body / Label | Feel |
+### Why Expressive
+
+- **Roboto Flex's variable axes** (wght, opsz, grad, slnt, wdth) are
+  designed to respond to motion and viewport shifts — exactly the
+  conditions a `TransformingLazyColumn` produces as items scroll and
+  morph. On a small round face the font's small-optical-size axis picks
+  up extra contrast automatically.
+- **Inter** is hinted for legibility at 12–14 dp. The conference data
+  (speaker names, room names, abbreviated times) lives in that exact
+  range, and Inter stays readable where the default Roboto can feel
+  slightly thin.
+- The pair is neutral enough that the active conference's seedColor
+  (mapped onto `primary` and `surfaceContainer*`) is the visual signal
+  carrying the brand — the typography doesn't fight it.
+
+### Alternatives considered (archived, not in the code)
+
+Three other stacks were built, rendered, and rejected. They're
+referenced here so future design pivots have the prior work to lean on
+rather than re-derive; the comparison renders are archived in
+[PR #1680's preview-diff comment](https://github.com/joreilly/Confetti/pull/1680).
+
+| Alternative | Display / Title | Body / Label | Why not shipped |
 |---|---|---|---|
-| **System** | Roboto (Wear default) | Roboto | Matches the watch. No downloadable fetch — always ships. The safe default. |
-| **Expressive** | Roboto Flex | Inter | M3 Expressive's poster pairing. Variable axes (wght, opsz, GRAD) respond to motion. Distinct without being loud. |
-| **Editorial** | Newsreader (serif) | Public Sans | Gives conference names magazine weight. Bold choice on a 192-pixel screen — the capsule-shaped long-preview renders sell it. |
-| **Confident** | Space Grotesk | Inter | Modern dev-conference branding energy (Droidcon, KotlinConf adjacent). Wide counters, slightly irregular geometry. |
+| **System** | Roboto (Wear default) | Roboto | Safest but the hierarchy lacks identity; the seedColor alone has to carry the conference brand. |
+| **Editorial** | Newsreader (serif) | Public Sans | Magazine-weight conference names are striking but serifs at 14 dp on a round face trade glanceability for aesthetics. |
+| **Confident** | Space Grotesk | Inter | "Dev conference branding" energy, but Space Grotesk's wide counters eat horizontal room we need for session titles. |
 
 ### Role mapping
 
@@ -180,13 +205,13 @@ and [`Theme.kt`](../androidApp/src/main/java/dev/johnoreilly/confetti/ui/Theme.k
 optionally promoted to Android 12+ dynamic color. Typography is the
 Material 3 default scale with no custom fonts.
 
-The Wear treatment — seedColor-per-conference plus four user-selectable
-typographies — is deliberately compatible with that surface:
+The Wear treatment — seedColor-per-conference plus a fixed Expressive
+typography — is deliberately compatible with that surface:
 
 - `ConfettiTheme` on mobile could adopt the same seedColor input with no
   behaviour change to the current purple/orange/blue preset (pass
   `seedColor = null` and the defaults win).
-- The same four GoogleFonts families can be wired into mobile with a
+- The same Roboto Flex + Inter pair can be wired into mobile with a
   duplicated `Fonts.kt` (or a shared common module) once we want it.
 
 We don't do that migration in this PR — this guide just makes the shape

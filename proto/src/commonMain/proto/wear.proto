@@ -13,15 +13,7 @@ message WearSettings {
 message WearPreferences {
   NetworkDetail showNetworks = 1;
   NetworkPreferences networkPreferences = 2;
-  Typography typography = 3;
-}
-
-enum Typography {
-  TYPOGRAPHY_UNSPECIFIED = 0;
-  TYPOGRAPHY_SYSTEM = 1;
-  TYPOGRAPHY_EXPRESSIVE = 2;
-  TYPOGRAPHY_EDITORIAL = 3;
-  TYPOGRAPHY_CONFIDENT = 4;
+  reserved 3;  // was Typography — dropped; Expressive is now the ship default.
 }
 
 enum NetworkDetail {

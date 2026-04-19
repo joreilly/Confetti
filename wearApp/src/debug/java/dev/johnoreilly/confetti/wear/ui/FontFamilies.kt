@@ -9,14 +9,14 @@ import androidx.compose.ui.text.font.FontWeight
 import dev.johnoreilly.confetti.R
 
 /**
- * Debug-variant font sources: bundled variable TTFs in `res/font/`. These
- * load synchronously at rendering time — no network round-trip — so
- * Robolectric previews and offline devices both show the selected typography
- * faithfully. Each variable font is declared at four weights via
- * `FontVariation.weight(...)` so `FontFamily` can interpolate correctly.
+ * Debug-variant font sources for the Expressive typography: bundled variable
+ * TTFs in `res/font/`. They load synchronously — no network round-trip — so
+ * Robolectric previews and offline devices both show Roboto Flex + Inter
+ * faithfully. The four declared weights all point at the same variable font
+ * resource and interpolate via `FontVariation.weight(...)`.
  *
- * The release variant uses a downloadable GoogleFonts provider instead; see
- * `src/release/java/dev/johnoreilly/confetti/wear/ui/FontFamilies.kt`.
+ * The release variant swaps these for a downloadable GoogleFonts provider;
+ * see `src/release/java/dev/johnoreilly/confetti/wear/ui/FontFamilies.kt`.
  */
 private fun variable(resourceId: Int): FontFamily = FontFamily(
     Font(resourceId, FontWeight.Normal, variationSettings = FontVariation.Settings(FontVariation.weight(400))),
@@ -27,6 +27,3 @@ private fun variable(resourceId: Int): FontFamily = FontFamily(
 
 internal val RobotoFlexFamily: FontFamily = variable(R.font.roboto_flex_variable)
 internal val InterFamily: FontFamily = variable(R.font.inter_variable)
-internal val NewsreaderFamily: FontFamily = variable(R.font.newsreader_variable)
-internal val PublicSansFamily: FontFamily = variable(R.font.public_sans_variable)
-internal val SpaceGroteskFamily: FontFamily = variable(R.font.space_grotesk_variable)

@@ -2,66 +2,26 @@ package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.ui.text.font.FontFamily
 import androidx.wear.compose.material3.Typography
-import dev.johnoreilly.confetti.wear.proto.Typography as ProtoTypography
 
 /**
- * User-selectable typography family. Mirrors the proto enum. The actual
- * [FontFamily] instances that back each option live in `FontFamilies.kt` —
- * **debug** builds load bundled TTFs from `res/font/`, so Robolectric
- * previews show the selected typography faithfully; **release** builds use
- * downloadable GoogleFonts to keep the APK small.
+ * Confetti's ship typography — the **Expressive** stack from
+ * [design/STYLE_GUIDE.md](../../../../../../../../design/STYLE_GUIDE.md§3):
+ * Roboto Flex for display/title and numerals (variable axes respond to
+ * motion, the M3 Expressive poster font), Inter for body and label (hinted
+ * for legibility at small sizes on round displays).
+ *
+ * The two [FontFamily] values — [RobotoFlexFamily] and [InterFamily] — are
+ * defined per variant:
+ *   - **debug** bundles variable TTFs from `res/font/` so Robolectric
+ *     previews render the real fonts.
+ *   - **release** uses downloadable GoogleFonts to keep the APK small.
+ *
+ * The Wear scale (sizes, weights, arc + numeral styles) is preserved as-is.
  */
-enum class TypographyChoice(val label: String) {
-    System("System"),
-    Expressive("Expressive"),
-    Editorial("Editorial"),
-    Confident("Confident");
-
-    fun toProto(): ProtoTypography = when (this) {
-        System -> ProtoTypography.TYPOGRAPHY_SYSTEM
-        Expressive -> ProtoTypography.TYPOGRAPHY_EXPRESSIVE
-        Editorial -> ProtoTypography.TYPOGRAPHY_EDITORIAL
-        Confident -> ProtoTypography.TYPOGRAPHY_CONFIDENT
-    }
-
-    fun next(): TypographyChoice = entries[(ordinal + 1) % entries.size]
-
-    companion object {
-        /** Map back from proto; UNSPECIFIED and unknown both fall back to System. */
-        fun fromProto(proto: ProtoTypography?): TypographyChoice = when (proto) {
-            ProtoTypography.TYPOGRAPHY_EXPRESSIVE -> Expressive
-            ProtoTypography.TYPOGRAPHY_EDITORIAL -> Editorial
-            ProtoTypography.TYPOGRAPHY_CONFIDENT -> Confident
-            else -> System
-        }
-    }
-}
-
-/**
- * Build a Wear Material 3 [Typography] for the given [choice]. System returns
- * the Wear defaults (no font resource loaded). The other three replace the
- * default families role-by-role, leaving sizes untouched so the Wear scale
- * stays intact. Arc + numeral styles are preserved as-is — they drive the
- * curved time text and tile numerals, not app content.
- */
-fun typographyFor(choice: TypographyChoice): Typography {
-    val base = Typography()
-    return when (choice) {
-        TypographyChoice.System -> base
-        TypographyChoice.Expressive -> base.withFamilies(
-            display = RobotoFlexFamily, title = RobotoFlexFamily,
-            body = InterFamily, label = InterFamily,
-        )
-        TypographyChoice.Editorial -> base.withFamilies(
-            display = NewsreaderFamily, title = NewsreaderFamily,
-            body = PublicSansFamily, label = PublicSansFamily,
-        )
-        TypographyChoice.Confident -> base.withFamilies(
-            display = SpaceGroteskFamily, title = SpaceGroteskFamily,
-            body = InterFamily, label = InterFamily,
-        )
-    }
-}
+val ExpressiveTypography: Typography = Typography().withFamilies(
+    display = RobotoFlexFamily, title = RobotoFlexFamily,
+    body = InterFamily, label = InterFamily,
+)
 
 private fun Typography.withFamilies(
     display: FontFamily,

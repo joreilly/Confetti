@@ -31,6 +31,5 @@
     <string name="settings_show_networks">Show Networks</string>
     <string name="settings_show_networks_and_data">Show Networks and Data</string>
     <string name="settings_hide_networks">Hide Network Info</string>
-    <string name="settings_typography">Typography</string>
 
 </resources>

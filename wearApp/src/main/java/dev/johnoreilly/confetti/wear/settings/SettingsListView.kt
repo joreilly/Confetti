@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LteMobiledata
 import androidx.compose.material.icons.filled.NetworkPing
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -48,7 +47,6 @@ import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
 import dev.johnoreilly.confetti.wear.proto.WearPreferences
-import dev.johnoreilly.confetti.wear.ui.TypographyChoice
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -210,29 +208,6 @@ fun SettingsListView(
                 }
 
                 item {
-                    val current = TypographyChoice.fromProto(wearPreferences?.typography)
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = { Text(stringResource(R.string.settings_typography)) },
-                        secondaryLabel = { Text(current.label) },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Default.TextFields,
-                                contentDescription = null,
-                            )
-                        },
-                        onClick = {
-                            if (wearPreferences != null) {
-                                updatePreferences(
-                                    wearPreferences.copy(typography = current.next().toProto())
-                                )
-                            }
-                        },
-                        enabled = wearPreferences != null,
-                    )
-                }
-
-                item {
                     var developerModeCount by remember { mutableIntStateOf(0) }
                     Text(
                         modifier = Modifier
@@ -326,45 +301,3 @@ fun SettingsListViewLongPreview() {
     }
 }
 
-/** Per-typography previews: render the same screen under each font stack so
- *  the rendered diff shows them side-by-side. */
-@WearPreviewLargeRound
-@Composable
-fun SettingsListViewSystem() {
-    SettingsTypographyPreview(TypographyChoice.System)
-}
-
-@WearPreviewLargeRound
-@Composable
-fun SettingsListViewExpressive() {
-    SettingsTypographyPreview(TypographyChoice.Expressive)
-}
-
-@WearPreviewLargeRound
-@Composable
-fun SettingsListViewEditorial() {
-    SettingsTypographyPreview(TypographyChoice.Editorial)
-}
-
-@WearPreviewLargeRound
-@Composable
-fun SettingsListViewConfident() {
-    SettingsTypographyPreview(TypographyChoice.Confident)
-}
-
-@Composable
-private fun SettingsTypographyPreview(choice: TypographyChoice) {
-    ConfettiPreviewScaffold(typographyChoice = choice) {
-        SettingsListView(
-            conferenceCleared = {},
-            onSignIn = { },
-            onSignOut = { },
-            uiState = SettingsUiState.Success(
-                wearPreferences = WearPreferences(typography = choice.toProto()),
-            ),
-            onRefreshClick = {},
-            onEnableDeveloperMode = {},
-            updatePreferences = {}
-        )
-    }
-}

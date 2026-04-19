@@ -367,7 +367,11 @@ fun HomeListViewLongPreview() {
 @ScrollingPreview(mode = ScrollMode.LONG)
 @Composable
 fun HomeListViewKotlinConf() {
-    ConfettiPreviewScaffold(seedColor = conferenceThemeFor(ConferenceFixtures.kotlinConf.id)?.seedColor) {
+    val theme = conferenceThemeFor(ConferenceFixtures.kotlinConf.id)
+    ConfettiPreviewScaffold(
+        seedColor = theme?.seedColor,
+        typography = theme?.typography ?: dev.johnoreilly.confetti.wear.ui.ExpressiveTypography,
+    ) {
         HomeScreen(
             uiState = QueryResult.Success(ConferenceFixtures.kotlinConfHome),
             bookmarksUiState = QueryResult.Success(ConferenceFixtures.kotlinConfBookmarks),

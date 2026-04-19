@@ -30,6 +30,7 @@ import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
+import dev.johnoreilly.confetti.wear.ui.seedColor
 import dev.johnoreilly.confetti.wear.ui.toColor
 
 @Composable
@@ -121,9 +122,12 @@ private fun ConferencesChip(
     conference: GetConferencesQuery.Conference,
     navigateToConference: (GetConferencesQuery.Conference) -> Unit
 ) {
-    val seedColor = conference.themeColor?.toColor()
-
-    ConfettiTheme(seedColor = seedColor) {
+    // Curated conference themes (KotlinConf, AndroidMakers, Droidcon,
+    // DevFest) win over the backend-supplied themeColor so each chip on
+    // the conference list carries its own brand seed — not a generic
+    // fallback the backend happens to have stored. See
+    // `Conference.seedColor()` for the resolution order.
+    ConfettiTheme(seedColor = conference.seedColor()) {
         Button(
             modifier = modifier.fillMaxWidth(),
             onClick = {
@@ -157,6 +161,30 @@ fun ConferencesViewLongPreview() {
             uiState = ConferencesComponent.Success(
                 TestFixtures.conferences.groupBy { it.days[0].year }
             ),
+            navigateToConference = {},
+        )
+    }
+}
+
+/**
+ * List view of the four curated-theme conferences. Each chip wraps itself
+ * in a [ConfettiTheme] seeded by `conferenceThemeFor(id)` so the colors
+ * should land as KotlinConf purple, AndroidMakers ochre, Droidcon green,
+ * and DevFest blue — not a repeated backend-default red.
+ */
+@WearPreviewLargeRound
+@ScrollingPreview(mode = ScrollMode.LONG)
+@Composable
+fun ConferencesViewCuratedPreview() {
+    val curated = listOf(
+        dev.johnoreilly.confetti.wear.preview.ConferenceFixtures.kotlinConf,
+        dev.johnoreilly.confetti.wear.preview.ConferenceFixtures.androidMakers,
+        dev.johnoreilly.confetti.wear.preview.ConferenceFixtures.droidcon,
+        dev.johnoreilly.confetti.wear.preview.ConferenceFixtures.devFest,
+    )
+    ConfettiPreviewScaffold {
+        ConferencesView(
+            uiState = ConferencesComponent.Success(curated.groupBy { it.days[0].year }),
             navigateToConference = {},
         )
     }

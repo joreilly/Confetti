@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Event
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.wear.compose.material3.Typography
+import dev.johnoreilly.confetti.GetConferencesQuery
 
 /**
  * A curated per-conference visual identity: a seed [Color] that drives the
@@ -41,10 +42,14 @@ fun conferenceThemeFor(id: String?): ConferenceTheme? {
         // KotlinConf: JetBrains purple — the warm end of the red→purple
         // gradient the 2025/2026 site leans on. Code brackets icon nods to
         // the language; the gradient itself is too loud for a 24 dp chip.
+        // Typography swap: JetBrains Mono for display/title (their own
+        // OFL-licensed face, gives conference names a terminal/IDE feel);
+        // Inter stays for body + label so session cards remain readable.
         normalised.startsWith("kotlinconf") -> ConferenceTheme(
             seedColor = Color(0xFF7F52FF),
             icon = Icons.Filled.Code,
-            signatureName = "KotlinConf purple",
+            signatureName = "KotlinConf purple + JetBrains Mono titles",
+            typography = KotlinConfTypography,
         )
         // AndroidMakers: warm Parisian ochre, leaning into the venue imagery
         // the droidcon-run edition uses. Android robot icon is the one piece
@@ -80,3 +85,12 @@ fun conferenceThemeFor(id: String?): ConferenceTheme? {
 /** Fallback icon for conferences without a curated theme — used when we still
  *  want a consistent header shape. */
 val GenericConferenceIcon: ImageVector = Icons.Filled.Event
+
+/**
+ * Resolved seed [Color] for this conference: the curated theme wins over
+ * whatever `themeColor` the backend ships. Use this everywhere you'd
+ * otherwise call `conference.themeColor?.toColor()` — it keeps the four
+ * recognised conferences on-brand regardless of what the server thinks.
+ */
+fun GetConferencesQuery.Conference.seedColor(): Color? =
+    conferenceThemeFor(id)?.seedColor ?: themeColor?.toColor()

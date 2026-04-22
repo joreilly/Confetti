@@ -11,6 +11,7 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.CardDefaults
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
@@ -66,7 +67,10 @@ fun BookmarksScreen(
                         ScreenHeader(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .transformedHeight(this, transformationSpec),
+                                .transformedHeight(this, transformationSpec)
+                                .minimumVerticalContentPadding(
+                                    ListHeaderDefaults.minimumTopListContentPadding
+                                ),
                             text = stringResource(R.string.upcoming_sessions),
                             transformation = SurfaceTransformation(transformationSpec),
                         )
@@ -175,7 +179,10 @@ fun BookmarksScreen(
                         ScreenHeader(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .transformedHeight(this, transformationSpec),
+                                .transformedHeight(this, transformationSpec)
+                                .minimumVerticalContentPadding(
+                                    ListHeaderDefaults.minimumTopListContentPadding
+                                ),
                             text = stringResource(R.string.upcoming_sessions),
                             transformation = SurfaceTransformation(transformationSpec),
                         )

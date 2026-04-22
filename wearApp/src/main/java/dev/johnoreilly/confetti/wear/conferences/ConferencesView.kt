@@ -15,7 +15,10 @@ import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
@@ -60,6 +63,7 @@ fun ConferencesView(
     modifier: Modifier = Modifier,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
+    val transformationSpec = rememberTransformationSpec()
     ScreenScaffold(
         modifier = modifier,
         scrollState = columnState,
@@ -76,7 +80,11 @@ fun ConferencesView(
         ) {
             item {
                 ScreenHeader(
-                    text = "Conferences"
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec),
+                    text = "Conferences",
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
 
@@ -86,9 +94,11 @@ fun ConferencesView(
                         PlaceholderButton(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
                                 .minimumVerticalContentPadding(
                                     ButtonDefaults.minimumVerticalListContentPadding
                                 ),
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
                 }
@@ -99,11 +109,13 @@ fun ConferencesView(
                         ConferencesChip(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
                                 .minimumVerticalContentPadding(
                                     ButtonDefaults.minimumVerticalListContentPadding
                                 ),
-                            conference,
-                            navigateToConference,
+                            conference = conference,
+                            navigateToConference = navigateToConference,
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
                 }
@@ -120,7 +132,8 @@ fun ConferencesView(
 private fun ConferencesChip(
     modifier: Modifier = Modifier,
     conference: GetConferencesQuery.Conference,
-    navigateToConference: (GetConferencesQuery.Conference) -> Unit
+    navigateToConference: (GetConferencesQuery.Conference) -> Unit,
+    transformation: SurfaceTransformation? = null,
 ) {
     // Curated conference themes (KotlinConf, AndroidMakers, Droidcon,
     // DevFest) win over the backend-supplied themeColor so each chip on
@@ -130,6 +143,7 @@ private fun ConferencesChip(
     ConfettiTheme(seedColor = conference.seedColor()) {
         Button(
             modifier = modifier.fillMaxWidth(),
+            transformation = transformation,
             onClick = {
                 navigateToConference(conference)
             },

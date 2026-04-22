@@ -19,6 +19,7 @@ import androidx.wear.compose.material3.ButtonColors
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.PlaceholderDefaults
 import androidx.wear.compose.material3.PlaceholderState
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
@@ -35,12 +36,14 @@ public fun PlaceholderButton(
     secondaryLabel: Boolean = true,
     hasIcon: Boolean = true,
     enabled: Boolean = false,
+    transformation: SurfaceTransformation? = null,
 ) {
     Button(
         modifier = modifier
             .height(ButtonDefaults.Height)
             .fillMaxWidth()
             .placeholderShimmer(placeholderState),
+        transformation = transformation,
         onClick = onClick,
         enabled = enabled,
         label = {

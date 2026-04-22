@@ -5,14 +5,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
@@ -28,11 +33,16 @@ fun SessionDetailView(
     modifier: Modifier = Modifier,
 ) {
     val timeFormatter = remember { DateTimeFormatter.ofPattern("eeee HH:mm") }
-    val columnPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
-        last = ColumnItemType.Button
-    )
-    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
+    val transformationSpec = rememberTransformationSpec()
+    ScreenScaffold(
+        modifier = modifier,
+        scrollState = columnState,
+        scrollIndicator = {
+            if (!LocalScrollCaptureInProgress.current) {
+                ScrollIndicator(columnState)
+            }
+        },
+    ) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
@@ -45,8 +55,11 @@ fun SessionDetailView(
 
                     item {
                         ScreenHeader(
-                            modifier = Modifier,
-                            text = session.title
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec),
+                            text = session.title,
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
 
@@ -56,7 +69,13 @@ fun SessionDetailView(
                         }
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .graphicsLayer {
+                                    with(transformationSpec) {
+                                        applyContainerTransformation(scrollProgress)
+                                    }
+                                }
+                                .transformedHeight(this, transformationSpec),
                             text = time,
                         )
                     }
@@ -64,7 +83,13 @@ fun SessionDetailView(
                     items(description) {
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .graphicsLayer {
+                                    with(transformationSpec) {
+                                        applyContainerTransformation(scrollProgress)
+                                    }
+                                }
+                                .transformedHeight(this, transformationSpec),
                             text = it,
                         )
                     }
@@ -72,9 +97,14 @@ fun SessionDetailView(
                     items(session.speakers) { speaker ->
                         SessionSpeakerChip(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
+                                .minimumVerticalContentPadding(
+                                    ButtonDefaults.minimumVerticalListContentPadding
+                                ),
                             speaker = speaker.speakerDetails,
-                            navigateToSpeaker = navigateToSpeaker
+                            navigateToSpeaker = navigateToSpeaker,
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
                 }

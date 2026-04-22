@@ -183,7 +183,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
     implementation(libs.wear.compose.material)
-    implementation(libs.horologist.compose.layout)
     api(libs.horologist.compose.material)
     api(libs.horologist.composables)
     implementation(libs.horologist.tiles)

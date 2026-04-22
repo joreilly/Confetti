@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
@@ -13,7 +14,10 @@ import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
@@ -40,6 +44,7 @@ fun BookmarksScreen(
     modifier: Modifier = Modifier,
 ) {
     val columnState = rememberTransformingLazyColumnState()
+    val transformationSpec = rememberTransformationSpec()
     val placeholderState = rememberPlaceholderState(uiState is QueryResult.Loading)
     ScreenScaffold(
         modifier = modifier,
@@ -59,7 +64,11 @@ fun BookmarksScreen(
                 is QueryResult.Success, QueryResult.Loading -> {
                     item {
                         ScreenHeader(
-                            text = stringResource(R.string.upcoming_sessions)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec),
+                            text = stringResource(R.string.upcoming_sessions),
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
 
@@ -78,15 +87,28 @@ fun BookmarksScreen(
                             isBookmarked = true,
                             addBookmark = addBookmark,
                             removeBookmark = removeBookmark,
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
+                                .minimumVerticalContentPadding(
+                                    CardDefaults.minimumVerticalListContentPadding
+                                ),
                             placeholderState = placeholderState,
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
 
                     if ((uiState as? QueryResult.Success)?.result?.hasUpcomingBookmarks == false) {
                         item {
                             Text(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .graphicsLayer {
+                                        with(transformationSpec) {
+                                            applyContainerTransformation(scrollProgress)
+                                        }
+                                    }
+                                    .transformedHeight(this, transformationSpec),
                                 text = stringResource(id = R.string.no_upcoming),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -96,7 +118,11 @@ fun BookmarksScreen(
 
                     item {
                         SectionHeader(
-                            modifier = Modifier.fillMaxWidth(), text = stringResource(id = R.string.past_sessions)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec),
+                            text = stringResource(id = R.string.past_sessions),
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
 
@@ -113,9 +139,11 @@ fun BookmarksScreen(
                                 removeBookmark = {},
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .transformedHeight(this, transformationSpec)
                                     .minimumVerticalContentPadding(
                                         CardDefaults.minimumVerticalListContentPadding
                                     ),
+                                transformation = SurfaceTransformation(transformationSpec),
                             )
                         }
 
@@ -124,6 +152,12 @@ fun BookmarksScreen(
                                 Text(
                                     modifier = Modifier
                                         .fillMaxWidth()
+                                        .graphicsLayer {
+                                            with(transformationSpec) {
+                                                applyContainerTransformation(scrollProgress)
+                                            }
+                                        }
+                                        .transformedHeight(this, transformationSpec)
                                         .minimumVerticalContentPadding(
                                             CardDefaults.minimumVerticalListContentPadding
                                         ),
@@ -139,12 +173,23 @@ fun BookmarksScreen(
                 is QueryResult.Error -> {
                     item {
                         ScreenHeader(
-                            text = stringResource(R.string.upcoming_sessions)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec),
+                            text = stringResource(R.string.upcoming_sessions),
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
                     item {
                         Text(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .graphicsLayer {
+                                    with(transformationSpec) {
+                                        applyContainerTransformation(scrollProgress)
+                                    }
+                                }
+                                .transformedHeight(this, transformationSpec),
                             text = uiState.exception.message ?: "Unknown Error Occurred",
                             color = MaterialTheme.colorScheme.errorDim
                         )

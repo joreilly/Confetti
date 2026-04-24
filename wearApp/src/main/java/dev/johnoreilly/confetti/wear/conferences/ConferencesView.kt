@@ -3,10 +3,13 @@ package dev.johnoreilly.confetti.wear.conferences
 import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
@@ -14,6 +17,7 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ListHeaderDefaults
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SurfaceTransformation
@@ -53,7 +57,8 @@ fun ConferencesRoute(
         uiState = uiState,
         navigateToConference = { conference ->
             component.onConferenceClicked(conference)
-        }
+        },
+        onRetry = component::refresh,
     )
 }
 
@@ -63,6 +68,7 @@ fun ConferencesView(
     navigateToConference: (GetConferencesQuery.Conference) -> Unit,
     modifier: Modifier = Modifier,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
+    onRetry: () -> Unit = {},
 ) {
     val transformationSpec = rememberTransformationSpec()
     ScreenScaffold(
@@ -124,8 +130,29 @@ fun ConferencesView(
                     }
                 }
 
-                else -> {
-                    // TODO
+                is ConferencesComponent.Error -> {
+                    item {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            text = "Couldn't load conferences. Check your connection and try again.",
+                            color = MaterialTheme.colorScheme.errorDim,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                    item {
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
+                                .minimumVerticalContentPadding(
+                                    ButtonDefaults.minimumVerticalListContentPadding
+                                ),
+                            transformation = SurfaceTransformation(transformationSpec),
+                            onClick = onRetry,
+                        ) { Text("Retry") }
+                    }
                 }
             }
         }

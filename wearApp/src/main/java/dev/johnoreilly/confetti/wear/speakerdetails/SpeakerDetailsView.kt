@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
@@ -17,13 +19,15 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.rememberPlaceholderState
 import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
@@ -45,12 +49,17 @@ fun SpeakerDetailsView(
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
 ) {
     val placeholderState = rememberPlaceholderState(uiState is SpeakerDetailsUiState.Loading)
+    val transformationSpec = rememberTransformationSpec()
 
-    val columnPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.IconButton,
-        last = ColumnItemType.BodyText
-    )
-    ScreenScaffold(modifier = modifier, scrollState = columnState, contentPadding = columnPadding) { contentPadding ->
+    ScreenScaffold(
+        modifier = modifier,
+        scrollState = columnState,
+        scrollIndicator = {
+            if (!LocalScrollCaptureInProgress.current) {
+                ScrollIndicator(columnState)
+            }
+        },
+    ) { contentPadding ->
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
@@ -62,6 +71,12 @@ fun SpeakerDetailsView(
                         imageVector = ConfettiIcons.Person,
                         contentDescription = "",
                         modifier = Modifier
+                            .graphicsLayer {
+                                with(transformationSpec) {
+                                    applyContainerTransformation(scrollProgress)
+                                }
+                            }
+                            .transformedHeight(this, transformationSpec)
                             .size(80.dp)
                             .clip(RoundedCornerShape(16.dp))
                     )
@@ -72,10 +87,12 @@ fun SpeakerDetailsView(
                         text = "",
                         modifier = Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .padding(horizontal = 60.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .height(24.dp)
-                            .placeholder(placeholderState)
+                            .placeholder(placeholderState),
+                        transformation = SurfaceTransformation(transformationSpec),
                     )
                 }
 
@@ -84,6 +101,12 @@ fun SpeakerDetailsView(
                         text = "",
                         modifier = Modifier
                             .fillMaxWidth()
+                            .graphicsLayer {
+                                with(transformationSpec) {
+                                    applyContainerTransformation(scrollProgress)
+                                }
+                            }
+                            .transformedHeight(this, transformationSpec)
                             .padding(horizontal = 30.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .height(24.dp)
@@ -94,7 +117,14 @@ fun SpeakerDetailsView(
                 item {
                     Text(
                         modifier = Modifier
-                            .fillMaxWidth(), text = ""
+                            .fillMaxWidth()
+                            .graphicsLayer {
+                                with(transformationSpec) {
+                                    applyContainerTransformation(scrollProgress)
+                                }
+                            }
+                            .transformedHeight(this, transformationSpec),
+                        text = ""
                     )
                 }
             } else {
@@ -118,6 +148,12 @@ fun SpeakerDetailsView(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
+                            .graphicsLayer {
+                                with(transformationSpec) {
+                                    applyContainerTransformation(scrollProgress)
+                                }
+                            }
+                            .transformedHeight(this, transformationSpec)
                             .size(80.dp)
                             .clip(RoundedCornerShape(16.dp))
                     )
@@ -126,8 +162,10 @@ fun SpeakerDetailsView(
                 item {
                     SectionHeader(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec),
                         text = speaker?.name ?: "",
+                        transformation = SurfaceTransformation(transformationSpec),
                     )
                 }
 
@@ -135,7 +173,13 @@ fun SpeakerDetailsView(
                     item {
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .graphicsLayer {
+                                    with(transformationSpec) {
+                                        applyContainerTransformation(scrollProgress)
+                                    }
+                                }
+                                .transformedHeight(this, transformationSpec),
                             text = speaker?.tagline ?: "",
                         )
                     }
@@ -145,7 +189,13 @@ fun SpeakerDetailsView(
                     item {
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .graphicsLayer {
+                                    with(transformationSpec) {
+                                        applyContainerTransformation(scrollProgress)
+                                    }
+                                }
+                                .transformedHeight(this, transformationSpec),
                             text = speaker?.bio ?: "",
                         )
                     }
@@ -154,5 +204,3 @@ fun SpeakerDetailsView(
         }
     }
 }
-
-

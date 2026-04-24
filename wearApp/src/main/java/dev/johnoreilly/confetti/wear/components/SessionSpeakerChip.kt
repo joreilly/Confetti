@@ -11,6 +11,7 @@ import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.SurfaceTransformation
 import coil.compose.SubcomposeAsyncImage
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
@@ -26,10 +27,12 @@ val SpeakerDetails.wearPhotoUrl: String?
 fun SessionSpeakerChip(
     modifier: Modifier = Modifier,
     speaker: SpeakerDetails,
-    navigateToSpeaker: (String) -> Unit
+    navigateToSpeaker: (String) -> Unit,
+    transformation: SurfaceTransformation? = null,
 ) {
     Button(
         modifier = modifier,
+        transformation = transformation,
         icon = {
             SubcomposeAsyncImage(
                 model = speaker.wearPhotoUrl,

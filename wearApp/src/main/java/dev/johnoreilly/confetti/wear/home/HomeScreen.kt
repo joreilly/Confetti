@@ -12,26 +12,34 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.PlaceholderState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.TransformationSpec
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
@@ -71,6 +79,7 @@ fun HomeScreen(
     val dayFormatter = remember { DateTimeFormatter.ofPattern("cccc") }
 
     val columnState = rememberTransformingLazyColumnState()
+    val transformationSpec = rememberTransformationSpec()
     val placeholderState = rememberPlaceholderState(uiState is QueryResult.Loading)
     ScreenScaffold(
         modifier = modifier,
@@ -97,7 +106,11 @@ fun HomeScreen(
             state = columnState,
             contentPadding = contentPadding,
         ) {
-            titleSection(uiState = uiState, placeholderState = placeholderState)
+            titleSection(
+                uiState = uiState,
+                placeholderState = placeholderState,
+                transformationSpec = transformationSpec,
+            )
 
             bookmarksSection(
                 uiState = uiState,
@@ -105,24 +118,39 @@ fun HomeScreen(
                 sessionSelected = sessionSelected,
                 addBookmark = addBookmark,
                 removeBookmark = removeBookmark,
-                onBookmarksClick = onBookmarksClick
+                onBookmarksClick = onBookmarksClick,
+                transformationSpec = transformationSpec,
             )
 
-            conferenceDaysSection(uiState = uiState, daySelected = daySelected, dayFormatter = dayFormatter)
+            conferenceDaysSection(
+                uiState = uiState,
+                daySelected = daySelected,
+                dayFormatter = dayFormatter,
+                transformationSpec = transformationSpec,
+            )
         }
     }
 }
 
 private fun TransformingLazyColumnScope.titleSection(
     uiState: QueryResult<HomeUiState>,
-    placeholderState: PlaceholderState
+    placeholderState: PlaceholderState,
+    transformationSpec: TransformationSpec,
 ) {
     when (uiState) {
         is QueryResult.Success, QueryResult.Loading -> {
             item {
                 val success = uiState as? QueryResult.Success
                 val conferenceTheme = conferenceThemeFor(success?.result?.conference)
-                ListHeader(modifier = Modifier.fillMaxWidth()) {
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ListHeaderDefaults.minimumTopListContentPadding
+                        ),
+                    transformation = SurfaceTransformation(transformationSpec),
+                ) {
                     Column(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -171,13 +199,16 @@ private fun TransformingLazyColumnScope.bookmarksSection(
     sessionSelected: (String) -> Unit,
     addBookmark: ((sessionId: String) -> Unit)?,
     removeBookmark: ((sessionId: String) -> Unit)?,
-    onBookmarksClick: () -> Unit
+    onBookmarksClick: () -> Unit,
+    transformationSpec: TransformationSpec,
 ) {
     item {
         SectionHeader(
             modifier = Modifier
-                .fillMaxWidth(),
-            text = stringResource(R.string.home_bookmarked_sessions)
+                .fillMaxWidth()
+                .transformedHeight(this, transformationSpec),
+            text = stringResource(R.string.home_bookmarked_sessions),
+            transformation = SurfaceTransformation(transformationSpec),
         )
     }
 
@@ -188,7 +219,11 @@ private fun TransformingLazyColumnScope.bookmarksSection(
                 key(session.id) {
                     SessionCard(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                CardDefaults.minimumVerticalListContentPadding
+                            ),
                         session = session, sessionSelected = {
                             if (uiState is QueryResult.Success) {
                                 sessionSelected(it)
@@ -197,7 +232,8 @@ private fun TransformingLazyColumnScope.bookmarksSection(
                         currentTime = bookmarksUiState.result.now,
                         addBookmark = addBookmark,
                         removeBookmark = removeBookmark,
-                        isBookmarked = bookmarksUiState.result.isBookmarked(session.id)
+                        isBookmarked = bookmarksUiState.result.isBookmarked(session.id),
+                        transformation = SurfaceTransformation(transformationSpec),
                     )
                 }
             }
@@ -205,7 +241,13 @@ private fun TransformingLazyColumnScope.bookmarksSection(
                 item {
                     Text(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .graphicsLayer {
+                                with(transformationSpec) {
+                                    applyContainerTransformation(scrollProgress)
+                                }
+                            }
+                            .transformedHeight(this, transformationSpec),
                         text = stringResource(id = R.string.no_upcoming),
                     )
                 }
@@ -218,7 +260,12 @@ private fun TransformingLazyColumnScope.bookmarksSection(
     item {
         OutlinedButton(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .transformedHeight(this, transformationSpec)
+                .minimumVerticalContentPadding(
+                    ButtonDefaults.minimumVerticalListContentPadding
+                ),
+            transformation = SurfaceTransformation(transformationSpec),
             onClick = {
                 if (uiState is QueryResult.Success) {
                     onBookmarksClick()
@@ -233,13 +280,16 @@ private fun TransformingLazyColumnScope.bookmarksSection(
 private fun TransformingLazyColumnScope.conferenceDaysSection(
     uiState: QueryResult<HomeUiState>,
     daySelected: (LocalDate) -> Unit,
-    dayFormatter: DateTimeFormatter
+    dayFormatter: DateTimeFormatter,
+    transformationSpec: TransformationSpec,
 ) {
     item {
         SectionHeader(
             modifier = Modifier
-                .fillMaxWidth(),
-            text = stringResource(id = R.string.conference_days)
+                .fillMaxWidth()
+                .transformedHeight(this, transformationSpec),
+            text = stringResource(id = R.string.conference_days),
+            transformation = SurfaceTransformation(transformationSpec),
         )
     }
     when (uiState) {
@@ -248,12 +298,15 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
                 DayChip(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
                         .minimumVerticalContentPadding(
                             ButtonDefaults.minimumVerticalListContentPadding
                         ),
                     dayFormatter,
                     date,
-                    daySelected = { daySelected(date) })
+                    daySelected = { daySelected(date) },
+                    transformation = SurfaceTransformation(transformationSpec),
+                )
             }
         }
 
@@ -262,9 +315,11 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
                 PlaceholderButton(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
                         .minimumVerticalContentPadding(
                             ButtonDefaults.minimumVerticalListContentPadding
                         ),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
         }
@@ -278,10 +333,12 @@ fun DayChip(
     modifier: Modifier = Modifier,
     dayFormatter: DateTimeFormatter,
     date: LocalDate,
-    daySelected: () -> Unit
+    daySelected: () -> Unit,
+    transformation: SurfaceTransformation? = null,
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
+        transformation = transformation,
         onClick = daySelected,
         colors = ButtonDefaults.filledVariantButtonColors(),
     ) {
@@ -323,7 +380,10 @@ fun HomeListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(modes = [ScrollMode.LONG])
+@ScrollingPreview(
+    modes = [ScrollMode.TOP, ScrollMode.END, ScrollMode.LONG, ScrollMode.GIF],
+    reduceMotion = false,
+)
 @Composable
 fun HomeListViewLongPreview() {
     ConfettiPreviewScaffold {

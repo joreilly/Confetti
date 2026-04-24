@@ -1,21 +1,35 @@
 package dev.johnoreilly.confetti.wear.conferences
 
 import androidx.activity.compose.ReportDrawnWhen
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.FilledIconButton
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.ListHeaderDefaults
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
@@ -49,7 +63,8 @@ fun ConferencesRoute(
         uiState = uiState,
         navigateToConference = { conference ->
             component.onConferenceClicked(conference)
-        }
+        },
+        onRetry = component::refresh,
     )
 }
 
@@ -59,7 +74,9 @@ fun ConferencesView(
     navigateToConference: (GetConferencesQuery.Conference) -> Unit,
     modifier: Modifier = Modifier,
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
+    onRetry: () -> Unit = {},
 ) {
+    val transformationSpec = rememberTransformationSpec()
     ScreenScaffold(
         modifier = modifier,
         scrollState = columnState,
@@ -76,7 +93,14 @@ fun ConferencesView(
         ) {
             item {
                 ScreenHeader(
-                    text = "Conferences"
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ListHeaderDefaults.minimumTopListContentPadding
+                        ),
+                    text = "Conferences",
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
 
@@ -86,9 +110,11 @@ fun ConferencesView(
                         PlaceholderButton(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
                                 .minimumVerticalContentPadding(
                                     ButtonDefaults.minimumVerticalListContentPadding
                                 ),
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
                 }
@@ -99,17 +125,43 @@ fun ConferencesView(
                         ConferencesChip(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
                                 .minimumVerticalContentPadding(
                                     ButtonDefaults.minimumVerticalListContentPadding
                                 ),
-                            conference,
-                            navigateToConference,
+                            conference = conference,
+                            navigateToConference = navigateToConference,
+                            transformation = SurfaceTransformation(transformationSpec),
                         )
                     }
                 }
 
-                else -> {
-                    // TODO
+                is ConferencesComponent.Error -> {
+                    item {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            text = "Couldn't load conferences. Check your connection and try again.",
+                            color = MaterialTheme.colorScheme.errorDim,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            FilledIconButton(onClick = onRetry) {
+                                Icon(
+                                    imageVector = Icons.Default.Refresh,
+                                    contentDescription = "Retry",
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -120,7 +172,8 @@ fun ConferencesView(
 private fun ConferencesChip(
     modifier: Modifier = Modifier,
     conference: GetConferencesQuery.Conference,
-    navigateToConference: (GetConferencesQuery.Conference) -> Unit
+    navigateToConference: (GetConferencesQuery.Conference) -> Unit,
+    transformation: SurfaceTransformation? = null,
 ) {
     // Curated conference themes (KotlinConf, AndroidMakers, Droidcon,
     // DevFest) win over the backend-supplied themeColor so each chip on
@@ -130,6 +183,7 @@ private fun ConferencesChip(
     ConfettiTheme(seedColor = conference.seedColor()) {
         Button(
             modifier = modifier.fillMaxWidth(),
+            transformation = transformation,
             onClick = {
                 navigateToConference(conference)
             },
@@ -147,6 +201,18 @@ fun ConferencesViewPreview() {
             uiState = ConferencesComponent.Success(
                 TestFixtures.conferences.groupBy { it.days[0].year }
             ),
+            navigateToConference = {},
+        )
+    }
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun ConferencesViewErrorPreview() {
+    ConfettiPreviewScaffold {
+        ConferencesView(
+            uiState = ConferencesComponent.Error,
             navigateToConference = {},
         )
     }

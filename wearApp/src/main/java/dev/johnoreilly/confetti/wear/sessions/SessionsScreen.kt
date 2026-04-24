@@ -11,8 +11,12 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.CardDefaults
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.SurfaceTransformation
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
@@ -34,6 +38,7 @@ fun SessionsScreen(
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
     modifier: Modifier = Modifier,
 ) {
+    val transformationSpec = rememberTransformationSpec()
     ScreenScaffold(
         modifier = modifier,
         scrollState = columnState,
@@ -56,7 +61,13 @@ fun SessionsScreen(
                         item {
                             SectionHeader(
                                 modifier = Modifier
-                                    .fillMaxWidth(), text = time
+                                    .fillMaxWidth()
+                                    .transformedHeight(this, transformationSpec)
+                                    .minimumVerticalContentPadding(
+                                        ListHeaderDefaults.minimumTopListContentPadding
+                                    ),
+                                text = time,
+                                transformation = SurfaceTransformation(transformationSpec),
                             )
                         }
 
@@ -64,6 +75,7 @@ fun SessionsScreen(
                             SessionCard(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .transformedHeight(this, transformationSpec)
                                     .minimumVerticalContentPadding(
                                         CardDefaults.minimumVerticalListContentPadding
                                     ),
@@ -75,6 +87,7 @@ fun SessionsScreen(
                                 isBookmarked = uiState.bookmarks.contains(session.id),
                                 addBookmark = addBookmark,
                                 removeBookmark = removeBookmark,
+                                transformation = SurfaceTransformation(transformationSpec),
                             )
                         }
                     }

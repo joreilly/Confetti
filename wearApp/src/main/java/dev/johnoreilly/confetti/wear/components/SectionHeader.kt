@@ -7,6 +7,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.ListSubHeader
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 
 /**
@@ -21,8 +22,12 @@ import androidx.wear.compose.material3.Text
 fun SectionHeader(
     text: String,
     modifier: Modifier = Modifier,
+    transformation: SurfaceTransformation? = null,
 ) {
-    ListSubHeader(modifier = modifier.fillMaxWidth()) {
+    ListSubHeader(
+        modifier = modifier.fillMaxWidth(),
+        transformation = transformation,
+    ) {
         Text(
             text = text,
             style = MaterialTheme.typography.labelMedium,
@@ -40,8 +45,12 @@ fun SectionHeader(
 fun ScreenHeader(
     text: String,
     modifier: Modifier = Modifier,
+    transformation: SurfaceTransformation? = null,
 ) {
-    ListHeader(modifier = modifier.fillMaxWidth()) {
+    ListHeader(
+        modifier = modifier.fillMaxWidth(),
+        transformation = transformation,
+    ) {
         Text(
             text = text,
             textAlign = TextAlign.Center,

@@ -182,10 +182,6 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
-    implementation(libs.wear.compose.material)
-    implementation(libs.horologist.compose.layout)
-    api(libs.horologist.compose.material)
-    api(libs.horologist.composables)
     implementation(libs.horologist.tiles)
     implementation(libs.wear.complications.data)
 
@@ -203,7 +199,6 @@ dependencies {
     implementation(libs.horologist.networkawareness.core)
     implementation(libs.horologist.networkawareness.db)
     implementation(libs.horologist.networkawareness.okhttp)
-    implementation(libs.horologist.networkawareness.ui)
     api(libs.horologist.images.coil)
 
     implementation(libs.material3.core)

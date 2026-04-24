@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -25,15 +26,21 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.ListSubHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.TransformationSpec
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
@@ -63,6 +70,7 @@ fun SettingsListView(
     columnState: TransformingLazyColumnState = rememberTransformingLazyColumnState(),
     modifier: Modifier = Modifier,
 ) {
+    val transformationSpec = rememberTransformationSpec()
     ScreenScaffold(
         modifier = modifier,
         scrollState = columnState,
@@ -90,15 +98,26 @@ fun SettingsListView(
         ) {
             item {
                 ScreenHeader(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.settings)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ListHeaderDefaults.minimumTopListContentPadding
+                        ),
+                    text = stringResource(id = R.string.settings),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
 
             item {
                 Button(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ButtonDefaults.minimumVerticalListContentPadding
+                        ),
+                    transformation = SurfaceTransformation(transformationSpec),
                     onClick = conferenceCleared,
                 ) {
                     Text(stringResource(R.string.settings_change_conference))
@@ -114,7 +133,12 @@ fun SettingsListView(
                     if (authUser == null) {
                         Button(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
+                                .minimumVerticalContentPadding(
+                                    ButtonDefaults.minimumVerticalListContentPadding
+                                ),
+                            transformation = SurfaceTransformation(transformationSpec),
                             onClick = onSignIn,
                         ) {
                             Text(stringResource(R.string.settings_sign_in))
@@ -128,6 +152,10 @@ fun SettingsListView(
                         Button(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .transformedHeight(this, transformationSpec)
+                                .minimumVerticalContentPadding(
+                                    ButtonDefaults.minimumVerticalListContentPadding
+                                )
                                 .clearAndSetSemantics {
                                     contentDescription = chipContentDescription
                                     onClick(clickActionLabel) {
@@ -135,6 +163,7 @@ fun SettingsListView(
                                         true
                                     }
                                 },
+                            transformation = SurfaceTransformation(transformationSpec),
                             icon = { AsyncImage(model = authUser.photoUrl, contentDescription = null) },
                             onClick = { onSignOut() }
                         ) {
@@ -146,7 +175,12 @@ fun SettingsListView(
                 item {
                     SwitchButton(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                ButtonDefaults.minimumVerticalListContentPadding
+                            ),
+                        transformation = SurfaceTransformation(transformationSpec),
                         label = { Text(stringResource(R.string.settings_allow_lte)) },
                         icon = {
                             androidx.wear.compose.material3.Icon(
@@ -174,7 +208,12 @@ fun SettingsListView(
                 item {
                     Button(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                ButtonDefaults.minimumVerticalListContentPadding
+                            ),
+                        transformation = SurfaceTransformation(transformationSpec),
                         label = {
                             Text(
                                 when (wearPreferences?.showNetworks) {
@@ -212,6 +251,12 @@ fun SettingsListView(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .graphicsLayer {
+                                with(transformationSpec) {
+                                    applyContainerTransformation(scrollProgress)
+                                }
+                            }
+                            .transformedHeight(this, transformationSpec)
                             .padding(top = 10.dp)
                             .run {
                                 if (!uiState.developerMode) {
@@ -232,7 +277,7 @@ fun SettingsListView(
                 }
 
                 if (uiState.developerMode) {
-                    developerModeOptions(uiState)
+                    developerModeOptions(uiState, transformationSpec)
                 }
             }
         }
@@ -241,13 +286,16 @@ fun SettingsListView(
 
 private fun TransformingLazyColumnScope.developerModeOptions(
     uiState: SettingsUiState.Success,
+    transformationSpec: TransformationSpec,
 ) {
     val authUser = uiState.authUser
 
     item {
         ListSubHeader(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .transformedHeight(this, transformationSpec),
+            transformation = SurfaceTransformation(transformationSpec),
         ) {
             Text(
                 text = "Developer Mode",
@@ -259,7 +307,13 @@ private fun TransformingLazyColumnScope.developerModeOptions(
         item {
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .graphicsLayer {
+                        with(transformationSpec) {
+                            applyContainerTransformation(scrollProgress)
+                        }
+                    }
+                    .transformedHeight(this, transformationSpec),
                 style = MaterialTheme.typography.labelSmall,
                 text = "Email: ${authUser.email}"
             )

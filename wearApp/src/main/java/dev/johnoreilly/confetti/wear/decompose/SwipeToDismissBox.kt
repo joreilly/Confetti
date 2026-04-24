@@ -11,21 +11,19 @@ import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.SwipeToDismissKeys
 import androidx.wear.compose.material3.SwipeToDismissBox
-import androidx.wear.compose.material3.TimeText
-import androidx.wear.compose.material3.AppScaffold
 import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 
 /**
- * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
+ * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material3.SwipeToDismissBox].
  *
  * @param stack a [ChildStack] to be displayed.
  * @param onDismissed called when the swipe to dismiss gesture has completed, allows popping the stack.
  * See [StackNavigator#pop][com.arkivanov.decompose.router.stack.pop].
  * @param modifier a [Modifier] to be applied to the underlying
- * [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
+ * [SwipeToDismissBox][androidx.wear.compose.material3.SwipeToDismissBox].
  * @param content a Composable slot displaying a [Child][Child.Created].
  */
 @Composable
@@ -33,7 +31,6 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: Value<ChildStack<C, T>>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() },
     content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val state = stack.subscribeAsState()
@@ -43,18 +40,17 @@ fun <C : Any, T : Any> SwipeToDismissBox(
         onDismissed = onDismissed,
         modifier = modifier,
         content = content,
-        timeText = timeText
     )
 }
 
 /**
- * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
+ * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material3.SwipeToDismissBox].
  *
  * @param stack a [ChildStack] to be displayed.
  * @param onDismissed called when the swipe to dismiss gesture has completed, allows popping the stack.
  * See [StackNavigator#pop][com.arkivanov.decompose.router.stack.pop].
  * @param modifier a [Modifier] to be applied to the underlying
- * [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
+ * [SwipeToDismissBox][androidx.wear.compose.material3.SwipeToDismissBox].
  * @param content a Composable slot displaying a [Child][Child.Created].
  */
 @Composable
@@ -62,7 +58,6 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: ChildStack<C, T>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() },
     content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val active: Child.Created<C, T> = stack.active
@@ -71,18 +66,16 @@ fun <C : Any, T : Any> SwipeToDismissBox(
 
     RetainStates(holder, stack.getConfigurations())
 
-    AppScaffold(timeText = timeText) {
-        SwipeToDismissBox(
-            onDismissed = onDismissed,
-            modifier = modifier,
-            backgroundKey = background?.configuration ?: SwipeToDismissKeys.Background,
-            contentKey = active.configuration,
-            userSwipeEnabled = background != null,
-        ) { isBackground ->
-            val child = background?.takeIf { isBackground } ?: active
-            holder.SaveableStateProvider(child.configuration.key()) {
-                content(child)
-            }
+    SwipeToDismissBox(
+        onDismissed = onDismissed,
+        modifier = modifier,
+        backgroundKey = background?.configuration ?: SwipeToDismissKeys.Background,
+        contentKey = active.configuration,
+        userSwipeEnabled = background != null,
+    ) { isBackground ->
+        val child = background?.takeIf { isBackground } ?: active
+        holder.SaveableStateProvider(child.configuration.key()) {
+            content(child)
         }
     }
 }

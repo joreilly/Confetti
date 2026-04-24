@@ -26,6 +26,7 @@ import androidx.wear.compose.material3.LocalContentColor
 import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.PlaceholderState
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TitleCard
@@ -57,6 +58,7 @@ fun SessionCard(
         }
     },
     placeholderState: PlaceholderState = rememberPlaceholderState(false),
+    transformation: SurfaceTransformation? = null,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val revealState = rememberRevealState()
@@ -70,7 +72,8 @@ fun SessionCard(
                 sessionSelected = sessionSelected,
                 session = session,
                 placeholderState = placeholderState,
-                timeDisplay = timeDisplay
+                timeDisplay = timeDisplay,
+                transformation = transformation,
             )
         }
 
@@ -114,12 +117,14 @@ private fun SessionCardContent(
     sessionSelected: (sessionId: String) -> Unit,
     session: SessionDetails?,
     placeholderState: PlaceholderState,
-    timeDisplay: @Composable () -> Unit
+    timeDisplay: @Composable () -> Unit,
+    transformation: SurfaceTransformation? = null,
 ) {
     TitleCard(
         modifier = modifier
             .fillMaxWidth()
             .placeholderShimmer(placeholderState),
+        transformation = transformation,
         onClick = {
             if (session != null) {
                 sessionSelected(session.id)

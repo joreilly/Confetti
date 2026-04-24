@@ -17,13 +17,13 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 
 /**
- * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
+ * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material3.SwipeToDismissBox].
  *
  * @param stack a [ChildStack] to be displayed.
  * @param onDismissed called when the swipe to dismiss gesture has completed, allows popping the stack.
  * See [StackNavigator#pop][com.arkivanov.decompose.router.stack.pop].
  * @param modifier a [Modifier] to be applied to the underlying
- * [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
+ * [SwipeToDismissBox][androidx.wear.compose.material3.SwipeToDismissBox].
  * @param content a Composable slot displaying a [Child][Child.Created].
  */
 @Composable
@@ -44,13 +44,13 @@ fun <C : Any, T : Any> SwipeToDismissBox(
 }
 
 /**
- * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
+ * Displays the [ChildStack] in [SwipeToDismissBox][androidx.wear.compose.material3.SwipeToDismissBox].
  *
  * @param stack a [ChildStack] to be displayed.
  * @param onDismissed called when the swipe to dismiss gesture has completed, allows popping the stack.
  * See [StackNavigator#pop][com.arkivanov.decompose.router.stack.pop].
  * @param modifier a [Modifier] to be applied to the underlying
- * [SwipeToDismissBox][androidx.wear.compose.material.SwipeToDismissBox].
+ * [SwipeToDismissBox][androidx.wear.compose.material3.SwipeToDismissBox].
  * @param content a Composable slot displaying a [Child][Child.Created].
  */
 @Composable

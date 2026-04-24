@@ -53,7 +53,7 @@ generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.17.1"
 roborazzi = "1.59.0"
 screenshot = "0.0.1-alpha14"
-composeai-preview = "0.7.1"
+composeai-preview = "0.7.9"
 
 
 [libraries]
@@ -141,9 +141,7 @@ google-cloud-bom = "com.google.cloud:libraries-bom:26.63.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.25.1"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
-horologist-composables = { module = "com.google.android.horologist:horologist-composables", version.ref = "horologist" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
-horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
 horologist-compose-tools = { module = "com.google.android.horologist:horologist-compose-tools", version.ref = "horologist" }
 horologist-datalayer = { module = "com.google.android.horologist:horologist-datalayer", version.ref = "horologist" }
 horologist-datalayer-phone = { module = "com.google.android.horologist:horologist-datalayer-phone", version.ref = "horologist" }
@@ -152,7 +150,6 @@ horologist-images-coil = { module = "com.google.android.horologist:horologist-im
 horologist-networkawareness-core = { module = "com.google.android.horologist:horologist-network-awareness", version.ref = "horologist" }
 horologist-networkawareness-db = { module = "com.google.android.horologist:horologist-network-awareness-db", version.ref = "horologist" }
 horologist-networkawareness-okhttp = { module = "com.google.android.horologist:horologist-network-awareness-okhttp", version.ref = "horologist" }
-horologist-networkawareness-ui = { module = "com.google.android.horologist:horologist-network-awareness-ui", version.ref = "horologist" }
 horologist-tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "horologist" }
 horologist-roboscreenshots = { module = "com.google.android.horologist:horologist-roboscreenshots", version.ref = "horologist" }
 jsonpath = "com.eygraber:jsonpathkt-kotlinx:3.0.2"
@@ -215,7 +212,6 @@ splash-screen = "androidx.core:core-splashscreen:1.0.1"
 test-espressocore = "androidx.test.espresso:espresso-core:3.6.1"
 test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
 wear-complications-data = { module = "androidx.wear.watchface:watchface-complications-data-source-ktx", version.ref = "wear-watchface"}
-wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wear-compose"}
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wear-compose"}
 xoxo = "net.mbonnin.xoxo:xoxo:0.4.0"
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }

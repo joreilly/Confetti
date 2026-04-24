@@ -11,8 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.SwipeToDismissKeys
 import androidx.wear.compose.material3.SwipeToDismissBox
-import androidx.wear.compose.material3.TimeText
-import androidx.wear.compose.material3.AppScaffold
 import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -33,7 +31,6 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: Value<ChildStack<C, T>>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() },
     content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val state = stack.subscribeAsState()
@@ -43,7 +40,6 @@ fun <C : Any, T : Any> SwipeToDismissBox(
         onDismissed = onDismissed,
         modifier = modifier,
         content = content,
-        timeText = timeText
     )
 }
 
@@ -62,7 +58,6 @@ fun <C : Any, T : Any> SwipeToDismissBox(
     stack: ChildStack<C, T>,
     onDismissed: () -> Unit,
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() },
     content: @Composable (child: Child.Created<C, T>) -> Unit,
 ) {
     val active: Child.Created<C, T> = stack.active
@@ -71,18 +66,16 @@ fun <C : Any, T : Any> SwipeToDismissBox(
 
     RetainStates(holder, stack.getConfigurations())
 
-    AppScaffold(timeText = timeText) {
-        SwipeToDismissBox(
-            onDismissed = onDismissed,
-            modifier = modifier,
-            backgroundKey = background?.configuration ?: SwipeToDismissKeys.Background,
-            contentKey = active.configuration,
-            userSwipeEnabled = background != null,
-        ) { isBackground ->
-            val child = background?.takeIf { isBackground } ?: active
-            holder.SaveableStateProvider(child.configuration.key()) {
-                content(child)
-            }
+    SwipeToDismissBox(
+        onDismissed = onDismissed,
+        modifier = modifier,
+        backgroundKey = background?.configuration ?: SwipeToDismissKeys.Background,
+        contentKey = active.configuration,
+        userSwipeEnabled = background != null,
+    ) { isBackground ->
+        val child = background?.takeIf { isBackground } ?: active
+        holder.SaveableStateProvider(child.configuration.key()) {
+            content(child)
         }
     }
 }

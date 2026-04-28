@@ -13,6 +13,7 @@ plugins {
     id("kotlinx-serialization")
     alias(libs.plugins.kmmbridge)
     alias(libs.plugins.buildkonfig)
+    alias(libs.plugins.composeai.preview)
 }
 
 configureCompilerOptions()

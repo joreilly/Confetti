@@ -33,3 +33,5 @@ terraform.tfstate.backup
 
 swiftpm
 /.kotlin/
+
+*/.compose-preview-history

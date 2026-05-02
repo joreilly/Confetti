@@ -1,0 +1,37 @@
+name: Preview Comment
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-comment-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          lfs: 'true'
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - uses: yschimke/compose-ai-tools/.github/actions/preview-comment@v0.8.12
+        with:
+          cli-version: catalog
+          catalog-key: composeai-preview

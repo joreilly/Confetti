@@ -1,0 +1,37 @@
+name: Preview Baselines
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: preview-baselines
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          lfs: 'true'
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Warm Gradle wrapper
+        run: ./gradlew help
+
+      - uses: yschimke/compose-ai-tools/.github/actions/preview-baselines@v0.9.0
+        with:
+          cli-version: catalog
+          catalog-key: composeai-preview

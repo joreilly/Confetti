@@ -28,6 +28,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
+      - name: Warm Gradle wrapper
+        run: ./gradlew help
+
       - uses: yschimke/compose-ai-tools/.github/actions/preview-baselines@v0.9.0
         with:
           cli-version: catalog

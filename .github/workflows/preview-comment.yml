@@ -31,7 +31,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
-      - uses: yschimke/compose-ai-tools/.github/actions/preview-comment@v0.8.12
+      - uses: yschimke/compose-ai-tools/.github/actions/preview-comment@v0.9.0
         with:
           cli-version: catalog
           catalog-key: composeai-preview

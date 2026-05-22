@@ -25,12 +25,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
 import conferenceDayMonthFormat
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.previewConferenceListState
+import dev.johnoreilly.confetti.preview.sampleConferences
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import kotlinx.datetime.LocalDate
 
@@ -143,4 +149,37 @@ fun YearHeader(
             style = MaterialTheme.typography.titleLarge
         )
     }
+}
+
+private class PreviewConferencesComponent(
+    state: ConferencesComponent.UiState,
+) : ConferencesComponent {
+    override val uiState: Value<ConferencesComponent.UiState> = MutableValue(state)
+    override fun refresh() {}
+    override fun onConferenceClicked(conference: GetConferencesQuery.Conference) {}
+}
+
+@MobilePreviews
+@Composable
+internal fun ConferenceListViewLoadedPreview() {
+    ConferenceListView(
+        component = PreviewConferencesComponent(previewConferenceListState),
+    )
+}
+
+@Preview(name = "Loading", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun ConferenceListViewLoadingPreview() {
+    ConferenceListView(
+        component = PreviewConferencesComponent(ConferencesComponent.Loading),
+    )
+}
+
+@Preview(name = "Conference card", widthDp = 411, heightDp = 140, showBackground = true)
+@Composable
+internal fun ConferenceCardPreview() {
+    ConferenceCard(
+        conference = sampleConferences.first(),
+        navigateToConference = {},
+    )
 }

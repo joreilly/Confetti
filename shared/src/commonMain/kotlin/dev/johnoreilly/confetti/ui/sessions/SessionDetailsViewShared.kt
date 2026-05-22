@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import confetti.shared.generated.resources.Res
@@ -44,6 +45,8 @@ import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Facebook
@@ -315,4 +318,30 @@ private fun sessionTimeString(startsAt: LocalDateTime, endsAt: LocalDateTime): S
     val startTimeDate = startsAt.sessionStartDateTimeFormat()
     val endsAtTime = endsAt.sessionTimeFormat()
     return "$startTimeDate - $endsAtTime"
+}
+
+@MobilePreviews
+@Composable
+internal fun SessionDetailViewLoadedPreview() {
+    MaterialTheme {
+        SessionDetailViewShared(
+            conference = "kotlinconf2023",
+            session = sessionDetails,
+            onSpeakerClick = {},
+            onSocialLinkClicked = {},
+        )
+    }
+}
+
+@Preview(name = "Empty", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun SessionDetailViewEmptyPreview() {
+    MaterialTheme {
+        SessionDetailViewShared(
+            conference = "kotlinconf2023",
+            session = null,
+            onSpeakerClick = {},
+            onSocialLinkClicked = {},
+        )
+    }
 }

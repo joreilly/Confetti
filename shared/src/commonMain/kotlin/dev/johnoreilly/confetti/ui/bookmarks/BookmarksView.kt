@@ -20,11 +20,15 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.bookmarks_past
 import confetti.shared.generated.resources.bookmarks_upcoming
 import confetti.shared.generated.resources.no_bookmarks
 import dev.johnoreilly.confetti.decompose.DateSessionsMap
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.bookmarkedSessionsByDate
+import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.EmptyView
@@ -166,4 +170,52 @@ private fun BookmarksHorizontalPager(
             }
         }
     }
+}
+
+@MobilePreviews
+@Composable
+internal fun BookmarksViewLoadedPreview() {
+    BookmarksView(
+        pastSessions = emptyMap(),
+        upcomingSessions = bookmarkedSessionsByDate,
+        navigateToSession = {},
+        onSignIn = {},
+        bookmarks = setOf(sessionDetails.id),
+        addBookmark = {},
+        removeBookmark = {},
+        loading = false,
+        isLoggedIn = true,
+    )
+}
+
+@Preview(name = "Empty", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun BookmarksViewEmptyPreview() {
+    BookmarksView(
+        pastSessions = emptyMap(),
+        upcomingSessions = emptyMap(),
+        navigateToSession = {},
+        onSignIn = {},
+        bookmarks = emptySet(),
+        addBookmark = {},
+        removeBookmark = {},
+        loading = false,
+        isLoggedIn = true,
+    )
+}
+
+@Preview(name = "Loading", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun BookmarksViewLoadingPreview() {
+    BookmarksView(
+        pastSessions = emptyMap(),
+        upcomingSessions = emptyMap(),
+        navigateToSession = {},
+        onSignIn = {},
+        bookmarks = emptySet(),
+        addBookmark = {},
+        removeBookmark = {},
+        loading = true,
+        isLoggedIn = false,
+    )
 }

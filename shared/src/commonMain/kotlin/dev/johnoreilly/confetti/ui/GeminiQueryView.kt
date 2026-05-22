@@ -28,12 +28,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mikepenz.markdown.m3.Markdown
 import dev.johnoreilly.confetti.GeminiApi
 import dev.johnoreilly.confetti.decompose.RecommendationsComponent
+import dev.johnoreilly.confetti.preview.MobilePreviews
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -59,7 +62,10 @@ fun GeminiQueryView(component: RecommendationsComponent) {
 
 @Composable
 fun RecommendationsView(conferenceInfo: String) {
-    val geminiApi = remember { GeminiApi() }
+    // Previews (LocalInspectionMode = true) can't create a GeminiApi without
+    // an API key from BuildKonfig; skip the instance entirely in inspection mode.
+    val inspecting = LocalInspectionMode.current
+    val geminiApi = remember(inspecting) { if (inspecting) null else GeminiApi() }
     var query by remember { mutableStateOf("") }
     var queryResponse by remember { mutableStateOf("") }
 
@@ -78,7 +84,7 @@ fun RecommendationsView(conferenceInfo: String) {
             keyboardActions = KeyboardActions(
                 onSearch = {
                     keyboardController?.hide()
-                    if (query.isNotEmpty()) {
+                    if (query.isNotEmpty() && geminiApi != null) {
                         coroutineScope.launch {
                             val prompt = "$query. Base on the following CSV: $conferenceInfo}"
                             queryResponse = ""
@@ -116,4 +122,19 @@ fun RecommendationsView(conferenceInfo: String) {
             Markdown(queryResponse)
         }
     }
+}
+
+@MobilePreviews
+@Composable
+internal fun RecommendationsViewLoadedPreview() {
+    RecommendationsView(
+        conferenceInfo = "Speakers, Session ID, Title, Start Time, Description,\n" +
+            "John O'Reilly, 368995, Confetti talk, 2023-04-13T14:00, KMM live coding\n",
+    )
+}
+
+@Preview(name = "Empty conference info", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun RecommendationsViewEmptyPreview() {
+    RecommendationsView(conferenceInfo = "")
 }

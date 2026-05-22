@@ -14,9 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import dev.johnoreilly.confetti.decompose.Venue
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.sampleVenue
 
 
 @Composable
@@ -69,4 +72,20 @@ fun VenueFloorPlanButton(
             )
         }
     }
+}
+
+@MobilePreviews
+@Composable
+internal fun VenueViewLoadedPreview() {
+    VenueView(venue = sampleVenue)
+}
+
+@Preview(name = "With floor plan", widthDp = 411, heightDp = 1200, showBackground = true)
+@Composable
+internal fun VenueViewWithFloorPlanPreview() {
+    VenueView(
+        venue = sampleVenue.copy(
+            floorPlanUrl = "https://confetti-app.dev/floorplan.png",
+        ),
+    )
 }

@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.oops
@@ -39,4 +40,16 @@ fun ErrorView(onRefresh: (() ->Unit)? = null){
             }
         }
     }
+}
+
+@Preview(name = "Error with retry", widthDp = 360, heightDp = 200, showBackground = true)
+@Composable
+internal fun ErrorViewWithRetryPreview() {
+    ErrorView(onRefresh = {})
+}
+
+@Preview(name = "Error without retry", widthDp = 360, heightDp = 200, showBackground = true)
+@Composable
+internal fun ErrorViewNoRetryPreview() {
+    ErrorView(onRefresh = null)
 }

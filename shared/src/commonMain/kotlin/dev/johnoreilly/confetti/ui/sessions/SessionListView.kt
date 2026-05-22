@@ -17,7 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import dev.johnoreilly.confetti.decompose.SessionsUiState
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.sessionsSuccessState
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ErrorView
 import dev.johnoreilly.confetti.ui.component.LoadingView
@@ -133,4 +136,46 @@ fun SessionListView(
             }
         }
     }
+}
+
+@MobilePreviews
+@Composable
+internal fun SessionListViewLoadedPreview() {
+    SessionListView(
+        uiState = sessionsSuccessState,
+        sessionSelected = {},
+        addBookmark = {},
+        removeBookmark = {},
+        onRefresh = {},
+        onNavigateToSignIn = {},
+        isLoggedIn = false,
+    )
+}
+
+@Preview(name = "Loading", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun SessionListViewLoadingPreview() {
+    SessionListView(
+        uiState = SessionsUiState.Loading,
+        sessionSelected = {},
+        addBookmark = {},
+        removeBookmark = {},
+        onRefresh = {},
+        onNavigateToSignIn = {},
+        isLoggedIn = false,
+    )
+}
+
+@Preview(name = "Error", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun SessionListViewErrorPreview() {
+    SessionListView(
+        uiState = SessionsUiState.Error,
+        sessionSelected = {},
+        addBookmark = {},
+        removeBookmark = {},
+        onRefresh = {},
+        onNavigateToSignIn = {},
+        isLoggedIn = false,
+    )
 }

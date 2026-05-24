@@ -114,7 +114,7 @@ fun HomeView(component: HomeComponent) {
         val topBarNavigationIcon = @Composable {
             AccountIcon(
                 onSwitchConference = component::onSwitchConferenceClicked,
-                onGetRecommendations = component::onGetRecommendationsClicked,
+                onOpenAgent = component::onAgentClicked,
                 onSignIn = component::onSignInClicked,
                 onSignOut = component::onSignOutClicked,
                 onShowSettings = component::onShowSettingsClicked,
@@ -123,7 +123,7 @@ fun HomeView(component: HomeComponent) {
                 },
                 installOnWear = {}, // FIXME: handle
                 //wearSettingsUiState = wearUiState,
-                showRecommendationsOption = component.isGeminiEnabled()
+                showAgentOption = component.isAgentEnabled()
             )
         }
 
@@ -170,7 +170,7 @@ fun HomeView(component: HomeComponent) {
                                 topBarActions = topBarActions,
                             )
 
-                        is HomeComponent.Child.Recommendations -> GeminiQueryView(child.component)
+                        is HomeComponent.Child.Agent -> ConferenceAgentView(child.component)
                     }
                 }
 
@@ -274,11 +274,4 @@ private fun <T> T.NavigationButtons(
         component::onVenueTabClicked,
     )
 
-//    content(
-//        activeChild is HomeComponent.Child.Recommendations,
-//        Icons.Filled.Search,
-//        Icons.Outlined.Search,
-//        stringResource(Res.string.gemini),
-//        component::onGetRecommendationsClicked,
-//    )
 }

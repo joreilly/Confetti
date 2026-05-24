@@ -41,6 +41,10 @@
     <string name="sign_in_lowercase">Sign in</string>
     <string name="switch_conference">Switch Conference</string>
     <string name="recommendations">Recommendations</string>
+    <string name="agent_assistant">Assistant</string>
+    <string name="agent_placeholder">Ask about sessions or speakers…</string>
+    <string name="agent_send">Send</string>
+    <string name="agent_restart">Restart chat</string>
     <string name="install_wear">Install on Wear</string>
     <string name="choose_conference">Choose Conference</string>
     <string name="search_placeholder">What are you looking for?</string>

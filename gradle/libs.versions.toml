@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.2.21"
+kotlin = "2.3.21"
 ksp = "2.3.2"
 kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.7.1"
@@ -54,6 +54,8 @@ buildkonfig = "0.17.1"
 roborazzi = "1.59.0"
 screenshot = "0.0.1-alpha14"
 composeai-preview = "0.11.10"
+koogAgents = "1.0.0"
+koogPromptExecutorAll = "1.0.0-beta"
 
 
 [libraries]
@@ -226,6 +228,11 @@ roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi
 roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 
 composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composeai-preview" }
+
+koog-agents = { module = "ai.koog:koog-agents", version.ref = "koogAgents" }
+koog-prompt-executor-llms-all = { module = "ai.koog:prompt-executor-llms-all", version.ref = "koogPromptExecutorAll" }
+koog-prompt-executor-google-client = { module = "ai.koog:prompt-executor-google-client", version.ref = "koogPromptExecutorAll" }
+koog-http-client-ktor = { module = "ai.koog:http-client-ktor", version.ref = "koogAgents" }
 
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines", "multiplatform-settings-serialization", "multiplatform-settings-make-observable"]

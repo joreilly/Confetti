@@ -40,3 +40,4 @@ jobs:
           cli-version: catalog
           catalog-key: composeai-preview
           missing-renders: warn
+          skip: notifications

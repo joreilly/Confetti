@@ -34,7 +34,7 @@ jobs:
       - name: Warm Gradle wrapper
         run: ./gradlew help
 
-      - uses: yschimke/compose-ai-tools/.github/actions/preview-comment@v0.11.5
+      - uses: yschimke/compose-ai-tools/.github/actions/preview-comment@v0.11.6
         with:
           cli-version: catalog
           catalog-key: composeai-preview

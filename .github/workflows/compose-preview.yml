@@ -1,23 +1,24 @@
-name: Preview Comment
+name: Compose Preview
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 concurrency:
-  group: preview-comment-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: compose-preview-${{ github.event.pull_request.number || 'baselines' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  compare:
+  apply:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -34,7 +35,9 @@ jobs:
       - name: Warm Gradle wrapper
         run: ./gradlew help
 
-      - uses: yschimke/compose-ai-tools/.github/actions/preview-comment@v0.11.9
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v0.11.9
         with:
           cli-version: catalog
           catalog-key: composeai-preview
+          a11y-module: wearApp
+          notifications-module: androidApp

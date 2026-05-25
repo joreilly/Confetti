@@ -1,19 +1,21 @@
-name: Preview Baselines
+name: Compose Preview
 
+# Auto-triggers disabled until the GITHUB_TOKEN can push baseline/PR
+# branches (currently 403 against joreilly/Confetti.git). Run manually
+# via the Actions tab once permissions are sorted.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
-  group: preview-baselines
+  group: compose-preview
   cancel-in-progress: false
 
 jobs:
-  update:
+  apply:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -24,14 +26,16 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 21
 
       - uses: gradle/actions/setup-gradle@v6
 
       - name: Warm Gradle wrapper
         run: ./gradlew help
 
-      - uses: yschimke/compose-ai-tools/.github/actions/preview-baselines@v0.9.0
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v0.11.10
         with:
           cli-version: catalog
           catalog-key: composeai-preview
+          missing-renders: warn
+          skip: notifications

@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,6 +46,8 @@ import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.isService
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.sessionsSuccessState
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.component.ErrorView
 import dev.johnoreilly.confetti.ui.component.LoadingView
@@ -330,4 +333,32 @@ private fun Bookmark(
             onSignInClicked = onNavigateToSignIn
         )
     }
+}
+
+@MobilePreviews
+@Composable
+internal fun SessionListGridViewLoadedPreview() {
+    SessionListGridView(
+        uiState = sessionsSuccessState,
+        sessionSelected = {},
+        addBookmark = {},
+        removeBookmark = {},
+        onNavigateToSignIn = {},
+        isLoggedIn = false,
+        onRefresh = {},
+    )
+}
+
+@Preview(name = "Loading", widthDp = 960, heightDp = 600, showBackground = true)
+@Composable
+internal fun SessionListGridViewLoadingPreview() {
+    SessionListGridView(
+        uiState = SessionsUiState.Loading,
+        sessionSelected = {},
+        addBookmark = {},
+        removeBookmark = {},
+        onNavigateToSignIn = {},
+        isLoggedIn = false,
+        onRefresh = {},
+    )
 }

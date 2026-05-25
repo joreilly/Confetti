@@ -33,11 +33,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.sessions
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.johnOreillySpeaker
+import dev.johnoreilly.confetti.preview.martinBonninSpeaker
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.sessions.SocialIcon
 import org.jetbrains.compose.resources.stringResource
@@ -173,5 +177,33 @@ fun SpeakerTalks(
                 }
             }
         }
+    }
+}
+
+@MobilePreviews
+@Composable
+internal fun SpeakerDetailsViewLoadedPreview() {
+    MaterialTheme {
+        SpeakerDetailsView(
+            conference = "kotlinconf2023",
+            speaker = johnOreillySpeaker,
+            navigateToSession = {},
+            popBack = {},
+            onSocialLinkClicked = {},
+        )
+    }
+}
+
+@Preview(name = "Different speaker", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun SpeakerDetailsViewAlternateSpeakerPreview() {
+    MaterialTheme {
+        SpeakerDetailsView(
+            conference = "kotlinconf2023",
+            speaker = martinBonninSpeaker,
+            navigateToSession = {},
+            popBack = {},
+            onSocialLinkClicked = {},
+        )
     }
 }

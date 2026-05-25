@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import confetti.shared.generated.resources.Res
@@ -126,24 +127,32 @@ fun AccountIcon(
     }
 }
 
-//@Preview(uiMode = UI_MODE_NIGHT_YES, name = "night theme")
-//@Preview(uiMode = UI_MODE_NIGHT_NO, name = "light theme")
-//@Composable
-//private fun AccountIconPreview() {
-//    val wearUiState = WearUiState()
-//    ConfettiTheme {
-//        Surface {
-//            AccountIcon(
-//                onSwitchConference = {},
-//                onGetRecommendations = {},
-//                onSignIn = {},
-//                onSignOut = {},
-//                onShowSettings = {},
-//                installOnWear = {},
-//                wearSettingsUiState = wearUiState,
-//                info = AccountInfo(),
-//                showRecommendationsOption = false
-//            )
-//        }
-//    }
-//}
+@Preview(name = "Signed out", widthDp = 64, heightDp = 64, showBackground = true)
+@Composable
+internal fun AccountIconSignedOutPreview() {
+    AccountIcon(
+        onSwitchConference = {},
+        onGetRecommendations = {},
+        onSignIn = {},
+        onSignOut = {},
+        onShowSettings = {},
+        installOnWear = {},
+        info = null,
+        showRecommendationsOption = false,
+    )
+}
+
+@Preview(name = "Signed in", widthDp = 64, heightDp = 64, showBackground = true)
+@Composable
+internal fun AccountIconSignedInPreview() {
+    AccountIcon(
+        onSwitchConference = {},
+        onGetRecommendations = {},
+        onSignIn = {},
+        onSignOut = {},
+        onShowSettings = {},
+        installOnWear = {},
+        info = AccountInfo(),
+        showRecommendationsOption = true,
+    )
+}

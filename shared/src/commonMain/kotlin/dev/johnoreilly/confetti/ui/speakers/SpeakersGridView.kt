@@ -18,10 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.SubcomposeAsyncImage
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.sampleSpeakers
 
 
 @Composable
@@ -65,5 +68,25 @@ fun SpeakerGridView(
                 }
             }
         }
+    )
+}
+
+@MobilePreviews
+@Composable
+internal fun SpeakerGridViewLoadedPreview() {
+    SpeakerGridView(
+        conference = "kotlinconf2023",
+        speakers = sampleSpeakers,
+        navigateToSpeaker = {},
+    )
+}
+
+@Preview(name = "Empty", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun SpeakerGridViewEmptyPreview() {
+    SpeakerGridView(
+        conference = "kotlinconf2023",
+        speakers = emptyList(),
+        navigateToSpeaker = {},
     )
 }

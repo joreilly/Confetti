@@ -22,8 +22,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.breakSession
+import dev.johnoreilly.confetti.preview.lightningSession
+import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.isService
@@ -127,4 +132,43 @@ fun SessionItemView(
         }
     }
 
+}
+
+@MobilePreviews
+@Composable
+internal fun SessionItemViewLoadedPreview() {
+    SessionItemView(
+        session = sessionDetails,
+        sessionSelected = {},
+        isBookmarked = true,
+        addBookmark = {},
+        removeBookmark = {},
+        isLoggedIn = true,
+    )
+}
+
+@Preview(name = "Lightning talk", widthDp = 411, heightDp = 220, showBackground = true)
+@Composable
+internal fun SessionItemViewLightningPreview() {
+    SessionItemView(
+        session = lightningSession,
+        sessionSelected = {},
+        isBookmarked = false,
+        addBookmark = {},
+        removeBookmark = {},
+        isLoggedIn = false,
+    )
+}
+
+@Preview(name = "Break", widthDp = 411, heightDp = 140, showBackground = true)
+@Composable
+internal fun SessionItemViewBreakPreview() {
+    SessionItemView(
+        session = breakSession,
+        sessionSelected = {},
+        isBookmarked = false,
+        addBookmark = {},
+        removeBookmark = {},
+        isLoggedIn = false,
+    )
 }

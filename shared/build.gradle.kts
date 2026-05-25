@@ -90,6 +90,10 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
+                // CMP `@Preview` annotation that compiles across all targets
+                // (Android, JVM, iOS, wasmJs). The plugin discovers the JetBrains
+                // FQN `org.jetbrains.compose.ui.tooling.preview.Preview`.
+                implementation(compose.components.uiToolingPreview)
                 api(compose.components.resources)
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor)

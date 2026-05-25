@@ -47,6 +47,7 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.search_placeholder
@@ -54,6 +55,10 @@ import confetti.shared.generated.resources.sessions
 import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.lightningSession
+import dev.johnoreilly.confetti.preview.sampleSpeakers
+import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
@@ -234,3 +239,60 @@ fun Modifier.interceptKey(key: Key, onKeyEvent: () -> Unit = {}): Modifier =
         }
         event.key == key
     }
+
+@MobilePreviews
+@Composable
+internal fun SearchViewLoadedPreview() {
+    SearchView(
+        search = "kotlin",
+        onSearchChange = {},
+        sessions = listOf(sessionDetails, lightningSession),
+        speakers = sampleSpeakers,
+        navigateToSession = {},
+        navigateToSpeaker = {},
+        onSignIn = {},
+        bookmarks = setOf(sessionDetails.id),
+        addBookmark = {},
+        removeBookmark = {},
+        loading = false,
+        isLoggedIn = true,
+    )
+}
+
+@Preview(name = "Empty query", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun SearchViewEmptyQueryPreview() {
+    SearchView(
+        search = "",
+        onSearchChange = {},
+        sessions = emptyList(),
+        speakers = emptyList(),
+        navigateToSession = {},
+        navigateToSpeaker = {},
+        onSignIn = {},
+        bookmarks = emptySet(),
+        addBookmark = {},
+        removeBookmark = {},
+        loading = false,
+        isLoggedIn = false,
+    )
+}
+
+@Preview(name = "Loading", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun SearchViewLoadingPreview() {
+    SearchView(
+        search = "kotlin",
+        onSearchChange = {},
+        sessions = emptyList(),
+        speakers = emptyList(),
+        navigateToSession = {},
+        navigateToSpeaker = {},
+        onSignIn = {},
+        bookmarks = emptySet(),
+        addBookmark = {},
+        removeBookmark = {},
+        loading = true,
+        isLoggedIn = false,
+    )
+}

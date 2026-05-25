@@ -39,5 +39,3 @@ jobs:
         with:
           cli-version: catalog
           catalog-key: composeai-preview
-          a11y-module: wearApp
-          notifications-module: androidApp

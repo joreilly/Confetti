@@ -233,6 +233,9 @@ koog-agents = { module = "ai.koog:koog-agents", version.ref = "koogAgents" }
 koog-prompt-executor-llms-all = { module = "ai.koog:prompt-executor-llms-all", version.ref = "koogPromptExecutorAll" }
 koog-prompt-executor-google-client = { module = "ai.koog:prompt-executor-google-client", version.ref = "koogPromptExecutorAll" }
 koog-http-client-ktor = { module = "ai.koog:http-client-ktor", version.ref = "koogAgents" }
+koog-embeddings-base = { module = "ai.koog:embeddings-base", version.ref = "koogAgents" }
+koog-rag-base = { module = "ai.koog:rag-base", version.ref = "koogPromptExecutorAll" }
+koog-rag-vector = { module = "ai.koog:rag-vector", version.ref = "koogPromptExecutorAll" }
 
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines", "multiplatform-settings-serialization", "multiplatform-settings-make-observable"]

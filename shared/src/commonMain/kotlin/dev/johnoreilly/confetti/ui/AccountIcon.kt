@@ -132,13 +132,13 @@ fun AccountIcon(
 internal fun AccountIconSignedOutPreview() {
     AccountIcon(
         onSwitchConference = {},
-        onGetRecommendations = {},
+        onOpenAgent = {},
         onSignIn = {},
         onSignOut = {},
         onShowSettings = {},
         installOnWear = {},
         info = null,
-        showRecommendationsOption = false,
+        showAgentOption = false,
     )
 }
 
@@ -147,12 +147,12 @@ internal fun AccountIconSignedOutPreview() {
 internal fun AccountIconSignedInPreview() {
     AccountIcon(
         onSwitchConference = {},
-        onGetRecommendations = {},
+        onOpenAgent = {},
         onSignIn = {},
         onSignOut = {},
         onShowSettings = {},
         installOnWear = {},
         info = AccountInfo(),
-        showRecommendationsOption = true,
+        showAgentOption = true,
     )
 }

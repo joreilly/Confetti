@@ -12,16 +12,6 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.serialization.Serializable
 import kotlin.time.ExperimentalTime
 
-private suspend fun ConfettiRepository.allSessions(conference: String): List<SessionDetails> {
-    return sessionsQuery(conference, FetchPolicy.CacheFirst)
-        .execute()
-        .data
-        ?.sessions
-        ?.nodes
-        ?.map { it.sessionDetails }
-        .orEmpty()
-}
-
 private suspend fun ConfettiRepository.allSpeakers(conference: String): List<SpeakerDetails> {
     return conferenceData(conference, FetchPolicy.CacheFirst)
         .data
@@ -65,8 +55,10 @@ class GetSessionsTool(
 ) : SimpleTool<GetSessionsTool.Args>(
     argsType = typeToken<Args>(),
     name = "GetSessionsTool",
-    description = "Returns the list of sessions for the current conference. " +
-        "Optionally filter by a free-text query that is matched against the title and description.",
+    description = "Returns sessions whose title or description contains the filter as a " +
+        "whole-word literal match (case-insensitive). Use this only when the user gives " +
+        "an exact phrase to match verbatim. For topic/theme queries use SearchSessionsTool " +
+        "instead — that one understands meaning, not just literal text.",
 ) {
     @Serializable
     data class Args(
@@ -81,15 +73,43 @@ class GetSessionsTool(
         val filtered = if (args.filter.isBlank()) {
             sessions
         } else {
-            val needle = args.filter.trim()
+            val pattern = Regex("\\b${Regex.escape(args.filter.trim())}\\b", RegexOption.IGNORE_CASE)
             sessions.filter { session ->
-                session.title.contains(needle, ignoreCase = true) ||
-                    session.sessionDescription.orEmpty().contains(needle, ignoreCase = true)
+                pattern.containsMatchIn(session.title) ||
+                    pattern.containsMatchIn(session.sessionDescription.orEmpty())
             }
         }
         val limit = args.limit.coerceAtLeast(1)
         return filtered.take(limit).joinToString(separator = "\n\n") { it.summary() }
             .ifEmpty { "No matching sessions." }
+    }
+}
+
+class SearchSessionsTool(
+    private val index: SessionEmbeddingIndex,
+) : SimpleTool<SearchSessionsTool.Args>(
+    argsType = typeToken<Args>(),
+    name = "SearchSessionsTool",
+    description = "Semantic search over sessions. Returns sessions ranked by how close " +
+        "their title and description are in meaning to the given query, along with a " +
+        "similarity score in [-1, 1] (higher is more relevant). Use this for any topic " +
+        "or theme query — including single-word topics like \"AI\", \"testing\", or " +
+        "\"UI\" — since it surfaces related talks even when they use different words.",
+) {
+    @Serializable
+    data class Args(
+        @property:LLMDescription("Natural-language description of the topic the user is interested in.")
+        val query: String,
+        @property:LLMDescription("Maximum number of sessions to return. Default 20.")
+        val topK: Int = 20,
+    )
+
+    override suspend fun execute(args: Args): String {
+        val matches = index.search(args.query, args.topK)
+        if (matches.isEmpty()) return "No matching sessions."
+        return matches.joinToString(separator = "\n\n") { scored ->
+            "Score: ${(scored.score * 1000).toInt() / 1000.0}\n${scored.session.summary()}"
+        }
     }
 }
 
@@ -136,12 +156,12 @@ class GetSpeakersTool(
         val filtered = if (args.filter.isBlank()) {
             speakers
         } else {
-            val needle = args.filter.trim()
+            val pattern = Regex("\\b${Regex.escape(args.filter.trim())}\\b", RegexOption.IGNORE_CASE)
             speakers.filter { speaker ->
-                speaker.name.contains(needle, ignoreCase = true) ||
-                    speaker.company.orEmpty().contains(needle, ignoreCase = true) ||
-                    speaker.tagline.orEmpty().contains(needle, ignoreCase = true) ||
-                    speaker.bio.orEmpty().contains(needle, ignoreCase = true)
+                pattern.containsMatchIn(speaker.name) ||
+                    pattern.containsMatchIn(speaker.company.orEmpty()) ||
+                    pattern.containsMatchIn(speaker.tagline.orEmpty()) ||
+                    pattern.containsMatchIn(speaker.bio.orEmpty())
             }
         }
         val limit = args.limit.coerceAtLeast(1)

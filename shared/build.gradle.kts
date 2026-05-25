@@ -107,6 +107,10 @@ kotlin {
                 implementation(libs.koog.prompt.executor.llms.all)
                 implementation(libs.koog.prompt.executor.google.client)
                 implementation(libs.koog.http.client.ktor)
+                implementation(libs.koog.embeddings.base)
+                implementation(libs.koog.rag.base)
+                implementation(libs.koog.rag.vector)
+                implementation(libs.okio)
 
                 api(libs.doistx.normalize)
             }

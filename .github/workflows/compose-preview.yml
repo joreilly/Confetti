@@ -1,11 +1,9 @@
 name: Compose Preview
 
+# Auto-triggers disabled until the GITHUB_TOKEN can push baseline/PR
+# branches (currently 403 against joreilly/Confetti.git). Run manually
+# via the Actions tab once permissions are sorted.
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize]
   workflow_dispatch:
 
 permissions:
@@ -13,8 +11,8 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: compose-preview-${{ github.event.pull_request.number || 'baselines' }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: compose-preview
+  cancel-in-progress: false
 
 jobs:
   apply:

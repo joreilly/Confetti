@@ -21,7 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import confetti.shared.generated.resources.Res
-import confetti.shared.generated.resources.recommendations
+import confetti.shared.generated.resources.agent_assistant
 import confetti.shared.generated.resources.settings_title
 import confetti.shared.generated.resources.sign_in_lowercase
 import confetti.shared.generated.resources.sign_out
@@ -35,14 +35,14 @@ data class AccountInfo(
 @Composable
 fun AccountIcon(
     onSwitchConference: () -> Unit,
-    onGetRecommendations: () -> Unit,
+    onOpenAgent: () -> Unit,
     onSignIn: () -> Unit,
     onSignOut: () -> Unit,
     onShowSettings: () -> Unit,
     installOnWear: () -> Unit,
     //wearSettingsUiState: WearUiState,
     info: AccountInfo?,
-    showRecommendationsOption: Boolean
+    showAgentOption: Boolean
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -98,12 +98,12 @@ fun AccountIcon(
             }
         )
 
-        if (showRecommendationsOption) {
+        if (showAgentOption) {
             DropdownMenuItem(
-                text = { Text(stringResource(Res.string.recommendations)) },
+                text = { Text(stringResource(Res.string.agent_assistant)) },
                 onClick = {
                     showMenu = false
-                    onGetRecommendations()
+                    onOpenAgent()
                 }
             )
         }
@@ -132,13 +132,13 @@ fun AccountIcon(
 internal fun AccountIconSignedOutPreview() {
     AccountIcon(
         onSwitchConference = {},
-        onGetRecommendations = {},
+        onOpenAgent = {},
         onSignIn = {},
         onSignOut = {},
         onShowSettings = {},
         installOnWear = {},
         info = null,
-        showRecommendationsOption = false,
+        showAgentOption = false,
     )
 }
 
@@ -147,12 +147,12 @@ internal fun AccountIconSignedOutPreview() {
 internal fun AccountIconSignedInPreview() {
     AccountIcon(
         onSwitchConference = {},
-        onGetRecommendations = {},
+        onOpenAgent = {},
         onSignIn = {},
         onSignOut = {},
         onShowSettings = {},
         installOnWear = {},
         info = AccountInfo(),
-        showRecommendationsOption = true,
+        showAgentOption = true,
     )
 }

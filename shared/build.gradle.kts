@@ -103,7 +103,14 @@ kotlin {
                 api("com.mikepenz:multiplatform-markdown-renderer-m3:0.35.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.8.0")
 
-                api(libs.generativeai)
+                implementation(libs.koog.agents)
+                implementation(libs.koog.prompt.executor.llms.all)
+                implementation(libs.koog.prompt.executor.google.client)
+                implementation(libs.koog.http.client.ktor)
+                implementation(libs.koog.embeddings.base)
+                implementation(libs.koog.rag.base)
+                implementation(libs.koog.rag.vector)
+                implementation(libs.okio)
 
                 api(libs.doistx.normalize)
             }

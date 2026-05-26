@@ -7,7 +7,6 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
-import dev.johnoreilly.confetti.GeminiApi
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -31,8 +30,6 @@ fun commonModule() = module {
     singleOf(::ConfettiRepository)
     singleOf(::AppSettings)
     singleOf(::ApolloClientCache)
-
-    singleOf(::GeminiApi)
 }
 
 expect fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory

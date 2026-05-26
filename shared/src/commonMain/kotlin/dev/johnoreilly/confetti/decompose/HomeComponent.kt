@@ -17,14 +17,14 @@ interface HomeComponent {
     val user: User?
     val stack: Value<ChildStack<*, Child>>
 
-    fun isGeminiEnabled(): Boolean
+    fun isAgentEnabled(): Boolean
     fun onSessionsTabClicked()
     fun onSpeakersTabClicked()
     fun onBookmarksTabClicked()
     fun onVenueTabClicked()
     fun onSearchClicked()
     fun onSwitchConferenceClicked()
-    fun onGetRecommendationsClicked()
+    fun onAgentClicked()
     fun onSignInClicked()
     fun onSignOutClicked()
     fun onShowSettingsClicked()
@@ -35,7 +35,7 @@ interface HomeComponent {
         class Bookmarks(val component: BookmarksComponent) : Child()
         class Venue(val component: VenueComponent) : Child()
         class Search(val component: SearchComponent) : Child()
-        class Recommendations(val component: RecommendationsComponent) : Child()
+        class Agent(val component: ConferenceAgentComponent) : Child()
     }
 }
 
@@ -115,18 +115,16 @@ class DefaultHomeComponent(
                     )
                 )
 
-            Config.Recommendations ->
-                Child.Recommendations(
-                    DefaultRecommendationsComponent(
+            Config.Agent ->
+                Child.Agent(
+                    DefaultConferenceAgentComponent(
                         componentContext = componentContext,
                         conference = conference,
-                        user = user,
-                        onSessionSelected = onSessionSelected
                     )
                 )
         }
 
-    override fun isGeminiEnabled(): Boolean {
+    override fun isAgentEnabled(): Boolean {
         return BuildKonfig.GEMINI_API_KEY.isNotEmpty()
     }
 
@@ -154,8 +152,8 @@ class DefaultHomeComponent(
         onSwitchConference()
     }
 
-    override fun onGetRecommendationsClicked() {
-        navigation.bringToFront(Config.Recommendations)
+    override fun onAgentClicked() {
+        navigation.bringToFront(Config.Agent)
     }
 
     override fun onSignInClicked() {
@@ -188,6 +186,6 @@ class DefaultHomeComponent(
         data object Search : Config()
 
         @Serializable
-        data object Recommendations : Config()
+        data object Agent : Config()
     }
 }

@@ -861,6 +861,36 @@ object Sessionize {
         )
     }
 
+    suspend fun importDroidconUSA2026(): Int {
+        val timeZone = "America/New_York"
+        return writeData(
+            getData(url = "https://sessionize.com/api/v2/gl1b6col/view/All", zoneId = timeZone),
+            config = DConfig(
+                id = ConferenceId.DroidconUSA2026.id,
+                name = "droidcon USA 2026",
+                timeZone = timeZone,
+                days = listOf(
+                    LocalDate(2026, 7, 16),
+                    LocalDate(2026, 7, 17)
+                ),
+                themeColor = "0xFFED1C24"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Orange County Convention Center",
+                address = "P.O. Box 691509, Orlando, FL 32869-1509",
+                description = mapOf(
+                    "en" to "The Orange County Convention Center (OCCC), located in the heart of Central Florida and only fifteen minutes from the Orlando International Airport.",
+                ),
+                latitude = 28.4253,
+                longitude = -81.4683,
+                imageUrl = "https://static.wixstatic.com/media/6e1ab2_6388f2cd6bea4472bfe293d8ac7c7413~mv2.jpeg",
+                floorPlanUrl = null
+            ),
+            partnerGroups = emptyList()
+        )
+    }
+
     suspend fun importDevFestVenice2024(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/r14kt8fj/view/All"),

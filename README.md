@@ -31,6 +31,8 @@ Includes:
 * [Swift/Kotlin ViewModel alignment in a Kotlin Multiplatform project](https://johnoreilly.dev/posts/swift-kotlin-viewmodel-kmm-comparison/)
 * [Using KMM-ViewModel library to share VM between iOS and Android](https://johnoreilly.dev/posts/kmm-viewmodel/)
 * [Consuming Compose for iOS in a SwiftUI application](https://johnoreilly.dev/posts/swiftui-compose-ios/)
+* [Adding embeddings/RAG support to the Koog-based AI agent in Confetti](https://johnoreilly.dev/posts/confetti-koog-rag/)
+
 
 ### Building
 

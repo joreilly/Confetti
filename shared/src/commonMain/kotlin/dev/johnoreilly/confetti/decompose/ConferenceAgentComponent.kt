@@ -2,9 +2,13 @@ package dev.johnoreilly.confetti.decompose
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
+import ai.koog.embeddings.base.Embedder
+import ai.koog.prompt.executor.model.PromptExecutor
+import ai.koog.prompt.llm.LLModel
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.agent.AgentProvider
 import dev.johnoreilly.confetti.agent.ConferenceAgentProvider
+import dev.johnoreilly.confetti.agent.EmbeddingCache
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +52,18 @@ class DefaultConferenceAgentComponent(
     private val repository: ConfettiRepository by inject()
     private val coroutineScope = coroutineScope()
 
-    private val agentProvider: AgentProvider = ConferenceAgentProvider(repository, conference)
+    private val llModel: LLModel by inject()
+    private val promptExecutor: PromptExecutor by inject()
+    private val embedder: Embedder by inject()
+
+    private val agentProvider: AgentProvider = ConferenceAgentProvider(
+        repository = repository,
+        conference = conference,
+        llModel = llModel,
+        promptExecutor = promptExecutor,
+        embedder = embedder,
+        embeddingCache = getKoin().getOrNull<EmbeddingCache>(),
+    )
 
     private val state = MutableStateFlow(
         ConferenceAgentComponent.UiState(

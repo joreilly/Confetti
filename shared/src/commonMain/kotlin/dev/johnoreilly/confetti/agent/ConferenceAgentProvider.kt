@@ -12,16 +12,15 @@ import ai.koog.prompt.llm.LLModel
 import dev.johnoreilly.confetti.ConfettiRepository
 import kotlin.time.ExperimentalTime
 
-expect fun getLLModel(): LLModel
-expect fun getPromptExecutor(): PromptExecutor
-expect fun getEmbedder(): Embedder
-expect fun getEmbeddingCache(): EmbeddingCache?
-
 data class EmbeddingCache(val fs: okio.FileSystem, val root: okio.Path)
 
 class ConferenceAgentProvider(
     private val repository: ConfettiRepository,
     private val conference: String,
+    private val llModel: LLModel,
+    private val promptExecutor: PromptExecutor,
+    private val embedder: Embedder,
+    private val embeddingCache: EmbeddingCache?,
 ) : AgentProvider {
 
     override val description: String =
@@ -37,8 +36,8 @@ class ConferenceAgentProvider(
         val sessionIndex = SessionEmbeddingIndex(
             repository = repository,
             conference = conference,
-            embedder = getEmbedder(),
-            cache = getEmbeddingCache(),
+            embedder = embedder,
+            cache = embeddingCache,
         )
 
         val toolRegistry = ToolRegistry {
@@ -57,7 +56,7 @@ class ConferenceAgentProvider(
                     Help the user find sessions and speakers that match their interests.
                     Use the provided tools to look up sessions and speakers — do not invent ids,
                     titles or any other details. When recommending sessions, reference them by
-                    title and include their start time and room when available.
+                    title and include their speakers, start time and room when available.
 
                     Choosing between session tools:
                     - Default to SearchSessionsTool whenever the user asks about a topic,
@@ -73,12 +72,12 @@ class ConferenceAgentProvider(
                     """.trimIndent(),
                 )
             },
-            model = getLLModel(),
+            model = llModel,
             maxAgentIterations = 20,
         )
 
         return AIAgent(
-            promptExecutor = getPromptExecutor(),
+            promptExecutor = promptExecutor,
             strategy = createStrategy(onAssistantMessage),
             agentConfig = agentConfig,
             toolRegistry = toolRegistry,

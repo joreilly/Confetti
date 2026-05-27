@@ -141,7 +141,7 @@ private fun MessageBubble(message: ConferenceAgentComponent.Message) {
         Box(
             modifier = Modifier
                 .align(alignment)
-                .widthIn(max = 480.dp)
+                .widthIn(max = 720.dp)
                 .background(background, RoundedCornerShape(12.dp))
                 .padding(horizontal = 12.dp, vertical = 8.dp),
         ) {

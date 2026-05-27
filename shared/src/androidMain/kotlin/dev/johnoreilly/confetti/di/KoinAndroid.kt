@@ -28,6 +28,16 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.datastore.DataStoreSettings
+import ai.koog.embeddings.base.Embedder
+import ai.koog.http.client.ktor.KtorKoogHttpClient
+import ai.koog.prompt.executor.clients.google.GoogleLLMClient
+import ai.koog.prompt.executor.clients.google.GoogleModels
+import ai.koog.prompt.executor.llms.all.simpleGoogleAIExecutor
+import ai.koog.prompt.executor.model.PromptExecutor
+import ai.koog.prompt.llm.LLModel
+import dev.johnoreilly.confetti.BuildKonfig
+import dev.johnoreilly.confetti.agent.ApiEmbedder
+import dev.johnoreilly.confetti.agent.EmbeddingCache
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
@@ -42,6 +52,8 @@ import dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.work.SessionNotificationWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import okio.FileSystem
+import okio.Path.Companion.toPath
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.WebSocket
@@ -124,6 +136,28 @@ actual fun platformModule() = module {
     }
 
     single<ApplicationInfo> { getApplicationInfo(get()) }
+
+    single<EmbeddingCache> {
+        EmbeddingCache(
+            fs = FileSystem.SYSTEM,
+            root = "${androidContext().cacheDir.absolutePath}/confetti-embeddings".toPath(),
+        )
+    }
+
+    single<Embedder> {
+        ApiEmbedder(
+            provider = GoogleLLMClient(
+                apiKey = BuildKonfig.GEMINI_API_KEY,
+                httpClientFactory = KtorKoogHttpClient.Factory(),
+            ),
+            model = GoogleModels.Embeddings.GeminiEmbedding001,
+        )
+    }
+
+    single<LLModel> { GoogleModels.Gemini2_5Flash }
+    single<PromptExecutor> {
+        simpleGoogleAIExecutor(BuildKonfig.GEMINI_API_KEY, KtorKoogHttpClient.Factory())
+    }
 }
 
 val Context.settingsStore by preferencesDataStore("settings")

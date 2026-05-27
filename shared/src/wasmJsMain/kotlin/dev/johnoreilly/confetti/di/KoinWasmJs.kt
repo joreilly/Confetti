@@ -10,7 +10,16 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.StorageSettings
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
+import ai.koog.embeddings.base.Embedder
+import ai.koog.http.client.ktor.KtorKoogHttpClient
+import ai.koog.prompt.executor.clients.google.GoogleLLMClient
+import ai.koog.prompt.executor.clients.google.GoogleModels
+import ai.koog.prompt.executor.llms.all.simpleGoogleAIExecutor
+import ai.koog.prompt.executor.model.PromptExecutor
+import ai.koog.prompt.llm.LLModel
 import com.russhwolf.settings.observable.makeObservable
+import dev.johnoreilly.confetti.BuildKonfig
+import dev.johnoreilly.confetti.agent.ApiEmbedder
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.utils.DateService
@@ -29,6 +38,21 @@ actual fun platformModule() = module {
         FetchPolicy.CacheAndNetwork
     }
     single<NotificationSender> { SessionNotificationSender() }
+
+    single<Embedder> {
+        ApiEmbedder(
+            provider = GoogleLLMClient(
+                apiKey = BuildKonfig.GEMINI_API_KEY,
+                httpClientFactory = KtorKoogHttpClient.Factory(),
+            ),
+            model = GoogleModels.Embeddings.GeminiEmbedding001,
+        )
+    }
+
+    single<LLModel> { GoogleModels.Gemini2_5Flash }
+    single<PromptExecutor> {
+        simpleGoogleAIExecutor(BuildKonfig.GEMINI_API_KEY, KtorKoogHttpClient.Factory())
+    }
 }
 
 actual fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory {

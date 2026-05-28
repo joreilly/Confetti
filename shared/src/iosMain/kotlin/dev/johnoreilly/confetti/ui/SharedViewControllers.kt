@@ -9,7 +9,7 @@ import platform.UIKit.UIViewController
 
 fun SessionDetailsViewController(conference: String, session: SessionDetails, conferenceThemeColor: String?, onSpeakerClick: (speakerId: String) -> Unit, onSocialLinkClicked: (String) -> Unit): UIViewController =
     ComposeUIViewController {
-        ConferenceMaterialTheme(conferenceThemeColor) {
+        ConferenceMaterialThemeFromSettings(conferenceThemeColor) {
             SessionDetailViewShared(conference, session, onSpeakerClick, onSocialLinkClicked)
         }
     }

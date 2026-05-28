@@ -13,63 +13,22 @@ import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import org.koin.compose.koinInject
 
-@OptIn(ExperimentalStdlibApi::class, ExperimentalSettingsApi::class)
+@OptIn(ExperimentalStdlibApi::class)
 @Composable
 fun ConferenceMaterialTheme(
     seedColorString: String?,
+    useDynamicColor: Boolean = false,
+    darkThemeConfig: DarkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
     content: @Composable () -> Unit,
 ) {
-    // Previews (LocalInspectionMode = true) can't reach Koin — the compose-
-    // ai-tools renderer installs a stub Application by default and skips the
-    // consumer's onCreate, so Koin is never started. Short-circuit with the
-    // settings defaults (dynamic color off, follow-system dark theme) so
-    // previews render without an Application-level DI container.
-    if (LocalInspectionMode.current) {
-        ConferenceMaterialThemeWithDefaults(seedColorString, content)
+    if (useDynamicColor) {
+        content()
         return
     }
 
-    val appSettings = koinInject<AppSettings>()
-    val useDynamicColor by appSettings.settings.getBooleanFlow("useDynamicColorKey", false)
-        .collectAsState(false)
-
-    if (!useDynamicColor) {
-        val darkThemeConfigString by appSettings.settings.getStringFlow(
-            "darkThemeConfigKey",
-            DarkThemeConfig.FOLLOW_SYSTEM.toString()
-        )
-            .collectAsState(DarkThemeConfig.FOLLOW_SYSTEM.toString())
-        val darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfigString)
-        ApplyMaterialTheme(seedColorString, darkThemeConfig, content)
-    } else {
-        content()
-    }
-}
-
-/**
- * Theme path used when there's no Koin container available (previews, tests).
- * Mirrors the `!useDynamicColor` branch of [ConferenceMaterialTheme] with
- * settings pinned to their defaults: dynamic color off, dark mode follows the
- * system.
- */
-@Composable
-private fun ConferenceMaterialThemeWithDefaults(
-    seedColorString: String?,
-    content: @Composable () -> Unit,
-) {
-    ApplyMaterialTheme(seedColorString, DarkThemeConfig.FOLLOW_SYSTEM, content)
-}
-
-@OptIn(ExperimentalStdlibApi::class)
-@Composable
-private fun ApplyMaterialTheme(
-    seedColorString: String?,
-    darkThemeConfig: DarkThemeConfig,
-    content: @Composable () -> Unit,
-) {
     val shouldUseDarkTheme = shouldUseDarkTheme(darkThemeConfig)
 
-    var seedColor = Color(0xFF008000) // default if none set
+    var seedColor = Color(0xFF008000)
     seedColorString?.let {
         try {
             seedColor = Color(seedColorString.hexToLong(HexFormat { number.prefix = "0x" }))
@@ -86,6 +45,41 @@ private fun ApplyMaterialTheme(
     MaterialTheme(colorScheme = colorScheme) {
         content()
     }
+}
+
+/**
+ * Settings-aware wrapper around [ConferenceMaterialTheme]. Reads the user's
+ * theme preferences from Koin-provided [AppSettings] and forwards them as
+ * plain parameters, so the theme function itself stays free of DI.
+ *
+ * Falls back to defaults under [LocalInspectionMode] (previews, screenshot
+ * tests) where Koin may not be initialised.
+ */
+@OptIn(ExperimentalSettingsApi::class)
+@Composable
+fun ConferenceMaterialThemeFromSettings(
+    seedColorString: String?,
+    content: @Composable () -> Unit,
+) {
+    if (LocalInspectionMode.current) {
+        ConferenceMaterialTheme(seedColorString, content = content)
+        return
+    }
+
+    val appSettings = koinInject<AppSettings>()
+    val useDynamicColor by appSettings.settings.getBooleanFlow("useDynamicColorKey", false)
+        .collectAsState(false)
+    val darkThemeConfigString by appSettings.settings.getStringFlow(
+        "darkThemeConfigKey",
+        DarkThemeConfig.FOLLOW_SYSTEM.toString()
+    ).collectAsState(DarkThemeConfig.FOLLOW_SYSTEM.toString())
+
+    ConferenceMaterialTheme(
+        seedColorString = seedColorString,
+        useDynamicColor = useDynamicColor,
+        darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfigString),
+        content = content,
+    )
 }
 
 @Composable

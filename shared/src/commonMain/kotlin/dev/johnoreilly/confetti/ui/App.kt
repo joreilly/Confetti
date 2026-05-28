@@ -76,7 +76,7 @@ fun App(component: DefaultAppComponent) {
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
 fun ConferenceView(component: ConferenceComponent) {
-    ConferenceMaterialTheme(component.conferenceThemeColor) {
+    ConferenceMaterialThemeFromSettings(component.conferenceThemeColor) {
         ChildStack(
             stack = component.stack,
             animation = predictiveBackAnimation(

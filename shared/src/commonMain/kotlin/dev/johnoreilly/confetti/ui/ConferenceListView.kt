@@ -102,7 +102,7 @@ fun ConferenceCard(
     conference: GetConferencesQuery.Conference,
     navigateToConference: (GetConferencesQuery.Conference) -> Unit
 ) {
-    ConferenceMaterialTheme(conference.themeColor) {
+    ConferenceMaterialThemeFromSettings(conference.themeColor) {
         Card(
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(8.dp))

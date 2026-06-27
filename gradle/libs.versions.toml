@@ -48,6 +48,7 @@ wear-watchface = "1.3.0"
 wear-compose = "1.6.1"
 wearPhoneInteractions = "1.1.0"
 work-runtime-ktx = "2.11.0"
+androidx-appfunctions = "1.0.0-alpha08"
 spring = "3.5.3"
 generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.17.1"
@@ -81,6 +82,9 @@ androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
 androidx-wear-phone-interactions = { module = "androidx.wear:wear-phone-interactions", version.ref = "wearPhoneInteractions" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
+androidx-appfunctions = { module = "androidx.appfunctions:appfunctions", version.ref = "androidx-appfunctions" }
+androidx-appfunctions-service = { module = "androidx.appfunctions:appfunctions-service", version.ref = "androidx-appfunctions" }
+androidx-appfunctions-compiler = { module = "androidx.appfunctions:appfunctions-compiler", version.ref = "androidx-appfunctions" }
 lifecyle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "composeLifecyleRuntime" }
 apollo-adapters = { module = "com.apollographql.apollo:apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.cache:normalized-cache", version.ref = "apollo-cache" }

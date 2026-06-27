@@ -5,6 +5,7 @@ import java.util.*
 
 plugins {
     id("com.android.application")
+    id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("io.github.takahirom.roborazzi")
@@ -144,6 +145,10 @@ android {
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
+ksp {
+    arg("appfunctions:aggregateAppFunctions", "true")
+}
+
 
 kotlin {
     compilerOptions {
@@ -185,6 +190,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.appfunctions)
+    ksp(libs.androidx.appfunctions.compiler)
 
     implementation(libs.horologist.datalayer)
     implementation(libs.horologist.datalayer.phone)

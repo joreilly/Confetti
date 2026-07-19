@@ -1,6 +1,5 @@
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.CanvasBasedWindow
 import androidx.compose.ui.window.ComposeViewport
 import com.apollographql.apollo.ApolloClient
 import com.arkivanov.decompose.DefaultComponentContext

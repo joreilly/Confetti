@@ -7,7 +7,7 @@ import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.format.char
 
 fun LocalDateTime.conferenceDateFormat() = format(LocalDateTime.Format {
-    dayOfMonth()
+    day()
     char(' ')
     monthName(MonthNames.ENGLISH_ABBREVIATED)
     chars(", ")
@@ -15,7 +15,7 @@ fun LocalDateTime.conferenceDateFormat() = format(LocalDateTime.Format {
 })
 
 fun LocalDate.conferenceDayMonthFormat() = format(LocalDate.Format {
-    dayOfMonth()
+    day()
     char(' ')
     monthName(MonthNames.ENGLISH_ABBREVIATED)
 })
@@ -25,7 +25,7 @@ fun LocalDate.conferenceDayMonthFormat() = format(LocalDate.Format {
 fun LocalDateTime.sessionStartDateTimeFormat() = format(LocalDateTime.Format {
     monthName(MonthNames.ENGLISH_ABBREVIATED)
     char(' ')
-    dayOfMonth()
+    day()
     char(' ')
     byUnicodePattern("HH:mm")
 })

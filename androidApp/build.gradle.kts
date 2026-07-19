@@ -5,7 +5,6 @@ import java.util.*
 
 plugins {
     id("com.android.application")
-    kotlin("android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("io.github.takahirom.roborazzi")
@@ -52,8 +51,10 @@ android {
 
         versionCode = versionCode()
         versionName = versionName()
+    }
 
-        resourceConfigurations += listOf("en", "fr")
+    androidResources {
+        localeFilters += listOf("en", "fr")
     }
 
     signingConfigs {
@@ -96,7 +97,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
             setProguardFiles(
                 listOf(
-                    getDefaultProguardFile("proguard-android.txt"),
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules.pro"
                 )
             )
@@ -107,7 +108,7 @@ android {
             signingConfig = signingConfigs.getByName("confetti")
             setProguardFiles(
                 listOf(
-                    getDefaultProguardFile("proguard-android.txt"),
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules.pro"
                 )
             )
@@ -120,7 +121,7 @@ android {
 //            signingConfig = signingConfigs.getByName("confetti")
 //            setProguardFiles(
 //                listOf(
-//                    getDefaultProguardFile("proguard-android.txt"),
+//                    getDefaultProguardFile("proguard-android-optimize.txt"),
 //                    "proguard-benchmark.pro"
 //                )
 //            )
@@ -148,11 +149,8 @@ android {
 
 
 kotlin {
-    sourceSets.all {
-        languageSettings {
-            optIn("androidx.compose.material.ExperimentalMaterialApi")
-            optIn("kotlin.RequiresOptIn")
-        }
+    compilerOptions {
+        optIn.add("androidx.compose.material.ExperimentalMaterialApi")
     }
 }
 

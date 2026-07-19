@@ -5,7 +5,6 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    kotlin("android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
@@ -104,20 +103,20 @@ android {
             isShrinkResources = true
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release")
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
 //        create("benchmark") {
 //            isShrinkResources = true
 //            isMinifyEnabled = true
 //            signingConfig = signingConfigs.getByName("confetti")
-//            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-benchmark.pro"))
+//            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-benchmark.pro"))
 //            matchingFallbacks.addAll(listOf("release"))
 //        }
         create("githubRelease") {
             isShrinkResources = true
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("confetti")
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"))
+            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
 
             matchingFallbacks += listOf("release")
         }
@@ -141,14 +140,6 @@ android {
     namespace = "dev.johnoreilly.confetti"
 
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
-}
-
-kotlin {
-    sourceSets.all {
-        languageSettings {
-            optIn("kotlin.RequiresOptIn")
-        }
-    }
 }
 
 dependencies {

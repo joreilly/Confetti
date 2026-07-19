@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("com.google.devtools.ksp")
     id("com.squareup.wire")
 }
@@ -13,7 +13,11 @@ wire {
 kotlin {
     jvmToolchain(17)
 
-    androidTarget()
+    android {
+        namespace = "dev.johnoreilly.confetti.proto"
+        compileSdk = AndroidSdk.compile
+        minSdk = AndroidSdk.min
+    }
     jvm()
 
     sourceSets {
@@ -23,24 +27,4 @@ kotlin {
             }
         }
     }
-}
-
-android {
-    compileSdk = AndroidSdk.compile
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
-    defaultConfig {
-        minSdk = AndroidSdk.min
-    }
-
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-    }
-
-    namespace = "dev.johnoreilly.confetti.proto"
-}
-
-
-dependencies {
-    coreLibraryDesugaring(libs.desugar)
 }

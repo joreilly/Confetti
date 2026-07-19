@@ -4,7 +4,6 @@ import java.util.*
 
 plugins {
     id("com.android.library")
-    kotlin("android")
 }
 
 configureCompilerOptions()

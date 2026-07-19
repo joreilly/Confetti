@@ -1,6 +1,6 @@
 # Confetti 🎊
 
-![kotlin-version](https://img.shields.io/badge/kotlin-2.2.21-blue?logo=kotlin)
+![kotlin-version](https://img.shields.io/badge/kotlin-2.4.10-blue?logo=kotlin)
 
 [<img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
 alt="Get it on Google Play Store"
@@ -36,8 +36,11 @@ Includes:
 
 ### Building
 
-Use Android Studio/IntelliJ to build/run Android client.
-Requires Xcode 14 or later for iOS client.
+Use Android Studio/IntelliJ to build/run the Android client (requires a recent
+Android Studio release supporting AGP 9.1).
+Requires Xcode 26 or later for the iOS client (Apple silicon only — the Intel
+simulator target was removed).
+JDK 17+ is required.
 
 ### Screenshots
 

@@ -5,9 +5,9 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.work.WorkManager
 import com.google.firebase.FirebaseApp
-import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.crashlytics.setCustomKeys
-import com.google.firebase.ktx.Firebase
 import dev.johnoreilly.confetti.di.appModule
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.work.SessionNotificationSender

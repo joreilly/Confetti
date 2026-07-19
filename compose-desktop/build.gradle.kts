@@ -5,7 +5,8 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.composeHotReload)
+    // version comes from the hot-reload plugin bundled with the Compose Multiplatform Gradle plugin
+    id("org.jetbrains.compose.hot-reload")
 }
 
 kotlin {

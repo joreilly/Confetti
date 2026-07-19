@@ -4,7 +4,7 @@ import java.util.Properties
 
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("com.apollographql.apollo")
     id("org.jetbrains.compose")
     alias(libs.plugins.compose.compiler)
@@ -18,11 +18,6 @@ plugins {
 
 configureCompilerOptions()
 
-dependencies {
-    implementation(platform(libs.firebase.bom))
-}
-
-
 kotlin {
     wasmJs {
         browser {
@@ -33,11 +28,16 @@ kotlin {
         binaries.executable()
     }
 
-    androidTarget()
+    android {
+        namespace = "dev.johnoreilly.confetti.shared"
+        compileSdk = AndroidSdk.compile
+        minSdk = AndroidSdk.min
+        androidResources { enable = true }
+    }
     jvm()
 
+    // iosX64 (Intel simulator) dropped: Compose Multiplatform 1.11+ and Coil 3.5+ no longer publish it
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -137,6 +137,9 @@ kotlin {
         }
 
         androidMain {
+            // explicit: the hierarchy template's withAndroidTarget() doesn't match
+            // the android target created by the AGP KMP library plugin
+            dependsOn(mobileMain)
             dependencies {
                 api(projects.proto)
                 api(libs.androidx.lifecycle.viewmodel.ktx)
@@ -162,11 +165,12 @@ kotlin {
                 api(libs.androidx.datastore.preferences)
                 api(libs.multiplatform.settings.datastore)
                 implementation(libs.googleid)
-            }
-        }
 
-        sourceSets.invokeWhenCreated("androidDebug") {
-            dependencies {
+                // api so the BOM's version constraints reach consumers of shared
+                // (gitlive firebase-auth declares versionless Firebase dependencies)
+                api(project.dependencies.platform(libs.firebase.bom))
+                // The AGP 9 KMP library plugin has a single variant, so the debug server
+                // is always included (registration is a no-op unless tooling connects)
                 implementation(libs.apollo.debug.server)
             }
         }
@@ -192,27 +196,6 @@ kotlin {
 
 compose.resources {
     publicResClass = true
-}
-
-android {
-    compileSdk = AndroidSdk.compile
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
-    defaultConfig {
-        minSdk = AndroidSdk.min
-    }
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-    }
-
-    namespace = "dev.johnoreilly.confetti.shared"
 }
 
 apollo {
@@ -251,10 +234,6 @@ apollo {
             argument("com.apollographql.cache.packageName", packageName.get())
         }
     }
-}
-
-dependencies {
-    coreLibraryDesugaring(libs.desugar)
 }
 
 val autoVersion = project.property(

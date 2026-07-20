@@ -26,13 +26,18 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.rememberPlaceholderState
+import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import ee.schimke.composeai.preview.ScrollMode
+import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Person
 import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 
 @Composable
 fun SpeakerDetailsRoute(
@@ -202,5 +207,19 @@ fun SpeakerDetailsView(
                 }
             }
         }
+    }
+}
+
+@WearPreviewLargeRound
+@ScrollingPreview(modes = [ScrollMode.LONG])
+@Composable
+fun SpeakerDetailsViewPreview() {
+    ConfettiPreviewScaffold {
+        SpeakerDetailsView(
+            uiState = SpeakerDetailsUiState.Success(
+                conference = TestFixtures.conference,
+                details = TestFixtures.JohnOreilly.speakerDetails,
+            )
+        )
     }
 }

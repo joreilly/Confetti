@@ -1,0 +1,120 @@
+{
+  "$comment": "Design-catalog spec for the Confetti Wear OS app. Code-led: it declares which @Preview composables (by exact function name) make up the published sticker sheet, their grouping, and captions. Consumed by the design-catalog export over a render of the :wearApp module, whose `ee.schimke.composeai.preview` Gradle plugin ONLY discovers @Preview functions in the MAIN source set (classes/kotlin/android/main), NOT screenshotTest — so every `preview` named here lives under wearApp/src/main/... . Wear is dark-first and round, so the single mode is the large-round breakpoint. Theme + Component specimens are in dev.johnoreilly.confetti.wear.ui.ComponentCatalog; the Screens are the in-main @Preview entry points next to each screen (HomeScreen, SessionsScreen, SessionDetailsView, SpeakerDetailsView, BookmarksScreen, ConferencesView, SettingsListView). Each group's `section` is the top-level tab the preview server buckets it under; groups follow this file's order, so tabs read Themes -> Components -> Screens.",
+  "system": "confetti-wear",
+  "title": "Confetti Wear",
+  "library": ["androidx.wear.compose:compose-material3"],
+  "module": "wearApp",
+  "modes": ["largeRound"],
+  "groups": [
+    {
+      "name": "Theme",
+      "section": "Themes",
+      "components": [
+        {
+          "componentId": "Typography",
+          "preview": "TypographySpecimenPreview",
+          "caption": "A type ramp read from MaterialTheme.typography (Wear Material 3)."
+        },
+        {
+          "componentId": "ColorScheme",
+          "preview": "ColorSchemeSpecimenPreview",
+          "caption": "Colour-role swatches read from MaterialTheme.colorScheme."
+        }
+      ]
+    },
+    {
+      "name": "Components",
+      "section": "Components",
+      "components": [
+        {
+          "componentId": "SessionCard",
+          "preview": "SessionCardPopulatedPreview",
+          "caption": "Session TitleCard — title, speakers, room and time.",
+          "variants": [
+            {
+              "state": "loading",
+              "preview": "SessionCardLoadingPreview",
+              "caption": "Placeholder / loading state (session = null)."
+            },
+            {
+              "state": "bookmarked",
+              "preview": "SessionCardBookmarkedPreview",
+              "caption": "Bookmarked session (swipe-to-reveal un-bookmark action)."
+            }
+          ]
+        },
+        {
+          "componentId": "SessionSpeakerChip",
+          "preview": "SessionSpeakerChipPreview",
+          "caption": "Speaker chip with avatar, name and tagline."
+        },
+        {
+          "componentId": "SectionHeader",
+          "preview": "SectionHeaderPreview",
+          "caption": "Inline list section divider in the theme's primary accent."
+        },
+        {
+          "componentId": "ScreenHeader",
+          "preview": "ScreenHeaderPreview",
+          "caption": "Top-of-screen title (ListHeader)."
+        },
+        {
+          "componentId": "PlaceholderButton",
+          "preview": "PlaceholderButtonPreview",
+          "caption": "Shimmering placeholder chip shown while content loads."
+        },
+        {
+          "componentId": "SocialIcon",
+          "preview": "SocialIconPreview",
+          "caption": "Tappable social-link icon (ImageVector overload)."
+        },
+        {
+          "componentId": "DayChip",
+          "preview": "DayChipPreview",
+          "caption": "Conference-day selector button."
+        }
+      ]
+    },
+    {
+      "name": "Screens",
+      "section": "Screens",
+      "components": [
+        {
+          "componentId": "Home",
+          "preview": "HomeListViewPreview",
+          "caption": "Home screen — conference title, bookmarks and day list."
+        },
+        {
+          "componentId": "Sessions",
+          "preview": "SessionListViewPreview",
+          "caption": "Sessions schedule list grouped by start time."
+        },
+        {
+          "componentId": "SessionDetails",
+          "preview": "SessionDetailViewPreview",
+          "caption": "Session details — title, time, description and speakers."
+        },
+        {
+          "componentId": "SpeakerDetails",
+          "preview": "SpeakerDetailsViewPreview",
+          "caption": "Speaker details — photo, name, tagline and bio."
+        },
+        {
+          "componentId": "Bookmarks",
+          "preview": "BookmarksPreview",
+          "caption": "Bookmarks screen — upcoming and past bookmarked sessions."
+        },
+        {
+          "componentId": "Conferences",
+          "preview": "ConferencesViewPreview",
+          "caption": "Conference picker list."
+        },
+        {
+          "componentId": "Settings",
+          "preview": "SettingsListViewPreview",
+          "caption": "Settings screen."
+        }
+      ]
+    }
+  ]
+}

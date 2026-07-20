@@ -19,10 +19,13 @@ import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
+import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
+import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -121,3 +124,17 @@ fun SessionDetailView(
 
 private fun SessionDetails?.descriptionParagraphs(): List<String> =
     this?.sessionDescription?.split("\n+".toRegex()).orEmpty()
+
+@WearPreviewLargeRound
+@Composable
+fun SessionDetailViewPreview() {
+    ConfettiPreviewScaffold {
+        SessionDetailView(
+            uiState = SessionDetailsUiState.Success(
+                conference = TestFixtures.conference,
+                sessionDetails = TestFixtures.sessionDetails,
+            ),
+            navigateToSpeaker = {},
+        )
+    }
+}

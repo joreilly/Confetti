@@ -1,9 +1,29 @@
 name: Compose Preview
 
-# Auto-triggers disabled until the GITHUB_TOKEN can push baseline/PR
-# branches (currently 403 against joreilly/Confetti.git). Run manually
-# via the Actions tab once permissions are sorted.
+# Per-PR Compose @Preview visual diff + baseline maintenance, driven by the
+# shared compose-ai-tools `apply` action:
+#   * push to main         -> render + push baseline branches (compose-preview/*)
+#   * pull_request         -> render PR head, diff vs baseline, sticky PR comment
+#   * workflow_dispatch     -> manual run
+#
+# Two parallel jobs (compose+resources / a11y) push to disjoint baseline/PR
+# branches and post disjoint sticky comments, so wall time is the slower render
+# rather than the sum. Notifications are skipped (Confetti has no notification
+# previews).
+#
+# NOTE: pushing the compose-preview/* baseline + PR branches needs a writable
+# GITHUB_TOKEN, which only same-repo events get. Fork PRs (e.g. yschimke ->
+# joreilly/Confetti) receive a read-only token, so the render would succeed but
+# the branch push 403s and fails the job. Both jobs are therefore gated to run
+# on push / workflow_dispatch and *same-repo* PRs only; external-fork PRs are
+# skipped (no write token to post a comment with anyway). On joreilly/Confetti
+# the default token already has contents:write, so its own PRs render + diff.
+
 on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 permissions:
@@ -11,31 +31,73 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: compose-preview
-  cancel-in-progress: false
+  group: compose-preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   apply:
+    name: Render previews (baseline or PR comment, auto-selected)
+    # Skip external-fork PRs: they get a read-only token, so the render succeeds
+    # but the compose-preview/* branch push 403s and fails the job.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
           lfs: 'true'
-
       - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 21
-
       - uses: gradle/actions/setup-gradle@v6
-
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
       - name: Warm Gradle wrapper
         run: ./gradlew help
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v0.16.57
+        with:
+          # Pin the render CLI to the applied Gradle plugin version (single
+          # source of truth: composeai-preview in gradle/libs.versions.toml)
+          # instead of the action's `latest` default, so the CLI and plugin
+          # stay lockstep and preview discovery doesn't break on a minor skew.
+          cli-version: catalog
+          catalog-key: composeai-preview
+          missing-renders: warn
+          # Compose @Preview diffs only. The resources pipeline
+          # (composePreviewRenderAndroidResources) hard-fails rasterising
+          # wearApp's adaptive launcher icons / vector drawables, which isn't
+          # what this check is for; a11y runs as its own job below.
+          only: compose
 
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v0.12.5
+  a11y:
+    name: A11y previews
+    # Same fork-token gate as the apply job above.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          lfs: 'true'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+      - name: Warm Gradle wrapper
+        run: ./gradlew help
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v0.16.57
         with:
           cli-version: catalog
           catalog-key: composeai-preview
           missing-renders: warn
-          skip: notifications
+          only: a11y

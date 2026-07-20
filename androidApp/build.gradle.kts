@@ -10,7 +10,6 @@ plugins {
     id("io.github.takahirom.roborazzi")
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.screenshot)
-    alias(libs.plugins.composeai.preview)
 }
 
 configureCompilerOptions()

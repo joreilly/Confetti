@@ -55,7 +55,7 @@ roborazzi = "1.69.0"
 screenshot = "0.0.1-alpha15"
 composeai-preview = "0.16.57"
 koogAgents = "1.0.0"
-koogPromptExecutorAll = "1.0.0-beta"
+koogPromptExecutorAll = "1.1.1"
 
 
 [libraries]

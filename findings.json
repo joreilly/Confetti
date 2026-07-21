@@ -13,15 +13,7 @@
     {
       "annotatedBasename": "AndroidSpeakerDetailsPreview_Phone_dark.a11y.png",
       "cleanBasename": "AndroidSpeakerDetailsPreview_Phone_dark.png",
-      "findings": [
-        {
-          "boundsInScreen": "223,280,853,910",
-          "level": "INFO",
-          "message": "This non-clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
-          "type": "DuplicateSpeakableTextCheck",
-          "viewDescription": "android.widget.ImageView  desc=\"John O'Reilly\""
-        }
-      ],
+      "findings": [],
       "functionName": "AndroidSpeakerDetailsPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone \u2014 dark",
@@ -161,15 +153,7 @@
     {
       "annotatedBasename": "SpeakerDetailsScreenPreview_Dark.a11y.png",
       "cleanBasename": "SpeakerDetailsScreenPreview_Dark.png",
-      "findings": [
-        {
-          "boundsInScreen": "223,280,853,910",
-          "level": "INFO",
-          "message": "This non-clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
-          "type": "DuplicateSpeakableTextCheck",
-          "viewDescription": "android.widget.ImageView  desc=\"John O'Reilly\""
-        }
-      ],
+      "findings": [],
       "functionName": "SpeakerDetailsScreenPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Dark",
@@ -718,15 +702,7 @@
     {
       "annotatedBasename": "SpeakerDetailsScreen_Devices_Large_Round.a11y.png",
       "cleanBasename": "SpeakerDetailsScreen_Devices_Large_Round.png",
-      "findings": [
-        {
-          "boundsInScreen": "26,46,428,204",
-          "level": "INFO",
-          "message": "This non-clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
-          "type": "DuplicateSpeakableTextCheck",
-          "viewDescription": "android.widget.ImageView  desc=\"John O'Reilly\""
-        }
-      ],
+      "findings": [],
       "functionName": "SpeakerDetailsScreen",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.SpeakerDetailsScreenTestKt.SpeakerDetailsScreen_Devices - Large Round",

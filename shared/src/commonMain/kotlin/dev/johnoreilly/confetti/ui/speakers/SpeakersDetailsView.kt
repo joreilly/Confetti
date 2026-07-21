@@ -107,7 +107,10 @@ fun SpeakerDetailsView(
                     val url =  speaker.photoUrl // "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
                     AsyncImage(
                         model = url,
-                        contentDescription = speaker.name,
+                        // Decorative: the speaker's name is already the screen title, so labelling the
+                        // photo with it makes a screen reader announce the name twice
+                        // (DuplicateSpeakableTextCheck). A null description lets TalkBack skip the image.
+                        contentDescription = null,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .size(240.dp)

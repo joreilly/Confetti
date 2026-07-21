@@ -10,6 +10,10 @@ plugins {
     id("io.github.takahirom.roborazzi")
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.screenshot)
+    // Design-catalog sticker sheet: discovers the @Preview functions in ComponentCatalog.kt /
+    // AndroidScreenPreviews.kt and renders them for the published mobile catalog (see
+    // catalog.mobile.spec.json + the design-artifacts workflow). Mirrors :wearApp.
+    alias(libs.plugins.composeai.preview)
 }
 
 configureCompilerOptions()

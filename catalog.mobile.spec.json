@@ -1,0 +1,92 @@
+{
+  "$comment": "Design-catalog spec for the Confetti mobile (phone) app. Code-led: it declares which @Preview composables (by exact function name) make up the published sticker sheet, their grouping, and captions. Consumed by the design-catalog export over a render of the :androidApp module, whose `ee.schimke.composeai.preview` Gradle plugin ONLY discovers @Preview functions in the MAIN source set (classes/kotlin/android/main), NOT screenshotTest — so every `preview` named here lives under androidApp/src/main/... . The mobile app is Material 3 with a light/dark brand scheme. Theme + Component specimens are in dev.johnoreilly.confetti.ui.ComponentCatalog; the Screens are the full-screen @Preview entry points in that same file, built from the real shared screens + preview mock data. Each group's `section` is the top-level tab the preview server buckets it under; groups follow this file's order, so tabs read Themes -> Components -> Screens. Mirrors catalog.spec.json (the Wear sheet).",
+  "system": "confetti-mobile",
+  "title": "Confetti Mobile",
+  "library": ["androidx.compose.material3:material3"],
+  "module": "androidApp",
+  "modes": ["light", "dark"],
+  "groups": [
+    {
+      "name": "Theme",
+      "section": "Themes",
+      "components": [
+        {
+          "componentId": "Typography",
+          "preview": "TypographySpecimenPreview",
+          "caption": "A type ramp read from MaterialTheme.typography (Confetti's Material 3 scale)."
+        },
+        {
+          "componentId": "ColorScheme",
+          "preview": "ColorSchemeSpecimenPreview",
+          "caption": "Colour-role swatches read from MaterialTheme.colorScheme (the brand purple scheme)."
+        }
+      ]
+    },
+    {
+      "name": "Components",
+      "section": "Components",
+      "components": [
+        {
+          "componentId": "SessionItemView",
+          "preview": "SessionItemPopulatedPreview",
+          "caption": "Session row — bold title, speakers, room, and the bookmark toggle.",
+          "variants": [
+            {
+              "state": "lightning",
+              "preview": "SessionItemLightningPreview",
+              "caption": "Lightning talk — the primaryContainer bolt pill above the title."
+            },
+            {
+              "state": "break",
+              "preview": "SessionItemBreakPreview",
+              "caption": "Break row — title only, no room and no bookmark."
+            }
+          ]
+        },
+        {
+          "componentId": "Bookmark",
+          "preview": "BookmarkAddPreview",
+          "caption": "Bookmark toggle — the outlined add-bookmark icon.",
+          "variants": [
+            {
+              "state": "bookmarked",
+              "preview": "BookmarkOnPreview",
+              "caption": "Bookmarked — the ribbon tinted with the primary colour."
+            }
+          ]
+        },
+        {
+          "componentId": "SpeakerItemView",
+          "preview": "SpeakerItemPreview",
+          "caption": "Speaker list row — circular avatar, name, and tagline."
+        },
+        {
+          "componentId": "ConfettiHeader",
+          "preview": "ConfettiHeaderPreview",
+          "caption": "Sticky section header — leading icon + bold title between two dividers."
+        }
+      ]
+    },
+    {
+      "name": "Screens",
+      "section": "Screens",
+      "components": [
+        {
+          "componentId": "Schedule",
+          "preview": "ScheduleScreenPreview",
+          "caption": "Sessions schedule — day tabs over a list grouped by start time."
+        },
+        {
+          "componentId": "SessionDetails",
+          "preview": "SessionDetailsScreenPreview",
+          "caption": "Session details — title, time, description, and speakers."
+        },
+        {
+          "componentId": "SpeakerDetails",
+          "preview": "SpeakerDetailsScreenPreview",
+          "caption": "Speaker details — photo, name, tagline, and bio."
+        }
+      ]
+    }
+  ]
+}

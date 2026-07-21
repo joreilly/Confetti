@@ -17,6 +17,7 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ConferenceHomeScreen` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ConferenceHomeScreen_Fonts_Normal.png" width="150" /> |
 | `ConferenceHomeScreen` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ConferenceHomeScreen_Fonts_Small.png" width="150" /> |
 | `SessionDetailsScreen` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/SessionDetailsScreen_Devices_Large_Round.png" width="150" /> |
+| `SpeakerDetailsScreen` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/SpeakerDetailsScreen_Devices_Large_Round.png" width="150" /> |
 | `BookmarksPreviewEmpty` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/BookmarksPreviewEmpty_Devices_Large_Round.png" width="150" /> |
 | `BookmarksPreviewEmpty` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/BookmarksPreviewEmpty_Devices_Small_Round.png" width="150" /> |
 | `BookmarksPreviewEmpty` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/BookmarksPreviewEmpty_Fonts_Large.png" width="150" /> |

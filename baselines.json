@@ -87,6 +87,14 @@
     "sha256": "53089a60c1de67246d67d8e0435d270cc28ab81afb11e699d539f02bea0bb9fa",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/SessionDetailsScreenTest.kt"
   },
+  "wearApp/dev.johnoreilly.confetti.wear.SpeakerDetailsScreenTestKt.SpeakerDetailsScreen_Devices - Large Round": {
+    "captureLabel": "",
+    "functionName": "SpeakerDetailsScreen",
+    "module": "wearApp",
+    "renderBasename": "SpeakerDetailsScreen_Devices_Large_Round.png",
+    "sha256": "71087cfcf1404f75d09ebc7b656157ee9b528d57ca94ad88665ca4f1ab7da66d",
+    "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/SpeakerDetailsScreenTest.kt"
+  },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewEmpty_Devices - Large Round": {
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
@@ -108,7 +116,7 @@
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
     "renderBasename": "BookmarksPreviewEmpty_Fonts_Large.png",
-    "sha256": "21866aaa641abdd7035ad171adf7337a609732aaf109461926724d7444ae3a36",
+    "sha256": "ed71e3a7d6e6aaefc72fcc3e65dd52b41924d49f0d57e26cbb5d860586a601b4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewEmpty_Fonts - Larger": {
@@ -124,7 +132,7 @@
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
     "renderBasename": "BookmarksPreviewEmpty_Fonts_Largest.png",
-    "sha256": "7efb48aa6d35a946d28780965953abf278cd17b73140476e1dab963827631997",
+    "sha256": "b18ace7c8ef4e03b9bdf77cbd4cbe4b0812c4e183788e2aaa2b6a795bee6b0e4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewEmpty_Fonts - Medium": {
@@ -172,7 +180,7 @@
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
     "renderBasename": "BookmarksPreviewErrorLong_Fonts_Large.png",
-    "sha256": "be141209da7ecac98ab7ea2ca2e93200f3e75621bef9e55678bb5c9c33efbebb",
+    "sha256": "91c916aa029472319fb7dac69c5998ccd78fa6d0b3a170af62fca923bf145656",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewErrorLong_Fonts - Larger": {
@@ -188,7 +196,7 @@
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
     "renderBasename": "BookmarksPreviewErrorLong_Fonts_Largest.png",
-    "sha256": "d618baf8fff9e41e7e24b77f61ff8b9bad60425288fdd11b001471e83dba18bb",
+    "sha256": "b60e7b26d4f45abd1164a9bc2f147b131d6be0d71d788715056bfebf7869ad66",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewErrorLong_Fonts - Medium": {
@@ -236,7 +244,7 @@
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
     "renderBasename": "BookmarksPreviewError_Fonts_Large.png",
-    "sha256": "3c2f9dbbda285f090b0c275ba39edc3023bb7acfe6a7fb691f78b26d56f94a5e",
+    "sha256": "b4c9d05edd3fa0e7cf0e7dc7b98993ac330d76db0afb818098dffec4f37c5843",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewError_Fonts - Larger": {
@@ -252,7 +260,7 @@
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
     "renderBasename": "BookmarksPreviewError_Fonts_Largest.png",
-    "sha256": "703060bf1f9a78dc2415e995c879dc1a1dd04aff73fc05e996d540ccb221d59d",
+    "sha256": "467919a28922b639d6b5bb0505c5fae0ee544f5cd7a8fe24223800927b029a3c",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewError_Fonts - Medium": {
@@ -300,7 +308,7 @@
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
     "renderBasename": "BookmarksPreviewLoading_Fonts_Large.png",
-    "sha256": "e1b75ac11b43984746e84a9c2d4733c0aeed7e64a27cc9b7c26ca8b0687a6fd8",
+    "sha256": "e548b3e7afcb7f47d65e08c1195ebc217c2860a265a247f30703f6a5260a09ce",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewLoading_Fonts - Larger": {
@@ -388,7 +396,7 @@
     "functionName": "BookmarksPreview",
     "module": "wearApp",
     "renderBasename": "BookmarksPreview_Fonts_Largest.png",
-    "sha256": "4e6a4f8b9c47d2a5270d344395c79f4e4a041b08f8f09b642c968f4f36e2455a",
+    "sha256": "7da8846470d437f984010102f2029cda9b0a3c6eaaa513665261a54270844c7a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Fonts - Medium": {
@@ -444,7 +452,7 @@
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
     "renderBasename": "ConferencesViewErrorPreview_Fonts_Large.png",
-    "sha256": "a2c0c130fe7f822a456a7d26a40a5a0861f747c5e9ba4769d59c71425381cc27",
+    "sha256": "6efccd0bea31349a0dc5e286ce660181d2ec1a2663a9a165d632ec10fb457ba2",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewErrorPreview_Fonts - Larger": {
@@ -516,7 +524,7 @@
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
     "renderBasename": "ConferencesViewPreview_Fonts_Large.png",
-    "sha256": "41a0ad9da98deb8a54a9f44881cf297a6824a2f78a7cc0dadc902e02088f10a1",
+    "sha256": "d1e96e1ad0733da6c123368ee11072e61963875d2cf40029ff8286874f4ea460",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Fonts - Larger": {
@@ -588,7 +596,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round.png",
-    "sha256": "d0e725c57c2c94bf420b8e8ef47029fe8744b6051103f5e6917ac232b55819ee",
+    "sha256": "7d2b0f8c8d6f4d2c44072f9c9e3094071309c2f8c0363cdabd0c1bdc8612656f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
@@ -660,7 +668,7 @@
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
     "renderBasename": "HomeListViewPreview_Fonts_Largest.png",
-    "sha256": "1795299ecf10abfab21da2862ecb80a0771767a4b8bea08334209aa19c80a7d7",
+    "sha256": "7eb298d388636a3d7cf8200c4d20825ab5aef89b73e2d55a25ac7cc0582c41f6",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Fonts - Medium": {
@@ -740,7 +748,7 @@
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
     "renderBasename": "SessionListViewPreview_Fonts_Largest.png",
-    "sha256": "648193996ddbd09744a02c615d492b91e189b1ec94411a2dc948f47a45d3214c",
+    "sha256": "e065fda94a9f6f2edb9a2d706c3c3bf5ac3dabcd33b015621021543d02ad4a4f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Fonts - Medium": {
@@ -796,7 +804,7 @@
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
     "renderBasename": "SettingsListViewPreview_Fonts_Large.png",
-    "sha256": "53eb109dbd016c42a3078f9cdcea7d02e9bdaf71c2a8fd740634402a0558fbf8",
+    "sha256": "0b2769c431c108b5ba09069f1a00973a7717875340ca8405f0989698f632c8d5",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Fonts - Larger": {

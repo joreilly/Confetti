@@ -1,6 +1,202 @@
 {
   "entries": [
     {
+      "annotatedBasename": "AndroidSessionDetailPreview_Phone_dark.a11y.png",
+      "cleanBasename": "AndroidSessionDetailPreview_Phone_dark.png",
+      "findings": [],
+      "functionName": "AndroidSessionDetailPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSessionDetailPreview_Phone \u2014 dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "AndroidSpeakerDetailsPreview_Phone_dark.a11y.png",
+      "cleanBasename": "AndroidSpeakerDetailsPreview_Phone_dark.png",
+      "findings": [
+        {
+          "boundsInScreen": "223,280,853,910",
+          "level": "INFO",
+          "message": "This non-clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.widget.ImageView  desc=\"John O'Reilly\""
+        }
+      ],
+      "functionName": "AndroidSpeakerDetailsPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone \u2014 dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "",
+      "cleanBasename": "BackgroundAndroid_Dark_theme.png",
+      "findings": [],
+      "functionName": "BackgroundAndroid",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.component.BackgroundKt.BackgroundAndroid_Dark theme",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "",
+      "cleanBasename": "BackgroundDefault_Dark_theme.png",
+      "findings": [],
+      "functionName": "BackgroundDefault",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.component.BackgroundKt.BackgroundDefault_Dark theme",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "",
+      "cleanBasename": "BackgroundDynamic_Dark_theme.png",
+      "findings": [],
+      "functionName": "BackgroundDynamic",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.component.BackgroundKt.BackgroundDynamic_Dark theme",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "BookmarkAddPreview_Dark.a11y.png",
+      "cleanBasename": "BookmarkAddPreview_Dark.png",
+      "findings": [],
+      "functionName": "BookmarkAddPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "BookmarkOnPreview_Dark.a11y.png",
+      "cleanBasename": "BookmarkOnPreview_Dark.png",
+      "findings": [],
+      "functionName": "BookmarkOnPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "",
+      "cleanBasename": "ColorSchemeSpecimenPreview_Dark.png",
+      "findings": [],
+      "functionName": "ColorSchemeSpecimenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ConfettiHeaderPreview_Dark.a11y.png",
+      "cleanBasename": "ConfettiHeaderPreview_Dark.png",
+      "findings": [],
+      "functionName": "ConfettiHeaderPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ScheduleScreenPreview_Dark.a11y.png",
+      "cleanBasename": "ScheduleScreenPreview_Dark.png",
+      "findings": [],
+      "functionName": "ScheduleScreenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "",
+      "cleanBasename": "SessionDetailsPreview.png",
+      "findings": [],
+      "functionName": "SessionDetailsPreview",
+      "module": "androidApp",
+      "previewId": "ScreenshotTest.SessionDetailsPreview",
+      "sourceFile": "src/screenshotTest/kotlin/ScreenshotTest.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "SessionDetailsScreenPreview_Dark.a11y.png",
+      "cleanBasename": "SessionDetailsScreenPreview_Dark.png",
+      "findings": [],
+      "functionName": "SessionDetailsScreenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionDetailsScreenPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "SessionItemBreakPreview_Dark.a11y.png",
+      "cleanBasename": "SessionItemBreakPreview_Dark.png",
+      "findings": [],
+      "functionName": "SessionItemBreakPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemBreakPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "SessionItemLightningPreview_Dark.a11y.png",
+      "cleanBasename": "SessionItemLightningPreview_Dark.png",
+      "findings": [],
+      "functionName": "SessionItemLightningPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemLightningPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "SessionItemPopulatedPreview_Dark.a11y.png",
+      "cleanBasename": "SessionItemPopulatedPreview_Dark.png",
+      "findings": [],
+      "functionName": "SessionItemPopulatedPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "SpeakerDetailsScreenPreview_Dark.a11y.png",
+      "cleanBasename": "SpeakerDetailsScreenPreview_Dark.png",
+      "findings": [
+        {
+          "boundsInScreen": "223,280,853,910",
+          "level": "INFO",
+          "message": "This non-clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.widget.ImageView  desc=\"John O'Reilly\""
+        }
+      ],
+      "functionName": "SpeakerDetailsScreenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "SpeakerItemPreview_Dark.a11y.png",
+      "cleanBasename": "SpeakerItemPreview_Dark.png",
+      "findings": [],
+      "functionName": "SpeakerItemPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerItemPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "TypographySpecimenPreview_Dark.a11y.png",
+      "cleanBasename": "TypographySpecimenPreview_Dark.png",
+      "findings": [],
+      "functionName": "TypographySpecimenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.TypographySpecimenPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
       "annotatedBasename": "BookmarksPreview_Devices_Large_Round.a11y.png",
       "cleanBasename": "BookmarksPreview_Devices_Large_Round.png",
       "findings": [],
@@ -522,7 +718,15 @@
     {
       "annotatedBasename": "SpeakerDetailsScreen_Devices_Large_Round.a11y.png",
       "cleanBasename": "SpeakerDetailsScreen_Devices_Large_Round.png",
-      "findings": [],
+      "findings": [
+        {
+          "boundsInScreen": "26,46,428,204",
+          "level": "INFO",
+          "message": "This non-clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.widget.ImageView  desc=\"John O'Reilly\""
+        }
+      ],
       "functionName": "SpeakerDetailsScreen",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.SpeakerDetailsScreenTestKt.SpeakerDetailsScreen_Devices - Large Round",

@@ -1,8 +1,122 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/main`. 47 preview(s) across 1 module(s) · 5 error(s) · 0 warning(s) · 5 info._
+_Auto-generated from `compose-preview/a11y/main`. 65 preview(s) across 2 module(s) · 5 error(s) · 0 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
+
+## androidApp
+
+### `AndroidSessionDetailPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSessionDetailPreview_Phone_dark.a11y.png" width="400" />
+
+_No findings._
+
+### `AndroidSpeakerDetailsPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSpeakerDetailsPreview_Phone_dark.a11y.png" width="400" />
+
+| # | Level | Rule | Element | Message |
+|--:|---|---|---|---|
+| 1 | INFO | DuplicateSpeakableTextCheck | android.widget.ImageView  desc="John O'Reilly" | This non-clickable item's speakable text: "John O'Reilly" is identical to that of 1 other item(s). |
+
+### `BackgroundAndroid`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundAndroid_Dark_theme.png" width="400" />
+
+_No findings._
+
+### `BackgroundDefault`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundDefault_Dark_theme.png" width="400" />
+
+_No findings._
+
+### `BackgroundDynamic`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundDynamic_Dark_theme.png" width="400" />
+
+_No findings._
+
+### `BookmarkAddPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkAddPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `BookmarkOnPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkOnPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `ColorSchemeSpecimenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ColorSchemeSpecimenPreview_Dark.png" width="400" />
+
+_No findings._
+
+### `ConfettiHeaderPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ConfettiHeaderPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `ScheduleScreenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ScheduleScreenPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionDetailsPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionDetailsPreview.png" width="400" />
+
+_No findings._
+
+### `SessionDetailsScreenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionDetailsScreenPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionItemBreakPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemBreakPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionItemLightningPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemLightningPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionItemPopulatedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemPopulatedPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `SpeakerDetailsScreenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerDetailsScreenPreview_Dark.a11y.png" width="400" />
+
+| # | Level | Rule | Element | Message |
+|--:|---|---|---|---|
+| 1 | INFO | DuplicateSpeakableTextCheck | android.widget.ImageView  desc="John O'Reilly" | This non-clickable item's speakable text: "John O'Reilly" is identical to that of 1 other item(s). |
+
+### `SpeakerItemPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerItemPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `TypographySpecimenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/TypographySpecimenPreview_Dark.a11y.png" width="400" />
+
+_No findings._
 
 ## wearApp
 
@@ -293,7 +407,9 @@ _No findings._
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SpeakerDetailsScreen_Devices_Large_Round.a11y.png" width="400" />
 
-_No findings._
+| # | Level | Rule | Element | Message |
+|--:|---|---|---|---|
+| 1 | INFO | DuplicateSpeakableTextCheck | android.widget.ImageView  desc="John O'Reilly" | This non-clickable item's speakable text: "John O'Reilly" is identical to that of 1 other item(s). |
 
 ### `SpeakerDetailsViewPreview` · `wearos_large_round`
 

@@ -520,6 +520,16 @@
       "variant": ""
     },
     {
+      "annotatedBasename": "SpeakerDetailsScreen_Devices_Large_Round.a11y.png",
+      "cleanBasename": "SpeakerDetailsScreen_Devices_Large_Round.png",
+      "findings": [],
+      "functionName": "SpeakerDetailsScreen",
+      "module": "wearApp",
+      "previewId": "dev.johnoreilly.confetti.wear.SpeakerDetailsScreenTestKt.SpeakerDetailsScreen_Devices - Large Round",
+      "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/SpeakerDetailsScreenTest.kt",
+      "variant": "wearos_large_round"
+    },
+    {
       "annotatedBasename": "dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewKt.SpeakerDetailsViewPreview_Devices - Large Round.a11y.png",
       "cleanBasename": "",
       "findings": [],

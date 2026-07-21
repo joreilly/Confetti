@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/main`. 46 preview(s) across 1 module(s) · 5 error(s) · 0 warning(s) · 5 info._
+_Auto-generated from `compose-preview/a11y/main`. 47 preview(s) across 1 module(s) · 5 error(s) · 0 warning(s) · 5 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -288,6 +288,12 @@ _No findings._
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
 | 1 | ERROR | TouchTargetSizeCheck | android.widget.ImageView  desc="Github" | This item's size is 24dp x 24dp. Consider making this touch target 32dp wide and 32dp high or larger. |
+
+### `SpeakerDetailsScreen` · `wearos_large_round`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SpeakerDetailsScreen_Devices_Large_Round.a11y.png" width="400" />
+
+_No findings._
 
 ### `SpeakerDetailsViewPreview` · `wearos_large_round`
 

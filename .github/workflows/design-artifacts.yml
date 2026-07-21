@@ -1,17 +1,22 @@
 name: Design Artifacts
 
-# Render the Confetti Wear design catalog (:wearApp @Preview sticker sheet) and
-# publish its importable bundle (catalog.json + DTCG tokens + Figma variables +
-# PNGs) to a clean `design-artifacts/confetti-wear` branch. The public preview
-# server (preview.coo.ee) fetches that branch and serves it at /confetti-wear/.
+# Render the Confetti design catalogs (@Preview sticker sheets) and publish each
+# importable bundle (catalog.json + DTCG tokens + Figma variables + PNGs) to a
+# clean `design-artifacts/<system>` branch. The public preview server
+# (preview.coo.ee) fetches those branches and serves them at /<system>/.
+#
+# Two catalogs, one per row of the matrix below:
+#   * confetti-wear   — :wearApp,    catalog.spec.json
+#   * confetti-mobile — :androidApp, catalog.mobile.spec.json
 #
 # Pipeline mirrors compose-ai-tools' own design-artifacts job (and the
 # meshcore-mobile consumer):
 #   compose-preview bundle pack  ->  @design-parity/catalog-export driver
 #   (from a compose-ai-tools checkout)  ->  force-push out/ to the branch.
 #
-# :wearApp is an Android (com.android.application) module, so the render runs on
-# Robolectric (headless, no Skiko/xvfb/GL) — same backend as compose-preview.yml.
+# Both :wearApp and :androidApp are Android (com.android.application) modules, so
+# the render runs on Robolectric (headless, no Skiko/xvfb/GL) — same backend as
+# compose-preview.yml.
 
 on:
   # Weekly, so the published sticker sheet tracks the catalog as it evolves.
@@ -33,12 +38,22 @@ concurrency:
 
 jobs:
   generate:
-    name: confetti-wear
+    name: ${{ matrix.system }}
     # Don't run on forks that can't publish the delivery branch. Runs on the
     # upstream repo and on the yschimke fork used to prototype the pipeline.
     if: ${{ github.repository == 'joreilly/Confetti' || github.repository == 'yschimke/Confetti' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - system: confetti-wear
+            module: ':wearApp'
+            spec: catalog.spec.json
+          - system: confetti-mobile
+            module: ':androidApp'
+            spec: catalog.mobile.spec.json
     steps:
       - uses: actions/checkout@v6
         with:
@@ -82,41 +97,41 @@ jobs:
 
       # Render the catalog module into a portable bundle with semantics (a11y
       # greenlines + layout tree -> tokens/wireframes in the exported catalog).
-      - name: Render catalog bundle (:wearApp, Android/Robolectric)
+      - name: Render catalog bundle (${{ matrix.module }}, Android/Robolectric)
         run: |
           set -euo pipefail
-          compose-preview bundle pack --module :wearApp --with-semantics \
-            -o "$GITHUB_WORKSPACE/confetti-wear-bundle.png"
+          compose-preview bundle pack --module ${{ matrix.module }} --with-semantics \
+            -o "$GITHUB_WORKSPACE/${{ matrix.system }}-bundle.png"
 
-      # Join the render to catalog.spec.json and write the importable bundle.
+      # Join the render to the spec and write the importable bundle.
       # `source: {repo, ref, module}` lets a trusted, toolchain-equipped box
       # live-rerender; it's inert on the desktop-only public server.
       - name: Generate importable catalog
         run: |
           set -euo pipefail
           node compose-ai-tools/scripts/design-artifacts/generate-design-catalog.mjs \
-            --spec catalog.spec.json \
-            --renders "$GITHUB_WORKSPACE/confetti-wear-bundle.png" \
+            --spec ${{ matrix.spec }} \
+            --renders "$GITHUB_WORKSPACE/${{ matrix.system }}-bundle.png" \
             --out "$GITHUB_WORKSPACE/out" \
             --renderer "$(compose-preview --version | head -1)" \
             --source-repo "${GITHUB_REPOSITORY}" \
             --source-ref main \
-            --source-module :wearApp \
+            --source-module ${{ matrix.module }} \
             ${{ (github.event_name == 'workflow_dispatch' && inputs.allow_incomplete) && '--allow-incomplete' || '' }}
 
-      - name: Publish to design-artifacts/confetti-wear
+      - name: Publish to design-artifacts/${{ matrix.system }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           cd "$GITHUB_WORKSPACE/out"
           git init -q
-          git checkout -q -b design-artifacts/confetti-wear
+          git checkout -q -b design-artifacts/${{ matrix.system }}
           # Generated delivery branch — attributed to the repo owner, not a bot.
           git config user.name 'Yuri Schimke'
           git config user.email 'yuri@schimke.ee'
           git add -A
-          git commit -q -m "chore(design-artifacts): regenerate confetti-wear catalog ($(date -u +%F))"
+          git commit -q -m "chore(design-artifacts): regenerate ${{ matrix.system }} catalog ($(date -u +%F))"
           git push --force \
             "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
-            "HEAD:refs/heads/design-artifacts/confetti-wear"
+            "HEAD:refs/heads/design-artifacts/${{ matrix.system }}"

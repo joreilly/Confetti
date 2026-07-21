@@ -91,12 +91,12 @@
         },
         {
           "componentId": "SessionDetails",
-          "preview": "SessionDetailViewPreview",
+          "preview": "SessionDetailsScreen",
           "caption": "Session details — title, time, description and speakers."
         },
         {
           "componentId": "SpeakerDetails",
-          "preview": "SpeakerDetailsViewPreview",
+          "preview": "SpeakerDetailsScreen",
           "caption": "Speaker details — photo, name, tagline and bio."
         },
         {

@@ -166,6 +166,8 @@ dependencies {
     implementation(libs.compose.material)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.coil.compose)
+    // coil3 (used by the shared CMP components) — needed for the design-catalog preview image handler.
+    implementation(libs.coil3.compose)
 
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose)

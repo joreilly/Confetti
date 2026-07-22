@@ -1,6 +1,8 @@
 package dev.johnoreilly.confetti.ui
 
+import android.content.Context
 import android.content.res.Configuration
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,9 +13,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.ColorImage
+import coil3.Image
+import coil3.asImage
+import coil3.compose.AsyncImagePreviewHandler
+import coil3.compose.LocalAsyncImagePreviewHandler
 import dev.johnoreilly.confetti.preview.breakSession
 import dev.johnoreilly.confetti.preview.johnOreillySpeaker
 import dev.johnoreilly.confetti.preview.lightningSession
@@ -46,7 +56,50 @@ import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
 /** Confetti's brand theme with dynamic (Material You) theming disabled, so the catalog is deterministic. */
 @Composable
 private fun CatalogTheme(content: @Composable () -> Unit) {
-    ConfettiTheme(disableDynamicTheming = true, content = content)
+    ConfettiTheme(disableDynamicTheming = true) {
+        // The catalog renders with LocalInspectionMode = true, where Coil never executes a network
+        // request — so speaker/venue AsyncImages would sit blank. A preview handler supplies the
+        // bundled speaker photo for a known URL (John / Martin), else a brand-tinted placeholder, so
+        // the published catalog shows real faces. Production is untouched (no handler there).
+        CompositionLocalProvider(
+            LocalAsyncImagePreviewHandler provides catalogImagePreviewHandler(),
+            content = content,
+        )
+    }
+}
+
+/** Coil preview handler that resolves catalog images to a bundled photo or a placeholder. */
+@Composable
+private fun catalogImagePreviewHandler(): AsyncImagePreviewHandler {
+    val context = LocalContext.current
+    return remember(context) {
+        AsyncImagePreviewHandler { request ->
+            bundledSpeakerImage(context, request.data.toString())
+                ?: ColorImage(color = 0xFF6E56CF.toInt(), width = 256, height = 256)
+        }
+    }
+}
+
+/**
+ * The bundled preview photo for a known speaker URL, or null. The real photos are reused (via LFS)
+ * from the screenshot-test fixtures as `res/raw` in the debug source set — riding the design-catalog
+ * (debug) render but never shipping in release. Decodes defensively: a missing / unreadable resource
+ * yields null and the caller falls back to a placeholder.
+ */
+private fun bundledSpeakerImage(context: Context, model: String?): Image? {
+    val resourceName =
+        when {
+            model == null -> return null
+            model.contains("HkquSQhsfczBGkrABwVTBc") -> "preview_speaker_john"
+            model.contains("UiWeCMZDxPejrFsozKmLYr") -> "preview_speaker_martin"
+            else -> return null
+        }
+    val id = context.resources.getIdentifier(resourceName, "raw", context.packageName)
+    if (id == 0) return null
+    return runCatching {
+            context.resources.openRawResource(id).use { BitmapFactory.decodeStream(it) }?.asImage()
+        }
+        .getOrNull()
 }
 
 /** Component sticker multipreview — light + dark, phone width, height wraps to the component. */

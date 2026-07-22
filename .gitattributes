@@ -1,3 +1,7 @@
 fastlane/metadata/android/en-US/images/wearScreenshots/*.png filter=lfs diff=lfs merge=lfs -text
 wearApp/src/test/resources/*.jpg filter=lfs diff=lfs merge=lfs -text
 wearApp/snapshot/**/*.png filter=lfs diff=lfs merge=lfs -text
+
+# Preview speaker photos reuse the LFS-stored fixture images (rendered in the design catalog).
+wearApp/src/debug/res/raw/*.jpg filter=lfs diff=lfs merge=lfs -text
+androidApp/src/debug/res/raw/*.jpg filter=lfs diff=lfs merge=lfs -text

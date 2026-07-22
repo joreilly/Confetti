@@ -36,7 +36,7 @@ import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Person
-import dev.johnoreilly.confetti.wear.components.AvatarPlaceholder
+import dev.johnoreilly.confetti.wear.components.InspectionSpeakerImage
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -143,9 +143,11 @@ fun SpeakerDetailsView(
                         contentDescription = speaker?.name,
                         loading = {
                             // Catalog/@Preview render (LocalInspectionMode): Coil can't fetch the
-                            // photo, so show an avatar placeholder rather than a stuck spinner.
+                            // photo, so show the bundled speaker photo (or a placeholder) rather
+                            // than a stuck spinner.
                             if (LocalInspectionMode.current) {
-                                AvatarPlaceholder(
+                                InspectionSpeakerImage(
+                                    photoUrl = speaker?.photoUrl,
                                     contentDescription = speaker?.name,
                                     modifier = Modifier.fillMaxSize(),
                                     shape = RoundedCornerShape(16.dp),

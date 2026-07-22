@@ -41,9 +41,10 @@ fun SessionSpeakerChip(
                 contentDescription = speaker.name,
                 loading = {
                     // In a catalog/@Preview render (LocalInspectionMode) Coil never resolves the
-                    // network photo, so show an avatar placeholder rather than a stuck spinner.
+                    // network photo, so show the bundled speaker photo (or a placeholder) rather
+                    // than a stuck spinner.
                     if (LocalInspectionMode.current) {
-                        AvatarPlaceholder(speaker.name, Modifier.fillMaxSize())
+                        InspectionSpeakerImage(speaker.wearPhotoUrl, speaker.name, Modifier.fillMaxSize())
                     } else {
                         CircularProgressIndicator()
                     }

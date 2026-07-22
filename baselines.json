@@ -892,7 +892,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round.png",
-    "sha256": "7d2b0f8c8d6f4d2c44072f9c9e3094071309c2f8c0363cdabd0c1bdc8612656f",
+    "sha256": "d0e725c57c2c94bf420b8e8ef47029fe8744b6051103f5e6917ac232b55819ee",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
@@ -1180,7 +1180,7 @@
     "functionName": "ColorSchemeSpecimenPreview",
     "module": "wearApp",
     "renderBasename": "ColorSchemeSpecimenPreview.png",
-    "sha256": "8a3c020dfda3e4bb67c7ecb7054a780196623d8c04ca3d3481f66e394a19bc01",
+    "sha256": "bb1811525881a62f8f83dc2d4e8db87aa5ff14d97070eed8806cdcf15d0c35ce",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.DayChipPreview": {
@@ -1260,7 +1260,7 @@
     "functionName": "TypographySpecimenPreview",
     "module": "wearApp",
     "renderBasename": "TypographySpecimenPreview.png",
-    "sha256": "abdc6fc392b2c3ccc8be18d9abb5799901d22211b1c6707a9f3b212cb6f24742",
+    "sha256": "cf2daa4e19da4d6eed199bcf0e30f3322a899e8108531e743bafda4013def7c1",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x000080": {

@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.wear.components
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -7,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
@@ -38,7 +40,13 @@ fun SessionSpeakerChip(
                 model = speaker.wearPhotoUrl,
                 contentDescription = speaker.name,
                 loading = {
-                    CircularProgressIndicator()
+                    // In a catalog/@Preview render (LocalInspectionMode) Coil never resolves the
+                    // network photo, so show an avatar placeholder rather than a stuck spinner.
+                    if (LocalInspectionMode.current) {
+                        AvatarPlaceholder(speaker.name, Modifier.fillMaxSize())
+                    } else {
+                        CircularProgressIndicator()
+                    }
                 },
                 error = {
                     Icon(

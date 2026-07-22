@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
@@ -35,6 +36,7 @@ import dev.johnoreilly.confetti.decompose.SpeakerDetailsComponent
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Person
+import dev.johnoreilly.confetti.wear.components.AvatarPlaceholder
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -140,7 +142,17 @@ fun SpeakerDetailsView(
                         model = speaker?.photoUrl,
                         contentDescription = speaker?.name,
                         loading = {
-                            CircularProgressIndicator()
+                            // Catalog/@Preview render (LocalInspectionMode): Coil can't fetch the
+                            // photo, so show an avatar placeholder rather than a stuck spinner.
+                            if (LocalInspectionMode.current) {
+                                AvatarPlaceholder(
+                                    contentDescription = speaker?.name,
+                                    modifier = Modifier.fillMaxSize(),
+                                    shape = RoundedCornerShape(16.dp),
+                                )
+                            } else {
+                                CircularProgressIndicator()
+                            }
                         },
                         error = {
                             Icon(

@@ -256,9 +256,17 @@
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "",
+      "annotatedBasename": "ColorSchemeSpecimenPreview.a11y.png",
       "cleanBasename": "ColorSchemeSpecimenPreview.png",
-      "findings": [],
+      "findings": [
+        {
+          "boundsInScreen": "88,89,138,137",
+          "level": "INFO",
+          "message": "This non-clickable item's speakable text: \"Aa\" is identical to that of 5 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.widget.TextView"
+        }
+      ],
       "functionName": "ColorSchemeSpecimenPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview",
@@ -702,7 +710,15 @@
     {
       "annotatedBasename": "SpeakerDetailsScreen_Devices_Large_Round.a11y.png",
       "cleanBasename": "SpeakerDetailsScreen_Devices_Large_Round.png",
-      "findings": [],
+      "findings": [
+        {
+          "boundsInScreen": "26,46,428,204",
+          "level": "INFO",
+          "message": "This non-clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.widget.ImageView  desc=\"John O'Reilly\""
+        }
+      ],
       "functionName": "SpeakerDetailsScreen",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.SpeakerDetailsScreenTestKt.SpeakerDetailsScreen_Devices - Large Round",

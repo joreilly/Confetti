@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/pr`. 65 preview(s) across 2 module(s) · 5 error(s) · 0 warning(s) · 8 info._
+_Auto-generated from `compose-preview/a11y/pr`. 65 preview(s) across 2 module(s) · 5 error(s) · 0 warning(s) · 6 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -405,17 +405,13 @@ _No findings._
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/wearApp/SpeakerDetailsScreen_Devices_Large_Round.a11y.png" width="400" />
 
-| # | Level | Rule | Element | Message |
-|--:|---|---|---|---|
-| 1 | INFO | DuplicateSpeakableTextCheck | android.widget.ImageView  desc="John O'Reilly" | This non-clickable item's speakable text: "John O'Reilly" is identical to that of 1 other item(s). |
+_No findings._
 
 ### `SpeakerDetailsViewPreview` · `wearos_large_round`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/wearApp/dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewKt.SpeakerDetailsViewPreview_Devices - Large Round.a11y.png" width="400" />
 
-| # | Level | Rule | Element | Message |
-|--:|---|---|---|---|
-| 1 | INFO | DuplicateSpeakableTextCheck | android.widget.ImageView  desc="John O'Reilly" | This non-clickable item's speakable text: "John O'Reilly" is identical to that of 1 other item(s). |
+_No findings._
 
 ### `TypographySpecimenPreview`
 

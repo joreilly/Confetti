@@ -250,5 +250,5 @@ screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"
 composeai-preview = { id = "ee.schimke.composeai.preview", version.ref = "composeai-preview" }
 kgp-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-gratatouille = { id = "com.gradleup.gratatouille", version = "0.2.1" }
+gratatouille = { id = "com.gradleup.gratatouille", version = "0.2.3" }
 tapmoc = { id = "com.gradleup.tapmoc", version.ref = "tapmoc" }

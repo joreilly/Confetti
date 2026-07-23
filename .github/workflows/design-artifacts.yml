@@ -5,6 +5,12 @@ name: Design Artifacts
 # clean `design-artifacts/<system>` branch. The public preview server
 # (preview.coo.ee) fetches those branches and serves them at /<system>/.
 #
+# `--publish-live-bundle` also carries the executable render bundle onto the
+# branch under `bundle/` and records `liveBundle` in catalog.json, so the serve
+# box (which bakes the Android/Robolectric daemon) re-renders these previews
+# live — device/theme/knob controls work — instead of replaying baked PNGs.
+# Both modules are Android, so both get the live lane on the image-backed box.
+#
 # Two catalogs, one per row of the matrix below:
 #   * confetti-wear   — :wearApp,    catalog.spec.json
 #   * confetti-mobile — :androidApp, catalog.mobile.spec.json
@@ -117,6 +123,7 @@ jobs:
             --source-repo "${GITHUB_REPOSITORY}" \
             --source-ref main \
             --source-module ${{ matrix.module }} \
+            --publish-live-bundle \
             ${{ (github.event_name == 'workflow_dispatch' && inputs.allow_incomplete) && '--allow-incomplete' || '' }}
 
       - name: Publish to design-artifacts/${{ matrix.system }}

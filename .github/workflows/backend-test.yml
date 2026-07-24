@@ -10,6 +10,10 @@ concurrency:
 jobs:
   build-backend:
     runs-on: ubuntu-22.04
+    env:
+      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this
+      # PR job only reads from the cache. Absent on fork PRs, which disables the cache there.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
 
     steps:
     - uses: actions/checkout@v4
@@ -21,6 +25,8 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v3.5.0
+      with:
+        cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
     - uses: hashicorp/setup-terraform@v3
 

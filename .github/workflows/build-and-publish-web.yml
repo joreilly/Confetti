@@ -8,6 +8,10 @@ jobs:
   build:
     name: Test and Build
     runs-on: ubuntu-latest
+    env:
+      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this
+      # manual build only reads from the cache. Absent on fork PRs, which disables the cache there.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
     steps:
 
       # Setup Java 1.8 environment for the next steps

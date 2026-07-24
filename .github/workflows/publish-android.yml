@@ -27,7 +27,10 @@ jobs:
           java-version: 17
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3.5.0
+        # setup-gradle@v6 (matches compose-preview.yml / design-artifacts.yml): the deprecated
+        # gradle-build-action@v3.5.0 fails on Gradle 9.6.1 in its cache-cleanup init script
+        # ("write-only property 'removeUnusedEntriesOlderThan'").
+        uses: gradle/actions/setup-gradle@v6
         with:
           gradle-home-cache-cleanup: true
 

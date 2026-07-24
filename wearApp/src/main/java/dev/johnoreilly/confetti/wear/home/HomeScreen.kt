@@ -380,10 +380,7 @@ fun HomeListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(
-    modes = [ScrollMode.TOP, ScrollMode.END, ScrollMode.LONG, ScrollMode.GIF],
-    reduceMotion = false,
-)
+@ScrollingPreview(modes = [ScrollMode.TOP, ScrollMode.END, ScrollMode.LONG, ScrollMode.GIF])
 @Composable
 fun HomeListViewLongPreview() {
     ConfettiPreviewScaffold {

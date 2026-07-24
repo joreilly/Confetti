@@ -10,6 +10,11 @@ concurrency:
 jobs:
   build:
     runs-on: macos-latest
+    env:
+      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so the
+      # Kotlin/Native compile Gradle runs (invoked by xcodebuild) only read from the cache. Absent
+      # on fork PRs, which disables the cache there.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
     steps:
       - uses: actions/checkout@v4
 

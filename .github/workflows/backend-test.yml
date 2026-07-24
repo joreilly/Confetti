@@ -11,10 +11,9 @@ jobs:
   build-backend:
     runs-on: ubuntu-22.04
     env:
-      # BuildFetch remote cache (see settings.gradle.kts). Token is absent on fork PRs, which
-      # disables the cache there. Writes happen only on trusted main-branch builds (ON_CI).
-      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN }}
-      ON_CI: ${{ github.ref == 'refs/heads/main' }}
+      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this
+      # PR job only reads from the cache. Absent on fork PRs, which disables the cache there.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
 
     steps:
     - uses: actions/checkout@v4

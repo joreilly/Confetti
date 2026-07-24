@@ -7,6 +7,11 @@ jobs:
   build-android:
     runs-on: ubuntu-22.04
 
+    env:
+      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this
+      # manual screenshot-fix run only reads from the cache. Absent on fork PRs (cache disabled).
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
+
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.

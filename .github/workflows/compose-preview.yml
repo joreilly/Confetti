@@ -44,6 +44,12 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    env:
+      # BuildFetch remote cache (see settings.gradle.kts). On main-branch runs ON_CI=true and the RW
+      # token seed the cache from the render/compile task outputs; on PRs ON_CI is false so the same
+      # token is used read-only. Absent on forks, which disables the cache there.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN }}
+      ON_CI: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -81,6 +87,12 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    env:
+      # BuildFetch remote cache (see settings.gradle.kts). On main-branch runs ON_CI=true and the RW
+      # token seed the cache from the render/compile task outputs; on PRs ON_CI is false so the same
+      # token is used read-only. Absent on forks, which disables the cache there.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN }}
+      ON_CI: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v6
         with:

@@ -25,6 +25,13 @@ jobs:
     runs-on: ubuntu-22.04
     if: github.repository == 'joreilly/Confetti'
 
+    env:
+      # BuildFetch remote cache (see settings.gradle.kts). This is a trusted main-branch run, so
+      # ON_CI=true and the RW token let it push freshly-executed backend task outputs to the remote,
+      # seeding the cache that PR builds read from.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN }}
+      ON_CI: ${{ github.ref == 'refs/heads/main' }}
+
     steps:
     - uses: actions/checkout@v4
 

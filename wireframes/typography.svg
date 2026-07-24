@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 593 715" width="593" height="715" role="img" aria-label="Typography layout wireframe">
+  <title>Typography — layout wireframe (slots + tokens)</title>
+  <rect width="593" height="715" fill="#ffffff"/>
+  <g>
+    <rect x="0" y="0" width="593" height="715" fill="none" fill-opacity="0" stroke="#5B6470" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="593" height="715" fill="none" fill-opacity="0" stroke="#2E7D6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="32" width="519" height="651" fill="#000000" fill-opacity="1" stroke="#8E6BA8" stroke-width="1.5" stroke-opacity="1"/>
+    <text x="40" y="44" font-family="system-ui, sans-serif" font-size="9" fill="#8E6BA8">#FF000000  pad ·  gap 6.0dp</text>
+  </g>
+  <g>
+    <rect x="37" y="32" width="231" height="115" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="32" width="231" height="73" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="105" width="208" height="42" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="163" width="232" height="99" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="163" width="232" height="57" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="220" width="156" height="42" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="278" width="261" height="91" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="278" width="261" height="49" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="327" width="195" height="42" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="385" width="294" height="91" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="385" width="294" height="49" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="434" width="171" height="42" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="492" width="313" height="85" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="492" width="313" height="43" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="535" width="210" height="42" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="593" width="293" height="90" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="593" width="293" height="48" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="37" y="641" width="210" height="42" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+</svg>

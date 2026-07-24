@@ -1,0 +1,1283 @@
+{
+  "schema": "design-parity-catalog/v1",
+  "system": "confetti-wear",
+  "title": "Confetti Wear",
+  "components": [
+    {
+      "componentId": "Typography",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/typography/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 715,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/typography__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.TypographySpecimenPreview"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 37,
+            "y": 32,
+            "width": 519,
+            "height": 651
+          },
+          "padding": {
+            "start": 14,
+            "top": 12,
+            "end": 14,
+            "bottom": 12
+          },
+          "gap": 6
+        }
+      ],
+      "section": "Themes",
+      "group": "Theme",
+      "caption": "A type ramp read from MaterialTheme.typography (Wear Material 3).",
+      "wireframe": "wireframes/typography.svg"
+    },
+    {
+      "componentId": "ColorScheme",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/colorscheme/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 483,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/colorscheme__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 37,
+            "y": 37,
+            "width": 498,
+            "height": 409
+          },
+          "padding": {
+            "start": 14,
+            "top": 14,
+            "end": 14,
+            "bottom": 14
+          },
+          "gap": 8
+        },
+        {
+          "bounds": {
+            "x": 37,
+            "y": 37,
+            "width": 152,
+            "height": 152
+          },
+          "cornerRadius": 12
+        },
+        {
+          "bounds": {
+            "x": 210,
+            "y": 37,
+            "width": 152,
+            "height": 152
+          },
+          "cornerRadius": 12
+        },
+        {
+          "bounds": {
+            "x": 383,
+            "y": 37,
+            "width": 152,
+            "height": 152
+          },
+          "cornerRadius": 12
+        },
+        {
+          "bounds": {
+            "x": 37,
+            "y": 252,
+            "width": 152,
+            "height": 152
+          },
+          "cornerRadius": 12
+        },
+        {
+          "bounds": {
+            "x": 210,
+            "y": 252,
+            "width": 152,
+            "height": 152
+          },
+          "cornerRadius": 12
+        },
+        {
+          "bounds": {
+            "x": 383,
+            "y": 252,
+            "width": 152,
+            "height": 152
+          },
+          "cornerRadius": 12
+        }
+      ],
+      "section": "Themes",
+      "group": "Theme",
+      "caption": "Colour-role swatches read from MaterialTheme.colorScheme.",
+      "wireframe": "wireframes/colorscheme.svg"
+    },
+    {
+      "componentId": "SessionCard",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sessioncard/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 262,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessioncard__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SessionCardPopulatedPreview"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessioncard/ideal__loading__compact.png",
+          "state": "loading",
+          "width": 595,
+          "height": 213,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessioncard__ideal__loading__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SessionCardLoadingPreview"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessioncard/ideal__bookmarked__compact.png",
+          "state": "bookmarked",
+          "width": 595,
+          "height": 262,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessioncard__ideal__bookmarked__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SessionCardBookmarkedPreview"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 593,
+            "height": 262
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Session TitleCard — title, speakers, room and time.",
+      "wireframe": "wireframes/sessioncard.svg"
+    },
+    {
+      "componentId": "SessionSpeakerChip",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sessionspeakerchip/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 137,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessionspeakerchip__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SessionSpeakerChipPreview"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 481,
+              "height": 137
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 481,
+            "height": 137
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 481,
+            "height": 137
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 37,
+            "y": 27,
+            "width": 84,
+            "height": 84
+          },
+          "cornerRadius": 16
+        },
+        {
+          "bounds": {
+            "x": 37,
+            "y": 27,
+            "width": 84,
+            "height": 84
+          },
+          "role": "Image",
+          "label": "John O'Reilly",
+          "cornerRadius": 16
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Speaker chip with avatar, name and tagline.",
+      "wireframe": "wireframes/sessionspeakerchip.svg"
+    },
+    {
+      "componentId": "SectionHeader",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sectionheader/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 126,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sectionheader__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SectionHeaderPreview"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Inline list section divider in the theme's primary accent.",
+      "wireframe": "wireframes/sectionheader.svg"
+    },
+    {
+      "componentId": "ScreenHeader",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/screenheader/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 126,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/screenheader__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.ScreenHeaderPreview"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Top-of-screen title (ListHeader).",
+      "wireframe": "wireframes/screenheader.svg"
+    },
+    {
+      "componentId": "PlaceholderButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/placeholderbutton/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 137,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/placeholderbutton__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.PlaceholderButtonPreview"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 593,
+              "height": 137
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 593,
+            "height": 137
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 593,
+            "height": 137
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 37,
+            "y": 27,
+            "width": 84,
+            "height": 84
+          },
+          "cornerRadius": 16
+        },
+        {
+          "bounds": {
+            "x": 137,
+            "y": 25,
+            "width": 393,
+            "height": 32
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 10,
+            "bottom": 0
+          },
+          "cornerRadius": 12
+        },
+        {
+          "bounds": {
+            "x": 137,
+            "y": 81,
+            "width": 340,
+            "height": 32
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 30,
+            "bottom": 0
+          },
+          "cornerRadius": 12
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Shimmering placeholder chip shown while content loads.",
+      "wireframe": "wireframes/placeholderbutton.svg"
+    },
+    {
+      "componentId": "SocialIcon",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/socialicon/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 63,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/socialicon__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SocialIconPreview"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Tappable social-link icon (ImageVector overload).",
+      "wireframe": "wireframes/socialicon.svg"
+    },
+    {
+      "componentId": "DayChip",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/daychip/ideal__default__compact.png",
+          "state": "default",
+          "width": 595,
+          "height": 137,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/daychip__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.DayChipPreview"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 593,
+              "height": 137
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 593,
+            "height": 137
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 593,
+            "height": 137
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Conference-day selector button.",
+      "wireframe": "wireframes/daychip.svg"
+    },
+    {
+      "componentId": "Home",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/home/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/home__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/home/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/home__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/home/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/home__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/home/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/home__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/home/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/home__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/home/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/home__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/home/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/home__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/home/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/home__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 51,
+            "y": 305,
+            "width": 351,
+            "height": 170
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 3,
+            "end": 0,
+            "bottom": 3
+          }
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Home screen — conference title, bookmarks and day list.",
+      "wireframe": "wireframes/home.svg"
+    },
+    {
+      "componentId": "Sessions",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sessions/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessions__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessions/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessions__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessions/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessions__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessions/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessions__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessions/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessions__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessions/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessions__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessions/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessions__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessions/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessions__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 24,
+            "y": 161,
+            "width": 406,
+            "height": 198
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Sessions schedule list grouped by start time.",
+      "wireframe": "wireframes/sessions.svg"
+    },
+    {
+      "componentId": "SessionDetails",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sessiondetails/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/sessiondetails__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.SessionDetailsScreenTestKt.SessionDetailsScreen_Devices - Large Round"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Session details — title, time, description and speakers.",
+      "wireframe": "wireframes/sessiondetails.svg"
+    },
+    {
+      "componentId": "SpeakerDetails",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/speakerdetails/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/speakerdetails__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.SpeakerDetailsScreenTestKt.SpeakerDetailsScreen_Devices - Large Round"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 26,
+            "y": 46,
+            "width": 401,
+            "height": 158
+          },
+          "cornerRadius": 16
+        },
+        {
+          "bounds": {
+            "x": 26,
+            "y": 46,
+            "width": 401,
+            "height": 158
+          },
+          "role": "Image",
+          "label": "John O'Reilly",
+          "cornerRadius": 16
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Speaker details — photo, name, tagline and bio.",
+      "wireframe": "wireframes/speakerdetails.svg"
+    },
+    {
+      "componentId": "Bookmarks",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/bookmarks/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/bookmarks__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmarks/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/bookmarks__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmarks/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/bookmarks__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmarks/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/bookmarks__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmarks/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/bookmarks__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmarks/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/bookmarks__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmarks/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/bookmarks__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmarks/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/bookmarks__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 24,
+            "y": 161,
+            "width": 406,
+            "height": 198
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Bookmarks screen — upcoming and past bookmarked sessions.",
+      "wireframe": "wireframes/bookmarks.svg"
+    },
+    {
+      "componentId": "Conferences",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/conferences/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/conferences__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/conferences/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/conferences__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/conferences/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/conferences__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/conferences/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/conferences__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/conferences/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/conferences__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/conferences/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/conferences__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/conferences/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/conferences__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/conferences/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/conferences__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 24,
+              "y": 161,
+              "width": 406,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 24,
+            "y": 161,
+            "width": 406,
+            "height": 104
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 25,
+              "y": 273,
+              "width": 403,
+              "height": 103
+            }
+          },
+          "bounds": {
+            "x": 25,
+            "y": 273,
+            "width": 403,
+            "height": 103
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 77,
+              "y": 385,
+              "width": 299,
+              "height": 76
+            }
+          },
+          "bounds": {
+            "x": 77,
+            "y": 385,
+            "width": 299,
+            "height": 76
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 24,
+            "y": 161,
+            "width": 406,
+            "height": 104
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 25,
+            "y": 273,
+            "width": 403,
+            "height": 103
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 77,
+            "y": 385,
+            "width": 299,
+            "height": 76
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Conference picker list.",
+      "wireframe": "wireframes/conferences.svg"
+    },
+    {
+      "componentId": "Settings",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/settings/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/settings__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/settings/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/settings__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/settings/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/settings__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/settings/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/settings__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/settings/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/settings__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/settings/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/settings__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/settings/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/settings__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/settings/ideal__default__compact.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-wear/p/settings__ideal__default__compact",
+          "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 24,
+              "y": 161,
+              "width": 406,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 24,
+            "y": 161,
+            "width": 406,
+            "height": 104
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 25,
+              "y": 273,
+              "width": 403,
+              "height": 103
+            }
+          },
+          "bounds": {
+            "x": 25,
+            "y": 273,
+            "width": 403,
+            "height": 103
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "switch",
+          "detail": {
+            "role": "switch",
+            "bounds": {
+              "x": 308,
+              "y": 405,
+              "width": 48,
+              "height": 33
+            }
+          },
+          "bounds": {
+            "x": 308,
+            "y": 405,
+            "width": 48,
+            "height": 33
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 24,
+            "y": 161,
+            "width": 406,
+            "height": 104
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 25,
+            "y": 273,
+            "width": 403,
+            "height": 103
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 77,
+            "y": 385,
+            "width": 299,
+            "height": 76
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 3,
+            "end": 0,
+            "bottom": 3
+          }
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Settings screen.",
+      "wireframe": "wireframes/settings.svg"
+    }
+  ],
+  "library": [
+    "androidx.wear.compose:compose-material3"
+  ],
+  "renderer": "compose-preview 0.17.14",
+  "generatedAt": "2026-07-24T09:21:45.651Z",
+  "liveBundle": {
+    "path": "bundle/",
+    "file": "confetti-wear-bundle.png"
+  },
+  "source": {
+    "repo": "joreilly/Confetti",
+    "ref": "main",
+    "module": ":wearApp"
+  }
+}

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 593 262" width="593" height="262" role="img" aria-label="SessionCard layout wireframe">
+  <title>SessionCard — layout wireframe (slots + tokens)</title>
+  <rect width="593" height="262" fill="#ffffff"/>
+  <g>
+    <rect x="0" y="0" width="593" height="262" fill="none" fill-opacity="0" stroke="#5B6470" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="593" height="262" fill="none" fill-opacity="0" stroke="#2E7D6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="593" height="262" fill="none" fill-opacity="0" stroke="#8E6BA8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="593" height="262" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <path d="M100.25,32 H492.75 A68.25,68.25 0 0 1 561,100.25 V161.75 A68.25,68.25 0 0 1 492.75,230 H100.25 A68.25,68.25 0 0 1 32,161.75 V100.25 A68.25,68.25 0 0 1 100.25,32 Z" fill="#332E3C" fill-opacity="1" stroke="#3B72A8" stroke-width="1.5" stroke-opacity="1"/>
+    <text x="35" y="44" font-family="system-ui, sans-serif" font-size="9" fill="#3B72A8">#FF332E3C</text>
+  </g>
+  <g>
+    <rect x="32" y="32" width="529" height="97" fill="none" fill-opacity="0" stroke="#A85B6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="32" y="32" width="518" height="97" fill="none" fill-opacity="0" stroke="#4F8A4A" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="32" y="32" width="518" height="97" fill="none" fill-opacity="0" stroke="#7A7A33" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="32" y="134" width="529" height="37" fill="none" fill-opacity="0" stroke="#A85B6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="32" y="134" width="529" height="37" fill="none" fill-opacity="0" stroke="#4F8A4A" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="32" y="171" width="11" height="11" fill="none" fill-opacity="0" stroke="#A85B6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="32" y="182" width="529" height="48" fill="none" fill-opacity="0" stroke="#A85B6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="32" y="182" width="373" height="48" fill="none" fill-opacity="0" stroke="#4F8A4A" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="405" y="182" width="156" height="48" fill="none" fill-opacity="0" stroke="#4F8A4A" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+</svg>

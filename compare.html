@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Confetti Wear — PNG vs SVG compare</title>
+<style>
+  :root { color-scheme: light dark; --bg:#0f0f10; --panel:#1b1b1d; --fg:#e8e8ea; --muted:#9b9ba1; --line:#2a2a2d;
+    --good:#7dd87d; --warn:#e0c060; --bad:#e08080; --accent:#6ea8fe; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--fg); }
+  header.top { padding:24px clamp(16px,4vw,40px); border-bottom:1px solid var(--line); }
+  header.top h1 { margin:0 0 6px; font-size:22px; }
+  header.top .subtitle { color:var(--muted); font-size:13px; }
+  header.top code { background:var(--panel); padding:1px 6px; border-radius:5px; }
+  header.top .note { margin-top:10px; color:var(--muted); font-size:12px; max-width:72ch; }
+  header.top .taintwarn { display:none; margin-top:10px; padding:8px 12px; border-radius:8px; font-size:12px;
+    max-width:80ch; color:var(--warn); border:1px solid var(--warn); background:rgba(224,192,96,0.08); }
+  header.top .taintwarn code { background:var(--panel); }
+  .summary { margin-top:12px; display:flex; gap:20px; flex-wrap:wrap; font-size:13px; }
+  .summary b { color:var(--fg); font-size:16px; }
+  .summary .k { color:var(--muted); }
+  /* Override control bar: the font scale / embedded-fonts / theme / backdrop knobs
+     the scorer reads before re-rasterizing each SVG. */
+  .controls { margin-top:14px; display:flex; gap:16px 20px; flex-wrap:wrap; align-items:center;
+    padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:var(--panel); }
+  .controls .ov { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
+  .controls .ov output { color:var(--fg); font-variant-numeric:tabular-nums; min-width:2.6em; }
+  .controls .ov input[type=range] { accent-color:var(--accent); }
+  .controls .ov select { background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:6px; padding:3px 6px; }
+  .controls .ov-check { color:var(--fg); }
+  .controls #ov-reset { margin-left:auto; background:var(--bg); color:var(--fg); border:1px solid var(--line);
+    border-radius:6px; padding:5px 12px; font-size:12px; cursor:pointer; }
+  .controls #ov-reset:hover { border-color:var(--accent); }
+  .ov-active { flex-basis:100%; margin-top:2px; color:var(--warn); font-size:12px; }
+  main { padding:8px clamp(16px,4vw,40px) 64px; }
+  table { border-collapse:collapse; width:100%; }
+  thead th { position:sticky; top:0; background:var(--bg); text-align:left; font-size:12px; color:var(--muted);
+    padding:10px 12px; border-bottom:1px solid var(--line); z-index:1; }
+  thead th.col-score { text-align:right; }
+  tbody#rows tr.crow { border-bottom:1px solid var(--line); }
+  th.rowhead { text-align:left; font-weight:600; padding:12px; vertical-align:middle; width:22%; }
+  th.rowhead .cid { display:block; word-break:break-word; }
+  th.rowhead .grp { display:block; margin-top:3px; font-weight:400; font-size:11px; color:var(--muted); }
+  td { padding:10px 12px; vertical-align:middle; }
+  /* Checkerboard so transparent stickers read clearly in both columns. */
+  .shot { position:relative; display:inline-grid; place-items:center; min-width:120px; min-height:80px; padding:10px; border-radius:10px;
+    background-color:#161617;
+    background-image:
+      linear-gradient(45deg,#202022 25%,transparent 25%),
+      linear-gradient(-45deg,#202022 25%,transparent 25%),
+      linear-gradient(45deg,transparent 75%,#202022 75%),
+      linear-gradient(-45deg,transparent 75%,#202022 75%);
+    background-size:16px 16px; background-position:0 0,0 8px,8px -8px,-8px 0; }
+  /* Backdrop override (body[data-bg]) — flat white / dark to read glyph edges without the grid. */
+  body[data-bg="white"] .shot:not(.shot--missing) { background-color:#ffffff; background-image:none; }
+  body[data-bg="dark"] .shot:not(.shot--missing) { background-color:#0b0b0c; background-image:none; }
+  .shot img { max-width:260px; max-height:200px; height:auto; display:block; }
+  /* Framed mode: the scorer sizes the tile to the component's content bbox (read from the
+     figma-svg's translate + viewBox) and absolutely-positions the PNG so only the component
+     shows — so a wear sticker rendered on a 454² device canvas is displayed cropped to the
+     component, matching the content-cropped SVG column instead of floating in an empty frame.
+     A no-op for close-cropped renders (phone), where the bbox already fills the frame. */
+  .shot--framed { overflow:hidden; padding:0; min-width:0; min-height:0; }
+  .shot--framed img { position:absolute; max-width:none; max-height:none; }
+  .shot--missing { color:var(--muted); font-style:italic; background:var(--panel); }
+  .badge { position:absolute; top:4px; right:4px; font-size:10px; padding:0 5px; border-radius:999px;
+    background:rgba(0,0,0,0.6); color:var(--warn); border:1px solid var(--warn); }
+  td.score { text-align:right; font-variant-numeric:tabular-nums; font-size:15px; font-weight:600; white-space:nowrap; width:96px; }
+  td.score--good { color:var(--good); }
+  td.score--warn { color:var(--warn); }
+  td.score--bad { color:var(--bad); }
+  td.score--na { color:var(--muted); font-weight:400; }
+  @media (max-width:640px){ .shot img { max-width:150px; } th.rowhead { width:auto; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Confetti Wear — PNG vs SVG</h1>
+  <div class="subtitle">system <code>confetti-wear</code> · rendered by compose-preview 0.17.14 · 16 components · 16 comparable</div>
+  <div class="summary">
+    <span><span class="k">avg structural match</span> <b id="avg">…</b></span>
+    <span><span class="k">scored</span> <b id="done">0</b> / 16</span>
+  </div>
+  <div class="controls" role="group" aria-label="Override options">
+    <label class="ov">Font scale <output id="ov-fontScale-val">1.0×</output>
+      <input id="ov-fontScale" type="range" min="0.5" max="2" step="0.1" value="1" aria-label="Font scale" /></label>
+    <label class="ov ov-check"><input id="ov-fonts" type="checkbox" checked /> Embedded fonts</label>
+    
+    <label class="ov">Backdrop
+      <select id="ov-bg"><option value="checker">Checker</option><option value="white">White</option><option value="dark">Dark</option></select></label>
+    <button type="button" id="ov-reset">Reset</button>
+    <span class="ov-active" id="ov-active" hidden></span>
+  </div>
+  <p class="note">Each row pairs the rendered <strong>PNG</strong> (raster source of truth) with the editable
+  <strong>figma-svg</strong> re-rasterized <em>by your browser</em>. The match column is a windowed
+  <strong>SSIM</strong> (structural similarity) computed live in the page — pre-blurred and downscaled so a
+  half-pixel offset between the two rasterizers barely moves the score, unlike a per-pixel diff. The SVG is
+  aligned to the PNG first (its export padding + root <code>translate</code> are cropped back out, matching the
+  daemon's fidelity harness), so the score reflects real vector drift, not a constant inset. Hybrid stickers'
+  raster crop layers are inlined so their score reflects the full sticker. The <strong>override controls</strong>
+  above re-apply a knob to the vector and re-score live: raising <strong>font scale</strong> grows the SVG's
+  <code>&lt;text&gt;</code> while its captured layer boxes stay put — a fixed-geometry sticker can't reflow, so
+  the glyphs overflow, showing why it can't stand in for a re-rendered <code>fontScale</code>; turning off
+  <strong>embedded fonts</strong> drops the <code>@font-face</code> so the browser substitutes its own face.
+  <strong>Rows sort largest-diff-first once scored</strong>, so the worst offenders come to the top.</p>
+  <p class="taintwarn" id="taintwarn">⚠ The match scores read pixels back from a canvas, which the browser
+  blocks when the images can't be read cross-origin — over <code>file://</code> (opaque origin), or from a
+  host that doesn't send CORS headers for the PNGs. Open this page over <strong>http</strong> from a
+  CORS-enabled host: the README's htmlpreview link (images come from <code>raw.githubusercontent.com</code>,
+  which allows it) or a local server (<code>python3 -m http.server</code> in the branch).</p>
+</header>
+<main>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Component</th>
+        <th scope="col">PNG</th>
+        <th scope="col">SVG (browser-rendered)</th>
+        <th scope="col" class="col-score">Match ↑</th>
+      </tr>
+    </thead>
+    <tbody id="rows"><tr class="crow" data-png="images/typography/ideal__default__compact.png" data-svg="figma/typography.svg">
+  <th scope="row" class="rowhead"><span class="cid">Typography</span><span class="grp">Theme</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/typography/ideal__default__compact.png" alt="Typography PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/typography.svg" alt="Typography SVG" /></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/colorscheme/ideal__default__compact.png" data-svg="figma/colorscheme.svg">
+  <th scope="row" class="rowhead"><span class="cid">ColorScheme</span><span class="grp">Theme</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/colorscheme/ideal__default__compact.png" alt="ColorScheme PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/colorscheme.svg" alt="ColorScheme SVG" /></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/sessioncard/ideal__default__compact.png" data-svg="figma/sessioncard.svg">
+  <th scope="row" class="rowhead"><span class="cid">SessionCard</span><span class="grp">Components</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/sessioncard/ideal__default__compact.png" alt="SessionCard PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/sessioncard.svg" alt="SessionCard SVG" /></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/sessionspeakerchip/ideal__default__compact.png" data-svg="figma/sessionspeakerchip.svg">
+  <th scope="row" class="rowhead"><span class="cid">SessionSpeakerChip</span><span class="grp">Components</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/sessionspeakerchip/ideal__default__compact.png" alt="SessionSpeakerChip PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/sessionspeakerchip.svg" alt="SessionSpeakerChip SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/sectionheader/ideal__default__compact.png" data-svg="figma/sectionheader.svg">
+  <th scope="row" class="rowhead"><span class="cid">SectionHeader</span><span class="grp">Components</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/sectionheader/ideal__default__compact.png" alt="SectionHeader PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/sectionheader.svg" alt="SectionHeader SVG" /></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/screenheader/ideal__default__compact.png" data-svg="figma/screenheader.svg">
+  <th scope="row" class="rowhead"><span class="cid">ScreenHeader</span><span class="grp">Components</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/screenheader/ideal__default__compact.png" alt="ScreenHeader PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/screenheader.svg" alt="ScreenHeader SVG" /></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/placeholderbutton/ideal__default__compact.png" data-svg="figma/placeholderbutton.svg">
+  <th scope="row" class="rowhead"><span class="cid">PlaceholderButton</span><span class="grp">Components</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/placeholderbutton/ideal__default__compact.png" alt="PlaceholderButton PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/placeholderbutton.svg" alt="PlaceholderButton SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/socialicon/ideal__default__compact.png" data-svg="figma/socialicon.svg">
+  <th scope="row" class="rowhead"><span class="cid">SocialIcon</span><span class="grp">Components</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/socialicon/ideal__default__compact.png" alt="SocialIcon PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/socialicon.svg" alt="SocialIcon SVG" /></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/daychip/ideal__default__compact.png" data-svg="figma/daychip.svg">
+  <th scope="row" class="rowhead"><span class="cid">DayChip</span><span class="grp">Components</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/daychip/ideal__default__compact.png" alt="DayChip PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/daychip.svg" alt="DayChip SVG" /></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/home/ideal__default__compact.png" data-svg="figma/home.svg">
+  <th scope="row" class="rowhead"><span class="cid">Home</span><span class="grp">Screens</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/home.svg" alt="Home SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/sessions/ideal__default__compact.png" data-svg="figma/sessions.svg">
+  <th scope="row" class="rowhead"><span class="cid">Sessions</span><span class="grp">Screens</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/sessions.svg" alt="Sessions SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/sessiondetails/ideal__default__compact.png" data-svg="figma/sessiondetails.svg">
+  <th scope="row" class="rowhead"><span class="cid">SessionDetails</span><span class="grp">Screens</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/sessiondetails/ideal__default__compact.png" alt="SessionDetails PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/sessiondetails.svg" alt="SessionDetails SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/speakerdetails/ideal__default__compact.png" data-svg="figma/speakerdetails.svg">
+  <th scope="row" class="rowhead"><span class="cid">SpeakerDetails</span><span class="grp">Screens</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/speakerdetails/ideal__default__compact.png" alt="SpeakerDetails PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/speakerdetails.svg" alt="SpeakerDetails SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/bookmarks/ideal__default__compact.png" data-svg="figma/bookmarks.svg">
+  <th scope="row" class="rowhead"><span class="cid">Bookmarks</span><span class="grp">Screens</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/bookmarks.svg" alt="Bookmarks SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/conferences/ideal__default__compact.png" data-svg="figma/conferences.svg">
+  <th scope="row" class="rowhead"><span class="cid">Conferences</span><span class="grp">Screens</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/conferences.svg" alt="Conferences SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr>
+<tr class="crow" data-png="images/settings/ideal__default__compact.png" data-svg="figma/settings.svg">
+  <th scope="row" class="rowhead"><span class="cid">Settings</span><span class="grp">Screens</span></th>
+  <td class="col-png"><div class="shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings PNG" /></div></td>
+  <td class="col-svg"><div class="shot"><img loading="lazy" src="figma/settings.svg" alt="Settings SVG" /><span class="badge" title="hybrid sticker: opaque layers are raster crops, inlined for scoring">hybrid</span></div></td>
+  <td class="score" aria-label="structural similarity">…</td>
+</tr></tbody>
+  </table>
+</main>
+<script>
+(() => {
+  "use strict";
+  // SSIM constants for 8-bit luma (Wang et al.): (0.01*255)^2, (0.03*255)^2.
+  const C1 = 6.5025, C2 = 58.5225;
+  // Cap the raster size: downscaling box-averages the two engines' antialiasing,
+  // which is what makes the score robust to a sub-pixel offset. 192px max side is
+  // plenty of structure for SSIM while keeping the per-row work cheap.
+  const MAX_SIDE = 192;
+
+  // Active override state, read from the header control bar. Identity defaults
+  // (fontScale 1, fonts embedded, light theme) reproduce the pre-toolbar behaviour
+  // exactly, so the baseline score is unchanged.
+  const OV = { fontScale: 1, fonts: true, theme: "light", bg: "checker" };
+
+  function readControls() {
+    const fs = document.getElementById("ov-fontScale");
+    const fonts = document.getElementById("ov-fonts");
+    const theme = document.getElementById("ov-theme");
+    const bg = document.getElementById("ov-bg");
+    OV.fontScale = fs ? (parseFloat(fs.value) || 1) : 1;
+    OV.fonts = fonts ? fonts.checked : true;
+    OV.theme = theme ? theme.value : "light";
+    OV.bg = bg ? bg.value : "checker";
+  }
+
+  // Whether any override departs from identity. When true the score is a *probe* of
+  // the SVG's sensitivity to the knob (the PNG is the capture-time render), not a
+  // baseline fidelity number — the header says so.
+  function overridesActive() {
+    return Math.abs(OV.fontScale - 1) > 1e-6 || !OV.fonts || OV.theme !== "light";
+  }
+
+  // Apply the active overrides to the figma-svg source text.
+  //  - fontScale: multiply every <text>/<tspan> font-size and letter-spacing. The
+  //    layer geometry (x/y/width/height) is a fixed capture and deliberately is NOT
+  //    reflowed — glyphs overflowing their boxes at >1x is precisely the signal that
+  //    a static sticker can't stand in for a re-rendered fontScale.
+  //  - fonts off: drop the @font-face <style> so the browser substitutes its own
+  //    face — the no-embed / custom-font case (Figma resolves by family name, not the
+  //    embedded bytes, so this mirrors an importer without that font installed).
+  // Identity overrides return the text unchanged so the cheap <img src=svg> path and
+  // the exact baseline score are preserved.
+  function applyOverrides(svgText) {
+    let s = svgText;
+    if (!OV.fonts) {
+      s = s.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, (m) =>
+        /@font-face/i.test(m) ? "" : m);
+    }
+    const fs = OV.fontScale;
+    if (fs && Math.abs(fs - 1) > 1e-6) {
+      s = s.replace(/\b(font-size|letter-spacing)="(-?\d*\.?\d+)"/gi, (_, k, n) =>
+        k + '="' + (parseFloat(n) * fs).toFixed(3) + '"');
+    }
+    return s;
+  }
+
+  // The PNG the current theme override selects — the dark capture if the row carries
+  // one, else the light default (so the toggle is a no-op for light-only rows).
+  function currentPng(tr) {
+    return OV.theme === "dark" && tr.dataset.pngDark ? tr.dataset.pngDark : tr.dataset.png;
+  }
+
+  function loadImage(src) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.decoding = "async";
+      // Request the pixels with CORS so drawing them to a canvas doesn't taint it. On htmlpreview the
+      // page origin is htmlpreview.github.io while the images load cross-origin from
+      // raw.githubusercontent.com (which allows cross-origin reads); without this the canvas taints
+      // and every getImageData throws, so no row scores. Set for relative / http(s) srcs (a relative
+      // images/... path resolves cross-origin against the injected base on htmlpreview) but NOT for
+      // the same-origin-clean blob: URLs the hybrid path builds, nor data: URLs (some engines refuse
+      // to load those under a crossOrigin request).
+      if (!/^(data|blob):/i.test(src)) img.crossOrigin = "anonymous";
+      img.onload = () => res(img);
+      img.onerror = () => rej(new Error("load failed: " + src));
+      img.src = src;
+    });
+  }
+
+  // Inline a hybrid figma-svg's relative <image href="…figma-raster/…png"> crops as
+  // data: URIs. A secure-static <img>-loaded SVG never fetches external refs, so
+  // without this the opaque layers (TextField/Slider chrome, icons) drop out and the
+  // sticker scores far below its true fidelity. Same-origin fetch each crop, base64
+  // it in, and return the rewritten text; a vector-only SVG (no external image refs)
+  // comes back unchanged so its cheap <img> path is untouched. A crop that fails to
+  // fetch is left as-is — that one layer just won't draw.
+  async function inlineRasters(svgText, baseUrl) {
+    const re = /(<image\b[^>]*?\b(?:xlink:href|href)\s*=\s*")([^"]+)(")/gi;
+    const hrefs = [];
+    let m;
+    while ((m = re.exec(svgText))) if (!/^data:/i.test(m[2])) hrefs.push(m[2]);
+    if (!hrefs.length) return svgText;
+    const dataFor = new Map();
+    await Promise.all([...new Set(hrefs)].map(async (h) => {
+      try {
+        const blob = await fetch(new URL(h, baseUrl).href).then((r) => r.blob());
+        const data = await new Promise((res, rej) => {
+          const fr = new FileReader();
+          fr.onload = () => res(fr.result);
+          fr.onerror = () => rej(new Error("raster read failed"));
+          fr.readAsDataURL(blob);
+        });
+        dataFor.set(h, data);
+      } catch (_) { /* leave this layer un-inlined */ }
+    }));
+    return svgText.replace(re, (full, pre, href, post) =>
+      dataFor.has(href) ? pre + dataFor.get(href) + post : full);
+  }
+
+  // Load an SVG given as a string (rasters already inlined) via a Blob URL, so it
+  // carries no external refs and the canvas it's drawn into stays untainted. The
+  // caller may reuse the same blob to show the overridden vector in the display img.
+  function svgBlobUrl(svgText) {
+    return URL.createObjectURL(new Blob([svgText], { type: "image/svg+xml" }));
+  }
+  async function loadSvgString(svgText) {
+    const url = svgBlobUrl(svgText);
+    try {
+      return await loadImage(url);
+    } finally {
+      // Revoke on a macrotask so the synchronous drawImage that follows the await
+      // still has the decoded bitmap.
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    }
+  }
+
+  // Point a display <img> at the overridden SVG so the column shows what was scored
+  // (glyphs overflowing at >1x, the substituted face with fonts off). Revoked after
+  // the browser has had a chance to decode it. Marks the row so a later return to
+  // identity knows to restore the original source.
+  function showSvg(tr, svgText) {
+    const img = tr.querySelector(".col-svg .shot img");
+    if (!img) return;
+    const url = svgBlobUrl(svgText);
+    img.src = url;
+    tr.dataset.svgShown = "override";
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }
+
+  // Put the display <img> back to the authored figma-svg once the overrides return to
+  // identity — otherwise the column keeps showing the last override's blob while the
+  // score is recomputed from the baseline vector. Only acts when a blob was actually
+  // installed, so an unchanged rescore doesn't thrash the src.
+  function restoreSvg(tr) {
+    if (tr.dataset.svgShown !== "override") return;
+    const img = tr.querySelector(".col-svg .shot img");
+    if (img) img.src = tr.dataset.svg;
+    tr.dataset.svgShown = "base";
+  }
+
+  // The figma-svg's root translate. The export (FigmaSvgModel) pads the canvas by
+  // DEFAULT_PADDING and draws the tree under translate(tx, ty) with tx = padding - minX,
+  // in the same px scale as the render PNG (dp->px already applied). The render PNG is
+  // padding-free with content at (0,0), so aligning means cropping that translate back
+  // out — matching the daemon's FigmaSvgFidelity.alignToRender. Integer-only, first match,
+  // exactly as the Kotlin harness parses it; defaults to (0,0) for an un-translated SVG.
+  function translateOf(svgText) {
+    const m = /translate\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)/.exec(svgText);
+    return m ? { tx: parseInt(m[1], 10), ty: parseInt(m[2], 10) } : { tx: 0, ty: 0 };
+  }
+
+  // Draw into a tw×th canvas over white via the caller's draw(ctx) and return the
+  // grayscale (luma over white) plane as a Float32Array.
+  function grayFromDraw(draw, tw, th) {
+    const c = document.createElement("canvas");
+    c.width = tw; c.height = th;
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, tw, th);
+    draw(ctx);
+    const { data } = ctx.getImageData(0, 0, tw, th);
+    const g = new Float32Array(tw * th);
+    for (let i = 0; i < tw * th; i++) {
+      const a = data[i * 4 + 3] / 255;
+      const r = data[i * 4] * a + 255 * (1 - a);
+      const gr = data[i * 4 + 1] * a + 255 * (1 - a);
+      const b = data[i * 4 + 2] * a + 255 * (1 - a);
+      g[i] = 0.299 * r + 0.587 * gr + 0.114 * b;
+    }
+    return g;
+  }
+
+  // Separable 3-tap [1,2,1]/4 blur — a light Gaussian that, together with the
+  // downscale, absorbs the half-pixel offset the two rasterizers disagree on.
+  function blur(src, w, h) {
+    const tmp = new Float32Array(w * h), out = new Float32Array(w * h);
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const l = src[y * w + Math.max(0, x - 1)];
+        const c = src[y * w + x];
+        const r = src[y * w + Math.min(w - 1, x + 1)];
+        tmp[y * w + x] = (l + 2 * c + r) / 4;
+      }
+    }
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const u = tmp[Math.max(0, y - 1) * w + x];
+        const c = tmp[y * w + x];
+        const d = tmp[Math.min(h - 1, y + 1) * w + x];
+        out[y * w + x] = (u + 2 * c + d) / 4;
+      }
+    }
+    return out;
+  }
+
+  // Mean windowed SSIM over 8×8 windows, stride 4. Falls back to a single global
+  // window when the raster is smaller than one window.
+  function ssim(a, b, w, h) {
+    const win = 8, stride = 4;
+    if (w < win || h < win) return globalSsim(a, b);
+    let total = 0, count = 0;
+    for (let y = 0; y + win <= h; y += stride) {
+      for (let x = 0; x + win <= w; x += stride) {
+        let s1 = 0, s2 = 0, s11 = 0, s22 = 0, s12 = 0;
+        for (let j = 0; j < win; j++) {
+          for (let i = 0; i < win; i++) {
+            const idx = (y + j) * w + (x + i);
+            const va = a[idx], vb = b[idx];
+            s1 += va; s2 += vb; s11 += va * va; s22 += vb * vb; s12 += va * vb;
+          }
+        }
+        const n = win * win;
+        const m1 = s1 / n, m2 = s2 / n;
+        const v1 = s11 / n - m1 * m1, v2 = s22 / n - m2 * m2, cov = s12 / n - m1 * m2;
+        const s = ((2 * m1 * m2 + C1) * (2 * cov + C2)) /
+          ((m1 * m1 + m2 * m2 + C1) * (v1 + v2 + C2));
+        total += s; count++;
+      }
+    }
+    return count ? total / count : 1;
+  }
+
+  function globalSsim(a, b) {
+    const n = a.length;
+    let s1 = 0, s2 = 0, s11 = 0, s22 = 0, s12 = 0;
+    for (let i = 0; i < n; i++) {
+      s1 += a[i]; s2 += b[i]; s11 += a[i] * a[i]; s22 += b[i] * b[i]; s12 += a[i] * b[i];
+    }
+    const m1 = s1 / n, m2 = s2 / n;
+    const v1 = s11 / n - m1 * m1, v2 = s22 / n - m2 * m2, cov = s12 / n - m1 * m2;
+    return ((2 * m1 * m2 + C1) * (2 * cov + C2)) /
+      ((m1 * m1 + m2 * m2 + C1) * (v1 + v2 + C2));
+  }
+
+  function grade(pct) {
+    if (pct >= 90) return "good";
+    if (pct >= 75) return "warn";
+    return "bad";
+  }
+
+  // Display both columns cropped to the component's content bbox — the region [(-tx,-ty), vw×vh]
+  // of the render, where (tx,ty) is the figma-svg's root translate and (vw,vh) its viewBox. The
+  // PNG tile is clipped to that window (a wear sticker rendered on a 454² device canvas shows just
+  // the component, not the empty frame); the SVG column already *is* the component, so it's sized
+  // to match. A no-op for close-cropped renders where the bbox already fills the frame.
+  function frameToComponent(tr, rw, rh, tx, ty, vw, vh) {
+    if (!(vw > 0 && vh > 0 && rw > 0 && rh > 0)) return;
+    const cap = 240; // px — matches the old max-width/height envelope
+    const scale = Math.min(1, cap / Math.max(vw, vh));
+    const dw = Math.max(1, Math.round(vw * scale)), dh = Math.max(1, Math.round(vh * scale));
+    const pngShot = tr.querySelector(".col-png .shot");
+    if (pngShot && !pngShot.classList.contains("shot--missing")) {
+      const img = pngShot.querySelector("img");
+      pngShot.classList.add("shot--framed");
+      pngShot.style.width = dw + "px";
+      pngShot.style.height = dh + "px";
+      if (img) {
+        img.style.width = Math.round(rw * scale) + "px";
+        img.style.height = Math.round(rh * scale) + "px";
+        // (tx,ty) is negative for a centred component, so tx*scale shifts the render left/up to
+        // bring the component's top-left to the clip origin.
+        img.style.left = Math.round(tx * scale) + "px";
+        img.style.top = Math.round(ty * scale) + "px";
+      }
+    }
+    const svgShot = tr.querySelector(".col-svg .shot");
+    if (svgShot && !svgShot.classList.contains("shot--missing")) {
+      const img = svgShot.querySelector("img");
+      svgShot.classList.add("shot--framed");
+      svgShot.style.width = dw + "px";
+      svgShot.style.height = dh + "px";
+      if (img) {
+        img.style.position = "static";
+        img.style.width = dw + "px";
+        img.style.height = dh + "px";
+      }
+    }
+  }
+
+  async function scoreRow(tr, seq) {
+    const cell = tr.querySelector(".score");
+    try {
+      // PNG as an <img> (theme override picks light/dark); the SVG as text (to read its
+      // translate, apply the active overrides, and inline any raster crops). Both are
+      // same-origin and cache-shared.
+      const pngPath = currentPng(tr);
+      const [png, resp] = await Promise.all([
+        loadImage(pngPath),
+        fetch(tr.dataset.svg),
+      ]);
+      const rawSvg = await resp.text();
+      // Apply the header overrides (font scale, drop embedded @font-face) to the vector
+      // before anything else, so both the score and the shown column reflect the knob.
+      const svgText = applyOverrides(rawSvg);
+      // Inline hybrid raster crops so their opaque layers draw; a vector-only SVG is
+      // returned unchanged and takes the plain <img> path. Resolve the crop hrefs against
+      // the SVG's *resolved* URL (resp.url), NOT location.href: under htmlpreview the page
+      // origin is htmlpreview.github.io while relative assets resolve from the injected
+      // <base> (raw.githubusercontent). location.href would point the crop fetches at the
+      // wrong host, so nothing inlines and hybrids fall back to half-empty scoring. resp.url
+      // is the branch asset's real location (it followed the same base/redirects the fetch did).
+      const inlined = await inlineRasters(svgText, resp.url);
+      // Overridden or hybrid → rasterize the (blob) string; untouched vector-only → the
+      // cheap <img src=svg> path.
+      const changed = inlined !== rawSvg;
+      const svg = changed ? await loadSvgString(inlined) : await loadImage(tr.dataset.svg);
+      // The render PNG defines the aligned coordinate space (padding-free, content at
+      // (0,0)); size the shared canvas from it, capped to MAX_SIDE for offset-robustness.
+      const rw = png.naturalWidth || png.width, rh = png.naturalHeight || png.height;
+      const scale = Math.min(1, MAX_SIDE / Math.max(rw, rh));
+      const tw = Math.max(1, Math.round(rw * scale));
+      const th = Math.max(1, Math.round(rh * scale));
+      // PNG: drawn 1:1 into the canvas (only the shared downscale applied).
+      const ga = blur(grayFromDraw((ctx) => ctx.drawImage(png, 0, 0, rw * scale, rh * scale), tw, th), tw, th);
+      // SVG: drawn at its native px size but offset by (-tx, -ty) so its content origin
+      // lands at (0,0) and the export's transparent padding is cropped — the same align
+      // the daemon's FigmaSvgFidelity does before scoring. No independent scaling: SVG px
+      // and PNG px are the same space, so a genuine size drift shows up as a real mismatch
+      // rather than being hidden by a fit-to-box rescale.
+      const { tx, ty } = translateOf(rawSvg);
+      const sw = svg.naturalWidth || svg.width, sh = svg.naturalHeight || svg.height;
+      const gb = blur(
+        grayFromDraw(
+          (ctx) => ctx.drawImage(svg, -tx * scale, -ty * scale, sw * scale, sh * scale),
+          tw,
+          th,
+        ),
+        tw,
+        th,
+      );
+      const pct = Math.max(0, Math.min(100, ssim(ga, gb, tw, th) * 100));
+      // A newer control change may have started while this row was awaiting its fetch /
+      // decode. Everything above only read; from here down mutates the row, so bail now
+      // if superseded — otherwise a stale pass could overwrite the current one's image
+      // and score after the newer pass already finished this row.
+      if (seq !== runSeq) return null;
+      // Reflect the *scored* inputs in the display so what's shown matches what was
+      // measured: the theme-selected PNG (only touch src when it actually changes, to
+      // avoid a reload each rescore) and the overridden vector — or the authored SVG
+      // back once the overrides return to identity.
+      const pngImg = tr.querySelector(".col-png .shot img");
+      const shownPng = tr.dataset.pngShown || tr.dataset.png;
+      if (pngImg && shownPng !== pngPath) {
+        pngImg.src = pngPath;
+        tr.dataset.pngShown = pngPath;
+      }
+      if (changed) showSvg(tr, inlined);
+      else restoreSvg(tr);
+      // Crop both display columns to the component now that we've read its bbox from the SVG.
+      frameToComponent(tr, rw, rh, tx, ty, sw, sh);
+      const shown = pct.toFixed(1);
+      cell.textContent = shown + "%";
+      cell.className = "score score--" + grade(pct);
+      tr.dataset.scoreValue = shown;
+      return pct;
+    } catch (err) {
+      // A tainted canvas (SecurityError) or a broken image lands here. A superseded pass
+      // must not stamp "n/a" over the current pass's result either.
+      if (seq !== runSeq) return null;
+      cell.textContent = "n/a";
+      cell.className = "score score--na";
+      cell.title = String(err && err.message || err);
+      return null;
+    }
+  }
+
+  // Sort key: the match %, so ascending order puts the largest diff (lowest match)
+  // first. Unscored / n/a rows have no scoreValue and sink to the bottom.
+  function sortKey(tr) {
+    const v = parseFloat(tr.dataset.scoreValue);
+    return Number.isFinite(v) ? v : Infinity;
+  }
+
+  // Reflect the backdrop choice + the active-probe banner. The backdrop rides on the
+  // body so the checkerboard CSS can be overridden per shot.
+  function applyChrome() {
+    document.body.dataset.bg = OV.bg;
+    const banner = document.getElementById("ov-active");
+    if (banner) {
+      if (!overridesActive()) {
+        banner.textContent = "";
+        banner.hidden = true;
+      } else {
+        const bits = [];
+        if (Math.abs(OV.fontScale - 1) > 1e-6) bits.push("font scale " + OV.fontScale.toFixed(1) + "×");
+        if (!OV.fonts) bits.push("no embedded fonts");
+        if (OV.theme !== "light") bits.push(OV.theme + " theme");
+        banner.hidden = false;
+        banner.textContent = "Probing SVG: " + bits.join(" · ") +
+          " — the PNG is the capture-time render, so the match is this knob's SVG-vs-render divergence, not baseline drift.";
+      }
+    }
+  }
+
+  // A monotonic run token: a control change starts a fresh pass and supersedes any
+  // still-running one, so rapid slider drags don't interleave stale scores.
+  let runSeq = 0;
+
+  async function run() {
+    readControls();
+    applyChrome();
+    const mySeq = ++runSeq;
+    const rows = Array.from(document.querySelectorAll("tr[data-png][data-svg]"));
+    const scores = [];
+    // Sequential: keeps memory flat and the summary counter ticking predictably.
+    const done = document.getElementById("done");
+    if (done) done.textContent = "0";
+    for (const tr of rows) {
+      if (mySeq !== runSeq) return; // a newer pass took over
+      const s = await scoreRow(tr, mySeq);
+      if (s != null) scores.push(s);
+      if (done) done.textContent = String(scores.length);
+    }
+    if (mySeq !== runSeq) return;
+    const avgEl = document.getElementById("avg");
+    if (avgEl) {
+      avgEl.textContent = scores.length
+        ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1) + "%"
+        : "—";
+    }
+    // Re-order worst-match-first (largest diff at the top) so the biggest divergences
+    // are the first thing you see; unscored rows sink to the bottom. Stable re-append
+    // keeps the whole inventory in one table.
+    const body = document.getElementById("rows");
+    if (body) {
+      for (const tr of Array.from(body.querySelectorAll("tr.crow")).sort((a, b) => sortKey(a) - sortKey(b))) {
+        body.appendChild(tr);
+      }
+    }
+    // Opened over file:// the canvas taints (opaque origin) and fetch() is blocked, so
+    // every row fails — point the reader at the http path (htmlpreview / a local server)
+    // where the scorer works.
+    if (rows.length && scores.length === 0) {
+      const b = document.getElementById("taintwarn");
+      if (b) b.style.display = "block";
+    }
+  }
+
+  // Debounce the re-score so dragging the font-scale slider doesn't launch a pass per
+  // pixel; the run token then makes the last drag win.
+  let pending = 0;
+  function scheduleRun() {
+    clearTimeout(pending);
+    pending = setTimeout(run, 120);
+  }
+
+  function updateFontScaleLabel() {
+    const fs = document.getElementById("ov-fontScale");
+    const out = document.getElementById("ov-fontScale-val");
+    if (fs && out) out.textContent = (parseFloat(fs.value) || 1).toFixed(1) + "×";
+  }
+
+  function wireControls() {
+    const fs = document.getElementById("ov-fontScale");
+    if (fs) fs.addEventListener("input", () => { updateFontScaleLabel(); scheduleRun(); });
+    for (const id of ["ov-fonts", "ov-theme", "ov-bg"]) {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener("change", scheduleRun);
+    }
+    const reset = document.getElementById("ov-reset");
+    if (reset) reset.addEventListener("click", () => {
+      if (fs) fs.value = "1";
+      const fonts = document.getElementById("ov-fonts");
+      const theme = document.getElementById("ov-theme");
+      const bg = document.getElementById("ov-bg");
+      if (fonts) fonts.checked = true;
+      if (theme) theme.value = "light";
+      if (bg) bg.value = "checker";
+      updateFontScaleLabel();
+      run();
+    });
+    updateFontScaleLabel();
+  }
+
+  function start() {
+    wireControls();
+    run();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
+  }
+})();
+</script>
+</body>
+</html>

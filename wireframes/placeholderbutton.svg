@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 593 137" width="593" height="137" role="img" aria-label="PlaceholderButton layout wireframe">
+  <title>PlaceholderButton — layout wireframe (slots + tokens)</title>
+  <rect width="593" height="137" fill="#ffffff"/>
+  <g>
+    <rect x="0" y="0" width="593" height="137" fill="none" fill-opacity="0" stroke="#5B6470" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="593" height="137" fill="none" fill-opacity="0" stroke="#2E7D6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <path d="M89.5,16 H503.5 A52.5,52.5 0 0 1 556,68.5 V68.5 A52.5,52.5 0 0 1 503.5,121 H89.5 A52.5,52.5 0 0 1 37,68.5 V68.5 A52.5,52.5 0 0 1 89.5,16 Z" fill="#F6EDFF" fill-opacity="0.122" stroke="#8E6BA8" stroke-width="1.5" stroke-opacity="1"/>
+    <text x="40" y="28" font-family="system-ui, sans-serif" font-size="9" fill="#8E6BA8">#1FF6EDFF</text>
+  </g>
+  <g>
+    <rect x="37" y="27" width="84" height="84" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <path d="M79,27 H79 A42,42 0 0 1 121,69 V69 A42,42 0 0 1 79,111 H79 A42,42 0 0 1 37,69 V69 A42,42 0 0 1 79,27 Z" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1.5" stroke-opacity="1"/>
+  </g>
+  <g>
+    <rect x="121" y="61" width="16" height="16" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="137" y="25" width="419" height="88" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="137" y="25" width="419" height="53" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="137" y="25" width="419" height="53" fill="none" fill-opacity="0" stroke="#A85B6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <path d="M153,25 H514 A16,16 0 0 1 530,41 V41 A16,16 0 0 1 514,57 H153 A16,16 0 0 1 137,41 V41 A16,16 0 0 1 153,25 Z" fill="none" fill-opacity="0" stroke="#4F8A4A" stroke-width="1.5" stroke-opacity="1"/>
+    <text x="140" y="37" font-family="system-ui, sans-serif" font-size="9" fill="#4F8A4A">pad ·</text>
+  </g>
+  <g>
+    <rect x="137" y="57" width="21" height="21" fill="none" fill-opacity="0" stroke="#4F8A4A" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="137" y="78" width="3" height="3" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="137" y="81" width="419" height="32" fill="none" fill-opacity="0" stroke="#3B72A8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <path d="M153,81 H461 A16,16 0 0 1 477,97 V97 A16,16 0 0 1 461,113 H153 A16,16 0 0 1 137,97 V97 A16,16 0 0 1 153,81 Z" fill="none" fill-opacity="0" stroke="#A85B6B" stroke-width="1.5" stroke-opacity="1"/>
+    <text x="140" y="93" font-family="system-ui, sans-serif" font-size="9" fill="#A85B6B">pad ·</text>
+  </g>
+</svg>

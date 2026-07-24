@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 63 63" width="63" height="63" role="img" aria-label="SocialIcon layout wireframe">
+  <title>SocialIcon — layout wireframe (slots + tokens)</title>
+  <rect width="63" height="63" fill="#ffffff"/>
+  <g>
+    <rect x="0" y="0" width="63" height="63" fill="none" fill-opacity="0" stroke="#5B6470" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="63" height="63" fill="none" fill-opacity="0" stroke="#2E7D6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="63" height="63" fill="none" fill-opacity="0" stroke="#8E6BA8" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+</svg>

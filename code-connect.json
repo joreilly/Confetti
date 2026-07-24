@@ -1,0 +1,575 @@
+{
+  "system": "confetti-wear",
+  "title": "Confetti Wear",
+  "label": "Compose",
+  "source": {
+    "repo": "joreilly/Confetti",
+    "ref": "main",
+    "module": ":wearApp"
+  },
+  "generatedAt": "2026-07-24T09:21:47.056Z",
+  "mappings": [
+    {
+      "componentId": "Typography",
+      "figmaLayerName": "Typography",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TypographySpecimenPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/typography.svg"
+    },
+    {
+      "componentId": "ColorScheme",
+      "figmaLayerName": "ColorScheme",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ColorSchemeSpecimenPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/colorscheme.svg"
+    },
+    {
+      "componentId": "SessionCard",
+      "figmaLayerName": "SessionCard",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SessionCardPopulatedPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/sessioncard.svg"
+    },
+    {
+      "componentId": "SessionSpeakerChip",
+      "figmaLayerName": "SessionSpeakerChip",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SessionSpeakerChipPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/sessionspeakerchip.svg"
+    },
+    {
+      "componentId": "SectionHeader",
+      "figmaLayerName": "SectionHeader",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SectionHeaderPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/sectionheader.svg"
+    },
+    {
+      "componentId": "ScreenHeader",
+      "figmaLayerName": "ScreenHeader",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ScreenHeaderPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/screenheader.svg"
+    },
+    {
+      "componentId": "PlaceholderButton",
+      "figmaLayerName": "PlaceholderButton",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "PlaceholderButtonPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/placeholderbutton.svg"
+    },
+    {
+      "componentId": "SocialIcon",
+      "figmaLayerName": "SocialIcon",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SocialIconPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/socialicon.svg"
+    },
+    {
+      "componentId": "DayChip",
+      "figmaLayerName": "DayChip",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "DayChipPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/daychip.svg"
+    },
+    {
+      "componentId": "Home",
+      "figmaLayerName": "Home",
+      "componentName": "ConfettiPreviewScaffold-iRkQZW0",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/preview/ConfettiPreviewScaffold.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "HomeListViewPreview",
+      "codeSnippet": "ConfettiPreviewScaffold-iRkQZW0(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold-iRkQZW0"
+      ],
+      "parameters": [
+        {
+          "name": "seedColor",
+          "type": "Color?",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/home.svg"
+    },
+    {
+      "componentId": "Sessions",
+      "figmaLayerName": "Sessions",
+      "componentName": "ConfettiPreviewScaffold-iRkQZW0",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/preview/ConfettiPreviewScaffold.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SessionListViewPreview",
+      "codeSnippet": "ConfettiPreviewScaffold-iRkQZW0(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold-iRkQZW0"
+      ],
+      "parameters": [
+        {
+          "name": "seedColor",
+          "type": "Color?",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/sessions.svg"
+    },
+    {
+      "componentId": "SessionDetails",
+      "figmaLayerName": "SessionDetails",
+      "componentName": "TestScaffold",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/debug/java/dev/johnoreilly/confetti/wear/TestScaffold.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SessionDetailsScreen",
+      "codeSnippet": "TestScaffold(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.TestScaffold"
+      ],
+      "parameters": [
+        {
+          "name": "fakeImageLoader",
+          "type": "FakeImageLoaderEngine?",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/sessiondetails.svg"
+    },
+    {
+      "componentId": "SpeakerDetails",
+      "figmaLayerName": "SpeakerDetails",
+      "componentName": "TestScaffold",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/debug/java/dev/johnoreilly/confetti/wear/TestScaffold.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SpeakerDetailsScreen",
+      "codeSnippet": "TestScaffold(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.TestScaffold"
+      ],
+      "parameters": [
+        {
+          "name": "fakeImageLoader",
+          "type": "FakeImageLoaderEngine?",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/speakerdetails.svg"
+    },
+    {
+      "componentId": "Bookmarks",
+      "figmaLayerName": "Bookmarks",
+      "componentName": "ConfettiPreviewScaffold-iRkQZW0",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/preview/ConfettiPreviewScaffold.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "BookmarksPreview",
+      "codeSnippet": "ConfettiPreviewScaffold-iRkQZW0(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold-iRkQZW0"
+      ],
+      "parameters": [
+        {
+          "name": "seedColor",
+          "type": "Color?",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/bookmarks.svg"
+    },
+    {
+      "componentId": "Conferences",
+      "figmaLayerName": "Conferences",
+      "componentName": "ConfettiPreviewScaffold-iRkQZW0",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/preview/ConfettiPreviewScaffold.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ConferencesViewPreview",
+      "codeSnippet": "ConfettiPreviewScaffold-iRkQZW0(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold-iRkQZW0"
+      ],
+      "parameters": [
+        {
+          "name": "seedColor",
+          "type": "Color?",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/conferences.svg"
+    },
+    {
+      "componentId": "Settings",
+      "figmaLayerName": "Settings",
+      "componentName": "ConfettiPreviewScaffold-iRkQZW0",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/preview/ConfettiPreviewScaffold.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SettingsListViewPreview",
+      "codeSnippet": "ConfettiPreviewScaffold-iRkQZW0(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold-iRkQZW0"
+      ],
+      "parameters": [
+        {
+          "name": "seedColor",
+          "type": "Color?",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "hasDefault": true,
+          "composableSlot": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/settings.svg"
+    }
+  ]
+}

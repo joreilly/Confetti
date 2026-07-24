@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 593 137" width="593" height="137" role="img" aria-label="DayChip layout wireframe">
+  <title>DayChip — layout wireframe (slots + tokens)</title>
+  <rect width="593" height="137" fill="#ffffff"/>
+  <g>
+    <rect x="0" y="0" width="593" height="137" fill="none" fill-opacity="0" stroke="#5B6470" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="593" height="137" fill="none" fill-opacity="0" stroke="#2E7D6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <path d="M89.5,16 H503.5 A52.5,52.5 0 0 1 556,68.5 V68.5 A52.5,52.5 0 0 1 503.5,121 H89.5 A52.5,52.5 0 0 1 37,68.5 V68.5 A52.5,52.5 0 0 1 89.5,16 Z" fill="#4D3D76" fill-opacity="1" stroke="#8E6BA8" stroke-width="1.5" stroke-opacity="1"/>
+    <text x="40" y="28" font-family="system-ui, sans-serif" font-size="9" fill="#8E6BA8">#FF4D3D76</text>
+  </g>
+  <g>
+    <rect x="37" y="45" width="213" height="48" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+</svg>

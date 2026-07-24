@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Confetti Wear — design catalog</title>
+<style>
+  :root { color-scheme: light dark; --bg:#0f0f10; --panel:#1b1b1d; --fg:#e8e8ea; --muted:#9b9ba1; --line:#2a2a2d; --accent:#7dd87d; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--fg); }
+  header.top { padding:24px clamp(16px,4vw,40px); border-bottom:1px solid var(--line); }
+  header.top h1 { margin:0 0 6px; font-size:22px; }
+  header.top .subtitle { color:var(--muted); font-size:13px; }
+  header.top code { background:var(--panel); padding:1px 6px; border-radius:5px; }
+  header.top .pagelink { color:var(--accent); text-decoration:none; font-size:13px; }
+  header.top .pagelink:hover { text-decoration:underline; }
+  .layout { display:grid; grid-template-columns:240px 1fr; align-items:start; }
+  nav.index { position:sticky; top:0; align-self:start; max-height:100vh; overflow:auto; padding:20px 12px; border-right:1px solid var(--line); }
+  nav.index .nav-head { display:flex; justify-content:space-between; font-weight:600; text-decoration:none; color:var(--fg); padding:6px 8px; border-radius:6px; }
+  nav.index .nav-head span { color:var(--muted); font-weight:400; }
+  nav.index .nav-head:hover { background:var(--panel); }
+  nav.index ul { list-style:none; margin:2px 0 14px; padding:0 0 0 8px; }
+  nav.index li a { display:block; color:var(--muted); text-decoration:none; padding:3px 8px; border-radius:5px; font-size:13px; }
+  nav.index li a:hover { color:var(--fg); background:var(--panel); }
+  main { padding:8px clamp(16px,4vw,40px) 64px; min-width:0; }
+  .group { padding-top:24px; }
+  .group h2 { font-size:16px; border-bottom:1px solid var(--line); padding-bottom:8px; position:sticky; top:0; background:var(--bg); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:16px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  /* Theme-aware checkerboard so a transparent component sticker reads on the backing that matches
+     its baked theme — a light-theme component (dark strokes/text) on a LIGHT check, a dark-theme (or
+     theme-less) one on the default dark check — instead of light-mode content washing out on a fixed
+     dark backing. --ck-a / --ck-b are the two check colours; [data-bg=light] swaps them. Full-screen
+     stickers carry their own round and just sit on top. Shared by the grid hero and zoom variants. */
+  .shot, .state-shot { --ck-a:#161617; --ck-b:#202022;
+    background-color:var(--ck-a);
+    background-image:
+      linear-gradient(45deg,var(--ck-b) 25%,transparent 25%),
+      linear-gradient(-45deg,var(--ck-b) 25%,transparent 25%),
+      linear-gradient(45deg,transparent 75%,var(--ck-b) 75%),
+      linear-gradient(-45deg,transparent 75%,var(--ck-b) 75%);
+    background-size:16px 16px; background-position:0 0,0 8px,8px -8px,-8px 0; }
+  .shot[data-bg="light"], .state-shot[data-bg="light"] { --ck-a:#e9e9ef; --ck-b:#ffffff; }
+  .shot { margin:0; display:grid; place-items:center; min-height:120px; padding:12px; }
+  .shot img { max-width:100%; max-height:240px; height:auto; display:block; }
+  a.shot { cursor:zoom-in; text-decoration:none; }
+  /* Framed mode (set by the crop script below): the hero is sized to the component's content bbox
+     — read from the figma-svg's translate + viewBox — and the PNG is absolutely-positioned so only
+     the component shows. A wear sticker rendered on a 454² device canvas is displayed cropped to
+     the component instead of floating in an empty frame; a no-op for close-cropped (phone) renders
+     where the bbox already fills the frame. */
+  .shot--framed { overflow:hidden; padding:0; min-height:0; position:relative; place-items:stretch;
+    margin:16px auto; border-radius:8px; max-width:100%; }
+  .shot--framed img { position:absolute; max-width:none; max-height:none; }
+  .shot--missing { color:var(--muted); font-style:italic; }
+  .meta { padding:10px 12px 12px; border-top:1px solid var(--line); }
+  .meta h3 { margin:0; font-size:13px; font-weight:600; word-break:break-word; }
+  .meta h3 a.ctitle { color:inherit; text-decoration:none; }
+  .meta h3 a.ctitle:hover { text-decoration:underline; }
+  .meta .sub { color:var(--muted); font-size:12px; margin-top:2px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; }
+  .meta .sub .wf { color:#7dd87d; text-decoration:none; white-space:nowrap; }
+  .meta .sub .wf:hover { text-decoration:underline; }
+  .statechip { font-size:11px; padding:1px 7px; border-radius:999px; border:1px solid var(--line); color:var(--muted); text-decoration:none; white-space:nowrap; }
+  .statechip:hover { color:var(--fg); border-color:var(--muted); }
+  .greenlines { margin-top:8px; display:flex; flex-wrap:wrap; gap:4px; }
+  .chip { font-size:11px; padding:1px 7px; border-radius:999px; border:1px solid var(--accent); color:var(--accent); }
+  .chip--warn { border-color:#e0c060; color:#e0c060; }
+  .chip--error { border-color:#e08080; color:#e08080; }
+  /* Single-component zoom view — a pure-CSS :target overlay, one per component. */
+  .detail { display:none; }
+  .detail:target { display:flex; position:fixed; inset:0; z-index:50; align-items:center; justify-content:center; padding:clamp(12px,4vw,40px); }
+  .detail-scrim { position:absolute; inset:0; background:rgba(0,0,0,0.72); }
+  .detail-panel { position:relative; z-index:1; background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    max-width:min(960px,94vw); max-height:88vh; overflow:auto; padding:20px 24px; }
+  .detail-panel h3 { margin:0 0 4px; font-size:15px; word-break:break-word; }
+  .detail-caption { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .detail-x { position:absolute; top:8px; right:14px; color:var(--muted); text-decoration:none; font-size:24px; line-height:1; }
+  .detail-x:hover { color:var(--fg); }
+  .detail-states { display:flex; flex-wrap:wrap; gap:18px; }
+  figure.state { margin:0; }
+  figure.state figcaption { font-size:12px; color:var(--muted); margin-bottom:6px; text-transform:capitalize; }
+  .state-shots { display:flex; flex-wrap:wrap; gap:10px; }
+  .state-shot { display:flex; flex-direction:column; align-items:center; gap:5px;
+    border:1px solid var(--line); border-radius:10px; padding:12px; }
+  .state-shot img { max-width:220px; max-height:220px; height:auto; display:block; }
+  .state-shot span { font-size:11px; color:var(--muted); text-transform:capitalize; }
+  @media (max-width:720px){ .layout{ grid-template-columns:1fr; } nav.index{ position:static; max-height:none; border-right:0; border-bottom:1px solid var(--line);} }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Confetti Wear</h1>
+  <div class="subtitle">system <code>confetti-wear</code> · androidx.wear.compose:compose-material3 · rendered by compose-preview 0.17.14 · 2026-07-24T09:21:45.651Z · 16 components</div>
+  <div class="subtitle"><a class="pagelink" href="compare.html">PNG vs SVG compare ↗</a></div>
+</header>
+<div class="layout">
+  <nav class="index"><section class="nav-group">
+      <a class="nav-head" href="#g-theme">Theme <span>2</span></a>
+      <ul><li><a href="#c-typography">Typography</a></li><li><a href="#c-colorscheme">ColorScheme</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-components">Components <span>7</span></a>
+      <ul><li><a href="#c-sessioncard">SessionCard</a></li><li><a href="#c-sessionspeakerchip">SessionSpeakerChip</a></li><li><a href="#c-sectionheader">SectionHeader</a></li><li><a href="#c-screenheader">ScreenHeader</a></li><li><a href="#c-placeholderbutton">PlaceholderButton</a></li><li><a href="#c-socialicon">SocialIcon</a></li><li><a href="#c-daychip">DayChip</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-screens">Screens <span>7</span></a>
+      <ul><li><a href="#c-home">Home</a></li><li><a href="#c-sessions">Sessions</a></li><li><a href="#c-sessiondetails">SessionDetails</a></li><li><a href="#c-speakerdetails">SpeakerDetails</a></li><li><a href="#c-bookmarks">Bookmarks</a></li><li><a href="#c-conferences">Conferences</a></li><li><a href="#c-settings">Settings</a></li></ul>
+    </section></nav>
+  <main><section class="group" id="g-theme">
+      <h2>Theme</h2>
+      <div class="grid"><article class="card" id="c-typography">
+  <a class="shot" href="#d-typography" aria-label="Zoom Typography"><img loading="lazy" src="images/typography/ideal__default__compact.png" alt="Typography" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-typography">Typography</a></h3>
+    <div class="sub">595×715<a class="wf" href="wireframes/typography.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/typography.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-colorscheme">
+  <a class="shot" href="#d-colorscheme" aria-label="Zoom ColorScheme"><img loading="lazy" src="images/colorscheme/ideal__default__compact.png" alt="ColorScheme" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-colorscheme">ColorScheme</a></h3>
+    <div class="sub">595×483<a class="wf" href="wireframes/colorscheme.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/colorscheme.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-components">
+      <h2>Components</h2>
+      <div class="grid"><article class="card" id="c-sessioncard">
+  <a class="shot" href="#d-sessioncard" aria-label="Zoom SessionCard"><img loading="lazy" src="images/sessioncard/ideal__default__compact.png" alt="SessionCard" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-sessioncard">SessionCard</a></h3>
+    <div class="sub">595×262<a class="statechip" href="#d-sessioncard">+2 states</a><a class="wf" href="wireframes/sessioncard.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/sessioncard.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-sessionspeakerchip">
+  <a class="shot" href="#d-sessionspeakerchip" aria-label="Zoom SessionSpeakerChip"><img loading="lazy" src="images/sessionspeakerchip/ideal__default__compact.png" alt="SessionSpeakerChip" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-sessionspeakerchip">SessionSpeakerChip</a></h3>
+    <div class="sub">595×137<a class="wf" href="wireframes/sessionspeakerchip.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/sessionspeakerchip.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-sectionheader">
+  <a class="shot" href="#d-sectionheader" aria-label="Zoom SectionHeader"><img loading="lazy" src="images/sectionheader/ideal__default__compact.png" alt="SectionHeader" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-sectionheader">SectionHeader</a></h3>
+    <div class="sub">595×126<a class="wf" href="wireframes/sectionheader.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/sectionheader.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-screenheader">
+  <a class="shot" href="#d-screenheader" aria-label="Zoom ScreenHeader"><img loading="lazy" src="images/screenheader/ideal__default__compact.png" alt="ScreenHeader" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-screenheader">ScreenHeader</a></h3>
+    <div class="sub">595×126<a class="wf" href="wireframes/screenheader.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/screenheader.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-placeholderbutton">
+  <a class="shot" href="#d-placeholderbutton" aria-label="Zoom PlaceholderButton"><img loading="lazy" src="images/placeholderbutton/ideal__default__compact.png" alt="PlaceholderButton" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-placeholderbutton">PlaceholderButton</a></h3>
+    <div class="sub">595×137<a class="wf" href="wireframes/placeholderbutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/placeholderbutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-socialicon">
+  <a class="shot" href="#d-socialicon" aria-label="Zoom SocialIcon"><img loading="lazy" src="images/socialicon/ideal__default__compact.png" alt="SocialIcon" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-socialicon">SocialIcon</a></h3>
+    <div class="sub">595×63<a class="wf" href="wireframes/socialicon.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/socialicon.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-daychip">
+  <a class="shot" href="#d-daychip" aria-label="Zoom DayChip"><img loading="lazy" src="images/daychip/ideal__default__compact.png" alt="DayChip" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-daychip">DayChip</a></h3>
+    <div class="sub">595×137<a class="wf" href="wireframes/daychip.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/daychip.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-screens">
+      <h2>Screens</h2>
+      <div class="grid"><article class="card" id="c-home">
+  <a class="shot" href="#d-home" aria-label="Zoom Home"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-home">Home</a></h3>
+    <div class="sub">454×454<a class="wf" href="wireframes/home.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/home.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-sessions">
+  <a class="shot" href="#d-sessions" aria-label="Zoom Sessions"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-sessions">Sessions</a></h3>
+    <div class="sub">454×454<a class="wf" href="wireframes/sessions.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/sessions.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-sessiondetails">
+  <a class="shot" href="#d-sessiondetails" aria-label="Zoom SessionDetails"><img loading="lazy" src="images/sessiondetails/ideal__default__compact.png" alt="SessionDetails" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-sessiondetails">SessionDetails</a></h3>
+    <div class="sub">454×454<a class="wf" href="wireframes/sessiondetails.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/sessiondetails.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-speakerdetails">
+  <a class="shot" href="#d-speakerdetails" aria-label="Zoom SpeakerDetails"><img loading="lazy" src="images/speakerdetails/ideal__default__compact.png" alt="SpeakerDetails" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-speakerdetails">SpeakerDetails</a></h3>
+    <div class="sub">454×454<a class="wf" href="wireframes/speakerdetails.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/speakerdetails.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-bookmarks">
+  <a class="shot" href="#d-bookmarks" aria-label="Zoom Bookmarks"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-bookmarks">Bookmarks</a></h3>
+    <div class="sub">454×454<a class="wf" href="wireframes/bookmarks.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/bookmarks.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-conferences">
+  <a class="shot" href="#d-conferences" aria-label="Zoom Conferences"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-conferences">Conferences</a></h3>
+    <div class="sub">454×454<a class="wf" href="wireframes/conferences.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/conferences.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-settings">
+  <a class="shot" href="#d-settings" aria-label="Zoom Settings"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-settings">Settings</a></h3>
+    <div class="sub">454×454<a class="wf" href="wireframes/settings.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/settings.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span><span class="chip chip--info">switch</span><span class="chip chip--info">button</span></div>
+  </div>
+</article></div>
+    </section></main>
+</div>
+<div class="detail" id="d-typography" role="dialog" aria-label="Typography">
+  <a class="detail-scrim" href="#c-typography" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-typography" aria-label="Close">×</a>
+    <h3>Typography</h3>
+    <div class="detail-caption">A type ramp read from MaterialTheme.typography (Wear Material 3).</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/typography/ideal__default__compact.png" alt="Typography default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-colorscheme" role="dialog" aria-label="ColorScheme">
+  <a class="detail-scrim" href="#c-colorscheme" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-colorscheme" aria-label="Close">×</a>
+    <h3>ColorScheme</h3>
+    <div class="detail-caption">Colour-role swatches read from MaterialTheme.colorScheme.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/colorscheme/ideal__default__compact.png" alt="ColorScheme default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-sessioncard" role="dialog" aria-label="SessionCard">
+  <a class="detail-scrim" href="#c-sessioncard" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-sessioncard" aria-label="Close">×</a>
+    <h3>SessionCard</h3>
+    <div class="detail-caption">Session TitleCard — title, speakers, room and time.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/sessioncard/ideal__default__compact.png" alt="SessionCard default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>loading</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/sessioncard/ideal__loading__compact.png" alt="SessionCard loading" /><span>compact</span></div></div></figure><figure class="state"><figcaption>bookmarked</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/sessioncard/ideal__bookmarked__compact.png" alt="SessionCard bookmarked" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-sessionspeakerchip" role="dialog" aria-label="SessionSpeakerChip">
+  <a class="detail-scrim" href="#c-sessionspeakerchip" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-sessionspeakerchip" aria-label="Close">×</a>
+    <h3>SessionSpeakerChip</h3>
+    <div class="detail-caption">Speaker chip with avatar, name and tagline.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/sessionspeakerchip/ideal__default__compact.png" alt="SessionSpeakerChip default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-sectionheader" role="dialog" aria-label="SectionHeader">
+  <a class="detail-scrim" href="#c-sectionheader" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-sectionheader" aria-label="Close">×</a>
+    <h3>SectionHeader</h3>
+    <div class="detail-caption">Inline list section divider in the theme&#39;s primary accent.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/sectionheader/ideal__default__compact.png" alt="SectionHeader default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-screenheader" role="dialog" aria-label="ScreenHeader">
+  <a class="detail-scrim" href="#c-screenheader" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-screenheader" aria-label="Close">×</a>
+    <h3>ScreenHeader</h3>
+    <div class="detail-caption">Top-of-screen title (ListHeader).</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/screenheader/ideal__default__compact.png" alt="ScreenHeader default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-placeholderbutton" role="dialog" aria-label="PlaceholderButton">
+  <a class="detail-scrim" href="#c-placeholderbutton" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-placeholderbutton" aria-label="Close">×</a>
+    <h3>PlaceholderButton</h3>
+    <div class="detail-caption">Shimmering placeholder chip shown while content loads.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/placeholderbutton/ideal__default__compact.png" alt="PlaceholderButton default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-socialicon" role="dialog" aria-label="SocialIcon">
+  <a class="detail-scrim" href="#c-socialicon" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-socialicon" aria-label="Close">×</a>
+    <h3>SocialIcon</h3>
+    <div class="detail-caption">Tappable social-link icon (ImageVector overload).</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/socialicon/ideal__default__compact.png" alt="SocialIcon default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-daychip" role="dialog" aria-label="DayChip">
+  <a class="detail-scrim" href="#c-daychip" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-daychip" aria-label="Close">×</a>
+    <h3>DayChip</h3>
+    <div class="detail-caption">Conference-day selector button.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/daychip/ideal__default__compact.png" alt="DayChip default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-home" role="dialog" aria-label="Home">
+  <a class="detail-scrim" href="#c-home" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-home" aria-label="Close">×</a>
+    <h3>Home</h3>
+    <div class="detail-caption">Home screen — conference title, bookmarks and day list.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/home/ideal__default__compact.png" alt="Home default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-sessions" role="dialog" aria-label="Sessions">
+  <a class="detail-scrim" href="#c-sessions" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-sessions" aria-label="Close">×</a>
+    <h3>Sessions</h3>
+    <div class="detail-caption">Sessions schedule list grouped by start time.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/sessions/ideal__default__compact.png" alt="Sessions default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-sessiondetails" role="dialog" aria-label="SessionDetails">
+  <a class="detail-scrim" href="#c-sessiondetails" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-sessiondetails" aria-label="Close">×</a>
+    <h3>SessionDetails</h3>
+    <div class="detail-caption">Session details — title, time, description and speakers.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/sessiondetails/ideal__default__compact.png" alt="SessionDetails default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-speakerdetails" role="dialog" aria-label="SpeakerDetails">
+  <a class="detail-scrim" href="#c-speakerdetails" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-speakerdetails" aria-label="Close">×</a>
+    <h3>SpeakerDetails</h3>
+    <div class="detail-caption">Speaker details — photo, name, tagline and bio.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/speakerdetails/ideal__default__compact.png" alt="SpeakerDetails default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-bookmarks" role="dialog" aria-label="Bookmarks">
+  <a class="detail-scrim" href="#c-bookmarks" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-bookmarks" aria-label="Close">×</a>
+    <h3>Bookmarks</h3>
+    <div class="detail-caption">Bookmarks screen — upcoming and past bookmarked sessions.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/bookmarks/ideal__default__compact.png" alt="Bookmarks default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-conferences" role="dialog" aria-label="Conferences">
+  <a class="detail-scrim" href="#c-conferences" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-conferences" aria-label="Close">×</a>
+    <h3>Conferences</h3>
+    <div class="detail-caption">Conference picker list.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/conferences/ideal__default__compact.png" alt="Conferences default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-settings" role="dialog" aria-label="Settings">
+  <a class="detail-scrim" href="#c-settings" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-settings" aria-label="Close">×</a>
+    <h3>Settings</h3>
+    <div class="detail-caption">Settings screen.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings default" /><span>compact</span></div><div class="state-shot"><img loading="lazy" src="images/settings/ideal__default__compact.png" alt="Settings default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<script>
+// Crop each component's hero (and its zoom-view default capture) to the component's content bbox,
+// read from its figma-svg's root translate + viewBox. A wear sticker rendered on a 454² device
+// canvas then displays cropped to the component instead of floating in an empty frame. A no-op for
+// close-cropped renders (the bbox already fills the frame) and for components with no figma-svg.
+(function () {
+  function parseBox(svgText) {
+    var t = /translate\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)/.exec(svgText);
+    var v = /viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/.exec(svgText);
+    if (!v) return null;
+    return { tx: t ? +t[1] : 0, ty: t ? +t[2] : 0, vw: +v[1], vh: +v[2] };
+  }
+  function frame(shot, box) {
+    var img = shot.querySelector("img");
+    if (!img) return;
+    function apply() {
+      var rw = img.naturalWidth || img.width, rh = img.naturalHeight || img.height;
+      if (!(rw > 0 && rh > 0)) return;
+      if (box.vw >= rw * 0.9 && box.vh >= rh * 0.9) return; // already close-cropped
+      var cap = 240, scale = Math.min(1, cap / Math.max(box.vw, box.vh));
+      var dw = Math.max(1, Math.round(box.vw * scale));
+      shot.classList.add("shot--framed");
+      // Size the window by aspect-ratio at its natural (capped) width, with max-width:100% so it
+      // shrinks to a narrow grid card instead of overflowing it; frame the render in PERCENTAGES of
+      // the box so the whole thing scales as one. (A fixed-px window overflowed the card and clipped
+      // wide components.) Height stays auto — the img keeps the render's aspect.
+      var pct = function (n, d) { return +(n / d * 100).toFixed(4); };
+      shot.style.width = dw + "px";
+      shot.style.aspectRatio = box.vw + " / " + box.vh;
+      img.style.width = pct(rw, box.vw) + "%";
+      // (tx,ty) is negative for a centred component, so it shifts the render to bring the component's
+      // top-left to the clip origin; as a % of the box axis it scales with the shrunk window.
+      img.style.left = pct(box.tx, box.vw) + "%";
+      img.style.top = pct(box.ty, box.vh) + "%";
+    }
+    if (img.complete) apply();
+    else img.addEventListener("load", apply);
+  }
+  document.querySelectorAll(".card").forEach(function (card) {
+    var link = card.querySelector('a.wf[href^="figma/"]');
+    if (!link) return;
+    var hero = card.querySelector("a.shot");
+    if (!hero) return;
+    fetch(link.getAttribute("href"))
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (txt) {
+        if (!txt) return;
+        var box = parseBox(txt);
+        if (box) frame(hero, box);
+      })
+      .catch(function () {});
+  });
+})();
+</script>
+</body>
+</html>

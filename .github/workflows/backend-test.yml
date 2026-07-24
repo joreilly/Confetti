@@ -10,6 +10,11 @@ concurrency:
 jobs:
   build-backend:
     runs-on: ubuntu-22.04
+    env:
+      # BuildFetch remote cache (see settings.gradle.kts). Token is absent on fork PRs, which
+      # disables the cache there. Writes happen only on trusted main-branch builds (ON_CI).
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN }}
+      ON_CI: ${{ github.ref == 'refs/heads/main' }}
 
     steps:
     - uses: actions/checkout@v4
@@ -21,6 +26,8 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v3.5.0
+      with:
+        cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
     - uses: hashicorp/setup-terraform@v3
 

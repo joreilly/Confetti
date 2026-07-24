@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126 126" width="126" height="126" role="img" aria-label="Bookmark layout wireframe">
+  <title>Bookmark — layout wireframe (slots + tokens)</title>
+  <rect width="126" height="126" fill="#ffffff"/>
+  <g>
+    <rect x="0" y="0" width="126" height="126" fill="none" fill-opacity="0" stroke="#5B6470" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <rect x="0" y="0" width="126" height="126" fill="none" fill-opacity="0" stroke="#2E7D6B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+  <g>
+    <path d="M63.5,11 H63.5 A52.5,52.5 0 0 1 116,63.5 V63.5 A52.5,52.5 0 0 1 63.5,116 H63.5 A52.5,52.5 0 0 1 11,63.5 V63.5 A52.5,52.5 0 0 1 63.5,11 Z" fill="none" fill-opacity="0" stroke="#8E6BA8" stroke-width="1.5" stroke-opacity="1"/>
+  </g>
+  <g>
+    <rect x="32" y="32" width="63" height="63" fill="none" fill-opacity="0" stroke="#B0813B" stroke-width="1" stroke-opacity="0.5"/>
+  </g>
+</svg>

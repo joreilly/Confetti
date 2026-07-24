@@ -1,0 +1,211 @@
+{
+  "system": "confetti-mobile",
+  "title": "Confetti Mobile",
+  "label": "Compose",
+  "source": {
+    "repo": "joreilly/Confetti",
+    "ref": "main",
+    "module": ":androidApp"
+  },
+  "generatedAt": "2026-07-24T09:23:49.502Z",
+  "mappings": [
+    {
+      "componentId": "Typography",
+      "figmaLayerName": "Typography",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TypographySpecimenPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/typography.svg"
+    },
+    {
+      "componentId": "ColorScheme",
+      "figmaLayerName": "ColorScheme",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ColorSchemeSpecimenPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/colorscheme.svg"
+    },
+    {
+      "componentId": "SessionItemView",
+      "figmaLayerName": "SessionItemView",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SessionItemPopulatedPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/sessionitemview.svg"
+    },
+    {
+      "componentId": "Bookmark",
+      "figmaLayerName": "Bookmark",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "BookmarkAddPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/bookmark.svg"
+    },
+    {
+      "componentId": "SpeakerItemView",
+      "figmaLayerName": "SpeakerItemView",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SpeakerItemPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/speakeritemview.svg"
+    },
+    {
+      "componentId": "ConfettiHeader",
+      "figmaLayerName": "ConfettiHeader",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ConfettiHeaderPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/confettiheader.svg"
+    },
+    {
+      "componentId": "Schedule",
+      "figmaLayerName": "Schedule",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ScheduleScreenPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/schedule.svg"
+    },
+    {
+      "componentId": "SessionDetails",
+      "figmaLayerName": "SessionDetails",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SessionDetailsScreenPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/sessiondetails.svg"
+    },
+    {
+      "componentId": "SpeakerDetails",
+      "figmaLayerName": "SpeakerDetails",
+      "componentName": "CatalogTheme",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SpeakerDetailsScreenPreview",
+      "codeSnippet": "CatalogTheme(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.ui.CatalogTheme"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/speakerdetails.svg"
+    }
+  ]
+}

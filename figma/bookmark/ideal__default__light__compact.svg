@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="95" height="95" viewBox="0 0 95 95" text-rendering="geometricPrecision" font-family="sans-serif">
+<g transform="translate(-16, -16)">
+  <g id="Root">
+    <g id="ReusableComposeNode">
+      <g transform="translate(32 32) scale(2.62 2.62)">
+        <path d="M17 11 v6.97 l-5 -2.14 l-5 2.14 V5 h6 V3 H7 C 5.9 3 5 3.9 5 5 v16 l7 -3 l7 3 V11 H17 Z M21 7 h-2 v2 h-2 V7 h-2 V5 h2 V3 h2 v2 h2 V7 Z" fill="#000000"/>
+      </g>
+    </g>
+  </g>
+</g>
+</svg>

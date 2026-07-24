@@ -1,0 +1,1105 @@
+{
+  "schema": "design-parity-catalog/v1",
+  "system": "confetti-mobile",
+  "title": "Confetti Mobile",
+  "components": [
+    {
+      "componentId": "Typography",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/typography/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 258,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/typography__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.TypographySpecimenPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/typography/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 258,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/typography__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.TypographySpecimenPreview_Light"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Themes",
+      "group": "Theme",
+      "caption": "A type ramp read from MaterialTheme.typography (Confetti's Material 3 scale).",
+      "wireframe": "wireframes/typography.svg"
+    },
+    {
+      "componentId": "ColorScheme",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/colorscheme/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 158,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/colorscheme__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/colorscheme/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 158,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/colorscheme__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview_Light"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Themes",
+      "group": "Theme",
+      "caption": "Colour-role swatches read from MaterialTheme.colorScheme (the brand purple scheme).",
+      "wireframe": "wireframes/colorscheme.svg"
+    },
+    {
+      "componentId": "SessionItemView",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 498,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 498,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Light"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__lightning__dark__compact.png",
+          "state": "lightning",
+          "width": 1078,
+          "height": 498,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__lightning__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemLightningPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__lightning__light__compact.png",
+          "state": "lightning",
+          "width": 1078,
+          "height": 498,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__lightning__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemLightningPreview_Light"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__break__dark__compact.png",
+          "state": "break",
+          "width": 1078,
+          "height": 288,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__break__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemBreakPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__break__light__compact.png",
+          "state": "break",
+          "width": 1078,
+          "height": 288,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__break__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemBreakPreview_Light"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 919,
+              "y": 32,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 919,
+            "y": 32,
+            "width": 105,
+            "height": 105
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1076,
+            "height": 496
+          },
+          "padding": {
+            "start": 16,
+            "top": 8,
+            "end": 16,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 919,
+            "y": 32,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 940,
+            "y": 53,
+            "width": 63,
+            "height": 63
+          },
+          "role": "Image",
+          "label": "remove bookmark",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Session row — bold title, speakers, room, and the bookmark toggle.",
+      "wireframe": "wireframes/sessionitemview.svg"
+    },
+    {
+      "componentId": "Bookmark",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/bookmark/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 126,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/bookmark__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmark/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 126,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/bookmark__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Light"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmark/ideal__bookmarked__dark__compact.png",
+          "state": "bookmarked",
+          "width": 1078,
+          "height": 126,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/bookmark__ideal__bookmarked__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmark/ideal__bookmarked__light__compact.png",
+          "state": "bookmarked",
+          "width": 1078,
+          "height": 126,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/bookmark__ideal__bookmarked__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Light"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 11,
+              "y": 11,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 11,
+            "y": 11,
+            "width": 105,
+            "height": 105
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 11,
+            "y": 11,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 32,
+            "y": 32,
+            "width": 63,
+            "height": 63
+          },
+          "role": "Image",
+          "label": "add bookmark",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Bookmark toggle — the outlined add-bookmark icon.",
+      "wireframe": "wireframes/bookmark.svg"
+    },
+    {
+      "componentId": "SpeakerItemView",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/speakeritemview/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 210,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/speakeritemview__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerItemPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/speakeritemview/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 210,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/speakeritemview__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerItemPreview_Light"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 21,
+            "width": 168,
+            "height": 168
+          },
+          "cornerRadius": 32
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Speaker list row — circular avatar, name, and tagline.",
+      "wireframe": "wireframes/speakeritemview.svg"
+    },
+    {
+      "componentId": "ConfettiHeader",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/confettiheader/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 111,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/confettiheader__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/confettiheader/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 111,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/confettiheader__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Light"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Sticky section header — leading icon + bold title between two dividers.",
+      "wireframe": "wireframes/confettiheader.svg"
+    },
+    {
+      "componentId": "Schedule",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/schedule/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 2399,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/schedule__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/schedule/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 2399,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/schedule__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Light"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "tab",
+          "detail": {
+            "role": "tab",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 1076,
+              "height": 126
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1076,
+            "height": 126
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 919,
+              "y": 269,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 919,
+            "y": 269,
+            "width": 105,
+            "height": 105
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 919,
+              "y": 642,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 919,
+            "y": 642,
+            "width": 105,
+            "height": 105
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 237,
+            "width": 1076,
+            "height": 262
+          },
+          "padding": {
+            "start": 16,
+            "top": 8,
+            "end": 16,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 919,
+            "y": 269,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 940,
+            "y": 290,
+            "width": 63,
+            "height": 63
+          },
+          "role": "Image",
+          "label": "remove bookmark",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 610,
+            "width": 1076,
+            "height": 305
+          },
+          "padding": {
+            "start": 16,
+            "top": 8,
+            "end": 16,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 809,
+            "width": 581,
+            "height": 85
+          },
+          "padding": {
+            "start": 0,
+            "top": 8,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 919,
+            "y": 642,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 940,
+            "y": 663,
+            "width": 63,
+            "height": 63
+          },
+          "role": "Image",
+          "label": "add bookmark",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Sessions schedule — day tabs over a list grouped by start time.",
+      "wireframe": "wireframes/schedule.svg"
+    },
+    {
+      "componentId": "SessionDetails",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sessiondetails/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 2399,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessiondetails__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionDetailsScreenPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessiondetails/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 2399,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessiondetails__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionDetailsScreenPreview_Light"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 42,
+              "y": 1417,
+              "width": 992,
+              "height": 546
+            }
+          },
+          "bounds": {
+            "x": 42,
+            "y": 1417,
+            "width": 992,
+            "height": 546
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 242,
+              "y": 1848,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 242,
+            "y": 1848,
+            "width": 105,
+            "height": 105
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 389,
+              "y": 1848,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 389,
+            "y": 1848,
+            "width": 105,
+            "height": 105
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 42,
+              "y": 2005,
+              "width": 992,
+              "height": 391
+            }
+          },
+          "bounds": {
+            "x": 42,
+            "y": 2005,
+            "width": 992,
+            "height": 391
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 306,
+            "width": 287,
+            "height": 43
+          },
+          "label": "Effectenbeurszaal",
+          "padding": {
+            "start": 0,
+            "top": 2,
+            "end": 0,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 1064,
+            "width": 150,
+            "height": 95
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 10,
+            "bottom": 0
+          },
+          "cornerRadius": 16
+        },
+        {
+          "bounds": {
+            "x": 68,
+            "y": 1090,
+            "width": 98,
+            "height": 43
+          },
+          "label": "Kotlin",
+          "padding": {
+            "start": 10,
+            "top": 10,
+            "end": 10,
+            "bottom": 10
+          }
+        },
+        {
+          "bounds": {
+            "x": 218,
+            "y": 1064,
+            "width": 281,
+            "height": 95
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 10,
+            "bottom": 0
+          },
+          "cornerRadius": 16
+        },
+        {
+          "bounds": {
+            "x": 244,
+            "y": 1090,
+            "width": 229,
+            "height": 43
+          },
+          "label": "Multiplatform",
+          "padding": {
+            "start": 10,
+            "top": 10,
+            "end": 10,
+            "bottom": 10
+          }
+        },
+        {
+          "bounds": {
+            "x": 525,
+            "y": 1064,
+            "width": 198,
+            "height": 95
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 10,
+            "bottom": 0
+          },
+          "cornerRadius": 16
+        },
+        {
+          "bounds": {
+            "x": 551,
+            "y": 1090,
+            "width": 146,
+            "height": 43
+          },
+          "label": "GraphQL",
+          "padding": {
+            "start": 10,
+            "top": 10,
+            "end": 10,
+            "bottom": 10
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 1417,
+            "width": 992,
+            "height": 546
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 16,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 1417,
+            "width": 168,
+            "height": 168
+          },
+          "cornerRadius": 32
+        },
+        {
+          "bounds": {
+            "x": 231,
+            "y": 1529,
+            "width": 782,
+            "height": 308
+          },
+          "label": "John is a Kotlin GDE that has been developing Android apps since 2010. He worked on server side Java applications in the 2000s and desktop clients in the 1990s. He's also been exploring and advocating for all things Kotlin Multiplatform since 2018.",
+          "padding": {
+            "start": 0,
+            "top": 12,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 242,
+            "y": 1848,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 389,
+            "y": 1848,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 2005,
+            "width": 992,
+            "height": 391
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 16,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 2005,
+            "width": 168,
+            "height": 168
+          },
+          "cornerRadius": 32
+        },
+        {
+          "bounds": {
+            "x": 231,
+            "y": 2117,
+            "width": 782,
+            "height": 279
+          },
+          "label": "Martin is a maintainer of Apollo Kotlin. He has been writing Android applications since Cupcake and fell in love with Kotlin in 2017. Martin loves naming things and the sound of his laptop fan compiling all these type-safe programs. When not busy rewriting all his bash scripts in Kotlin, Martin loves to hike the Pyrénées or play a good game of Hearthstone.",
+          "padding": {
+            "start": 0,
+            "top": 12,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Session details — title, time, description, and speakers.",
+      "wireframe": "wireframes/sessiondetails.svg"
+    },
+    {
+      "componentId": "SpeakerDetails",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/speakerdetails/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 2399,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/speakerdetails__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Dark"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/speakerdetails/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1078,
+          "height": 2399,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/speakerdetails__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Light"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 413,
+              "y": 1411,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 413,
+            "y": 1411,
+            "width": 105,
+            "height": 105
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 560,
+              "y": 1411,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 560,
+            "y": 1411,
+            "width": 105,
+            "height": 105
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 22,
+              "y": 32,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 22,
+            "y": 32,
+            "width": 105,
+            "height": 105
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 223,
+            "y": 280,
+            "width": 630,
+            "height": 630
+          },
+          "cornerRadius": 16
+        },
+        {
+          "bounds": {
+            "x": 413,
+            "y": 1411,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 560,
+            "y": 1411,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 1742,
+            "width": 992,
+            "height": 154
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 22,
+            "y": 32,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 322,
+            "y": 47,
+            "width": 432,
+            "height": 74
+          },
+          "padding": {
+            "start": 4,
+            "top": 0,
+            "end": 4,
+            "bottom": 0
+          }
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Speaker details — photo, name, tagline, and bio.",
+      "wireframe": "wireframes/speakerdetails.svg"
+    }
+  ],
+  "library": [
+    "androidx.compose.material3:material3"
+  ],
+  "renderer": "compose-preview 0.17.14",
+  "generatedAt": "2026-07-24T09:23:48.700Z",
+  "liveBundle": {
+    "path": "bundle/",
+    "file": "confetti-mobile-bundle.png"
+  },
+  "source": {
+    "repo": "joreilly/Confetti",
+    "ref": "main",
+    "module": ":androidApp"
+  }
+}

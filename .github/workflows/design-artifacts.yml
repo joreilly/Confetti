@@ -79,7 +79,7 @@ jobs:
       # Install the compose-preview CLI, pinned to the applied plugin version
       # (composeai-preview in gradle/libs.versions.toml) so the CLI and plugin
       # stay in lockstep — exactly as compose-preview.yml does for the apply action.
-      - uses: yschimke/compose-ai-tools/.github/actions/install@v0.17.9
+      - uses: yschimke/compose-ai-tools/.github/actions/install@v0.17.14
         with:
           version: catalog
           catalog-key: composeai-preview

@@ -1,7 +1,7 @@
 {
   "entries": [
     {
-      "annotatedBasename": "AndroidSessionDetailPreview_Phone_dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "AndroidSessionDetailPreview_Phone_dark.png",
       "findings": [],
       "functionName": "AndroidSessionDetailPreview",
@@ -11,7 +11,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "AndroidSpeakerDetailsPreview_Phone_dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "AndroidSpeakerDetailsPreview_Phone_dark.png",
       "findings": [],
       "functionName": "AndroidSpeakerDetailsPreview",
@@ -51,7 +51,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "BookmarkAddPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "BookmarkAddPreview_Dark.png",
       "findings": [],
       "functionName": "BookmarkAddPreview",
@@ -61,7 +61,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "BookmarkOnPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "BookmarkOnPreview_Dark.png",
       "findings": [],
       "functionName": "BookmarkOnPreview",
@@ -81,7 +81,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "ConfettiHeaderPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "ConfettiHeaderPreview_Dark.png",
       "findings": [],
       "functionName": "ConfettiHeaderPreview",
@@ -91,7 +91,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "ScheduleScreenPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "ScheduleScreenPreview_Dark.png",
       "findings": [],
       "functionName": "ScheduleScreenPreview",
@@ -111,7 +111,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionDetailsScreenPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "SessionDetailsScreenPreview_Dark.png",
       "findings": [],
       "functionName": "SessionDetailsScreenPreview",
@@ -121,7 +121,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionItemBreakPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "SessionItemBreakPreview_Dark.png",
       "findings": [],
       "functionName": "SessionItemBreakPreview",
@@ -131,7 +131,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionItemLightningPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "SessionItemLightningPreview_Dark.png",
       "findings": [],
       "functionName": "SessionItemLightningPreview",
@@ -141,7 +141,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionItemPopulatedPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "SessionItemPopulatedPreview_Dark.png",
       "findings": [],
       "functionName": "SessionItemPopulatedPreview",
@@ -151,7 +151,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "SpeakerDetailsScreenPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "SpeakerDetailsScreenPreview_Dark.png",
       "findings": [],
       "functionName": "SpeakerDetailsScreenPreview",
@@ -161,7 +161,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "SpeakerItemPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "SpeakerItemPreview_Dark.png",
       "findings": [],
       "functionName": "SpeakerItemPreview",
@@ -171,7 +171,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "TypographySpecimenPreview_Dark.a11y.png",
+      "annotatedBasename": "",
       "cleanBasename": "TypographySpecimenPreview_Dark.png",
       "findings": [],
       "functionName": "TypographySpecimenPreview",
@@ -745,5 +745,6 @@
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     }
-  ]
+  ],
+  "status": "atf-unavailable"
 }

@@ -4,17 +4,20 @@ _Auto-generated from `compose-preview/a11y/main`. 65 preview(s) across 2 module(
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
+> [!WARNING]
+> ATF data unavailable for this run — the daemon did not return accessibility findings. The renders below are **not** accessibility-checked.
+
 ## androidApp
 
 ### `AndroidSessionDetailPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSessionDetailPreview_Phone_dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSessionDetailPreview_Phone_dark.png" width="400" />
 
 _No findings._
 
 ### `AndroidSpeakerDetailsPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSpeakerDetailsPreview_Phone_dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSpeakerDetailsPreview_Phone_dark.png" width="400" />
 
 _No findings._
 
@@ -38,13 +41,13 @@ _No findings._
 
 ### `BookmarkAddPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkAddPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkAddPreview_Dark.png" width="400" />
 
 _No findings._
 
 ### `BookmarkOnPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkOnPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkOnPreview_Dark.png" width="400" />
 
 _No findings._
 
@@ -56,13 +59,13 @@ _No findings._
 
 ### `ConfettiHeaderPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ConfettiHeaderPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ConfettiHeaderPreview_Dark.png" width="400" />
 
 _No findings._
 
 ### `ScheduleScreenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ScheduleScreenPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ScheduleScreenPreview_Dark.png" width="400" />
 
 _No findings._
 
@@ -74,43 +77,43 @@ _No findings._
 
 ### `SessionDetailsScreenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionDetailsScreenPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionDetailsScreenPreview_Dark.png" width="400" />
 
 _No findings._
 
 ### `SessionItemBreakPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemBreakPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemBreakPreview_Dark.png" width="400" />
 
 _No findings._
 
 ### `SessionItemLightningPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemLightningPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemLightningPreview_Dark.png" width="400" />
 
 _No findings._
 
 ### `SessionItemPopulatedPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemPopulatedPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemPopulatedPreview_Dark.png" width="400" />
 
 _No findings._
 
 ### `SpeakerDetailsScreenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerDetailsScreenPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerDetailsScreenPreview_Dark.png" width="400" />
 
 _No findings._
 
 ### `SpeakerItemPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerItemPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerItemPreview_Dark.png" width="400" />
 
 _No findings._
 
 ### `TypographySpecimenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/TypographySpecimenPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/TypographySpecimenPreview_Dark.png" width="400" />
 
 _No findings._
 

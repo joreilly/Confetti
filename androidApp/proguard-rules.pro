@@ -8,6 +8,9 @@
 # Referenced by ktor
 -dontwarn org.slf4j.impl.StaticLoggerBinder
 
+# ktor's IntellijIdeaDebugDetector references java.lang.management, which is absent on Android.
+-dontwarn java.lang.management.**
+
 -keep class com.squareup.wire.** { *; }
 -keep class dev.johnoreilly.confetti.wear.proto.** { *; }
 -keep class androidx.car.app.** { *; }

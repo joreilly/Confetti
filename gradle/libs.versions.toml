@@ -139,7 +139,7 @@ firebase-bom = "com.google.firebase:firebase-bom:34.16.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:2.5.0"
-google-cloud-bom = "com.google.cloud:libraries-bom:26.63.0"
+google-cloud-bom = "com.google.cloud:libraries-bom:26.85.1"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.41.0"
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }

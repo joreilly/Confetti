@@ -288,7 +288,7 @@
       "cleanBasename": "Color_0x000080Swatches.png",
       "findings": [
         {
-          "boundsInScreen": "0,226,405,264",
+          "boundsInScreen": "0,236,432,276",
           "level": "INFO",
           "message": "This non-clickable item's speakable text: \"onSurfaceVariant / surface\" is identical to that of 1 other item(s).",
           "type": "DuplicateSpeakableTextCheck",
@@ -316,7 +316,7 @@
       "cleanBasename": "Color_0x008000Swatches.png",
       "findings": [
         {
-          "boundsInScreen": "0,226,405,264",
+          "boundsInScreen": "0,236,432,276",
           "level": "INFO",
           "message": "This non-clickable item's speakable text: \"onSurfaceVariant / surface\" is identical to that of 1 other item(s).",
           "type": "DuplicateSpeakableTextCheck",
@@ -344,7 +344,7 @@
       "cleanBasename": "Color_0x800000Swatches.png",
       "findings": [
         {
-          "boundsInScreen": "0,226,405,264",
+          "boundsInScreen": "0,236,432,276",
           "level": "INFO",
           "message": "This non-clickable item's speakable text: \"onSurfaceVariant / surface\" is identical to that of 1 other item(s).",
           "type": "DuplicateSpeakableTextCheck",
@@ -460,7 +460,7 @@
       "cleanBasename": "DefaultsSwatches.png",
       "findings": [
         {
-          "boundsInScreen": "0,226,405,264",
+          "boundsInScreen": "0,236,432,276",
           "level": "INFO",
           "message": "This non-clickable item's speakable text: \"onSurfaceVariant / surface\" is identical to that of 1 other item(s).",
           "type": "DuplicateSpeakableTextCheck",
@@ -538,7 +538,7 @@
       "cleanBasename": "NotSetSwatches.png",
       "findings": [
         {
-          "boundsInScreen": "0,226,405,264",
+          "boundsInScreen": "0,236,432,276",
           "level": "INFO",
           "message": "This non-clickable item's speakable text: \"onSurfaceVariant / surface\" is identical to that of 1 other item(s).",
           "type": "DuplicateSpeakableTextCheck",
@@ -710,15 +710,7 @@
     {
       "annotatedBasename": "SpeakerDetailsScreen_Devices_Large_Round.a11y.png",
       "cleanBasename": "SpeakerDetailsScreen_Devices_Large_Round.png",
-      "findings": [
-        {
-          "boundsInScreen": "26,46,428,204",
-          "level": "INFO",
-          "message": "This non-clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
-          "type": "DuplicateSpeakableTextCheck",
-          "viewDescription": "android.widget.ImageView  desc=\"John O'Reilly\""
-        }
-      ],
+      "findings": [],
       "functionName": "SpeakerDetailsScreen",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.SpeakerDetailsScreenTestKt.SpeakerDetailsScreen_Devices - Large Round",

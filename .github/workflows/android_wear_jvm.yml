@@ -1,19 +1,29 @@
 name: Android, Wear and JVM CI
 
-on: pull_request
+on:
+  pull_request:
+  # Also run on main so this job SEEDS the BuildFetch remote cache with the debug-variant task
+  # outputs. Without a main-branch writer building assembleDebug/testDebugUnitTest, PR runs of the
+  # same target can only reuse whatever overlaps with the release build that publish-android seeds,
+  # capping the hit rate. Running here on main pushes the debug tasks so PRs hit them.
+  push:
+    branches: [main]
 
-# Cancel any current or previous job from the same PR
+# Cancel superseded PR runs; never cancel the main-branch seeding run.
 concurrency:
-  group: android-${{ github.head_ref }}
-  cancel-in-progress: true
+  group: android-${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-android:
     runs-on: ubuntu-22.04
     env:
-      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this
-      # PR job only reads from the cache. Absent on fork PRs, which disables the cache there.
-      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
+      # BuildFetch remote cache (see settings.gradle.kts). On main-branch pushes this job is a
+      # writer: ON_CI=true + the read-write token seed the debug-variant task outputs so PR runs of
+      # this same target get cache hits. On PRs it uses the read-only token with ON_CI=false, so it
+      # only reads. Absent on fork PRs, which disables the cache there.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN || secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
+      ON_CI: ${{ github.ref == 'refs/heads/main' }}
     steps:
     - uses: actions/checkout@v4
       with:
@@ -38,9 +48,10 @@ jobs:
   build-jvm:
     runs-on: ubuntu-22.04
     env:
-      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this
-      # PR job only reads from the cache. Absent on fork PRs, which disables the cache there.
-      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
+      # See build-android: writer (RW token + ON_CI) on main to seed :shared JVM task outputs,
+      # read-only (RO token) on PRs.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN || secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
+      ON_CI: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v4
 

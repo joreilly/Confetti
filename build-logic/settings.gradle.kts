@@ -1,3 +1,8 @@
+// Explicit root project name for the included build. Without it Gradle warns that the
+// generated type-safe project accessors depend on the checkout folder name, which changes
+// the build-logic buildscript classpath across machines/CI and breaks build-cache reuse.
+rootProject.name = "build-logic"
+
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {

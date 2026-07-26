@@ -40,7 +40,7 @@ import androidx.wear.compose.material3.Text
  *
  * Kept in the **main** source set so the `ee.schimke.composeai.preview` plugin discovers them for
  * the published design catalog; registered in `catalog.spec.json` under the Themes section. The
- * `@ThemeCatalog` providers in [ConfettiThemeCatalogs] expose the same five themes to
+ * `@WearThemeCatalog` providers in [ConfettiThemeCatalogs] expose the same five themes to
  * `compose-preview serve`, so any preview can be re-rendered live under any of them.
  */
 

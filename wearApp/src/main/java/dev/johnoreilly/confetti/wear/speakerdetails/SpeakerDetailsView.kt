@@ -138,9 +138,15 @@ fun SpeakerDetailsView(
                 val speaker = (uiState as? SpeakerDetailsUiState.Success)?.details
 
                 item {
+                    // The photo is decorative: the SectionHeader immediately below already
+                    // announces the speaker's name, so labelling the image with it too made a
+                    // screen reader read the name twice — DuplicateSpeakableTextCheck flagged it.
+                    // Null on every slot also keeps the a11y tree stable: which of
+                    // loading/error/success has settled when the tree is scanned is a race, so a
+                    // name on only some of them made the finding appear and disappear between runs.
                     SubcomposeAsyncImage(
                         model = speaker?.photoUrl,
-                        contentDescription = speaker?.name,
+                        contentDescription = null,
                         loading = {
                             // Catalog/@Preview render (LocalInspectionMode): Coil can't fetch the
                             // photo, so show the bundled speaker photo (or a placeholder) rather
@@ -148,7 +154,7 @@ fun SpeakerDetailsView(
                             if (LocalInspectionMode.current) {
                                 InspectionSpeakerImage(
                                     photoUrl = speaker?.photoUrl,
-                                    contentDescription = speaker?.name,
+                                    contentDescription = null,
                                     modifier = Modifier.fillMaxSize(),
                                     shape = RoundedCornerShape(16.dp),
                                 )
@@ -159,7 +165,7 @@ fun SpeakerDetailsView(
                         error = {
                             Icon(
                                 imageVector = ConfettiIcons.Person,
-                                contentDescription = speaker?.name,
+                                contentDescription = null,
                                 modifier = Modifier
                                     .size(80.dp)
                                     .clip(RoundedCornerShape(16.dp)),

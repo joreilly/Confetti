@@ -19,11 +19,35 @@ name: Compose Preview
 # skipped (no write token to post a comment with anyway). On joreilly/Confetti
 # the default token already has contents:write, so its own PRs render + diff.
 
+# `paths-ignore` keeps the two 45-minute render jobs off changes that cannot
+# reach a Compose @Preview: the GraphQL/Ktor backend, the iOS app, the landing
+# page, and docs. Deliberately a denylist rather than an allowlist of UI paths
+# — previews render against shared Kotlin Multiplatform code and the version
+# catalog, so an allowlist would silently stop rendering the first time a
+# preview picked up a new transitive dependency. Note this does NOT cover
+# dependency bumps that touch `gradle/libs.versions.toml`, even backend-only
+# ones; those still render everything.
+#
+# The list is repeated rather than shared via a YAML anchor because GitHub
+# Actions does not support anchors/aliases in workflow files — keep the two
+# copies in sync.
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'backend/**'
+      - 'iosApp/**'
+      - 'landing-page/**'
+      - 'docs/**'
+      - '**.md'
   pull_request:
     types: [opened, synchronize, reopened]
+    paths-ignore:
+      - 'backend/**'
+      - 'iosApp/**'
+      - 'landing-page/**'
+      - 'docs/**'
+      - '**.md'
   workflow_dispatch:
 
 permissions:

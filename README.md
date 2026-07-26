@@ -218,9 +218,9 @@ The render task completed but no PNG was produced for these previews. Entries wi
 | `Color_0x800000Swatches` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/Color_0x800000Swatches.png" width="150" /> |
 | `DefaultsSwatches` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/DefaultsSwatches.png" width="150" /> |
 | `NotSetSwatches` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/NotSetSwatches.png" width="150" /> |
-| `AndroidMakers theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__AndroidMakers.png" width="150" /> |
-| `Confetti (default) theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__Confetti__default_.png" width="150" /> |
-| `DevFest theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__DevFest.png" width="150" /> |
-| `Droidcon theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__Droidcon.png" width="150" /> |
-| `KotlinConf theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__KotlinConf.png" width="150" /> |
+| `AndroidMakers theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/wearthemecatalog__AndroidMakers.png" width="150" /> |
+| `Confetti (default) theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/wearthemecatalog__Confetti__default_.png" width="150" /> |
+| `DevFest theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/wearthemecatalog__DevFest.png" width="150" /> |
+| `Droidcon theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/wearthemecatalog__Droidcon.png" width="150" /> |
+| `KotlinConf theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/wearthemecatalog__KotlinConf.png" width="150" /> |
 

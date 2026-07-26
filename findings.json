@@ -171,6 +171,46 @@
       "variant": ""
     },
     {
+      "annotatedBasename": "ThemeFoundationAndroidPreview_Dark.a11y.png",
+      "cleanBasename": "ThemeFoundationAndroidPreview_Dark.png",
+      "findings": [],
+      "functionName": "ThemeFoundationAndroidPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ThemeFoundationConferenceSeedPreview_Dark.a11y.png",
+      "cleanBasename": "ThemeFoundationConferenceSeedPreview_Dark.png",
+      "findings": [],
+      "functionName": "ThemeFoundationConferenceSeedPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationConferenceSeedPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ThemeFoundationDefaultPreview_Dark.a11y.png",
+      "cleanBasename": "ThemeFoundationDefaultPreview_Dark.png",
+      "findings": [],
+      "functionName": "ThemeFoundationDefaultPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDefaultPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ThemeFoundationDynamicPreview_Dark.a11y.png",
+      "cleanBasename": "ThemeFoundationDynamicPreview_Dark.png",
+      "findings": [],
+      "functionName": "ThemeFoundationDynamicPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDynamicPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
       "annotatedBasename": "TypographySpecimenPreview_Dark.a11y.png",
       "cleanBasename": "TypographySpecimenPreview_Dark.png",
       "findings": [],
@@ -734,6 +774,64 @@
       "previewId": "dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewKt.SpeakerDetailsViewPreview_Devices - Large Round",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/speakerdetails/SpeakerDetailsView.kt",
       "variant": "wearos_large_round"
+    },
+    {
+      "annotatedBasename": "ThemeFoundationAndroidMakersPreview.a11y.png",
+      "cleanBasename": "ThemeFoundationAndroidMakersPreview.png",
+      "findings": [],
+      "functionName": "ThemeFoundationAndroidMakersPreview",
+      "module": "wearApp",
+      "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidMakersPreview",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ThemeFoundationConfettiPreview.a11y.png",
+      "cleanBasename": "ThemeFoundationConfettiPreview.png",
+      "findings": [
+        {
+          "boundsInScreen": "32,32,191,81",
+          "level": "INFO",
+          "message": "This non-clickable item's speakable text: \"Confetti\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.widget.TextView"
+        }
+      ],
+      "functionName": "ThemeFoundationConfettiPreview",
+      "module": "wearApp",
+      "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationConfettiPreview",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ThemeFoundationDevFestPreview.a11y.png",
+      "cleanBasename": "ThemeFoundationDevFestPreview.png",
+      "findings": [],
+      "functionName": "ThemeFoundationDevFestPreview",
+      "module": "wearApp",
+      "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationDevFestPreview",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ThemeFoundationDroidconPreview.a11y.png",
+      "cleanBasename": "ThemeFoundationDroidconPreview.png",
+      "findings": [],
+      "functionName": "ThemeFoundationDroidconPreview",
+      "module": "wearApp",
+      "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationDroidconPreview",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ThemeFoundationKotlinConfPreview.a11y.png",
+      "cleanBasename": "ThemeFoundationKotlinConfPreview.png",
+      "findings": [],
+      "functionName": "ThemeFoundationKotlinConfPreview",
+      "module": "wearApp",
+      "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationKotlinConfPreview",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
     },
     {
       "annotatedBasename": "TypographySpecimenPreview.a11y.png",

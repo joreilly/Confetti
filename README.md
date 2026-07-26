@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/main`. 65 preview(s) across 2 module(s) · 5 error(s) · 0 warning(s) · 7 info._
+_Auto-generated from `compose-preview/a11y/main`. 74 preview(s) across 2 module(s) · 5 error(s) · 0 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -105,6 +105,30 @@ _No findings._
 ### `SpeakerItemPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerItemPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationAndroidPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationAndroidPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationConferenceSeedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationDefaultPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationDefaultPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationDynamicPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationDynamicPreview_Dark.a11y.png" width="400" />
 
 _No findings._
 
@@ -412,6 +436,38 @@ _No findings._
 ### `SpeakerDetailsViewPreview` · `wearos_large_round`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewKt.SpeakerDetailsViewPreview_Devices - Large Round.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationAndroidMakersPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationAndroidMakersPreview.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationConfettiPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationConfettiPreview.a11y.png" width="400" />
+
+| # | Level | Rule | Element | Message |
+|--:|---|---|---|---|
+| 1 | INFO | DuplicateSpeakableTextCheck | android.widget.TextView | This non-clickable item's speakable text: "Confetti" is identical to that of 1 other item(s). |
+
+### `ThemeFoundationDevFestPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationDevFestPreview.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationDroidconPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationDroidconPreview.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationKotlinConfPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationKotlinConfPreview.a11y.png" width="400" />
 
 _No findings._
 

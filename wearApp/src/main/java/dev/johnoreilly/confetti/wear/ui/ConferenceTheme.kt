@@ -90,7 +90,7 @@ fun conferenceThemeFor(id: String?): ConferenceTheme? {
  * falls back to the stock Confetti Wear theme (Wear defaults + [ExpressiveTypography]).
  *
  * This is the single entry point the design catalog's theme specimens and the
- * `@ThemeCatalog` providers in [ConfettiThemeCatalogs] both go through, so a
+ * `@WearThemeCatalog` providers in [ConfettiThemeCatalogs] both go through, so a
  * catalog sticker can never drift from what the app actually renders.
  */
 @Composable

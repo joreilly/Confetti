@@ -173,7 +173,7 @@ catalog, rendered from
 [`ThemeFoundationPreviews.kt`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt)
 through the same [`ConfettiConferenceTheme`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConferenceTheme.kt)
 call the app makes, so a swatch there is by construction a colour the app paints.
-Each is also declared as a `@ThemeCatalog` provider in
+Each is also declared as a `@WearThemeCatalog` provider in
 [`ConfettiThemeCatalogs.kt`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeCatalogs.kt),
 which puts them in the **Theme** select of `compose-preview serve` — pick one and
 *any* preview (a session card, the whole Home screen) re-renders live under it.

@@ -37,12 +37,34 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `SpeakerItemPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/SpeakerItemPreview_Light.png" width="150" /> |
 | `TypographySpecimenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/TypographySpecimenPreview_Dark.png" width="150" /> |
 | `TypographySpecimenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/TypographySpecimenPreview_Light.png" width="150" /> |
+| `ThemeFoundationAndroidPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationAndroidPreview_Dark.png" width="150" /> |
+| `ThemeFoundationAndroidPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationAndroidPreview_Light.png" width="150" /> |
+| `ThemeFoundationConferenceSeedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Dark.png" width="150" /> |
+| `ThemeFoundationConferenceSeedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Light.png" width="150" /> |
+| `ThemeFoundationDefaultPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationDefaultPreview_Dark.png" width="150" /> |
+| `ThemeFoundationDefaultPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationDefaultPreview_Light.png" width="150" /> |
+| `ThemeFoundationDynamicPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationDynamicPreview_Dark.png" width="150" /> |
+| `ThemeFoundationDynamicPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationDynamicPreview_Light.png" width="150" /> |
 | `BackgroundAndroid` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/BackgroundAndroid_Dark_theme.png" width="150" /> |
 | `BackgroundAndroid` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/BackgroundAndroid_Light_theme.png" width="150" /> |
 | `BackgroundDefault` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/BackgroundDefault_Dark_theme.png" width="150" /> |
 | `BackgroundDefault` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/BackgroundDefault_Light_theme.png" width="150" /> |
 | `BackgroundDynamic` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/BackgroundDynamic_Dark_theme.png" width="150" /> |
 | `BackgroundDynamic` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/BackgroundDynamic_Light_theme.png" width="150" /> |
+| `AndroidMakers Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__AndroidMakers_Dark.png" width="150" /> |
+| `AndroidMakers Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__AndroidMakers_Light.png" width="150" /> |
+| `Android Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__Android_Dark.png" width="150" /> |
+| `Android Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__Android_Light.png" width="150" /> |
+| `Confetti brand Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__Confetti_brand_Dark.png" width="150" /> |
+| `Confetti brand Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__Confetti_brand_Light.png" width="150" /> |
+| `DevFest Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__DevFest_Dark.png" width="150" /> |
+| `DevFest Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__DevFest_Light.png" width="150" /> |
+| `Droidcon Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__Droidcon_Dark.png" width="150" /> |
+| `Droidcon Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__Droidcon_Light.png" width="150" /> |
+| `Dynamic Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__Dynamic_Dark.png" width="150" /> |
+| `Dynamic Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__Dynamic_Light.png" width="150" /> |
+| `KotlinConf Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__KotlinConf_Dark.png" width="150" /> |
+| `KotlinConf Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__KotlinConf_Light.png" width="150" /> |
 
 ## wearApp
 
@@ -169,6 +191,11 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `SessionSpeakerChipPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/SessionSpeakerChipPreview.png" width="150" /> |
 | `SocialIconPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/SocialIconPreview.png" width="150" /> |
 | `TypographySpecimenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/TypographySpecimenPreview.png" width="150" /> |
+| `ThemeFoundationAndroidMakersPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ThemeFoundationAndroidMakersPreview.png" width="150" /> |
+| `ThemeFoundationConfettiPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ThemeFoundationConfettiPreview.png" width="150" /> |
+| `ThemeFoundationDevFestPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ThemeFoundationDevFestPreview.png" width="150" /> |
+| `ThemeFoundationDroidconPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ThemeFoundationDroidconPreview.png" width="150" /> |
+| `ThemeFoundationKotlinConfPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ThemeFoundationKotlinConfPreview.png" width="150" /> |
 | `Color_0x000080` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/Color_0x000080.png" width="150" /> |
 | `Color_0x008000` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/Color_0x008000.png" width="150" /> |
 | `Color_0x800000` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/Color_0x800000.png" width="150" /> |
@@ -179,4 +206,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `Color_0x800000Swatches` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/Color_0x800000Swatches.png" width="150" /> |
 | `DefaultsSwatches` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/DefaultsSwatches.png" width="150" /> |
 | `NotSetSwatches` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/NotSetSwatches.png" width="150" /> |
+| `AndroidMakers theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__AndroidMakers.png" width="150" /> |
+| `Confetti (default) theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__Confetti__default_.png" width="150" /> |
+| `DevFest theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__DevFest.png" width="150" /> |
+| `Droidcon theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__Droidcon.png" width="150" /> |
+| `KotlinConf theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/themecatalog__KotlinConf.png" width="150" /> |
 

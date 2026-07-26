@@ -247,6 +247,70 @@
     "sha256": "81f448687b2972c5c034bbef10eb64f2f1210b58f3b53f568d8327e1f4582f33",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
+  "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Dark": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationAndroidPreview",
+    "module": "androidApp",
+    "renderBasename": "ThemeFoundationAndroidPreview_Dark.png",
+    "sha256": "ea1eb441cb8704eac966bea6b3be38722f1a6448b689aaf2cd126e19022d44f0",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Light": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationAndroidPreview",
+    "module": "androidApp",
+    "renderBasename": "ThemeFoundationAndroidPreview_Light.png",
+    "sha256": "05f949bfb6c16fec87087dc8de0d429c43994e3d7ed3fc67077adacb3764c050",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationConferenceSeedPreview_Dark": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationConferenceSeedPreview",
+    "module": "androidApp",
+    "renderBasename": "ThemeFoundationConferenceSeedPreview_Dark.png",
+    "sha256": "7729b0ace8aa47585e4e0aa44e91ae38c45a140f32be60b479e15a5d9ce88604",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationConferenceSeedPreview_Light": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationConferenceSeedPreview",
+    "module": "androidApp",
+    "renderBasename": "ThemeFoundationConferenceSeedPreview_Light.png",
+    "sha256": "1a704ca6429eb5ebad8292e5965798948801228f7fb016e77997da375b170071",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDefaultPreview_Dark": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationDefaultPreview",
+    "module": "androidApp",
+    "renderBasename": "ThemeFoundationDefaultPreview_Dark.png",
+    "sha256": "8daffad3efcb0afdd7fe6056169aecd23e8dba030507cb1cb6375ebeeebd7a6d",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDefaultPreview_Light": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationDefaultPreview",
+    "module": "androidApp",
+    "renderBasename": "ThemeFoundationDefaultPreview_Light.png",
+    "sha256": "570e77c2dbd8b11ee8ab3d3802bae6bff9e41bb445375a916e20f5f746677c4e",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDynamicPreview_Dark": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationDynamicPreview",
+    "module": "androidApp",
+    "renderBasename": "ThemeFoundationDynamicPreview_Dark.png",
+    "sha256": "603c1faf205f35be1b43c54fc3cf984389dbadaadfc106f9bd6a3235e73ed9ab",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDynamicPreview_Light": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationDynamicPreview",
+    "module": "androidApp",
+    "renderBasename": "ThemeFoundationDynamicPreview_Light.png",
+    "sha256": "5d89121165435e793728782f7646484f9dfdd9b8d35b74c369681c6b9c32e7cb",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
+  },
   "androidApp/dev.johnoreilly.confetti.ui.component.BackgroundKt.BackgroundAndroid_Dark theme": {
     "captureLabel": "",
     "functionName": "BackgroundAndroid",
@@ -294,6 +358,118 @@
     "renderBasename": "BackgroundDynamic_Light_theme.png",
     "sha256": "45528ca5101b5468965413227b76c47cf775a2d5fc960e7fe7fb5ee80439bbfc",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt"
+  },
+  "androidApp/themecatalog__AndroidMakers_Dark": {
+    "captureLabel": "",
+    "functionName": "AndroidMakers Dark theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__AndroidMakers_Dark.png",
+    "sha256": "94015ba3c388265a0bb514f52f49ba59741f1c781bcf4e20af1a22152d829e5b",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__AndroidMakers_Light": {
+    "captureLabel": "",
+    "functionName": "AndroidMakers Light theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__AndroidMakers_Light.png",
+    "sha256": "04bf179c927e46e44159b462149e712b61261cec489347e41a2ca8d6fd98119f",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__Android_Dark": {
+    "captureLabel": "",
+    "functionName": "Android Dark theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__Android_Dark.png",
+    "sha256": "aa8494fc91a82782f0a4105fe0f06f1de8bfac233c4642e83d09a81a9b47b00a",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__Android_Light": {
+    "captureLabel": "",
+    "functionName": "Android Light theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__Android_Light.png",
+    "sha256": "cc29932cd62408556e0ddf4230be199df1fcb4c11569070d0e9e2e0618f0e131",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__Confetti_brand_Dark": {
+    "captureLabel": "",
+    "functionName": "Confetti brand Dark theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__Confetti_brand_Dark.png",
+    "sha256": "52c53ce11c3f5b6ca083a51dcff494e78e44260eda2fba55e5d86bc566102e93",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__Confetti_brand_Light": {
+    "captureLabel": "",
+    "functionName": "Confetti brand Light theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__Confetti_brand_Light.png",
+    "sha256": "b51eb42a024f177f11c1d933e71cea0b450794afc44ece054ed1cbeac7573710",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__DevFest_Dark": {
+    "captureLabel": "",
+    "functionName": "DevFest Dark theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__DevFest_Dark.png",
+    "sha256": "480ade8a029959fc0ed8436a27a76400fd061a90921aee59a86ad58d3ea53759",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__DevFest_Light": {
+    "captureLabel": "",
+    "functionName": "DevFest Light theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__DevFest_Light.png",
+    "sha256": "102c1db4942d5696488a5d669b3f78e27e03648fc7950cdb1603bd3a2126f1d3",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__Droidcon_Dark": {
+    "captureLabel": "",
+    "functionName": "Droidcon Dark theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__Droidcon_Dark.png",
+    "sha256": "efeac5d78cc861bd8a5964dd89e427640e37ce93da8edc93b4595873910db293",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__Droidcon_Light": {
+    "captureLabel": "",
+    "functionName": "Droidcon Light theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__Droidcon_Light.png",
+    "sha256": "ae8eb1921c0ab22021bef3a9b9ac9bfa767cd32e1840da6ea12a18ab2dc89cc3",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__Dynamic_Dark": {
+    "captureLabel": "",
+    "functionName": "Dynamic Dark theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__Dynamic_Dark.png",
+    "sha256": "1f8fa5ae088928c8281dc910fcc5009b4bb17835159c531e22bb5a92d2b32f6c",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__Dynamic_Light": {
+    "captureLabel": "",
+    "functionName": "Dynamic Light theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__Dynamic_Light.png",
+    "sha256": "03702e42794ca02b54b7ce993f732edbc0874fcb9b9822298f59ed60207373e0",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__KotlinConf_Dark": {
+    "captureLabel": "",
+    "functionName": "KotlinConf Dark theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__KotlinConf_Dark.png",
+    "sha256": "a48b816f01fb8249822cbdbfe3e2fb1d872f6d91de6ae9dd542e8002fba0887c",
+    "sourceFile": null
+  },
+  "androidApp/themecatalog__KotlinConf_Light": {
+    "captureLabel": "",
+    "functionName": "KotlinConf Light theme",
+    "module": "androidApp",
+    "renderBasename": "themecatalog__KotlinConf_Light.png",
+    "sha256": "e75b9c34690683491c2f8fc9eca5f671d576c1cb06a9781f774cd5c7797935bb",
+    "sourceFile": null
   },
   "wearApp/dev.johnoreilly.confetti.wear.ConferenceHomeScreenTestKt.ConferenceHomeScreenLoading_Devices - Large Round": {
     "captureLabel": "",
@@ -892,7 +1068,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round.png",
-    "sha256": "d0e725c57c2c94bf420b8e8ef47029fe8744b6051103f5e6917ac232b55819ee",
+    "sha256": "7d2b0f8c8d6f4d2c44072f9c9e3094071309c2f8c0363cdabd0c1bdc8612656f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
@@ -1180,7 +1356,7 @@
     "functionName": "ColorSchemeSpecimenPreview",
     "module": "wearApp",
     "renderBasename": "ColorSchemeSpecimenPreview.png",
-    "sha256": "bb1811525881a62f8f83dc2d4e8db87aa5ff14d97070eed8806cdcf15d0c35ce",
+    "sha256": "640d4e9d5ee0c94eb51d8dd248bd15adb8cf05ab16e58f19aa43474d14b923fe",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.DayChipPreview": {
@@ -1260,8 +1436,48 @@
     "functionName": "TypographySpecimenPreview",
     "module": "wearApp",
     "renderBasename": "TypographySpecimenPreview.png",
-    "sha256": "cf2daa4e19da4d6eed199bcf0e30f3322a899e8108531e743bafda4013def7c1",
+    "sha256": "fa48d52fa2baca762b1664c9594f7b8992ca9b06a6144b42f7d72a9601fd2163",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
+  },
+  "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidMakersPreview": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationAndroidMakersPreview",
+    "module": "wearApp",
+    "renderBasename": "ThemeFoundationAndroidMakersPreview.png",
+    "sha256": "b29f32128a9c2816b84e4ed56c5bfd003e2b003f59f2b4d9d085548999f85cfa",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
+  },
+  "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationConfettiPreview": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationConfettiPreview",
+    "module": "wearApp",
+    "renderBasename": "ThemeFoundationConfettiPreview.png",
+    "sha256": "486f408ddfcd839eb180a1d5e7cfdaa9baed03aebb359926d2623c17d6598958",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
+  },
+  "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationDevFestPreview": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationDevFestPreview",
+    "module": "wearApp",
+    "renderBasename": "ThemeFoundationDevFestPreview.png",
+    "sha256": "50939b781cd85f2c4cac03711c01309f99da49ea5ea5ba338680b97d60d2c53f",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
+  },
+  "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationDroidconPreview": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationDroidconPreview",
+    "module": "wearApp",
+    "renderBasename": "ThemeFoundationDroidconPreview.png",
+    "sha256": "9c4ddda77ae051f9076cd9eacad0723ac9084530723ba84afb66f78532f14de8",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
+  },
+  "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationKotlinConfPreview": {
+    "captureLabel": "",
+    "functionName": "ThemeFoundationKotlinConfPreview",
+    "module": "wearApp",
+    "renderBasename": "ThemeFoundationKotlinConfPreview.png",
+    "sha256": "ddcccf93cc1e1f6960660cd79f9349ef0e2f915f87f6a327d5afb744286dbe6d",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x000080": {
     "captureLabel": "",
@@ -1342,5 +1558,45 @@
     "renderBasename": "NotSetSwatches.png",
     "sha256": "4da92f04c3a02edf933ac3e72ad2ee31f2cd307c13c82f7e19b058997f3264a4",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
+  },
+  "wearApp/themecatalog__AndroidMakers": {
+    "captureLabel": "",
+    "functionName": "AndroidMakers theme",
+    "module": "wearApp",
+    "renderBasename": "themecatalog__AndroidMakers.png",
+    "sha256": "dbd33e41ec11bd947edc6c31448a31b8aa2f6380b208c098d609bc88401f4e24",
+    "sourceFile": null
+  },
+  "wearApp/themecatalog__Confetti__default_": {
+    "captureLabel": "",
+    "functionName": "Confetti (default) theme",
+    "module": "wearApp",
+    "renderBasename": "themecatalog__Confetti__default_.png",
+    "sha256": "dbd33e41ec11bd947edc6c31448a31b8aa2f6380b208c098d609bc88401f4e24",
+    "sourceFile": null
+  },
+  "wearApp/themecatalog__DevFest": {
+    "captureLabel": "",
+    "functionName": "DevFest theme",
+    "module": "wearApp",
+    "renderBasename": "themecatalog__DevFest.png",
+    "sha256": "dbd33e41ec11bd947edc6c31448a31b8aa2f6380b208c098d609bc88401f4e24",
+    "sourceFile": null
+  },
+  "wearApp/themecatalog__Droidcon": {
+    "captureLabel": "",
+    "functionName": "Droidcon theme",
+    "module": "wearApp",
+    "renderBasename": "themecatalog__Droidcon.png",
+    "sha256": "dbd33e41ec11bd947edc6c31448a31b8aa2f6380b208c098d609bc88401f4e24",
+    "sourceFile": null
+  },
+  "wearApp/themecatalog__KotlinConf": {
+    "captureLabel": "",
+    "functionName": "KotlinConf theme",
+    "module": "wearApp",
+    "renderBasename": "themecatalog__KotlinConf.png",
+    "sha256": "dbd33e41ec11bd947edc6c31448a31b8aa2f6380b208c098d609bc88401f4e24",
+    "sourceFile": null
   }
 }

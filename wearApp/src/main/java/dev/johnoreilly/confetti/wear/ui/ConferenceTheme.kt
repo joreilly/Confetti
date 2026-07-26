@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Event
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.wear.compose.material3.Typography
@@ -80,6 +81,29 @@ fun conferenceThemeFor(id: String?): ConferenceTheme? {
         )
         else -> null
     }
+}
+
+/**
+ * Apply the curated identity for [conferenceId] — the seed colour *and* the
+ * typography override — exactly the way [dev.johnoreilly.confetti.wear.ui.ConfettiApp]
+ * does for the live app, minus the `appState` plumbing. A null / uncurated id
+ * falls back to the stock Confetti Wear theme (Wear defaults + [ExpressiveTypography]).
+ *
+ * This is the single entry point the design catalog's theme specimens and the
+ * `@ThemeCatalog` providers in [ConfettiThemeCatalogs] both go through, so a
+ * catalog sticker can never drift from what the app actually renders.
+ */
+@Composable
+fun ConfettiConferenceTheme(
+    conferenceId: String?,
+    content: @Composable () -> Unit,
+) {
+    val theme = conferenceThemeFor(conferenceId)
+    ConfettiTheme(
+        seedColor = theme?.seedColor,
+        typography = theme?.typography ?: ExpressiveTypography,
+        content = content,
+    )
 }
 
 /** Fallback icon for conferences without a curated theme — used when we still

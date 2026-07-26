@@ -160,6 +160,11 @@ fun DayChipPreview() {
 // from [MaterialTheme]. Kept deliberately fuller than a bare list so the published Themes
 // tab actually documents the scale and the colour roles (each labelled with its token and,
 // for colours, an on-role glyph proving contrast), mirroring the richer phone catalog.
+//
+// Wrapped in [ConfettiConferenceTheme] (not the bare [ConfettiThemeFixed] the component
+// stickers use): these two document *the app's own theme*, so they must show Confetti's ship
+// typography — Roboto Flex + Inter — rather than the stock Wear `Typography()` defaults.
+// The per-conference variants of the same sheet live in [ThemeFoundationPreviews].
 
 /** One labelled step of the type ramp: the sample rendered in [style], its token name muted below. */
 @Composable
@@ -178,7 +183,7 @@ private fun TypeRow(sample: String, token: String, style: androidx.compose.ui.te
 @Preview(widthDp = 227)
 @Composable
 fun TypographySpecimenPreview() {
-    ConfettiThemeFixed {
+    ConfettiConferenceTheme(conferenceId = null) {
         Column(
             verticalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier
@@ -224,8 +229,11 @@ private fun ColorSwatch(color: Color, onColor: Color, token: String) {
 @Preview(widthDp = 227)
 @Composable
 fun ColorSchemeSpecimenPreview() {
-    val scheme = MaterialTheme.colorScheme
-    ConfettiThemeFixed {
+    ConfettiConferenceTheme(conferenceId = null) {
+        // Read INSIDE the theme — hoisting this above the wrapper (as it used to be) resolves
+        // `MaterialTheme.colorScheme` from the ambient default, so every swatch rendered the Wear
+        // fallback palette instead of Confetti's.
+        val scheme = MaterialTheme.colorScheme
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier

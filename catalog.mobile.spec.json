@@ -1,5 +1,5 @@
 {
-  "$comment": "Design-catalog spec for the Confetti mobile (phone) app. Code-led: it declares which @Preview composables (by exact function name) make up the published sticker sheet, their grouping, and captions. Consumed by the design-catalog export over a render of the :androidApp module, whose `ee.schimke.composeai.preview` Gradle plugin ONLY discovers @Preview functions in the MAIN source set (classes/kotlin/android/main), NOT screenshotTest — so every `preview` named here lives under androidApp/src/main/... . The mobile app is Material 3 with a light/dark brand scheme. Theme + Component specimens are in dev.johnoreilly.confetti.ui.ComponentCatalog; the Screens are the full-screen @Preview entry points in that same file, built from the real shared screens + preview mock data. Each group's `section` is the top-level tab the preview server buckets it under; groups follow this file's order, so tabs read Themes -> Components -> Screens. Mirrors catalog.spec.json (the Wear sheet).",
+  "$comment": "Design-catalog spec for the Confetti mobile (phone) app. Code-led: it declares which @Preview composables (by exact function name) make up the published sticker sheet, their grouping, and captions. Consumed by the design-catalog export over a render of the :androidApp module, whose `ee.schimke.composeai.preview` Gradle plugin ONLY discovers @Preview functions in the MAIN source set (classes/kotlin/android/main), NOT screenshotTest — so every `preview` named here lives under androidApp/src/main/... . The mobile app is Material 3 and picks between several schemes — the Confetti brand purple, the Android green, dynamic (Material You), and the conference-seeded scheme the app root actually installs — each in light + dark; the Theme foundations group carries one sticker per scheme (from dev.johnoreilly.confetti.ui.ThemeFoundationPreviews), and the matching `@ThemeCatalog` providers in ConfettiThemeCatalogs let `compose-preview serve` re-render ANY preview live under any of them. Theme + Component specimens are in dev.johnoreilly.confetti.ui.ComponentCatalog; the Screens are the full-screen @Preview entry points in that same file, built from the real shared screens + preview mock data. Each group's `section` is the top-level tab the preview server buckets it under; groups follow this file's order, so tabs read Themes -> Components -> Screens. Mirrors catalog.spec.json (the Wear sheet).",
   "system": "confetti-mobile",
   "title": "Confetti Mobile",
   "library": ["androidx.compose.material3:material3"],
@@ -19,6 +19,32 @@
           "componentId": "ColorScheme",
           "preview": "ColorSchemeSpecimenPreview",
           "caption": "Colour-role swatches read from MaterialTheme.colorScheme (the brand purple scheme)."
+        }
+      ]
+    },
+    {
+      "name": "Theme foundations",
+      "section": "Themes",
+      "components": [
+        {
+          "componentId": "Theme/Confetti",
+          "preview": "ThemeFoundationDefaultPreview",
+          "caption": "Confetti brand scheme — colour roles, surface ramp and type ramp. The default when dynamic colour is off."
+        },
+        {
+          "componentId": "Theme/Android",
+          "preview": "ThemeFoundationAndroidPreview",
+          "caption": "Android scheme — the green/teal alternative ConfettiTheme(androidTheme = true) selects."
+        },
+        {
+          "componentId": "Theme/Dynamic",
+          "preview": "ThemeFoundationDynamicPreview",
+          "caption": "Dynamic (Material You) — wallpaper-derived on Android 12+, falling back to the brand scheme below that."
+        },
+        {
+          "componentId": "Theme/ConferenceSeed",
+          "preview": "ThemeFoundationConferenceSeedPreview",
+          "caption": "Conference-seeded scheme — what the app root actually installs, generated from conference.themeColor (shown with KotlinConf's #7F52FF)."
         }
       ]
     },

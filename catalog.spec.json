@@ -1,5 +1,5 @@
 {
-  "$comment": "Design-catalog spec for the Confetti Wear OS app. Code-led: it declares which @Preview composables (by exact function name) make up the published sticker sheet, their grouping, and captions. Consumed by the design-catalog export over a render of the :wearApp module, whose `ee.schimke.composeai.preview` Gradle plugin ONLY discovers @Preview functions in the MAIN source set (classes/kotlin/android/main), NOT screenshotTest — so every `preview` named here lives under wearApp/src/main/... . Wear is dark-first and round, so the single mode is the large-round breakpoint. Theme + Component specimens are in dev.johnoreilly.confetti.wear.ui.ComponentCatalog; the Screens are the in-main @Preview entry points next to each screen (HomeScreen, SessionsScreen, SessionDetailsView, SpeakerDetailsView, BookmarksScreen, ConferencesView, SettingsListView). Each group's `section` is the top-level tab the preview server buckets it under; groups follow this file's order, so tabs read Themes -> Components -> Screens.",
+  "$comment": "Design-catalog spec for the Confetti Wear OS app. Code-led: it declares which @Preview composables (by exact function name) make up the published sticker sheet, their grouping, and captions. Consumed by the design-catalog export over a render of the :wearApp module, whose `ee.schimke.composeai.preview` Gradle plugin ONLY discovers @Preview functions in the MAIN source set (classes/kotlin/android/main), NOT screenshotTest — so every `preview` named here lives under wearApp/src/main/... . Wear is dark-first and round, so the single mode is the large-round breakpoint. Theme + Component specimens are in dev.johnoreilly.confetti.wear.ui.ComponentCatalog, and the per-conference theme foundations in dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviews (the Wear app themes itself per conference — seed colour plus, for KotlinConf/DevFest, a brand type family — so the Themes tab carries one sticker per identity, not just the stock scheme; the matching `@ThemeCatalog` providers in ConfettiThemeCatalogs let `compose-preview serve` re-render ANY preview live under any of them). The Screens are the in-main @Preview entry points next to each screen (HomeScreen, SessionsScreen, SessionDetailsView, SpeakerDetailsView, BookmarksScreen, ConferencesView, SettingsListView). Each group's `section` is the top-level tab the preview server buckets it under; groups follow this file's order, so tabs read Themes -> Components -> Screens.",
   "system": "confetti-wear",
   "title": "Confetti Wear",
   "library": ["androidx.wear.compose:compose-material3"],
@@ -13,12 +13,43 @@
         {
           "componentId": "Typography",
           "preview": "TypographySpecimenPreview",
-          "caption": "A type ramp read from MaterialTheme.typography (Wear Material 3)."
+          "caption": "A type ramp read from MaterialTheme.typography — Confetti's ship stack, Roboto Flex (display/title) + Inter (body/label)."
         },
         {
           "componentId": "ColorScheme",
           "preview": "ColorSchemeSpecimenPreview",
           "caption": "Colour-role swatches read from MaterialTheme.colorScheme."
+        }
+      ]
+    },
+    {
+      "name": "Conference themes",
+      "section": "Themes",
+      "components": [
+        {
+          "componentId": "Theme/Confetti",
+          "preview": "ThemeFoundationConfettiPreview",
+          "caption": "Stock Confetti Wear theme — colour roles, surface ramp and type ramp. The look for any conference without a curated identity."
+        },
+        {
+          "componentId": "Theme/KotlinConf",
+          "preview": "ThemeFoundationKotlinConfPreview",
+          "caption": "KotlinConf — JetBrains purple seed, JetBrains Mono display/title."
+        },
+        {
+          "componentId": "Theme/AndroidMakers",
+          "preview": "ThemeFoundationAndroidMakersPreview",
+          "caption": "AndroidMakers — Parisian ochre seed."
+        },
+        {
+          "componentId": "Theme/Droidcon",
+          "preview": "ThemeFoundationDroidconPreview",
+          "caption": "Droidcon — Droidcon green seed."
+        },
+        {
+          "componentId": "Theme/DevFest",
+          "preview": "ThemeFoundationDevFestPreview",
+          "caption": "DevFest — Google blue seed, Google Sans Flex throughout."
         }
       ]
     },

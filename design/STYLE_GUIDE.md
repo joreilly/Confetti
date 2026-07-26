@@ -165,6 +165,21 @@ identity.
 3. [`HomeScreen`'s title section](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt) asks the same lookup for the current conference id and renders
    `theme.icon` above the name when one exists.
 
+### Where you can see them
+
+All five looks — the stock Confetti theme plus the four curated identities —
+are published as their own sticker in the **Themes** tab of the Wear design
+catalog, rendered from
+[`ThemeFoundationPreviews.kt`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt)
+through the same [`ConfettiConferenceTheme`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConferenceTheme.kt)
+call the app makes, so a swatch there is by construction a colour the app paints.
+Each is also declared as a `@ThemeCatalog` provider in
+[`ConfettiThemeCatalogs.kt`](../wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeCatalogs.kt),
+which puts them in the **Theme** select of `compose-preview serve` — pick one and
+*any* preview (a session card, the whole Home screen) re-renders live under it.
+The phone app does the same for its own set (brand / Android / dynamic /
+conference-seeded) from `androidApp/…/ui/ThemeFoundationPreviews.kt`.
+
 That's the full extent of the conference-aware code. No per-conference
 components, no custom drawables, no bespoke screens. The identity is
 carried entirely by tokens + a single icon + (for DevFest) a typography

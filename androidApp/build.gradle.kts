@@ -168,6 +168,9 @@ dependencies {
     implementation(libs.coil.compose)
     // coil3 (used by the shared CMP components) — needed for the design-catalog preview image handler.
     implementation(libs.coil3.compose)
+    // @ThemeCatalog, for the alternative-theme providers in ConfettiThemeCatalogs.kt — BINARY
+    // retention, scanned off the compiled classes by the preview plugin. Mirrors :wearApp.
+    implementation(libs.composeai.preview.annotations)
 
     implementation(libs.decompose.decompose)
     implementation(libs.decompose.extensions.compose)

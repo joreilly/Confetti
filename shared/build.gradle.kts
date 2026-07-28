@@ -204,16 +204,21 @@ apollo {
         generateDataBuilders.set(true)
         generateFragmentImplementations.set(true)
         generateSchema.set(true)
+        // Apollo 5 emits data builders to the test source set by default;
+        // ConfettiRepository uses them in main (optimistic mutation responses)
+        dataBuildersOutputDirConnection {
+            connectToKotlinSourceSet("commonMain")
+        }
         mapScalar(
             "LocalDateTime",
             "kotlinx.datetime.LocalDateTime",
-            "com.apollographql.apollo.adapter.KotlinxLocalDateTimeAdapter"
+            "com.apollographql.adapter.datetime.KotlinxLocalDateTimeAdapter"
         )
 
         mapScalar(
             "LocalDate",
             "kotlinx.datetime.LocalDate",
-            "com.apollographql.apollo.adapter.KotlinxLocalDateAdapter"
+            "com.apollographql.adapter.datetime.KotlinxLocalDateAdapter"
         )
 
         introspection {

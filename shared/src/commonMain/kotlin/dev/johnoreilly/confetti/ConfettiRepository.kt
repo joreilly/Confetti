@@ -10,7 +10,8 @@ import com.apollographql.cache.normalized.apolloStore
 import com.apollographql.cache.normalized.optimisticUpdates
 import com.apollographql.cache.normalized.watch
 import com.benasher44.uuid.uuid4
-import dev.johnoreilly.confetti.type.buildBookmarks
+import dev.johnoreilly.confetti.builder.Data
+import dev.johnoreilly.confetti.builder.buildBookmarks
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filter

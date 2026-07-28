@@ -2,13 +2,13 @@ package dev.johnoreilly.confetti
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
-import com.apollographql.apollo.api.DefaultFakeResolver
 import com.apollographql.apollo.api.FakeResolverContext
 import com.apollographql.apollo.testing.MapTestNetworkTransport
 import com.apollographql.cache.normalized.FetchPolicy
 import com.benasher44.uuid.uuid4
+import dev.johnoreilly.confetti.builder.Data
+import dev.johnoreilly.confetti.builder.resolver.DefaultFakeResolver
 import dev.johnoreilly.confetti.di.initKoin
-import dev.johnoreilly.confetti.schema.__Schema
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeout
 import kotlinx.datetime.LocalDateTime
@@ -22,10 +22,13 @@ private fun testModule() = module {
                 register(GetSessionsQuery(), ApolloResponse.Builder(
                     GetSessionsQuery(),
                     uuid4(),
-                    GetSessionsQuery.Data(object: DefaultFakeResolver(__Schema.all) {
+                ).data(
+                    GetSessionsQuery.Data(object: DefaultFakeResolver() {
                         override fun resolveLeaf(context: FakeResolverContext): Any {
                             return when(context.mergedField.type.rawType().name) {
-                                "LocalDateTime" -> return LocalDateTime(1970, 1, 1, 1, 1, 1)
+                                // Apollo 5 data builders serialize leaf values through the
+                                // response adapter, so return the scalar's wire form (String)
+                                "LocalDateTime" -> return LocalDateTime(1970, 1, 1, 1, 1, 1).toString()
                                 else -> super.resolveLeaf(context)
                             }
                         }

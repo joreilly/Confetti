@@ -12,7 +12,8 @@ agp = "9.1.1"
 activity-compose = "1.13.0"
 androidx-lifecycle = "2.11.0"
 androidx-datastore = "1.2.1"
-apollo = "4.4.3"
+apollo = "5.0.1"
+apollo-adapters = "0.7.0"
 apollo-cache = "1.0.6"
 compose = "1.11.4"
 composeLifecyleRuntime="2.11.0"
@@ -82,7 +83,7 @@ androidx-wear-phone-interactions = { module = "androidx.wear:wear-phone-interact
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
 lifecyle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "composeLifecyleRuntime" }
-apollo-adapters = { module = "com.apollographql.apollo:apollo-adapters" }
+apollo-adapters = { module = "com.apollographql.adapters:apollo-adapters-kotlinx-datetime", version.ref = "apollo-adapters" }
 apollo-normalized-cache-in-memory = { module = "com.apollographql.cache:normalized-cache", version.ref = "apollo-cache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.cache:normalized-cache-sqlite", version.ref = "apollo-cache" }
 apollo-normalized-cache-compiler-plugin = { module = "com.apollographql.cache:normalized-cache-apollo-compiler-plugin", version.ref = "apollo-cache" }

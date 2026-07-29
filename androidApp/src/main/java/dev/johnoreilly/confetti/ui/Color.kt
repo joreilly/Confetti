@@ -15,13 +15,43 @@ internal val DarkGreen30 = Color(0xFF394B3C)
 internal val DarkGreen40 = Color(0xFF4F6352)
 internal val DarkGreen80 = Color(0xFFB7CCB8)
 internal val DarkGreen90 = Color(0xFFD3E8D3)
+// Neutral ramps.
+//
+// The `surfaceContainer*` / `surfaceDim` / `surfaceBright` roles Material 3 added after these
+// schemes were written need neutral tones between the anchors below. They are generated rather
+// than eyeballed: an M3 tone IS the CIELAB L* value, and a tonal palette holds hue and chroma
+// constant across tones, so each new token is its palette's mean (a*, b*) at L* = tone. The
+// existing anchors already sit exactly on their tone's L*, so the ramp stays continuous. Tone 100
+// is white by definition.
+internal val DarkGreenGray4 = Color(0xFF0D0F09)
+internal val DarkGreenGray6 = Color(0xFF121410)
 internal val DarkGreenGray10 = Color(0xFF1A1C1A)
+internal val DarkGreenGray12 = Color(0xFF1F201D)
+internal val DarkGreenGray17 = Color(0xFF292A27)
+internal val DarkGreenGray22 = Color(0xFF343532)
+internal val DarkGreenGray24 = Color(0xFF383A36)
+internal val DarkGreenGray87 = Color(0xFFD9DBD6)
 internal val DarkGreenGray90 = Color(0xFFE2E3DE)
+internal val DarkGreenGray92 = Color(0xFFE7E9E4)
+internal val DarkGreenGray94 = Color(0xFFEDEEEA)
 internal val DarkGreenGray95 = Color(0xFFF0F1EC)
+internal val DarkGreenGray96 = Color(0xFFF2F4EF)
+internal val DarkGreenGray98 = Color(0xFFF8FAF5)
 internal val DarkGreenGray99 = Color(0xFFFBFDF7)
+internal val DarkPurpleGray4 = Color(0xFF160B0C)
+internal val DarkPurpleGray6 = Color(0xFF1A1112)
 internal val DarkPurpleGray10 = Color(0xFF201A1B)
+internal val DarkPurpleGray12 = Color(0xFF251E1E)
+internal val DarkPurpleGray17 = Color(0xFF302829)
+internal val DarkPurpleGray22 = Color(0xFF3B3333)
+internal val DarkPurpleGray24 = Color(0xFF403738)
+internal val DarkPurpleGray87 = Color(0xFFE3D7D8)
 internal val DarkPurpleGray90 = Color(0xFFECDFE0)
+internal val DarkPurpleGray92 = Color(0xFFF1E5E6)
+internal val DarkPurpleGray94 = Color(0xFFF7EBEC)
 internal val DarkPurpleGray95 = Color(0xFFFAEEEF)
+internal val DarkPurpleGray96 = Color(0xFFFCF1F2)
+internal val DarkPurpleGray98 = Color(0xFFFFF7F8)
 internal val DarkPurpleGray99 = Color(0xFFFCFCFC)
 internal val Green10 = Color(0xFF00210B)
 internal val Green20 = Color(0xFF003919)

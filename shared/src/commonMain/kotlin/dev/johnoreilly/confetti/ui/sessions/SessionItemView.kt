@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -83,7 +82,10 @@ fun SessionItemView(
                         Text(
                             room.name,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Color.Gray
+                            // Was a hardcoded Color.Gray, which stayed #888888 in both modes:
+                            // ~3.5:1 on the light surface (below the 4.5:1 WCAG AA floor for body
+                            // text) and unable to respond to the theme at all.
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }

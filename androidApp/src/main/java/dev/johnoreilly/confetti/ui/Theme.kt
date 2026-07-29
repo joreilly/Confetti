@@ -6,6 +6,7 @@ import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -46,11 +47,28 @@ val LightDefaultColorScheme = lightColorScheme(
     onSurface = DarkPurpleGray10,
     surfaceVariant = PurpleGray90,
     onSurfaceVariant = PurpleGray30,
-    outline = PurpleGray50
+    outline = PurpleGray50,
+    // Without these the M3 surface ramp falls back to the baseline palette instead of this
+    // scheme's own neutrals — see the comment on [DarkDefaultColorScheme].
+    surfaceDim = DarkPurpleGray87,
+    surfaceBright = DarkPurpleGray98,
+    surfaceContainerLowest = Color.White,
+    surfaceContainerLow = DarkPurpleGray96,
+    surfaceContainer = DarkPurpleGray94,
+    surfaceContainerHigh = DarkPurpleGray92,
+    surfaceContainerHighest = DarkPurpleGray90,
 )
 
 /**
  * Dark default theme color scheme
+ *
+ * Every scheme here spells out the `surfaceContainer*` / `surfaceDim` / `surfaceBright` roles.
+ * They were added to Material 3 after these schemes were written, and `lightColorScheme()` /
+ * `darkColorScheme()` default them to the **baseline** (purple) palette rather than deriving them
+ * from the `surface` passed in — so leaving them out made the Android green scheme render Cards,
+ * app bars, navigation bars and sheets on the brand-purple neutrals. Tones follow the M3 mapping:
+ * light = N100/96/94/92/90 with dim N87 and bright N98; dark = N4/10/12/17/22 with dim N6 and
+ * bright N24.
  */
 @VisibleForTesting
 val DarkDefaultColorScheme = darkColorScheme(
@@ -76,7 +94,14 @@ val DarkDefaultColorScheme = darkColorScheme(
     onSurface = DarkPurpleGray90,
     surfaceVariant = PurpleGray30,
     onSurfaceVariant = PurpleGray80,
-    outline = PurpleGray60
+    outline = PurpleGray60,
+    surfaceDim = DarkPurpleGray6,
+    surfaceBright = DarkPurpleGray24,
+    surfaceContainerLowest = DarkPurpleGray4,
+    surfaceContainerLow = DarkPurpleGray10,
+    surfaceContainer = DarkPurpleGray12,
+    surfaceContainerHigh = DarkPurpleGray17,
+    surfaceContainerHighest = DarkPurpleGray22,
 )
 
 /**
@@ -106,7 +131,14 @@ val LightAndroidColorScheme = lightColorScheme(
     onSurface = DarkGreenGray10,
     surfaceVariant = GreenGray90,
     onSurfaceVariant = GreenGray30,
-    outline = GreenGray50
+    outline = GreenGray50,
+    surfaceDim = DarkGreenGray87,
+    surfaceBright = DarkGreenGray98,
+    surfaceContainerLowest = Color.White,
+    surfaceContainerLow = DarkGreenGray96,
+    surfaceContainer = DarkGreenGray94,
+    surfaceContainerHigh = DarkGreenGray92,
+    surfaceContainerHighest = DarkGreenGray90,
 )
 
 /**
@@ -136,7 +168,14 @@ val DarkAndroidColorScheme = darkColorScheme(
     onSurface = DarkGreenGray90,
     surfaceVariant = GreenGray30,
     onSurfaceVariant = GreenGray80,
-    outline = GreenGray60
+    outline = GreenGray60,
+    surfaceDim = DarkGreenGray6,
+    surfaceBright = DarkGreenGray24,
+    surfaceContainerLowest = DarkGreenGray4,
+    surfaceContainerLow = DarkGreenGray10,
+    surfaceContainer = DarkGreenGray12,
+    surfaceContainerHigh = DarkGreenGray17,
+    surfaceContainerHighest = DarkGreenGray22,
 )
 
 
@@ -176,8 +215,19 @@ fun ConfettiTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             typography = ConfettiTypography,
-            content = content
-        )
+        ) {
+            // MaterialTheme sets the colour scheme but NOT LocalContentColor — only a Surface does
+            // that. So any content hosted outside a Surface draws its text and icons in the
+            // CompositionLocal's default, Color.Black, whatever the scheme says. Nothing in the app
+            // hit that because every screen sits under a Scaffold, but it left the theme unable to
+            // stand on its own: a caller that just wraps content in ConfettiTheme got black text on
+            // a dark background. Anchor it to the scheme here; a Surface still overrides this with
+            // its own content colour, so nothing inside one changes.
+            CompositionLocalProvider(
+                LocalContentColor provides colorScheme.onBackground,
+                content = content,
+            )
+        }
     }
 }
 

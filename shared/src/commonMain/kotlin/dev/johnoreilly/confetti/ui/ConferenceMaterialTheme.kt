@@ -26,6 +26,15 @@ fun ConferenceMaterialTheme(
         return
     }
 
+    // A `@ThemeCatalog` provider has already installed the theme the preview viewer asked for;
+    // installing ours over the top would shadow it and pin every theme in the switcher to identical
+    // pixels. Stand down, clearing the flag so deliberately nested theming still applies. Always
+    // false in production. See [LocalPreviewThemeOverride].
+    if (LocalPreviewThemeOverride.current) {
+        ConsumePreviewThemeOverride(content)
+        return
+    }
+
     val shouldUseDarkTheme = shouldUseDarkTheme(darkThemeConfig)
 
     var seedColor = Color(0xFF008000)

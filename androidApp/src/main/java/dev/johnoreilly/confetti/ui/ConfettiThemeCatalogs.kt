@@ -22,47 +22,67 @@ import ee.schimke.composeai.preview.ThemeCatalog
  * with, so a provider that read the ambient mode would make half the options no-ops. Each wraps a
  * production theme function — [ConfettiTheme] for the three colour schemes, [ConferenceMaterialTheme]
  * for the seeded app-root theme — so these can't drift from what the app renders.
+ *
+ * Every provider goes through [Scheme] or [ConferenceSeed], both of which mark the theme they
+ * installed as an override so the preview body's own theme stands down instead of shadowing it —
+ * see [PreviewThemeOverrideInstalled]. Without that mark the switcher renders identical pixels for
+ * every entry here, which is exactly the bug this indirection exists to prevent.
  */
+
+/** One of [ConfettiTheme]'s three colour schemes, installed as a preview theme override. */
+@Composable
+private fun Scheme(
+    dark: Boolean,
+    androidTheme: Boolean = false,
+    disableDynamicTheming: Boolean = true,
+    content: @Composable () -> Unit,
+) =
+    ConfettiTheme(
+        darkTheme = dark,
+        androidTheme = androidTheme,
+        disableDynamicTheming = disableDynamicTheming,
+    ) {
+        PreviewThemeOverrideInstalled(content)
+    }
+
 @ThemeCatalog(name = "Confetti brand Light", group = "Confetti")
 class ConfettiBrandLightThemeCatalog : PreviewWrapperProvider {
     @Composable
-    override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiTheme(darkTheme = false, disableDynamicTheming = true, content = content)
+    override fun Wrap(content: @Composable () -> Unit) = Scheme(dark = false, content = content)
 }
 
 @ThemeCatalog(name = "Confetti brand Dark", group = "Confetti")
 class ConfettiBrandDarkThemeCatalog : PreviewWrapperProvider {
     @Composable
-    override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiTheme(darkTheme = true, disableDynamicTheming = true, content = content)
+    override fun Wrap(content: @Composable () -> Unit) = Scheme(dark = true, content = content)
 }
 
 @ThemeCatalog(name = "Android Light", group = "Android")
 class AndroidLightThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiTheme(darkTheme = false, androidTheme = true, content = content)
+        Scheme(dark = false, androidTheme = true, content = content)
 }
 
 @ThemeCatalog(name = "Android Dark", group = "Android")
 class AndroidDarkThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiTheme(darkTheme = true, androidTheme = true, content = content)
+        Scheme(dark = true, androidTheme = true, content = content)
 }
 
 @ThemeCatalog(name = "Dynamic Light", group = "Material You")
 class DynamicLightThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiTheme(darkTheme = false, disableDynamicTheming = false, content = content)
+        Scheme(dark = false, disableDynamicTheming = false, content = content)
 }
 
 @ThemeCatalog(name = "Dynamic Dark", group = "Material You")
 class DynamicDarkThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiTheme(darkTheme = true, disableDynamicTheming = false, content = content)
+        Scheme(dark = true, disableDynamicTheming = false, content = content)
 }
 
 /**
@@ -86,8 +106,9 @@ private fun ConferenceSeed(seed: String, dark: Boolean, content: @Composable () 
     ConferenceMaterialTheme(
         seedColorString = seed,
         darkThemeConfig = if (dark) DarkThemeConfig.DARK else DarkThemeConfig.LIGHT,
-        content = content,
-    )
+    ) {
+        PreviewThemeOverrideInstalled(content)
+    }
 
 @ThemeCatalog(name = "KotlinConf Light", group = "Conference")
 class KotlinConfLightThemeCatalog : PreviewWrapperProvider {

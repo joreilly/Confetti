@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.wear.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewWrapperProvider
+import dev.johnoreilly.confetti.ui.PreviewThemeOverrideInstalled
 import ee.schimke.composeai.preview.WearThemeCatalog
 
 /**
@@ -26,38 +27,49 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  * the app resolves at runtime via [conferenceThemeFor] — the ids are prefix-matched, so a rolling
  * edition can't drift them. `group = "Conference"` buckets the four curated identities into their
  * own `<optgroup>` beneath the stock Confetti theme.
+ *
+ * Every provider goes through [ConferenceThemeOverride], which marks the theme it installed as an
+ * override so the preview body's own theme stands down instead of shadowing it — see
+ * `PreviewThemeOverride` in `:shared`. Without that mark the switcher renders identical pixels for
+ * every entry here, which is exactly the bug this indirection exists to prevent.
  */
+@Composable
+private fun ConferenceThemeOverride(conferenceId: String?, content: @Composable () -> Unit) =
+    ConfettiConferenceTheme(conferenceId = conferenceId) {
+        PreviewThemeOverrideInstalled(content)
+    }
+
 @WearThemeCatalog(name = "Confetti (default)", group = "Confetti")
 class ConfettiDefaultThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiConferenceTheme(conferenceId = null, content = content)
+        ConferenceThemeOverride(conferenceId = null, content = content)
 }
 
 @WearThemeCatalog(name = "KotlinConf", group = "Conference")
 class KotlinConfThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiConferenceTheme(conferenceId = "kotlinconf2025", content = content)
+        ConferenceThemeOverride(conferenceId = "kotlinconf2025", content = content)
 }
 
 @WearThemeCatalog(name = "AndroidMakers", group = "Conference")
 class AndroidMakersThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiConferenceTheme(conferenceId = "androidmakers2025", content = content)
+        ConferenceThemeOverride(conferenceId = "androidmakers2025", content = content)
 }
 
 @WearThemeCatalog(name = "Droidcon", group = "Conference")
 class DroidconThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiConferenceTheme(conferenceId = "droidconlondon2025", content = content)
+        ConferenceThemeOverride(conferenceId = "droidconlondon2025", content = content)
 }
 
 @WearThemeCatalog(name = "DevFest", group = "Conference")
 class DevFestThemeCatalog : PreviewWrapperProvider {
     @Composable
     override fun Wrap(content: @Composable () -> Unit) =
-        ConfettiConferenceTheme(conferenceId = "devfest2025", content = content)
+        ConferenceThemeOverride(conferenceId = "devfest2025", content = content)
 }

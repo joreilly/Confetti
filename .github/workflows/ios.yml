@@ -24,14 +24,14 @@ jobs:
           java-version: 17
 
       - name: Cache KMP libraries
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.konan
           key: ${{ runner.os }}-v1-${{ hashFiles('**/libs.versions.toml') }}
 
       - name: Cache SPM downloads
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
@@ -41,7 +41,7 @@ jobs:
             ${{ runner.os }}-spm-
   
       - name: Cache CocoaPods dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             Pods

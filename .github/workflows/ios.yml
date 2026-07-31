@@ -1,10 +1,16 @@
 name: iOS CI
 
-on: pull_request
+on:
+  pull_request:
+  # Also run on main so gradle/actions/setup-gradle can seed the dependency and
+  # local build caches that PR runs then restore (Actions caches are only saved
+  # from the default branch and shared to PRs from there).
+  push:
+    branches: [ main ]
 
-# Cancel any current or previous job from the same PR
+# Cancel any current or previous job from the same PR (or main run)
 concurrency:
-  group: ios-${{ github.head_ref }}
+  group: ios-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -23,6 +29,11 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
+      # Restores the Gradle dependency cache and local build cache across runs so the
+      # Kotlin/Native framework compile (invoked by xcodebuild via ./gradlew
+      # :shared:embedAndSignAppleFrameworkForXcode) resolves from cache on unchanged code.
+      - uses: gradle/actions/setup-gradle@v4
+
       - name: Cache KMP libraries
         uses: actions/cache@v6
         with:
@@ -39,24 +50,16 @@ jobs:
           key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-spm-
-  
-      - name: Cache CocoaPods dependencies
-        uses: actions/cache@v6
-        with:
-          path: |
-            Pods
-            ~/Library/Caches/CocoaPods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
 
       - name: Set Xcode Version 26.6
         shell: bash
         run: |
           xcodes select 26.6
 
-      - name: Build iOS app
-        run: xcodebuild -allowProvisioningUpdates -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 17 Pro'
+      # Build once for testing (app + test targets) on the simulator, then run the tests
+      # without rebuilding. Simulator builds skip code signing / provisioning entirely.
+      - name: Build iOS app for testing
+        run: xcodebuild build-for-testing -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 
       - name: Run iOS unit tests
-        run: xcodebuild -allowProvisioningUpdates -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphoneos -destination name='iPhone 17 Pro' test -test-timeouts-enabled YES
+        run: xcodebuild test-without-building -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -test-timeouts-enabled YES

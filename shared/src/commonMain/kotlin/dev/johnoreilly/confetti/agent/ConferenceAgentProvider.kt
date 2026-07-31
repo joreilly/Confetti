@@ -21,6 +21,9 @@ class ConferenceAgentProvider(
     private val promptExecutor: PromptExecutor,
     private val embedder: Embedder,
     private val embeddingCache: EmbeddingCache?,
+    // Embeddings/semantic search temporarily disabled. Flip to true to re-enable
+    // SearchSessionsTool and the semantic-search guidance in the system prompt.
+    private val embeddingsEnabled: Boolean = false,
 ) : AgentProvider {
 
     override val description: String =
@@ -33,19 +36,49 @@ class ConferenceAgentProvider(
         onAssistantMessage: suspend (String) -> String,
     ): AIAgent<String, String> {
 
-        val sessionIndex = SessionEmbeddingIndex(
-            repository = repository,
-            conference = conference,
-            embedder = embedder,
-            cache = embeddingCache,
-        )
+        val sessionIndex = if (embeddingsEnabled) {
+            SessionEmbeddingIndex(
+                repository = repository,
+                conference = conference,
+                embedder = embedder,
+                cache = embeddingCache,
+            )
+        } else {
+            null
+        }
 
         val toolRegistry = ToolRegistry {
             tool(GetSessionsTool(repository, conference))
-            tool(SearchSessionsTool(sessionIndex))
+            if (sessionIndex != null) {
+                tool(SearchSessionsTool(sessionIndex))
+            }
             tool(GetSessionByIdTool(repository, conference))
             tool(GetSpeakersTool(repository, conference))
             tool(GetSpeakerByIdTool(repository, conference))
+        }
+
+        val sessionToolGuidance = if (embeddingsEnabled) {
+            """
+
+            Choosing between session tools:
+            - Default to SearchSessionsTool whenever the user asks about a topic,
+              theme, or area of interest — including single-word topics like "AI",
+              "testing", "UI" or "performance". Semantic search finds related talks
+              even when they use different vocabulary.
+            - Each SearchSessionsTool result includes a similarity score. Treat
+              scores above ~0.5 as strong matches; consider including borderline
+              results (down to ~0.3) when the user asks for "all" related talks.
+            - Only use GetSessionsTool when the user explicitly wants a verbatim
+              string match (e.g. "find talks with 'Kotlin Multiplatform' in the
+              title").
+            """.trimIndent()
+        } else {
+            """
+
+            Use GetSessionsTool to find sessions by a word or phrase in their title
+            or description. Try a few relevant keywords when the user asks about a
+            topic or theme.
+            """.trimIndent()
         }
 
         val agentConfig = AIAgentConfig(
@@ -57,19 +90,7 @@ class ConferenceAgentProvider(
                     Use the provided tools to look up sessions and speakers — do not invent ids,
                     titles or any other details. When recommending sessions, reference them by
                     title and include their speakers, start time and room when available.
-
-                    Choosing between session tools:
-                    - Default to SearchSessionsTool whenever the user asks about a topic,
-                      theme, or area of interest — including single-word topics like "AI",
-                      "testing", "UI" or "performance". Semantic search finds related talks
-                      even when they use different vocabulary.
-                    - Each SearchSessionsTool result includes a similarity score. Treat
-                      scores above ~0.5 as strong matches; consider including borderline
-                      results (down to ~0.3) when the user asks for "all" related talks.
-                    - Only use GetSessionsTool when the user explicitly wants a verbatim
-                      string match (e.g. "find talks with 'Kotlin Multiplatform' in the
-                      title").
-                    """.trimIndent(),
+                    """.trimIndent() + "\n" + sessionToolGuidance,
                 )
             },
             model = llModel,

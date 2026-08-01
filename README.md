@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/pr`. 74 preview(s) across 2 module(s) · 5 error(s) · 0 warning(s) · 7 info._
+_Auto-generated from `compose-preview/a11y/pr`. 75 preview(s) across 2 module(s) · 4 error(s) · 0 warning(s) · 7 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -120,6 +120,12 @@ _No findings._
 
 _No findings._
 
+### `ThemeFoundationCurrentPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/androidApp/ThemeFoundationCurrentPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
 ### `ThemeFoundationDefaultPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/androidApp/ThemeFoundationDefaultPreview_Dark.a11y.png" width="400" />
@@ -171,7 +177,6 @@ _No findings._
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
 | 1 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
-| 2 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
 
 ### `BookmarksPreviewLong` · `wearos_large_round`
 
@@ -423,7 +428,7 @@ _No findings._
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
-| 1 | ERROR | TouchTargetSizeCheck | android.widget.ImageView  desc="Github" | This item's size is 24dp x 24dp. Consider making this touch target 32dp wide and 32dp high or larger. |
+| 1 | ERROR | TouchTargetSizeCheck | android.widget.ImageView  desc="Github" | This item's height is 24dp. Consider making the height of this touch target 32dp or larger. |
 
 ### `SpeakerDetailsScreen` · `wearos_large_round`
 

@@ -53,6 +53,8 @@ The render task completed but no PNG was produced for these previews. Entries wi
 | `ThemeFoundationAndroidPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationAndroidPreview_Light.png" width="150" /> |
 | `ThemeFoundationConferenceSeedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Dark.png" width="150" /> |
 | `ThemeFoundationConferenceSeedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Light.png" width="150" /> |
+| `ThemeFoundationCurrentPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationCurrentPreview_Dark.png" width="150" /> |
+| `ThemeFoundationCurrentPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationCurrentPreview_Light.png" width="150" /> |
 | `ThemeFoundationDefaultPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationDefaultPreview_Dark.png" width="150" /> |
 | `ThemeFoundationDefaultPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationDefaultPreview_Light.png" width="150" /> |
 | `ThemeFoundationDynamicPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationDynamicPreview_Dark.png" width="150" /> |

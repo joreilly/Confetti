@@ -9,13 +9,13 @@ import ee.schimke.composeai.preview.ThemeCatalog
  * `@ThemeCatalog` providers — the phone app's **alternative themes**, declared so the preview
  * server can re-render *any* preview under any of them.
  *
- * Where [ThemeFoundationPreviews] bakes one static specimen sticker per theme, these providers make
- * the axis interactive: `compose-preview serve` lifts every `@ThemeCatalog`-annotated
- * [PreviewWrapperProvider] into the viewer's **Theme** select, and picking one re-renders the
- * currently open preview through that provider's `Wrap` — so you can open `ScheduleScreenPreview`
- * and flip it between the brand purple, the Android green, Material You and a conference seed, and
- * see the live result rather than a pre-baked PNG. (Daemon-backed: the control is live on a local
- * `serve` session, disabled on a published static bundle.)
+ * Where [ThemeFoundationPreviews] bakes fixed reference stickers plus one live "Current Theme"
+ * specimen, these providers make the axis interactive: `compose-preview serve` lifts every
+ * `@ThemeCatalog`-annotated [PreviewWrapperProvider] into the viewer's **Theme** select, and picking
+ * one re-renders the currently open preview through that provider's `Wrap` — so you can open
+ * `ScheduleScreenPreview` and flip it between the brand purple, the Android green, Material You and
+ * a conference seed, and see the live result rather than a pre-baked PNG. (Daemon-backed: the
+ * control is live on a local `serve` session, disabled on a published static bundle.)
  *
  * Light and dark are declared as separate providers rather than left to `isSystemInDarkTheme()`:
  * the theme select is a *discrete* axis applied on top of whatever `uiMode` the preview renders

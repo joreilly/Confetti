@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/main`. 74 preview(s) across 2 module(s) · 5 error(s) · 0 warning(s) · 7 info._
+_Auto-generated from `compose-preview/a11y/main`. 75 preview(s) across 2 module(s) · 5 error(s) · 0 warning(s) · 7 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -117,6 +117,12 @@ _No findings._
 ### `ThemeFoundationConferenceSeedPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Dark.a11y.png" width="400" />
+
+_No findings._
+
+### `ThemeFoundationCurrentPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationCurrentPreview_Dark.a11y.png" width="400" />
 
 _No findings._
 

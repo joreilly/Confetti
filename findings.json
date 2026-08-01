@@ -191,6 +191,16 @@
       "variant": ""
     },
     {
+      "annotatedBasename": "ThemeFoundationCurrentPreview_Dark.a11y.png",
+      "cleanBasename": "ThemeFoundationCurrentPreview_Dark.png",
+      "findings": [],
+      "functionName": "ThemeFoundationCurrentPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationCurrentPreview_Dark",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "variant": ""
+    },
+    {
       "annotatedBasename": "ThemeFoundationDefaultPreview_Dark.a11y.png",
       "cleanBasename": "ThemeFoundationDefaultPreview_Dark.png",
       "findings": [],

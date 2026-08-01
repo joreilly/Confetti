@@ -36,12 +36,15 @@ import androidx.compose.ui.unit.dp
  *    ([dev.johnoreilly.confetti.ui.App]) actually installs: a scheme generated from the active
  *    **conference's seed colour**, so the app re-tints per conference the way the Wear app does.
  *
- * Every preview below goes through the production theme function rather than re-declaring a
- * scheme, so a swatch here is by construction the colour the app paints. Kept in the **main**
- * source set for the `ee.schimke.composeai.preview` plugin, registered in
- * `catalog.mobile.spec.json`, and mirrored by the `@ThemeCatalog` providers in
- * [ConfettiThemeCatalogs] so `compose-preview serve` can re-render any preview live under any of
- * them.
+ * The four named-theme previews below go through the production theme function rather than
+ * re-declaring a scheme, so a swatch here is by construction the colour the app paints. They also
+ * clear any preview-server theme override before installing their theme: these are reference
+ * specimens, so selecting a different theme in the viewer must not change their identity. The
+ * separate [ThemeFoundationCurrentPreview] deliberately does yield to that selector and shows the
+ * currently selected theme instead.
+ *
+ * Kept in the **main** source set for the `ee.schimke.composeai.preview` plugin and registered in
+ * `catalog.mobile.spec.json`.
  */
 
 /** A colour-role swatch: the role colour carrying its on-role label, token name beneath. */
@@ -142,39 +145,67 @@ private fun ThemeFoundation(title: String, tagline: String) {
  */
 private const val CONFERENCE_SEED = "0xFF7F52FF"
 
+/**
+ * Keeps an identity specimen independent from the preview viewer's selected theme.
+ *
+ * Theme-catalog providers set [LocalPreviewThemeOverride] so ordinary preview bodies yield to the
+ * viewer. Clearing it outside the specimen's production theme makes that theme install normally,
+ * preserving the named reference swatches while leaving the rest of the catalog override-aware.
+ */
+@Composable
+private fun FixedTheme(content: @Composable () -> Unit) {
+    ConsumePreviewThemeOverride(content)
+}
+
 @CatalogModes
 @Composable
 fun ThemeFoundationDefaultPreview() {
-    // Dynamic explicitly off → the Confetti brand scheme, whatever the render host's wallpaper is.
-    ConfettiTheme(disableDynamicTheming = true) {
-        ThemeFoundation("Confetti brand", "Purple / orange / blue · the default scheme")
+    FixedTheme {
+        // Dynamic explicitly off → the brand scheme, whatever the render host's wallpaper is.
+        ConfettiTheme(disableDynamicTheming = true) {
+            ThemeFoundation("Confetti brand", "Purple / orange / blue · the default scheme")
+        }
     }
 }
 
 @CatalogModes
 @Composable
 fun ThemeFoundationAndroidPreview() {
-    ConfettiTheme(androidTheme = true) {
-        ThemeFoundation("Android", "Green / teal · the Android-branded scheme")
+    FixedTheme {
+        ConfettiTheme(androidTheme = true, disableDynamicTheming = true) {
+            ThemeFoundation("Android", "Green / teal · the Android-branded scheme")
+        }
     }
 }
 
 @CatalogModes
 @Composable
 fun ThemeFoundationDynamicPreview() {
-    // Material You: `colorScheme()` resolves `dynamic{Light,Dark}ColorScheme(context)` on API 31+,
-    // and falls back to the brand scheme below that — so on an older render host this sticker is
-    // the brand scheme, which is exactly what the app would show there too.
-    ConfettiTheme(disableDynamicTheming = false) {
-        ThemeFoundation("Dynamic (Material You)", "Wallpaper-derived on Android 12+")
+    FixedTheme {
+        // Material You resolves the host wallpaper on API 31+, with the brand scheme as fallback.
+        ConfettiTheme(disableDynamicTheming = false) {
+            ThemeFoundation("Dynamic (Material You)", "Wallpaper-derived on Android 12+")
+        }
     }
 }
 
 @CatalogModes
 @Composable
 fun ThemeFoundationConferenceSeedPreview() {
-    // The real app-root theme: a scheme generated from the active conference's seed colour.
-    ConferenceMaterialTheme(seedColorString = CONFERENCE_SEED) {
-        ThemeFoundation("Conference seed", "Generated from conference.themeColor · #7F52FF")
+    FixedTheme {
+        // The real app-root theme: a scheme generated from the active conference's seed colour.
+        ConferenceMaterialTheme(seedColorString = CONFERENCE_SEED) {
+            ThemeFoundation("Conference seed", "Generated from conference.themeColor · #7F52FF")
+        }
+    }
+}
+
+/** The live specimen: unlike the four references above, this follows the viewer's Theme selector. */
+@CatalogModes
+@Composable
+fun ThemeFoundationCurrentPreview() {
+    // Supplies a useful brand default in Studio/plain renders, but yields to a catalog override.
+    ConfettiTheme(disableDynamicTheming = true) {
+        ThemeFoundation("Current Theme", "Follows the preview theme selector")
     }
 }

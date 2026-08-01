@@ -14,9 +14,13 @@ concurrency:
   group: android-${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+permissions:
+  contents: read
+
 jobs:
   build-android:
     runs-on: ubuntu-22.04
+    timeout-minutes: 30
     env:
       # BuildFetch remote cache (see settings.gradle.kts). On main-branch pushes this job is a
       # writer: ON_CI=true + the read-write token seed the debug-variant task outputs so PR runs of
@@ -25,17 +29,17 @@ jobs:
       BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN || secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
       ON_CI: ${{ github.ref == 'refs/heads/main' }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
       with:
         lfs: 'true'
 
-    - uses: actions/setup-java@v4
+    - uses: actions/setup-java@v5
       with:
         distribution: 'zulu'
         java-version: 21
 
     - name: Setup Gradle
-      uses: gradle/gradle-build-action@v3.5.0
+      uses: gradle/actions/setup-gradle@v6
       with:
         cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
@@ -47,21 +51,22 @@ jobs:
 
   build-jvm:
     runs-on: ubuntu-22.04
+    timeout-minutes: 30
     env:
       # See build-android: writer (RW token + ON_CI) on main to seed :shared JVM task outputs,
       # read-only (RO token) on PRs.
       BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN || secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
       ON_CI: ${{ github.ref == 'refs/heads/main' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 17
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3.5.0
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 

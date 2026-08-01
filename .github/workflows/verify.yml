@@ -2,15 +2,19 @@ name: Github CI
 
 on: pull_request
 
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-22.04
+    timeout-minutes: 15
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
       with:
         lfs: 'true'
 
-    - uses: gradle/wrapper-validation-action@v3
+    - uses: gradle/actions/wrapper-validation@v6
 
     - name: Validate Renovate
       uses: rinchsan/renovate-config-validator@v0.2.1

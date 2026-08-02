@@ -32,7 +32,7 @@ jobs:
       # Restores the Gradle dependency cache and local build cache across runs so the
       # Kotlin/Native framework compile (invoked by xcodebuild via ./gradlew
       # :shared:embedAndSignAppleFrameworkForXcode) resolves from cache on unchanged code.
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       - name: Cache KMP libraries
         uses: actions/cache@v6

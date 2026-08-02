@@ -151,7 +151,13 @@ fun HomeView(component: HomeComponent) {
                                 snackbarHostState = snackbarHostState
                             )
 
-                        is HomeComponent.Child.Speakers -> SpeakersUI(child.component)
+                        is HomeComponent.Child.Speakers ->
+                            SpeakersUI(
+                                component = child.component,
+                                windowSizeClass = windowSizeClass,
+                                topBarNavigationIcon = topBarNavigationIcon,
+                                topBarActions = topBarActions,
+                            )
                         is HomeComponent.Child.Bookmarks ->
                             BookmarksUI(
                                 component = child.component,

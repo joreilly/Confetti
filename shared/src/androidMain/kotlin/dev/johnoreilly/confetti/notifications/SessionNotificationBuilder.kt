@@ -13,10 +13,32 @@ import dev.johnoreilly.confetti.shared.R
 import dev.johnoreilly.confetti.work.SessionNotificationSender.Companion.CHANNEL_ID
 import dev.johnoreilly.confetti.work.SessionNotificationSender.Companion.GROUP
 
+/**
+ * Build Android notifications for sessions.
+ * Support actions: remove bookmark, open on wear device.
+ */
 class SessionNotificationBuilder(
     private val context: Context,
 ) {
     fun createNotification(session: SessionDetails, conferenceId: String, notificationId: Int): NotificationCompat.Builder {
+        return createNotification(
+            title = session.title,
+            roomName = session.room?.name.orEmpty(),
+            startsAtTime = session.startsAt.time.toString(),
+            sessionId = session.id,
+            conferenceId = conferenceId,
+            notificationId = notificationId
+        )
+    }
+
+    fun createNotification(
+        title: String,
+        roomName: String,
+        startsAtTime: String,
+        sessionId: String,
+        conferenceId: String,
+        notificationId: Int
+    ): NotificationCompat.Builder {
         val largeIcon = BitmapFactory.decodeResource(
             context.resources,
             R.mipmap.ic_launcher_round
@@ -26,25 +48,25 @@ class SessionNotificationBuilder(
             .Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setLargeIcon(largeIcon)
-            .setContentTitle(session.title)
-            .setContentText("Starts at ${session.startsAt.time} in ${session.room?.name.orEmpty()}")
+            .setContentTitle(title)
+            .setContentText("Starts at $startsAtTime in $roomName")
             .setGroup(GROUP)
             .setAutoCancel(false)
             .setLocalOnly(false)
-            .setContentIntent(openSessionIntent(session, conferenceId, notificationId))
-            .addAction(unbookmarkAction(conferenceId, session.id, notificationId))
+            .setContentIntent(openSessionIntent(sessionId, conferenceId, notificationId))
+            .addAction(unbookmarkAction(conferenceId, sessionId, notificationId))
             .extend(
                 NotificationCompat.WearableExtender()
                     .setBridgeTag("session:reminder")
-                    .addAction(openOnWearAction(conferenceId, session.id, notificationId))
+                    .addAction(openOnWearAction(conferenceId, sessionId, notificationId))
             )
     }
 
-    private fun openSessionIntent(session: SessionDetails, conferenceId: String, notificationId: Int): PendingIntent? {
+    private fun openSessionIntent(sessionId: String, conferenceId: String, notificationId: Int): PendingIntent? {
         return PendingIntent.getActivity(
             context,
             notificationId,
-            Intent(Intent.ACTION_VIEW, "https://confetti-app.dev/conference/${conferenceId}/session/${session.id}".toUri()),
+            Intent(Intent.ACTION_VIEW, "https://confetti-app.dev/conference/${conferenceId}/session/${sessionId}".toUri()),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     }

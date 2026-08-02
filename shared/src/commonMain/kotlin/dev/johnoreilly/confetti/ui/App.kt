@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
@@ -178,8 +179,12 @@ fun HomeView(component: HomeComponent) {
                             SearchUI(
                                 component = child.component,
                                 windowSizeClass = windowSizeClass,
-                                topBarNavigationIcon = topBarNavigationIcon,
-                                topBarActions = topBarActions,
+                                topBarNavigationIcon = {
+                                    IconButton(onClick = { component.onBackClicked() }) {
+                                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                                    }
+                                },
+                                topBarActions = {}
                             )
 
                         is HomeComponent.Child.Agent -> ConferenceAgentView(child.component)

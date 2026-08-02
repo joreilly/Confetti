@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.auth.User
@@ -28,6 +29,7 @@ interface HomeComponent {
     fun onSignInClicked()
     fun onSignOutClicked()
     fun onShowSettingsClicked()
+    fun onBackClicked()
 
     sealed class Child {
         class Sessions(val component: SessionsComponent) : Child()
@@ -166,6 +168,10 @@ class DefaultHomeComponent(
 
     override fun onShowSettingsClicked() {
         onShowSettings()
+    }
+
+    override fun onBackClicked() {
+        navigation.pop()
     }
 
     @Serializable

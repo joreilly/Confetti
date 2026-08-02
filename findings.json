@@ -275,7 +275,14 @@
       "cleanBasename": "BookmarksPreviewLoading_Devices_Large_Round.png",
       "findings": [
         {
-          "boundsInScreen": "20,180,300,320",
+          "boundsInScreen": "24,161,430,321",
+          "level": "ERROR",
+          "message": "This item may not have a label readable by screen readers.",
+          "type": "SpeakableTextPresentCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "57,329,397,454",
           "level": "ERROR",
           "message": "This item may not have a label readable by screen readers.",
           "type": "SpeakableTextPresentCheck",
@@ -415,7 +422,7 @@
       "cleanBasename": "ConferenceHomeScreenLoading_Devices_Large_Round.png",
       "findings": [
         {
-          "boundsInScreen": "46,74,274,156",
+          "boundsInScreen": "53,92,401,173",
           "level": "ERROR",
           "message": "This item may not have a label readable by screen readers.",
           "type": "SpeakableTextPresentCheck",

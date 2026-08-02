@@ -48,7 +48,6 @@ import dev.johnoreilly.confetti.utils.DateService
 import dev.johnoreilly.confetti.work.NotificationSender
 import dev.johnoreilly.confetti.work.RefreshWorker
 import dev.johnoreilly.confetti.work.SessionNotificationSender
-import dev.johnoreilly.confetti.work.SessionNotificationWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okio.FileSystem
@@ -119,7 +118,6 @@ actual fun platformModule() = module {
     single { NotificationManagerCompat.from(androidContext()) }
     singleOf(::DataStoreSettings) { bind<FlowSettings>() }
     workerOf(::RefreshWorker)
-    workerOf(::SessionNotificationWorker)
     singleOf(::SessionNotificationSender)
     single { WorkManager.getInstance(androidContext()) }
 

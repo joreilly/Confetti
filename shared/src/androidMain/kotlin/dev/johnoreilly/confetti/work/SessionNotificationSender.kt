@@ -128,11 +128,7 @@ class SessionNotificationSender(
     }
 
     override fun updateSchedule(enabled: Boolean) {
-        if (enabled) {
-            SessionNotificationWorker.startPeriodicWorkRequest(workManager)
-        } else {
-            SessionNotificationWorker.cancelWorkRequest(workManager)
-        }
+        // Temporarily empty
     }
 
     companion object {

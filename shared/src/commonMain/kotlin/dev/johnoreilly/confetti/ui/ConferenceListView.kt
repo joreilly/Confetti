@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,10 +17,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -28,6 +36,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,32 +65,90 @@ import kotlinx.datetime.LocalDate
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ConferenceListView(component: ConferencesComponent) {
+    var searchQuery by remember { mutableStateOf("") }
+    var searchMode by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text("Confetti") })
+            if (searchMode) {
+                CenterAlignedTopAppBar(
+                    title = {
+                        TextField(
+                            value = searchQuery,
+                            onValueChange = { searchQuery = it },
+                            placeholder = { Text("Search conferences...") },
+                            modifier = Modifier.fillMaxWidth(),
+                            singleLine = true,
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent
+                            )
+                        )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            searchMode = false
+                            searchQuery = ""
+                        }) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        }
+                    },
+                    actions = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { searchQuery = "" }) {
+                                Icon(Icons.Filled.Close, contentDescription = "Clear")
+                            }
+                        }
+                    }
+                )
+            } else {
+                CenterAlignedTopAppBar(
+                    title = { Text("Confetti") },
+                    actions = {
+                        IconButton(onClick = { searchMode = true }) {
+                            Icon(Icons.Outlined.Search, contentDescription = "Search")
+                        }
+                    }
+                )
+            }
         }
-    ) {
+    ) { paddingValues ->
 
         val uiState by component.uiState.subscribeAsState()
 
-        when (val uiState1 = uiState) {
-            ConferencesComponent.Error -> {} //ErrorView(component::refresh)
-            ConferencesComponent.Loading -> LoadingView()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            when (val uiState1 = uiState) {
+                ConferencesComponent.Error -> {} //ErrorView(component::refresh)
+                ConferencesComponent.Loading -> LoadingView()
 
-            is ConferencesComponent.Success -> {
-                LazyColumn(Modifier.padding(it)) {
-                    val conferenceListByYear = uiState1.conferenceListByYear
-                    conferenceListByYear.keys.sortedDescending().forEach { year ->
-                        val conferenceList = conferenceListByYear[year]
-                        conferenceList?.let {
-                            stickyHeader {
-                                YearHeader(year.toString())
-                            }
+                is ConferencesComponent.Success -> {
+                    val filteredConferenceListByYear = if (searchQuery.isBlank()) {
+                        uiState1.conferenceListByYear
+                    } else {
+                        uiState1.conferenceListByYear.mapValues { (_, list) ->
+                            list.filter { it.name.contains(searchQuery, ignoreCase = true) }
+                        }.filterValues { it.isNotEmpty() }
+                    }
 
-                            items(conferenceList) { conference ->
-                                ConferenceCard(conference) {
-                                    component.onConferenceClicked(conference)
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        filteredConferenceListByYear.keys.sortedDescending().forEach { year ->
+                            val conferenceList = filteredConferenceListByYear[year]
+                            conferenceList?.let {
+                                stickyHeader {
+                                    YearHeader(year.toString())
+                                }
+
+                                items(conferenceList) { conference ->
+                                    ConferenceCard(conference) {
+                                        component.onConferenceClicked(conference)
+                                    }
                                 }
                             }
                         }

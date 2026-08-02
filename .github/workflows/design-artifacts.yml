@@ -65,7 +65,7 @@ jobs:
             module: ':androidApp'
             spec: catalog.mobile.spec.json
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
           lfs: 'true'
@@ -91,7 +91,7 @@ jobs:
 
       # The export driver + its render helpers live in compose-ai-tools; check it
       # out (public repo) so we can run scripts/design-artifacts/.
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: yschimke/compose-ai-tools
           ref: main

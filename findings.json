@@ -646,7 +646,7 @@
       "cleanBasename": "SessionCardLoadingPreview.png",
       "findings": [
         {
-          "boundsInScreen": "0,0,593,213",
+          "boundsInScreen": "0,0,595,213",
           "level": "ERROR",
           "message": "This item may not have a label readable by screen readers.",
           "type": "SpeakableTextPresentCheck",
@@ -744,9 +744,9 @@
       "cleanBasename": "SocialIconPreview.png",
       "findings": [
         {
-          "boundsInScreen": "0,0,63,63",
+          "boundsInScreen": "0,0,595,63",
           "level": "ERROR",
-          "message": "This item's size is 24dp x 24dp. Consider making this touch target 32dp wide and 32dp high or larger.",
+          "message": "This item's height is 24dp. Consider making the height of this touch target 32dp or larger.",
           "type": "TouchTargetSizeCheck",
           "viewDescription": "android.widget.ImageView  desc=\"Github\""
         }

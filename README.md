@@ -429,7 +429,7 @@ _No findings._
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
-| 1 | ERROR | TouchTargetSizeCheck | android.widget.ImageView  desc="Github" | This item's size is 24dp x 24dp. Consider making this touch target 32dp wide and 32dp high or larger. |
+| 1 | ERROR | TouchTargetSizeCheck | android.widget.ImageView  desc="Github" | This item's height is 24dp. Consider making the height of this touch target 32dp or larger. |
 
 ### `SpeakerDetailsScreen` · `wearos_large_round`
 

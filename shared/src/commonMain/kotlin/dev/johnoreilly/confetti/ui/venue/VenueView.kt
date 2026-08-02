@@ -2,18 +2,33 @@ package dev.johnoreilly.confetti.ui.venue
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -24,29 +39,97 @@ import dev.johnoreilly.confetti.preview.sampleVenue
 
 @Composable
 fun VenueView(venue: Venue) {
+    val uriHandler = LocalUriHandler.current
+
     Column(
-        Modifier
-            .fillMaxWidth()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
-        Text(venue.name, style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(8.dp))
-        val mapLink = venue.mapLink
-        val address = venue.address
-        Text(venue.address.toString(), style = MaterialTheme.typography.titleSmall)
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(venue.description)
-        Spacer(modifier = Modifier.height(16.dp))
+        // 1. Venue Image Banner
+        if (!venue.imageUrl.isNullOrBlank()) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                AsyncImage(
+                    model = venue.imageUrl,
+                    contentDescription = venue.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
-        AsyncImage(
-            modifier = Modifier.height(300.dp),
-            model = venue.imageUrl,
-            contentDescription = venue.name,
+        // 2. Venue Name
+        Text(
+            text = venue.name,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold
         )
+        Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-        venue.floorPlanUrl?.let {
+        // 3. Venue Address with Location Icon & Map Button
+        venue.address?.let { address ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.LocationOn,
+                    contentDescription = "Location",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = address,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            if (!venue.mapLink.isNullOrBlank()) {
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedButton(
+                    onClick = { uriHandler.openUri(venue.mapLink) },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Map,
+                        contentDescription = "Map"
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("View on Map")
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        // 4. Description
+        if (venue.description.isNotBlank()) {
+            Text(
+                text = venue.description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+
+        // 5. Floor Plan
+        venue.floorPlanUrl?.let { floorPlanUrl ->
+            Text(
+                text = "Floor Plan",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             VenueFloorPlanButton(venue = venue)
         }
     }

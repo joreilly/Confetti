@@ -11,7 +11,6 @@ import com.google.firebase.crashlytics.setCustomKeys
 import dev.johnoreilly.confetti.di.appModule
 import dev.johnoreilly.confetti.di.initKoin
 import dev.johnoreilly.confetti.work.SessionNotificationSender
-import dev.johnoreilly.confetti.work.SessionNotificationWorker
 import dev.johnoreilly.confetti.work.setupDailyRefresh
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get

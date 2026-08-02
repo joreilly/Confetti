@@ -144,8 +144,12 @@ fun ConferenceListView(component: ConferencesComponent) {
                     val filteredConferenceListByYear = if (searchQuery.isBlank()) {
                         uiState1.conferenceListByYear
                     } else {
-                        uiState1.conferenceListByYear.mapValues { (_, list) ->
-                            list.filter { it.name.contains(searchQuery, ignoreCase = true) }
+                        uiState1.conferenceListByYear.mapValues { (year, list) ->
+                            list.filter { conference ->
+                                conference.name.contains(searchQuery, ignoreCase = true) ||
+                                    conference.timezone.contains(searchQuery, ignoreCase = true) ||
+                                    year.toString().contains(searchQuery)
+                            }
                         }.filterValues { it.isNotEmpty() }
                     }
 

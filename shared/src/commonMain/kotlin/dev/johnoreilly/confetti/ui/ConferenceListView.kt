@@ -5,13 +5,21 @@ package dev.johnoreilly.confetti.ui
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Event
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -25,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,22 +57,7 @@ fun ConferenceListView(component: ConferencesComponent) {
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text("Confetti")})
-            Surface(tonalElevation = 0.dp) {
-                MediumTopAppBar(
-                    title = {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 32.dp),
-                            maxLines = 2,
-                            textAlign = TextAlign.Center,
-                            text = "Confetti",
-                            fontSize = 32.sp,
-                        )
-                    }
-                )
-            }
+            CenterAlignedTopAppBar(title = { Text("Confetti") })
         }
     ) {
 
@@ -105,18 +99,41 @@ fun ConferenceCard(
     ConferenceMaterialThemeFromSettings(conference.themeColor) {
         Card(
             modifier = Modifier
-                .clip(shape = RoundedCornerShape(8.dp))
-                .padding(8.dp)
+                .clip(shape = RoundedCornerShape(12.dp))
+                .padding(horizontal = 16.dp, vertical = 8.dp)
                 .clickable(onClick = {
                     navigateToConference(conference)
                 })
                 .fillMaxWidth()
                 .testTag(conference.id)
         ) {
-            Column(Modifier.fillMaxWidth().padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(conference.name, style = MaterialTheme.typography.titleMedium)
-                Text(getConferenceDatesString(conference.days), style = MaterialTheme.typography.bodyLarge)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = conference.name,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Event,
+                        contentDescription = "Event dates",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = getConferenceDatesString(conference.days),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }
@@ -140,13 +157,16 @@ fun YearHeader(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.background,
         modifier = modifier.fillMaxWidth(),
     ) {
         Text(
             text = text,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold
         )
     }
 }

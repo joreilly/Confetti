@@ -1,3 +1,5 @@
+@file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+
 package dev.johnoreilly.confetti.work
 
 import android.app.Notification
@@ -18,12 +20,20 @@ import dev.johnoreilly.confetti.utils.nowInstant
 import dev.johnoreilly.confetti.work.NotificationSender.Selector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toInstant
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
 
+/**
+ * Observer of user settings, login state, and bookmarks.
+ * Coordinate AlarmManager notifications based on settings.
+ */
 class SessionNotificationSender(
     private val context: Context,
     private val repository: ConfettiRepository,
@@ -40,6 +50,8 @@ class SessionNotificationSender(
     private var bookmarksJob: Job? = null
 
     init {
+        // Observe settings reactively. Clean and cancel alarms immediately
+        // if notifications toggled off.
         coroutineScope.launch {
             appSettings.notificationsEnabledFlow.collect { enabled ->
                 if (enabled) {
@@ -55,22 +67,31 @@ class SessionNotificationSender(
     private fun startObservingBookmarks() {
         bookmarksJob?.cancel()
         bookmarksJob = coroutineScope.launch {
-            authentication.currentUser.collect { user ->
-                if (user == null) {
-                    cancelAllAlarms()
-                    return@collect
+            // Combine flows to react to logins, logouts, and conference switches.
+            // flatMapLatest cancels obsolete queries immediately.
+            combine(
+                authentication.currentUser,
+                repository.getConferenceFlow()
+            ) { user, conferenceId ->
+                user to conferenceId
+            }.flatMapLatest { (user, conferenceId) ->
+                if (user == null || conferenceId.isBlank()) {
+                    flowOf(null)
+                } else {
+                    repository.bookmarks(
+                        conference = conferenceId,
+                        uid = user.uid,
+                        tokenProvider = user,
+                        fetchPolicy = FetchPolicy.CacheFirst
+                    ).map { response ->
+                        Triple(conferenceId, user, response.data?.bookmarks?.sessionIds.orEmpty().toSet())
+                    }
                 }
-
-                val conferenceId = repository.getConference()
-                if (conferenceId.isBlank()) return@collect
-
-                repository.bookmarks(
-                    conference = conferenceId,
-                    uid = user.uid,
-                    tokenProvider = user,
-                    fetchPolicy = FetchPolicy.CacheFirst
-                ).collect { response ->
-                    val bookmarks = response.data?.bookmarks?.sessionIds.orEmpty().toSet()
+            }.collect { triple ->
+                if (triple == null) {
+                    cancelAllAlarms()
+                } else {
+                    val (conferenceId, user, bookmarks) = triple
                     rescheduleAlarms(conferenceId, user, bookmarks)
                 }
             }

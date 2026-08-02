@@ -35,11 +35,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
@@ -67,6 +70,13 @@ import kotlinx.datetime.LocalDate
 fun ConferenceListView(component: ConferencesComponent) {
     var searchQuery by remember { mutableStateOf("") }
     var searchMode by remember { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(searchMode) {
+        if (searchMode) {
+            focusRequester.requestFocus()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -77,7 +87,9 @@ fun ConferenceListView(component: ConferencesComponent) {
                             value = searchQuery,
                             onValueChange = { searchQuery = it },
                             placeholder = { Text("Search conferences...") },
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(focusRequester),
                             singleLine = true,
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = Color.Transparent,

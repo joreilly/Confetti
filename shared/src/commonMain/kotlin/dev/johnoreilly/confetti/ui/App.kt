@@ -166,7 +166,13 @@ fun HomeView(component: HomeComponent) {
                                 topBarActions = topBarActions,
                             )
 
-                        is HomeComponent.Child.Venue -> VenueUI(child.component)
+                        is HomeComponent.Child.Venue ->
+                            VenueUI(
+                                component = child.component,
+                                windowSizeClass = windowSizeClass,
+                                topBarNavigationIcon = topBarNavigationIcon,
+                                topBarActions = topBarActions,
+                            )
 
                         is HomeComponent.Child.Search ->
                             SearchUI(

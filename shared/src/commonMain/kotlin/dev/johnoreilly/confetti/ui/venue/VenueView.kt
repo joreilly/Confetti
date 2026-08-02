@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.venue
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -53,7 +54,14 @@ fun VenueView(venue: Venue) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .height(200.dp)
+                    .then(
+                        if (!venue.mapLink.isNullOrBlank()) {
+                            Modifier.clickable { uriHandler.openUri(venue.mapLink) }
+                        } else {
+                            Modifier
+                        }
+                    ),
                 shape = RoundedCornerShape(16.dp)
             ) {
                 AsyncImage(

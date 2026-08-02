@@ -38,7 +38,7 @@ jobs:
         run: |
           ./gradlew :androidApp:assembleGithubRelease
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: androidApp-githubRelease.apk
           path: androidApp/build/outputs/apk/release/androidApp-githubRelease.apk

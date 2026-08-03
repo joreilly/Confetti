@@ -24,6 +24,7 @@ final class ConfettiTests: XCTestCase {
     func testGetConferences() async throws {
         let viewModel = DefaultConferencesComponent(
             componentContext: context,
+            onBack: nil,
             onConferenceSelected: { _ in }
         )
         

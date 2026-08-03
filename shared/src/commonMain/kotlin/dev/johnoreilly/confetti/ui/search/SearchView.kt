@@ -6,8 +6,10 @@
 package dev.johnoreilly.confetti.ui.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -15,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -31,6 +35,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -81,37 +86,55 @@ fun SearchView(
     removeBookmark: (sessionId: String) -> Unit,
     loading: Boolean,
     isLoggedIn: Boolean,
+    topBarNavigationIcon: @Composable () -> Unit = {},
 ) {
-    Column {
-        SearchTextField(
-            modifier = Modifier
-                .padding(8.dp),
-            value = search,
-            onValueChange = onSearchChange,
-        )
-
-        if (loading) {
-            LoadingView()
-        } else if (search.isNotBlank()) {
-            LazyColumn(
-                //modifier = Modifier.imeNestedScroll(),
-                contentPadding = WindowInsets.safeDrawing
-                    .only(WindowInsetsSides.Bottom)
-                    .asPaddingValues()
+    Scaffold(
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .padding(vertical = 4.dp, horizontal = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                sessionItems(
-                    sessions = sessions,
-                    navigateToSession = navigateToSession,
-                    bookmarks = bookmarks,
-                    addBookmark = addBookmark,
-                    removeBookmark = removeBookmark,
-                    onSignIn = onSignIn,
-                    isLoggedIn = isLoggedIn,
+                topBarNavigationIcon()
+                SearchTextField(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 8.dp),
+                    value = search,
+                    onValueChange = onSearchChange,
                 )
-                speakerItems(
-                    speakers = speakers,
-                    navigateToSpeaker = navigateToSpeaker,
-                )
+            }
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+        ) {
+            if (loading) {
+                LoadingView()
+            } else if (search.isNotBlank()) {
+                LazyColumn(
+                    //modifier = Modifier.imeNestedScroll(),
+                    contentPadding = WindowInsets.safeDrawing
+                        .only(WindowInsetsSides.Bottom)
+                        .asPaddingValues()
+                ) {
+                    sessionItems(
+                        sessions = sessions,
+                        navigateToSession = navigateToSession,
+                        bookmarks = bookmarks,
+                        addBookmark = addBookmark,
+                        removeBookmark = removeBookmark,
+                        onSignIn = onSignIn,
+                        isLoggedIn = isLoggedIn,
+                    )
+                    speakerItems(
+                        speakers = speakers,
+                        navigateToSpeaker = navigateToSpeaker,
+                    )
+                }
             }
         }
     }
@@ -218,10 +241,15 @@ private fun SearchTextField(
             onSearch = { keyboardController?.hide() }
         ),
         colors = TextFieldDefaults.colors(
-            // hide the indicator
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
+            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f),
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+            focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+            unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
+            unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
         ),
         textStyle = MaterialTheme.typography.bodyLarge,
         shape = ShapeDefaults.Large,

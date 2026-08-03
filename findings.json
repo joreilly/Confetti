@@ -13,7 +13,15 @@
     {
       "annotatedBasename": "AndroidSpeakerDetailsPreview_Phone_dark.a11y.png",
       "cleanBasename": "AndroidSpeakerDetailsPreview_Phone_dark.png",
-      "findings": [],
+      "findings": [
+        {
+          "boundsInScreen": "277,189,802,714",
+          "level": "WARNING",
+          "message": "This clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.view.View"
+        }
+      ],
       "functionName": "AndroidSpeakerDetailsPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone \u2014 dark",
@@ -153,7 +161,15 @@
     {
       "annotatedBasename": "SpeakerDetailsScreenPreview_Dark.a11y.png",
       "cleanBasename": "SpeakerDetailsScreenPreview_Dark.png",
-      "findings": [],
+      "findings": [
+        {
+          "boundsInScreen": "277,189,802,714",
+          "level": "WARNING",
+          "message": "This clickable item's speakable text: \"John O'Reilly\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.view.View"
+        }
+      ],
       "functionName": "SpeakerDetailsScreenPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Dark",

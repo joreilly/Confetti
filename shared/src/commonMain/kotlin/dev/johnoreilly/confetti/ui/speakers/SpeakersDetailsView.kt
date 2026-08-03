@@ -11,12 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Event
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -34,13 +35,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import androidx.compose.material3.CircularProgressIndicator
+import coil3.compose.SubcomposeAsyncImage
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.sessions
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
+import dev.johnoreilly.confetti.ui.icons.Person
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.johnOreillySpeaker
 import dev.johnoreilly.confetti.preview.martinBonninSpeaker
@@ -62,15 +67,7 @@ fun SpeakerDetailsView(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = {
-                    SelectionContainer {
-                        Text(
-                            modifier = Modifier.padding(PaddingValues(start = 16.dp, end = 16.dp)),
-                            text = speaker.name,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                },
+                title = {},
                 navigationIcon = {
                     IconButton(onClick = { popBack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -96,51 +93,73 @@ fun SpeakerDetailsView(
                         .padding(contentPaddings),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    speaker.tagline?.let { city ->
-                        Text(
-                            text = city,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
+                    val url = speaker.photoUrl
+                    SubcomposeAsyncImage(
+                        model = url,
+                        contentDescription = speaker.name,
+                        loading = {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                strokeWidth = 2.dp
+                            )
+                        },
+                        error = {
+                            Icon(
+                                imageVector = ConfettiIcons.Person,
+                                contentDescription = speaker.name,
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(CircleShape),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        },
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(CircleShape)
+                    )
 
                     Spacer(modifier = Modifier.size(16.dp))
 
-                    val url =  speaker.photoUrl // "https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
-                    AsyncImage(
-                        model = url,
-                        // Decorative: the speaker's name is already the screen title, so labelling the
-                        // photo with it makes a screen reader announce the name twice
-                        // (DuplicateSpeakableTextCheck). A null description lets TalkBack skip the image.
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(240.dp)
-                            .clip(RoundedCornerShape(16.dp)),
+                    Text(
+                        text = speaker.name,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
                     )
 
-                    Spacer(modifier = Modifier.size(24.dp))
+                    speaker.tagline?.let { tagline ->
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(
+                            text = tagline,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    if (speaker.socials.isNotEmpty()) {
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            speaker.socials.forEach { socialsItem ->
+                                SocialIcon(
+                                    modifier = Modifier.size(24.dp),
+                                    socialItem = socialsItem,
+                                    onClick = { onSocialLinkClicked(socialsItem.url) }
+                                )
+                            }
+                        }
+                    }
 
                     speaker.bio?.let { bio ->
+                        Spacer(modifier = Modifier.size(24.dp))
                         Text(
                             text = bio,
                             style = MaterialTheme.typography.bodyLarge
                         )
-
-                        Spacer(modifier = Modifier.size(16.dp))
-                    }
-
-                    Row(
-                        Modifier.padding(top = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        speaker.socials.forEach { socialsItem ->
-                            SocialIcon(
-                                modifier = Modifier.size(24.dp),
-                                socialItem = socialsItem,
-                                onClick = { onSocialLinkClicked(socialsItem.url) }
-                            )
-                        }
                     }
                 }
             }
@@ -164,7 +183,7 @@ fun SpeakerTalks(
 ) {
     Column(Modifier.fillMaxWidth()) {
 
-        ConfettiHeader(icon = Icons.Filled.Person, text = stringResource(Res.string.sessions))
+        ConfettiHeader(icon = Icons.Filled.Event, text = stringResource(Res.string.sessions))
 
         Spacer(modifier = Modifier.size(8.dp))
 

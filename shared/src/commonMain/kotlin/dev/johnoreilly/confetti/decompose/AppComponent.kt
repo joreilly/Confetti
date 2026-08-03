@@ -62,6 +62,7 @@ class DefaultAppComponent(
             source = navigation,
             serializer = Config.serializer(),
             initialConfiguration = Config.Loading,
+            handleBackButton = true,
             childFactory = ::child,
         )
 

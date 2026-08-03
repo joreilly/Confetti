@@ -198,28 +198,38 @@ fun SpeakerDetailsView(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Black)
-                    .clickable { showFullScreenPhoto = false },
+                    .background(Color.Black),
                 contentAlignment = Alignment.Center
             ) {
                 AsyncImage(
                     model = speaker.photoUrl,
                     contentDescription = speaker.name,
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier.fillMaxSize()
-                )
-                IconButton(
-                    onClick = { showFullScreenPhoto = false },
                     modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .statusBarsPadding()
-                        .padding(16.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Close,
-                        contentDescription = "Close",
-                        tint = Color.White
-                    )
+                        .fillMaxSize()
+                        .clickable { showFullScreenPhoto = false }
+                )
+                Scaffold(
+                    containerColor = Color.Transparent,
+                    topBar = {
+                        CenterAlignedTopAppBar(
+                            title = {},
+                            navigationIcon = {
+                                IconButton(onClick = { showFullScreenPhoto = false }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Close,
+                                        contentDescription = "Close",
+                                        tint = Color.White
+                                    )
+                                }
+                            },
+                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                                containerColor = Color.Transparent
+                            )
+                        )
+                    }
+                ) { padding ->
+                    Box(modifier = Modifier.padding(padding))
                 }
             }
         }

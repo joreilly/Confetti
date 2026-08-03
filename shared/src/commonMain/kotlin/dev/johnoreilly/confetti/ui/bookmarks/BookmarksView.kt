@@ -10,7 +10,8 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -155,7 +156,7 @@ private fun BookmarksHorizontalPager(
                         )
                     }
 
-                    items(sessions) { session ->
+                    itemsIndexed(sessions) { index, session ->
                         SessionItemView(
                             session = session,
                             sessionSelected = navigateToSession,
@@ -165,6 +166,9 @@ private fun BookmarksHorizontalPager(
                             onNavigateToSignIn = onSignIn,
                             isLoggedIn = isLoggedIn,
                         )
+                        if (index < sessions.lastIndex) {
+                            HorizontalDivider()
+                        }
                     }
                 }
             }

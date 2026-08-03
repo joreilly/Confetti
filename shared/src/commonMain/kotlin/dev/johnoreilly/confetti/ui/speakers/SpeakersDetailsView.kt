@@ -19,8 +19,10 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -167,16 +169,20 @@ fun SpeakerTalks(
         Spacer(modifier = Modifier.size(8.dp))
 
         Column(modifier) {
-            sessions.forEach { session ->
-                Row(
-                    Modifier
-                        .padding()
+            sessions.forEachIndexed { index, session ->
+                ListItem(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            navigateToSession(session.id)
-                        }
-                        .padding(vertical = 8.dp)) {
-                    Text(session.title, style = MaterialTheme.typography.bodyLarge)
+                        .clickable { navigateToSession(session.id) },
+                    headlineContent = {
+                        Text(
+                            text = session.title,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                )
+                if (index < sessions.lastIndex) {
+                    HorizontalDivider()
                 }
             }
         }

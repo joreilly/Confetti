@@ -14,7 +14,6 @@ class ScreenshotTest {
                 conference = "kotlinconf2023",
                 session = sessionDetails,
                 onSpeakerClick = {},
-                onSocialLinkClicked = {}
             )
         }
     }

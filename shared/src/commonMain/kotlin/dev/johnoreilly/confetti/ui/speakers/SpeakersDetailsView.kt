@@ -108,14 +108,14 @@ fun SpeakerDetailsView(
                                 imageVector = ConfettiIcons.Person,
                                 contentDescription = speaker.name,
                                 modifier = Modifier
-                                    .size(120.dp)
+                                    .size(200.dp)
                                     .clip(CircleShape),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         },
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .size(120.dp)
+                            .size(200.dp)
                             .clip(CircleShape)
                     )
 

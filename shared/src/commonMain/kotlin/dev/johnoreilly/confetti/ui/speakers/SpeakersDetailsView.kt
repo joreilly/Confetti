@@ -1,7 +1,9 @@
 package dev.johnoreilly.confetti.ui.speakers
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +32,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +45,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import coil3.compose.AsyncImage
 import coil3.compose.SubcomposeAsyncImage
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.sessions
@@ -63,6 +73,7 @@ fun SpeakerDetailsView(
     onSocialLinkClicked: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
+    var showFullScreenPhoto by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -117,6 +128,7 @@ fun SpeakerDetailsView(
                         modifier = Modifier
                             .size(200.dp)
                             .clip(CircleShape)
+                            .clickable { showFullScreenPhoto = true }
                     )
 
                     Spacer(modifier = Modifier.size(16.dp))
@@ -171,6 +183,45 @@ fun SpeakerDetailsView(
                 sessions = speaker.sessions,
                 navigateToSession = navigateToSession,
             )
+        }
+    }
+
+    if (showFullScreenPhoto) {
+        Dialog(
+            onDismissRequest = { showFullScreenPhoto = false },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false,
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            )
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+                    .clickable { showFullScreenPhoto = false },
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = speaker.photoUrl,
+                    contentDescription = speaker.name,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.fillMaxSize()
+                )
+                IconButton(
+                    onClick = { showFullScreenPhoto = false },
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .statusBarsPadding()
+                        .padding(16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = "Close",
+                        tint = Color.White
+                    )
+                }
+            }
         }
     }
 }

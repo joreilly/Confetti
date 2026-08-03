@@ -119,6 +119,13 @@ fun ConferenceListView(component: ConferencesComponent) {
             } else {
                 CenterAlignedTopAppBar(
                     title = { Text("Confetti") },
+                    navigationIcon = {
+                        component.onBack?.let { onBack ->
+                            IconButton(onClick = onBack) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                            }
+                        }
+                    },
                     actions = {
                         IconButton(onClick = { searchMode = true }) {
                             Icon(Icons.Outlined.Search, contentDescription = "Search")
@@ -260,6 +267,7 @@ private class PreviewConferencesComponent(
     state: ConferencesComponent.UiState,
 ) : ConferencesComponent {
     override val uiState: Value<ConferencesComponent.UiState> = MutableValue(state)
+    override val onBack: (() -> Unit)? = null
     override fun refresh() {}
     override fun onConferenceClicked(conference: GetConferencesQuery.Conference) {}
 }

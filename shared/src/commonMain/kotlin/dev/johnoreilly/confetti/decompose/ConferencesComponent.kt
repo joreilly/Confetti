@@ -19,6 +19,7 @@ import org.koin.core.component.get
 interface ConferencesComponent {
 
     val uiState: Value<UiState>
+    val onBack: (() -> Unit)?
 
     fun refresh()
     fun onConferenceClicked(conference: GetConferencesQuery.Conference)
@@ -33,6 +34,7 @@ interface ConferencesComponent {
 
 class DefaultConferencesComponent(
     componentContext: ComponentContext,
+    override val onBack: (() -> Unit)? = null,
     private val onConferenceSelected: (conference: GetConferencesQuery.Conference) -> Unit,
 ) : ConferencesComponent, KoinComponent, ComponentContext by componentContext {
     private val coroutineScope = coroutineScope()

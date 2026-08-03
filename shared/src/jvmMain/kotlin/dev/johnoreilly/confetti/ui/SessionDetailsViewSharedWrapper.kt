@@ -5,7 +5,7 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.sessions.SessionDetailViewShared
 
 @Composable
-fun SessionDetailViewSharedWrapper(conference: String, session: SessionDetails?, onSpeakerClick: (speakerId: String) -> Unit, onSocialLinkClicked: (String) -> Unit) {
-    SessionDetailViewShared(conference, session, onSpeakerClick, onSocialLinkClicked)
+fun SessionDetailViewSharedWrapper(conference: String, session: SessionDetails?, onSpeakerClick: (speakerId: String) -> Unit) {
+    SessionDetailViewShared(conference, session, onSpeakerClick)
 }
 

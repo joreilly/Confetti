@@ -7,10 +7,10 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.sessions.SessionDetailViewShared
 import platform.UIKit.UIViewController
 
-fun SessionDetailsViewController(conference: String, session: SessionDetails, conferenceThemeColor: String?, onSpeakerClick: (speakerId: String) -> Unit, onSocialLinkClicked: (String) -> Unit): UIViewController =
+fun SessionDetailsViewController(conference: String, session: SessionDetails, conferenceThemeColor: String?, onSpeakerClick: (speakerId: String) -> Unit): UIViewController =
     ComposeUIViewController {
         ConferenceMaterialThemeFromSettings(conferenceThemeColor) {
-            SessionDetailViewShared(conference, session, onSpeakerClick, onSocialLinkClicked)
+            SessionDetailViewShared(conference, session, onSpeakerClick)
         }
     }
 

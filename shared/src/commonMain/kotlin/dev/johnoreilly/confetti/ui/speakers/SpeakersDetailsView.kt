@@ -113,7 +113,7 @@ fun SpeakerDetailsView(
                         // photo with it makes a screen reader announce the name twice
                         // (DuplicateSpeakableTextCheck). A null description lets TalkBack skip the image.
                         contentDescription = null,
-                        contentScale = ContentScale.Fit,
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(240.dp)
                             .clip(RoundedCornerShape(16.dp)),

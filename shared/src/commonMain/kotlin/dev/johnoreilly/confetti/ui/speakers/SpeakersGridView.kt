@@ -3,13 +3,19 @@ package dev.johnoreilly.confetti.ui.speakers
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +32,8 @@ import coil3.compose.SubcomposeAsyncImage
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.sampleSpeakers
+import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
+import dev.johnoreilly.confetti.ui.icons.Person
 
 
 @Composable
@@ -38,33 +47,63 @@ fun SpeakerGridView(
         contentPadding = PaddingValues(12.dp),
         content = {
             items(speakers) { speaker ->
-                Column(
+                Card(
                     modifier = Modifier
-                        .clickable { navigateToSpeaker(speaker.id) }
-                        .padding(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .clickable { navigateToSpeaker(speaker.id) },
+                    shape = MaterialTheme.shapes.medium,
                 ) {
-
-                    // proxy image requests through backend
-                    val url = speaker.photoUrl //"https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
-                    SubcomposeAsyncImage(
-                        model = url,
-                        contentDescription = speaker.name,
-                        loading = {
-                            CircularProgressIndicator()
-                        },
-                        contentScale = ContentScale.Fit,
+                    Column(
                         modifier = Modifier
-                            .size(150.dp)
-                            .clip(RoundedCornerShape(16.dp)),
-                    )
-                    Text(
-                        text = speaker.name,
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(16.dp)
-                    )
+                            .fillMaxWidth()
+                            .padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        SubcomposeAsyncImage(
+                            model = speaker.photoUrl,
+                            contentDescription = speaker.name,
+                            loading = {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(24.dp),
+                                    strokeWidth = 2.dp
+                                )
+                            },
+                            error = {
+                                Icon(
+                                    imageVector = ConfettiIcons.Person,
+                                    contentDescription = speaker.name,
+                                    modifier = Modifier
+                                        .size(80.dp)
+                                        .clip(CircleShape),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            },
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(80.dp)
+                                .clip(CircleShape)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = speaker.name,
+                            style = MaterialTheme.typography.titleMedium,
+                            textAlign = TextAlign.Center,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        speaker.tagline?.let { company ->
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = company,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = TextAlign.Center,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
                 }
             }
         }

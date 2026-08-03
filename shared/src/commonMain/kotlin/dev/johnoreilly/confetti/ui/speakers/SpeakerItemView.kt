@@ -54,7 +54,7 @@ fun SpeakerItemView(
                             .clip(CircleShape),
                     )
                 },
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape)

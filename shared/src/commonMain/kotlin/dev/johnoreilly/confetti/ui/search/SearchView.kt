@@ -97,7 +97,8 @@ fun SearchView(
                 onBackClick = onBackClick,
                 placeholder = stringResource(Res.string.search_placeholder)
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0.dp)
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -106,12 +107,7 @@ fun SearchView(
             if (loading) {
                 LoadingView()
             } else if (search.isNotBlank()) {
-                LazyColumn(
-                    //modifier = Modifier.imeNestedScroll(),
-                    contentPadding = WindowInsets.safeDrawing
-                        .only(WindowInsetsSides.Bottom)
-                        .asPaddingValues()
-                ) {
+                LazyColumn {
                     sessionItems(
                         sessions = sessions,
                         navigateToSession = navigateToSession,

@@ -2,5 +2,18 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "description": "compose-ai-tools ships the preview CLI, the ee.schimke.composeai Gradle plugin, and the reusable CI composite actions as a single release, and this repo pins BOTH halves: the composeai-preview catalog key and the @v0.19.x action refs in design-artifacts.yml / compose-preview.yml. Without this rule they are separate updates and land in separate PRs, so the CLI and the action code that drives it skew apart between merges. Group them into one PR and skip the batching window so the published catalog tracks the renderer it was rendered with.",
+      "matchPackageNames": [
+        "yschimke/compose-ai-tools",
+        "/^ee\\.schimke\\.composeai($|[.:])/"
+      ],
+      "groupName": "compose-ai-tools",
+      "schedule": [
+        "at any time"
+      ]
+    }
   ]
 }

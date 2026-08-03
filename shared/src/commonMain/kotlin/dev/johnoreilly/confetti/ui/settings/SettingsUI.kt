@@ -173,7 +173,7 @@ fun SettingsUI(
                 if (developerSettings != null && supportsNotifications) {
                     item {
                         val notificationPermissionState =
-                            rememberNotificationPermissionState(userEditableSettings?.useExperimentalFeatures)
+                            rememberNotificationPermissionState(userEditableSettings?.notificationsEnabled)
 
                         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                             Button(

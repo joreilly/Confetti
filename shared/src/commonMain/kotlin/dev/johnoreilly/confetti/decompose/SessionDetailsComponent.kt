@@ -26,6 +26,7 @@ interface SessionDetailsComponent {
     val removeErrorChannel: Channel<Int>
     val uiState: Value<SessionDetailsUiState>
     val isBookmarked: StateFlow<Boolean>
+    val isLoggedIn: Boolean
 
     fun addBookmark()
     fun removeBookmark()
@@ -52,6 +53,8 @@ class DefaultSessionDetailsComponent(
     private val repository: ConfettiRepository by inject()
     private val coroutineScope = coroutineScope()
     private val defaultFetchPolicy: FetchPolicy by inject()
+
+    override val isLoggedIn: Boolean = user != null
 
     private var addErrorCount = 1
     private var removeErrorCount = 1

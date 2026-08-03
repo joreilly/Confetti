@@ -179,7 +179,7 @@ fun SpeakerDetailsView(
             Spacer(modifier = Modifier.size(16.dp))
 
             SpeakerTalks(
-                modifier = Modifier.padding(contentPaddings),
+                modifier = Modifier.padding(vertical = 8.dp),
                 sessions = speaker.sessions,
                 navigateToSession = navigateToSession,
             )

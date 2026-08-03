@@ -6,8 +6,10 @@
 package dev.johnoreilly.confetti.ui.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -15,9 +17,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -29,6 +35,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -60,6 +67,7 @@ import dev.johnoreilly.confetti.preview.lightningSession
 import dev.johnoreilly.confetti.preview.sampleSpeakers
 import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.component.ConfettiSearch
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
@@ -79,37 +87,41 @@ fun SearchView(
     removeBookmark: (sessionId: String) -> Unit,
     loading: Boolean,
     isLoggedIn: Boolean,
+    onBackClick: () -> Unit = {},
 ) {
-    Column {
-        SearchTextField(
+    Scaffold(
+        topBar = {
+            ConfettiSearch(
+                value = search,
+                onValueChange = onSearchChange,
+                onBackClick = onBackClick,
+                placeholder = stringResource(Res.string.search_placeholder)
+            )
+        },
+        contentWindowInsets = WindowInsets(0.dp)
+    ) { innerPadding ->
+        Box(
             modifier = Modifier
-                .padding(8.dp),
-            value = search,
-            onValueChange = onSearchChange,
-        )
-
-        if (loading) {
-            LoadingView()
-        } else if (search.isNotBlank()) {
-            LazyColumn(
-                //modifier = Modifier.imeNestedScroll(),
-                contentPadding = WindowInsets.safeDrawing
-                    .only(WindowInsetsSides.Bottom)
-                    .asPaddingValues()
-            ) {
-                sessionItems(
-                    sessions = sessions,
-                    navigateToSession = navigateToSession,
-                    bookmarks = bookmarks,
-                    addBookmark = addBookmark,
-                    removeBookmark = removeBookmark,
-                    onSignIn = onSignIn,
-                    isLoggedIn = isLoggedIn,
-                )
-                speakerItems(
-                    speakers = speakers,
-                    navigateToSpeaker = navigateToSpeaker,
-                )
+                .padding(innerPadding)
+        ) {
+            if (loading) {
+                LoadingView()
+            } else if (search.isNotBlank()) {
+                LazyColumn {
+                    sessionItems(
+                        sessions = sessions,
+                        navigateToSession = navigateToSession,
+                        bookmarks = bookmarks,
+                        addBookmark = addBookmark,
+                        removeBookmark = removeBookmark,
+                        onSignIn = onSignIn,
+                        isLoggedIn = isLoggedIn,
+                    )
+                    speakerItems(
+                        speakers = speakers,
+                        navigateToSpeaker = navigateToSpeaker,
+                    )
+                }
             }
         }
     }
@@ -155,7 +167,7 @@ private fun LazyListScope.sessionItems(
             )
         }
     }
-    items(sessions) { session ->
+    itemsIndexed(sessions) { index, session ->
         SessionItemView(
             session = session,
             sessionSelected = navigateToSession,
@@ -165,80 +177,13 @@ private fun LazyListScope.sessionItems(
             onNavigateToSignIn = onSignIn,
             isLoggedIn = isLoggedIn,
         )
-    }
-}
-
-@Composable
-private fun SearchTextField(
-    modifier: Modifier = Modifier,
-    value: String = "",
-    onValueChange: (String) -> Unit,
-    onCloseSearch: () -> Unit = {},
-) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusRequester = remember { FocusRequester() }
-
-    DisposableEffect(Unit) {
-        focusRequester.requestFocus()
-        onDispose { keyboardController?.hide() }
-    }
-
-    TextField(
-        modifier = modifier
-            .focusRequester(focusRequester)
-            .interceptKey(Key.Enter) {
-                keyboardController?.hide()
-            }
-            .fillMaxWidth(),
-        value = value,
-        onValueChange = onValueChange,
-        placeholder = { Text(stringResource(Res.string.search_placeholder)) },
-        leadingIcon = { Icon(Icons.Filled.Search, "Search") },
-        trailingIcon = {
-            if (value.isNotBlank()) {
-                IconButton(onClick = {
-                    keyboardController?.hide()
-                    onValueChange("")
-                    onCloseSearch()
-                }) {
-                    Icon(
-                        Icons.Filled.Close,
-                        contentDescription = "Close Search"
-                    )
-                }
-            }
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(
-            onSearch = { keyboardController?.hide() }
-        ),
-        colors = TextFieldDefaults.colors(
-            // hide the indicator
-            focusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-        ),
-        textStyle = MaterialTheme.typography.bodyLarge,
-        shape = ShapeDefaults.Large,
-        singleLine = true,
-    )
-}
-
-/**
- * [Modifier] to intercept [key] events and fires [onKeyEvent] callback when the key is released.
- *
- * The [key] parameter represents the key to be intercepted
- * The [onKeyEvent] listener is an optional listener to when the key event happens.
- *
- * The intercepted key is not passed to any child composable.
- */
-fun Modifier.interceptKey(key: Key, onKeyEvent: () -> Unit = {}): Modifier =
-    onPreviewKeyEvent { event ->
-        if (event.key == key && event.type == KeyEventType.KeyUp) {
-            onKeyEvent()
+        if (index < sessions.lastIndex) {
+            HorizontalDivider()
         }
-        event.key == key
     }
+}
+
+
 
 @MobilePreviews
 @Composable

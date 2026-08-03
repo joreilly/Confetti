@@ -4,12 +4,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,48 +49,41 @@ fun SessionItemView(
     isLoggedIn: Boolean,
 ) {
 
-    var modifier = Modifier.fillMaxSize()
+    var showDialog by remember { mutableStateOf(false) }
+
+    var modifier = Modifier.fillMaxWidth()
     if (!session.isService() && !session.isBreak()) {
         modifier = modifier.clickable(onClick = {
             sessionSelected(session.id)
         })
     }
 
-
-    Surface {
-        Row(modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-            Column(modifier = Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+    ListItem(
+        modifier = modifier,
+        headlineContent = {
+            Text(
+                text = session.title,
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+            )
+        },
+        supportingContent = {
+            Column {
+                val speakers = session.sessionSpeakers()
+                if (!speakers.isNullOrEmpty()) {
                     Text(
-                        text = session.title,
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        text = speakers,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(top = 4.dp)
                     )
                 }
 
                 session.room?.let { room ->
-                    Row(
-                        modifier = Modifier.padding(top = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            session.sessionSpeakers() ?: "",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier.padding(top = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            room.name,
-                            style = MaterialTheme.typography.bodyMedium,
-                            // Was a hardcoded Color.Gray, which stayed #888888 in both modes:
-                            // ~3.5:1 on the light surface (below the 4.5:1 WCAG AA floor for body
-                            // text) and unable to respond to the theme at all.
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    Text(
+                        text = room.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
                 }
 
                 if (session.isLightning()) {
@@ -96,18 +92,26 @@ fun SessionItemView(
                         shape = MaterialTheme.shapes.small,
                         color = MaterialTheme.colorScheme.primaryContainer,
                     ) {
-                        Row(Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
-                            Icon(Icons.Default.Bolt, "lightning")
+                        Row(
+                            modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Bolt,
+                                contentDescription = "lightning",
+                                modifier = Modifier.size(16.dp)
+                            )
                             Spacer(Modifier.width(4.dp))
-                            Text("Lightning / ${session.startsAt.time}-${session.endsAt.time}")
+                            Text(
+                                text = "Lightning / ${session.startsAt.time}-${session.endsAt.time}",
+                                style = MaterialTheme.typography.labelSmall
+                            )
                         }
                     }
                 }
             }
-
-
-            var showDialog by remember { mutableStateOf(false) }
-
+        },
+        trailingContent = {
             if (!session.isBreak() && !session.isService()) {
                 Bookmark(
                     isBookmarked = isBookmarked,
@@ -124,14 +128,14 @@ fun SessionItemView(
                     }
                 )
             }
-
-            if (showDialog) {
-                SignInDialog(
-                    onDismissRequest = { showDialog = false },
-                    onSignInClicked = onNavigateToSignIn
-                )
-            }
         }
+    )
+
+    if (showDialog) {
+        SignInDialog(
+            onDismissRequest = { showDialog = false },
+            onSignInClicked = onNavigateToSignIn
+        )
     }
 
 }

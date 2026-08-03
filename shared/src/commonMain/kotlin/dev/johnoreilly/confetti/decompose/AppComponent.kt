@@ -5,6 +5,8 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.navigate
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.AppSettings
@@ -60,6 +62,7 @@ class DefaultAppComponent(
             source = navigation,
             serializer = Config.serializer(),
             initialConfiguration = Config.Loading,
+            handleBackButton = true,
             childFactory = ::child,
         )
 
@@ -127,6 +130,11 @@ class DefaultAppComponent(
                             }
                             showConference(conference = conference.id, conferenceThemeColor = conference.themeColor)
                         },
+                        onBack = if (config.isSwitching) {
+                            { navigation.pop() }
+                        } else {
+                            null
+                        }
                     )
                 )
 
@@ -137,7 +145,7 @@ class DefaultAppComponent(
                         user = user, 
                         conference = config.conference,
                         conferenceThemeColor = config.conferenceThemeColor,
-                        onSwitchConference = ::showConferences,
+                        onSwitchConference = ::switchConference,
                         onSignOut = {
                             onSignOut()
                             authentication.signOut()
@@ -149,7 +157,11 @@ class DefaultAppComponent(
         }
 
     private fun showConferences() {
-        navigation.replaceAll(Config.Conferences)
+        navigation.replaceAll(Config.Conferences())
+    }
+
+    private fun switchConference() {
+        navigation.push(Config.Conferences(isSwitching = true))
     }
 
     private fun showConference(conference: String, conferenceThemeColor: String?) {
@@ -162,7 +174,7 @@ class DefaultAppComponent(
         data object Loading : Config()
 
         @Serializable
-        data object Conferences : Config()
+        data class Conferences(val isSwitching: Boolean = false) : Config()
 
         @Serializable
         data class Conference(

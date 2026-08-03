@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.decompose
 import com.apollographql.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
+import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent.Error
@@ -19,6 +20,7 @@ import org.koin.core.component.get
 interface ConferencesComponent {
 
     val uiState: Value<UiState>
+    val onBack: (() -> Unit)?
 
     fun refresh()
     fun onConferenceClicked(conference: GetConferencesQuery.Conference)
@@ -26,13 +28,17 @@ interface ConferencesComponent {
     sealed interface UiState
     object Loading : UiState
     object Error : UiState
-    class Success(val conferenceListByYear: Map<Int, List<GetConferencesQuery.Conference>>) : UiState {
+    class Success(
+        val conferenceListByYear: Map<Int, List<GetConferencesQuery.Conference>>,
+        val currentConference: String? = null
+    ) : UiState {
         val relevantConferences: List<GetConferencesQuery.Conference> by lazy { conferenceListByYear.values.flatten() }
     }
 }
 
 class DefaultConferencesComponent(
     componentContext: ComponentContext,
+    override val onBack: (() -> Unit)? = null,
     private val onConferenceSelected: (conference: GetConferencesQuery.Conference) -> Unit,
 ) : ConferencesComponent, KoinComponent, ComponentContext by componentContext {
     private val coroutineScope = coroutineScope()
@@ -57,17 +63,17 @@ class DefaultConferencesComponent(
     private fun refresh(initial: Boolean) {
         job?.cancel()
         job = coroutineScope.launch {
+            val currentConference = repository.getConference().takeIf { it != AppSettings.CONFERENCE_NOT_SET }
             var hasConferences = false
             if (initial) {
                 repository.conferences(FetchPolicy.CacheFirst).data?.conferences?.let {
                     hasConferences = true
-                    val conferenceListByYear = it.groupBy { it.days[0].year }
-                    channel.send(Success(groupConferencesByYear(it)))
+                    channel.send(Success(groupConferencesByYear(it), currentConference))
                 }
             }
             repository.conferences(FetchPolicy.NetworkOnly).data?.conferences?.let {
                 hasConferences = true
-                channel.send(Success(groupConferencesByYear(it)))
+                channel.send(Success(groupConferencesByYear(it), currentConference))
             }
 
             if (!hasConferences) {

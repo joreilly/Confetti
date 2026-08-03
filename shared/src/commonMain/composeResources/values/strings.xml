@@ -25,8 +25,10 @@
     <string name="dynamic_color_yes">Yes</string>
     <string name="dynamic_color_no">No</string>
     <string name="dismiss_dialog_button_text">OK</string>
-    <string name="use_experimental_features">Use Experimental Features</string>
     <string name="enable_notifications">Enable Notifications</string>
+    <string name="enable_notifications_desc">Get notifications for bookmarked talks.</string>
+    <string name="use_experimental_features">Use Experimental Features</string>
+    <string name="use_experimental_features_desc">Enable early features for testing.</string>
     <string name="settings_boolean_true">Yes</string>
     <string name="settings_boolean_false">No</string>
     <string name="developerSettings">Developer Settings\n</string>

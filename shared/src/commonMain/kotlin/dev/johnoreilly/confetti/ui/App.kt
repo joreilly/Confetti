@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
@@ -151,7 +152,13 @@ fun HomeView(component: HomeComponent) {
                                 snackbarHostState = snackbarHostState
                             )
 
-                        is HomeComponent.Child.Speakers -> SpeakersUI(child.component)
+                        is HomeComponent.Child.Speakers ->
+                            SpeakersUI(
+                                component = child.component,
+                                windowSizeClass = windowSizeClass,
+                                topBarNavigationIcon = topBarNavigationIcon,
+                                topBarActions = topBarActions,
+                            )
                         is HomeComponent.Child.Bookmarks ->
                             BookmarksUI(
                                 component = child.component,
@@ -160,14 +167,19 @@ fun HomeView(component: HomeComponent) {
                                 topBarActions = topBarActions,
                             )
 
-                        is HomeComponent.Child.Venue -> VenueUI(child.component)
+                        is HomeComponent.Child.Venue ->
+                            VenueUI(
+                                component = child.component,
+                                windowSizeClass = windowSizeClass,
+                                topBarNavigationIcon = topBarNavigationIcon,
+                                topBarActions = topBarActions,
+                            )
 
                         is HomeComponent.Child.Search ->
                             SearchUI(
                                 component = child.component,
                                 windowSizeClass = windowSizeClass,
-                                topBarNavigationIcon = topBarNavigationIcon,
-                                topBarActions = topBarActions,
+                                onBackClick = component::onBackClicked
                             )
 
                         is HomeComponent.Child.Agent -> ConferenceAgentView(child.component)

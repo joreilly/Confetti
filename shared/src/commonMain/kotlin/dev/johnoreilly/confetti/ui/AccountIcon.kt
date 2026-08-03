@@ -2,7 +2,12 @@ package dev.johnoreilly.confetti.ui
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Login
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Assistant
+import androidx.compose.material.icons.filled.MeetingRoom
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -76,6 +81,7 @@ fun AccountIcon(
         if (info != null) {
             DropdownMenuItem(
                 text = { Text(stringResource(Res.string.sign_out)) },
+                leadingIcon = { Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null) },
                 onClick = {
                     onSignOut()
                     showMenu = false
@@ -84,6 +90,7 @@ fun AccountIcon(
         } else {
             DropdownMenuItem(
                 text = { Text(stringResource(Res.string.sign_in_lowercase)) },
+                leadingIcon = { Icon(Icons.AutoMirrored.Filled.Login, contentDescription = null) },
                 onClick = {
                     showMenu = false
                     onSignIn()
@@ -92,6 +99,7 @@ fun AccountIcon(
         }
         DropdownMenuItem(
             text = { Text(stringResource(Res.string.switch_conference)) },
+            leadingIcon = { Icon(Icons.Default.MeetingRoom, contentDescription = null) },
             onClick = {
                 showMenu = false
                 onSwitchConference()
@@ -101,6 +109,7 @@ fun AccountIcon(
         if (showAgentOption) {
             DropdownMenuItem(
                 text = { Text(stringResource(Res.string.agent_assistant)) },
+                leadingIcon = { Icon(Icons.Default.Assistant, contentDescription = null) },
                 onClick = {
                     showMenu = false
                     onOpenAgent()
@@ -110,6 +119,7 @@ fun AccountIcon(
 
         DropdownMenuItem(
             text = { Text(stringResource(Res.string.settings_title)) },
+            leadingIcon = { Icon(Icons.Default.Settings, contentDescription = null) },
             onClick = {
                 showMenu = false
                 onShowSettings()

@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -169,9 +170,14 @@ fun ConferenceListView(component: ConferencesComponent) {
                                 }
 
                                 items(conferenceList) { conference ->
-                                    ConferenceCard(conference) {
-                                        component.onConferenceClicked(conference)
-                                    }
+                                    val isSelected = conference.id == uiState1.currentConference
+                                    ConferenceCard(
+                                        conference = conference,
+                                        isSelected = isSelected,
+                                        navigateToConference = {
+                                            component.onConferenceClicked(conference)
+                                        }
+                                    )
                                 }
                             }
                         }
@@ -186,6 +192,7 @@ fun ConferenceListView(component: ConferencesComponent) {
 @Composable
 fun ConferenceCard(
     conference: GetConferencesQuery.Conference,
+    isSelected: Boolean = false,
     navigateToConference: (GetConferencesQuery.Conference) -> Unit
 ) {
     ConferenceMaterialThemeFromSettings(conference.themeColor) {
@@ -197,7 +204,8 @@ fun ConferenceCard(
                     navigateToConference(conference)
                 })
                 .fillMaxWidth()
-                .testTag(conference.id)
+                .testTag(conference.id),
+            border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null
         ) {
             Column(
                 modifier = Modifier
@@ -205,10 +213,31 @@ fun ConferenceCard(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(
-                    text = conference.name,
-                    style = MaterialTheme.typography.titleLarge
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = conference.name,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (isSelected) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Surface(
+                            shape = MaterialTheme.shapes.small,
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        ) {
+                            Text(
+                                text = "Selected",
+                                style = MaterialTheme.typography.labelSmall,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically

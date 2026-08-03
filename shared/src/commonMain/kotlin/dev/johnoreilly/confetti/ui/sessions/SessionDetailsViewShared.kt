@@ -24,6 +24,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -171,18 +172,29 @@ internal fun SessionSpeakerInfo(
     speaker: SpeakerDetails,
     onSpeakerClick: (speakerId: String) -> Unit,
 ) {
-    Surface(
+    ListItem(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp)
             .clickable(role = Role.Button) { onSpeakerClick(speaker.id) },
-        shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        headlineContent = {
+            Text(
+                text = speaker.fullNameAndCompany(),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        supportingContent = if (speaker.tagline != null) {
+            {
+                Text(
+                    text = speaker.tagline,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        } else {
+            null
+        },
+        leadingContent = {
             speaker.photoUrl?.let {
                 val url = speaker.photoUrl
                 SubcomposeAsyncImage(
@@ -200,28 +212,8 @@ internal fun SessionSpeakerInfo(
                         .clip(CircleShape)
                 )
             }
-
-            Spacer(modifier = Modifier.size(12.dp))
-
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = speaker.fullNameAndCompany(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                speaker.tagline?.let { tagline ->
-                    Spacer(modifier = Modifier.size(2.dp))
-                    Text(
-                        text = tagline,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
-                    )
-                }
-            }
         }
-    }
+    )
 }
 
 

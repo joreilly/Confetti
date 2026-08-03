@@ -6,7 +6,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -118,7 +119,7 @@ fun SessionListView(
 
                                 val sortedSessions =
                                     sessions.sortedBy { session -> uiState.rooms.indexOfFirst { it.name == session.room?.name } }
-                                items(sortedSessions) { session ->
+                                itemsIndexed(sortedSessions) { index, session ->
                                     SessionItemView(
                                         session = session,
                                         sessionSelected = sessionSelected,
@@ -128,6 +129,9 @@ fun SessionListView(
                                         onNavigateToSignIn = onNavigateToSignIn,
                                         isLoggedIn = isLoggedIn,
                                     )
+                                    if (index < sortedSessions.lastIndex) {
+                                        HorizontalDivider()
+                                    }
                                 }
                             }
                         }

@@ -41,7 +41,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -152,45 +154,39 @@ fun SettingsUI(
 
                 if (developerSettings != null) {
                     item {
-                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                            Text(
-                                text = stringResource(Res.string.developerSettings),
-                                style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
-                            )
-                            Text(
-                                "Token: ${developerSettings.token}",
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                            Button(onClick = onSendNotifications, enabled = supportsNotifications) {
-                                Text("Send Notifications")
-                            }
+                        Text(
+                            text = stringResource(Res.string.developerSettings),
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+                        )
+                    }
+
+                    developerSettings.token?.let { token ->
+                        item {
+                            TokenSettingsRow(token = token)
                         }
                     }
-                }
 
-                if (developerSettings != null && supportsNotifications) {
                     item {
-                        val notificationPermissionState =
-                            rememberNotificationPermissionState(userEditableSettings?.notificationsEnabled)
-
-                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                            Button(
-                                onClick = { notificationPermissionState.maybeRequest() },
-                            ) {
-                                Text("Request Notification Permission")
-                            }
-                        }
+                        ActionSettingsRow(
+                            title = "Send Test Notification",
+                            subtitle = "Trigger a mock session reminder alert",
+                            onClick = onSendNotifications,
+                            enabled = supportsNotifications
+                        )
                     }
 
-//                    item {
-//                        Column(modifier = Modifier.padding(8.dp)) {
-//                            Button(onClick = { controller.openAppSettings() }) {
-//                                Text("App Notification Settings")
-//                            }
-//                        }
-//                    }
+                    if (supportsNotifications) {
+                        item {
+                            val notificationPermissionState =
+                                rememberNotificationPermissionState(userEditableSettings?.notificationsEnabled)
+                            ActionSettingsRow(
+                                title = "Request Notification Permission",
+                                subtitle = "Prompt OS dialog to allow reminders",
+                                onClick = { notificationPermissionState.maybeRequest() }
+                            )
+                        }
+                    }
                 }
             }
 
@@ -417,6 +413,69 @@ fun SettingsDialogThemeChooserRow(
         )
         Spacer(Modifier.width(8.dp))
         Text(text)
+    }
+}
+
+@Composable
+private fun TokenSettingsRow(
+    token: String
+) {
+    val clipboardManager = LocalClipboardManager.current
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                clipboardManager.setText(AnnotatedString(token))
+            }
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = "Developer Token",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = token,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+@Composable
+private fun ActionSettingsRow(
+    title: String,
+    subtitle: String? = null,
+    onClick: () -> Unit,
+    enabled: Boolean = true
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(enabled = enabled, onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge,
+                color = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+            )
+            if (subtitle != null) {
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (enabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                )
+            }
+        }
     }
 }
 

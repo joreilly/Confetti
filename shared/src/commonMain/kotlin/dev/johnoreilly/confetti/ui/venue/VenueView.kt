@@ -46,6 +46,7 @@ import dev.johnoreilly.confetti.preview.sampleVenue
 @Composable
 fun VenueView(venue: Venue) {
     val uriHandler = LocalUriHandler.current
+    var showFullScreenPhoto by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -60,13 +61,7 @@ fun VenueView(venue: Venue) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .then(
-                        if (!venue.mapLink.isNullOrBlank()) {
-                            Modifier.clickable { uriHandler.openUri(venue.mapLink) }
-                        } else {
-                            Modifier
-                        }
-                    ),
+                    .clickable { showFullScreenPhoto = true },
                 shape = RoundedCornerShape(16.dp)
             ) {
                 AsyncImage(
@@ -145,6 +140,14 @@ fun VenueView(venue: Venue) {
             Spacer(modifier = Modifier.height(8.dp))
             VenueFloorPlanButton(venue = venue)
         }
+    }
+
+    if (showFullScreenPhoto) {
+        FullScreenPhotoDialog(
+            photoUrl = venue.imageUrl,
+            contentDescription = venue.name,
+            onDismissRequest = { showFullScreenPhoto = false }
+        )
     }
 }
 

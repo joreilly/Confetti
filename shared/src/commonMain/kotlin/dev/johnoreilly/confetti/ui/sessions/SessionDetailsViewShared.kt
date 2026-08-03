@@ -29,7 +29,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -172,6 +176,8 @@ internal fun SessionSpeakerInfo(
     speaker: SpeakerDetails,
     onSpeakerClick: (speakerId: String) -> Unit,
 ) {
+    var showFullScreenPhoto by remember { mutableStateOf(false) }
+
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
@@ -210,10 +216,19 @@ internal fun SessionSpeakerInfo(
                     modifier = Modifier
                         .size(56.dp)
                         .clip(CircleShape)
+                        .clickable { showFullScreenPhoto = true }
                 )
             }
         }
     )
+
+    if (showFullScreenPhoto) {
+        FullScreenPhotoDialog(
+            photoUrl = speaker.photoUrl,
+            contentDescription = speaker.name,
+            onDismissRequest = { showFullScreenPhoto = false }
+        )
+    }
 }
 
 

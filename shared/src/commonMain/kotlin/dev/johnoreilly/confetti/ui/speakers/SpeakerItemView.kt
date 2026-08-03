@@ -10,8 +10,13 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +34,8 @@ fun SpeakerItemView(
     speaker: SpeakerDetails,
     navigateToSpeaker: (id: String) -> Unit
 ) {
+    var showFullScreenPhoto by remember { mutableStateOf(false) }
+
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,9 +82,18 @@ fun SpeakerItemView(
                 modifier = Modifier
                     .size(56.dp)
                     .clip(CircleShape)
+                    .clickable { showFullScreenPhoto = true }
             )
         }
     )
+
+    if (showFullScreenPhoto) {
+        FullScreenPhotoDialog(
+            photoUrl = speaker.photoUrl,
+            contentDescription = speaker.name,
+            onDismissRequest = { showFullScreenPhoto = false }
+        )
+    }
 }
 
 @MobilePreviews

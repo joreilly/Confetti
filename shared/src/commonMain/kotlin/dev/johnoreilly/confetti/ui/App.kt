@@ -179,12 +179,7 @@ fun HomeView(component: HomeComponent) {
                             SearchUI(
                                 component = child.component,
                                 windowSizeClass = windowSizeClass,
-                                topBarNavigationIcon = {
-                                    IconButton(onClick = { component.onBackClicked() }) {
-                                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                                    }
-                                },
-                                topBarActions = {}
+                                onBackClick = component::onBackClicked
                             )
 
                         is HomeComponent.Child.Agent -> ConferenceAgentView(child.component)

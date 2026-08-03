@@ -67,6 +67,7 @@ import dev.johnoreilly.confetti.preview.lightningSession
 import dev.johnoreilly.confetti.preview.sampleSpeakers
 import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.component.ConfettiSearch
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
@@ -86,26 +87,16 @@ fun SearchView(
     removeBookmark: (sessionId: String) -> Unit,
     loading: Boolean,
     isLoggedIn: Boolean,
-    topBarNavigationIcon: @Composable () -> Unit = {},
+    onBackClick: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .statusBarsPadding()
-                    .padding(vertical = 4.dp, horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                topBarNavigationIcon()
-                SearchTextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 8.dp),
-                    value = search,
-                    onValueChange = onSearchChange,
-                )
-            }
+            ConfettiSearch(
+                value = search,
+                onValueChange = onSearchChange,
+                onBackClick = onBackClick,
+                placeholder = stringResource(Res.string.search_placeholder)
+            )
         }
     ) { innerPadding ->
         Box(
@@ -196,82 +187,7 @@ private fun LazyListScope.sessionItems(
     }
 }
 
-@Composable
-private fun SearchTextField(
-    modifier: Modifier = Modifier,
-    value: String = "",
-    onValueChange: (String) -> Unit,
-    onCloseSearch: () -> Unit = {},
-) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusRequester = remember { FocusRequester() }
 
-    DisposableEffect(Unit) {
-        focusRequester.requestFocus()
-        onDispose { keyboardController?.hide() }
-    }
-
-    TextField(
-        modifier = modifier
-            .focusRequester(focusRequester)
-            .interceptKey(Key.Enter) {
-                keyboardController?.hide()
-            }
-            .fillMaxWidth(),
-        value = value,
-        onValueChange = onValueChange,
-        placeholder = { Text(stringResource(Res.string.search_placeholder)) },
-        leadingIcon = { Icon(Icons.Filled.Search, "Search") },
-        trailingIcon = {
-            if (value.isNotBlank()) {
-                IconButton(onClick = {
-                    keyboardController?.hide()
-                    onValueChange("")
-                    onCloseSearch()
-                }) {
-                    Icon(
-                        Icons.Filled.Close,
-                        contentDescription = "Close Search"
-                    )
-                }
-            }
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(
-            onSearch = { keyboardController?.hide() }
-        ),
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f),
-            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-            focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
-            unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
-            unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        ),
-        textStyle = MaterialTheme.typography.bodyLarge,
-        shape = ShapeDefaults.Large,
-        singleLine = true,
-    )
-}
-
-/**
- * [Modifier] to intercept [key] events and fires [onKeyEvent] callback when the key is released.
- *
- * The [key] parameter represents the key to be intercepted
- * The [onKeyEvent] listener is an optional listener to when the key event happens.
- *
- * The intercepted key is not passed to any child composable.
- */
-fun Modifier.interceptKey(key: Key, onKeyEvent: () -> Unit = {}): Modifier =
-    onPreviewKeyEvent { event ->
-        if (event.key == key && event.type == KeyEventType.KeyUp) {
-            onKeyEvent()
-        }
-        event.key == key
-    }
 
 @MobilePreviews
 @Composable

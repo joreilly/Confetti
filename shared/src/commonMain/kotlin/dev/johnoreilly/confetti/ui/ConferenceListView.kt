@@ -63,6 +63,7 @@ import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.previewConferenceListState
 import dev.johnoreilly.confetti.preview.sampleConferences
+import dev.johnoreilly.confetti.ui.component.ConfettiSearch
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import kotlinx.datetime.LocalDate
 
@@ -84,51 +85,15 @@ fun ConferenceListView(component: ConferencesComponent) {
     Scaffold(
         topBar = {
             if (searchMode) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .statusBarsPadding()
-                        .padding(vertical = 4.dp, horizontal = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = {
+                ConfettiSearch(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    onBackClick = {
                         searchMode = false
                         searchQuery = ""
-                    }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                    TextField(
-                        modifier = Modifier
-                            .weight(1f)
-                            .focusRequester(focusRequester)
-                            .padding(horizontal = 8.dp),
-                        value = searchQuery,
-                        onValueChange = { searchQuery = it },
-                        placeholder = { Text("Search conferences...") },
-                        leadingIcon = { Icon(Icons.Outlined.Search, "Search") },
-                        trailingIcon = {
-                            if (searchQuery.isNotEmpty()) {
-                                IconButton(onClick = { searchQuery = "" }) {
-                                    Icon(Icons.Filled.Close, contentDescription = "Clear")
-                                }
-                            }
-                        },
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f),
-                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                            focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
-                            unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
-                            unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        ),
-                        textStyle = MaterialTheme.typography.bodyLarge,
-                        shape = ShapeDefaults.Large,
-                        singleLine = true,
-                    )
-                }
+                    },
+                    placeholder = "Search conferences..."
+                )
             } else {
                 CenterAlignedTopAppBar(
                     title = { Text("Confetti") },

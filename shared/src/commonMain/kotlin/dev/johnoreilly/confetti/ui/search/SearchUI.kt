@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.ui.search
 
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,8 +10,7 @@ import dev.johnoreilly.confetti.decompose.SearchComponent
 fun SearchUI(
     component: SearchComponent,
     windowSizeClass: WindowSizeClass,
-    topBarNavigationIcon: @Composable () -> Unit = {},
-    topBarActions: @Composable RowScope.() -> Unit = {},
+    onBackClick: () -> Unit,
 ) {
     val search by component.search.collectAsStateWithLifecycle(initialValue = "")
     val loading by component.loading.collectAsStateWithLifecycle(initialValue = true)
@@ -33,6 +31,6 @@ fun SearchUI(
         removeBookmark = component::removeBookmark,
         loading = loading,
         isLoggedIn = component.isLoggedIn,
-        topBarNavigationIcon = topBarNavigationIcon,
+        onBackClick = onBackClick,
     )
 }

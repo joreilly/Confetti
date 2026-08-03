@@ -254,7 +254,6 @@ fun SessionDetailsScreenPreview() {
             conference = "kotlinconf2023",
             session = sessionDetails,
             onSpeakerClick = {},
-            onSocialLinkClicked = {},
         )
     }
 }

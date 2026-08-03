@@ -29,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -65,7 +66,6 @@ fun SessionDetailViewShared(
     conference: String,
     session: SessionDetails?,
     onSpeakerClick: (speakerId: String) -> Unit,
-    onSocialLinkClicked: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -81,7 +81,8 @@ fun SessionDetailViewShared(
                         Text(
                             text = session.title,
                             color = MaterialTheme.colorScheme.primary,
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold
                         )
                     }
 
@@ -134,7 +135,7 @@ fun SessionDetailViewShared(
 
                     Column(modifier = Modifier.padding(contentPadding)) {
                         session.speakers.forEach { speaker ->
-                            SessionSpeakerInfo(conference, speaker.speakerDetails, onSpeakerClick, onSocialLinkClicked)
+                            SessionSpeakerInfo(conference, speaker.speakerDetails, onSpeakerClick)
                         }
                     }
 
@@ -169,63 +170,54 @@ internal fun SessionSpeakerInfo(
     conference: String,
     speaker: SpeakerDetails,
     onSpeakerClick: (speakerId: String) -> Unit,
-    onSocialLinkClick: (String) -> Unit
 ) {
-    Column(Modifier
-        .padding(top = 16.dp)
-        .clickable(role = Role.Button) { onSpeakerClick(speaker.id) }
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp)
+            .clickable(role = Role.Button) { onSpeakerClick(speaker.id) },
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
     ) {
-        Row {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             speaker.photoUrl?.let {
-                val url = speaker.photoUrl //"https://confetti-app.dev/images/avatar/${conference}/${speaker.id}"
+                val url = speaker.photoUrl
                 SubcomposeAsyncImage(
                     model = url,
                     contentDescription = speaker.name,
                     loading = {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            strokeWidth = 2.dp
+                        )
                     },
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(64.dp)
+                        .size(56.dp)
                         .clip(CircleShape)
                 )
             }
 
-            Column(Modifier.padding(horizontal = 8.dp)) {
+            Spacer(modifier = Modifier.size(12.dp))
+
+            Column(Modifier.weight(1f)) {
                 Text(
                     text = speaker.fullNameAndCompany(),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 speaker.tagline?.let { tagline ->
+                    Spacer(modifier = Modifier.size(2.dp))
                     Text(
                         text = tagline,
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
                     )
-                }
-
-                speaker.bio?.let { bio ->
-                    Text(
-                        modifier = Modifier.padding(top = 12.dp),
-                        text = bio,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-
-
-                Row(
-                    Modifier.padding(top = 0.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    speaker.socials.forEach { socialsItem ->
-                        SocialIcon(
-                            modifier = Modifier.size(28.dp),
-                            socialItem = socialsItem,
-                            onClick = { onSocialLinkClick(socialsItem.url) }
-                        )
-                    }
                 }
             }
         }
@@ -302,12 +294,12 @@ internal fun Chip(name: String) {
     Surface(
         modifier = Modifier.padding(end = 10.dp),
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.secondaryContainer
     ) {
         Text(
             text = name,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.padding(10.dp)
         )
     }
@@ -328,7 +320,6 @@ internal fun SessionDetailViewLoadedPreview() {
             conference = "kotlinconf2023",
             session = sessionDetails,
             onSpeakerClick = {},
-            onSocialLinkClicked = {},
         )
     }
 }
@@ -341,7 +332,6 @@ internal fun SessionDetailViewEmptyPreview() {
             conference = "kotlinconf2023",
             session = null,
             onSpeakerClick = {},
-            onSocialLinkClicked = {},
         )
     }
 }

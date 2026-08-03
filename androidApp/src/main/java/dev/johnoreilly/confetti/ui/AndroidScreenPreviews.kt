@@ -44,7 +44,6 @@ internal fun AndroidSessionDetailPreview() {
             conference = "kotlinconf2023",
             session = sessionDetails,
             onSpeakerClick = {},
-            onSocialLinkClicked = {},
         )
     }
 }

@@ -71,9 +71,7 @@ fun SessionDetailsUI(component: SessionDetailsComponent) {
                     SessionDetailViewShared(
                         state.conference, state.sessionDetails,
                         component::onSpeakerClicked
-                    ) { url ->
-                        uriHandler.openUri(url)
-                    }
+                    )
             }
         }
     }

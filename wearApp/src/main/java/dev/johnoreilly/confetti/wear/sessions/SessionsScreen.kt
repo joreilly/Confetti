@@ -17,9 +17,8 @@ import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
-import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.decompose.SessionsUiState
@@ -101,10 +100,20 @@ fun SessionsScreen(
     }
 }
 
-@WearPreviewDevices
-@WearPreviewFontScales
+@WearPreviewSmallRound
 @Composable
-fun SessionListViewPreview() {
+fun SessionListViewSmallPreview() {
+    SessionListViewPreviewContent()
+}
+
+@WearPreviewLargeRound
+@Composable
+fun SessionListViewLargePreview() {
+    SessionListViewPreviewContent()
+}
+
+@Composable
+private fun SessionListViewPreviewContent() {
     ConfettiPreviewScaffold {
         SessionsScreen(
             uiState = SessionsUiState.Success(
@@ -177,4 +186,3 @@ fun SessionListViewLongPreview() {
         )
     }
 }
-

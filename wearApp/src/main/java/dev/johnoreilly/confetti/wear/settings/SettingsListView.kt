@@ -41,9 +41,8 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
-import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import coil.compose.AsyncImage
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
@@ -321,10 +320,20 @@ private fun TransformingLazyColumnScope.developerModeOptions(
     }
 }
 
-@WearPreviewDevices
-@WearPreviewFontScales
+@WearPreviewSmallRound
 @Composable
-fun SettingsListViewPreview() {
+fun SettingsListViewSmallPreview() {
+    SettingsListViewPreviewContent()
+}
+
+@WearPreviewLargeRound
+@Composable
+fun SettingsListViewLargePreview() {
+    SettingsListViewPreviewContent()
+}
+
+@Composable
+private fun SettingsListViewPreviewContent() {
     ConfettiPreviewScaffold {
         SettingsListView(
             conferenceCleared = {},
@@ -354,4 +363,3 @@ fun SettingsListViewLongPreview() {
         )
     }
 }
-

@@ -33,6 +33,7 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
@@ -192,10 +193,20 @@ private fun ConferencesChip(
     }
 }
 
-@WearPreviewDevices
-@WearPreviewFontScales
+@WearPreviewSmallRound
 @Composable
-fun ConferencesViewPreview() {
+fun ConferencesViewSmallPreview() {
+    ConferencesViewPreviewContent()
+}
+
+@WearPreviewLargeRound
+@Composable
+fun ConferencesViewLargePreview() {
+    ConferencesViewPreviewContent()
+}
+
+@Composable
+private fun ConferencesViewPreviewContent() {
     ConfettiPreviewScaffold {
         ConferencesView(
             uiState = ConferencesComponent.Success(
@@ -255,4 +266,3 @@ fun ConferencesViewCuratedPreview() {
         )
     }
 }
-

@@ -43,9 +43,8 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
-import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
-import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.R
@@ -346,10 +345,20 @@ fun DayChip(
     }
 }
 
-@WearPreviewDevices
-@WearPreviewFontScales
+@WearPreviewSmallRound
 @Composable
-fun HomeListViewPreview() {
+fun HomeListViewSmallPreview() {
+    HomeListViewPreviewContent()
+}
+
+@WearPreviewLargeRound
+@Composable
+fun HomeListViewLargePreview() {
+    HomeListViewPreviewContent()
+}
+
+@Composable
+private fun HomeListViewPreviewContent() {
     ConfettiPreviewScaffold {
         HomeScreen(
             uiState = QueryResult.Success(
@@ -486,4 +495,3 @@ fun HomeListViewDevFest() {
         )
     }
 }
-

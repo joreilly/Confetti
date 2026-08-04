@@ -23,6 +23,7 @@ import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.R
@@ -209,10 +210,20 @@ fun BookmarksScreen(
     }
 }
 
-@WearPreviewDevices
-@WearPreviewFontScales
+@WearPreviewSmallRound
 @Composable
-fun BookmarksPreview() {
+fun BookmarksSmallPreview() {
+    BookmarksPreviewContent()
+}
+
+@WearPreviewLargeRound
+@Composable
+fun BookmarksLargePreview() {
+    BookmarksPreviewContent()
+}
+
+@Composable
+private fun BookmarksPreviewContent() {
     ConfettiPreviewScaffold {
         BookmarksScreen(
             uiState = QueryResult.Success(
@@ -306,5 +317,4 @@ fun BookmarksPreviewLong() {
         )
     }
 }
-
 

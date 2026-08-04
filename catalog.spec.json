@@ -1,5 +1,5 @@
 {
-  "$comment": "Design-catalog spec for the Confetti Wear OS app. Code-led: it declares which @Preview composables (by exact function name) make up the published sticker sheet, their grouping, and captions. Consumed by the design-catalog export over a render of the :wearApp module, whose `ee.schimke.composeai.preview` Gradle plugin ONLY discovers @Preview functions in the MAIN source set (classes/kotlin/android/main), NOT screenshotTest — so every `preview` named here lives under wearApp/src/main/... . Wear is dark-first and round, so the single mode is the large-round breakpoint. Theme + Component specimens are in dev.johnoreilly.confetti.wear.ui.ComponentCatalog, and the per-conference theme foundations in dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviews (the Wear app themes itself per conference — seed colour plus, for KotlinConf/DevFest, a brand type family — so the Themes tab carries one sticker per identity, not just the stock scheme; the matching `@ThemeCatalog` providers in ConfettiThemeCatalogs let `compose-preview serve` re-render ANY preview live under any of them). The Screens are the in-main @Preview entry points next to each screen (HomeScreen, SessionsScreen, SessionDetailsView, SpeakerDetailsView, BookmarksScreen, ConferencesView, SettingsListView). Each group's `section` is the top-level tab the preview server buckets it under; groups follow this file's order, so tabs read Themes -> Components -> Screens.",
+  "$comment": "Design-catalog spec for the Confetti Wear OS app. Code-led: it declares which @Preview composables (by exact function name) make up the published sticker sheet, their grouping, and captions. Consumed by the design-catalog export over a render of the :wearApp module, whose `ee.schimke.composeai.preview` Gradle plugin ONLY discovers @Preview functions in the MAIN source set (classes/kotlin/android/main), NOT screenshotTest — so every `preview` named here lives under wearApp/src/main/... . Wear is dark-first and round; screen entries publish explicit Small Round and Large Round breakpoint cards, while the generic live-rerender mode remains largeRound. Theme + Component specimens are in dev.johnoreilly.confetti.wear.ui.ComponentCatalog, and the per-conference theme foundations in dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviews (the Wear app themes itself per conference — seed colour plus, for KotlinConf/DevFest, a brand type family — so the Themes tab carries one sticker per identity, not just the stock scheme; the matching `@ThemeCatalog` providers in ConfettiThemeCatalogs let `compose-preview serve` re-render ANY preview live under any of them). The Screens are the in-main @Preview entry points next to each screen (HomeScreen, SessionsScreen, SessionDetailsView, SpeakerDetailsView, BookmarksScreen, ConferencesView, SettingsListView). Each group's `section` is the top-level tab the preview server buckets it under; groups follow this file's order, so tabs read Themes -> Components -> Screens.",
   "system": "confetti-wear",
   "title": "Confetti Wear",
   "library": ["androidx.wear.compose:compose-material3"],
@@ -111,14 +111,24 @@
       "section": "Screens",
       "components": [
         {
-          "componentId": "Home",
-          "preview": "HomeListViewPreview",
-          "caption": "Home screen — conference title, bookmarks and day list."
+          "componentId": "HomeSmall",
+          "preview": "HomeListViewSmallPreview",
+          "caption": "Home screen on the Small Round breakpoint — conference title, bookmarks and day list."
         },
         {
-          "componentId": "Sessions",
-          "preview": "SessionListViewPreview",
-          "caption": "Sessions schedule list grouped by start time."
+          "componentId": "HomeLarge",
+          "preview": "HomeListViewLargePreview",
+          "caption": "Home screen on the Large Round breakpoint — conference title, bookmarks and day list."
+        },
+        {
+          "componentId": "SessionsSmall",
+          "preview": "SessionListViewSmallPreview",
+          "caption": "Sessions schedule list on the Small Round breakpoint, grouped by start time."
+        },
+        {
+          "componentId": "SessionsLarge",
+          "preview": "SessionListViewLargePreview",
+          "caption": "Sessions schedule list on the Large Round breakpoint, grouped by start time."
         },
         {
           "componentId": "SessionDetails",
@@ -131,19 +141,34 @@
           "caption": "Speaker details — photo, name, tagline and bio."
         },
         {
-          "componentId": "Bookmarks",
-          "preview": "BookmarksPreview",
-          "caption": "Bookmarks screen — upcoming and past bookmarked sessions."
+          "componentId": "BookmarksSmall",
+          "preview": "BookmarksSmallPreview",
+          "caption": "Bookmarks screen on the Small Round breakpoint — upcoming and past bookmarked sessions."
         },
         {
-          "componentId": "Conferences",
-          "preview": "ConferencesViewPreview",
-          "caption": "Conference picker list."
+          "componentId": "BookmarksLarge",
+          "preview": "BookmarksLargePreview",
+          "caption": "Bookmarks screen on the Large Round breakpoint — upcoming and past bookmarked sessions."
         },
         {
-          "componentId": "Settings",
-          "preview": "SettingsListViewPreview",
-          "caption": "Settings screen."
+          "componentId": "ConferencesSmall",
+          "preview": "ConferencesViewSmallPreview",
+          "caption": "Conference picker list on the Small Round breakpoint."
+        },
+        {
+          "componentId": "ConferencesLarge",
+          "preview": "ConferencesViewLargePreview",
+          "caption": "Conference picker list on the Large Round breakpoint."
+        },
+        {
+          "componentId": "SettingsSmall",
+          "preview": "SettingsListViewSmallPreview",
+          "caption": "Settings screen on the Small Round breakpoint."
+        },
+        {
+          "componentId": "SettingsLarge",
+          "preview": "SettingsListViewLargePreview",
+          "caption": "Settings screen on the Large Round breakpoint."
         }
       ]
     }

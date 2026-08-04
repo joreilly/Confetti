@@ -1084,7 +1084,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round.png",
-    "sha256": "406768ce9a986d682abd46ea4cef6aeab190aa9a4cc938993e2c30eabb3f7494",
+    "sha256": "63f9d412b7c30440356f5ebfd578c5146dd6aaec0a723d96d82ad1c830781fb5",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
@@ -1540,7 +1540,7 @@
     "functionName": "Color_0x000080Swatches",
     "module": "wearApp",
     "renderBasename": "Color_0x000080Swatches.png",
-    "sha256": "0bc051e0772e3d3416ff1aa9f49f8d1cc43608b47d82c4199af123025caf4ac7",
+    "sha256": "ffc13edeb8a4eef420c9f7d04140fed746b8ba1052967b45445a2e2ef3795462",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.Color_0x008000Swatches": {
@@ -1548,7 +1548,7 @@
     "functionName": "Color_0x008000Swatches",
     "module": "wearApp",
     "renderBasename": "Color_0x008000Swatches.png",
-    "sha256": "a14d9a2b8af8cf2d5fc22b99ef5dca75dd942daf7f15f2bc9240572969497dc8",
+    "sha256": "ba07397941488858d87b70fd9b295ee9b23a260ee8b1efc6ddbb1b228652e4bc",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.Color_0x800000Swatches": {
@@ -1556,7 +1556,7 @@
     "functionName": "Color_0x800000Swatches",
     "module": "wearApp",
     "renderBasename": "Color_0x800000Swatches.png",
-    "sha256": "c8b18b2f224a3f61ae987874e275834b10d57e6cfa03a9225698fe690b373286",
+    "sha256": "0a46994507402a925deef527dc9f7832a4bc84df73f085eaffb44039ee3ddcd0",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.DefaultsSwatches": {
@@ -1564,7 +1564,7 @@
     "functionName": "DefaultsSwatches",
     "module": "wearApp",
     "renderBasename": "DefaultsSwatches.png",
-    "sha256": "18db0548fe4b1b55a374b8347b02e2d63d8b070c07e9d788bc97d09e18c4503d",
+    "sha256": "fbdc79d0d1acaa138089b9af67ca408d86d29c81b5eda0bddb49681fc606a756",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.NotSetSwatches": {
@@ -1572,7 +1572,7 @@
     "functionName": "NotSetSwatches",
     "module": "wearApp",
     "renderBasename": "NotSetSwatches.png",
-    "sha256": "4da92f04c3a02edf933ac3e72ad2ee31f2cd307c13c82f7e19b058997f3264a4",
+    "sha256": "1650136dd8772da484b2072317a71f3973292a5b5adbd2b9108df1d71f5da469",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
   "wearApp/wearthemecatalog__AndroidMakers": {

@@ -3,6 +3,8 @@ package dev.johnoreilly.confetti.permissions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionState
 import dev.icerock.moko.permissions.PermissionsController
@@ -13,30 +15,36 @@ import dev.icerock.moko.permissions.notifications.REMOTE_NOTIFICATION
 import kotlinx.coroutines.launch
 
 @Composable
-actual fun rememberNotificationPermissionState(notificationsActive: Boolean?): NotificationPermissionState {
-    return when (notificationsActive) {
-        true -> {
-            val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
-            val controller: PermissionsController = remember(factory) { factory.createPermissionsController() }
-            BindEffect(controller)
-            val coroutineScope = rememberCoroutineScope()
-            return remember(coroutineScope) {
-                NotificationPermissionState.Requestable {
-                    coroutineScope.launch {
-                        val permissionState = controller.getPermissionState(Permission.REMOTE_NOTIFICATION)
-                        when (permissionState) {
-                            PermissionState.NotDetermined, PermissionState.NotGranted -> {
-                                controller.providePermission(Permission.REMOTE_NOTIFICATION)
-                            }
+actual fun rememberNotificationPermissionState(
+    notificationsActive: Boolean?,
+    onPermissionStatus: (hasPermission: Boolean) -> Unit
+): NotificationPermissionState {
+    val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
+    val controller: PermissionsController = remember(factory) { factory.createPermissionsController() }
+    BindEffect(controller)
+    val coroutineScope = rememberCoroutineScope()
 
-                            else -> {}
-                        }
-
-                    }
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        if (notificationsActive == true) {
+            coroutineScope.launch {
+                val permissionState = controller.getPermissionState(Permission.REMOTE_NOTIFICATION)
+                if (permissionState != PermissionState.Granted) {
+                    onPermissionStatus(false)
                 }
             }
         }
-        false -> NotificationPermissionState.NotApplicable
-        else -> NotificationPermissionState.NotDetermined
+    }
+
+    return remember(coroutineScope) {
+        NotificationPermissionState.Requestable {
+            coroutineScope.launch {
+                try {
+                    controller.providePermission(Permission.REMOTE_NOTIFICATION)
+                    onPermissionStatus(true)
+                } catch (e: Exception) {
+                    onPermissionStatus(false)
+                }
+            }
+        }
     }
 }

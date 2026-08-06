@@ -104,6 +104,15 @@ fun SettingsUI(
     onNotificationsEnabled: (value: Boolean) -> Unit,
     popBack: () -> Unit
 ) {
+    val notificationPermissionState = rememberNotificationPermissionState(
+        notificationsActive = userEditableSettings?.notificationsEnabled,
+        onPermissionStatus = { hasPermission ->
+            if (userEditableSettings?.notificationsEnabled != hasPermission) {
+                onNotificationsEnabled(hasPermission)
+            }
+        }
+    )
+
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     /**
      * usePlatformDefaultWidth = false is use as a temporary fix to allow
@@ -147,7 +156,13 @@ fun SettingsUI(
                         settings = userEditableSettings,
                         onChangeDarkThemeConfig = onChangeDarkThemeConfig,
                         onChangeUseExperimentalFeatures = onChangeUseExperimentalFeatures,
-                        onChangeNotificationsEnabled = onNotificationsEnabled,
+                        onChangeNotificationsEnabled = { enabled ->
+                                if (enabled) {
+                                    notificationPermissionState.maybeRequest()
+                                } else {
+                                    onNotificationsEnabled(false)
+                                }
+                            },
                         supportsNotifications = supportsNotifications,
                     )
                 }
@@ -174,18 +189,6 @@ fun SettingsUI(
                             onClick = onSendNotifications,
                             enabled = supportsNotifications
                         )
-                    }
-
-                    if (supportsNotifications) {
-                        item {
-                            val notificationPermissionState =
-                                rememberNotificationPermissionState(userEditableSettings?.notificationsEnabled)
-                            ActionSettingsRow(
-                                title = "Request Notification Permission",
-                                subtitle = "Prompt OS dialog to allow reminders",
-                                onClick = { notificationPermissionState.maybeRequest() }
-                            )
-                        }
                     }
                 }
             }

@@ -34,4 +34,8 @@ terraform.tfstate.backup
 swiftpm
 /.kotlin/
 
+# fastlane iOS build output (gym default output_directory is repo root)
+*.ipa
+*.app.dSYM.zip
+
 */.compose-preview-history

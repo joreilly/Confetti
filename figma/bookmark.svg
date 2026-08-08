@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1079" height="126" viewBox="0 0 1079 126" text-rendering="geometricPrecision" font-family="sans-serif">
+<defs>
+  <g id="material-icon-materialiconsoutlined-bookmark_add">
+    <path d="M17 11 v6.97 l-5 -2.14 l-5 2.14 V5 h6 V3 H7 C 5.9 3 5 3.9 5 5 v16 l7 -3 l7 3 V11 H17 Z M21 7 h-2 v2 h-2 V7 h-2 V5 h2 V3 h2 v2 h2 V7 Z" fill="#201A1B"/>
+  </g>
+</defs>
+<g transform="translate(0, 0)">
+  <g id="Root">
+    <g id="ReusableComposeNode" data-material-icon="bookmark_add" data-material-icon-style="Outlined" data-material-icon-url="https://fonts.gstatic.com/s/i/materialiconsoutlined/bookmark_add/v1/24px.svg">
+      <g transform="translate(508 32) scale(2.62 2.62)">
+        <use href="#material-icon-materialiconsoutlined-bookmark_add" xlink:href="#material-icon-materialiconsoutlined-bookmark_add"/>
+      </g>
+    </g>
+  </g>
+</g>
+</svg>

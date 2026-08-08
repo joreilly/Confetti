@@ -1,0 +1,153 @@
+{
+  "system": "confetti-mobile",
+  "title": "Confetti Mobile",
+  "label": "Compose",
+  "source": {
+    "repo": "joreilly/Confetti",
+    "ref": "main",
+    "module": ":androidApp"
+  },
+  "generatedAt": "2026-08-08T17:06:01.991Z",
+  "mappings": [
+    {
+      "componentId": "Typography",
+      "figmaLayerName": "Typography",
+      "componentName": "TypographySpecimenPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "TypographySpecimenPreview",
+      "figmaSvg": "figma/typography.svg"
+    },
+    {
+      "componentId": "ColorScheme",
+      "figmaLayerName": "ColorScheme",
+      "componentName": "ColorSchemeSpecimenPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ColorSchemeSpecimenPreview",
+      "figmaSvg": "figma/colorscheme.svg"
+    },
+    {
+      "componentId": "Theme/Confetti",
+      "figmaLayerName": "Theme/Confetti",
+      "componentName": "ThemeFoundationDefaultPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationDefaultPreview",
+      "figmaSvg": "figma/theme-confetti.svg"
+    },
+    {
+      "componentId": "Theme/Android",
+      "figmaLayerName": "Theme/Android",
+      "componentName": "ThemeFoundationAndroidPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationAndroidPreview",
+      "figmaSvg": "figma/theme-android.svg"
+    },
+    {
+      "componentId": "Theme/Dynamic",
+      "figmaLayerName": "Theme/Dynamic",
+      "componentName": "ThemeFoundationDynamicPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationDynamicPreview",
+      "figmaSvg": "figma/theme-dynamic.svg"
+    },
+    {
+      "componentId": "Theme/ConferenceSeed",
+      "figmaLayerName": "Theme/ConferenceSeed",
+      "componentName": "ThemeFoundationConferenceSeedPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationConferenceSeedPreview",
+      "figmaSvg": "figma/theme-conferenceseed.svg"
+    },
+    {
+      "componentId": "Theme/Current",
+      "figmaLayerName": "Theme/Current",
+      "componentName": "ThemeFoundationCurrentPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationCurrentPreview",
+      "figmaSvg": "figma/theme-current.svg"
+    },
+    {
+      "componentId": "SessionItemView",
+      "figmaLayerName": "SessionItemView",
+      "componentName": "SessionItemPopulatedPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "SessionItemPopulatedPreview",
+      "figmaSvg": "figma/sessionitemview.svg"
+    },
+    {
+      "componentId": "Bookmark",
+      "figmaLayerName": "Bookmark",
+      "componentName": "BookmarkAddPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "BookmarkAddPreview",
+      "figmaSvg": "figma/bookmark.svg"
+    },
+    {
+      "componentId": "SpeakerItemView",
+      "figmaLayerName": "SpeakerItemView",
+      "componentName": "SpeakerItemPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "SpeakerItemPreview",
+      "figmaSvg": "figma/speakeritemview.svg"
+    },
+    {
+      "componentId": "ConfettiHeader",
+      "figmaLayerName": "ConfettiHeader",
+      "componentName": "ConfettiHeaderPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ConfettiHeaderPreview",
+      "figmaSvg": "figma/confettiheader.svg"
+    },
+    {
+      "componentId": "Schedule",
+      "figmaLayerName": "Schedule",
+      "componentName": "ScheduleScreenPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ScheduleScreenPreview",
+      "figmaSvg": "figma/schedule.svg"
+    },
+    {
+      "componentId": "SessionDetails",
+      "figmaLayerName": "SessionDetails",
+      "componentName": "SessionDetailsScreenPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "SessionDetailsScreenPreview",
+      "figmaSvg": "figma/sessiondetails.svg"
+    },
+    {
+      "componentId": "SpeakerDetails",
+      "figmaLayerName": "SpeakerDetails",
+      "componentName": "SpeakerDetailsScreenPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/androidApp/src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "SpeakerDetailsScreenPreview",
+      "figmaSvg": "figma/speakerdetails.svg"
+    }
+  ]
+}

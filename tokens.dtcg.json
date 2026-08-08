@@ -1,0 +1,91 @@
+{
+  "$schema": "https://github.com/yschimke/design-parity/schema/dtcg-tokens.schema.json",
+  "color": {
+    "primary": {
+      "$type": "color",
+      "$value": "#6835e7ff"
+    },
+    "onPrimary": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "primaryContainer": {
+      "$type": "color",
+      "$value": "#e8deffff"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "#615b71ff"
+    },
+    "secondaryContainer": {
+      "$type": "color",
+      "$value": "#e7def8ff"
+    },
+    "tertiary": {
+      "$type": "color",
+      "$value": "#7d5261ff"
+    },
+    "error": {
+      "$type": "color",
+      "$value": "#ba1a1aff"
+    },
+    "surface": {
+      "$type": "color",
+      "$value": "#fdf7ffff"
+    },
+    "onSurface": {
+      "$type": "color",
+      "$value": "#1c1b20ff"
+    },
+    "surfaceVariant": {
+      "$type": "color",
+      "$value": "#e6e0ecff"
+    },
+    "outline": {
+      "$type": "color",
+      "$value": "#79757fff"
+    }
+  },
+  "type": {
+    "displaySmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.SansSerif",
+        "fontSize": 36,
+        "fontWeight": 400,
+        "letterSpacing": 0,
+        "lineHeight": 44
+      }
+    },
+    "titleLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.SansSerif",
+        "fontSize": 22,
+        "fontWeight": 400,
+        "letterSpacing": 0,
+        "lineHeight": 28
+      }
+    },
+    "bodyLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.SansSerif",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "letterSpacing": 0.5,
+        "lineHeight": 24
+      }
+    },
+    "labelSmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.SansSerif",
+        "fontSize": 11,
+        "fontWeight": 500,
+        "letterSpacing": 0.5,
+        "lineHeight": 16
+      }
+    }
+  }
+}

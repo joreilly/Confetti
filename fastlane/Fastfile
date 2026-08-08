@@ -288,9 +288,16 @@ platform :ios do
     lane :uploadScreenshots do |options|
         # Uploads screenshots only — no binary, and skip_metadata leaves the listing text alone.
         # deliver auto-detects the device size (e.g. 6.9" iPhone) from each image's dimensions.
+        # app_version: deliver needs an editable App Store version to attach screenshots to.
+        # NOTE: if marketingVersion has no editable version yet, deliver tries to create one, but
+        # with skip_metadata: true it never loads name.txt etc. into memory and posts a blank
+        # localization name — Apple rejects that ("Cannot add localization due to app name").
+        # Create the version once via the App Store Connect web UI first (inherits the app's
+        # established name correctly); after that this lane just attaches screenshots to it.
         deliver(
             api_key: app_store_api_key,
             app_identifier: ios_app_identifier,
+            app_version: marketingVersion,
             # iOS metadata + screenshots share fastlane/metadata/ios (locale dirs hold both the
             # .txt and the .png). Point deliver here so it doesn't scan the shared ./fastlane/metadata
             # (which has the non-locale android/ios subdirs and fails locale validation).

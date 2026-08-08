@@ -143,3 +143,169 @@ platform :android do
     # )
   end
 end
+
+
+platform :ios do
+
+    ios_app_identifier = "dev.johnoreilly.confetti"
+    ios_app_name = "Confetti"
+    marketingVersion = "1.0.16"
+
+    # Resolves an App Store Connect API key from environment variables so no Apple ID
+    # password or 2FA is ever needed (works identically locally and in CI). Create the
+    # key once at App Store Connect > Users and Access > Integrations > App Store Connect
+    # API (needs App Manager or Admin role on the team to also create the app record),
+    # then set:
+    #   ASC_KEY_ID      - the key's Key ID
+    #   ASC_ISSUER_ID   - the Issuer ID shown above the keys table
+    #   ASC_KEY_CONTENT - base64 of the downloaded AuthKey_XXXX.p8
+    #                     (generate with: base64 -i AuthKey_XXXX.p8 | pbcopy)
+    def app_store_api_key
+        app_store_connect_api_key(
+            key_id: ENV.fetch("ASC_KEY_ID"),
+            issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+            key_content: ENV.fetch("ASC_KEY_CONTENT"),
+            is_key_content_base64: true
+        )
+    end
+
+
+    desc "One-time: register the bundle id and create the App Store Connect app record"
+    lane :createApp do |options|
+        # NOTE: we deliberately don't use `produce` here. produce authenticates every step via
+        # Spaceship::ConnectAPI.login, which forces an Apple ID web session (2FA) and ignores the
+        # App Store Connect API key. Instead we call the App Store Connect API directly with the
+        # token that app_store_connect_api_key installs on Spaceship::ConnectAPI, so this stays
+        # fully key-authenticated (no Apple ID / 2FA). Needs a key with Admin or App Manager role.
+        app_store_api_key
+        require "spaceship"
+
+        # 1. Register the App ID (bundle id) in the developer account, if not already there.
+        if Spaceship::ConnectAPI::BundleId.find(ios_app_identifier).nil?
+            UI.message("Registering bundle id #{ios_app_identifier}")
+            Spaceship::ConnectAPI::BundleId.create(
+                name: ios_app_name, # Apple Developer portal name: letters, numbers and spaces only
+                identifier: ios_app_identifier,
+                platform: Spaceship::ConnectAPI::BundleIdPlatform::IOS
+            )
+            UI.success("Registered bundle id #{ios_app_identifier}")
+        else
+            UI.success("Bundle id #{ios_app_identifier} already registered")
+        end
+
+        # 2. The App Store Connect app record. The App Store Connect API cannot create apps
+        #    (POST /apps is rejected: "resource 'apps' does not allow CREATE"), so this single
+        #    step can't use the API key — create the record once in the web UI. The bundle id
+        #    registered above is selectable in the New App dialog. Everything after this
+        #    (fastlane ios beta / release) is fully API-key driven.
+        if Spaceship::ConnectAPI::App.find(ios_app_identifier).nil?
+            UI.important("Bundle id is registered, but no App Store Connect app record exists yet.")
+            UI.important("Apple's API can't create apps — do it once at https://appstoreconnect.apple.com/apps")
+            UI.important("  \"+\" > New App  |  Platform: iOS  |  Name: #{ios_app_name}")
+            UI.important("  Primary language: English  |  Bundle ID: #{ios_app_identifier}  |  SKU: confetti-ios")
+            UI.important("Then run: fastlane ios beta")
+        else
+            UI.success("App '#{ios_app_name}' already exists on App Store Connect")
+        end
+    end
+
+
+    desc "Build a Release archive and upload it to TestFlight"
+    lane :beta do |options|
+        api_key = app_store_api_key
+
+        # TestFlight rejects duplicate build numbers, so default to a UTC timestamp
+        # (override with BUILD_NUMBER, e.g. the CI run number). Passed as an xcarg so
+        # no agvtool/apple-generic versioning setup is required on the target.
+        build_number = ENV["BUILD_NUMBER"] || Time.now.utc.strftime("%Y%m%d%H%M")
+
+        build_app(
+            project: "iosApp/iosApp.xcodeproj",
+            scheme: "iosApp",
+            configuration: "Release",
+            export_method: "app-store",
+            # Let Xcode create/refresh the App Store distribution profile via the API key.
+            xcargs: "MARKETING_VERSION=#{marketingVersion} CURRENT_PROJECT_VERSION=#{build_number} -allowProvisioningUpdates"
+        )
+
+        upload_to_testflight(
+            api_key: api_key,
+            skip_waiting_for_build_processing: true
+        )
+    end
+
+
+    desc "Show the processing state of the most recent TestFlight builds"
+    lane :buildStatus do |options|
+        app_store_api_key
+        app = Spaceship::ConnectAPI::App.find(ios_app_identifier)
+        UI.user_error!("No App Store Connect record for #{ios_app_identifier}") if app.nil?
+        builds = Spaceship::ConnectAPI::Build.all(app_id: app.id, limit: 5)
+        if builds.empty?
+            UI.important("No TestFlight builds found for #{ios_app_identifier}")
+        else
+            builds.each do |b|
+                UI.message("#{b.pre_release_version&.version} (#{b.version}) - #{b.processing_state} - uploaded #{b.uploaded_date}")
+            end
+        end
+    end
+
+
+    desc "Upload the App Store listing text (fastlane/metadata/ios) to App Store Connect — no binary, no screenshots"
+    lane :uploadMetadata do |options|
+        deliver(
+            api_key: app_store_api_key,
+            app_identifier: ios_app_identifier,
+            metadata_path: "fastlane/metadata/ios",
+            skip_binary_upload: true,
+            skip_screenshots: true,
+            skip_metadata: false,
+            run_precheck_before_submit: false,
+            force: true,
+            submit_for_review: false
+        )
+    end
+
+
+    desc "Upload the App Store screenshots (fastlane/metadata/ios/screenshots/<locale>) to App Store Connect"
+    lane :uploadScreenshots do |options|
+        # Uploads screenshots only — no binary, and skip_metadata leaves the listing text alone.
+        # deliver auto-detects the device size (e.g. 6.9" iPhone) from each image's dimensions.
+        deliver(
+            api_key: app_store_api_key,
+            app_identifier: ios_app_identifier,
+            # iOS metadata + screenshots share fastlane/metadata/ios (locale dirs hold both the
+            # .txt and the .png). Point deliver here so it doesn't scan the shared ./fastlane/metadata
+            # (which has the non-locale android/ios subdirs and fails locale validation).
+            metadata_path: "fastlane/metadata/ios",
+            screenshots_path: "fastlane/metadata/ios",
+            skip_binary_upload: true,
+            skip_metadata: true,
+            skip_screenshots: false,
+            overwrite_screenshots: true,
+            run_precheck_before_submit: false,
+            force: true,
+            submit_for_review: false
+        )
+    end
+
+
+    desc "Submit the latest TestFlight build + metadata to the App Store for review"
+    lane :release do |options|
+        deliver(
+            api_key: app_store_api_key,
+            app_identifier: ios_app_identifier,
+            # Locale dirs under fastlane/metadata/ios hold both the .txt metadata and the .png
+            # screenshots; point deliver here so it skips the shared ./fastlane/metadata (whose
+            # non-locale android/ios subdirs fail deliver's locale validation).
+            metadata_path: "fastlane/metadata/ios",
+            screenshots_path: "fastlane/metadata/ios",
+            submit_for_review: false,
+            automatic_release: false,
+            force: true,               # skip the HTML metadata preview / confirmation prompt
+            skip_binary_upload: true,  # reuse the build already sent to TestFlight by :beta
+            overwrite_screenshots: true,
+            precheck_include_in_app_purchases: false
+        )
+    end
+end

@@ -1,0 +1,57 @@
+name: Publish iOS (TestFlight)
+
+# Manual only: publishing shouldn't fire on every push. Requires three repo secrets
+# holding an App Store Connect API key (Settings > Secrets and variables > Actions):
+#   ASC_KEY_ID       - the key's Key ID
+#   ASC_ISSUER_ID    - the Issuer ID from App Store Connect > Users and Access > Integrations
+#   ASC_KEY_CONTENT  - base64 of the AuthKey_XXXX.p8  (base64 -i AuthKey_XXXX.p8)
+# Run `fastlane ios createApp` once locally first to register the bundle id + app record
+# (Confetti's app record already exists on App Store Connect, so this is a no-op here).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-ios-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  testflight:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+      # Unique, monotonic build number per run (CFBundleVersion) so TestFlight accepts each upload.
+      BUILD_NUMBER: ${{ github.run_number }}
+      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so the
+      # Kotlin/Native compile Gradle runs (invoked by xcodebuild) only read from the cache.
+      BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      # Kotlin/Native framework (:shared:embedAndSignAppleFrameworkForXcode) is compiled by the
+      # Xcode build phase via Gradle; cache its dependencies and the Konan toolchain across runs.
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Cache KMP libraries
+        uses: actions/cache@v6
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-v1-${{ hashFiles('**/libs.versions.toml') }}
+
+      - name: Set Xcode Version 26.6
+        shell: bash
+        run: |
+          xcodes select 26.6
+
+      - name: Build and upload to TestFlight
+        run: fastlane ios beta

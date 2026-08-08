@@ -1,2 +1,9 @@
+# Android (supply / Play Store)
 json_key_file "api-7766993617350370117-734745-0ad3ebc14f84.json" # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
 package_name "dev.johnoreilly.confetti"
+
+# iOS (produce / pilot / deliver — App Store Connect). Auth is via the App Store
+# Connect API key resolved in the Fastfile, so no apple_id/team_id is needed here.
+for_platform :ios do
+  app_identifier "dev.johnoreilly.confetti"
+end

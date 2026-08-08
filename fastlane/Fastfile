@@ -146,6 +146,8 @@ end
 
 
 platform :ios do
+    require "base64"
+    require "tempfile"
 
     ios_app_identifier = "dev.johnoreilly.confetti"
     ios_app_name = "Confetti"
@@ -219,14 +221,29 @@ platform :ios do
         # no agvtool/apple-generic versioning setup is required on the target.
         build_number = ENV["BUILD_NUMBER"] || Time.now.utc.strftime("%Y%m%d%H%M")
 
+        # app_store_connect_api_key above only authenticates fastlane's own API calls (e.g.
+        # upload_to_testflight below) — it does NOT feed into xcodebuild's own automatic
+        # signing. On a machine with no Apple ID signed into Xcode (any CI runner),
+        # -allowProvisioningUpdates alone fails archiving with "No Accounts" / "No profiles
+        # ... found". Writing the key to a temp .p8 and passing it via xcodebuild's own
+        # -authenticationKey* flags lets automatic signing use the API key directly.
+        auth_key_file = Tempfile.new(["AuthKey_#{ENV.fetch('ASC_KEY_ID')}", ".p8"])
+        auth_key_file.write(Base64.decode64(ENV.fetch("ASC_KEY_CONTENT")))
+        auth_key_file.close
+
         build_app(
             project: "iosApp/iosApp.xcodeproj",
             scheme: "iosApp",
             configuration: "Release",
             export_method: "app-store",
-            # Let Xcode create/refresh the App Store distribution profile via the API key.
-            xcargs: "MARKETING_VERSION=#{marketingVersion} CURRENT_PROJECT_VERSION=#{build_number} -allowProvisioningUpdates"
+            xcargs: "MARKETING_VERSION=#{marketingVersion} CURRENT_PROJECT_VERSION=#{build_number} " \
+                    "-allowProvisioningUpdates " \
+                    "-authenticationKeyPath #{auth_key_file.path} " \
+                    "-authenticationKeyID #{ENV.fetch('ASC_KEY_ID')} " \
+                    "-authenticationKeyIssuerID #{ENV.fetch('ASC_ISSUER_ID')}"
         )
+
+        auth_key_file.unlink
 
         upload_to_testflight(
             api_key: api_key,

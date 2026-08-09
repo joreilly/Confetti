@@ -102,7 +102,7 @@ fun SpeakerDetailsView(
                         .padding(contentPaddings),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val url = speaker.photoUrl
+                    val url = speaker.photoUrlThumbnail
                     SubcomposeAsyncImage(
                         model = url,
                         contentDescription = speaker.name,
@@ -186,7 +186,7 @@ fun SpeakerDetailsView(
 
     if (showFullScreenPhoto) {
         FullScreenPhotoDialog(
-            photoUrl = speaker.photoUrl,
+            photoUrl = speaker.photoUrlThumbnail,
             contentDescription = speaker.name,
             onDismissRequest = { showFullScreenPhoto = false }
         )

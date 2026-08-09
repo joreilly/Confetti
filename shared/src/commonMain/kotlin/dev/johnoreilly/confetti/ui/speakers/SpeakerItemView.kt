@@ -60,7 +60,7 @@ fun SpeakerItemView(
         },
         leadingContent = {
             SubcomposeAsyncImage(
-                model = speaker.photoUrl,
+                model = speaker.photoUrlThumbnail,
                 contentDescription = speaker.name,
                 loading = {
                     CircularProgressIndicator(
@@ -89,7 +89,7 @@ fun SpeakerItemView(
 
     if (showFullScreenPhoto) {
         FullScreenPhotoDialog(
-            photoUrl = speaker.photoUrl,
+            photoUrl = speaker.photoUrlThumbnail,
             contentDescription = speaker.name,
             onDismissRequest = { showFullScreenPhoto = false }
         )

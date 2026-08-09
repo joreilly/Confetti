@@ -61,7 +61,7 @@ fun SpeakerGridView(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SubcomposeAsyncImage(
-                            model = speaker.photoUrl,
+                            model = speaker.photoUrlThumbnail,
                             contentDescription = speaker.name,
                             loading = {
                                 CircularProgressIndicator(

@@ -201,8 +201,8 @@ internal fun SessionSpeakerInfo(
             null
         },
         leadingContent = {
-            speaker.photoUrl?.let {
-                val url = speaker.photoUrl
+            speaker.photoUrlThumbnail?.let {
+                val url = speaker.photoUrlThumbnail
                 SubcomposeAsyncImage(
                     model = url,
                     contentDescription = speaker.name,
@@ -224,7 +224,7 @@ internal fun SessionSpeakerInfo(
 
     if (showFullScreenPhoto) {
         FullScreenPhotoDialog(
-            photoUrl = speaker.photoUrl,
+            photoUrl = speaker.photoUrlThumbnail,
             contentDescription = speaker.name,
             onDismissRequest = { showFullScreenPhoto = false }
         )

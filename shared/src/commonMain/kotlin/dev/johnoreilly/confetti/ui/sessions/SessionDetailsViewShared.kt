@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.speakers
+import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
@@ -201,8 +202,7 @@ internal fun SessionSpeakerInfo(
             null
         },
         leadingContent = {
-            speaker.photoUrl?.let {
-                val url = speaker.photoUrl
+            speaker.avatarUrl()?.let { url ->
                 SubcomposeAsyncImage(
                     model = url,
                     contentDescription = speaker.name,
@@ -224,7 +224,7 @@ internal fun SessionSpeakerInfo(
 
     if (showFullScreenPhoto) {
         FullScreenPhotoDialog(
-            photoUrl = speaker.photoUrl,
+            photoUrl = speaker.avatarUrl(),
             contentDescription = speaker.name,
             onDismissRequest = { showFullScreenPhoto = false }
         )

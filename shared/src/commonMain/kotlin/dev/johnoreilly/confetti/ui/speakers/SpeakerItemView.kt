@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
+import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.johnOreillySpeaker
@@ -60,7 +61,7 @@ fun SpeakerItemView(
         },
         leadingContent = {
             SubcomposeAsyncImage(
-                model = speaker.photoUrl,
+                model = speaker.avatarUrl(),
                 contentDescription = speaker.name,
                 loading = {
                     CircularProgressIndicator(
@@ -89,7 +90,7 @@ fun SpeakerItemView(
 
     if (showFullScreenPhoto) {
         FullScreenPhotoDialog(
-            photoUrl = speaker.photoUrl,
+            photoUrl = speaker.avatarUrl(),
             contentDescription = speaker.name,
             onDismissRequest = { showFullScreenPhoto = false }
         )

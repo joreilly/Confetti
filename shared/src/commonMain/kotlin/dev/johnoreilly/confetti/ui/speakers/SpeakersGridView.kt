@@ -29,6 +29,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.SubcomposeAsyncImage
+import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.sampleSpeakers
@@ -61,7 +62,7 @@ fun SpeakerGridView(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SubcomposeAsyncImage(
-                            model = speaker.photoUrl,
+                            model = speaker.avatarUrl(),
                             contentDescription = speaker.name,
                             loading = {
                                 CircularProgressIndicator(

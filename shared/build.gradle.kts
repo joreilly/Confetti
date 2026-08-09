@@ -188,6 +188,9 @@ kotlin {
 
         val wasmJsMain by getting {
             dependencies {
+                // coil3-network-ktor needs an explicit HttpClientEngine per platform; without
+                // this, Coil's remote image fetches (e.g. speaker photos) silently fail on web.
+                implementation(libs.ktor.client.js)
             }
         }
     }

@@ -55,6 +55,7 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Person
 import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.preview.johnOreillySpeaker
 import dev.johnoreilly.confetti.preview.martinBonninSpeaker
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
@@ -102,7 +103,7 @@ fun SpeakerDetailsView(
                         .padding(contentPaddings),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val url = speaker.photoUrl
+                    val url = speaker.avatarUrl()
                     SubcomposeAsyncImage(
                         model = url,
                         contentDescription = speaker.name,
@@ -186,7 +187,7 @@ fun SpeakerDetailsView(
 
     if (showFullScreenPhoto) {
         FullScreenPhotoDialog(
-            photoUrl = speaker.photoUrl,
+            photoUrl = speaker.avatarUrl(),
             contentDescription = speaker.name,
             onDismissRequest = { showFullScreenPhoto = false }
         )

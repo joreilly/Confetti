@@ -1,4 +1,8 @@
 version:0
+string|agent_assistant|QXNzaXN0YW50
+string|agent_placeholder|QXNrIGFib3V0IHNlc3Npb25zIG9yIHNwZWFrZXJz4oCm
+string|agent_restart|UmVzdGFydCBjaGF0
+string|agent_send|U2VuZA==
 string|app_name|Q29uZmV0dGk=
 string|bookmarks_past|UGFzdA==
 string|bookmarks_upcoming|VXBjb21pbmc=
@@ -17,6 +21,8 @@ string|dynamic_color_no|Tm8=
 string|dynamic_color_preference|VXNlIER5bmFtaWMgQ29sb3I=
 string|dynamic_color_yes|WWVz
 string|empty_text|Tm8gZGF0YSBwcmVzZW50
+string|enable_notifications_desc|R2V0IG5vdGlmaWNhdGlvbnMgZm9yIGJvb2ttYXJrZWQgdGFsa3Mu
+string|enable_notifications|RW5hYmxlIE5vdGlmaWNhdGlvbnM=
 string|gemini|R2VtaW5p
 string|install_on_watch|SW5zdGFsbCBvbiBXYXRjaA==
 string|install_wear|SW5zdGFsbCBvbiBXZWFy
@@ -45,5 +51,6 @@ string|speakers|U3BlYWtlcnM=
 string|switch_conference|U3dpdGNoIENvbmZlcmVuY2U=
 string|theme|VGhlbWU=
 string|update_wear|VXBkYXRlIFdlYXIgVGhlbWU=
+string|use_experimental_features_desc|RW5hYmxlIGVhcmx5IGZlYXR1cmVzIGZvciB0ZXN0aW5nLg==
 string|use_experimental_features|VXNlIEV4cGVyaW1lbnRhbCBGZWF0dXJlcw==
 string|venue|VmVudWU=

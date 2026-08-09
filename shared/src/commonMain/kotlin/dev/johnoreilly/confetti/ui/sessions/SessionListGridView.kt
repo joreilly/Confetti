@@ -47,6 +47,7 @@ import coil3.compose.AsyncImage
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.sessionsSuccessState
@@ -463,8 +464,8 @@ private fun Speakers(conference: String, session: SessionDetails) {
                 .padding(2.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (speaker.speakerDetails.photoUrlThumbnail?.isNotEmpty() == true) {
-                val url = speaker.speakerDetails.photoUrlThumbnail
+            val url = speaker.speakerDetails.avatarUrl()
+            if (url?.isNotEmpty() == true) {
                 AsyncImage(
                     model = url,
                     contentDescription = speaker.speakerDetails.name,

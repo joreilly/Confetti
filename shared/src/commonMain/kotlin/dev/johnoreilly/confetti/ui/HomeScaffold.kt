@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.utils.isCompact
 import dev.johnoreilly.confetti.utils.isExpanded
+import dev.johnoreilly.confetti.utils.thenNotNull
+import dev.chrisbanes.haze.haze
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,8 +46,14 @@ fun HomeScaffold(
         TopAppBarDefaults.pinnedScrollBehavior()
     }
 
+    val hazeState = LocalHazeState.current
+
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .thenNotNull(hazeState) { state ->
+                haze(state)
+            },
         topBar = {
             CenterAlignedTopAppBar(
                 title = {

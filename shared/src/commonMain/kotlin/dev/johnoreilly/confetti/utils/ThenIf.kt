@@ -4,7 +4,7 @@ import androidx.compose.ui.Modifier
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-inline fun Modifier.thenIf(
+public inline fun Modifier.thenIf(
     condition: Boolean,
     block: Modifier.() -> Modifier,
 ): Modifier {
@@ -12,7 +12,7 @@ inline fun Modifier.thenIf(
 }
 
 @OptIn(ExperimentalContracts::class)
-inline fun <T> Modifier.thenNotNull(
+public inline fun <T> Modifier.thenNotNull(
     value: T?,
     block: Modifier.(T) -> Modifier,
 ): Modifier {

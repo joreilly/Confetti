@@ -4,10 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
@@ -23,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Scaffold
@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -47,6 +48,10 @@ import confetti.shared.generated.resources.bookmarks
 import confetti.shared.generated.resources.schedule
 import confetti.shared.generated.resources.speakers
 import confetti.shared.generated.resources.venue
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.HazeStyle
+import dev.chrisbanes.haze.HazeTint
+import dev.chrisbanes.haze.hazeChild
 import dev.johnoreilly.confetti.decompose.AppComponent
 import dev.johnoreilly.confetti.decompose.ConferenceComponent
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
@@ -106,86 +111,107 @@ fun HomeView(component: HomeComponent) {
     val windowSizeClass = calculateWindowSizeClass()
     val shouldShowNavRail = windowSizeClass.isExpanded
     val snackbarHostState = remember { SnackbarHostState() }
+    val hazeState = remember { HazeState() }
 
-    Row {
-        if (shouldShowNavRail) {
-            NavigationRail(component)
-        }
-
-        val topBarNavigationIcon = @Composable {
-            AccountIcon(
-                onSwitchConference = component::onSwitchConferenceClicked,
-                onOpenAgent = component::onAgentClicked,
-                onSignIn = component::onSignInClicked,
-                onSignOut = component::onSignOutClicked,
-                onShowSettings = component::onShowSettingsClicked,
-                info = component.user?.let { user ->
-                    AccountInfo(photoUrl = user.photoUrl)
-                },
-                installOnWear = {}, // FIXME: handle
-                //wearSettingsUiState = wearUiState,
-                showAgentOption = component.isAgentEnabled()
-            )
-        }
-
-        val topBarActions: @Composable RowScope.() -> Unit = {
-            IconButton(onClick = { component.onSearchClicked() }) {
-                Icon(Icons.Outlined.Search, contentDescription = "search")
+    CompositionLocalProvider(LocalHazeState provides hazeState) {
+        Row {
+            if (shouldShowNavRail) {
+                NavigationRail(component)
             }
-        }
 
-        Scaffold(
-            bottomBar = { if (!shouldShowNavRail) BottomBar(component) },
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-            contentWindowInsets = WindowInsets(0.dp)
-        ) { innerPadding ->
-            Column(modifier = Modifier.padding(innerPadding)) {
+            val topBarNavigationIcon = @Composable {
+                AccountIcon(
+                    onSwitchConference = component::onSwitchConferenceClicked,
+                    onOpenAgent = component::onAgentClicked,
+                    onSignIn = component::onSignInClicked,
+                    onSignOut = component::onSignOutClicked,
+                    onShowSettings = component::onShowSettingsClicked,
+                    info = component.user?.let { user ->
+                        AccountInfo(photoUrl = user.photoUrl)
+                    },
+                    installOnWear = {}, // FIXME: handle
+                    //wearSettingsUiState = wearUiState,
+                    showAgentOption = component.isAgentEnabled()
+                )
+            }
 
-                Children(stack = component.stack) {
-                    when (val child = it.instance) {
-                        is HomeComponent.Child.Sessions ->
-                            SessionsUI(
-                                component = child.component,
-                                windowSizeClass = windowSizeClass,
-                                topBarNavigationIcon = topBarNavigationIcon,
-                                topBarActions = topBarActions,
-                                snackbarHostState = snackbarHostState
-                            )
-
-                        is HomeComponent.Child.Speakers ->
-                            SpeakersUI(
-                                component = child.component,
-                                windowSizeClass = windowSizeClass,
-                                topBarNavigationIcon = topBarNavigationIcon,
-                                topBarActions = topBarActions,
-                            )
-                        is HomeComponent.Child.Bookmarks ->
-                            BookmarksUI(
-                                component = child.component,
-                                windowSizeClass = windowSizeClass,
-                                topBarNavigationIcon = topBarNavigationIcon,
-                                topBarActions = topBarActions,
-                            )
-
-                        is HomeComponent.Child.Venue ->
-                            VenueUI(
-                                component = child.component,
-                                windowSizeClass = windowSizeClass,
-                                topBarNavigationIcon = topBarNavigationIcon,
-                                topBarActions = topBarActions,
-                            )
-
-                        is HomeComponent.Child.Search ->
-                            SearchUI(
-                                component = child.component,
-                                windowSizeClass = windowSizeClass,
-                                onBackClick = component::onBackClicked
-                            )
-
-                        is HomeComponent.Child.Agent -> ConferenceAgentView(child.component)
-                    }
+            val topBarActions: @Composable RowScope.() -> Unit = {
+                IconButton(onClick = { component.onSearchClicked() }) {
+                    Icon(Icons.Outlined.Search, contentDescription = "search")
                 }
+            }
 
+            Scaffold(
+                bottomBar = {
+                    if (!shouldShowNavRail) {
+                        BottomBar(
+                            component = component,
+                            modifier = Modifier.hazeChild(
+                                state = hazeState,
+                                style = HazeStyle(
+                                    backgroundColor = MaterialTheme.colorScheme.surface,
+                                    tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
+                                    blurRadius = 25.dp,
+                                )
+                            )
+                        )
+                    }
+                },
+                snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+                contentWindowInsets = WindowInsets(0.dp)
+            ) { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+
+                    Children(stack = component.stack) {
+                        when (val child = it.instance) {
+                            is HomeComponent.Child.Sessions ->
+                                SessionsUI(
+                                    component = child.component,
+                                    windowSizeClass = windowSizeClass,
+                                    topBarNavigationIcon = topBarNavigationIcon,
+                                    topBarActions = topBarActions,
+                                    snackbarHostState = snackbarHostState
+                                )
+
+                            is HomeComponent.Child.Speakers ->
+                                SpeakersUI(
+                                    component = child.component,
+                                    windowSizeClass = windowSizeClass,
+                                    topBarNavigationIcon = topBarNavigationIcon,
+                                    topBarActions = topBarActions,
+                                )
+
+                            is HomeComponent.Child.Bookmarks ->
+                                BookmarksUI(
+                                    component = child.component,
+                                    windowSizeClass = windowSizeClass,
+                                    topBarNavigationIcon = topBarNavigationIcon,
+                                    topBarActions = topBarActions,
+                                )
+
+                            is HomeComponent.Child.Venue ->
+                                VenueUI(
+                                    component = child.component,
+                                    windowSizeClass = windowSizeClass,
+                                    topBarNavigationIcon = topBarNavigationIcon,
+                                    topBarActions = topBarActions,
+                                )
+
+                            is HomeComponent.Child.Search ->
+                                SearchUI(
+                                    component = child.component,
+                                    windowSizeClass = windowSizeClass,
+                                    onBackClick = component::onBackClicked
+                                )
+
+                            is HomeComponent.Child.Agent -> ConferenceAgentView(child.component)
+                        }
+                    }
+
+                }
             }
         }
     }
@@ -215,12 +241,14 @@ private fun NavigationRail(component: HomeComponent) {
 
 
 @Composable
-private fun BottomBar(component: HomeComponent) {
+private fun BottomBar(component: HomeComponent, modifier: Modifier = Modifier) {
     Column {
         HorizontalDivider()
         NavigationBar(
+            modifier = modifier,
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
             tonalElevation = 0.dp,
+            containerColor = Color.Transparent,
         ) {
             NavigationButtons(component = component) { isSelected, selectedIcon, unselectedIcon, text, onClick ->
                 NavigationBarItem(

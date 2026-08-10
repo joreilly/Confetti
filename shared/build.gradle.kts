@@ -99,6 +99,7 @@ kotlin {
                 api(libs.materialkolor)
                 api(libs.compose.window.size)
                 implementation(libs.lifecyle.runtime)
+                implementation(libs.haze)
                 api("com.mikepenz:multiplatform-markdown-renderer-m3:0.43.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.9.1")
 

@@ -40,6 +40,7 @@ multiplatform-settings = "1.3.0"
 nav-compose = "2.9.8"
 okio = "3.18.1"
 permissions = "0.20.1"
+haze = "1.1.1"
 protolayout = "1.4.1"
 robolectric = "4.16.1"
 room = "2.8.4"
@@ -94,6 +95,7 @@ apollo-execution-gradle-plugin = { module = "com.apollographql.execution:apollo-
 permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissions" }
 permissions-notifications = { module = "dev.icerock.moko:permissions-notifications", version.ref = "permissions" }
 permissions = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }
+haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
 spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }
 spring-webflux = "org.springframework:spring-webflux:7.0.8"

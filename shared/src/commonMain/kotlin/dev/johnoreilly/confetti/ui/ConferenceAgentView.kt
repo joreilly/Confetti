@@ -24,8 +24,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
+import androidx.compose.material.icons.filled.Assistant
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -143,12 +146,34 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
 }
 
 @Composable
-private fun MessageBubble(message: ConferenceAgentComponent.Message) {
-    val alignment = when (message) {
-        is ConferenceAgentComponent.Message.User -> Alignment.End
-        is ConferenceAgentComponent.Message.System -> Alignment.CenterHorizontally
-        else -> Alignment.Start
+private fun MessageAvatar(
+    imageVector: ImageVector,
+    contentDescription: String,
+    containerColor: Color,
+    iconColor: Color
+) {
+    Box(
+        modifier = Modifier
+            .size(32.dp)
+            .background(containerColor, RoundedCornerShape(16.dp)),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = contentDescription,
+            tint = iconColor,
+            modifier = Modifier.size(20.dp)
+        )
     }
+}
+
+@Composable
+private fun MessageBubble(message: ConferenceAgentComponent.Message) {
+    val isSystem = message is ConferenceAgentComponent.Message.System
+    val isUser = message is ConferenceAgentComponent.Message.User
+    val isAgent = message is ConferenceAgentComponent.Message.Agent
+    val isError = message is ConferenceAgentComponent.Message.Error
+
     val background = when (message) {
         is ConferenceAgentComponent.Message.User -> MaterialTheme.colorScheme.primaryContainer
         is ConferenceAgentComponent.Message.Agent -> MaterialTheme.colorScheme.surfaceVariant
@@ -157,32 +182,71 @@ private fun MessageBubble(message: ConferenceAgentComponent.Message) {
         is ConferenceAgentComponent.Message.Error -> MaterialTheme.colorScheme.errorContainer
     }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    if (isSystem) {
         Box(
             modifier = Modifier
-                .align(alignment)
-                .widthIn(max = 720.dp)
-                .background(background, RoundedCornerShape(12.dp))
-                .padding(horizontal = 12.dp, vertical = 8.dp),
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            contentAlignment = Alignment.Center
         ) {
-            when (message) {
-                is ConferenceAgentComponent.Message.Agent -> Markdown(message.text)
-                is ConferenceAgentComponent.Message.System ->
-                    Text(
-                        text = message.text,
-                        fontStyle = FontStyle.Italic,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.outline
-                    )
-                is ConferenceAgentComponent.Message.ToolCall ->
-                    Text(
-                        text = "🔧 ${message.text}",
-                        color = MaterialTheme.colorScheme.outline,
-                        fontStyle = FontStyle.Italic,
-                    )
-                is ConferenceAgentComponent.Message.Error ->
-                    Text(message.text, color = MaterialTheme.colorScheme.onErrorContainer)
-                is ConferenceAgentComponent.Message.User -> Text(message.text)
+            Box(
+                modifier = Modifier
+                    .background(background, RoundedCornerShape(12.dp))
+                    .padding(horizontal = 12.dp, vertical = 6.dp)
+            ) {
+                Text(
+                    text = message.text,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
+        }
+    } else {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start,
+            verticalAlignment = Alignment.Top
+        ) {
+            if (!isUser && (isAgent || isError)) {
+                MessageAvatar(
+                    imageVector = Icons.Filled.Assistant,
+                    contentDescription = "Agent",
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    iconColor = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+                Spacer(Modifier.width(8.dp))
+            }
+
+            Box(
+                modifier = Modifier
+                    .widthIn(max = 660.dp)
+                    .background(background, RoundedCornerShape(12.dp))
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+            ) {
+                when (message) {
+                    is ConferenceAgentComponent.Message.Agent -> Markdown(message.text)
+                    is ConferenceAgentComponent.Message.Error ->
+                        Text(message.text, color = MaterialTheme.colorScheme.onErrorContainer)
+                    is ConferenceAgentComponent.Message.User -> Text(message.text)
+                    is ConferenceAgentComponent.Message.ToolCall ->
+                        Text(
+                            text = "🔧 ${message.text}",
+                            color = MaterialTheme.colorScheme.outline,
+                            fontStyle = FontStyle.Italic,
+                        )
+                    is ConferenceAgentComponent.Message.System -> {}
+                }
+            }
+
+            if (isUser) {
+                Spacer(Modifier.width(8.dp))
+                MessageAvatar(
+                    imageVector = Icons.Filled.Person,
+                    contentDescription = "User",
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    iconColor = MaterialTheme.colorScheme.onPrimary
+                )
             }
         }
     }

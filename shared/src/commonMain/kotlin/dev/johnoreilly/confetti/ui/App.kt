@@ -29,6 +29,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -37,6 +42,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -100,6 +106,12 @@ fun ConferenceView(component: ConferenceComponent) {
                         SettingsUI(childComponent, component::onBackClicked)
                     }
                 }
+                is ConferenceComponent.Child.Agent -> {
+                    ConferenceAgentView(
+                        component = child.component,
+                        onCloseClick = component::onBackClicked
+                    )
+                }
             }
         }
     }
@@ -131,7 +143,6 @@ fun HomeView(component: HomeComponent) {
                         AccountInfo(photoUrl = user.photoUrl)
                     },
                     installOnWear = {}, // FIXME: handle
-                    //wearSettingsUiState = wearUiState,
                     showAgentOption = component.isAgentEnabled()
                 )
             }
@@ -207,11 +218,6 @@ fun HomeView(component: HomeComponent) {
                                     windowSizeClass = windowSizeClass,
                                     onBackClick = component::onBackClicked
                                 )
-
-                            is HomeComponent.Child.Agent -> ConferenceAgentView(
-                                component = child.component,
-                                bottomContentPadding = innerPadding.calculateBottomPadding()
-                            )
                         }
                     }
 

@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -32,6 +36,7 @@ import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.CircularProgressIndicator
@@ -61,6 +66,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -74,12 +80,18 @@ import dev.johnoreilly.confetti.decompose.ConferenceAgentComponent
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPadding: Dp = 0.dp) {
+fun ConferenceAgentView(
+    component: ConferenceAgentComponent,
+    onCloseClick: () -> Unit,
+    bottomContentPadding: Dp = 0.dp
+) {
     val state by component.uiState.subscribeAsState()
     val listState = rememberLazyListState()
     val renderMessages = remember(state.messages) { groupMessages(state.messages) }
     var showPhotoDialogUrl by remember { mutableStateOf<String?>(null) }
     val hazeState = remember { HazeState() }
+    val systemBottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val totalBottomPadding = systemBottomPadding + bottomContentPadding
 
     LaunchedEffect(renderMessages.size) {
         if (renderMessages.isNotEmpty()) {
@@ -87,113 +99,133 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .imePadding()
-    ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().haze(hazeState),
-            state = listState,
-            contentPadding = PaddingValues(
-                start = 16.dp,
-                end = 16.dp,
-                top = 16.dp,
-                bottom = 88.dp + bottomContentPadding
-            ),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+    Column(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .padding(horizontal = 8.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            item {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Spacer(Modifier.weight(1f))
-                    IconButton(onClick = { component.restartChat() }) {
-                        Icon(
-                            imageVector = Icons.Filled.Refresh,
-                            contentDescription = stringResource(Res.string.agent_restart),
+            IconButton(onClick = onCloseClick) {
+                Icon(Icons.Filled.Close, contentDescription = "Close")
+            }
+            Text(
+                text = "Assistant",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center
+            )
+            IconButton(onClick = { component.restartChat() }) {
+                Icon(
+                    imageVector = Icons.Filled.Refresh,
+                    contentDescription = stringResource(Res.string.agent_restart),
+                )
+            }
+        }
+
+        HorizontalDivider(
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+            thickness = 1.dp
+        )
+
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .imePadding()
+        ) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().haze(hazeState),
+                state = listState,
+                contentPadding = PaddingValues(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 16.dp,
+                    bottom = 88.dp + totalBottomPadding
+                ),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(renderMessages) { renderMessage ->
+                    when (renderMessage) {
+                        is RenderMessage.Single -> MessageBubble(
+                            message = renderMessage.message,
+                            userPhotoUrl = state.userPhotoUrl,
+                            onPhotoClick = { url -> showPhotoDialogUrl = url }
                         )
+                        is RenderMessage.ToolCallGroup -> ToolCallGroupBubble(renderMessage)
+                    }
+                }
+
+                if (state.isLoading) {
+                    item {
+                        TypingBubble()
                     }
                 }
             }
 
-            items(renderMessages) { renderMessage ->
-                when (renderMessage) {
-                    is RenderMessage.Single -> MessageBubble(
-                        message = renderMessage.message,
-                        userPhotoUrl = state.userPhotoUrl,
-                        onPhotoClick = { url -> showPhotoDialogUrl = url }
-                    )
-                    is RenderMessage.ToolCallGroup -> ToolCallGroupBubble(renderMessage)
-                }
-            }
-
-            if (state.isLoading) {
-                item {
-                    TypingBubble()
-                }
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .hazeChild(
-                    state = hazeState,
-                    style = HazeStyle(
-                        backgroundColor = MaterialTheme.colorScheme.surface,
-                        tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
-                        blurRadius = 25.dp,
-                    )
-                )
-        ) {
-            HorizontalDivider(
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
-                thickness = 1.dp
-            )
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
-                    .padding(bottom = bottomContentPadding),
-                verticalAlignment = Alignment.CenterVertically,
+                    .align(Alignment.BottomCenter)
+                    .hazeChild(
+                        state = hazeState,
+                        style = HazeStyle(
+                            backgroundColor = MaterialTheme.colorScheme.surface,
+                            tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
+                            blurRadius = 25.dp,
+                        )
+                    )
             ) {
-                TextField(
-                    modifier = Modifier.weight(1f),
-                    value = state.inputText,
-                    onValueChange = component::updateInputText,
-                    placeholder = { Text(stringResource(Res.string.agent_placeholder)) },
-                    enabled = state.isInputEnabled && !state.isChatEnded,
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                    keyboardActions = KeyboardActions(onSend = {
-                        if (state.inputText.isNotBlank()) {
-                            component.sendMessage()
-                        }
-                    }),
-                    shape = CircleShape,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent
-                    )
+                HorizontalDivider(
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+                    thickness = 1.dp
                 )
-
-                Spacer(Modifier.width(8.dp))
-
-                FilledIconButton(
-                    onClick = { component.sendMessage() },
-                    enabled = state.isInputEnabled &&
-                        !state.isChatEnded &&
-                        state.inputText.isNotBlank(),
-                    modifier = Modifier.size(48.dp)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                        .padding(bottom = totalBottomPadding),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.Send,
-                        contentDescription = stringResource(Res.string.agent_send),
-                        modifier = Modifier.size(20.dp)
+                    TextField(
+                        modifier = Modifier.weight(1f),
+                        value = state.inputText,
+                        onValueChange = component::updateInputText,
+                        placeholder = { Text(stringResource(Res.string.agent_placeholder)) },
+                        enabled = state.isInputEnabled && !state.isChatEnded,
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                        keyboardActions = KeyboardActions(onSend = {
+                            if (state.inputText.isNotBlank()) {
+                                component.sendMessage()
+                            }
+                        }),
+                        shape = CircleShape,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent
+                        )
                     )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    FilledIconButton(
+                        onClick = { component.sendMessage() },
+                        enabled = state.isInputEnabled &&
+                            !state.isChatEnded &&
+                            state.inputText.isNotBlank(),
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Send,
+                            contentDescription = stringResource(Res.string.agent_send),
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                 }
             }
         }

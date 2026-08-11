@@ -7,6 +7,8 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.childContext
 import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.HomeComponent.Child
@@ -41,7 +43,6 @@ interface HomeComponent {
         class Bookmarks(val component: BookmarksComponent) : Child()
         class Venue(val component: VenueComponent) : Child()
         class Search(val component: SearchComponent) : Child()
-        class Agent(val component: ConferenceAgentComponent) : Child()
     }
 }
 
@@ -55,6 +56,7 @@ class DefaultHomeComponent(
     private val onSignIn: () -> Unit,
     private val onSignOut: () -> Unit,
     private val onShowSettings: () -> Unit,
+    private val onShowAgent: () -> Unit,
 ) : HomeComponent, KoinComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -63,7 +65,7 @@ class DefaultHomeComponent(
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.Agent,
+            initialConfiguration = Config.Sessions,
             handleBackButton = true,
             childFactory = ::child,
         )
@@ -120,15 +122,6 @@ class DefaultHomeComponent(
                         onSignIn = onSignIn,
                     )
                 )
-
-            Config.Agent ->
-                Child.Agent(
-                    DefaultConferenceAgentComponent(
-                        componentContext = componentContext,
-                        conference = conference,
-                        userPhotoUrl = user?.photoUrl,
-                    )
-                )
         }
 
     override fun isAgentEnabled(): Boolean {
@@ -164,7 +157,7 @@ class DefaultHomeComponent(
     }
 
     override fun onAgentClicked() {
-        navigation.bringToFront(Config.Agent)
+        onShowAgent()
     }
 
     override fun onSignInClicked() {
@@ -199,8 +192,5 @@ class DefaultHomeComponent(
 
         @Serializable
         data object Search : Config()
-
-        @Serializable
-        data object Agent : Config()
     }
 }

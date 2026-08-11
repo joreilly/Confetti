@@ -393,7 +393,8 @@ object Sessionize {
         id: String,
         name: String,
         url: String,
-        themeColor: String
+        themeColor: String,
+        days: List<LocalDate> = emptyList()
     ): Int {
         return writeData(
             getData(url),
@@ -401,6 +402,7 @@ object Sessionize {
                 id = id,
                 name = name,
                 timeZone = "Europe/Berlin",
+                days = days,
                 themeColor = themeColor
             ),
             venue = DVenue(
@@ -443,6 +445,19 @@ object Sessionize {
             "droidcon Berlin 2025",
             "https://sessionize.com/api/v2/ove96gci/view/All",
             "0xFFFFBE29"
+        )
+    }
+
+    suspend fun importDroidconBerlin2026(): Int {
+        return importDroidconBerlin(
+            ConferenceId.DroidconBerlin2026.id,
+            "droidcon Berlin 2026",
+            "https://sessionize.com/api/v2/syf15uh9/view/All",
+            "0xFFFFBE29",
+            days = listOf(
+                LocalDate(2026, 10, 7),
+                LocalDate(2026, 10, 8)
+            )
         )
     }
 

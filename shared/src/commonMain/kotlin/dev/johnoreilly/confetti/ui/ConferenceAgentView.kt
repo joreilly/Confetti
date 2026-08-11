@@ -35,6 +35,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.animation.core.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -100,12 +101,7 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
 
             if (state.isLoading) {
                 item {
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(8.dp),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        CircularProgressIndicator(modifier = Modifier.size(24.dp))
-                    }
+                    TypingBubble()
                 }
             }
         }
@@ -337,4 +333,66 @@ private fun groupMessages(messages: List<ConferenceAgentComponent.Message>): Lis
         result.add(RenderMessage.ToolCallGroup(currentToolCalls.toList()))
     }
     return result
+}
+
+@Composable
+private fun TypingBubble() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.Top
+    ) {
+        MessageAvatar(
+            imageVector = Icons.Filled.Assistant,
+            contentDescription = "Agent",
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            iconColor = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+        Spacer(Modifier.width(8.dp))
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(12.dp))
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+        ) {
+            TypingIndicator()
+        }
+    }
+}
+
+@Composable
+private fun TypingIndicator() {
+    val transition = rememberInfiniteTransition()
+    val alphas = (0..2).map { index ->
+        transition.animateFloat(
+            initialValue = 0.2f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = keyframes {
+                    durationMillis = 600
+                    0.2f at 0 with LinearEasing
+                    1.0f at 200 with LinearEasing
+                    0.2f at 400 with LinearEasing
+                },
+                repeatMode = RepeatMode.Restart,
+                initialStartOffset = StartOffset(index * 150)
+            )
+        )
+    }
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(horizontal = 6.dp, vertical = 8.dp)
+    ) {
+        alphas.forEach { alphaState ->
+            Box(
+                modifier = Modifier
+                    .size(6.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = alphaState.value),
+                        shape = RoundedCornerShape(3.dp)
+                    )
+            )
+        }
+    }
 }

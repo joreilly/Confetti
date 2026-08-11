@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.mikepenz.markdown.m3.Markdown
@@ -46,7 +47,7 @@ import dev.johnoreilly.confetti.decompose.ConferenceAgentComponent
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun ConferenceAgentView(component: ConferenceAgentComponent) {
+fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPadding: Dp = 0.dp) {
     val state by component.uiState.subscribeAsState()
     val listState = rememberLazyListState()
 
@@ -56,7 +57,12 @@ fun ConferenceAgentView(component: ConferenceAgentComponent) {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .padding(bottom = bottomContentPadding)
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(Modifier.weight(1f))
             IconButton(onClick = { component.restartChat() }) {

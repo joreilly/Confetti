@@ -46,6 +46,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.animation.core.*
 import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.HazeStyle
+import dev.chrisbanes.haze.HazeTint
+import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeChild
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -74,6 +79,7 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
     val listState = rememberLazyListState()
     val renderMessages = remember(state.messages) { groupMessages(state.messages) }
     var showPhotoDialogUrl by remember { mutableStateOf<String?>(null) }
+    val hazeState = remember { HazeState() }
 
     LaunchedEffect(renderMessages.size) {
         if (renderMessages.isNotEmpty()) {
@@ -87,7 +93,7 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
             .imePadding()
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().haze(hazeState),
             state = listState,
             contentPadding = PaddingValues(
                 start = 16.dp,
@@ -130,7 +136,14 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .background(MaterialTheme.colorScheme.background)
+                .hazeChild(
+                    state = hazeState,
+                    style = HazeStyle(
+                        backgroundColor = MaterialTheme.colorScheme.surface,
+                        tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
+                        blurRadius = 25.dp,
+                    )
+                )
         ) {
             HorizontalDivider(
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),

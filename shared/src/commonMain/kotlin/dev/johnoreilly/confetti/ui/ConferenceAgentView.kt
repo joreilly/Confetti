@@ -49,6 +49,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.animation.core.*
 import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import dev.chrisbanes.haze.HazeState
@@ -99,8 +100,12 @@ fun ConferenceAgentView(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Row(
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
@@ -231,12 +236,13 @@ fun ConferenceAgentView(
         }
     }
 
-    if (showPhotoDialogUrl != null) {
-        FullScreenPhotoDialog(
-            photoUrl = showPhotoDialogUrl,
-            contentDescription = "User Profile Photo",
-            onDismissRequest = { showPhotoDialogUrl = null }
-        )
+        if (showPhotoDialogUrl != null) {
+            FullScreenPhotoDialog(
+                photoUrl = showPhotoDialogUrl,
+                contentDescription = "User Profile Photo",
+                onDismissRequest = { showPhotoDialogUrl = null }
+            )
+        }
     }
 }
 
@@ -319,6 +325,7 @@ private fun MessageBubble(
 
             Box(
                 modifier = Modifier
+                    .weight(1f, fill = false)
                     .widthIn(max = 660.dp)
                     .background(background, RoundedCornerShape(12.dp))
                     .padding(horizontal = 12.dp, vertical = 8.dp),

@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "df3f961a4eb0cd2adef94518c208ad9c8e4ccba7",
+    "generatedFrom": "ec856569ec502dec21de8f6d8ece1b6ce97e2cf7",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview.png",
@@ -3848,6 +3848,13 @@
             "path": "renders/wearApp/Color_0x000080.png",
             "versions": [
                 {
+                    "blob": "c3a68fbab4cd5a2b51bdf84bed91131bcbafcfd7",
+                    "commit": "ec856569ec502dec21de8f6d8ece1b6ce97e2cf7",
+                    "date": "2026-08-11T18:47:15Z",
+                    "sourceSha": "c7c452d9",
+                    "commits": 1
+                },
+                {
                     "blob": "35364d4e78aa02070cdebe104a7a8944ed2357a1",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
                     "date": "2026-08-03T22:19:30Z",
@@ -3876,13 +3883,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x008000": {
             "path": "renders/wearApp/Color_0x008000.png",
             "versions": [
+                {
+                    "blob": "c704f8802b87dab6804ff7af480394bf1d4fdcbb",
+                    "commit": "ec856569ec502dec21de8f6d8ece1b6ce97e2cf7",
+                    "date": "2026-08-11T18:47:15Z",
+                    "sourceSha": "c7c452d9",
+                    "commits": 1
+                },
                 {
                     "blob": "8f45d45c9a114f639d32e0f0e637d15b94ecac90",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
@@ -3912,13 +3926,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x800000": {
             "path": "renders/wearApp/Color_0x800000.png",
             "versions": [
+                {
+                    "blob": "902a39261201093be1080745458396980068c889",
+                    "commit": "ec856569ec502dec21de8f6d8ece1b6ce97e2cf7",
+                    "date": "2026-08-11T18:47:15Z",
+                    "sourceSha": "c7c452d9",
+                    "commits": 1
+                },
                 {
                     "blob": "dbc8b707a6d3d971933c72383551285557273b64",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
@@ -3948,13 +3969,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Defaults": {
             "path": "renders/wearApp/Defaults.png",
             "versions": [
+                {
+                    "blob": "c77fb95794cc960b44d1617f0dd6f42121fb686f",
+                    "commit": "ec856569ec502dec21de8f6d8ece1b6ce97e2cf7",
+                    "date": "2026-08-11T18:47:15Z",
+                    "sourceSha": "c7c452d9",
+                    "commits": 1
+                },
                 {
                     "blob": "369a0dbedf922823ccc84be71dcc072de463ddd7",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
@@ -3984,13 +4012,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.NotSet": {
             "path": "renders/wearApp/NotSet.png",
             "versions": [
+                {
+                    "blob": "44a9608da92bbd452f21400b4deed6630b979370",
+                    "commit": "ec856569ec502dec21de8f6d8ece1b6ce97e2cf7",
+                    "date": "2026-08-11T18:47:15Z",
+                    "sourceSha": "c7c452d9",
+                    "commits": 1
+                },
                 {
                     "blob": "5574fe6cd4234c55a6ce0e63a58575e74784282a",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
@@ -4020,7 +4055,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 0
         },

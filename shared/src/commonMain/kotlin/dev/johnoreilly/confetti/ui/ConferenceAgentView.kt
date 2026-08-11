@@ -15,11 +15,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,6 +35,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,10 +58,11 @@ import org.jetbrains.compose.resources.stringResource
 fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPadding: Dp = 0.dp) {
     val state by component.uiState.subscribeAsState()
     val listState = rememberLazyListState()
+    val renderMessages = remember(state.messages) { groupMessages(state.messages) }
 
-    LaunchedEffect(state.messages.size) {
-        if (state.messages.isNotEmpty()) {
-            listState.animateScrollToItem(state.messages.lastIndex)
+    LaunchedEffect(renderMessages.size) {
+        if (renderMessages.isNotEmpty()) {
+            listState.animateScrollToItem(renderMessages.lastIndex)
         }
     }
 
@@ -80,8 +88,11 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
             state = listState,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(state.messages) { message ->
-                MessageBubble(message)
+            items(renderMessages) { renderMessage ->
+                when (renderMessage) {
+                    is RenderMessage.Single -> MessageBubble(renderMessage.message)
+                    is RenderMessage.ToolCallGroup -> ToolCallGroupBubble(renderMessage)
+                }
             }
 
             if (state.isLoading) {
@@ -169,4 +180,91 @@ private fun MessageBubble(message: ConferenceAgentComponent.Message) {
             }
         }
     }
+}
+
+@Composable
+private fun ToolCallGroupBubble(group: RenderMessage.ToolCallGroup) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { expanded = !expanded }
+            .padding(vertical = 4.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        ) {
+            Text(
+                text = "🔧 Called ${group.toolCalls.size} tools",
+                color = MaterialTheme.colorScheme.outline,
+                style = MaterialTheme.typography.bodyMedium,
+                fontStyle = FontStyle.Italic,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
+                contentDescription = if (expanded) "Collapse" else "Expand",
+                tint = MaterialTheme.colorScheme.outline
+            )
+        }
+
+        if (expanded) {
+            Spacer(Modifier.height(4.dp))
+            Column(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                group.toolCalls.forEach { toolCall ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                RoundedCornerShape(8.dp)
+                            )
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Text(
+                            text = toolCall.text,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodySmall,
+                            fontStyle = FontStyle.Italic
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+private sealed interface RenderMessage {
+    data class Single(val message: ConferenceAgentComponent.Message) : RenderMessage
+    data class ToolCallGroup(val toolCalls: List<ConferenceAgentComponent.Message.ToolCall>) : RenderMessage
+}
+
+private fun groupMessages(messages: List<ConferenceAgentComponent.Message>): List<RenderMessage> {
+    val result = mutableListOf<RenderMessage>()
+    val currentToolCalls = mutableListOf<ConferenceAgentComponent.Message.ToolCall>()
+
+    for (message in messages) {
+        if (message is ConferenceAgentComponent.Message.ToolCall) {
+            currentToolCalls.add(message)
+        } else {
+            if (currentToolCalls.isNotEmpty()) {
+                result.add(RenderMessage.ToolCallGroup(currentToolCalls.toList()))
+                currentToolCalls.clear()
+            }
+            result.add(RenderMessage.Single(message))
+        }
+    }
+    if (currentToolCalls.isNotEmpty()) {
+        result.add(RenderMessage.ToolCallGroup(currentToolCalls.toList()))
+    }
+    return result
 }

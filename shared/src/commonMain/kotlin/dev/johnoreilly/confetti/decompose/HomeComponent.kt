@@ -59,7 +59,7 @@ class DefaultHomeComponent(
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.Sessions,
+            initialConfiguration = Config.Agent,
             handleBackButton = true,
             childFactory = ::child,
         )

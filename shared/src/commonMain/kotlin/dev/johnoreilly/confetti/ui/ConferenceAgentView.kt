@@ -39,6 +39,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.animation.core.*
 import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
@@ -123,39 +127,61 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
             }
         }
 
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp)
-                .padding(bottom = bottomContentPadding),
-            verticalAlignment = Alignment.CenterVertically,
         ) {
-            OutlinedTextField(
-                modifier = Modifier.weight(1f),
-                value = state.inputText,
-                onValueChange = component::updateInputText,
-                placeholder = { Text(stringResource(Res.string.agent_placeholder)) },
-                enabled = state.isInputEnabled && !state.isChatEnded,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                keyboardActions = KeyboardActions(onSend = { component.sendMessage() }),
-                shape = RoundedCornerShape(24.dp),
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+                thickness = 1.dp
             )
-
-            Spacer(Modifier.width(8.dp))
-
-            IconButton(
-                onClick = { component.sendMessage() },
-                enabled = state.isInputEnabled &&
-                    !state.isChatEnded &&
-                    state.inputText.isNotBlank(),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .padding(bottom = bottomContentPadding),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Send,
-                    contentDescription = stringResource(Res.string.agent_send),
+                TextField(
+                    modifier = Modifier.weight(1f),
+                    value = state.inputText,
+                    onValueChange = component::updateInputText,
+                    placeholder = { Text(stringResource(Res.string.agent_placeholder)) },
+                    enabled = state.isInputEnabled && !state.isChatEnded,
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                    keyboardActions = KeyboardActions(onSend = {
+                        if (state.inputText.isNotBlank()) {
+                            component.sendMessage()
+                        }
+                    }),
+                    shape = CircleShape,
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    )
                 )
+
+                Spacer(Modifier.width(8.dp))
+
+                FilledIconButton(
+                    onClick = { component.sendMessage() },
+                    enabled = state.isInputEnabled &&
+                        !state.isChatEnded &&
+                        state.inputText.isNotBlank(),
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Send,
+                        contentDescription = stringResource(Res.string.agent_send),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             }
         }
     }

@@ -88,6 +88,7 @@ fun SettingsUI(
         onSendNotifications = component::sendNotifications,
         supportsNotifications = component.supportsNotifications,
         onNotificationsEnabled = component::updateNotificationsEnabled,
+        onChangeForceEnableAssistant = component::updateForceEnableAssistant,
         popBack = popBack
     )
 }
@@ -103,6 +104,7 @@ fun SettingsUI(
     onSendNotifications: () -> Unit,
     supportsNotifications: Boolean,
     onNotificationsEnabled: (value: Boolean) -> Unit,
+    onChangeForceEnableAssistant: (value: Boolean) -> Unit,
     popBack: () -> Unit
 ) {
     var showPermissionDeniedDialog by remember { mutableStateOf(false) }
@@ -208,6 +210,15 @@ fun SettingsUI(
                             subtitle = "Trigger a mock session reminder alert",
                             onClick = onSendNotifications,
                             enabled = supportsNotifications
+                        )
+                    }
+
+                    item {
+                        SwitchSettingsRow(
+                            title = "Force Open Assistant",
+                            description = "Enable Gemini Assistant without API key config",
+                            value = developerSettings.forceEnableAssistant,
+                            onValueChange = onChangeForceEnableAssistant
                         )
                     }
                 }

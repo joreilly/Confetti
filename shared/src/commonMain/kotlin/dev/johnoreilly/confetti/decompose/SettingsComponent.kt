@@ -21,7 +21,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 data class DeveloperSettings(
-    val token: String?
+    val token: String?,
+    val forceEnableAssistant: Boolean
 )
 
 /**
@@ -50,6 +51,7 @@ interface SettingsComponent {
     fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
     fun updateUseExperimentalFeatures(value: Boolean)
     fun updateNotificationsEnabled(value: Boolean)
+    fun updateForceEnableAssistant(value: Boolean)
     fun enableDeveloperMode()
     fun sendNotifications()
     val supportsNotifications: Boolean
@@ -67,12 +69,15 @@ class DefaultSettingsComponent(
     private val settings = appSettings.settings
     override val applicationInfo: ApplicationInfo by inject()
 
-    override val developerSettings: StateFlow<DeveloperSettings?> = appSettings.developerModeFlow().flatMapLatest {
-        if (!it) {
+    override val developerSettings: StateFlow<DeveloperSettings?> = appSettings.developerModeFlow().flatMapLatest { devMode ->
+        if (!devMode) {
             flowOf(null)
         } else {
-            authentication.currentUser.map { user ->
-                DeveloperSettings(token = user?.token(false))
+            combine(
+                authentication.currentUser.map { user -> user?.token(false) },
+                appSettings.forceEnableAssistantFlow
+            ) { token, forceEnable ->
+                DeveloperSettings(token = token, forceEnableAssistant = forceEnable)
             }
         }
     }.stateIn(
@@ -114,6 +119,12 @@ class DefaultSettingsComponent(
         coroutineScope.launch {
             appSettings.setNotificationsEnabled(value)
             notificationSender?.updateSchedule(value)
+        }
+    }
+
+    override fun updateForceEnableAssistant(value: Boolean) {
+        coroutineScope.launch {
+            appSettings.setForceEnableAssistant(value)
         }
     }
 

@@ -11,6 +11,10 @@ import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.HomeComponent.Child
 import kotlinx.serialization.Serializable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import dev.johnoreilly.confetti.AppSettings
+import kotlinx.coroutines.runBlocking
 
 interface HomeComponent {
 
@@ -51,7 +55,7 @@ class DefaultHomeComponent(
     private val onSignIn: () -> Unit,
     private val onSignOut: () -> Unit,
     private val onShowSettings: () -> Unit,
-) : HomeComponent, ComponentContext by componentContext {
+) : HomeComponent, KoinComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
 
@@ -127,7 +131,11 @@ class DefaultHomeComponent(
         }
 
     override fun isAgentEnabled(): Boolean {
-        return BuildKonfig.GEMINI_API_KEY.isNotEmpty()
+        val appSettings: AppSettings by inject()
+        val forceEnable = runBlocking {
+            appSettings.settings.getBoolean(AppSettings.FORCE_ENABLE_ASSISTANT, false)
+        }
+        return forceEnable || BuildKonfig.GEMINI_API_KEY.isNotEmpty()
     }
 
     override fun onSessionsTabClicked() {

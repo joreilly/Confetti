@@ -71,6 +71,13 @@ class AppSettings(val settings: FlowSettings) {
         settings.putBoolean(DEVELOPER_MODE, b)
     }
 
+    val forceEnableAssistantFlow = settings
+        .getBooleanFlow(FORCE_ENABLE_ASSISTANT, false)
+
+    suspend fun setForceEnableAssistant(value: Boolean) {
+        settings.putBoolean(FORCE_ENABLE_ASSISTANT, value)
+    }
+
     val onboardingCompletedFlow: Flow<Boolean> = settings
         .getBooleanFlow(ONBOARDING_COMPLETED, false)
 
@@ -90,5 +97,6 @@ class AppSettings(val settings: FlowSettings) {
         const val CONFERENCE_THEME_COLOR_SETTING = "conferenceThemeColor"
         const val CONFERENCE_NOT_SET = ""
         const val ONBOARDING_COMPLETED = "onboarding_completed"
+        const val FORCE_ENABLE_ASSISTANT = "force_enable_assistant"
     }
 }

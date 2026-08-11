@@ -207,7 +207,10 @@ fun HomeView(component: HomeComponent) {
                                     onBackClick = component::onBackClicked
                                 )
 
-                            is HomeComponent.Child.Agent -> ConferenceAgentView(child.component)
+                            is HomeComponent.Child.Agent -> ConferenceAgentView(
+                                component = child.component,
+                                bottomContentPadding = innerPadding.calculateBottomPadding()
+                            )
                         }
                     }
 

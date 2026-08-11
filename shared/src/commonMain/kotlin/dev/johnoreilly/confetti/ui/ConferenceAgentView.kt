@@ -378,21 +378,22 @@ private fun ToolCallGroupBubble(group: RenderMessage.ToolCallGroup) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.15f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                shape = RoundedCornerShape(8.dp)
+            )
             .clickable { expanded = !expanded }
             .padding(vertical = 4.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-                    shape = RoundedCornerShape(8.dp)
-                )
+                .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             Text(
@@ -410,30 +411,26 @@ private fun ToolCallGroupBubble(group: RenderMessage.ToolCallGroup) {
         }
 
         if (expanded) {
-            Spacer(Modifier.height(4.dp))
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+                thickness = 1.dp,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            Spacer(Modifier.height(8.dp))
             Column(
                 modifier = Modifier
-                    .padding(start = 16.dp)
+                    .padding(horizontal = 12.dp)
                     .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 group.toolCalls.forEach { toolCall ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                                RoundedCornerShape(8.dp)
-                            )
-                            .padding(horizontal = 12.dp, vertical = 6.dp)
-                    ) {
-                        Text(
-                            text = toolCall.text,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodySmall,
-                            fontStyle = FontStyle.Italic
-                        )
-                    }
+                    Text(
+                        text = toolCall.text,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontStyle = FontStyle.Italic,
+                        modifier = Modifier.padding(bottom = 6.dp)
+                    )
                 }
             }
         }

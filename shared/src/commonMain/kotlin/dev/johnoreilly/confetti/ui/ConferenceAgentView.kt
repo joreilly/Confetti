@@ -146,12 +146,13 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
 private fun MessageBubble(message: ConferenceAgentComponent.Message) {
     val alignment = when (message) {
         is ConferenceAgentComponent.Message.User -> Alignment.End
+        is ConferenceAgentComponent.Message.System -> Alignment.CenterHorizontally
         else -> Alignment.Start
     }
     val background = when (message) {
         is ConferenceAgentComponent.Message.User -> MaterialTheme.colorScheme.primaryContainer
         is ConferenceAgentComponent.Message.Agent -> MaterialTheme.colorScheme.surfaceVariant
-        is ConferenceAgentComponent.Message.System -> Color.Transparent
+        is ConferenceAgentComponent.Message.System -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
         is ConferenceAgentComponent.Message.ToolCall -> Color.Transparent
         is ConferenceAgentComponent.Message.Error -> MaterialTheme.colorScheme.errorContainer
     }
@@ -167,7 +168,12 @@ private fun MessageBubble(message: ConferenceAgentComponent.Message) {
             when (message) {
                 is ConferenceAgentComponent.Message.Agent -> Markdown(message.text)
                 is ConferenceAgentComponent.Message.System ->
-                    Text(message.text, fontStyle = FontStyle.Italic)
+                    Text(
+                        text = message.text,
+                        fontStyle = FontStyle.Italic,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.outline
+                    )
                 is ConferenceAgentComponent.Message.ToolCall ->
                     Text(
                         text = "🔧 ${message.text}",

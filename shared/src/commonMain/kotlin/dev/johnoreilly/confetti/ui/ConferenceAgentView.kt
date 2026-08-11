@@ -35,7 +35,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -123,8 +123,8 @@ fun ConferenceAgentView(
             )
             IconButton(onClick = { component.restartChat() }) {
                 Icon(
-                    imageVector = Icons.Filled.Refresh,
-                    contentDescription = stringResource(Res.string.agent_restart),
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = "Clear Chat",
                 )
             }
         }

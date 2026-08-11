@@ -27,6 +27,7 @@ interface AppComponent {
 
     sealed class Child {
         object Loading : Child()
+        class Onboarding(val component: OnboardingComponent) : Child()
         class Conferences(val component: ConferencesComponent) : Child()
         class Conference(val component: ConferenceComponent) : Child()
     }
@@ -78,15 +79,19 @@ class DefaultAppComponent(
             if (initialConferenceId != null) {
                 selectAndNavigateToDeepLinkedConference(initialConferenceId)
             } else {
-                val conference: String = repository.getConference()
-                if (conference == AppSettings.CONFERENCE_NOT_SET) {
-                    showConferences()
+                if (!appSettings.isOnboardingCompleted()) {
+                    showOnboarding()
                 } else {
-                    val conferenceThemeColor = repository.getConferenceThemeColor()
-                    showConference(conference = conference, conferenceThemeColor = conferenceThemeColor)
+                    val conference: String = repository.getConference()
+                    if (conference == AppSettings.CONFERENCE_NOT_SET) {
+                        showConferences()
+                    } else {
+                        val conferenceThemeColor = repository.getConferenceThemeColor()
+                        showConference(conference = conference, conferenceThemeColor = conferenceThemeColor)
 
-                    // Take the opportunity to update any listeners of the conference
-                    repository.updateConfenceListeners(conference, conferenceThemeColor)
+                        // Take the opportunity to update any listeners of the conference
+                        repository.updateConfenceListeners(conference, conferenceThemeColor)
+                    }
                 }
             }
         }
@@ -119,6 +124,24 @@ class DefaultAppComponent(
     private fun child(config: Config, componentContext: ComponentContext): Child =
         when (config) {
             is Config.Loading -> Child.Loading
+
+            is Config.Onboarding ->
+                Child.Onboarding(
+                    DefaultOnboardingComponent(
+                        componentContext = componentContext,
+                        onFinished = {
+                            coroutineScope.launch {
+                                val conference: String = repository.getConference()
+                                if (conference == AppSettings.CONFERENCE_NOT_SET) {
+                                    showConferences()
+                                } else {
+                                    val conferenceThemeColor = repository.getConferenceThemeColor()
+                                    showConference(conference = conference, conferenceThemeColor = conferenceThemeColor)
+                                }
+                            }
+                        }
+                    )
+                )
 
             is Config.Conferences ->
                 Child.Conferences(
@@ -156,6 +179,10 @@ class DefaultAppComponent(
                 )
         }
 
+    private fun showOnboarding() {
+        navigation.replaceAll(Config.Onboarding)
+    }
+
     private fun showConferences() {
         navigation.replaceAll(Config.Conferences())
     }
@@ -172,6 +199,9 @@ class DefaultAppComponent(
     private sealed class Config {
         @Serializable
         data object Loading : Config()
+
+        @Serializable
+        data object Onboarding : Config()
 
         @Serializable
         data class Conferences(val isSwitching: Boolean = false) : Config()

@@ -69,27 +69,9 @@ class DefaultConferenceAgentComponent(
 
     private val state = MutableStateFlow(
         ConferenceAgentComponent.UiState(
-            userPhotoUrl = userPhotoUrl ?: "https://avatars.githubusercontent.com/u/4348197?s=400&u=c27e3f938a61471e2eebc00d6c8ab8826b0af816&v=4",
+            userPhotoUrl = userPhotoUrl,
             messages = listOf(
                 ConferenceAgentComponent.Message.System(agentProvider.description),
-                ConferenceAgentComponent.Message.User("Hi, what Kotlin sessions are scheduled for tomorrow?"),
-                ConferenceAgentComponent.Message.ToolCall("fetchSessions(date=2026-08-12)"),
-                ConferenceAgentComponent.Message.ToolCall("filterSessions(topic=Kotlin)"),
-                ConferenceAgentComponent.Message.Agent("There are 2 Kotlin sessions tomorrow:\n1. *Kotlin Multiplatform in Action* at 10:00 AM\n2. *Advanced Coroutines* at 2:00 PM."),
-                ConferenceAgentComponent.Message.User("Thanks! Can you bookmark the first one?"),
-                ConferenceAgentComponent.Message.ToolCall("bookmarkSession(id=session-kmp-101)"),
-                ConferenceAgentComponent.Message.System("Session bookmarked successfully."),
-                ConferenceAgentComponent.Message.Agent("I have bookmarked 'Kotlin Multiplatform in Action' for you."),
-                ConferenceAgentComponent.Message.User("Who are the speakers for the Advanced Coroutines session?"),
-                ConferenceAgentComponent.Message.ToolCall("fetchSessionDetails(id=session-coroutines-102)"),
-                ConferenceAgentComponent.Message.Agent("The speaker for *Advanced Coroutines* is **John Doe**, a Principal Engineer specialized in Kotlin asynchronous programming."),
-                ConferenceAgentComponent.Message.User("Great. Where is the venue of the conference?"),
-                ConferenceAgentComponent.Message.ToolCall("fetchVenue()"),
-                ConferenceAgentComponent.Message.Agent("The conference is held at the **San Francisco Convention Center**, Hall A, located at 747 Howard St."),
-                ConferenceAgentComponent.Message.User("Is there any bookmark tab where I can view all my bookmarks?"),
-                ConferenceAgentComponent.Message.Agent("Yes, you can see all your bookmarked sessions in the 'Bookmarks' tab at the bottom navigation bar on the home screen."),
-                ConferenceAgentComponent.Message.User("Perfect, thanks for your help!"),
-                ConferenceAgentComponent.Message.Agent("You are welcome! Let me know if you need anything else.")
             ),
         ),
     )

@@ -1500,7 +1500,7 @@
     "functionName": "Color_0x000080",
     "module": "wearApp",
     "renderBasename": "Color_0x000080.png",
-    "sha256": "dba8e30815ec3e5bed932d31ff32b8c90ee7faf1bd81b18153cc3e0fc080bc07",
+    "sha256": "0ff238cf4bd7796837b03af97cd1490fb45425b269a81a981f5575e0b9755c01",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x008000": {
@@ -1508,7 +1508,7 @@
     "functionName": "Color_0x008000",
     "module": "wearApp",
     "renderBasename": "Color_0x008000.png",
-    "sha256": "f155cac4d1d81b1cfe385a2b52efbd06f2576699407cff046cfc79f838a66a1c",
+    "sha256": "65237207a7b2d9f8d780623477d14b89923cab103114583e855f4ecfee2fb156",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x800000": {
@@ -1516,7 +1516,7 @@
     "functionName": "Color_0x800000",
     "module": "wearApp",
     "renderBasename": "Color_0x800000.png",
-    "sha256": "3650036859303f5c9cdfb754c6bccabf107604537f41bb0acd31e3a82cabc21f",
+    "sha256": "e3ba59da4fb47bca5d5cbdcb6ade240b7c0c3e3391fe2f7eb3192dd281023d0d",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Defaults": {
@@ -1524,7 +1524,7 @@
     "functionName": "Defaults",
     "module": "wearApp",
     "renderBasename": "Defaults.png",
-    "sha256": "61811dfd4e7f09b9ebad4f805959329da3b6e95df905503dfd40afb6a3b78624",
+    "sha256": "3e68d40879687dd35f9e9f23e1aa045c0fa6bae0a196a38d93cbced6bcb9a149",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.NotSet": {
@@ -1532,7 +1532,7 @@
     "functionName": "NotSet",
     "module": "wearApp",
     "renderBasename": "NotSet.png",
-    "sha256": "d9ef698e365f28fb62e65c70483739c824e6e4f19cc943b8ad5d80e717fd6023",
+    "sha256": "71c04a483c5525497f5567b878e2bdbb89498969b741a6190a2fb55e2badbc29",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.Color_0x000080Swatches": {

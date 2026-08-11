@@ -126,6 +126,7 @@ class DefaultHomeComponent(
                     DefaultConferenceAgentComponent(
                         componentContext = componentContext,
                         conference = conference,
+                        userPhotoUrl = user?.photoUrl,
                     )
                 )
         }

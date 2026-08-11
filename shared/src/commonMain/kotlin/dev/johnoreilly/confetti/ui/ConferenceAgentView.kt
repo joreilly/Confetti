@@ -19,6 +19,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -94,7 +98,7 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
         ) {
             items(renderMessages) { renderMessage ->
                 when (renderMessage) {
-                    is RenderMessage.Single -> MessageBubble(renderMessage.message)
+                    is RenderMessage.Single -> MessageBubble(renderMessage.message, state.userPhotoUrl)
                     is RenderMessage.ToolCallGroup -> ToolCallGroupBubble(renderMessage)
                 }
             }
@@ -164,7 +168,7 @@ private fun MessageAvatar(
 }
 
 @Composable
-private fun MessageBubble(message: ConferenceAgentComponent.Message) {
+private fun MessageBubble(message: ConferenceAgentComponent.Message, userPhotoUrl: String?) {
     val isSystem = message is ConferenceAgentComponent.Message.System
     val isUser = message is ConferenceAgentComponent.Message.User
     val isAgent = message is ConferenceAgentComponent.Message.Agent
@@ -237,12 +241,23 @@ private fun MessageBubble(message: ConferenceAgentComponent.Message) {
 
             if (isUser) {
                 Spacer(Modifier.width(8.dp))
-                MessageAvatar(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription = "User",
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    iconColor = MaterialTheme.colorScheme.onPrimary
-                )
+                if (userPhotoUrl != null) {
+                    AsyncImage(
+                        model = userPhotoUrl,
+                        contentDescription = "User Profile",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                    )
+                } else {
+                    MessageAvatar(
+                        imageVector = Icons.Filled.Person,
+                        contentDescription = "User",
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        iconColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
         }
     }

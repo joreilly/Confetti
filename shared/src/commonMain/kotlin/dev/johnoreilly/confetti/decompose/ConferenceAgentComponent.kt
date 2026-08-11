@@ -72,14 +72,6 @@ class DefaultConferenceAgentComponent(
             userPhotoUrl = userPhotoUrl,
             messages = listOf(
                 ConferenceAgentComponent.Message.System(agentProvider.description),
-                ConferenceAgentComponent.Message.User("Hi, what Kotlin sessions are scheduled for tomorrow?"),
-                ConferenceAgentComponent.Message.ToolCall("fetchSessions(date=2026-08-12)"),
-                ConferenceAgentComponent.Message.ToolCall("filterSessions(topic=Kotlin)"),
-                ConferenceAgentComponent.Message.Agent("There are 2 Kotlin sessions tomorrow:\n1. *Kotlin Multiplatform in Action* at 10:00 AM\n2. *Advanced Coroutines* at 2:00 PM."),
-                ConferenceAgentComponent.Message.User("Thanks! Can you bookmark the first one?"),
-                ConferenceAgentComponent.Message.ToolCall("bookmarkSession(id=session-kmp-101)"),
-                ConferenceAgentComponent.Message.System("Session bookmarked successfully."),
-                ConferenceAgentComponent.Message.Agent("I have bookmarked 'Kotlin Multiplatform in Action' for you.")
             ),
         ),
     )

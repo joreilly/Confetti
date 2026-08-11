@@ -67,6 +67,23 @@ fun OnboardingUI(component: OnboardingComponent) {
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Skip Button Row
+            Row(
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (pagerState.currentPage < 2) {
+                    TextButton(onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(2)
+                        }
+                    }) {
+                        Text("Skip")
+                    }
+                }
+            }
+
             // Main Onboarding Card containing HorizontalPager
             Card(
                 modifier = Modifier

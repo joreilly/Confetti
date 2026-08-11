@@ -1,6 +1,10 @@
 package dev.johnoreilly.confetti.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -99,26 +103,21 @@ fun OnboardingUI(component: OnboardingComponent) {
                     state = pagerState,
                     modifier = Modifier.fillMaxSize()
                 ) { page ->
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        when (page) {
-                            0 -> OnboardingStep1()
-                            1 -> OnboardingStep2()
-                            2 -> OnboardingStep3(
-                                notificationsEnabled = notificationsEnabled,
-                                supportsNotifications = component.supportsNotifications,
-                                onNotificationsToggle = { enabled ->
-                                    if (enabled) {
-                                        notificationPermissionState.maybeRequest()
-                                    } else {
-                                        component.updateNotificationsEnabled(false)
-                                    }
+                    when (page) {
+                        0 -> OnboardingStep1(visible = pagerState.currentPage == 0)
+                        1 -> OnboardingStep2(visible = pagerState.currentPage == 1)
+                        2 -> OnboardingStep3(
+                            visible = pagerState.currentPage == 2,
+                            notificationsEnabled = notificationsEnabled,
+                            supportsNotifications = component.supportsNotifications,
+                            onNotificationsToggle = { enabled ->
+                                if (enabled) {
+                                    notificationPermissionState.maybeRequest()
+                                } else {
+                                    component.updateNotificationsEnabled(false)
                                 }
-                            )
-                        }
+                            }
+                        )
                     }
                 }
             }
@@ -191,69 +190,81 @@ fun OnboardingUI(component: OnboardingComponent) {
 }
 
 @Composable
-fun OnboardingStep1() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+fun OnboardingStep1(visible: Boolean) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 }),
+        exit = fadeOut()
     ) {
-        Icon(
-            imageVector = Icons.Default.Event,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+        Column(
             modifier = Modifier
-                .size(96.dp)
-                .padding(bottom = 24.dp)
-        )
-        Text(
-            text = "Welcome to Confetti",
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 12.dp)
-        )
-        Text(
-            text = "Your conference companion. Browse schedules, speakers, and venues offline.",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Event,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .size(96.dp)
+                    .padding(bottom = 24.dp)
+            )
+            Text(
+                text = "Welcome to Confetti",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+            Text(
+                text = "Your conference companion. Browse schedules, speakers, and venues offline.",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
     }
 }
 
 @Composable
-fun OnboardingStep2() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+fun OnboardingStep2(visible: Boolean) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 }),
+        exit = fadeOut()
     ) {
-        Icon(
-            imageVector = Icons.Default.Bookmarks,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .size(96.dp)
-                .padding(bottom = 24.dp)
-        )
-        Text(
-            text = "Features",
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 12.dp)
-        )
         Column(
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            FeatureRow("Bookmark sessions to build schedule")
-            FeatureRow("Get answers from the AI assistant")
-            FeatureRow("View speakers and venue maps")
+            Icon(
+                imageVector = Icons.Default.Bookmarks,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .size(96.dp)
+                    .padding(bottom = 24.dp)
+            )
+            Text(
+                text = "Features",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+            Column(
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ) {
+                FeatureRow("Bookmark sessions to build schedule")
+                FeatureRow("Get answers from the AI assistant")
+                FeatureRow("View speakers and venue maps")
+            }
         }
     }
 }
@@ -280,57 +291,64 @@ private fun FeatureRow(text: String) {
 
 @Composable
 fun OnboardingStep3(
+    visible: Boolean,
     notificationsEnabled: Boolean,
     supportsNotifications: Boolean,
     onNotificationsToggle: (Boolean) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 }),
+        exit = fadeOut()
     ) {
-        Icon(
-            imageVector = Icons.Default.Notifications,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+        Column(
             modifier = Modifier
-                .size(96.dp)
-                .padding(bottom = 24.dp)
-        )
-        Text(
-            text = "Stay Updated",
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 12.dp)
-        )
-        Text(
-            text = "Enable notifications to receive session reminders. You can disable this anytime in settings.",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
-        )
-        if (supportsNotifications) {
-            Row(
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Notifications,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(if (notificationsEnabled) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant)
-                    .clickable { onNotificationsToggle(!notificationsEnabled) }
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Switch(
-                    checked = notificationsEnabled,
-                    onCheckedChange = null
-                )
-                Text(
-                    text = "Enable notifications",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = if (notificationsEnabled) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                    .size(96.dp)
+                    .padding(bottom = 24.dp)
+            )
+            Text(
+                text = "Stay Updated",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+            Text(
+                text = "Enable notifications to receive session reminders. You can disable this anytime in settings.",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
+            )
+            if (supportsNotifications) {
+                Row(
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.medium)
+                        .background(if (notificationsEnabled) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant)
+                        .clickable { onNotificationsToggle(!notificationsEnabled) }
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Switch(
+                        checked = notificationsEnabled,
+                        onCheckedChange = null
+                    )
+                    Text(
+                        text = "Enable notifications",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = if (notificationsEnabled) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }

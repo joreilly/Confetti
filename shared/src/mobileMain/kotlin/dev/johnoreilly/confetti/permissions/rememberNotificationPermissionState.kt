@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import dev.icerock.moko.permissions.DeniedAlwaysException
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionState
 import dev.icerock.moko.permissions.PermissionsController
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 @Composable
 actual fun rememberNotificationPermissionState(
     notificationsActive: Boolean?,
+    onPermissionDeniedAlways: () -> Unit,
     onPermissionStatus: (hasPermission: Boolean) -> Unit
 ): NotificationPermissionState {
     val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
@@ -36,15 +38,23 @@ actual fun rememberNotificationPermissionState(
     }
 
     return remember(coroutineScope) {
-        NotificationPermissionState.Requestable {
-            coroutineScope.launch {
-                try {
-                    controller.providePermission(Permission.REMOTE_NOTIFICATION)
-                    onPermissionStatus(true)
-                } catch (e: Exception) {
-                    onPermissionStatus(false)
+        NotificationPermissionState.Requestable(
+            onRequest = {
+                coroutineScope.launch {
+                    try {
+                        controller.providePermission(Permission.REMOTE_NOTIFICATION)
+                        onPermissionStatus(true)
+                    } catch (e: DeniedAlwaysException) {
+                        onPermissionDeniedAlways()
+                        onPermissionStatus(false)
+                    } catch (e: Exception) {
+                        onPermissionStatus(false)
+                    }
                 }
+            },
+            onOpenSettings = {
+                controller.openAppSettings()
             }
-        }
+        )
     }
 }

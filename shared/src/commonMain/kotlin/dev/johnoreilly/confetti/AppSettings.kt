@@ -71,6 +71,16 @@ class AppSettings(val settings: FlowSettings) {
         settings.putBoolean(DEVELOPER_MODE, b)
     }
 
+    val onboardingCompletedFlow: Flow<Boolean> = settings
+        .getBooleanFlow(ONBOARDING_COMPLETED, false)
+
+    suspend fun isOnboardingCompleted(): Boolean =
+        settings.getBoolean(ONBOARDING_COMPLETED, false)
+
+    suspend fun setOnboardingCompleted(value: Boolean) {
+        settings.putBoolean(ONBOARDING_COMPLETED, value)
+    }
+
     companion object {
         const val DEVELOPER_MODE = "developer_mode"
         const val EXPERIMENTAL_FEATURES_ENABLED = "experimental_features_enabled"
@@ -79,5 +89,6 @@ class AppSettings(val settings: FlowSettings) {
         const val CONFERENCE_SETTING = "conference"
         const val CONFERENCE_THEME_COLOR_SETTING = "conferenceThemeColor"
         const val CONFERENCE_NOT_SET = ""
+        const val ONBOARDING_COMPLETED = "onboarding_completed"
     }
 }

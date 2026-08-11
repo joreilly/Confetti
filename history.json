@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "ec856569ec502dec21de8f6d8ece1b6ce97e2cf7",
+    "generatedFrom": "db62e82d1459e7694d2c115af82c0ae186eb55bd",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview.png",
@@ -2794,20 +2794,20 @@
             "path": "renders/wearApp/HomeListViewKotlinConf_Devices_Large_Round.png",
             "versions": [
                 {
+                    "blob": "89ee96a8e0d1078319041301985dfdce0e594b79",
+                    "commit": "db62e82d1459e7694d2c115af82c0ae186eb55bd",
+                    "date": "2026-08-11T18:58:57Z",
+                    "sourceSha": "77dd52b2",
+                    "sinceCommit": "5384c7ad39046db19361930e099184adb52ca688",
+                    "commits": 8,
+                    "occurrences": 8
+                },
+                {
                     "blob": "8ac4397eee7f01ed1a00763167c8c32e7620b698",
                     "commit": "df3f961a4eb0cd2adef94518c208ad9c8e4ccba7",
                     "date": "2026-08-11T18:16:04Z",
                     "sourceSha": "95688bad",
                     "sinceCommit": "f3b496c1b5862fe8e2f8a5353d6c1ce62d4f257d",
-                    "commits": 7,
-                    "occurrences": 7
-                },
-                {
-                    "blob": "89ee96a8e0d1078319041301985dfdce0e594b79",
-                    "commit": "64da4d25af9e9ad1f2f01014514c6f5a713d166a",
-                    "date": "2026-08-10T15:13:41Z",
-                    "sourceSha": "35b58918",
-                    "sinceCommit": "5384c7ad39046db19361930e099184adb52ca688",
                     "commits": 7,
                     "occurrences": 7
                 },
@@ -2830,9 +2830,9 @@
                     "occurrences": 5
                 }
             ],
-            "observations": 25,
+            "observations": 26,
             "unstable": true,
-            "flapCount": 21
+            "flapCount": 22
         },
         "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
             "path": "renders/wearApp/HomeListViewLongPreview_Devices_Large_Round_SCROLL_top.png",

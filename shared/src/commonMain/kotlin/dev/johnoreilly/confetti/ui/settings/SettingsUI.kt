@@ -28,6 +28,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import dev.johnoreilly.confetti.ui.component.ConfettiAlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -104,14 +105,33 @@ fun SettingsUI(
     onNotificationsEnabled: (value: Boolean) -> Unit,
     popBack: () -> Unit
 ) {
+    var showPermissionDeniedDialog by remember { mutableStateOf(false) }
+
     val notificationPermissionState = rememberNotificationPermissionState(
         notificationsActive = userEditableSettings?.notificationsEnabled,
+        onPermissionDeniedAlways = {
+            showPermissionDeniedDialog = true
+        },
         onPermissionStatus = { hasPermission ->
             if (userEditableSettings?.notificationsEnabled != hasPermission) {
                 onNotificationsEnabled(hasPermission)
             }
         }
     )
+
+    if (showPermissionDeniedDialog) {
+        ConfettiAlertDialog(
+            title = "Permission Required",
+            text = "Notification permission was permanently denied. Please enable it in Settings to receive updates.",
+            confirmText = "Open Settings",
+            onConfirm = {
+                showPermissionDeniedDialog = false
+                notificationPermissionState.openSettings()
+            },
+            dismissText = "Cancel",
+            onDismiss = { showPermissionDeniedDialog = false }
+        )
+    }
 
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     /**

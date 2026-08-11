@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 @Composable
 actual fun rememberNotificationPermissionState(
     notificationsActive: Boolean?,
+    onPermissionDeniedAlways: () -> Unit,
     onPermissionStatus: (hasPermission: Boolean) -> Unit
 ): NotificationPermissionState {
     return NotificationPermissionState.NotApplicable

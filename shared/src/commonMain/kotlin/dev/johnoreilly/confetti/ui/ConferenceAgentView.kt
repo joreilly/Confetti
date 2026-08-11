@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -76,28 +77,34 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .imePadding()
-            .padding(16.dp)
-            .padding(bottom = bottomContentPadding)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Spacer(Modifier.weight(1f))
-            IconButton(onClick = { component.restartChat() }) {
-                Icon(
-                    imageVector = Icons.Filled.Refresh,
-                    contentDescription = stringResource(Res.string.agent_restart),
-                )
-            }
-        }
-
         LazyColumn(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             state = listState,
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = 16.dp,
+                bottom = 88.dp + bottomContentPadding
+            ),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            item {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Spacer(Modifier.weight(1f))
+                    IconButton(onClick = { component.restartChat() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Refresh,
+                            contentDescription = stringResource(Res.string.agent_restart),
+                        )
+                    }
+                }
+            }
+
             items(renderMessages) { renderMessage ->
                 when (renderMessage) {
                     is RenderMessage.Single -> MessageBubble(
@@ -116,10 +123,13 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
             }
         }
 
-        Spacer(Modifier.size(8.dp))
-
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp)
+                .padding(bottom = bottomContentPadding),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             OutlinedTextField(

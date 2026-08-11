@@ -456,7 +456,8 @@ object Sessionize {
             "0xFFFFBE29",
             days = listOf(
                 LocalDate(2026, 10, 7),
-                LocalDate(2026, 10, 8)
+                LocalDate(2026, 10, 8),
+                LocalDate(2026, 10, 9)
             )
         )
     }

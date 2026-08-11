@@ -243,8 +243,8 @@ private fun getConferenceDatesString(days: List<LocalDate>): String {
     if (days.isNotEmpty()) {
         conferenceDatesString = days[0].conferenceDayMonthFormat()
     }
-    if (days.size == 2) {
-        conferenceDatesString += " - ${days[1].conferenceDayMonthFormat()}"
+    if (days.size >= 2) {
+        conferenceDatesString += " - ${days.last().conferenceDayMonthFormat()}"
     }
     return conferenceDatesString
 }

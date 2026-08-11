@@ -40,6 +40,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.animation.core.*
+import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -67,6 +68,7 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
     val state by component.uiState.subscribeAsState()
     val listState = rememberLazyListState()
     val renderMessages = remember(state.messages) { groupMessages(state.messages) }
+    var showPhotoDialogUrl by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(renderMessages.size) {
         if (renderMessages.isNotEmpty()) {
@@ -98,7 +100,11 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
         ) {
             items(renderMessages) { renderMessage ->
                 when (renderMessage) {
-                    is RenderMessage.Single -> MessageBubble(renderMessage.message, state.userPhotoUrl)
+                    is RenderMessage.Single -> MessageBubble(
+                        message = renderMessage.message,
+                        userPhotoUrl = state.userPhotoUrl,
+                        onPhotoClick = { url -> showPhotoDialogUrl = url }
+                    )
                     is RenderMessage.ToolCallGroup -> ToolCallGroupBubble(renderMessage)
                 }
             }
@@ -143,6 +149,14 @@ fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPaddin
             }
         }
     }
+
+    if (showPhotoDialogUrl != null) {
+        FullScreenPhotoDialog(
+            photoUrl = showPhotoDialogUrl,
+            contentDescription = "User Profile Photo",
+            onDismissRequest = { showPhotoDialogUrl = null }
+        )
+    }
 }
 
 @Composable
@@ -168,7 +182,11 @@ private fun MessageAvatar(
 }
 
 @Composable
-private fun MessageBubble(message: ConferenceAgentComponent.Message, userPhotoUrl: String?) {
+private fun MessageBubble(
+    message: ConferenceAgentComponent.Message,
+    userPhotoUrl: String?,
+    onPhotoClick: (String) -> Unit
+) {
     val isSystem = message is ConferenceAgentComponent.Message.System
     val isUser = message is ConferenceAgentComponent.Message.User
     val isAgent = message is ConferenceAgentComponent.Message.Agent
@@ -249,6 +267,7 @@ private fun MessageBubble(message: ConferenceAgentComponent.Message, userPhotoUr
                         modifier = Modifier
                             .size(32.dp)
                             .clip(CircleShape)
+                            .clickable { onPhotoClick(userPhotoUrl) }
                     )
                 } else {
                     MessageAvatar(

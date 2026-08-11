@@ -37,7 +37,7 @@ import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.CircularProgressIndicator
@@ -114,7 +114,7 @@ fun ConferenceAgentView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onCloseClick) {
-                Icon(Icons.Filled.Close, contentDescription = "Close")
+                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
             }
             Text(
                 text = "Assistant",

@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,6 +61,8 @@ import confetti.shared.generated.resources.enable_notifications_desc
 import confetti.shared.generated.resources.settings_boolean_false
 import confetti.shared.generated.resources.settings_boolean_true
 import confetti.shared.generated.resources.settings_title
+import confetti.shared.generated.resources.report_issue
+import confetti.shared.generated.resources.report_issue_desc
 import confetti.shared.generated.resources.use_experimental_features
 import confetti.shared.generated.resources.use_experimental_features_desc
 import dev.johnoreilly.confetti.appconfig.ApplicationInfo
@@ -136,6 +139,7 @@ fun SettingsUI(
     }
 
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val uriHandler = LocalUriHandler.current
     /**
      * usePlatformDefaultWidth = false is use as a temporary fix to allow
      * height recalculation during recomposition. This, however, causes
@@ -186,6 +190,14 @@ fun SettingsUI(
                                 }
                             },
                         supportsNotifications = supportsNotifications,
+                    )
+                }
+
+                item {
+                    ActionSettingsRow(
+                        title = stringResource(Res.string.report_issue),
+                        subtitle = stringResource(Res.string.report_issue_desc),
+                        onClick = { uriHandler.openUri("https://github.com/joreilly/Confetti/issues/new") }
                     )
                 }
 

@@ -20,6 +20,7 @@ import ai.koog.prompt.llm.LLModel
 import com.russhwolf.settings.observable.makeObservable
 import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.agent.ApiEmbedder
+import dev.johnoreilly.confetti.appconfig.ApplicationInfo
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.utils.DateService
@@ -38,6 +39,7 @@ actual fun platformModule() = module {
         FetchPolicy.CacheAndNetwork
     }
     single<NotificationSender> { SessionNotificationSender() }
+    single<ApplicationInfo> { ApplicationInfo(BuildKonfig.VERSION_NAME) }
 
     single<Embedder> {
         ApiEmbedder(

@@ -23,6 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -143,11 +145,18 @@ class SessionsSimpleComponent(
     private val selectedSessionId = MutableStateFlow<String?>(null)
     private val appSettings: AppSettings by inject()
 
+    private var lastSessionsData: GetConferenceDataQuery.Data? = null
+    private var cachedParsedData: ParsedConferenceData? = null
+
     val uiState: StateFlow<SessionsUiState> =
         combineUiState()
             .combine(searchQuery) { uiState, search ->
                 filterSessions(uiState, search)
-            }.stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
+            }
+            // Run heavy mapping and filtering operations on Default dispatcher to avoid blocking UI.
+            // Default dispatcher is preferred over IO dispatcher because these are CPU-bound memory tasks.
+            .flowOn(Dispatchers.Default)
+            .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
     private var job: Job? = null
 
@@ -263,6 +272,56 @@ class SessionsSimpleComponent(
         return session.startsAt.sessionTimeFormat()
     }
 
+    private fun getOrParseConferenceData(sessionsData: GetConferenceDataQuery.Data): ParsedConferenceData {
+        val lastData = lastSessionsData
+        val cached = cachedParsedData
+        if (lastData === sessionsData && cached != null) {
+            return cached
+        }
+
+        val conferenceName = sessionsData.config.name
+        val venueLat = sessionsData.venues.firstOrNull()?.latitude
+        val venueLon = sessionsData.venues.firstOrNull()?.longitude
+        val sessionsMap =
+            sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
+        val speakers = sessionsData.speakers.nodes.map { it.speakerDetails }
+        val rooms = sessionsData.rooms.map { it.roomDetails }
+
+        val confDates = sessionsMap.keys.toList().sorted()
+
+        val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
+        confDates.forEach { confDate ->
+            val sessions = sessionsMap[confDate] ?: emptyList()
+
+            val sessionsByStartTime = sessions
+                .groupBy { getSessionTime(it) }
+                .mapValues { (_, sessionsList) ->
+                    sessionsList.sortedBy { session -> rooms.indexOfFirst { it.name == session.room?.name } }
+                }
+
+            sessionsByStartTimeList.add(sessionsByStartTime)
+        }
+
+        val formattedConfDates = confDates.map { date ->
+            date.atTime(0, 0).conferenceDateFormat()
+        }
+
+        val parsed = ParsedConferenceData(
+            conferenceName = conferenceName,
+            venueLat = venueLat,
+            venueLon = venueLon,
+            confDates = confDates,
+            formattedConfDates = formattedConfDates,
+            sessionsByStartTimeList = sessionsByStartTimeList,
+            speakers = speakers,
+            rooms = rooms
+        )
+
+        lastSessionsData = sessionsData
+        cachedParsedData = parsed
+        return parsed
+    }
+
     private fun uiStates(
         refreshData: ResponseData,
         isRefreshing: Boolean,
@@ -283,40 +342,19 @@ class SessionsSimpleComponent(
             return SessionsUiState.Error
         }
 
-        val conferenceName = sessionsData.config.name
-        val venueLat = sessionsData.venues.firstOrNull()?.latitude
-        val venueLon = sessionsData.venues.firstOrNull()?.longitude
-        val sessionsMap =
-            sessionsData.sessions.nodes.map { it.sessionDetails }.groupBy { it.startsAt.date }
-        val speakers = sessionsData.speakers.nodes.map { it.speakerDetails }
-        val rooms = sessionsData.rooms.map { it.roomDetails }
+        val parsed = getOrParseConferenceData(sessionsData)
 
-        val confDates = sessionsMap.keys.toList().sorted()
-
-        val sessionsByStartTimeList = mutableListOf<Map<String, List<SessionDetails>>>()
-        confDates.forEach { confDate ->
-            val sessions = sessionsMap[confDate] ?: emptyList()
-
-            val sessionsByStartTime = sessions
-                .groupBy { getSessionTime(it) }
-
-            sessionsByStartTimeList.add(sessionsByStartTime)
-        }
-
-        val formattedConfDates = confDates.map { date ->
-            date.atTime(0, 0).conferenceDateFormat()
-        }
         return SessionsUiState.Success(
             now = dateService.now(),
             conference = conference,
-            conferenceName = conferenceName,
-            venueLat = venueLat,
-            venueLon = venueLon,
-            confDates = confDates,
-            formattedConfDates = formattedConfDates,
-            sessionsByStartTimeList = sessionsByStartTimeList,
-            speakers = speakers,
-            rooms = rooms,
+            conferenceName = parsed.conferenceName,
+            venueLat = parsed.venueLat,
+            venueLon = parsed.venueLon,
+            confDates = parsed.confDates,
+            formattedConfDates = parsed.formattedConfDates,
+            sessionsByStartTimeList = parsed.sessionsByStartTimeList,
+            speakers = parsed.speakers,
+            rooms = parsed.rooms,
             bookmarks = bookmarksData.bookmarks?.sessionIds.orEmpty().toSet(),
             isRefreshing = isRefreshing,
             searchString = searchString,
@@ -348,3 +386,14 @@ sealed interface SessionsUiState {
         val notificationsActive: Boolean
     ) : SessionsUiState
 }
+
+private data class ParsedConferenceData(
+    val conferenceName: String,
+    val venueLat: Double?,
+    val venueLon: Double?,
+    val confDates: List<LocalDate>,
+    val formattedConfDates: List<String>,
+    val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,
+    val speakers: List<SpeakerDetails>,
+    val rooms: List<RoomDetails>
+)

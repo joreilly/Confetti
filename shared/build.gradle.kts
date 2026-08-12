@@ -291,6 +291,11 @@ buildkonfig {
             "GEMINI_API_KEY",
             localProperties["gemini_api_key"]?.toString() ?: ""
         )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "VERSION_NAME",
+            autoVersion
+        )
     }
 
 }

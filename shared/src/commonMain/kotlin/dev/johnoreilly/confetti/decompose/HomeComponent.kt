@@ -16,7 +16,6 @@ import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import dev.johnoreilly.confetti.AppSettings
-import kotlinx.coroutines.runBlocking
 
 interface HomeComponent {
 
@@ -24,7 +23,7 @@ interface HomeComponent {
     val user: User?
     val stack: Value<ChildStack<*, Child>>
 
-    fun isAgentEnabled(): Boolean
+    suspend fun isAgentEnabled(): Boolean
     fun onSessionsTabClicked()
     fun onSpeakersTabClicked()
     fun onBookmarksTabClicked()
@@ -124,11 +123,9 @@ class DefaultHomeComponent(
                 )
         }
 
-    override fun isAgentEnabled(): Boolean {
+    override suspend fun isAgentEnabled(): Boolean {
         val appSettings: AppSettings by inject()
-        val forceEnable = runBlocking {
-            appSettings.settings.getBoolean(AppSettings.FORCE_ENABLE_ASSISTANT, false)
-        }
+        val forceEnable = appSettings.settings.getBoolean(AppSettings.FORCE_ENABLE_ASSISTANT, false)
         return forceEnable || BuildKonfig.GEMINI_API_KEY.isNotEmpty()
     }
 

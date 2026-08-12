@@ -39,6 +39,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -125,6 +126,9 @@ fun HomeView(component: HomeComponent) {
     val shouldShowNavRail = windowSizeClass.isExpanded
     val snackbarHostState = remember { SnackbarHostState() }
     val hazeState = remember { HazeState() }
+    val agentEnabled by produceState(initialValue = false) {
+        value = component.isAgentEnabled()
+    }
 
     CompositionLocalProvider(LocalHazeState provides hazeState) {
         Row {
@@ -143,7 +147,7 @@ fun HomeView(component: HomeComponent) {
                         AccountInfo(photoUrl = user.photoUrl)
                     },
                     installOnWear = {}, // FIXME: handle
-                    showAgentOption = component.isAgentEnabled()
+                    showAgentOption = agentEnabled
                 )
             }
 

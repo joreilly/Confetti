@@ -41,6 +41,8 @@ nav-compose = "2.9.8"
 okio = "3.18.1"
 permissions = "0.20.1"
 haze = "1.1.1"
+cache4k = "0.14.0"
+stately = "2.1.0"
 protolayout = "1.4.1"
 robolectric = "4.16.1"
 room = "2.8.4"
@@ -96,6 +98,9 @@ permissions-compose = { module = "dev.icerock.moko:permissions-compose", version
 permissions-notifications = { module = "dev.icerock.moko:permissions-notifications", version.ref = "permissions" }
 permissions = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
+stately-isolate = { module = "co.touchlab:stately-isolate", version.ref = "stately" }
+stately-iso-collections = { module = "co.touchlab:stately-iso-collections", version.ref = "stately" }
 spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
 spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }
 spring-webflux = "org.springframework:spring-webflux:7.0.8"

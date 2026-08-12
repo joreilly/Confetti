@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import dev.johnoreilly.confetti.AppSettings
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 
 
 interface ConferenceComponent : BackHandlerOwner {
@@ -51,11 +51,11 @@ class DefaultConferenceComponent(
 
     init {
         val appSettings: AppSettings by inject()
-        val forceEnable = runBlocking {
-            appSettings.settings.getBoolean(AppSettings.FORCE_ENABLE_ASSISTANT, false)
-        }
-        if (forceEnable) {
-            navigation.push(Config.Agent)
+        coroutineScope().launch {
+            val forceEnable = appSettings.settings.getBoolean(AppSettings.FORCE_ENABLE_ASSISTANT, false)
+            if (forceEnable) {
+                navigation.push(Config.Agent)
+            }
         }
     }
 

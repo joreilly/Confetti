@@ -4,24 +4,19 @@ package dev.johnoreilly.confetti.ui.bookmarks
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.bookmarks_past
 import confetti.shared.generated.resources.bookmarks_upcoming
@@ -30,6 +25,7 @@ import dev.johnoreilly.confetti.decompose.DateSessionsMap
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.bookmarkedSessionsByDate
 import dev.johnoreilly.confetti.preview.sessionDetails
+import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.EmptyView
@@ -37,7 +33,7 @@ import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BookmarksView(
@@ -144,8 +140,7 @@ private fun BookmarksHorizontalPager(
             EmptyView(stringResource(Res.string.no_bookmarks))
         } else {
             LazyColumn(
-                contentPadding = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-                    .asPaddingValues()
+                contentPadding = PaddingValues(bottom = LocalBottomNavigationPadding.current)
             ) {
 
                 displayedSessions.forEach { (dateTime, sessions) ->

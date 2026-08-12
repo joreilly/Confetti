@@ -73,6 +73,9 @@ import dev.johnoreilly.confetti.ui.sessions.SessionItemView
 import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
 import org.jetbrains.compose.resources.stringResource
 
+import androidx.compose.foundation.layout.PaddingValues
+import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
+
 @Composable
 fun SearchView(
     search: String,
@@ -107,7 +110,9 @@ fun SearchView(
             if (loading) {
                 LoadingView()
             } else if (search.isNotBlank()) {
-                LazyColumn {
+                LazyColumn(
+                    contentPadding = PaddingValues(bottom = LocalBottomNavigationPadding.current)
+                ) {
                     sessionItems(
                         sessions = sessions,
                         navigateToSession = navigateToSession,

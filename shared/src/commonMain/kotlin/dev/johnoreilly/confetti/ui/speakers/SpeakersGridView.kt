@@ -37,6 +37,8 @@ import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Person
 
 
+import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
+
 @Composable
 fun SpeakerGridView(
     conference: String,
@@ -45,7 +47,12 @@ fun SpeakerGridView(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(12.dp),
+        contentPadding = PaddingValues(
+            start = 12.dp,
+            top = 12.dp,
+            end = 12.dp,
+            bottom = 12.dp + LocalBottomNavigationPadding.current
+        ),
         content = {
             items(speakers) { speaker ->
                 Card(

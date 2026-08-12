@@ -37,6 +37,7 @@ interface ConferenceAgentComponent {
 
     data class UiState(
         val messages: List<Message>,
+        val userPhotoUrl: String? = null,
         val inputText: String = "",
         val isInputEnabled: Boolean = true,
         val isLoading: Boolean = false,
@@ -47,6 +48,7 @@ interface ConferenceAgentComponent {
 class DefaultConferenceAgentComponent(
     componentContext: ComponentContext,
     conference: String,
+    userPhotoUrl: String?,
 ) : ConferenceAgentComponent, KoinComponent, ComponentContext by componentContext {
 
     private val repository: ConfettiRepository by inject()
@@ -67,6 +69,7 @@ class DefaultConferenceAgentComponent(
 
     private val state = MutableStateFlow(
         ConferenceAgentComponent.UiState(
+            userPhotoUrl = userPhotoUrl,
             messages = listOf(
                 ConferenceAgentComponent.Message.System(agentProvider.description),
             ),

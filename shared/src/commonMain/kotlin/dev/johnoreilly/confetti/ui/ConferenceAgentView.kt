@@ -8,32 +8,67 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
+import androidx.compose.material.icons.filled.Assistant
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
+import androidx.compose.animation.core.*
+import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.HazeStyle
+import dev.chrisbanes.haze.HazeTint
+import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeChild
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -47,124 +82,445 @@ import dev.johnoreilly.confetti.decompose.ConferenceAgentComponent
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun ConferenceAgentView(component: ConferenceAgentComponent, bottomContentPadding: Dp = 0.dp) {
+fun ConferenceAgentView(
+    component: ConferenceAgentComponent,
+    onCloseClick: () -> Unit,
+    bottomContentPadding: Dp = 0.dp
+) {
     val state by component.uiState.subscribeAsState()
     val listState = rememberLazyListState()
+    val renderMessages = remember(state.messages) { groupMessages(state.messages) }
+    var showPhotoDialogUrl by remember { mutableStateOf<String?>(null) }
+    val hazeState = remember { HazeState() }
+    val systemBottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val totalBottomPadding = systemBottomPadding + bottomContentPadding
 
-    LaunchedEffect(state.messages.size) {
-        if (state.messages.isNotEmpty()) {
-            listState.animateScrollToItem(state.messages.lastIndex)
+    LaunchedEffect(renderMessages.size) {
+        if (renderMessages.isNotEmpty()) {
+            listState.animateScrollToItem(renderMessages.lastIndex)
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .padding(bottom = bottomContentPadding)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Spacer(Modifier.weight(1f))
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .padding(horizontal = 8.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onCloseClick) {
+                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+            }
+            Text(
+                text = "Assistant",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center
+            )
             IconButton(onClick = { component.restartChat() }) {
                 Icon(
-                    imageVector = Icons.Filled.Refresh,
-                    contentDescription = stringResource(Res.string.agent_restart),
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = "Clear Chat",
                 )
             }
         }
 
-        LazyColumn(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
-            state = listState,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+        HorizontalDivider(
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+            thickness = 1.dp
+        )
+
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .imePadding()
         ) {
-            items(state.messages) { message ->
-                MessageBubble(message)
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().haze(hazeState),
+                state = listState,
+                contentPadding = PaddingValues(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 16.dp,
+                    bottom = 88.dp + totalBottomPadding
+                ),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(renderMessages) { renderMessage ->
+                    when (renderMessage) {
+                        is RenderMessage.Single -> MessageBubble(
+                            message = renderMessage.message,
+                            userPhotoUrl = state.userPhotoUrl,
+                            onPhotoClick = { url -> showPhotoDialogUrl = url }
+                        )
+                        is RenderMessage.ToolCallGroup -> ToolCallGroupBubble(renderMessage)
+                    }
+                }
+
+                if (state.isLoading) {
+                    item {
+                        TypingBubble()
+                    }
+                }
             }
 
-            if (state.isLoading) {
-                item {
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(8.dp),
-                        horizontalArrangement = Arrangement.Center,
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .hazeChild(
+                        state = hazeState,
+                        style = HazeStyle(
+                            backgroundColor = MaterialTheme.colorScheme.surface,
+                            tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
+                            blurRadius = 25.dp,
+                        )
+                    )
+            ) {
+                HorizontalDivider(
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+                    thickness = 1.dp
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                        .padding(bottom = totalBottomPadding),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    TextField(
+                        modifier = Modifier.weight(1f),
+                        value = state.inputText,
+                        onValueChange = component::updateInputText,
+                        placeholder = { Text(stringResource(Res.string.agent_placeholder)) },
+                        enabled = state.isInputEnabled && !state.isChatEnded,
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                        keyboardActions = KeyboardActions(onSend = {
+                            if (state.inputText.isNotBlank()) {
+                                component.sendMessage()
+                            }
+                        }),
+                        shape = CircleShape,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent
+                        )
+                    )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    FilledIconButton(
+                        onClick = { component.sendMessage() },
+                        enabled = state.isInputEnabled &&
+                            !state.isChatEnded &&
+                            state.inputText.isNotBlank(),
+                        modifier = Modifier.size(48.dp)
                     ) {
-                        CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                        Icon(
+                            imageVector = Icons.Filled.Send,
+                            contentDescription = stringResource(Res.string.agent_send),
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
             }
         }
+    }
 
-        Spacer(Modifier.size(8.dp))
+        if (showPhotoDialogUrl != null) {
+            FullScreenPhotoDialog(
+                photoUrl = showPhotoDialogUrl,
+                contentDescription = "User Profile Photo",
+                onDismissRequest = { showPhotoDialogUrl = null }
+            )
+        }
+    }
+}
 
+@Composable
+private fun MessageAvatar(
+    imageVector: ImageVector,
+    contentDescription: String,
+    containerColor: Color,
+    iconColor: Color
+) {
+    Box(
+        modifier = Modifier
+            .size(32.dp)
+            .background(containerColor, RoundedCornerShape(16.dp)),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = contentDescription,
+            tint = iconColor,
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+@Composable
+private fun MessageBubble(
+    message: ConferenceAgentComponent.Message,
+    userPhotoUrl: String?,
+    onPhotoClick: (String) -> Unit
+) {
+    val isSystem = message is ConferenceAgentComponent.Message.System
+    val isUser = message is ConferenceAgentComponent.Message.User
+    val isAgent = message is ConferenceAgentComponent.Message.Agent
+    val isError = message is ConferenceAgentComponent.Message.Error
+
+    val background = when (message) {
+        is ConferenceAgentComponent.Message.User -> MaterialTheme.colorScheme.primaryContainer
+        is ConferenceAgentComponent.Message.Agent -> MaterialTheme.colorScheme.surfaceVariant
+        is ConferenceAgentComponent.Message.System -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        is ConferenceAgentComponent.Message.ToolCall -> Color.Transparent
+        is ConferenceAgentComponent.Message.Error -> MaterialTheme.colorScheme.errorContainer
+    }
+
+    if (isSystem) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(background, RoundedCornerShape(12.dp))
+                    .padding(horizontal = 12.dp, vertical = 6.dp)
+            ) {
+                Text(
+                    text = message.text,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
+        }
+    } else {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start,
+            verticalAlignment = Alignment.Top
         ) {
-            OutlinedTextField(
-                modifier = Modifier.weight(1f),
-                value = state.inputText,
-                onValueChange = component::updateInputText,
-                placeholder = { Text(stringResource(Res.string.agent_placeholder)) },
-                enabled = state.isInputEnabled && !state.isChatEnded,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                keyboardActions = KeyboardActions(onSend = { component.sendMessage() }),
-                shape = RoundedCornerShape(24.dp),
-            )
-
-            Spacer(Modifier.width(8.dp))
-
-            IconButton(
-                onClick = { component.sendMessage() },
-                enabled = state.isInputEnabled &&
-                    !state.isChatEnded &&
-                    state.inputText.isNotBlank(),
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Send,
-                    contentDescription = stringResource(Res.string.agent_send),
+            if (!isUser && (isAgent || isError)) {
+                MessageAvatar(
+                    imageVector = Icons.Filled.Assistant,
+                    contentDescription = "Agent",
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    iconColor = MaterialTheme.colorScheme.onSecondaryContainer
                 )
+                Spacer(Modifier.width(8.dp))
+            }
+
+            Box(
+                modifier = Modifier
+                    .weight(1f, fill = false)
+                    .widthIn(max = 660.dp)
+                    .background(background, RoundedCornerShape(12.dp))
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+            ) {
+                when (message) {
+                    is ConferenceAgentComponent.Message.Agent -> Markdown(message.text)
+                    is ConferenceAgentComponent.Message.Error ->
+                        Text(message.text, color = MaterialTheme.colorScheme.onErrorContainer)
+                    is ConferenceAgentComponent.Message.User -> Text(message.text)
+                    is ConferenceAgentComponent.Message.ToolCall ->
+                        Text(
+                            text = "🔧 ${message.text}",
+                            color = MaterialTheme.colorScheme.outline,
+                            fontStyle = FontStyle.Italic,
+                        )
+                    is ConferenceAgentComponent.Message.System -> {}
+                }
+            }
+
+            if (isUser) {
+                Spacer(Modifier.width(8.dp))
+                if (userPhotoUrl != null) {
+                    AsyncImage(
+                        model = userPhotoUrl,
+                        contentDescription = "User Profile",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .clickable { onPhotoClick(userPhotoUrl) }
+                    )
+                } else {
+                    MessageAvatar(
+                        imageVector = Icons.Filled.Person,
+                        contentDescription = "User",
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        iconColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun MessageBubble(message: ConferenceAgentComponent.Message) {
-    val alignment = when (message) {
-        is ConferenceAgentComponent.Message.User -> Alignment.End
-        else -> Alignment.Start
-    }
-    val background = when (message) {
-        is ConferenceAgentComponent.Message.User -> MaterialTheme.colorScheme.primaryContainer
-        is ConferenceAgentComponent.Message.Agent -> MaterialTheme.colorScheme.surfaceVariant
-        is ConferenceAgentComponent.Message.System -> Color.Transparent
-        is ConferenceAgentComponent.Message.ToolCall -> Color.Transparent
-        is ConferenceAgentComponent.Message.Error -> MaterialTheme.colorScheme.errorContainer
-    }
+private fun ToolCallGroupBubble(group: RenderMessage.ToolCallGroup) {
+    var expanded by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.15f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clickable { expanded = !expanded }
+            .padding(vertical = 4.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        ) {
+            Text(
+                text = "🔧 Called ${group.toolCalls.size} tools",
+                color = MaterialTheme.colorScheme.outline,
+                style = MaterialTheme.typography.bodyMedium,
+                fontStyle = FontStyle.Italic,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
+                contentDescription = if (expanded) "Collapse" else "Expand",
+                tint = MaterialTheme.colorScheme.outline
+            )
+        }
+
+        if (expanded) {
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+                thickness = 1.dp,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            Spacer(Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                group.toolCalls.forEach { toolCall ->
+                    Text(
+                        text = toolCall.text,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontStyle = FontStyle.Italic,
+                        modifier = Modifier.padding(bottom = 6.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+private sealed interface RenderMessage {
+    data class Single(val message: ConferenceAgentComponent.Message) : RenderMessage
+    data class ToolCallGroup(val toolCalls: List<ConferenceAgentComponent.Message.ToolCall>) : RenderMessage
+}
+
+private fun groupMessages(messages: List<ConferenceAgentComponent.Message>): List<RenderMessage> {
+    val result = mutableListOf<RenderMessage>()
+    val currentToolCalls = mutableListOf<ConferenceAgentComponent.Message.ToolCall>()
+
+    for (message in messages) {
+        if (message is ConferenceAgentComponent.Message.ToolCall) {
+            currentToolCalls.add(message)
+        } else {
+            if (currentToolCalls.isNotEmpty()) {
+                result.add(RenderMessage.ToolCallGroup(currentToolCalls.toList()))
+                currentToolCalls.clear()
+            }
+            result.add(RenderMessage.Single(message))
+        }
+    }
+    if (currentToolCalls.isNotEmpty()) {
+        result.add(RenderMessage.ToolCallGroup(currentToolCalls.toList()))
+    }
+    return result
+}
+
+@Composable
+private fun TypingBubble() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.Top
+    ) {
+        MessageAvatar(
+            imageVector = Icons.Filled.Assistant,
+            contentDescription = "Agent",
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            iconColor = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+        Spacer(Modifier.width(8.dp))
         Box(
             modifier = Modifier
-                .align(alignment)
-                .widthIn(max = 720.dp)
-                .background(background, RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(12.dp))
                 .padding(horizontal = 12.dp, vertical = 8.dp),
         ) {
-            when (message) {
-                is ConferenceAgentComponent.Message.Agent -> Markdown(message.text)
-                is ConferenceAgentComponent.Message.System ->
-                    Text(message.text, fontStyle = FontStyle.Italic)
-                is ConferenceAgentComponent.Message.ToolCall ->
-                    Text(
-                        text = "🔧 ${message.text}",
-                        color = MaterialTheme.colorScheme.outline,
-                        fontStyle = FontStyle.Italic,
+            TypingIndicator()
+        }
+    }
+}
+
+@Composable
+private fun TypingIndicator() {
+    val transition = rememberInfiniteTransition()
+    val alphas = (0..2).map { index ->
+        transition.animateFloat(
+            initialValue = 0.2f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = keyframes {
+                    durationMillis = 600
+                    0.2f at 0 with LinearEasing
+                    1.0f at 200 with LinearEasing
+                    0.2f at 400 with LinearEasing
+                },
+                repeatMode = RepeatMode.Restart,
+                initialStartOffset = StartOffset(index * 150)
+            )
+        )
+    }
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(horizontal = 6.dp, vertical = 8.dp)
+    ) {
+        alphas.forEach { alphaState ->
+            Box(
+                modifier = Modifier
+                    .size(6.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = alphaState.value),
+                        shape = RoundedCornerShape(3.dp)
                     )
-                is ConferenceAgentComponent.Message.Error ->
-                    Text(message.text, color = MaterialTheme.colorScheme.onErrorContainer)
-                is ConferenceAgentComponent.Message.User -> Text(message.text)
-            }
+            )
         }
     }
 }

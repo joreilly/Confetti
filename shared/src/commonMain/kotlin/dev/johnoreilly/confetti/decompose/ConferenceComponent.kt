@@ -14,6 +14,9 @@ import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import dev.johnoreilly.confetti.AppSettings
+import kotlinx.coroutines.runBlocking
 
 
 interface ConferenceComponent : BackHandlerOwner {
@@ -29,6 +32,7 @@ interface ConferenceComponent : BackHandlerOwner {
         class SessionDetails(val component: SessionDetailsComponent) : Child()
         class SpeakerDetails(val component: SpeakerDetailsComponent) : Child()
         class Settings(val component: SettingsComponent?) : Child()
+        class Agent(val component: ConferenceAgentComponent) : Child()
     }
 }
 
@@ -44,6 +48,16 @@ class DefaultConferenceComponent(
 ) : ConferenceComponent, KoinComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
+
+    init {
+        val appSettings: AppSettings by inject()
+        val forceEnable = runBlocking {
+            appSettings.settings.getBoolean(AppSettings.FORCE_ENABLE_ASSISTANT, false)
+        }
+        if (forceEnable) {
+            navigation.push(Config.Agent)
+        }
+    }
 
     override val stack: Value<ChildStack<*, Child>> =
         childStack(
@@ -68,6 +82,7 @@ class DefaultConferenceComponent(
                         onSignIn = onSignIn,
                         onSignOut = onSignOut,
                         onShowSettings = { navigation.push(Config.Settings) },
+                        onShowAgent = { navigation.push(Config.Agent) },
                     )
                 )
 
@@ -96,6 +111,15 @@ class DefaultConferenceComponent(
                 )
 
             is Config.Settings -> Child.Settings(settingsComponent)
+
+            is Config.Agent ->
+                Child.Agent(
+                    DefaultConferenceAgentComponent(
+                        componentContext = componentContext,
+                        conference = conference,
+                        userPhotoUrl = user?.photoUrl,
+                    )
+                )
         }
 
     override fun onBackClicked() {
@@ -119,5 +143,8 @@ class DefaultConferenceComponent(
 
         @Serializable
         data object Settings : Config()
+
+        @Serializable
+        data object Agent : Config()
     }
 }

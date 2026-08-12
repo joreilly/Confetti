@@ -7,10 +7,16 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.childContext
 import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.HomeComponent.Child
 import kotlinx.serialization.Serializable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import dev.johnoreilly.confetti.AppSettings
+import kotlinx.coroutines.runBlocking
 
 interface HomeComponent {
 
@@ -37,7 +43,6 @@ interface HomeComponent {
         class Bookmarks(val component: BookmarksComponent) : Child()
         class Venue(val component: VenueComponent) : Child()
         class Search(val component: SearchComponent) : Child()
-        class Agent(val component: ConferenceAgentComponent) : Child()
     }
 }
 
@@ -51,7 +56,8 @@ class DefaultHomeComponent(
     private val onSignIn: () -> Unit,
     private val onSignOut: () -> Unit,
     private val onShowSettings: () -> Unit,
-) : HomeComponent, ComponentContext by componentContext {
+    private val onShowAgent: () -> Unit,
+) : HomeComponent, KoinComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
 
@@ -116,18 +122,14 @@ class DefaultHomeComponent(
                         onSignIn = onSignIn,
                     )
                 )
-
-            Config.Agent ->
-                Child.Agent(
-                    DefaultConferenceAgentComponent(
-                        componentContext = componentContext,
-                        conference = conference,
-                    )
-                )
         }
 
     override fun isAgentEnabled(): Boolean {
-        return BuildKonfig.GEMINI_API_KEY.isNotEmpty()
+        val appSettings: AppSettings by inject()
+        val forceEnable = runBlocking {
+            appSettings.settings.getBoolean(AppSettings.FORCE_ENABLE_ASSISTANT, false)
+        }
+        return forceEnable || BuildKonfig.GEMINI_API_KEY.isNotEmpty()
     }
 
     override fun onSessionsTabClicked() {
@@ -155,7 +157,7 @@ class DefaultHomeComponent(
     }
 
     override fun onAgentClicked() {
-        navigation.bringToFront(Config.Agent)
+        onShowAgent()
     }
 
     override fun onSignInClicked() {
@@ -190,8 +192,5 @@ class DefaultHomeComponent(
 
         @Serializable
         data object Search : Config()
-
-        @Serializable
-        data object Agent : Config()
     }
 }

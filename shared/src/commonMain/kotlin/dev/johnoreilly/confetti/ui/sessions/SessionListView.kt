@@ -29,9 +29,13 @@ import dev.johnoreilly.confetti.ui.icons.AccessTime
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import kotlin.math.abs
 
+import androidx.compose.foundation.layout.PaddingValues
+import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SessionListView(
+
     uiState: SessionsUiState,
     sessionSelected: (sessionId: String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
@@ -110,7 +114,10 @@ fun SessionListView(
                         Modifier
                             .clipToBounds()
                     ) {
-                        LazyColumn(state = listState) {
+                        LazyColumn(
+                            state = listState,
+                            contentPadding = PaddingValues(bottom = LocalBottomNavigationPadding.current)
+                        ) {
                             sessions.forEach { (startTime, sessions) ->
 
                                 stickyHeader {

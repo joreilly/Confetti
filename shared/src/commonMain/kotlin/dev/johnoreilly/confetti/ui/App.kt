@@ -176,55 +176,59 @@ fun HomeView(component: HomeComponent) {
                 snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                 contentWindowInsets = WindowInsets(0.dp)
             ) { innerPadding ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
+                CompositionLocalProvider(
+                    LocalBottomNavigationPadding provides innerPadding.calculateBottomPadding()
                 ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
 
-                    Children(stack = component.stack) {
-                        when (val child = it.instance) {
-                            is HomeComponent.Child.Sessions ->
-                                SessionsUI(
-                                    component = child.component,
-                                    windowSizeClass = windowSizeClass,
-                                    topBarNavigationIcon = topBarNavigationIcon,
-                                    topBarActions = topBarActions,
-                                    snackbarHostState = snackbarHostState
-                                )
+                        Children(stack = component.stack) {
+                            when (val child = it.instance) {
+                                is HomeComponent.Child.Sessions ->
+                                    SessionsUI(
+                                        component = child.component,
+                                        windowSizeClass = windowSizeClass,
+                                        topBarNavigationIcon = topBarNavigationIcon,
+                                        topBarActions = topBarActions,
+                                        snackbarHostState = snackbarHostState
+                                    )
 
-                            is HomeComponent.Child.Speakers ->
-                                SpeakersUI(
-                                    component = child.component,
-                                    windowSizeClass = windowSizeClass,
-                                    topBarNavigationIcon = topBarNavigationIcon,
-                                    topBarActions = topBarActions,
-                                )
+                                is HomeComponent.Child.Speakers ->
+                                    SpeakersUI(
+                                        component = child.component,
+                                        windowSizeClass = windowSizeClass,
+                                        topBarNavigationIcon = topBarNavigationIcon,
+                                        topBarActions = topBarActions,
+                                    )
 
-                            is HomeComponent.Child.Bookmarks ->
-                                BookmarksUI(
-                                    component = child.component,
-                                    windowSizeClass = windowSizeClass,
-                                    topBarNavigationIcon = topBarNavigationIcon,
-                                    topBarActions = topBarActions,
-                                )
+                                is HomeComponent.Child.Bookmarks ->
+                                    BookmarksUI(
+                                        component = child.component,
+                                        windowSizeClass = windowSizeClass,
+                                        topBarNavigationIcon = topBarNavigationIcon,
+                                        topBarActions = topBarActions,
+                                    )
 
-                            is HomeComponent.Child.Venue ->
-                                VenueUI(
-                                    component = child.component,
-                                    windowSizeClass = windowSizeClass,
-                                    topBarNavigationIcon = topBarNavigationIcon,
-                                    topBarActions = topBarActions,
-                                )
+                                is HomeComponent.Child.Venue ->
+                                    VenueUI(
+                                        component = child.component,
+                                        windowSizeClass = windowSizeClass,
+                                        topBarNavigationIcon = topBarNavigationIcon,
+                                        topBarActions = topBarActions,
+                                    )
 
-                            is HomeComponent.Child.Search ->
-                                SearchUI(
-                                    component = child.component,
-                                    windowSizeClass = windowSizeClass,
-                                    onBackClick = component::onBackClicked
-                                )
+                                is HomeComponent.Child.Search ->
+                                    SearchUI(
+                                        component = child.component,
+                                        windowSizeClass = windowSizeClass,
+                                        onBackClick = component::onBackClicked
+                                    )
+                            }
                         }
-                    }
 
+                    }
                 }
             }
         }

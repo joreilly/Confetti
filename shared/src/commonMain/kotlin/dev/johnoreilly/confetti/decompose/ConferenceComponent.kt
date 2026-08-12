@@ -13,11 +13,6 @@ import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.decompose.ConferenceComponent.Child
 import kotlinx.serialization.Serializable
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import dev.johnoreilly.confetti.AppSettings
-import kotlinx.coroutines.launch
-
 
 interface ConferenceComponent : BackHandlerOwner {
 
@@ -45,19 +40,10 @@ class DefaultConferenceComponent(
     private val onSignOut: () -> Unit,
     private val onSignIn: () -> Unit,
     private val settingsComponent: SettingsComponent?
-) : ConferenceComponent, KoinComponent, ComponentContext by componentContext {
+) : ConferenceComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
 
-    init {
-        val appSettings: AppSettings by inject()
-        coroutineScope().launch {
-            val forceEnable = appSettings.settings.getBoolean(AppSettings.FORCE_ENABLE_ASSISTANT, false)
-            if (forceEnable) {
-                navigation.push(Config.Agent)
-            }
-        }
-    }
 
     override val stack: Value<ChildStack<*, Child>> =
         childStack(

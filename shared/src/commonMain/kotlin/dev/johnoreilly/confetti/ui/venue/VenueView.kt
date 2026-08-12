@@ -43,6 +43,8 @@ import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.sampleVenue
 
 
+import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
+
 @Composable
 fun VenueView(venue: Venue) {
     val uriHandler = LocalUriHandler.current
@@ -52,7 +54,12 @@ fun VenueView(venue: Venue) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .padding(
+                start = 16.dp,
+                top = 16.dp,
+                end = 16.dp,
+                bottom = 16.dp + LocalBottomNavigationPadding.current
+            ),
         horizontalAlignment = Alignment.Start
     ) {
         // 1. Venue Image Banner

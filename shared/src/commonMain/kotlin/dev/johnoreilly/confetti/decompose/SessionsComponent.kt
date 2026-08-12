@@ -145,6 +145,9 @@ class SessionsSimpleComponent(
     private val selectedSessionId = MutableStateFlow<String?>(null)
     private val appSettings: AppSettings by inject()
 
+    private var lastSessionsData: GetConferenceDataQuery.Data? = null
+    private var cachedParsedData: ParsedConferenceData? = null
+
     val uiState: StateFlow<SessionsUiState> =
         combineUiState()
             .combine(searchQuery) { uiState, search ->
@@ -269,24 +272,11 @@ class SessionsSimpleComponent(
         return session.startsAt.sessionTimeFormat()
     }
 
-    private fun uiStates(
-        refreshData: ResponseData,
-        isRefreshing: Boolean,
-        searchString: String,
-        selectedSessionId: String?,
-        notificationsActive: Boolean,
-    ): SessionsUiState {
-        val bookmarksResponse = refreshData.bookmarksResponse
-        val sessionsResponse = refreshData.sessionsResponse
-        val bookmarksData = bookmarksResponse.data
-        val sessionsData = sessionsResponse.data
-
-        if (sessionsData == null || bookmarksData == null) {
-            bookmarksResponse.exception?.printStackTrace()
-            sessionsResponse.exception?.printStackTrace()
-            bookmarksResponse.errors?.let { println(it) }
-            sessionsResponse.errors?.let { println(it) }
-            return SessionsUiState.Error
+    private fun getOrParseConferenceData(sessionsData: GetConferenceDataQuery.Data): ParsedConferenceData {
+        val lastData = lastSessionsData
+        val cached = cachedParsedData
+        if (lastData === sessionsData && cached != null) {
+            return cached
         }
 
         val conferenceName = sessionsData.config.name
@@ -315,9 +305,8 @@ class SessionsSimpleComponent(
         val formattedConfDates = confDates.map { date ->
             date.atTime(0, 0).conferenceDateFormat()
         }
-        return SessionsUiState.Success(
-            now = dateService.now(),
-            conference = conference,
+
+        val parsed = ParsedConferenceData(
             conferenceName = conferenceName,
             venueLat = venueLat,
             venueLon = venueLon,
@@ -325,7 +314,47 @@ class SessionsSimpleComponent(
             formattedConfDates = formattedConfDates,
             sessionsByStartTimeList = sessionsByStartTimeList,
             speakers = speakers,
-            rooms = rooms,
+            rooms = rooms
+        )
+
+        lastSessionsData = sessionsData
+        cachedParsedData = parsed
+        return parsed
+    }
+
+    private fun uiStates(
+        refreshData: ResponseData,
+        isRefreshing: Boolean,
+        searchString: String,
+        selectedSessionId: String?,
+        notificationsActive: Boolean,
+    ): SessionsUiState {
+        val bookmarksResponse = refreshData.bookmarksResponse
+        val sessionsResponse = refreshData.sessionsResponse
+        val bookmarksData = bookmarksResponse.data
+        val sessionsData = sessionsResponse.data
+
+        if (sessionsData == null || bookmarksData == null) {
+            bookmarksResponse.exception?.printStackTrace()
+            sessionsResponse.exception?.printStackTrace()
+            bookmarksResponse.errors?.let { println(it) }
+            sessionsResponse.errors?.let { println(it) }
+            return SessionsUiState.Error
+        }
+
+        val parsed = getOrParseConferenceData(sessionsData)
+
+        return SessionsUiState.Success(
+            now = dateService.now(),
+            conference = conference,
+            conferenceName = parsed.conferenceName,
+            venueLat = parsed.venueLat,
+            venueLon = parsed.venueLon,
+            confDates = parsed.confDates,
+            formattedConfDates = parsed.formattedConfDates,
+            sessionsByStartTimeList = parsed.sessionsByStartTimeList,
+            speakers = parsed.speakers,
+            rooms = parsed.rooms,
             bookmarks = bookmarksData.bookmarks?.sessionIds.orEmpty().toSet(),
             isRefreshing = isRefreshing,
             searchString = searchString,
@@ -357,3 +386,14 @@ sealed interface SessionsUiState {
         val notificationsActive: Boolean
     ) : SessionsUiState
 }
+
+private data class ParsedConferenceData(
+    val conferenceName: String,
+    val venueLat: Double?,
+    val venueLon: Double?,
+    val confDates: List<LocalDate>,
+    val formattedConfDates: List<String>,
+    val sessionsByStartTimeList: List<Map<String, List<SessionDetails>>>,
+    val speakers: List<SpeakerDetails>,
+    val rooms: List<RoomDetails>
+)

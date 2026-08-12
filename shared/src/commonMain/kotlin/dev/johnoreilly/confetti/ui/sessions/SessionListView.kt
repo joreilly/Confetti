@@ -117,9 +117,7 @@ fun SessionListView(
                                     ConfettiHeader(icon = ConfettiIcons.AccessTime, text = startTime)
                                 }
 
-                                val sortedSessions =
-                                    sessions.sortedBy { session -> uiState.rooms.indexOfFirst { it.name == session.room?.name } }
-                                itemsIndexed(sortedSessions) { index, session ->
+                                itemsIndexed(sessions) { index, session ->
                                     SessionItemView(
                                         session = session,
                                         sessionSelected = sessionSelected,
@@ -129,7 +127,7 @@ fun SessionListView(
                                         onNavigateToSignIn = onNavigateToSignIn,
                                         isLoggedIn = isLoggedIn,
                                     )
-                                    if (index < sortedSessions.lastIndex) {
+                                    if (index < sessions.lastIndex) {
                                         HorizontalDivider()
                                     }
                                 }

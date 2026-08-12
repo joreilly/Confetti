@@ -305,6 +305,9 @@ class SessionsSimpleComponent(
 
             val sessionsByStartTime = sessions
                 .groupBy { getSessionTime(it) }
+                .mapValues { (_, sessionsList) ->
+                    sessionsList.sortedBy { session -> rooms.indexOfFirst { it.name == session.room?.name } }
+                }
 
             sessionsByStartTimeList.add(sessionsByStartTime)
         }

@@ -63,6 +63,8 @@ import confetti.shared.generated.resources.settings_boolean_true
 import confetti.shared.generated.resources.settings_title
 import confetti.shared.generated.resources.report_issue
 import confetti.shared.generated.resources.report_issue_desc
+import confetti.shared.generated.resources.slack_title
+import confetti.shared.generated.resources.slack_desc
 import confetti.shared.generated.resources.use_experimental_features
 import confetti.shared.generated.resources.use_experimental_features_desc
 import dev.johnoreilly.confetti.appconfig.ApplicationInfo
@@ -198,6 +200,14 @@ fun SettingsUI(
                         title = stringResource(Res.string.report_issue),
                         subtitle = stringResource(Res.string.report_issue_desc),
                         onClick = { uriHandler.openUri("https://github.com/joreilly/Confetti/issues/new") }
+                    )
+                }
+
+                item {
+                    ActionSettingsRow(
+                        title = stringResource(Res.string.slack_title),
+                        subtitle = stringResource(Res.string.slack_desc),
+                        onClick = { uriHandler.openUri("https://kotlinlang.slack.com/archives/C051P2HUVKP") }
                     )
                 }
 

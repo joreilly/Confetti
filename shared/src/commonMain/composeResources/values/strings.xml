@@ -58,6 +58,8 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="bookmarks_past">Past</string>
     <string name="bookmarks_upcoming">Upcoming</string>
+    <string name="slack_title">Slack</string>
+    <string name="slack_desc">Join the #confetti channel on KotlinLang Slack</string>
     <string name="report_issue">Report Issue</string>
     <string name="report_issue_desc">Report a bug or suggest an improvement on GitHub</string>
 </resources>

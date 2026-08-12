@@ -23,6 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -147,7 +149,11 @@ class SessionsSimpleComponent(
         combineUiState()
             .combine(searchQuery) { uiState, search ->
                 filterSessions(uiState, search)
-            }.stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
+            }
+            // Run heavy mapping and filtering operations on Default dispatcher to avoid blocking UI.
+            // Default dispatcher is preferred over IO dispatcher because these are CPU-bound memory tasks.
+            .flowOn(Dispatchers.Default)
+            .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SessionsUiState.Loading)
 
     private var job: Job? = null
 

@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.Dispatchers
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
@@ -56,7 +58,10 @@ class SpeakersSimpleComponent(
                     emit(SpeakersUiState.Success(conference, it))
                 }
             }
-    }.stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SpeakersUiState.Loading)
+    }
+        // Offload speaker mapping to Default dispatcher to keep UI responsive.
+        .flowOn(Dispatchers.Default)
+        .stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), SpeakersUiState.Loading)
 }
 
 sealed interface SpeakersUiState {

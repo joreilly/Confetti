@@ -33,6 +33,8 @@ string|oops|T29wcyBzb21ldGhpbmcgd2VudCB3cm9uZw==
 string|privacy_policy|UHJpdmFjeSBwb2xpY3k=
 string|recommendations_search_placeholder|V2hhdCB0b3BpYyBhcmUgeW91IGludGVyZXN0ZWQgaW4/
 string|recommendations|UmVjb21tZW5kYXRpb25z
+string|report_issue_desc|UmVwb3J0IGEgYnVnIG9yIHN1Z2dlc3QgYW4gaW1wcm92ZW1lbnQgb24gR2l0SHVi
+string|report_issue|UmVwb3J0IElzc3Vl
 string|retry|UmV0cnk=
 string|rooms|Um9vbXM=
 string|schedule|U2NoZWR1bGU=
@@ -47,6 +49,8 @@ string|sign_in_google|U2lnbiBpbiB3aXRoIEdvb2dsZQ==
 string|sign_in_lowercase|U2lnbiBpbg==
 string|sign_in|U0lHTiBJTg==
 string|sign_out|U2lnbiBvdXQ=
+string|slack_desc|Sm9pbiB0aGUgI2NvbmZldHRpIGNoYW5uZWwgb24gS290bGluTGFuZyBTbGFjaw==
+string|slack_title|U2xhY2s=
 string|speakers|U3BlYWtlcnM=
 string|switch_conference|U3dpdGNoIENvbmZlcmVuY2U=
 string|theme|VGhlbWU=

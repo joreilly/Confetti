@@ -1,11 +1,17 @@
 name: Build and Publish
 
-# configure manual trigger
 on:
+  pull_request:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: build-and-publish-web-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -13,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this
-      # manual build only reads from the cache. Absent on fork PRs, which disables the cache there.
+      # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token, so this build only
+      # reads from the cache, never seeds it. Absent on fork PRs, which disables the cache there.
       BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN: ${{ secrets.BUILDFETCH_GRADLE_REMOTE_CACHE_TOKEN_RO }}
     steps:
       # Check out current repository
@@ -29,13 +35,17 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
-      # Build application
+      # Build application. Runs on every PR and push to main so a wasmJs-only breakage (e.g. an
+      # API unavailable on that target, or a dependency pulling in a conflicting klib) fails CI
+      # instead of only surfacing on the next manual/production publish.
       - name: Build
         run: ./gradlew :compose-web:wasmJsBrowserDistribution
 
-      # If main branch update, deploy to gh-pages
+      # Publish to gh-pages on every push to main, plus on-demand via workflow_dispatch. Never on
+      # pull_request: github.ref there is the PR merge ref, not main, but event_name is checked
+      # explicitly too so a fork PR can never deploy even if that ever changed.
       - name: Deploy
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
         uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           BRANCH: gh-pages # The branch the action should deploy to.

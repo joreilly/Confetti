@@ -13,21 +13,28 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.TabRow
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.bookmarks_past
 import confetti.shared.generated.resources.bookmarks_upcoming
 import confetti.shared.generated.resources.no_bookmarks
 import dev.johnoreilly.confetti.decompose.DateSessionsMap
+import dev.johnoreilly.confetti.isBreak
+import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.bookmarkedSessionsByDate
 import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
-import dev.johnoreilly.confetti.ui.component.ConfettiTab
 import dev.johnoreilly.confetti.ui.component.EmptyView
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
@@ -101,16 +108,33 @@ private enum class BookmarksTab(val title: @Composable () -> String) {
 
 @Composable
 private fun BookmarksTabRow(pagerState: PagerState) {
-    TabRow(selectedTabIndex = pagerState.currentPage) {
+    PrimaryTabRow(
+        selectedTabIndex = pagerState.currentPage,
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        indicator = {
+            TabRowDefaults.PrimaryIndicator(
+                modifier = Modifier.tabIndicatorOffset(pagerState.currentPage, matchContentSize = true),
+            )
+        },
+        divider = {},
+    ) {
         for ((index, tab) in BookmarksTab.entries.withIndex()) {
             val tabScope = rememberCoroutineScope()
+            val selected = pagerState.currentPage == index
 
-            ConfettiTab(
-                selected = pagerState.currentPage == index,
+            Tab(
+                selected = selected,
                 onClick = {
                     tabScope.launch { pagerState.animateScrollToPage(index) }
                 },
-                text = { Text(text = tab.title()) }
+                text = {
+                    Text(
+                        text = tab.title(),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                    )
+                }
             )
         }
     }
@@ -137,7 +161,12 @@ private fun BookmarksHorizontalPager(
             }
 
         if (displayedSessions.isEmpty()) {
-            EmptyView(stringResource(Res.string.no_bookmarks))
+            EmptyView(
+                text = stringResource(Res.string.no_bookmarks),
+                message = if (page == BookmarksTab.Upcoming.ordinal) {
+                    "Tap the bookmark icon on any session to save it here."
+                } else null,
+            )
         } else {
             LazyColumn(
                 contentPadding = PaddingValues(bottom = LocalBottomNavigationPadding.current)
@@ -147,7 +176,7 @@ private fun BookmarksHorizontalPager(
                     stickyHeader {
                         ConfettiHeader(
                             icon = Icons.Filled.AccessTime,
-                            text = dateTime.time.toString() //DateTimeFormatter.ofPattern("MMM d, HH:mm").format(dateTime)
+                            text = dateTime.time.toString()
                         )
                     }
 
@@ -161,7 +190,9 @@ private fun BookmarksHorizontalPager(
                             onNavigateToSignIn = onSignIn,
                             isLoggedIn = isLoggedIn,
                         )
-                        if (index < sessions.lastIndex) {
+                        val isCurrentBreak = session.isBreak() || session.isService()
+                        val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())
+                        if (index < sessions.lastIndex && !isCurrentBreak && !isNextBreak) {
                             HorizontalDivider()
                         }
                     }

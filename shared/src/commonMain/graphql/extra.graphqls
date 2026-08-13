@@ -1,8 +1,7 @@
 extend schema
-@link(url: "https://specs.apollo.dev/kotlin_labs/v0.3")
 @link(
-    url: "https://specs.apollo.dev/cache/v0.3",
-    import: ["@typePolicy", "@fieldPolicy", "@cacheControl", "@cacheControlField"]
+    url: "https://specs.apollo.dev/kotlin_labs/v0.3",
+    import: ["@typePolicy", "@fieldPolicy"]
 )
 
 extend type Venue
@@ -10,25 +9,21 @@ extend type Venue
 
 extend type Session
 @typePolicy(keyFields: "id")
-@cacheControl(maxAge: 14400)
 
 extend type Bookmarks
 @typePolicy(keyFields: "id")
-@cacheControl(maxAge: 3600)
 
 extend type Speaker
 @typePolicy(keyFields: "id")
-@cacheControl(maxAge: 14400)
 
 extend type Room
 @typePolicy(keyFields: "id")
-@cacheControl(maxAge: 14400)
 
 extend type Conference
 @typePolicy(keyFields: "id")
-@cacheControl(maxAge: 14400)
 
 extend type Query
 @fieldPolicy(forField: "session", keyArgs: "id")
 @fieldPolicy(forField: "speaker", keyArgs: "id")
+
 

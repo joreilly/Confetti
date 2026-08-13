@@ -28,6 +28,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import coil3.compose.AsyncImage
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -61,6 +63,7 @@ import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -100,14 +103,50 @@ fun ConferenceAgentView(
     val systemBottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val totalBottomPadding = systemBottomPadding + bottomContentPadding
     val focusRequester = remember { FocusRequester() }
+    val density = LocalDensity.current
+    var inputBarHeightDp by remember { mutableStateOf(88.dp + totalBottomPadding) }
+    val isAtBottom by remember(listState) {
+        derivedStateOf {
+            val layoutInfo = listState.layoutInfo
+            val visibleItems = layoutInfo.visibleItemsInfo
+            if (visibleItems.isEmpty()) {
+                true
+            } else {
+                val lastVisible = visibleItems.last()
+                val isLastItem = lastVisible.index >= layoutInfo.totalItemsCount - 2
+                val viewportEnd = layoutInfo.viewportEndOffset - layoutInfo.afterContentPadding
+                val isFullyVisible = (lastVisible.offset + lastVisible.size) <= viewportEnd
+                isLastItem && (isFullyVisible || !listState.canScrollForward)
+            }
+        }
+    }
+
+    var shouldAutoScroll by remember { mutableStateOf(true) }
+
+    LaunchedEffect(listState.isScrollInProgress, isAtBottom) {
+        if (listState.isScrollInProgress) {
+            shouldAutoScroll = isAtBottom
+        } else if (isAtBottom) {
+            shouldAutoScroll = true
+        }
+    }
+
+    val targetIndex = if (state.isLoading) renderMessages.size else renderMessages.lastIndex
+
+    val onSend = {
+        if (state.inputText.isNotBlank()) {
+            shouldAutoScroll = true
+            component.sendMessage()
+        }
+    }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
 
-    LaunchedEffect(renderMessages.size) {
-        if (renderMessages.isNotEmpty()) {
-            listState.animateScrollToItem(renderMessages.lastIndex)
+    LaunchedEffect(renderMessages.size, state.isLoading, inputBarHeightDp) {
+        if (targetIndex >= 0 && shouldAutoScroll) {
+            listState.animateScrollToItem(targetIndex)
         }
     }
 
@@ -158,7 +197,7 @@ fun ConferenceAgentView(
                     start = 16.dp,
                     end = 16.dp,
                     top = 16.dp,
-                    bottom = 88.dp + totalBottomPadding
+                    bottom = inputBarHeightDp + 8.dp
                 ),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
@@ -183,6 +222,11 @@ fun ConferenceAgentView(
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
+                    .onSizeChanged { size ->
+                        with(density) {
+                            inputBarHeightDp = size.height.toDp()
+                        }
+                    }
                     .hazeChild(
                         state = hazeState,
                         style = HazeStyle(
@@ -233,7 +277,7 @@ fun ConferenceAgentView(
                     Spacer(Modifier.width(8.dp))
 
                     FilledIconButton(
-                        onClick = { component.sendMessage() },
+                        onClick = onSend,
                         enabled = state.isInputEnabled &&
                             !state.isChatEnded &&
                             state.inputText.isNotBlank(),

@@ -6,15 +6,18 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.Bookmarks
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.outlined.Bookmarks
-import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -31,11 +34,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SheetValue
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -45,19 +47,22 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.agent_assistant
 import confetti.shared.generated.resources.bookmarks
 import confetti.shared.generated.resources.schedule
 import confetti.shared.generated.resources.speakers
 import confetti.shared.generated.resources.venue
+import org.jetbrains.compose.resources.stringResource
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
@@ -90,9 +95,10 @@ fun App(component: DefaultAppComponent) {
     }
 }
 
-@OptIn(ExperimentalDecomposeApi::class)
+@OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ConferenceView(component: ConferenceComponent) {
+    val windowSizeClass = calculateWindowSizeClass()
     ConferenceMaterialThemeFromSettings(component.conferenceThemeColor) {
         ChildStack(
             stack = component.stack,
@@ -105,6 +111,16 @@ fun ConferenceView(component: ConferenceComponent) {
                 is ConferenceComponent.Child.Home -> HomeView(child.component)
                 is ConferenceComponent.Child.SessionDetails -> SessionDetailsUI(child.component)
                 is ConferenceComponent.Child.SpeakerDetails -> SpeakerDetailsUI(child.component)
+                is ConferenceComponent.Child.Venue ->
+                    VenueUI(
+                        component = child.component,
+                        windowSizeClass = windowSizeClass,
+                        topBarNavigationIcon = {
+                            IconButton(onClick = component::onBackClicked) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                            }
+                        }
+                    )
                 is ConferenceComponent.Child.Settings -> {
                     child.component?.let { childComponent ->
                         SettingsUI(childComponent, component::onBackClicked)
@@ -129,9 +145,6 @@ fun HomeView(component: HomeComponent) {
     val shouldShowNavRail = windowSizeClass.isExpanded
     val snackbarHostState = remember { SnackbarHostState() }
     val hazeState = remember { HazeState() }
-    val agentEnabled by produceState(initialValue = false) {
-        value = component.isAgentEnabled()
-    }
 
     CompositionLocalProvider(LocalHazeState provides hazeState) {
         Row {
@@ -139,19 +152,19 @@ fun HomeView(component: HomeComponent) {
                 NavigationRail(component)
             }
 
-            val topBarNavigationIcon = @Composable {
-                AccountIcon(
-                    onSwitchConference = component::onSwitchConferenceClicked,
-                    onOpenAgent = component::onAgentClicked,
-                    onSignIn = component::onSignInClicked,
-                    onSignOut = component::onSignOutClicked,
-                    onShowSettings = component::onShowSettingsClicked,
-                    info = component.user?.let { user ->
-                        AccountInfo(photoUrl = user.photoUrl)
-                    },
-                    installOnWear = {}, // FIXME: handle
-                    showAgentOption = agentEnabled
-                )
+            val agentEnabled by produceState(initialValue = false) {
+                value = component.isAgentEnabled()
+            }
+
+            val topBarNavigationIcon: @Composable () -> Unit = {
+                if (agentEnabled) {
+                    IconButton(onClick = component::onAgentClicked) {
+                        Icon(
+                            imageVector = Icons.Filled.Assistant,
+                            contentDescription = stringResource(Res.string.agent_assistant),
+                        )
+                    }
+                }
             }
 
             val topBarActions: @Composable RowScope.() -> Unit = {
@@ -214,8 +227,8 @@ fun HomeView(component: HomeComponent) {
                                         topBarActions = topBarActions,
                                     )
 
-                                is HomeComponent.Child.Venue ->
-                                    VenueUI(
+                                is HomeComponent.Child.Account ->
+                                    dev.johnoreilly.confetti.ui.account.AccountUI(
                                         component = child.component,
                                         windowSizeClass = windowSizeClass,
                                         topBarNavigationIcon = topBarNavigationIcon,
@@ -245,7 +258,7 @@ private fun NavigationRail(component: HomeComponent) {
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
     ) {
-        NavigationButtons(component = component) { isSelected, selectedIcon, unselectedIcon, text, badgeCount, onClick ->
+        NavigationButtons(component = component) { isSelected, icon, text, badgeCount, onClick ->
             NavigationRailItem(
                 selected = isSelected,
                 onClick = onClick,
@@ -260,12 +273,10 @@ private fun NavigationRail(component: HomeComponent) {
                             }
                         }
                     ) {
-                        Icon(
-                            imageVector = if (isSelected) selectedIcon else unselectedIcon,
-                            contentDescription = text
-                        )
+                        icon()
                     }
                 },
+                label = { Text(text) },
             )
         }
     }
@@ -282,7 +293,7 @@ private fun BottomBar(component: HomeComponent, modifier: Modifier = Modifier) {
             tonalElevation = 0.dp,
             containerColor = Color.Transparent,
         ) {
-            NavigationButtons(component = component) { isSelected, selectedIcon, unselectedIcon, text, badgeCount, onClick ->
+            NavigationButtons(component = component) { isSelected, icon, text, badgeCount, onClick ->
                 NavigationBarItem(
                     selected = isSelected,
                     onClick = onClick,
@@ -297,10 +308,7 @@ private fun BottomBar(component: HomeComponent, modifier: Modifier = Modifier) {
                                 }
                             }
                         ) {
-                            Icon(
-                                imageVector = if (isSelected) selectedIcon else unselectedIcon,
-                                contentDescription = text,
-                            )
+                            icon()
                         }
                     },
                     label = { Text(text) },
@@ -316,8 +324,7 @@ private fun <T> T.NavigationButtons(
     component: HomeComponent,
     content: @Composable T.(
         isSelected: Boolean,
-        selectedIcon: ImageVector,
-        unselectedIcon: ImageVector,
+        icon: @Composable () -> Unit,
         text: String,
         badgeCount: Int,
         onClick: () -> Unit,
@@ -329,8 +336,12 @@ private fun <T> T.NavigationButtons(
 
     content(
         activeChild is HomeComponent.Child.Sessions,
-        Icons.Filled.Home,
-        Icons.Outlined.Home,
+        {
+            Icon(
+                imageVector = if (activeChild is HomeComponent.Child.Sessions) Icons.Filled.CalendarToday else Icons.Outlined.CalendarToday,
+                contentDescription = stringResource(Res.string.schedule),
+            )
+        },
         stringResource(Res.string.schedule),
         0,
         component::onSessionsTabClicked,
@@ -338,8 +349,12 @@ private fun <T> T.NavigationButtons(
 
     content(
         activeChild is HomeComponent.Child.Speakers,
-        Icons.Filled.Person,
-        Icons.Outlined.Person,
+        {
+            Icon(
+                imageVector = if (activeChild is HomeComponent.Child.Speakers) Icons.Filled.People else Icons.Outlined.People,
+                contentDescription = stringResource(Res.string.speakers),
+            )
+        },
         stringResource(Res.string.speakers),
         0,
         component::onSpeakersTabClicked,
@@ -347,20 +362,40 @@ private fun <T> T.NavigationButtons(
 
     content(
         activeChild is HomeComponent.Child.Bookmarks,
-        Icons.Filled.Bookmarks,
-        Icons.Outlined.Bookmarks,
+        {
+            Icon(
+                imageVector = if (activeChild is HomeComponent.Child.Bookmarks) Icons.Filled.Bookmarks else Icons.Outlined.Bookmarks,
+                contentDescription = stringResource(Res.string.bookmarks),
+            )
+        },
         stringResource(Res.string.bookmarks),
         upcomingBookmarksCount,
         component::onBookmarksTabClicked,
     )
 
+    val isAccountSelected = activeChild is HomeComponent.Child.Account
+    val userPhotoUrl = component.user?.photoUrl
     content(
-        activeChild is HomeComponent.Child.Venue,
-        Icons.Filled.LocationOn,
-        Icons.Outlined.LocationOn,
-        stringResource(Res.string.venue),
+        isAccountSelected,
+        {
+            if (userPhotoUrl != null) {
+                AsyncImage(
+                    model = userPhotoUrl,
+                    contentDescription = "Account",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                )
+            } else {
+                Icon(
+                    imageVector = if (isAccountSelected) Icons.Filled.AccountCircle else Icons.Outlined.AccountCircle,
+                    contentDescription = "Account",
+                )
+            }
+        },
+        "Account",
         0,
-        component::onVenueTabClicked,
+        component::onAccountTabClicked,
     )
-
 }

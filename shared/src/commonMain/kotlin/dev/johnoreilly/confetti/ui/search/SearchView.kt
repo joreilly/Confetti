@@ -139,6 +139,12 @@ fun SearchView(
                         )
                     }
                 }
+            } else {
+                EmptyView(
+                    text = "Search Confetti",
+                    message = "Find sessions, speakers, and topics",
+                    icon = Icons.Default.Search,
+                )
             }
         }
     }

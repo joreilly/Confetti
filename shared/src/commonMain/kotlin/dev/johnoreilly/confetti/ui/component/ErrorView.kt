@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.oops
 import confetti.shared.generated.resources.retry
+import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -37,10 +38,12 @@ fun ErrorView(
     message: String? = "Check your connection and try again.",
     onRefresh: (() -> Unit)? = null,
 ) {
+    val bottomNavPadding = LocalBottomNavigationPadding.current
     Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(32.dp),
+            .padding(horizontal = 32.dp, vertical = 16.dp)
+            .padding(bottom = bottomNavPadding),
         contentAlignment = Alignment.Center,
     ) {
         Column(

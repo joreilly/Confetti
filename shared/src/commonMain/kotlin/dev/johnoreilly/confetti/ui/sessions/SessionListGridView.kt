@@ -88,7 +88,7 @@ fun SessionListGridView(
     onRefresh: () -> Unit,
 ) {
     when (uiState) {
-        SessionsUiState.Error -> ErrorView(onRefresh)
+        SessionsUiState.Error -> ErrorView(onRefresh = onRefresh)
         SessionsUiState.Loading -> LoadingView()
 
         is SessionsUiState.Success -> {

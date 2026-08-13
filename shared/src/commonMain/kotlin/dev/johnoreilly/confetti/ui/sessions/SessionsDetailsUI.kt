@@ -65,7 +65,7 @@ fun SessionDetailsUI(component: SessionDetailsComponent) {
         Column(Modifier.padding(it)) {
             when (val state = uiState) {
                 is SessionDetailsUiState.Loading -> LoadingView()
-                is SessionDetailsUiState.Error -> ErrorView(component::refresh)
+                is SessionDetailsUiState.Error -> ErrorView(onRefresh = component::refresh)
 
                 is SessionDetailsUiState.Success ->
                     SessionDetailViewShared(

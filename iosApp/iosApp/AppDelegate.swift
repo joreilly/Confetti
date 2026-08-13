@@ -45,11 +45,12 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
                 }
             },
             initialConferenceId: nil,
-            settingsComponent: nil
+            settingsComponent: nil,
+            initialSessionId: nil
         )
     }
 
-    func onConferenceDeepLink(conferenceId: String) {
+    func onConferenceDeepLink(conferenceId: String, sessionId: String? = nil) {
         applicationLifecycle.destroy()
         applicationLifecycle = ApplicationLifecycle()
         appComponent = DefaultAppComponent(
@@ -62,7 +63,8 @@ class AppDelegate : NSObject, UIApplicationDelegate, ObservableObject {
             onSignOut: {},
             onSignIn: {},
             initialConferenceId: conferenceId,
-            settingsComponent: nil
+            settingsComponent: nil,
+            initialSessionId: sessionId
         )
     }
 }

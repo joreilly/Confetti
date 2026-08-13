@@ -39,7 +39,8 @@ class DefaultConferenceComponent(
     private val onSwitchConference: () -> Unit,
     private val onSignOut: () -> Unit,
     private val onSignIn: () -> Unit,
-    private val settingsComponent: SettingsComponent?
+    private val settingsComponent: SettingsComponent?,
+    initialSessionId: String? = null,
 ) : ConferenceComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -49,7 +50,13 @@ class DefaultConferenceComponent(
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.Home,
+            initialStack = {
+                if (initialSessionId != null) {
+                    listOf(Config.Home, Config.SessionDetails(sessionId = initialSessionId))
+                } else {
+                    listOf(Config.Home)
+                }
+            },
             handleBackButton = true,
             childFactory = ::child,
         )

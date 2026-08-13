@@ -21,13 +21,17 @@ struct iOSApp: App {
             ConfettiIosApp(appDelegate: appDelegate)
                 .onOpenURL(perform: { url in
                     let pathComponents = url.pathComponents
-                    if pathComponents.count != 3 { return }
+                    if pathComponents.count < 3 { return }
                     if pathComponents[1] != "conference" { return }
                     let conferenceId = pathComponents[2]
                     for char in conferenceId {
                         if !char.isLetter && !char.isNumber { return }
                     }
-                    appDelegate.onConferenceDeepLink(conferenceId: conferenceId)
+                    var sessionId: String? = nil
+                    if pathComponents.count >= 5 && pathComponents[3] == "session" {
+                        sessionId = pathComponents[4]
+                    }
+                    appDelegate.onConferenceDeepLink(conferenceId: conferenceId, sessionId: sessionId)
                 })
         }
         .onChange(of: phase) { newPhase in

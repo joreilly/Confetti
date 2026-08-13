@@ -254,7 +254,8 @@ private fun NavigationRail(component: HomeComponent) {
                         badge = {
                             if (badgeCount > 0) {
                                 Badge {
-                                    Text(badgeCount.toString())
+                                    val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
+                                    Text(badgeText)
                                 }
                             }
                         }
@@ -290,7 +291,8 @@ private fun BottomBar(component: HomeComponent, modifier: Modifier = Modifier) {
                             badge = {
                                 if (badgeCount > 0) {
                                     Badge {
-                                        Text(badgeCount.toString())
+                                        val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
+                                        Text(badgeText)
                                     }
                                 }
                             }

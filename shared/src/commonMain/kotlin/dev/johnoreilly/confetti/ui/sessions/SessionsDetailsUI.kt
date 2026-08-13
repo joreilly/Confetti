@@ -27,6 +27,9 @@ import dev.johnoreilly.confetti.ui.component.ErrorView
 import dev.johnoreilly.confetti.ui.component.LoadingView
 
 
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SessionDetailsUI(component: SessionDetailsComponent) {
@@ -35,33 +38,38 @@ fun SessionDetailsUI(component: SessionDetailsComponent) {
 
     val uiState by component.uiState.subscribeAsState()
     val isBookmarked by component.isBookmarked.collectAsState()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    Scaffold(topBar = {
-        CenterAlignedTopAppBar(
-            title = { },
-            navigationIcon = {
-                IconButton(onClick = component::onCloseClicked ) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-            },
-            actions = {
-                Bookmark(
-                    isBookmarked = isBookmarked,
-                    onBookmarkChange = { shouldAdd ->
-                        if (!component.isLoggedIn) {
-                            showDialog = true
-                            return@Bookmark
-                        }
-                        if (shouldAdd) {
-                            component.addBookmark()
-                        } else {
-                            component.removeBookmark()
-                        }
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { },
+                navigationIcon = {
+                    IconButton(onClick = component::onCloseClicked ) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
-                )
-            }
-        )
-    }) {
+                },
+                actions = {
+                    Bookmark(
+                        isBookmarked = isBookmarked,
+                        onBookmarkChange = { shouldAdd ->
+                            if (!component.isLoggedIn) {
+                                showDialog = true
+                                return@Bookmark
+                            }
+                            if (shouldAdd) {
+                                component.addBookmark()
+                            } else {
+                                component.removeBookmark()
+                            }
+                        }
+                    )
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        }
+    ) {
         Box(
             modifier = Modifier
                 .padding(it)

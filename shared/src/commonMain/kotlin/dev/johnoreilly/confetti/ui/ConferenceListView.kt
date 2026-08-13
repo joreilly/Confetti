@@ -37,6 +37,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -82,7 +84,10 @@ fun ConferenceListView(component: ConferencesComponent) {
         }
     }
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             if (searchMode) {
                 ConfettiSearch(
@@ -108,7 +113,8 @@ fun ConferenceListView(component: ConferencesComponent) {
                         IconButton(onClick = { searchMode = true }) {
                             Icon(Icons.Outlined.Search, contentDescription = "Search")
                         }
-                    }
+                    },
+                    scrollBehavior = scrollBehavior,
                 )
             }
         }

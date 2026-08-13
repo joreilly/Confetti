@@ -64,6 +64,8 @@ import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.sessions.SocialIcon
 import org.jetbrains.compose.resources.stringResource
 
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpeakerDetailsView(
@@ -80,8 +82,10 @@ fun SpeakerDetailsView(
 ) {
     val scrollState = rememberScrollState()
     var showFullScreenPhoto by remember { mutableStateOf(false) }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
                 title = {},
@@ -90,9 +94,10 @@ fun SpeakerDetailsView(
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent
-                )
+                ),
+                scrollBehavior = scrollBehavior,
             )
         },
     ) { innerPadding ->

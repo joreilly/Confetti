@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -78,12 +77,12 @@ class DefaultSessionDetailsComponent(
         .flatMapLatest { fetchPolicy ->
             repository.sessionDetails(conference = conference, sessionId = sessionId, fetchPolicy = fetchPolicy)
         }
-        .runningFold<ApolloResponse<GetSessionQuery.Data>, SessionDetailsUiState>(SessionDetailsUiState.Loading) { previousState, response ->
+        .map { response ->
             val details = response.data?.session?.sessionDetails
-            when {
-                details != null -> SessionDetailsUiState.Success(conference, details)
-                previousState is SessionDetailsUiState.Success -> previousState
-                else -> SessionDetailsUiState.Error
+            if (details != null) {
+                SessionDetailsUiState.Success(conference, details)
+            } else {
+                SessionDetailsUiState.Error
             }
         }
         .asValue(initialValue = SessionDetailsUiState.Loading, lifecycle = lifecycle)

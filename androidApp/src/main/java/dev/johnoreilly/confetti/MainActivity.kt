@@ -39,12 +39,13 @@ class MainActivity : ComponentActivity() {
 
         val appComponent =
             handleDeepLink { uri ->
-                val initialConferenceId = uri?.extractConferenceIdOrNull()
-                val rootComponentContext = defaultComponentContext(discardSavedState = initialConferenceId != null)
+                val deepLinkInfo = uri?.extractDeepLinkInfoOrNull()
+                val rootComponentContext = defaultComponentContext(discardSavedState = deepLinkInfo != null)
 
                 val appComponent = DefaultAppComponent(
                     componentContext = rootComponentContext.childContext("app"),
-                    initialConferenceId = initialConferenceId,
+                    initialConferenceId = deepLinkInfo?.conferenceId,
+                    initialSessionId = deepLinkInfo?.sessionId,
                     onSignOut = {
                         lifecycleScope.launch {
                             signInProcess.signOut()
@@ -62,20 +63,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             App(component = appComponent)
         }
-    }
-
-    /**
-     * From a deep link like `https://confetti-app.dev/conference/devfeststockholm2023` extracts `devfeststockholm2023`.
-     */
-    private fun Uri.extractConferenceIdOrNull(): String? {
-        if (host != "confetti-app.dev") return null
-        val path = path ?: return null
-        if (path.firstOrNull() != '/') return null
-        val parts = path.substring(1).split('/')
-        if (parts[0] != "conference") return null
-        val conferenceId = parts.getOrNull(1) ?: return null
-        if (!conferenceId.all { it.isLetterOrDigit() }) return null
-        return conferenceId
     }
 }
 

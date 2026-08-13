@@ -38,7 +38,8 @@ class DefaultAppComponent(
     private val onSignOut: () -> Unit,
     private val onSignIn: () -> Unit,
     initialConferenceId: String? = null,
-    private val settingsComponent: SettingsComponent? = null
+    private val settingsComponent: SettingsComponent? = null,
+    initialSessionId: String? = null,
 ) : AppComponent, KoinComponent, ComponentContext by componentContext {
 
     private val coroutineScope = coroutineScope()
@@ -77,7 +78,7 @@ class DefaultAppComponent(
 
         coroutineScope.launch {
             if (initialConferenceId != null) {
-                selectAndNavigateToDeepLinkedConference(initialConferenceId)
+                selectAndNavigateToDeepLinkedConference(initialConferenceId, initialSessionId)
             } else {
                 if (!appSettings.isOnboardingCompleted()) {
                     showOnboarding()
@@ -103,11 +104,11 @@ class DefaultAppComponent(
         onUserChanged(user?.uid)
     }
 
-    private suspend fun selectAndNavigateToDeepLinkedConference(conferenceId: String) {
+    private suspend fun selectAndNavigateToDeepLinkedConference(conferenceId: String, sessionId: String? = null) {
         // todo, consider changing how conference theme colors are decided so that only knowing the conference
         //  ID is enough to also get the right color
         repository.setConference(conference = conferenceId, conferenceThemeColor = null)
-        showConference(conference = conferenceId, conferenceThemeColor = null)
+        showConference(conference = conferenceId, conferenceThemeColor = null, initialSessionId = sessionId)
     }
 
     private fun onUserChanged(uid: String?) {
@@ -174,7 +175,8 @@ class DefaultAppComponent(
                             authentication.signOut()
                         },
                         onSignIn = onSignIn,
-                        settingsComponent = defaultSettingsComponent
+                        settingsComponent = defaultSettingsComponent,
+                        initialSessionId = config.initialSessionId,
                     )
                 )
         }
@@ -191,8 +193,15 @@ class DefaultAppComponent(
         navigation.push(Config.Conferences(isSwitching = true))
     }
 
-    private fun showConference(conference: String, conferenceThemeColor: String?) {
-        navigation.replaceAll(Config.Conference(uid = user?.uid, conference = conference, conferenceThemeColor = conferenceThemeColor))
+    private fun showConference(conference: String, conferenceThemeColor: String?, initialSessionId: String? = null) {
+        navigation.replaceAll(
+            Config.Conference(
+                uid = user?.uid,
+                conference = conference,
+                conferenceThemeColor = conferenceThemeColor,
+                initialSessionId = initialSessionId,
+            )
+        )
     }
 
     @Serializable
@@ -211,6 +220,7 @@ class DefaultAppComponent(
             val uid: String?, // Unused, but needed to recreated the component when the user changes
             val conference: String,
             val conferenceThemeColor: String?,
+            val initialSessionId: String? = null,
         ) : Config()
     }
 }

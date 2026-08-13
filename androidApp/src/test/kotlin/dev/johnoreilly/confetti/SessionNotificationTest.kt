@@ -5,11 +5,13 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import dev.johnoreilly.confetti.work.SessionAlarmReceiver
 import dev.johnoreilly.confetti.work.SessionAlarmManager
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.GlobalContext.stopKoin
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
@@ -17,6 +19,11 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [30])
 class SessionNotificationTest {
+
+    @After
+    fun tearDown() {
+        stopKoin()
+    }
 
     @Test
     fun testScheduleAndCancelAlarm() {
@@ -56,5 +63,46 @@ class SessionNotificationTest {
         sessionAlarmManager.cancelAlarm(sessionId)
 
         assertNull(shadowAlarmManager.getNextScheduledAlarm())
+    }
+
+    @Test
+    fun testNotificationContentIntentDeepLink() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val builder = dev.johnoreilly.confetti.notifications.SessionNotificationBuilder(context)
+
+        val notification = builder.createNotification(
+            title = "Keynote",
+            roomName = "Main Stage",
+            startsAtTime = "09:00",
+            sessionId = "session_999",
+            conferenceId = "droidconberlin2026",
+            notificationId = 42
+        ).build()
+
+        val contentIntent = notification.contentIntent
+        assertNotNull(contentIntent)
+        val shadowPendingIntent = shadowOf(contentIntent)
+        val intent = shadowPendingIntent.savedIntent
+        assertNotNull(intent)
+        assertEquals(android.content.Intent.ACTION_VIEW, intent.action)
+        assertEquals("https://confetti-app.dev/conference/droidconberlin2026/session/session_999", intent.dataString)
+    }
+
+    @Test
+    fun testExtractDeepLinkWithSessionId() {
+        val uri = android.net.Uri.parse("https://confetti-app.dev/conference/droidconberlin2026/session/session_999")
+        val info = uri.extractDeepLinkInfoOrNull()
+        assertNotNull(info)
+        assertEquals("droidconberlin2026", info?.conferenceId)
+        assertEquals("session_999", info?.sessionId)
+    }
+
+    @Test
+    fun testExtractDeepLinkConferenceOnly() {
+        val uri = android.net.Uri.parse("https://confetti-app.dev/conference/droidconberlin2026")
+        val info = uri.extractDeepLinkInfoOrNull()
+        assertNotNull(info)
+        assertEquals("droidconberlin2026", info?.conferenceId)
+        assertNull(info?.sessionId)
     }
 }

@@ -9,7 +9,7 @@ extend type Venue
 @typePolicy(keyFields: "id")
 
 extend type Session
-@typePolicy(keyFields: "id")
+@typePolicy(keyFields: "id", embeddedFields: "links")
 @cacheControl(maxAge: 14400)
 
 extend type Bookmarks
@@ -17,8 +17,17 @@ extend type Bookmarks
 @cacheControl(maxAge: 3600)
 
 extend type Speaker
-@typePolicy(keyFields: "id")
+@typePolicy(keyFields: "id", embeddedFields: "socials")
 @cacheControl(maxAge: 14400)
+
+extend type PartnerGroup
+@typePolicy(embeddedFields: "partners")
+
+extend type SessionConnection
+@typePolicy(embeddedFields: "pageInfo")
+
+extend type SpeakerConnection
+@typePolicy(embeddedFields: "pageInfo")
 
 extend type Room
 @typePolicy(keyFields: "id")

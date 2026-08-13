@@ -16,12 +16,21 @@ import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.utils.DateService
+import dev.johnoreilly.confetti.utils.createCurrentLocalDateTimeFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 
 interface HomeComponent {
 
     val conference: String
     val user: User?
     val stack: Value<ChildStack<*, Child>>
+    val upcomingBookmarksCount: Flow<Int>
 
     suspend fun isAgentEnabled(): Boolean
     fun onSessionsTabClicked()
@@ -55,8 +64,44 @@ class DefaultHomeComponent(
     private val onSignIn: () -> Unit,
     private val onSignOut: () -> Unit,
     private val onShowSettings: () -> Unit,
-    private val onShowAgent: () -> Unit,
+    private val onShowAgent: () -> Unit = {},
 ) : HomeComponent, KoinComponent, ComponentContext by componentContext {
+
+    private val dateService: DateService by inject()
+
+    private val sessionsComponent =
+        SessionsSimpleComponent(
+            componentContext = childContext("HomeSessions"),
+            conference = conference,
+            user = user,
+        )
+
+    private val loadedSessions = sessionsComponent
+        .uiState
+        .filterIsInstance<SessionsUiState.Success>()
+
+    private val bookmarks = loadedSessions
+        .map { state -> state.bookmarks }
+
+    private val sessions = loadedSessions
+        .map { state ->
+            state
+                .sessionsByStartTimeList
+                .flatMap { sessions -> sessions.values }
+                .flatten()
+        }
+        .combine(bookmarks) { sessions, bookmarks ->
+            sessions.filter { session -> session.id in bookmarks }
+        }
+
+    private val currentDateTimeFlow = dateService
+        .createCurrentLocalDateTimeFlow()
+
+    override val upcomingBookmarksCount: Flow<Int> = sessions
+        .combine(currentDateTimeFlow) { sessions, now ->
+            sessions.count { session -> session.endsAt >= now }
+        }
+        .flowOn(Dispatchers.Default)
 
     private val navigation = StackNavigation<Config>()
 

@@ -59,11 +59,16 @@ fun SpeakerDetailsUI(component: SpeakerDetailsComponent) {
         is SpeakerDetailsUiState.Loading -> LoadingView()
         is SpeakerDetailsUiState.Error -> ErrorView()
         is SpeakerDetailsUiState.Success -> SpeakerDetailsView(
-            state.conference,
-            state.details,
-            component::onSessionClicked,
-            component::onCloseClicked,
-            uriHandler::openUri)
+            conference = state.conference,
+            speaker = state.details,
+            isBookmarked = { state.bookmarks.contains(it) },
+            addBookmark = component::addBookmark,
+            removeBookmark = component::removeBookmark,
+            onNavigateToSignIn = component::onSignInClicked,
+            isLoggedIn = component.isLoggedIn,
+            navigateToSession = component::onSessionClicked,
+            popBack = component::onCloseClicked,
+            onSocialLinkClicked = uriHandler::openUri
+        )
     }
-
 }

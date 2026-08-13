@@ -91,7 +91,9 @@ class DefaultConferenceComponent(
                         componentContext = componentContext,
                         conference = conference,
                         speakerId = config.speakerId,
+                        user = user,
                         onSessionSelected = { navigation.bringToFront(Config.SessionDetails(sessionId = it)) },
+                        onSignIn = onSignIn,
                         onFinished = navigation::pop,
                     )
                 )

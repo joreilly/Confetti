@@ -16,6 +16,8 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,6 +43,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -242,15 +245,26 @@ private fun NavigationRail(component: HomeComponent) {
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
     ) {
-        NavigationButtons(component = component) { isSelected, selectedIcon, unselectedIcon, text, onClick ->
+        NavigationButtons(component = component) { isSelected, selectedIcon, unselectedIcon, text, badgeCount, onClick ->
             NavigationRailItem(
                 selected = isSelected,
                 onClick = onClick,
                 icon = {
-                    Icon(
-                        imageVector = if (isSelected) selectedIcon else unselectedIcon,
-                        contentDescription = text
-                    )
+                    BadgedBox(
+                        badge = {
+                            if (badgeCount > 0) {
+                                Badge {
+                                    val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
+                                    Text(badgeText)
+                                }
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (isSelected) selectedIcon else unselectedIcon,
+                            contentDescription = text
+                        )
+                    }
                 },
             )
         }
@@ -268,15 +282,26 @@ private fun BottomBar(component: HomeComponent, modifier: Modifier = Modifier) {
             tonalElevation = 0.dp,
             containerColor = Color.Transparent,
         ) {
-            NavigationButtons(component = component) { isSelected, selectedIcon, unselectedIcon, text, onClick ->
+            NavigationButtons(component = component) { isSelected, selectedIcon, unselectedIcon, text, badgeCount, onClick ->
                 NavigationBarItem(
                     selected = isSelected,
                     onClick = onClick,
                     icon = {
-                        Icon(
-                            imageVector = if (isSelected) selectedIcon else unselectedIcon,
-                            contentDescription = text,
-                        )
+                        BadgedBox(
+                            badge = {
+                                if (badgeCount > 0) {
+                                    Badge {
+                                        val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
+                                        Text(badgeText)
+                                    }
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (isSelected) selectedIcon else unselectedIcon,
+                                contentDescription = text,
+                            )
+                        }
                     },
                     label = { Text(text) },
                 )
@@ -294,17 +319,20 @@ private fun <T> T.NavigationButtons(
         selectedIcon: ImageVector,
         unselectedIcon: ImageVector,
         text: String,
+        badgeCount: Int,
         onClick: () -> Unit,
     ) -> Unit,
 ) {
     val stack by component.stack.subscribeAsState()
     val activeChild = stack.active.instance
+    val upcomingBookmarksCount by component.upcomingBookmarksCount.collectAsStateWithLifecycle(initialValue = 0)
 
     content(
         activeChild is HomeComponent.Child.Sessions,
         Icons.Filled.Home,
         Icons.Outlined.Home,
         stringResource(Res.string.schedule),
+        0,
         component::onSessionsTabClicked,
     )
 
@@ -313,6 +341,7 @@ private fun <T> T.NavigationButtons(
         Icons.Filled.Person,
         Icons.Outlined.Person,
         stringResource(Res.string.speakers),
+        0,
         component::onSpeakersTabClicked,
     )
 
@@ -321,6 +350,7 @@ private fun <T> T.NavigationButtons(
         Icons.Filled.Bookmarks,
         Icons.Outlined.Bookmarks,
         stringResource(Res.string.bookmarks),
+        upcomingBookmarksCount,
         component::onBookmarksTabClicked,
     )
 
@@ -329,6 +359,7 @@ private fun <T> T.NavigationButtons(
         Icons.Filled.LocationOn,
         Icons.Outlined.LocationOn,
         stringResource(Res.string.venue),
+        0,
         component::onVenueTabClicked,
     )
 

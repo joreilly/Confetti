@@ -28,6 +28,7 @@ interface ConferenceComponent : BackHandlerOwner {
         class SpeakerDetails(val component: SpeakerDetailsComponent) : Child()
         class Settings(val component: SettingsComponent?) : Child()
         class Agent(val component: ConferenceAgentComponent) : Child()
+        class Venue(val component: VenueComponent) : Child()
     }
 }
 
@@ -76,6 +77,7 @@ class DefaultConferenceComponent(
                         onSignOut = onSignOut,
                         onShowSettings = { navigation.push(Config.Settings) },
                         onShowAgent = { navigation.push(Config.Agent) },
+                        onVenueSelected = { navigation.push(Config.Venue) },
                     )
                 )
 
@@ -115,6 +117,14 @@ class DefaultConferenceComponent(
                         userPhotoUrl = user?.photoUrl,
                     )
                 )
+
+            is Config.Venue ->
+                Child.Venue(
+                    DefaultVenueComponent(
+                        componentContext = componentContext,
+                        conference = conference,
+                    )
+                )
         }
 
     override fun onBackClicked() {
@@ -141,5 +151,8 @@ class DefaultConferenceComponent(
 
         @Serializable
         data object Agent : Config()
+
+        @Serializable
+        data object Venue : Config()
     }
 }

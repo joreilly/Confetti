@@ -195,22 +195,6 @@ fun SettingsUI(
                     )
                 }
 
-                item {
-                    ActionSettingsRow(
-                        title = stringResource(Res.string.report_issue),
-                        subtitle = stringResource(Res.string.report_issue_desc),
-                        onClick = { uriHandler.openUri("https://github.com/joreilly/Confetti/issues/new") }
-                    )
-                }
-
-                item {
-                    ActionSettingsRow(
-                        title = stringResource(Res.string.slack_title),
-                        subtitle = stringResource(Res.string.slack_desc),
-                        onClick = { uriHandler.openUri("https://kotlinlang.slack.com/archives/C051P2HUVKP") }
-                    )
-                }
-
                 if (developerSettings != null) {
                     item {
                         Text(

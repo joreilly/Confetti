@@ -36,7 +36,7 @@ interface HomeComponent {
     fun onSessionsTabClicked()
     fun onSpeakersTabClicked()
     fun onBookmarksTabClicked()
-    fun onVenueTabClicked()
+    fun onAccountTabClicked()
     fun onSearchClicked()
     fun onSwitchConferenceClicked()
     fun onAgentClicked()
@@ -49,7 +49,7 @@ interface HomeComponent {
         class Sessions(val component: SessionsComponent) : Child()
         class Speakers(val component: SpeakersComponent) : Child()
         class Bookmarks(val component: BookmarksComponent) : Child()
-        class Venue(val component: VenueComponent) : Child()
+        class Account(val component: AccountComponent) : Child()
         class Search(val component: SearchComponent) : Child()
     }
 }
@@ -64,7 +64,8 @@ class DefaultHomeComponent(
     private val onSignIn: () -> Unit,
     private val onSignOut: () -> Unit,
     private val onShowSettings: () -> Unit,
-    private val onShowAgent: () -> Unit = {},
+    private val onShowAgent: () -> Unit,
+    private val onVenueSelected: () -> Unit,
 ) : HomeComponent, KoinComponent, ComponentContext by componentContext {
 
     private val dateService: DateService by inject()
@@ -147,11 +148,17 @@ class DefaultHomeComponent(
                     )
                 )
 
-            Config.Venue ->
-                Child.Venue(
-                    DefaultVenueComponent(
+            Config.Account ->
+                Child.Account(
+                    DefaultAccountComponent(
                         componentContext = componentContext,
-                        conference = conference
+                        conference = conference,
+                        user = user,
+                        onVenueSelected = onVenueSelected,
+                        onSwitchConference = onSwitchConference,
+                        onShowSettings = onShowSettings,
+                        onSignIn = onSignIn,
+                        onSignOut = onSignOut,
                     )
                 )
 
@@ -186,8 +193,8 @@ class DefaultHomeComponent(
         navigation.bringToFront(Config.Bookmarks)
     }
 
-    override fun onVenueTabClicked() {
-        navigation.bringToFront(Config.Venue)
+    override fun onAccountTabClicked() {
+        navigation.bringToFront(Config.Account)
     }
 
     override fun onSearchClicked() {
@@ -230,7 +237,7 @@ class DefaultHomeComponent(
         data object Bookmarks : Config()
 
         @Serializable
-        data object Venue : Config()
+        data object Account : Config()
 
         @Serializable
         data object Search : Config()

@@ -41,6 +41,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -69,6 +72,7 @@ import dev.johnoreilly.confetti.ui.icons.Slack
 import org.jetbrains.compose.resources.stringResource
 
 import dev.johnoreilly.confetti.ui.component.ErrorView
+import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import dev.johnoreilly.confetti.ui.component.LoadingView
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -302,6 +306,8 @@ private fun UserAccountCard(
     onSignInClicked: () -> Unit,
     onSignOutClicked: () -> Unit,
 ) {
+    var showFullScreenPhoto by remember { mutableStateOf(false) }
+
     Card(
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
@@ -323,7 +329,8 @@ private fun UserAccountCard(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(46.dp)
-                            .clip(CircleShape),
+                            .clip(CircleShape)
+                            .clickable { showFullScreenPhoto = true },
                     )
                 } else {
                     Surface(
@@ -413,6 +420,14 @@ private fun UserAccountCard(
                 }
             }
         }
+    }
+
+    if (showFullScreenPhoto && state.user?.photoUrl != null) {
+        FullScreenPhotoDialog(
+            photoUrl = state.user.photoUrl,
+            contentDescription = state.user.name,
+            onDismissRequest = { showFullScreenPhoto = false },
+        )
     }
 }
 

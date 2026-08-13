@@ -136,12 +136,35 @@ class ConfettiRepository : KoinComponent {
         }
     }
 
+    /**
+     * Empty bookmarks data for unauthenticated users.
+     * Prevents network queries when no user account is active.
+     */
+    private fun emptyBookmarksResponse(): ApolloResponse<GetBookmarksQuery.Data> {
+        return ApolloResponse.Builder(
+            GetBookmarksQuery(),
+            uuid4(),
+        ).data(
+            GetBookmarksQuery.Data(
+                GetBookmarksQuery.Bookmarks(
+                    __typename = "Bookmarks",
+                    sessionIds = emptyList(),
+                    id = "none"
+                )
+            )
+        ).build()
+    }
+
     fun bookmarks(
         conference: String,
         uid: String?,
         tokenProvider: TokenProvider?,
         fetchPolicy: FetchPolicy
     ): Flow<ApolloResponse<GetBookmarksQuery.Data>> {
+        // Return empty bookmarks for unauthenticated users to avoid network roundtrip
+        if (uid == null) {
+            return flow { emit(emptyBookmarksResponse()) }
+        }
         return apolloClientCache.getClient(conference, uid).query(GetBookmarksQuery())
             .tokenProvider(tokenProvider)
             .fetchPolicy(fetchPolicy)
@@ -169,6 +192,11 @@ class ConfettiRepository : KoinComponent {
         tokenProvider: TokenProvider?,
         initialData: GetBookmarksQuery.Data?,
     ): Flow<ApolloResponse<GetBookmarksQuery.Data>> = flow {
+        // Return empty bookmarks for unauthenticated users to avoid network roundtrip
+        if (uid == null) {
+            emit(emptyBookmarksResponse())
+            return@flow
+        }
         val values = apolloClientCache.getClient(conference, uid).query(GetBookmarksQuery())
             .tokenProvider(tokenProvider)
             .watch(initialData)

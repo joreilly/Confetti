@@ -260,7 +260,6 @@ class SessionNotificationSender(
         coroutineScope.launch {
             if (enabled) {
                 startObservingBookmarks()
-                updateSchedule()
             } else {
                 stopObservingBookmarks()
                 cancelAllAlarms()

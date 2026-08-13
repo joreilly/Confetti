@@ -36,7 +36,7 @@
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSpeakerDetailsPreview_Phone_dark.png",
-    "sha256": "a135637ccd841146f6fee503be5f6eb4bf6338a09b7da71cfce334417ae4d0ff",
+    "sha256": "2e3caa0293d43fcb5bc5df5db9f0d4d32df70ba5ad0880e9eaacf359f1812596",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone \u2014 light": {
@@ -44,7 +44,7 @@
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSpeakerDetailsPreview_Phone_light.png",
-    "sha256": "2d3c9eef81bef163257cada6c238a1a754615b591f6ba2dd758dbd351cade9f9",
+    "sha256": "4b1768f4c4e1e9c2bc9ac48370a885a073915767588c9ed3900c7ff572ed6411",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Tablet landscape": {
@@ -52,7 +52,7 @@
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSpeakerDetailsPreview_Tablet_landscape.png",
-    "sha256": "77fffabc1b2818acbfd3d0f525ea67e66447210a15487cc9264941cd61d88914",
+    "sha256": "9f3bd648cc74fcbb09d52bcd7033fe4d5c8b92069800a288d5202b6ed2da7e02",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Dark": {
@@ -204,7 +204,7 @@
     "functionName": "SpeakerDetailsScreenPreview",
     "module": "androidApp",
     "renderBasename": "SpeakerDetailsScreenPreview_Dark.png",
-    "sha256": "1a257e7c281f3c2bda0abbeee2be99d0aebf4e33094f93a11e43fba2c04d9cf2",
+    "sha256": "4d88e517986ed768d50734db55fbde78a59a68d1ddc82cb35277c8089c87c52a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Light": {
@@ -212,7 +212,7 @@
     "functionName": "SpeakerDetailsScreenPreview",
     "module": "androidApp",
     "renderBasename": "SpeakerDetailsScreenPreview_Light.png",
-    "sha256": "359d80ef9ee705e530eda3cdaba229c4fa905da09f9c9b3c278a469239e876d3",
+    "sha256": "5b9c4e4ce5fbda10002807a37d2a40a79d184cc8ecc3e3dc99a1ee20ca3cf8cc",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerItemPreview_Dark": {

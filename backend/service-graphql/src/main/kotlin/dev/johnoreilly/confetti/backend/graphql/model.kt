@@ -80,11 +80,23 @@ object LocalDateTimeCoercing : Coercing<LocalDateTime> {
 @GraphQLName("Mutation")
 class RootMutation {
     fun addBookmark(dfe: ExecutionContext, sessionId: String): Bookmarks {
-        return Bookmarks(dfe.source().addBookmark(sessionId).toList())
+        println("[BOOKMARK_DEBUG] RootMutation.addBookmark resolver invoked sessionId=$sessionId uid=${dfe.uid()}")
+        return try {
+            Bookmarks(dfe.source().addBookmark(sessionId).toList())
+        } catch (e: Exception) {
+            println("[BOOKMARK_DEBUG] RootMutation.addBookmark resolver threw sessionId=$sessionId uid=${dfe.uid()}: ${e.stackTraceToString()}")
+            throw e
+        }
     }
 
     fun removeBookmark(dfe: ExecutionContext, sessionId: String): Bookmarks {
-        return Bookmarks(dfe.source().removeBookmark(sessionId).toList())
+        println("[BOOKMARK_DEBUG] RootMutation.removeBookmark resolver invoked sessionId=$sessionId uid=${dfe.uid()}")
+        return try {
+            Bookmarks(dfe.source().removeBookmark(sessionId).toList())
+        } catch (e: Exception) {
+            println("[BOOKMARK_DEBUG] RootMutation.removeBookmark resolver threw sessionId=$sessionId uid=${dfe.uid()}: ${e.stackTraceToString()}")
+            throw e
+        }
     }
 
     /**

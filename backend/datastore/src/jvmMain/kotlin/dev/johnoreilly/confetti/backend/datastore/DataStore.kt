@@ -58,6 +58,7 @@ class DataStore {
         return try {
             datastore.get(key)
         } catch (e: Exception) {
+            println("[BOOKMARK_DEBUG] readBookmarksEntity threw for uid=$uid conference=$conference key=$key: ${e.stackTraceToString()}")
             null
         }
     }
@@ -67,6 +68,7 @@ class DataStore {
     }
 
     fun addBookmark(uid: String, conference: String, sessionId: String): Set<String> {
+        println("[BOOKMARK_DEBUG] addBookmark start uid=$uid conference=$conference sessionId=$sessionId")
         var entityBuilder: Entity.Builder? = readBookmarksEntity(uid, conference)?.let {
             Entity.newBuilder(it)
         }
@@ -79,31 +81,46 @@ class DataStore {
         }
         entityBuilder.set(sessionId, BooleanValue.of(true))
         val newEntity = entityBuilder.build()
-        datastore.runInTransaction {
-            it.put(newEntity)
+        try {
+            datastore.runInTransaction {
+                it.put(newEntity)
+            }
+        } catch (e: Exception) {
+            println("[BOOKMARK_DEBUG] addBookmark transaction FAILED uid=$uid conference=$conference sessionId=$sessionId: ${e.stackTraceToString()}")
+            throw e
         }
 
+        println("[BOOKMARK_DEBUG] addBookmark SUCCESS uid=$uid conference=$conference sessionId=$sessionId names=${newEntity.names}")
         return newEntity.names
     }
 
     fun removeBookmark(uid: String, conference: String, sessionId: String): Set<String> {
+        println("[BOOKMARK_DEBUG] removeBookmark start uid=$uid conference=$conference sessionId=$sessionId")
         val entity = readBookmarksEntity(uid, conference)
 
         if (entity == null) {
+            println("[BOOKMARK_DEBUG] removeBookmark no existing entity for uid=$uid conference=$conference")
             return emptySet()
         }
 
         if (!entity.contains(sessionId)) {
+            println("[BOOKMARK_DEBUG] removeBookmark entity does not contain sessionId=$sessionId (existing names=${entity.names})")
             return emptySet()
         }
 
         val newEntity = Entity.newBuilder(entity)
             .remove(sessionId)
             .build()
-        datastore.runInTransaction {
-            it.put(newEntity)
+        try {
+            datastore.runInTransaction {
+                it.put(newEntity)
+            }
+        } catch (e: Exception) {
+            println("[BOOKMARK_DEBUG] removeBookmark transaction FAILED uid=$uid conference=$conference sessionId=$sessionId: ${e.stackTraceToString()}")
+            throw e
         }
 
+        println("[BOOKMARK_DEBUG] removeBookmark SUCCESS uid=$uid conference=$conference sessionId=$sessionId names=${newEntity.names}")
         return newEntity.names
     }
 

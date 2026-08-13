@@ -82,18 +82,30 @@ class DataStoreDataSource(private val conf: String, private val uid: String? = n
 
     override fun addBookmark(sessionId: String): Set<String> {
         if (uid == null) {
+            println("[BOOKMARK_DEBUG] DataStoreDataSource.addBookmark conf=$conf sessionId=$sessionId called with null uid")
             return emptySet()
         }
 
-        return datastore.addBookmark(uid, conf, sessionId)
+        return try {
+            datastore.addBookmark(uid, conf, sessionId)
+        } catch (e: Exception) {
+            println("[BOOKMARK_DEBUG] DataStoreDataSource.addBookmark conf=$conf uid=$uid sessionId=$sessionId rethrowing: ${e.stackTraceToString()}")
+            throw e
+        }
     }
 
     override fun removeBookmark(sessionId: String): Set<String> {
         if (uid == null) {
+            println("[BOOKMARK_DEBUG] DataStoreDataSource.removeBookmark conf=$conf sessionId=$sessionId called with null uid")
             return emptySet()
         }
 
-        return datastore.removeBookmark(uid, conf, sessionId)
+        return try {
+            datastore.removeBookmark(uid, conf, sessionId)
+        } catch (e: Exception) {
+            println("[BOOKMARK_DEBUG] DataStoreDataSource.removeBookmark conf=$conf uid=$uid sessionId=$sessionId rethrowing: ${e.stackTraceToString()}")
+            throw e
+        }
     }
 
     override fun speaker(id: String): Speaker {

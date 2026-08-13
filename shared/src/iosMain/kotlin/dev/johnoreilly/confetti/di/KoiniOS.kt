@@ -47,7 +47,6 @@ actual fun platformModule() = module {
     single<ObservableSettings> { NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults) }
     single { get<ObservableSettings>().toFlowSettings() }
     singleOf(::IosDateService) { bind<DateService>() }
-    single<FetchPolicy> { FetchPolicy.CacheAndNetwork }
     factory {
         ApolloClient.Builder()
             .serverUrl("https://confetti-app.dev/graphql")

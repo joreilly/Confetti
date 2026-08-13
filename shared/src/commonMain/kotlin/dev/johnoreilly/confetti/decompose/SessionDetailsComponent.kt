@@ -1,10 +1,12 @@
 package dev.johnoreilly.confetti.decompose
 
+import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetBookmarksQuery
+import dev.johnoreilly.confetti.GetSessionQuery
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.channels.Channel
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -52,7 +55,6 @@ class DefaultSessionDetailsComponent(
 ) : SessionDetailsComponent, KoinComponent, ComponentContext by componentContext {
     private val repository: ConfettiRepository by inject()
     private val coroutineScope = coroutineScope()
-    private val defaultFetchPolicy: FetchPolicy by inject()
 
     override val isLoggedIn: Boolean = user != null
 
@@ -62,13 +64,13 @@ class DefaultSessionDetailsComponent(
     override val removeErrorChannel = Channel<Int>()
 
     override val uiState: Value<SessionDetailsUiState> =
-        repository.sessionDetails(conference = conference, sessionId = sessionId, fetchPolicy = defaultFetchPolicy)
-            .map {
-                val details = it.data?.session?.sessionDetails
-                if (details != null) {
-                    SessionDetailsUiState.Success(conference, details)
-                } else {
-                    SessionDetailsUiState.Error
+        repository.sessionDetails(conference = conference, sessionId = sessionId, fetchPolicy = FetchPolicy.CacheFirst)
+            .runningFold<ApolloResponse<GetSessionQuery.Data>, SessionDetailsUiState>(SessionDetailsUiState.Loading) { previousState, response ->
+                val details = response.data?.session?.sessionDetails
+                when {
+                    details != null -> SessionDetailsUiState.Success(conference, details)
+                    previousState is SessionDetailsUiState.Success -> previousState
+                    else -> SessionDetailsUiState.Error
                 }
             }
             .asValue(initialValue = SessionDetailsUiState.Loading, lifecycle = lifecycle)

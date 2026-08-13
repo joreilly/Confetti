@@ -43,9 +43,6 @@ actual fun platformModule() = module {
         OkHttpClient.Builder()
             .build()
     }
-    single<FetchPolicy> {
-        FetchPolicy.CacheAndNetwork
-    }
     single<NotificationSender> { SessionNotificationSender() }
     single<ApplicationInfo> { ApplicationInfo(BuildKonfig.VERSION_NAME) }
 

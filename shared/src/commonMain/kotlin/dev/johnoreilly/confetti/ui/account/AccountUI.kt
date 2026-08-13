@@ -225,7 +225,7 @@ fun AccountView(
         ) {
             AssistChip(
                 onClick = { uriHandler.openUri("https://kotlinlang.slack.com/archives/C051P2HUVKP") },
-                label = { Text("Kotlin Slack") },
+                label = { Text("Slack") },
                 leadingIcon = {
                     Icon(
                         imageVector = ConfettiIcons.Slack,

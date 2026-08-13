@@ -120,11 +120,12 @@ fun SessionDetailViewShared(
 
                     if (session.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.size(16.dp))
-                        FlowRow {
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
                             session.tags.distinct().forEach { tag ->
-                                Box(Modifier.padding(bottom = 8.dp)) {
-                                    Chip(tag)
-                                }
+                                Chip(tag)
                             }
                         }
                     }
@@ -299,15 +300,14 @@ internal fun SocialIcon(
 @Composable
 internal fun Chip(name: String) {
     Surface(
-        modifier = Modifier.padding(end = 10.dp),
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.secondaryContainer
+        shape = RoundedCornerShape(8.dp),
+        color = MaterialTheme.colorScheme.surfaceContainer,
     ) {
         Text(
             text = name,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
-            modifier = Modifier.padding(10.dp)
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         )
     }
 }

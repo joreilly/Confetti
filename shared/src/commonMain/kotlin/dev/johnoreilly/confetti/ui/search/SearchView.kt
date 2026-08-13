@@ -76,6 +76,10 @@ import org.jetbrains.compose.resources.stringResource
 import androidx.compose.foundation.layout.PaddingValues
 import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
 
+import dev.johnoreilly.confetti.isBreak
+import dev.johnoreilly.confetti.isService
+import dev.johnoreilly.confetti.ui.component.EmptyView
+
 @Composable
 fun SearchView(
     search: String,
@@ -110,22 +114,30 @@ fun SearchView(
             if (loading) {
                 LoadingView()
             } else if (search.isNotBlank()) {
-                LazyColumn(
-                    contentPadding = PaddingValues(bottom = LocalBottomNavigationPadding.current)
-                ) {
-                    sessionItems(
-                        sessions = sessions,
-                        navigateToSession = navigateToSession,
-                        bookmarks = bookmarks,
-                        addBookmark = addBookmark,
-                        removeBookmark = removeBookmark,
-                        onSignIn = onSignIn,
-                        isLoggedIn = isLoggedIn,
+                if (sessions.isEmpty() && speakers.isEmpty()) {
+                    EmptyView(
+                        text = "No results found",
+                        message = "No sessions or speakers match \"$search\"",
+                        icon = Icons.Default.Search,
                     )
-                    speakerItems(
-                        speakers = speakers,
-                        navigateToSpeaker = navigateToSpeaker,
-                    )
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(bottom = LocalBottomNavigationPadding.current)
+                    ) {
+                        sessionItems(
+                            sessions = sessions,
+                            navigateToSession = navigateToSession,
+                            bookmarks = bookmarks,
+                            addBookmark = addBookmark,
+                            removeBookmark = removeBookmark,
+                            onSignIn = onSignIn,
+                            isLoggedIn = isLoggedIn,
+                        )
+                        speakerItems(
+                            speakers = speakers,
+                            navigateToSpeaker = navigateToSpeaker,
+                        )
+                    }
                 }
             }
         }
@@ -182,7 +194,9 @@ private fun LazyListScope.sessionItems(
             onNavigateToSignIn = onSignIn,
             isLoggedIn = isLoggedIn,
         )
-        if (index < sessions.lastIndex) {
+        val isCurrentBreak = session.isBreak() || session.isService()
+        val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())
+        if (index < sessions.lastIndex && !isCurrentBreak && !isNextBreak) {
             HorizontalDivider()
         }
     }

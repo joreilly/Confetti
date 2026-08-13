@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "e1f1793d5a0616cdea8aa3008742dd6a42b7d25e",
+    "generatedFrom": "9a8dcedcaa9082e7f8b0c433716521712e2a396c",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview.png",
@@ -136,6 +136,13 @@
             "path": "renders/androidApp/AndroidSpeakerDetailsPreview_Phone_dark.png",
             "versions": [
                 {
+                    "blob": "2e681a43249cebaa401a9ee85d57921e7cb3e33e",
+                    "commit": "9a8dcedcaa9082e7f8b0c433716521712e2a396c",
+                    "date": "2026-08-13T15:54:03Z",
+                    "sourceSha": "13b576d1",
+                    "commits": 1
+                },
+                {
                     "blob": "a99af14d5c4152009d419d435b0d5274364581e4",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
                     "date": "2026-08-03T22:19:30Z",
@@ -157,13 +164,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 4,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone — light": {
             "path": "renders/androidApp/AndroidSpeakerDetailsPreview_Phone_light.png",
             "versions": [
+                {
+                    "blob": "7e6d7ac3a2e9fcfe05dbc2cbbb92dcc09e95eaa1",
+                    "commit": "9a8dcedcaa9082e7f8b0c433716521712e2a396c",
+                    "date": "2026-08-13T15:54:03Z",
+                    "sourceSha": "13b576d1",
+                    "commits": 1
+                },
                 {
                     "blob": "9c817c1018c0d70f4dc24b1aefea2166c0350242",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
@@ -186,13 +200,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 4,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Tablet landscape": {
             "path": "renders/androidApp/AndroidSpeakerDetailsPreview_Tablet_landscape.png",
             "versions": [
+                {
+                    "blob": "1891b8c77188022b521af441540e628b1852e6ab",
+                    "commit": "9a8dcedcaa9082e7f8b0c433716521712e2a396c",
+                    "date": "2026-08-13T15:54:03Z",
+                    "sourceSha": "13b576d1",
+                    "commits": 1
+                },
                 {
                     "blob": "ebb4734304b0f6977846431ba7c1170179f5eb9c",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
@@ -208,7 +229,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 3,
             "unstable": false,
             "flapCount": 0
         },
@@ -801,6 +822,13 @@
             "path": "renders/androidApp/SpeakerDetailsScreenPreview_Dark.png",
             "versions": [
                 {
+                    "blob": "fd17a40a0d73ce8db4ac2e6a2ad6950928d98025",
+                    "commit": "9a8dcedcaa9082e7f8b0c433716521712e2a396c",
+                    "date": "2026-08-13T15:54:03Z",
+                    "sourceSha": "13b576d1",
+                    "commits": 1
+                },
+                {
                     "blob": "b0179a951779425effb974e82ab589e6e7550de6",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
                     "date": "2026-08-03T22:19:30Z",
@@ -829,13 +857,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Light": {
             "path": "renders/androidApp/SpeakerDetailsScreenPreview_Light.png",
             "versions": [
+                {
+                    "blob": "2c3ba5de04c1f89b61b4c2844d965849be25b3dc",
+                    "commit": "9a8dcedcaa9082e7f8b0c433716521712e2a396c",
+                    "date": "2026-08-13T15:54:03Z",
+                    "sourceSha": "13b576d1",
+                    "commits": 1
+                },
                 {
                     "blob": "e8efb2a1c56473b2670925d1c0082906807379c0",
                     "commit": "324862bcf97f3b880bc87ba5daf09b97182cdef4",
@@ -865,7 +900,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 0
         },

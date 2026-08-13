@@ -47,6 +47,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
+import dev.johnoreilly.confetti.ui.SignInDialog
+import dev.johnoreilly.confetti.ui.bookmarks.Bookmark
 import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import coil3.compose.SubcomposeAsyncImage
 import confetti.shared.generated.resources.Res
@@ -67,6 +69,11 @@ import org.jetbrains.compose.resources.stringResource
 fun SpeakerDetailsView(
     conference: String,
     speaker: SpeakerDetails,
+    isBookmarked: (sessionId: String) -> Boolean = { false },
+    addBookmark: (sessionId: String) -> Unit = {},
+    removeBookmark: (sessionId: String) -> Unit = {},
+    onNavigateToSignIn: () -> Unit = {},
+    isLoggedIn: Boolean = false,
     navigateToSession: (id: String) -> Unit,
     popBack: () -> Unit,
     onSocialLinkClicked: (String) -> Unit
@@ -180,6 +187,11 @@ fun SpeakerDetailsView(
             SpeakerTalks(
                 modifier = Modifier.padding(vertical = 8.dp),
                 sessions = speaker.sessions,
+                isBookmarked = isBookmarked,
+                addBookmark = addBookmark,
+                removeBookmark = removeBookmark,
+                onNavigateToSignIn = onNavigateToSignIn,
+                isLoggedIn = isLoggedIn,
                 navigateToSession = navigateToSession,
             )
         }
@@ -197,9 +209,16 @@ fun SpeakerDetailsView(
 @Composable
 fun SpeakerTalks(
     sessions: List<SpeakerDetails.Session>,
+    isBookmarked: (sessionId: String) -> Boolean,
+    addBookmark: (sessionId: String) -> Unit,
+    removeBookmark: (sessionId: String) -> Unit,
+    onNavigateToSignIn: () -> Unit,
+    isLoggedIn: Boolean,
     navigateToSession: (id: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+
     Column(Modifier.fillMaxWidth()) {
 
         ConfettiHeader(icon = Icons.Filled.Event, text = stringResource(Res.string.sessions))
@@ -208,6 +227,7 @@ fun SpeakerTalks(
 
         Column(modifier) {
             sessions.forEachIndexed { index, session ->
+                val bookmarked = isBookmarked(session.id)
                 ListItem(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -217,6 +237,22 @@ fun SpeakerTalks(
                             text = session.title,
                             style = MaterialTheme.typography.titleMedium
                         )
+                    },
+                    trailingContent = {
+                        Bookmark(
+                            isBookmarked = bookmarked,
+                            onBookmarkChange = { shouldAdd ->
+                                if (!isLoggedIn) {
+                                    showDialog = true
+                                    return@Bookmark
+                                }
+                                if (shouldAdd) {
+                                    addBookmark(session.id)
+                                } else {
+                                    removeBookmark(session.id)
+                                }
+                            }
+                        )
                     }
                 )
                 if (index < sessions.lastIndex) {
@@ -224,6 +260,13 @@ fun SpeakerTalks(
                 }
             }
         }
+    }
+
+    if (showDialog) {
+        SignInDialog(
+            onDismissRequest = { showDialog = false },
+            onSignInClicked = onNavigateToSignIn
+        )
     }
 }
 
@@ -234,6 +277,10 @@ internal fun SpeakerDetailsViewLoadedPreview() {
         SpeakerDetailsView(
             conference = "kotlinconf2023",
             speaker = johnOreillySpeaker,
+            isBookmarked = { false },
+            addBookmark = {},
+            removeBookmark = {},
+            isLoggedIn = true,
             navigateToSession = {},
             popBack = {},
             onSocialLinkClicked = {},
@@ -248,6 +295,10 @@ internal fun SpeakerDetailsViewAlternateSpeakerPreview() {
         SpeakerDetailsView(
             conference = "kotlinconf2023",
             speaker = martinBonninSpeaker,
+            isBookmarked = { false },
+            addBookmark = {},
+            removeBookmark = {},
+            isLoggedIn = true,
             navigateToSession = {},
             popBack = {},
             onSocialLinkClicked = {},

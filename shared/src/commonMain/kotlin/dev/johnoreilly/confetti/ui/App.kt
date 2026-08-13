@@ -11,13 +11,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.Bookmarks
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.outlined.Bookmarks
-import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -338,7 +338,7 @@ private fun <T> T.NavigationButtons(
         activeChild is HomeComponent.Child.Sessions,
         {
             Icon(
-                imageVector = if (activeChild is HomeComponent.Child.Sessions) Icons.Filled.Home else Icons.Outlined.Home,
+                imageVector = if (activeChild is HomeComponent.Child.Sessions) Icons.Filled.CalendarToday else Icons.Outlined.CalendarToday,
                 contentDescription = stringResource(Res.string.schedule),
             )
         },
@@ -351,7 +351,7 @@ private fun <T> T.NavigationButtons(
         activeChild is HomeComponent.Child.Speakers,
         {
             Icon(
-                imageVector = if (activeChild is HomeComponent.Child.Speakers) Icons.Filled.Person else Icons.Outlined.Person,
+                imageVector = if (activeChild is HomeComponent.Child.Speakers) Icons.Filled.People else Icons.Outlined.People,
                 contentDescription = stringResource(Res.string.speakers),
             )
         },

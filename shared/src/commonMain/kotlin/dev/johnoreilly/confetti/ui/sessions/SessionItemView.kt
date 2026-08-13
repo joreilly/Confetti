@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.ui.sessions
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,8 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Celebration
+import androidx.compose.material.icons.filled.Coffee
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -48,18 +54,102 @@ fun SessionItemView(
     onNavigateToSignIn: () -> Unit = {},
     isLoggedIn: Boolean,
 ) {
+    if (session.isBreak() || session.isService()) {
+        BreakSessionItemView(session = session)
+    } else {
+        TalkSessionItemView(
+            session = session,
+            sessionSelected = sessionSelected,
+            isBookmarked = isBookmarked,
+            addBookmark = addBookmark,
+            removeBookmark = removeBookmark,
+            onNavigateToSignIn = onNavigateToSignIn,
+            isLoggedIn = isLoggedIn,
+        )
+    }
+}
 
-    var showDialog by remember { mutableStateOf(false) }
-
-    var modifier = Modifier.fillMaxWidth()
-    if (!session.isService() && !session.isBreak()) {
-        modifier = modifier.clickable(onClick = {
-            sessionSelected(session.id)
-        })
+@Composable
+private fun BreakSessionItemView(
+    session: SessionDetails,
+    modifier: Modifier = Modifier,
+) {
+    val icon = when {
+        session.isBreak() -> Icons.Default.Coffee
+        session.title.contains("party", ignoreCase = true) ||
+            session.title.contains("reception", ignoreCase = true) -> Icons.Default.Celebration
+        else -> Icons.Default.Info
     }
 
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Surface(
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                modifier = Modifier.size(36.dp),
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = session.title,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+
+                val location = session.room?.name
+                if (!location.isNullOrBlank()) {
+                    Text(
+                        text = location,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 2.dp),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TalkSessionItemView(
+    session: SessionDetails,
+    sessionSelected: (sessionId: String) -> Unit,
+    isBookmarked: Boolean,
+    addBookmark: (String) -> Unit,
+    removeBookmark: (String) -> Unit,
+    onNavigateToSignIn: () -> Unit = {},
+    isLoggedIn: Boolean,
+) {
+    var showDialog by remember { mutableStateOf(false) }
+
     ListItem(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = { sessionSelected(session.id) }),
         headlineContent = {
             Text(
                 text = session.title,
@@ -112,22 +202,20 @@ fun SessionItemView(
             }
         },
         trailingContent = {
-            if (!session.isBreak() && !session.isService()) {
-                Bookmark(
-                    isBookmarked = isBookmarked,
-                    onBookmarkChange = { shouldAdd ->
-                        if (!isLoggedIn) {
-                            showDialog = true
-                            return@Bookmark
-                        }
-                        if (shouldAdd) {
-                            addBookmark(session.id)
-                        } else {
-                            removeBookmark(session.id)
-                        }
+            Bookmark(
+                isBookmarked = isBookmarked,
+                onBookmarkChange = { shouldAdd ->
+                    if (!isLoggedIn) {
+                        showDialog = true
+                        return@Bookmark
                     }
-                )
-            }
+                    if (shouldAdd) {
+                        addBookmark(session.id)
+                    } else {
+                        removeBookmark(session.id)
+                    }
+                }
+            )
         }
     )
 
@@ -137,7 +225,6 @@ fun SessionItemView(
             onSignInClicked = onNavigateToSignIn
         )
     }
-
 }
 
 @MobilePreviews

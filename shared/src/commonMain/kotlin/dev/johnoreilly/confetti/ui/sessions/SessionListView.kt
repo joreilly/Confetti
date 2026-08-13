@@ -30,6 +30,8 @@ import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import kotlin.math.abs
 
 import androidx.compose.foundation.layout.PaddingValues
+import dev.johnoreilly.confetti.isBreak
+import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -134,7 +136,9 @@ fun SessionListView(
                                         onNavigateToSignIn = onNavigateToSignIn,
                                         isLoggedIn = isLoggedIn,
                                     )
-                                    if (index < sessions.lastIndex) {
+                                    val isCurrentBreak = session.isBreak() || session.isService()
+                                    val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())
+                                    if (index < sessions.lastIndex && !isCurrentBreak && !isNextBreak) {
                                         HorizontalDivider()
                                     }
                                 }

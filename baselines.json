@@ -4,7 +4,7 @@
     "functionName": "SessionDetailsPreview",
     "module": "androidApp",
     "renderBasename": "SessionDetailsPreview.png",
-    "sha256": "d3dd3a56916bbde5411c6b126188dd3e9c5b01f72ed170fb6f93b53b0b11b0df",
+    "sha256": "35f959df87992d4d47ae9dc1c2fb4ac479eae7a66932c6641e59370a0058f4b6",
     "sourceFile": "src/screenshotTest/kotlin/ScreenshotTest.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSessionDetailPreview_Phone \u2014 dark": {
@@ -12,7 +12,7 @@
     "functionName": "AndroidSessionDetailPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSessionDetailPreview_Phone_dark.png",
-    "sha256": "aa062e412c276ac94bf3cc33a29547a1d22d2e1c296871701f50a995dc55047c",
+    "sha256": "0d4e5ce65ad45aa7879796f08d3f83d7ef87e8f5f1b94ca3eefa6919725b649c",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSessionDetailPreview_Phone \u2014 light": {
@@ -20,7 +20,7 @@
     "functionName": "AndroidSessionDetailPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSessionDetailPreview_Phone_light.png",
-    "sha256": "fa8d97519f8da602b85ed4245b40487d91993ec9f6db4afb0aadec7a9a9c5c65",
+    "sha256": "ce581768088c055336f7208ab300b8c7a356cbef81327e1aad9486635e50e976",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSessionDetailPreview_Tablet landscape": {
@@ -28,7 +28,7 @@
     "functionName": "AndroidSessionDetailPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSessionDetailPreview_Tablet_landscape.png",
-    "sha256": "2b52b75fd4a652158d875995b0410deb65457057f68b21953242bf20f230a597",
+    "sha256": "389dcc1786fa633387de06184de6ec86f77d274f885bd9cb7d001a30b5b0ad9d",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone \u2014 dark": {
@@ -36,7 +36,7 @@
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSpeakerDetailsPreview_Phone_dark.png",
-    "sha256": "2e3caa0293d43fcb5bc5df5db9f0d4d32df70ba5ad0880e9eaacf359f1812596",
+    "sha256": "a407310c3f8fece3169aacde31df9007b3d56752981f5d4d358fdae2e363feb8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone \u2014 light": {
@@ -44,7 +44,7 @@
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSpeakerDetailsPreview_Phone_light.png",
-    "sha256": "4b1768f4c4e1e9c2bc9ac48370a885a073915767588c9ed3900c7ff572ed6411",
+    "sha256": "412fcdad7d9c016e10b427f58b56c7480ebfb3f22406973502ca947ec1daf0e8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Tablet landscape": {
@@ -52,7 +52,7 @@
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
     "renderBasename": "AndroidSpeakerDetailsPreview_Tablet_landscape.png",
-    "sha256": "9f3bd648cc74fcbb09d52bcd7033fe4d5c8b92069800a288d5202b6ed2da7e02",
+    "sha256": "1500c68d031a08556bd87bfab23052fcdccc52001a08d3bf828fb6074c6db941",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Dark": {
@@ -60,7 +60,7 @@
     "functionName": "BookmarkAddPreview",
     "module": "androidApp",
     "renderBasename": "BookmarkAddPreview_Dark.png",
-    "sha256": "8689e856d9c31e73e308565276cb15360f7ebb6a5bfa18ef52bc03e088765f56",
+    "sha256": "416f7886baa7830fee34797b14ba8d3aeada60e40b128567ea1846dd379a9f4b",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Light": {
@@ -68,7 +68,7 @@
     "functionName": "BookmarkAddPreview",
     "module": "androidApp",
     "renderBasename": "BookmarkAddPreview_Light.png",
-    "sha256": "ef94bbd9ea4f8e319cf4a3b628928cf957038f686cd6aff1d6f8cac4ff50b26b",
+    "sha256": "62219472dbf445a891e948160175a37175749f3138aa03929bf7566da8a4aeea",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Dark": {
@@ -76,7 +76,7 @@
     "functionName": "BookmarkOnPreview",
     "module": "androidApp",
     "renderBasename": "BookmarkOnPreview_Dark.png",
-    "sha256": "cdf887073abcc8d47315eccde68e2d4705c91fc9790393c7a56761f2386caa4c",
+    "sha256": "6e1aba037cd76c6c150867a4a16c436fc74becd32ef193e7b8a69890224e5670",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Light": {
@@ -84,7 +84,7 @@
     "functionName": "BookmarkOnPreview",
     "module": "androidApp",
     "renderBasename": "BookmarkOnPreview_Light.png",
-    "sha256": "940d5afcd1671d3c02153dc687dc64a8b7f1658119d960e9abff6c5b6dea6a2e",
+    "sha256": "ec77a85d41afc7b961ac9d953ffe4561dc9186118ebd9e047ade8bab3695a144",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview_Dark": {
@@ -108,7 +108,7 @@
     "functionName": "ConfettiHeaderPreview",
     "module": "androidApp",
     "renderBasename": "ConfettiHeaderPreview_Dark.png",
-    "sha256": "1a4800a5a6c5095889a0e7568a21f4260c760ccc637ffdb37ea2e35776bdaf51",
+    "sha256": "8574ab0d2b3dcffe3c4a4b690cd400862e70717f062ed4f4c8ad5d667847ea0a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Light": {
@@ -116,7 +116,7 @@
     "functionName": "ConfettiHeaderPreview",
     "module": "androidApp",
     "renderBasename": "ConfettiHeaderPreview_Light.png",
-    "sha256": "20bf298a035475af900de05d9c89963830091419931dceed746c35ad21584e87",
+    "sha256": "3feee9bd6158fc2e6a47fd1bff1cad090d50a2f8a0e3763427d71b350b29e8f9",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Dark": {
@@ -124,7 +124,7 @@
     "functionName": "ScheduleScreenPreview",
     "module": "androidApp",
     "renderBasename": "ScheduleScreenPreview_Dark.png",
-    "sha256": "438a1293cb77ad0629fc317aa7396946b7d358ad49506a97be57c1186399820c",
+    "sha256": "ff172be1042f4591a00da1e458c7239aaa8406008501a204ac77d73b41690470",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Light": {
@@ -132,7 +132,7 @@
     "functionName": "ScheduleScreenPreview",
     "module": "androidApp",
     "renderBasename": "ScheduleScreenPreview_Light.png",
-    "sha256": "4cd1a9abc0a2d6c76d2c74a83ee78a54c4100489c5265bdad77551bb733863e4",
+    "sha256": "e18bcf60164fb95302ccd54058261730cd209825eacd48bc52d84a3bc3447f25",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionDetailsScreenPreview_Dark": {
@@ -140,7 +140,7 @@
     "functionName": "SessionDetailsScreenPreview",
     "module": "androidApp",
     "renderBasename": "SessionDetailsScreenPreview_Dark.png",
-    "sha256": "163166feb2767734a5ee58b16bae87d9784f18021469b8fd4c98d72639ed50bb",
+    "sha256": "916e16c36483adc709aa304262e27f49d0674cdbe1128bf9432a1c070f20819f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionDetailsScreenPreview_Light": {
@@ -148,7 +148,7 @@
     "functionName": "SessionDetailsScreenPreview",
     "module": "androidApp",
     "renderBasename": "SessionDetailsScreenPreview_Light.png",
-    "sha256": "72d665cbdfbe00e1dad610815f577d020e042e8a23dbe56f7d30abab13754362",
+    "sha256": "6ba2446a400c779330ca208029d178117b6e7095eeb25347b32cbe47b26bbdb9",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemBreakPreview_Dark": {
@@ -156,7 +156,7 @@
     "functionName": "SessionItemBreakPreview",
     "module": "androidApp",
     "renderBasename": "SessionItemBreakPreview_Dark.png",
-    "sha256": "98131525edd78b4da12350912c4f27cd646ddb89da7ebbe6635685168a73926d",
+    "sha256": "39281541bdecd9b678bfb945002824ee8672a8d06d1f199a56f4d51a536ffc81",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemBreakPreview_Light": {
@@ -164,7 +164,7 @@
     "functionName": "SessionItemBreakPreview",
     "module": "androidApp",
     "renderBasename": "SessionItemBreakPreview_Light.png",
-    "sha256": "1b0cfd3db414da51dd084db70a158fc23e734f563a3a045f39540a6f95856a02",
+    "sha256": "199673f2fd36b8df2a2cf6fec84bd1ac65ef70cba6575ec4282740dcf8d36910",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemLightningPreview_Dark": {
@@ -172,7 +172,7 @@
     "functionName": "SessionItemLightningPreview",
     "module": "androidApp",
     "renderBasename": "SessionItemLightningPreview_Dark.png",
-    "sha256": "42c779a75a176522aff9dc973ca366217ba1724eace624dffb09c3c0fad3df51",
+    "sha256": "9b80a831e79fd6732cf68115cdb2b1c1305c21d1ee89ec537f3b731e1ff05809",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemLightningPreview_Light": {
@@ -180,7 +180,7 @@
     "functionName": "SessionItemLightningPreview",
     "module": "androidApp",
     "renderBasename": "SessionItemLightningPreview_Light.png",
-    "sha256": "82e1cd9c04d9fbe014964e39237f923dd6cb3b2f70ad01dffc79397eadf85132",
+    "sha256": "9363e4d8d74cfe91565e2dc3f4c66f8d4341c7660990c69b5e1600d08f6eed03",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Dark": {
@@ -188,7 +188,7 @@
     "functionName": "SessionItemPopulatedPreview",
     "module": "androidApp",
     "renderBasename": "SessionItemPopulatedPreview_Dark.png",
-    "sha256": "ef323b873c7f5e1c9adbe518efe0a1ae5bae0be34c34d239fe06de2e60b9d204",
+    "sha256": "4edf28609afea8e58af9aa66947e7284eb18b21126699b12913b0690ebdac9d4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Light": {
@@ -196,7 +196,7 @@
     "functionName": "SessionItemPopulatedPreview",
     "module": "androidApp",
     "renderBasename": "SessionItemPopulatedPreview_Light.png",
-    "sha256": "e422a4ca03491b5e9d74682919f1d0c274de2d869cc81533e105f48f0d010ef6",
+    "sha256": "b763cd09fbbf94106df186b5616d6185128e853bd5d9b0e45603011b8a04c286",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Dark": {
@@ -204,7 +204,7 @@
     "functionName": "SpeakerDetailsScreenPreview",
     "module": "androidApp",
     "renderBasename": "SpeakerDetailsScreenPreview_Dark.png",
-    "sha256": "4d88e517986ed768d50734db55fbde78a59a68d1ddc82cb35277c8089c87c52a",
+    "sha256": "2d85e7bac65c92f65f37dfd19e5ed671c816e6d450278d452932ff8d76a0f26a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Light": {
@@ -212,7 +212,7 @@
     "functionName": "SpeakerDetailsScreenPreview",
     "module": "androidApp",
     "renderBasename": "SpeakerDetailsScreenPreview_Light.png",
-    "sha256": "5b9c4e4ce5fbda10002807a37d2a40a79d184cc8ecc3e3dc99a1ee20ca3cf8cc",
+    "sha256": "a5ed800da82bc715cacce6b44a7df6b99c30f6fbe565d744b86b21be19f509c7",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerItemPreview_Dark": {
@@ -1084,7 +1084,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round.png",
-    "sha256": "406768ce9a986d682abd46ea4cef6aeab190aa9a4cc938993e2c30eabb3f7494",
+    "sha256": "63f9d412b7c30440356f5ebfd578c5146dd6aaec0a723d96d82ad1c830781fb5",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {

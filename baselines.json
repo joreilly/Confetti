@@ -1084,7 +1084,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round.png",
-    "sha256": "63f9d412b7c30440356f5ebfd578c5146dd6aaec0a723d96d82ad1c830781fb5",
+    "sha256": "406768ce9a986d682abd46ea4cef6aeab190aa9a4cc938993e2c30eabb3f7494",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {

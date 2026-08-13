@@ -50,7 +50,6 @@ interface HomeComponent {
         class Speakers(val component: SpeakersComponent) : Child()
         class Bookmarks(val component: BookmarksComponent) : Child()
         class Account(val component: AccountComponent) : Child()
-        class Search(val component: SearchComponent) : Child()
     }
 }
 
@@ -66,6 +65,7 @@ class DefaultHomeComponent(
     private val onShowSettings: () -> Unit,
     private val onShowAgent: () -> Unit,
     private val onVenueSelected: () -> Unit,
+    private val onShowSearch: () -> Unit,
 ) : HomeComponent, KoinComponent, ComponentContext by componentContext {
 
     private val dateService: DateService by inject()
@@ -161,18 +161,6 @@ class DefaultHomeComponent(
                         onSignOut = onSignOut,
                     )
                 )
-
-            Config.Search ->
-                Child.Search(
-                    DefaultSearchComponent(
-                        componentContext = componentContext,
-                        conference = conference,
-                        user = user,
-                        onSessionSelected = onSessionSelected,
-                        onSpeakerSelected = onSpeakerSelected,
-                        onSignIn = onSignIn,
-                    )
-                )
         }
 
     override suspend fun isAgentEnabled(): Boolean {
@@ -198,7 +186,7 @@ class DefaultHomeComponent(
     }
 
     override fun onSearchClicked() {
-        navigation.bringToFront(Config.Search)
+        onShowSearch()
     }
 
     override fun onSwitchConferenceClicked() {
@@ -238,8 +226,5 @@ class DefaultHomeComponent(
 
         @Serializable
         data object Account : Config()
-
-        @Serializable
-        data object Search : Config()
     }
 }

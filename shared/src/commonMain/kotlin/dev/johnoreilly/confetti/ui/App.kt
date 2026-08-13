@@ -132,6 +132,13 @@ fun ConferenceView(component: ConferenceComponent) {
                         onCloseClick = component::onBackClicked
                     )
                 }
+                is ConferenceComponent.Child.Search -> {
+                    SearchUI(
+                        component = child.component,
+                        windowSizeClass = calculateWindowSizeClass(),
+                        onBackClick = component::onBackClicked,
+                    )
+                }
             }
         }
     }
@@ -233,13 +240,6 @@ fun HomeView(component: HomeComponent) {
                                         windowSizeClass = windowSizeClass,
                                         topBarNavigationIcon = topBarNavigationIcon,
                                         topBarActions = topBarActions,
-                                    )
-
-                                is HomeComponent.Child.Search ->
-                                    SearchUI(
-                                        component = child.component,
-                                        windowSizeClass = windowSizeClass,
-                                        onBackClick = component::onBackClicked
                                     )
                             }
                         }

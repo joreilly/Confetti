@@ -29,6 +29,7 @@ interface ConferenceComponent : BackHandlerOwner {
         class Settings(val component: SettingsComponent?) : Child()
         class Agent(val component: ConferenceAgentComponent) : Child()
         class Venue(val component: VenueComponent) : Child()
+        class Search(val component: SearchComponent) : Child()
     }
 }
 
@@ -78,6 +79,7 @@ class DefaultConferenceComponent(
                         onShowSettings = { navigation.push(Config.Settings) },
                         onShowAgent = { navigation.push(Config.Agent) },
                         onVenueSelected = { navigation.push(Config.Venue) },
+                        onShowSearch = { navigation.push(Config.Search) },
                     )
                 )
 
@@ -125,6 +127,18 @@ class DefaultConferenceComponent(
                         conference = conference,
                     )
                 )
+
+            is Config.Search ->
+                Child.Search(
+                    DefaultSearchComponent(
+                        componentContext = componentContext,
+                        conference = conference,
+                        user = user,
+                        onSessionSelected = { navigation.push(Config.SessionDetails(sessionId = it)) },
+                        onSpeakerSelected = { navigation.push(Config.SpeakerDetails(speakerId = it)) },
+                        onSignIn = onSignIn,
+                    )
+                )
         }
 
     override fun onBackClicked() {
@@ -154,5 +168,8 @@ class DefaultConferenceComponent(
 
         @Serializable
         data object Venue : Config()
+
+        @Serializable
+        data object Search : Config()
     }
 }

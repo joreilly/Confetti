@@ -1,10 +1,11 @@
 package dev.johnoreilly.confetti.ui.component
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,35 +24,29 @@ fun ConfettiHeader(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 2.dp,
+        color = MaterialTheme.colorScheme.surfaceContainer,
         modifier = modifier.fillMaxWidth(),
     ) {
-        Column {
-            HorizontalDivider()
-            Row(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp,
-                        vertical = 8.dp,
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                icon?.let { icon ->
-                    Icon(
-                        modifier = Modifier
-                            .padding(end = 8.dp),
-                        imageVector = icon,
-                        contentDescription = null,
-                    )
-                }
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.primary,
                 )
+                Spacer(modifier = Modifier.width(8.dp))
             }
-            HorizontalDivider()
+            Text(
+                text = text,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
         }
     }
 }

@@ -151,7 +151,7 @@ platform :ios do
 
     ios_app_identifier = "dev.johnoreilly.confetti"
     ios_app_name = "Confetti"
-    marketingVersion = "1.0.17"
+    marketingVersion = "1.0.18"
 
     # Resolves an App Store Connect API key from environment variables so no Apple ID
     # password or 2FA is ever needed (works identically locally and in CI). Create the

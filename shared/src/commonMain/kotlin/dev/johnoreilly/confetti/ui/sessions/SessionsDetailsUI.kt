@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.ui.sessions
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -59,13 +60,16 @@ fun SessionDetailsUI(component: SessionDetailsComponent) {
                     }
                 )
             }
-
         )
     }) {
-        Column(Modifier.padding(it)) {
+        Box(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+        ) {
             when (val state = uiState) {
                 is SessionDetailsUiState.Loading -> LoadingView()
-                is SessionDetailsUiState.Error -> ErrorView()
+                is SessionDetailsUiState.Error -> ErrorView(onRefresh = component::refresh)
 
                 is SessionDetailsUiState.Success ->
                     SessionDetailViewShared(

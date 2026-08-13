@@ -1,17 +1,21 @@
 package dev.johnoreilly.confetti.decompose
 
+import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.GetBookmarksQuery
+import dev.johnoreilly.confetti.GetSessionQuery
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -28,6 +32,7 @@ interface SessionDetailsComponent {
     val isBookmarked: StateFlow<Boolean>
     val isLoggedIn: Boolean
 
+    fun refresh()
     fun addBookmark()
     fun removeBookmark()
     fun onCloseClicked()
@@ -52,7 +57,6 @@ class DefaultSessionDetailsComponent(
 ) : SessionDetailsComponent, KoinComponent, ComponentContext by componentContext {
     private val repository: ConfettiRepository by inject()
     private val coroutineScope = coroutineScope()
-    private val defaultFetchPolicy: FetchPolicy by inject()
 
     override val isLoggedIn: Boolean = user != null
 
@@ -61,17 +65,31 @@ class DefaultSessionDetailsComponent(
     override val addErrorChannel = Channel<Int>()
     override val removeErrorChannel = Channel<Int>()
 
+    private val refreshTrigger = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+
     override val uiState: Value<SessionDetailsUiState> =
-        repository.sessionDetails(conference = conference, sessionId = sessionId, fetchPolicy = defaultFetchPolicy)
-            .map {
-                val details = it.data?.session?.sessionDetails
-                if (details != null) {
-                    SessionDetailsUiState.Success(conference, details)
-                } else {
-                    SessionDetailsUiState.Error
-                }
+        flow {
+            emit(FetchPolicy.CacheFirst)
+            refreshTrigger.collect {
+                emit(FetchPolicy.NetworkOnly)
             }
-            .asValue(initialValue = SessionDetailsUiState.Loading, lifecycle = lifecycle)
+        }
+        .flatMapLatest { fetchPolicy ->
+            repository.sessionDetails(conference = conference, sessionId = sessionId, fetchPolicy = fetchPolicy)
+        }
+        .map { response ->
+            val details = response.data?.session?.sessionDetails
+            if (details != null) {
+                SessionDetailsUiState.Success(conference, details)
+            } else {
+                SessionDetailsUiState.Error
+            }
+        }
+        .asValue(initialValue = SessionDetailsUiState.Loading, lifecycle = lifecycle)
+
+    override fun refresh() {
+        refreshTrigger.tryEmit(Unit)
+    }
 
     override val isBookmarked: StateFlow<Boolean> = flow {
         val response =

@@ -75,9 +75,6 @@ actual fun platformModule() = module {
             }
             .build()
     }
-    single<FetchPolicy> {
-        FetchPolicy.CacheAndNetwork
-    }
     single<WebSocket.Factory> {
         get<OkHttpClient>()
     }

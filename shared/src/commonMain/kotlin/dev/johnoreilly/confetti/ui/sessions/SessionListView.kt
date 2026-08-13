@@ -45,7 +45,7 @@ fun SessionListView(
     isLoggedIn: Boolean,
 ) {
     when (uiState) {
-        SessionsUiState.Error -> ErrorView(onRefresh)
+        SessionsUiState.Error -> ErrorView(onRefresh = onRefresh)
         SessionsUiState.Loading -> LoadingView()
         is SessionsUiState.Success -> {
             Column {

@@ -2,12 +2,14 @@ package dev.johnoreilly.confetti.ui.sessions
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.decompose.SessionsComponent
@@ -37,7 +39,7 @@ fun SessionsUI(
         topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,
     ) {
-        Column {
+        Column(modifier = Modifier.fillMaxSize()) {
             if (windowSizeClass.isExpanded) {
                 SessionListGridView(
                     uiState = uiState,

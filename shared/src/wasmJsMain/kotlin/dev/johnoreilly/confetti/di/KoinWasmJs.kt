@@ -35,9 +35,6 @@ actual fun platformModule() = module {
     single<Authentication> { Authentication.Disabled }
     single<FlowSettings> {  StorageSettings().makeObservable().toFlowSettings() }
     singleOf(::WasmDateService) { bind<DateService>() }
-    single<FetchPolicy> {
-        FetchPolicy.CacheAndNetwork
-    }
     single<NotificationSender> { SessionNotificationSender() }
     single<ApplicationInfo> { ApplicationInfo(BuildKonfig.VERSION_NAME) }
 

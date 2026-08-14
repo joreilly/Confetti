@@ -415,7 +415,7 @@ object Sessionize {
                 ),
                 latitude = 52.500218,
                 longitude = 13.270753,
-                imageUrl = "https://berlin.droidcon.com/wp-content/uploads/2022/05/CitycubeBW.png",
+                imageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/a3/Westend_CityCube_Berlin.JPG",
                 floorPlanUrl = null
             )
         )
@@ -473,7 +473,7 @@ object Sessionize {
         ),
         latitude = 51.5342463,
         longitude = -0.1068864,
-        imageUrl = "https://london.droidcon.com/wp-content/uploads/sites/3/2022/07/Venue2-1.png",
+        imageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Business_Design_Centre_exterior.jpg",
         floorPlanUrl = null
     )
 
@@ -513,7 +513,7 @@ object Sessionize {
                 latitude = 37.7679982,
                 longitude = -122.3934354,
                 description = emptyMap(),
-                imageUrl = "https://www.nodesummit.com/wp-content/uploads/UCSF-Mission-Bay-Center_node-summit.jpg",
+                imageUrl = "https://media.eventective.com/1891691_lg.jpg",
                 floorPlanUrl = null
             ),
             partnerGroups = emptyList()
@@ -540,7 +540,7 @@ object Sessionize {
                 latitude = 40.7533911,
                 longitude = -73.9860439,
                 description = emptyMap(),
-                imageUrl = "https://nyc.droidcon.com/wp-content/uploads/sites/2/2023/04/nyc-hotel.png",
+                imageUrl = "https://www.tagvenue.com/resize/68/12/widen-1680-noupsize;54147-jay-conference-bryant-park-venue.jpeg",
                 floorPlanUrl = null
             ),
             partnerGroups = emptyList()
@@ -592,7 +592,7 @@ object Sessionize {
                 ),
                 latitude = 51.5342463,
                 longitude = -0.1068864,
-                imageUrl = "https://london.droidcon.com/wp-content/uploads/sites/3/2022/07/Venue2-1.png",
+                imageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Business_Design_Centre_exterior.jpg",
                 floorPlanUrl = null
             )
         )

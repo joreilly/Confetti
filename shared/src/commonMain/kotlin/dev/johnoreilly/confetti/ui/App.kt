@@ -1,5 +1,9 @@
 package dev.johnoreilly.confetti.ui
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -7,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.ui.draw.scale
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Assistant
@@ -259,21 +264,31 @@ private fun NavigationRail(component: HomeComponent) {
         contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
     ) {
         NavigationButtons(component = component) { isSelected, icon, text, badgeCount, onClick ->
+            val scale by animateFloatAsState(
+                targetValue = if (isSelected) 1.12f else 1.0f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessMediumLow
+                ),
+                label = "NavRailItemScale"
+            )
             NavigationRailItem(
                 selected = isSelected,
                 onClick = onClick,
                 icon = {
-                    BadgedBox(
-                        badge = {
-                            if (badgeCount > 0) {
-                                Badge {
-                                    val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
-                                    Text(badgeText)
+                    Box(modifier = Modifier.scale(scale)) {
+                        BadgedBox(
+                            badge = {
+                                if (badgeCount > 0) {
+                                    Badge {
+                                        val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
+                                        Text(badgeText)
+                                    }
                                 }
                             }
+                        ) {
+                            icon()
                         }
-                    ) {
-                        icon()
                     }
                 },
                 label = { Text(text) },
@@ -294,21 +309,31 @@ private fun BottomBar(component: HomeComponent, modifier: Modifier = Modifier) {
             containerColor = Color.Transparent,
         ) {
             NavigationButtons(component = component) { isSelected, icon, text, badgeCount, onClick ->
+                val scale by animateFloatAsState(
+                    targetValue = if (isSelected) 1.12f else 1.0f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMediumLow
+                    ),
+                    label = "NavItemScale"
+                )
                 NavigationBarItem(
                     selected = isSelected,
                     onClick = onClick,
                     icon = {
-                        BadgedBox(
-                            badge = {
-                                if (badgeCount > 0) {
-                                    Badge {
-                                        val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
-                                        Text(badgeText)
+                        Box(modifier = Modifier.scale(scale)) {
+                            BadgedBox(
+                                badge = {
+                                    if (badgeCount > 0) {
+                                        Badge {
+                                            val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
+                                            Text(badgeText)
+                                        }
                                     }
                                 }
+                            ) {
+                                icon()
                             }
-                        ) {
-                            icon()
                         }
                     },
                     label = { Text(text) },

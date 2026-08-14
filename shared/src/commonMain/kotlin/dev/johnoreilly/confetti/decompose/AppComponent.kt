@@ -49,7 +49,7 @@ class DefaultAppComponent(
     private val navigation = StackNavigation<Config>()
     private val notificationSender: NotificationSender? by inject()
 
-    private var user: User? = null
+    private var user: User? = authentication.currentUser.value
 
     private val defaultSettingsComponent = DefaultSettingsComponent(
         componentContext = componentContext,
@@ -100,8 +100,11 @@ class DefaultAppComponent(
 
 
     override fun setUser(user: User?) {
+        val previousUid = this.user?.uid
         this.user = user
-        onUserChanged(user?.uid)
+        if (previousUid != user?.uid) {
+            onUserChanged(user?.uid)
+        }
     }
 
     private suspend fun selectAndNavigateToDeepLinkedConference(conferenceId: String, sessionId: String? = null) {

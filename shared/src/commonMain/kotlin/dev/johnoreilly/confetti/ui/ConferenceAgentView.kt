@@ -28,6 +28,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import coil3.compose.AsyncImage
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -45,6 +47,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.FilledIconButton
@@ -60,16 +63,21 @@ import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
@@ -94,10 +102,51 @@ fun ConferenceAgentView(
     val hazeState = remember { HazeState() }
     val systemBottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val totalBottomPadding = systemBottomPadding + bottomContentPadding
+    val focusRequester = remember { FocusRequester() }
+    val density = LocalDensity.current
+    var inputBarHeightDp by remember { mutableStateOf(88.dp + totalBottomPadding) }
+    val isAtBottom by remember(listState) {
+        derivedStateOf {
+            val layoutInfo = listState.layoutInfo
+            val visibleItems = layoutInfo.visibleItemsInfo
+            if (visibleItems.isEmpty()) {
+                true
+            } else {
+                val lastVisible = visibleItems.last()
+                val isLastItem = lastVisible.index >= layoutInfo.totalItemsCount - 2
+                val viewportEnd = layoutInfo.viewportEndOffset - layoutInfo.afterContentPadding
+                val isFullyVisible = (lastVisible.offset + lastVisible.size) <= viewportEnd
+                isLastItem && (isFullyVisible || !listState.canScrollForward)
+            }
+        }
+    }
 
-    LaunchedEffect(renderMessages.size) {
-        if (renderMessages.isNotEmpty()) {
-            listState.animateScrollToItem(renderMessages.lastIndex)
+    var shouldAutoScroll by remember { mutableStateOf(true) }
+
+    LaunchedEffect(listState.isScrollInProgress, isAtBottom) {
+        if (listState.isScrollInProgress) {
+            shouldAutoScroll = isAtBottom
+        } else if (isAtBottom) {
+            shouldAutoScroll = true
+        }
+    }
+
+    val targetIndex = if (state.isLoading) renderMessages.size else renderMessages.lastIndex
+
+    val onSend = {
+        if (state.inputText.isNotBlank()) {
+            shouldAutoScroll = true
+            component.sendMessage()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
+    LaunchedEffect(renderMessages.size, state.isLoading, inputBarHeightDp) {
+        if (targetIndex >= 0 && shouldAutoScroll) {
+            listState.animateScrollToItem(targetIndex)
         }
     }
 
@@ -148,7 +197,7 @@ fun ConferenceAgentView(
                     start = 16.dp,
                     end = 16.dp,
                     top = 16.dp,
-                    bottom = 88.dp + totalBottomPadding
+                    bottom = inputBarHeightDp + 8.dp
                 ),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
@@ -173,6 +222,11 @@ fun ConferenceAgentView(
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
+                    .onSizeChanged { size ->
+                        with(density) {
+                            inputBarHeightDp = size.height.toDp()
+                        }
+                    }
                     .hazeChild(
                         state = hazeState,
                         style = HazeStyle(
@@ -191,36 +245,39 @@ fun ConferenceAgentView(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 12.dp)
                         .padding(bottom = totalBottomPadding),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Bottom,
                 ) {
                     TextField(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .focusRequester(focusRequester),
                         value = state.inputText,
                         onValueChange = component::updateInputText,
                         placeholder = { Text(stringResource(Res.string.agent_placeholder)) },
                         enabled = state.isInputEnabled && !state.isChatEnded,
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                        keyboardActions = KeyboardActions(onSend = {
-                            if (state.inputText.isNotBlank()) {
-                                component.sendMessage()
-                            }
-                        }),
-                        shape = CircleShape,
+                        minLines = 1,
+                        maxLines = 5,
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Sentences,
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Default,
+                        ),
+                        shape = ShapeDefaults.Large,
+                        textStyle = MaterialTheme.typography.bodyLarge,
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
                             focusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent
+                            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f),
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
                         )
                     )
 
                     Spacer(Modifier.width(8.dp))
 
                     FilledIconButton(
-                        onClick = { component.sendMessage() },
+                        onClick = onSend,
                         enabled = state.isInputEnabled &&
                             !state.isChatEnded &&
                             state.inputText.isNotBlank(),

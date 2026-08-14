@@ -561,7 +561,7 @@ class DataStore {
             .set("name", name.toValue())
             .set("timeZone", timeZone.toValue())
             .set("days", days.map { it.toString() }.toValue())
-            .set("themeColor", themeColor)
+            .set("themeColor", themeColor.toValue())
             .build()
     }
 

@@ -71,6 +71,14 @@ Deploy app to play store alpha channel
 
 
 
+### android uploadScreenshots
+
+```sh
+[bundle exec] fastlane android uploadScreenshots
+```
+
+Upload the Play Store phone screenshots (fastlane/metadata/android/en-US/images/phoneScreenshots) to Play Console
+
 ### android promoteAppToProd
 
 ```sh

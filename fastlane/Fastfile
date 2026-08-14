@@ -114,6 +114,36 @@ platform :android do
     end
 
 
+    desc "Upload the Play Store phone screenshots (fastlane/metadata/android/en-US/images/phoneScreenshots) to Play Console"
+    lane :uploadScreenshots do |options|
+        # supply walks every images/<type>Screenshots dir under metadata_path; the real
+        # metadata dir also has wearScreenshots, whose PNGs are unfetched git-lfs pointers
+        # locally, so scope this run to a scratch copy containing only phoneScreenshots.
+        scratch_path = File.expand_path(".uploadScreenshotsScratch")
+        FileUtils.rm_rf(scratch_path)
+        FileUtils.mkdir_p("#{scratch_path}/en-US/images")
+        FileUtils.cp_r(
+            "metadata/android/en-US/images/phoneScreenshots",
+            "#{scratch_path}/en-US/images/phoneScreenshots"
+        )
+
+        begin
+            supply(
+                package_name: "dev.johnoreilly.confetti",
+                metadata_path: scratch_path,
+                skip_upload_apk: true,
+                skip_upload_aab: true,
+                skip_upload_metadata: true,
+                skip_upload_images: true,
+                skip_upload_screenshots: false,
+                skip_upload_changelogs: true
+            )
+        ensure
+            FileUtils.rm_rf(scratch_path)
+        end
+    end
+
+
     desc "Promote app from alpha to production in Play Store"
     lane :promoteAppToProd do |options|
 

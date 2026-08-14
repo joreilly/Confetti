@@ -5,9 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,6 +53,7 @@ fun VenueView(venue: Venue) {
     val uriHandler = LocalUriHandler.current
     var showFullScreenPhoto by remember { mutableStateOf(false) }
 
+    val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,7 +62,7 @@ fun VenueView(venue: Venue) {
                 start = 16.dp,
                 top = 16.dp,
                 end = 16.dp,
-                bottom = 16.dp + LocalBottomNavigationPadding.current
+                bottom = 16.dp + maxOf(LocalBottomNavigationPadding.current, navigationBarsPadding)
             ),
         horizontalAlignment = Alignment.Start
     ) {

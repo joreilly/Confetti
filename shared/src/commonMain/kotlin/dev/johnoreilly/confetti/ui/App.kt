@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.ui
 
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -199,8 +201,14 @@ fun HomeView(component: HomeComponent) {
                 snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                 contentWindowInsets = WindowInsets(0.dp)
             ) { innerPadding ->
+                val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                val bottomPadding = if (!shouldShowNavRail) {
+                    innerPadding.calculateBottomPadding()
+                } else {
+                    navigationBarsPadding
+                }
                 CompositionLocalProvider(
-                    LocalBottomNavigationPadding provides innerPadding.calculateBottomPadding()
+                    LocalBottomNavigationPadding provides bottomPadding
                 ) {
                     Column(
                         modifier = Modifier

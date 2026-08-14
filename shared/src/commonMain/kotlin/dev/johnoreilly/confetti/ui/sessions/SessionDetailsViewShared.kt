@@ -9,7 +9,11 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -74,13 +78,16 @@ fun SessionDetailViewShared(
     onSpeakerClick: (speakerId: String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+    val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    Column {
+    Column(modifier = Modifier.fillMaxSize()) {
         session?.let { session ->
             val contentPadding = remember { PaddingValues(horizontal = 16.dp) }
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxSize()
                     .verticalScroll(state = scrollState)
+                    .padding(bottom = 16.dp + navigationBarsPadding)
             ) {
                 Column(modifier = Modifier.padding(contentPadding)) {
                     SelectionContainer {

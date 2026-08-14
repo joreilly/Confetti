@@ -79,7 +79,7 @@ class DefaultAppComponent(
         coroutineScope.launch {
             if (initialConferenceId != null) {
                 selectAndNavigateToDeepLinkedConference(initialConferenceId, initialSessionId)
-            } else {
+            } else if (stack.value.active.configuration is Config.Loading) {
                 if (!appSettings.isOnboardingCompleted()) {
                     showOnboarding()
                 } else {

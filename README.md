@@ -8,13 +8,13 @@ Browse inline; image URLs are pinned to the commit SHA on the baseline branch so
 
 ### `AndroidSessionDetailPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSessionDetailPreview_Phone_dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSessionDetailPreview_Phone_dark-ae9a0f09.a11y.png" width="400" />
 
 _No findings._
 
 ### `AndroidSpeakerDetailsPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSpeakerDetailsPreview_Phone_dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AndroidSpeakerDetailsPreview_Phone_dark-e29a322a.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -22,85 +22,85 @@ _No findings._
 
 ### `BackgroundAndroid`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundAndroid_Dark_theme.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundAndroid_Dark_theme-c686adfb.png" width="400" />
 
 _No findings._
 
 ### `BackgroundDefault`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundDefault_Dark_theme.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundDefault_Dark_theme-cbff4c79.png" width="400" />
 
 _No findings._
 
 ### `BackgroundDynamic`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundDynamic_Dark_theme.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BackgroundDynamic_Dark_theme-d5efd51a.png" width="400" />
 
 _No findings._
 
 ### `BookmarkAddPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkAddPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkAddPreview_Dark-80892b0e.a11y.png" width="400" />
 
 _No findings._
 
 ### `BookmarkOnPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkOnPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/BookmarkOnPreview_Dark-0ced8c18.a11y.png" width="400" />
 
 _No findings._
 
 ### `ColorSchemeSpecimenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ColorSchemeSpecimenPreview_Dark.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ColorSchemeSpecimenPreview_Dark-e8a86add.png" width="400" />
 
 _No findings._
 
 ### `ConfettiHeaderPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ConfettiHeaderPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ConfettiHeaderPreview_Dark-83a7050c.a11y.png" width="400" />
 
 _No findings._
 
 ### `ScheduleScreenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ScheduleScreenPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ScheduleScreenPreview_Dark-67718575.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionDetailsPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionDetailsPreview.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionDetailsPreview-80cd2284.png" width="400" />
 
 _No findings._
 
 ### `SessionDetailsScreenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionDetailsScreenPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionDetailsScreenPreview_Dark-402cba37.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionItemBreakPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemBreakPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemBreakPreview_Dark-ec404584.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionItemLightningPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemLightningPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemLightningPreview_Dark-7aa5671e.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionItemPopulatedPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemPopulatedPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemPopulatedPreview_Dark-631a7045.a11y.png" width="400" />
 
 _No findings._
 
 ### `SpeakerDetailsScreenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerDetailsScreenPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerDetailsScreenPreview_Dark-9ccb0a29.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -108,43 +108,43 @@ _No findings._
 
 ### `SpeakerItemPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerItemPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SpeakerItemPreview_Dark-6d8d5283.a11y.png" width="400" />
 
 _No findings._
 
 ### `ThemeFoundationAndroidPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationAndroidPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationAndroidPreview_Dark-dad8d762.a11y.png" width="400" />
 
 _No findings._
 
 ### `ThemeFoundationConferenceSeedPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Dark-f74e7f38.a11y.png" width="400" />
 
 _No findings._
 
 ### `ThemeFoundationCurrentPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationCurrentPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationCurrentPreview_Dark-4dcfeff0.a11y.png" width="400" />
 
 _No findings._
 
 ### `ThemeFoundationDefaultPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationDefaultPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationDefaultPreview_Dark-ac6eb453.a11y.png" width="400" />
 
 _No findings._
 
 ### `ThemeFoundationDynamicPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationDynamicPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ThemeFoundationDynamicPreview_Dark-2600609b.a11y.png" width="400" />
 
 _No findings._
 
 ### `TypographySpecimenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/TypographySpecimenPreview_Dark.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/TypographySpecimenPreview_Dark-3523357e.a11y.png" width="400" />
 
 _No findings._
 
@@ -152,31 +152,31 @@ _No findings._
 
 ### `BookmarksPreview` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreview_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreview_Devices_Large_Round-e89fefb0.a11y.png" width="400" />
 
 _No findings._
 
 ### `BookmarksPreviewEmpty` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreviewEmpty_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreviewEmpty_Devices_Large_Round-77a986d2.a11y.png" width="400" />
 
 _No findings._
 
 ### `BookmarksPreviewError` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreviewError_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreviewError_Devices_Large_Round-751696d8.a11y.png" width="400" />
 
 _No findings._
 
 ### `BookmarksPreviewErrorLong` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreviewErrorLong_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreviewErrorLong_Devices_Large_Round-f88686f6.a11y.png" width="400" />
 
 _No findings._
 
 ### `BookmarksPreviewLoading` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreviewLoading_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/BookmarksPreviewLoading_Devices_Large_Round-192fee01.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -191,7 +191,7 @@ _No findings._
 
 ### `ColorSchemeSpecimenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ColorSchemeSpecimenPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ColorSchemeSpecimenPreview-8deffbd5.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -199,13 +199,13 @@ _No findings._
 
 ### `Color_0x000080`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x000080.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x000080-db54a72c.png" width="400" />
 
 _No findings._
 
 ### `Color_0x000080Swatches`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x000080Swatches.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x000080Swatches-415a9eab.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -213,13 +213,13 @@ _No findings._
 
 ### `Color_0x008000`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x008000.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x008000-c396c847.png" width="400" />
 
 _No findings._
 
 ### `Color_0x008000Swatches`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x008000Swatches.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x008000Swatches-97db5913.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -227,13 +227,13 @@ _No findings._
 
 ### `Color_0x800000`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x800000.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x800000-5f8e75cc.png" width="400" />
 
 _No findings._
 
 ### `Color_0x800000Swatches`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x800000Swatches.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Color_0x800000Swatches-9a9417b9.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -241,13 +241,13 @@ _No findings._
 
 ### `ConferenceHomeScreen` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferenceHomeScreen_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferenceHomeScreen_Devices_Large_Round-f0852b24.a11y.png" width="400" />
 
 _No findings._
 
 ### `ConferenceHomeScreenLoading` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferenceHomeScreenLoading_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferenceHomeScreenLoading_Devices_Large_Round-a9d48560.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -255,7 +255,7 @@ _No findings._
 
 ### `ConferenceHomeScreenWithBookmarks` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferenceHomeScreenWithBookmarks_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferenceHomeScreenWithBookmarks_Devices_Large_Round-53879197.a11y.png" width="400" />
 
 _No findings._
 
@@ -267,7 +267,7 @@ _No findings._
 
 ### `ConferencesViewErrorPreview` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferencesViewErrorPreview_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferencesViewErrorPreview_Devices_Large_Round-ece8b9a2.a11y.png" width="400" />
 
 _No findings._
 
@@ -279,25 +279,25 @@ _No findings._
 
 ### `ConferencesViewPreview` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferencesViewPreview_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ConferencesViewPreview_Devices_Large_Round-f2abab96.a11y.png" width="400" />
 
 _No findings._
 
 ### `DayChipPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/DayChipPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/DayChipPreview-bed63cff.a11y.png" width="400" />
 
 _No findings._
 
 ### `Defaults`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Defaults.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/Defaults-dbbe8909.png" width="400" />
 
 _No findings._
 
 ### `DefaultsSwatches`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/DefaultsSwatches.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/DefaultsSwatches-11a5af85.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -329,19 +329,19 @@ _No findings._
 
 ### `HomeListViewPreview` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/HomeListViewPreview_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/HomeListViewPreview_Devices_Large_Round-51d1d4d8.a11y.png" width="400" />
 
 _No findings._
 
 ### `NotSet`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/NotSet.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/NotSet-5c6e4f51.png" width="400" />
 
 _No findings._
 
 ### `NotSetSwatches`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/NotSetSwatches.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/NotSetSwatches-dc75f430.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -349,31 +349,31 @@ _No findings._
 
 ### `PlaceholderButtonPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/PlaceholderButtonPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/PlaceholderButtonPreview-6b648e89.a11y.png" width="400" />
 
 _No findings._
 
 ### `ScreenHeaderPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ScreenHeaderPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ScreenHeaderPreview-e3101d55.a11y.png" width="400" />
 
 _No findings._
 
 ### `SectionHeaderPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SectionHeaderPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SectionHeaderPreview-21921571.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionCardBookmarkedPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionCardBookmarkedPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionCardBookmarkedPreview-e2f70fe4.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionCardLoadingPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionCardLoadingPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionCardLoadingPreview-00105089.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -381,19 +381,19 @@ _No findings._
 
 ### `SessionCardPopulatedPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionCardPopulatedPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionCardPopulatedPreview-a246e629.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionDetailViewPreview` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionDetailViewPreview_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionDetailViewPreview_Devices_Large_Round-2d541005.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionDetailsScreen` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionDetailsScreen_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionDetailsScreen_Devices_Large_Round-7542603b.a11y.png" width="400" />
 
 _No findings._
 
@@ -405,13 +405,13 @@ _No findings._
 
 ### `SessionListViewPreview` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionListViewPreview_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionListViewPreview_Devices_Large_Round-491f6518.a11y.png" width="400" />
 
 _No findings._
 
 ### `SessionSpeakerChipPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionSpeakerChipPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SessionSpeakerChipPreview-a82dcb1c.a11y.png" width="400" />
 
 _No findings._
 
@@ -423,13 +423,13 @@ _No findings._
 
 ### `SettingsListViewPreview` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SettingsListViewPreview_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SettingsListViewPreview_Devices_Large_Round-a69b53b2.a11y.png" width="400" />
 
 _No findings._
 
 ### `SocialIconPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SocialIconPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SocialIconPreview-d589b747.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -437,7 +437,7 @@ _No findings._
 
 ### `SpeakerDetailsScreen` · `wearos_large_round`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SpeakerDetailsScreen_Devices_Large_Round.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/SpeakerDetailsScreen_Devices_Large_Round-4115a437.a11y.png" width="400" />
 
 _No findings._
 
@@ -449,13 +449,13 @@ _No findings._
 
 ### `ThemeFoundationAndroidMakersPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationAndroidMakersPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationAndroidMakersPreview-e709db9d.a11y.png" width="400" />
 
 _No findings._
 
 ### `ThemeFoundationConfettiPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationConfettiPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationConfettiPreview-dedc23f5.a11y.png" width="400" />
 
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
@@ -463,24 +463,24 @@ _No findings._
 
 ### `ThemeFoundationDevFestPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationDevFestPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationDevFestPreview-53f18c05.a11y.png" width="400" />
 
 _No findings._
 
 ### `ThemeFoundationDroidconPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationDroidconPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationDroidconPreview-ec2acd5a.a11y.png" width="400" />
 
 _No findings._
 
 ### `ThemeFoundationKotlinConfPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationKotlinConfPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/ThemeFoundationKotlinConfPreview-4017d8ea.a11y.png" width="400" />
 
 _No findings._
 
 ### `TypographySpecimenPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/TypographySpecimenPreview.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/wearApp/TypographySpecimenPreview-68b374ee.a11y.png" width="400" />
 
 _No findings._

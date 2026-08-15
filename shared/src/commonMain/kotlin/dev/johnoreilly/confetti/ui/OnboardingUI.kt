@@ -38,6 +38,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingUI(component: OnboardingComponent) {
+    ConferenceMaterialThemeFromSettings(seedColorString = null) {
+        OnboardingContent(component)
+    }
+}
+
+@Composable
+private fun OnboardingContent(component: OnboardingComponent) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = 0) { 3 }
     val notificationsEnabled by component.notificationsEnabled.collectAsState(initial = false)
@@ -103,7 +110,11 @@ fun OnboardingUI(component: OnboardingComponent) {
 
     val hazeState = remember { HazeState() }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         // Animated moving gradient background container with haze modifier
         Box(
             modifier = Modifier

@@ -78,6 +78,14 @@ import kotlinx.datetime.LocalDate
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ConferenceListView(component: ConferencesComponent) {
+    ConferenceMaterialThemeFromSettings(seedColorString = null) {
+        ConferenceListContent(component)
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@Composable
+private fun ConferenceListContent(component: ConferencesComponent) {
     var searchQuery by remember { mutableStateOf("") }
     var searchMode by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
@@ -270,14 +278,14 @@ fun YearHeader(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colorScheme.surface,
         modifier = modifier.fillMaxWidth(),
     ) {
         Text(
             text = text,
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            style = MaterialTheme.typography.titleSmall,
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold
         )

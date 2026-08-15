@@ -3,7 +3,7 @@
     "captureLabel": "",
     "functionName": "SessionDetailsPreview",
     "module": "androidApp",
-    "renderBasename": "SessionDetailsPreview.png",
+    "renderBasename": "SessionDetailsPreview-80cd2284.png",
     "sha256": "d5b0edc8451dc24d6b921dbf1ee210d3d3c8617dfcc11e2797860ecf68aff4a0",
     "sourceFile": "src/screenshotTest/kotlin/ScreenshotTest.kt"
   },
@@ -11,7 +11,7 @@
     "captureLabel": "",
     "functionName": "AndroidSessionDetailPreview",
     "module": "androidApp",
-    "renderBasename": "AndroidSessionDetailPreview_Phone_dark.png",
+    "renderBasename": "AndroidSessionDetailPreview_Phone_dark-ae9a0f09.png",
     "sha256": "0d4e5ce65ad45aa7879796f08d3f83d7ef87e8f5f1b94ca3eefa6919725b649c",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
@@ -19,7 +19,7 @@
     "captureLabel": "",
     "functionName": "AndroidSessionDetailPreview",
     "module": "androidApp",
-    "renderBasename": "AndroidSessionDetailPreview_Phone_light.png",
+    "renderBasename": "AndroidSessionDetailPreview_Phone_light-bcba2932.png",
     "sha256": "ce581768088c055336f7208ab300b8c7a356cbef81327e1aad9486635e50e976",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
@@ -27,7 +27,7 @@
     "captureLabel": "",
     "functionName": "AndroidSessionDetailPreview",
     "module": "androidApp",
-    "renderBasename": "AndroidSessionDetailPreview_Tablet_landscape.png",
+    "renderBasename": "AndroidSessionDetailPreview_Tablet_landscape-baf6dd1f.png",
     "sha256": "389dcc1786fa633387de06184de6ec86f77d274f885bd9cb7d001a30b5b0ad9d",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
@@ -35,7 +35,7 @@
     "captureLabel": "",
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
-    "renderBasename": "AndroidSpeakerDetailsPreview_Phone_dark.png",
+    "renderBasename": "AndroidSpeakerDetailsPreview_Phone_dark-e29a322a.png",
     "sha256": "a407310c3f8fece3169aacde31df9007b3d56752981f5d4d358fdae2e363feb8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
@@ -43,7 +43,7 @@
     "captureLabel": "",
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
-    "renderBasename": "AndroidSpeakerDetailsPreview_Phone_light.png",
+    "renderBasename": "AndroidSpeakerDetailsPreview_Phone_light-84d61fe1.png",
     "sha256": "412fcdad7d9c016e10b427f58b56c7480ebfb3f22406973502ca947ec1daf0e8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
@@ -51,7 +51,7 @@
     "captureLabel": "",
     "functionName": "AndroidSpeakerDetailsPreview",
     "module": "androidApp",
-    "renderBasename": "AndroidSpeakerDetailsPreview_Tablet_landscape.png",
+    "renderBasename": "AndroidSpeakerDetailsPreview_Tablet_landscape-7017ccc9.png",
     "sha256": "1500c68d031a08556bd87bfab23052fcdccc52001a08d3bf828fb6074c6db941",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt"
   },
@@ -59,7 +59,7 @@
     "captureLabel": "",
     "functionName": "BookmarkAddPreview",
     "module": "androidApp",
-    "renderBasename": "BookmarkAddPreview_Dark.png",
+    "renderBasename": "BookmarkAddPreview_Dark-80892b0e.png",
     "sha256": "416f7886baa7830fee34797b14ba8d3aeada60e40b128567ea1846dd379a9f4b",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -67,7 +67,7 @@
     "captureLabel": "",
     "functionName": "BookmarkAddPreview",
     "module": "androidApp",
-    "renderBasename": "BookmarkAddPreview_Light.png",
+    "renderBasename": "BookmarkAddPreview_Light-34753aee.png",
     "sha256": "62219472dbf445a891e948160175a37175749f3138aa03929bf7566da8a4aeea",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -75,7 +75,7 @@
     "captureLabel": "",
     "functionName": "BookmarkOnPreview",
     "module": "androidApp",
-    "renderBasename": "BookmarkOnPreview_Dark.png",
+    "renderBasename": "BookmarkOnPreview_Dark-0ced8c18.png",
     "sha256": "03e03f027f87199a6767df1657b9e613f3da9c73551e069f6d9517fb1b997db0",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -83,7 +83,7 @@
     "captureLabel": "",
     "functionName": "BookmarkOnPreview",
     "module": "androidApp",
-    "renderBasename": "BookmarkOnPreview_Light.png",
+    "renderBasename": "BookmarkOnPreview_Light-388742dc.png",
     "sha256": "581c47b666cbaece440997b3f851f4e980fa98703ccffba6a4dd7ba80facb58f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -91,7 +91,7 @@
     "captureLabel": "",
     "functionName": "ColorSchemeSpecimenPreview",
     "module": "androidApp",
-    "renderBasename": "ColorSchemeSpecimenPreview_Dark.png",
+    "renderBasename": "ColorSchemeSpecimenPreview_Dark-e8a86add.png",
     "sha256": "1729aa5c560099ae5cb3ca7e5291f2f7a10c825bdf893ff9343e3082258bf76f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -99,7 +99,7 @@
     "captureLabel": "",
     "functionName": "ColorSchemeSpecimenPreview",
     "module": "androidApp",
-    "renderBasename": "ColorSchemeSpecimenPreview_Light.png",
+    "renderBasename": "ColorSchemeSpecimenPreview_Light-05c97097.png",
     "sha256": "f9e31c4aedae11f31ff704a039e3b594b2e687f659e8bbc21b46670fd55faf0b",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -107,7 +107,7 @@
     "captureLabel": "",
     "functionName": "ConfettiHeaderPreview",
     "module": "androidApp",
-    "renderBasename": "ConfettiHeaderPreview_Dark.png",
+    "renderBasename": "ConfettiHeaderPreview_Dark-83a7050c.png",
     "sha256": "8574ab0d2b3dcffe3c4a4b690cd400862e70717f062ed4f4c8ad5d667847ea0a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -115,7 +115,7 @@
     "captureLabel": "",
     "functionName": "ConfettiHeaderPreview",
     "module": "androidApp",
-    "renderBasename": "ConfettiHeaderPreview_Light.png",
+    "renderBasename": "ConfettiHeaderPreview_Light-02f53df3.png",
     "sha256": "3feee9bd6158fc2e6a47fd1bff1cad090d50a2f8a0e3763427d71b350b29e8f9",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -123,7 +123,7 @@
     "captureLabel": "",
     "functionName": "ScheduleScreenPreview",
     "module": "androidApp",
-    "renderBasename": "ScheduleScreenPreview_Dark.png",
+    "renderBasename": "ScheduleScreenPreview_Dark-67718575.png",
     "sha256": "0fdda267144fc8a9cc7f5846c8365735201799eccd44d661ebccbd210060f47e",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -131,7 +131,7 @@
     "captureLabel": "",
     "functionName": "ScheduleScreenPreview",
     "module": "androidApp",
-    "renderBasename": "ScheduleScreenPreview_Light.png",
+    "renderBasename": "ScheduleScreenPreview_Light-4cc7500f.png",
     "sha256": "290e019d0a9c070ea501184d1630e07af33d0507587a4920911a459922b6bbff",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -139,7 +139,7 @@
     "captureLabel": "",
     "functionName": "SessionDetailsScreenPreview",
     "module": "androidApp",
-    "renderBasename": "SessionDetailsScreenPreview_Dark.png",
+    "renderBasename": "SessionDetailsScreenPreview_Dark-402cba37.png",
     "sha256": "916e16c36483adc709aa304262e27f49d0674cdbe1128bf9432a1c070f20819f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -147,7 +147,7 @@
     "captureLabel": "",
     "functionName": "SessionDetailsScreenPreview",
     "module": "androidApp",
-    "renderBasename": "SessionDetailsScreenPreview_Light.png",
+    "renderBasename": "SessionDetailsScreenPreview_Light-568b398a.png",
     "sha256": "6ba2446a400c779330ca208029d178117b6e7095eeb25347b32cbe47b26bbdb9",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -155,7 +155,7 @@
     "captureLabel": "",
     "functionName": "SessionItemBreakPreview",
     "module": "androidApp",
-    "renderBasename": "SessionItemBreakPreview_Dark.png",
+    "renderBasename": "SessionItemBreakPreview_Dark-ec404584.png",
     "sha256": "39281541bdecd9b678bfb945002824ee8672a8d06d1f199a56f4d51a536ffc81",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -163,7 +163,7 @@
     "captureLabel": "",
     "functionName": "SessionItemBreakPreview",
     "module": "androidApp",
-    "renderBasename": "SessionItemBreakPreview_Light.png",
+    "renderBasename": "SessionItemBreakPreview_Light-7c679a78.png",
     "sha256": "199673f2fd36b8df2a2cf6fec84bd1ac65ef70cba6575ec4282740dcf8d36910",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -171,7 +171,7 @@
     "captureLabel": "",
     "functionName": "SessionItemLightningPreview",
     "module": "androidApp",
-    "renderBasename": "SessionItemLightningPreview_Dark.png",
+    "renderBasename": "SessionItemLightningPreview_Dark-7aa5671e.png",
     "sha256": "9b80a831e79fd6732cf68115cdb2b1c1305c21d1ee89ec537f3b731e1ff05809",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -179,7 +179,7 @@
     "captureLabel": "",
     "functionName": "SessionItemLightningPreview",
     "module": "androidApp",
-    "renderBasename": "SessionItemLightningPreview_Light.png",
+    "renderBasename": "SessionItemLightningPreview_Light-a8e92a7a.png",
     "sha256": "9363e4d8d74cfe91565e2dc3f4c66f8d4341c7660990c69b5e1600d08f6eed03",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -187,7 +187,7 @@
     "captureLabel": "",
     "functionName": "SessionItemPopulatedPreview",
     "module": "androidApp",
-    "renderBasename": "SessionItemPopulatedPreview_Dark.png",
+    "renderBasename": "SessionItemPopulatedPreview_Dark-631a7045.png",
     "sha256": "f0ae3bc1fb613fd242a7357863fccd318262a5987f78b4811b48e9b92d2ab952",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -195,7 +195,7 @@
     "captureLabel": "",
     "functionName": "SessionItemPopulatedPreview",
     "module": "androidApp",
-    "renderBasename": "SessionItemPopulatedPreview_Light.png",
+    "renderBasename": "SessionItemPopulatedPreview_Light-0480a2ab.png",
     "sha256": "f8dd9af51fc7ce1383649a0903757f1bf6c0ad04e642184298708d757b46edd3",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -203,7 +203,7 @@
     "captureLabel": "",
     "functionName": "SpeakerDetailsScreenPreview",
     "module": "androidApp",
-    "renderBasename": "SpeakerDetailsScreenPreview_Dark.png",
+    "renderBasename": "SpeakerDetailsScreenPreview_Dark-9ccb0a29.png",
     "sha256": "2d85e7bac65c92f65f37dfd19e5ed671c816e6d450278d452932ff8d76a0f26a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -211,7 +211,7 @@
     "captureLabel": "",
     "functionName": "SpeakerDetailsScreenPreview",
     "module": "androidApp",
-    "renderBasename": "SpeakerDetailsScreenPreview_Light.png",
+    "renderBasename": "SpeakerDetailsScreenPreview_Light-b79c4d1a.png",
     "sha256": "a5ed800da82bc715cacce6b44a7df6b99c30f6fbe565d744b86b21be19f509c7",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -219,7 +219,7 @@
     "captureLabel": "",
     "functionName": "SpeakerItemPreview",
     "module": "androidApp",
-    "renderBasename": "SpeakerItemPreview_Dark.png",
+    "renderBasename": "SpeakerItemPreview_Dark-6d8d5283.png",
     "sha256": "8bb883942a46e06eea44aed4e1eca117fa658e8cd7d5dff50ca0ef185bf3b96f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -227,7 +227,7 @@
     "captureLabel": "",
     "functionName": "SpeakerItemPreview",
     "module": "androidApp",
-    "renderBasename": "SpeakerItemPreview_Light.png",
+    "renderBasename": "SpeakerItemPreview_Light-16cfecc3.png",
     "sha256": "4d1de4d77ea2788d38fc0727dda51de4c9636d23c13eb051b6663762635a3e00",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -235,7 +235,7 @@
     "captureLabel": "",
     "functionName": "TypographySpecimenPreview",
     "module": "androidApp",
-    "renderBasename": "TypographySpecimenPreview_Dark.png",
+    "renderBasename": "TypographySpecimenPreview_Dark-3523357e.png",
     "sha256": "4398e217f45ba1d21b9024a027ec39393b52490567feb101391bcfef24e79777",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -243,7 +243,7 @@
     "captureLabel": "",
     "functionName": "TypographySpecimenPreview",
     "module": "androidApp",
-    "renderBasename": "TypographySpecimenPreview_Light.png",
+    "renderBasename": "TypographySpecimenPreview_Light-e4709481.png",
     "sha256": "22fa74a8833a181dcceb82c02079640b7a39c5ea2c4e77a7da813fa977129f41",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
@@ -251,7 +251,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationAndroidPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationAndroidPreview_Dark.png",
+    "renderBasename": "ThemeFoundationAndroidPreview_Dark-dad8d762.png",
     "sha256": "0f3c9b47950c5c3d156c7bc066cbd94a7637e4cca35b93470991cf4b9f98db1a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -259,7 +259,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationAndroidPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationAndroidPreview_Light.png",
+    "renderBasename": "ThemeFoundationAndroidPreview_Light-98d43561.png",
     "sha256": "dff44f5f291eb1a6b4e724825d6f8f141e5dcc2c7084909bc7832418d821f9dc",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -267,7 +267,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationConferenceSeedPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationConferenceSeedPreview_Dark.png",
+    "renderBasename": "ThemeFoundationConferenceSeedPreview_Dark-f74e7f38.png",
     "sha256": "72529e5944f664c1e043fa2e991da585a52df7cb20910e456df259174ebf9ca7",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -275,7 +275,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationConferenceSeedPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationConferenceSeedPreview_Light.png",
+    "renderBasename": "ThemeFoundationConferenceSeedPreview_Light-03f13201.png",
     "sha256": "1b1b1096564e0cfd301b9c9fa04da807b55095a2fdce10fe33a29ddb00b8c4d2",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -283,7 +283,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationCurrentPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationCurrentPreview_Dark.png",
+    "renderBasename": "ThemeFoundationCurrentPreview_Dark-4dcfeff0.png",
     "sha256": "de0ff90682e0d3f4d850f6836ec4e4e61cf5609b6b086d6fa5b095401eeb588b",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -291,7 +291,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationCurrentPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationCurrentPreview_Light.png",
+    "renderBasename": "ThemeFoundationCurrentPreview_Light-d16c7dc5.png",
     "sha256": "e8e48295886865259349aec5da2c2df50e605cc989fc6f92c878c25da6d87211",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -299,7 +299,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationDefaultPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationDefaultPreview_Dark.png",
+    "renderBasename": "ThemeFoundationDefaultPreview_Dark-ac6eb453.png",
     "sha256": "f16594fe529ca1ffa54eb03a9515455c1202f0b78e89039d389031a1731056aa",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -307,7 +307,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationDefaultPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationDefaultPreview_Light.png",
+    "renderBasename": "ThemeFoundationDefaultPreview_Light-21720691.png",
     "sha256": "3844d3fb5603212d32effa0a9cc5044ad0aaad443a904325188a3f104f40c741",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -315,7 +315,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationDynamicPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationDynamicPreview_Dark.png",
+    "renderBasename": "ThemeFoundationDynamicPreview_Dark-2600609b.png",
     "sha256": "436d111810c26780c48ab885616124ae92057012661ab28657804b8e60b3d043",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -323,7 +323,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationDynamicPreview",
     "module": "androidApp",
-    "renderBasename": "ThemeFoundationDynamicPreview_Light.png",
+    "renderBasename": "ThemeFoundationDynamicPreview_Light-9f1c29f8.png",
     "sha256": "fd705768bcbccef4126a37705285dc8ec338e198126302028a644fca60575451",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
@@ -331,7 +331,7 @@
     "captureLabel": "",
     "functionName": "BackgroundAndroid",
     "module": "androidApp",
-    "renderBasename": "BackgroundAndroid_Dark_theme.png",
+    "renderBasename": "BackgroundAndroid_Dark_theme-c686adfb.png",
     "sha256": "83141fb752a5f8800a1054aeac2a6bdb73c63141e73679aeb7bbc657c269d726",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt"
   },
@@ -339,7 +339,7 @@
     "captureLabel": "",
     "functionName": "BackgroundAndroid",
     "module": "androidApp",
-    "renderBasename": "BackgroundAndroid_Light_theme.png",
+    "renderBasename": "BackgroundAndroid_Light_theme-6e0afb08.png",
     "sha256": "72766ae3d6e0bf558c3e43796db6a79b36383f9d8d2ad34c79db246658a0659b",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt"
   },
@@ -347,7 +347,7 @@
     "captureLabel": "",
     "functionName": "BackgroundDefault",
     "module": "androidApp",
-    "renderBasename": "BackgroundDefault_Dark_theme.png",
+    "renderBasename": "BackgroundDefault_Dark_theme-cbff4c79.png",
     "sha256": "92abf4d54570445f2328a2671af0e104d49af9ce90b85221212b1d5ecf1392f8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt"
   },
@@ -355,7 +355,7 @@
     "captureLabel": "",
     "functionName": "BackgroundDefault",
     "module": "androidApp",
-    "renderBasename": "BackgroundDefault_Light_theme.png",
+    "renderBasename": "BackgroundDefault_Light_theme-9d4ec11f.png",
     "sha256": "45528ca5101b5468965413227b76c47cf775a2d5fc960e7fe7fb5ee80439bbfc",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt"
   },
@@ -363,7 +363,7 @@
     "captureLabel": "",
     "functionName": "BackgroundDynamic",
     "module": "androidApp",
-    "renderBasename": "BackgroundDynamic_Dark_theme.png",
+    "renderBasename": "BackgroundDynamic_Dark_theme-d5efd51a.png",
     "sha256": "92abf4d54570445f2328a2671af0e104d49af9ce90b85221212b1d5ecf1392f8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt"
   },
@@ -371,7 +371,7 @@
     "captureLabel": "",
     "functionName": "BackgroundDynamic",
     "module": "androidApp",
-    "renderBasename": "BackgroundDynamic_Light_theme.png",
+    "renderBasename": "BackgroundDynamic_Light_theme-d914bf6f.png",
     "sha256": "45528ca5101b5468965413227b76c47cf775a2d5fc960e7fe7fb5ee80439bbfc",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt"
   },
@@ -380,7 +380,7 @@
     "functionName": "AndroidMakers Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__AndroidMakers_Dark.png",
-    "sha256": "94015ba3c388265a0bb514f52f49ba59741f1c781bcf4e20af1a22152d829e5b",
+    "sha256": "6f5c2a8d2179261f303eb464b5eb65f174fea7c442066e5bc07ad3da701a2f69",
     "sourceFile": null
   },
   "androidApp/themecatalog__AndroidMakers_Light": {
@@ -388,7 +388,7 @@
     "functionName": "AndroidMakers Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__AndroidMakers_Light.png",
-    "sha256": "04bf179c927e46e44159b462149e712b61261cec489347e41a2ca8d6fd98119f",
+    "sha256": "d55a62b0823bf1721b9e5d47615d6e1c506168950fcad413e6ebe44579334f86",
     "sourceFile": null
   },
   "androidApp/themecatalog__Android_Dark": {
@@ -396,7 +396,7 @@
     "functionName": "Android Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Android_Dark.png",
-    "sha256": "aa8494fc91a82782f0a4105fe0f06f1de8bfac233c4642e83d09a81a9b47b00a",
+    "sha256": "b5ed8232feabebf952533e4329339334d03e95b2219acd9331fed35e587ca835",
     "sourceFile": null
   },
   "androidApp/themecatalog__Android_Light": {
@@ -404,7 +404,7 @@
     "functionName": "Android Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Android_Light.png",
-    "sha256": "cc29932cd62408556e0ddf4230be199df1fcb4c11569070d0e9e2e0618f0e131",
+    "sha256": "f6b3a7c4d27baf4564d2318fd14e7db1611fc3d035eb4a3e601303622a5033ba",
     "sourceFile": null
   },
   "androidApp/themecatalog__Confetti_brand_Dark": {
@@ -412,7 +412,7 @@
     "functionName": "Confetti brand Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Confetti_brand_Dark.png",
-    "sha256": "52c53ce11c3f5b6ca083a51dcff494e78e44260eda2fba55e5d86bc566102e93",
+    "sha256": "409cd8a21fa3c9fb081603126f5baad15f035eb364d2987d9fd741de8a41cae7",
     "sourceFile": null
   },
   "androidApp/themecatalog__Confetti_brand_Light": {
@@ -420,7 +420,7 @@
     "functionName": "Confetti brand Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Confetti_brand_Light.png",
-    "sha256": "b51eb42a024f177f11c1d933e71cea0b450794afc44ece054ed1cbeac7573710",
+    "sha256": "9c00bbdb34c46273fca7506364a5628b43336196f912db21e4fc988201db7b15",
     "sourceFile": null
   },
   "androidApp/themecatalog__DevFest_Dark": {
@@ -428,7 +428,7 @@
     "functionName": "DevFest Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__DevFest_Dark.png",
-    "sha256": "480ade8a029959fc0ed8436a27a76400fd061a90921aee59a86ad58d3ea53759",
+    "sha256": "94688307b724425223330ebf1d799d7cc299d853f4aa79c97b308fa995ca90b0",
     "sourceFile": null
   },
   "androidApp/themecatalog__DevFest_Light": {
@@ -436,7 +436,7 @@
     "functionName": "DevFest Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__DevFest_Light.png",
-    "sha256": "102c1db4942d5696488a5d669b3f78e27e03648fc7950cdb1603bd3a2126f1d3",
+    "sha256": "69a615676976e8bda07f2983f165bf6218e691586348bdc6704f8ce8f9ea2ebe",
     "sourceFile": null
   },
   "androidApp/themecatalog__Droidcon_Dark": {
@@ -444,7 +444,7 @@
     "functionName": "Droidcon Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Droidcon_Dark.png",
-    "sha256": "efeac5d78cc861bd8a5964dd89e427640e37ce93da8edc93b4595873910db293",
+    "sha256": "29c1d69dc5813e75a5b403855f5b272e05692676eac4bc5ffd7147bcc72a827b",
     "sourceFile": null
   },
   "androidApp/themecatalog__Droidcon_Light": {
@@ -452,7 +452,7 @@
     "functionName": "Droidcon Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Droidcon_Light.png",
-    "sha256": "ae8eb1921c0ab22021bef3a9b9ac9bfa767cd32e1840da6ea12a18ab2dc89cc3",
+    "sha256": "2f77afca1d18002e3234decd6c3129fec2be3ec166935f83208246f742126635",
     "sourceFile": null
   },
   "androidApp/themecatalog__Dynamic_Dark": {
@@ -460,7 +460,7 @@
     "functionName": "Dynamic Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Dynamic_Dark.png",
-    "sha256": "1f8fa5ae088928c8281dc910fcc5009b4bb17835159c531e22bb5a92d2b32f6c",
+    "sha256": "1b31ccc91b5b9da564a1f943394d6dc889a0ad01a422770daa56faf12a66e175",
     "sourceFile": null
   },
   "androidApp/themecatalog__Dynamic_Light": {
@@ -468,7 +468,7 @@
     "functionName": "Dynamic Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Dynamic_Light.png",
-    "sha256": "03702e42794ca02b54b7ce993f732edbc0874fcb9b9822298f59ed60207373e0",
+    "sha256": "442b01355971205c4b4969d24df4b4ad245b7b4e98344145b83c33a4a482eb79",
     "sourceFile": null
   },
   "androidApp/themecatalog__KotlinConf_Dark": {
@@ -476,7 +476,7 @@
     "functionName": "KotlinConf Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__KotlinConf_Dark.png",
-    "sha256": "a48b816f01fb8249822cbdbfe3e2fb1d872f6d91de6ae9dd542e8002fba0887c",
+    "sha256": "33e10df904b61a322fafcf396a399704e864cea34a5cb517f41390f1d5b18f4d",
     "sourceFile": null
   },
   "androidApp/themecatalog__KotlinConf_Light": {
@@ -484,14 +484,14 @@
     "functionName": "KotlinConf Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__KotlinConf_Light.png",
-    "sha256": "e75b9c34690683491c2f8fc9eca5f671d576c1cb06a9781f774cd5c7797935bb",
+    "sha256": "636f46bcae3968555396c62627ef898c7607d6be8a72948575b3f46933b10dc3",
     "sourceFile": null
   },
   "wearApp/dev.johnoreilly.confetti.wear.ConferenceHomeScreenTestKt.ConferenceHomeScreenLoading_Devices - Large Round": {
     "captureLabel": "",
     "functionName": "ConferenceHomeScreenLoading",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreenLoading_Devices_Large_Round.png",
+    "renderBasename": "ConferenceHomeScreenLoading_Devices_Large_Round-a9d48560.png",
     "sha256": "0342adc7cd22955cd60b7b0e780140e0441ca752901e1ff7543c768a44adf66e",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -499,7 +499,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreenWithBookmarks",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreenWithBookmarks_Devices_Large_Round.png",
+    "renderBasename": "ConferenceHomeScreenWithBookmarks_Devices_Large_Round-53879197.png",
     "sha256": "9efec933b215e493768532ee4f7e93c6651e2bf2ba02f3fbb9723fb1107fc365",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -507,7 +507,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreen",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreen_Devices_Large_Round.png",
+    "renderBasename": "ConferenceHomeScreen_Devices_Large_Round-f0852b24.png",
     "sha256": "f124d0aa3386ece91d5457d6ae0577370921110e96d92e13a0e22105972cc285",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -515,7 +515,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreen",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreen_Devices_Small_Round.png",
+    "renderBasename": "ConferenceHomeScreen_Devices_Small_Round-4a2dcdbb.png",
     "sha256": "0c38de7579b541226822f631d8d09f8c7de4b2e81f89df865981ddc23d23d7c0",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -523,7 +523,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreen",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreen_Fonts_Large.png",
+    "renderBasename": "ConferenceHomeScreen_Fonts_Large-c550169a.png",
     "sha256": "b35c3d2045c47876a9a7b1ef23e21d5ac4820626e8d59c9b4695778c7300bee7",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -531,7 +531,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreen",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreen_Fonts_Larger.png",
+    "renderBasename": "ConferenceHomeScreen_Fonts_Larger-0d29473b.png",
     "sha256": "c9b55cea5cbdd1dce5992fe7ee31d40a1ed61fb465ad346fa4c8d4fb9f9a3cc0",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -539,7 +539,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreen",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreen_Fonts_Largest.png",
+    "renderBasename": "ConferenceHomeScreen_Fonts_Largest-6705cd72.png",
     "sha256": "6010e6ba876d28bb6d6add67955af99bc59616fd073b6251d37ef31627063ef4",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -547,7 +547,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreen",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreen_Fonts_Medium.png",
+    "renderBasename": "ConferenceHomeScreen_Fonts_Medium-43e958ec.png",
     "sha256": "01583668c3f062119b0036521afa377e266cc5c1d257e09173ac33d6bc29fdaa",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -555,7 +555,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreen",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreen_Fonts_Normal.png",
+    "renderBasename": "ConferenceHomeScreen_Fonts_Normal-5c4f39fb.png",
     "sha256": "0c38de7579b541226822f631d8d09f8c7de4b2e81f89df865981ddc23d23d7c0",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -563,7 +563,7 @@
     "captureLabel": "",
     "functionName": "ConferenceHomeScreen",
     "module": "wearApp",
-    "renderBasename": "ConferenceHomeScreen_Fonts_Small.png",
+    "renderBasename": "ConferenceHomeScreen_Fonts_Small-b026dd7f.png",
     "sha256": "699db6214d37217cf56c98c1b176fb08a2b6215d4cf7775c46790b94f4b277ae",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt"
   },
@@ -571,7 +571,7 @@
     "captureLabel": "",
     "functionName": "SessionDetailsScreen",
     "module": "wearApp",
-    "renderBasename": "SessionDetailsScreen_Devices_Large_Round.png",
+    "renderBasename": "SessionDetailsScreen_Devices_Large_Round-7542603b.png",
     "sha256": "53089a60c1de67246d67d8e0435d270cc28ab81afb11e699d539f02bea0bb9fa",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/SessionDetailsScreenTest.kt"
   },
@@ -579,7 +579,7 @@
     "captureLabel": "",
     "functionName": "SpeakerDetailsScreen",
     "module": "wearApp",
-    "renderBasename": "SpeakerDetailsScreen_Devices_Large_Round.png",
+    "renderBasename": "SpeakerDetailsScreen_Devices_Large_Round-4115a437.png",
     "sha256": "2a58984db01a09bc1c12cf7c5050a8521762b19bb0fe9c1cd27e87ef119dc36e",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/SpeakerDetailsScreenTest.kt"
   },
@@ -587,7 +587,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewEmpty_Devices_Large_Round.png",
+    "renderBasename": "BookmarksPreviewEmpty_Devices_Large_Round-77a986d2.png",
     "sha256": "2d984f7fb4b816c3e8af326d82afa9de4b00e8e8091fc6be0544877618d699f5",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -595,7 +595,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewEmpty_Devices_Small_Round.png",
+    "renderBasename": "BookmarksPreviewEmpty_Devices_Small_Round-f63b6234.png",
     "sha256": "b5a838e4c7d627179b1edbb6d23f31d5e84796dc3a36b1a65fcc789d909d7d52",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -603,7 +603,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewEmpty_Fonts_Large.png",
+    "renderBasename": "BookmarksPreviewEmpty_Fonts_Large-a42d287e.png",
     "sha256": "ed71e3a7d6e6aaefc72fcc3e65dd52b41924d49f0d57e26cbb5d860586a601b4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -611,7 +611,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewEmpty_Fonts_Larger.png",
+    "renderBasename": "BookmarksPreviewEmpty_Fonts_Larger-33cdb7f3.png",
     "sha256": "ee5f255d7f1c5c5b7effe31e0e1f675a03a435e9bb4cc541e931e3add25ff732",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -619,7 +619,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewEmpty_Fonts_Largest.png",
+    "renderBasename": "BookmarksPreviewEmpty_Fonts_Largest-f9261cf4.png",
     "sha256": "b18ace7c8ef4e03b9bdf77cbd4cbe4b0812c4e183788e2aaa2b6a795bee6b0e4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -627,7 +627,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewEmpty_Fonts_Medium.png",
+    "renderBasename": "BookmarksPreviewEmpty_Fonts_Medium-fcfe9e2a.png",
     "sha256": "3467cd34dcca2843e150d0cd8c73cab750509c1d158d31379617f0821067e251",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -635,7 +635,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewEmpty_Fonts_Normal.png",
+    "renderBasename": "BookmarksPreviewEmpty_Fonts_Normal-4f7a1da7.png",
     "sha256": "b5a838e4c7d627179b1edbb6d23f31d5e84796dc3a36b1a65fcc789d909d7d52",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -643,7 +643,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewEmpty",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewEmpty_Fonts_Small.png",
+    "renderBasename": "BookmarksPreviewEmpty_Fonts_Small-cafecae9.png",
     "sha256": "270b366d227d1bf9ca96046a77f5cb6caf4b6f4f77a82f5df6c5037ec161445a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -651,7 +651,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewErrorLong_Devices_Large_Round.png",
+    "renderBasename": "BookmarksPreviewErrorLong_Devices_Large_Round-f88686f6.png",
     "sha256": "f522b8f4184b9ac038124da1d34698781ecaaccfc25c38896b59cacc6aa8b337",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -659,7 +659,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewErrorLong_Devices_Small_Round.png",
+    "renderBasename": "BookmarksPreviewErrorLong_Devices_Small_Round-a2247a8a.png",
     "sha256": "72a158c366d0f6090fb96ebf0ecbb429cf7848f44bae29fb9dd603f1c37c953a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -667,7 +667,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Large.png",
+    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Large-0e8ae0ad.png",
     "sha256": "91c916aa029472319fb7dac69c5998ccd78fa6d0b3a170af62fca923bf145656",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -675,7 +675,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Larger.png",
+    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Larger-2397b037.png",
     "sha256": "45f339c9ea52f5744e1fb0929e861a4a6d41f9bf6645c0ea1b8db9ab10388363",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -683,7 +683,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Largest.png",
+    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Largest-fa330ac5.png",
     "sha256": "b60e7b26d4f45abd1164a9bc2f147b131d6be0d71d788715056bfebf7869ad66",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -691,7 +691,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Medium.png",
+    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Medium-3eeada9d.png",
     "sha256": "6af68f220043f7ead480aa2258fb491b5fdac4a18c23f46788352b6db5db84ae",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -699,7 +699,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Normal.png",
+    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Normal-e09ccc4a.png",
     "sha256": "72a158c366d0f6090fb96ebf0ecbb429cf7848f44bae29fb9dd603f1c37c953a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -707,7 +707,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewErrorLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Small.png",
+    "renderBasename": "BookmarksPreviewErrorLong_Fonts_Small-419406a4.png",
     "sha256": "bf46920b8ba8e5ee8c0e6bfe011e5c3ea8b119d515fcd54fcbab5bd871b56181",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -715,7 +715,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewError_Devices_Large_Round.png",
+    "renderBasename": "BookmarksPreviewError_Devices_Large_Round-751696d8.png",
     "sha256": "d8b6101e5cc4ae576613dfd5bfb52e4447617dbe7b7170e14d68de747b8dcae9",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -723,7 +723,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewError_Devices_Small_Round.png",
+    "renderBasename": "BookmarksPreviewError_Devices_Small_Round-19f220ba.png",
     "sha256": "da059e25477bb3deb1ca78685ea72eaad40be805d6ccd7c3e4b086a1f442f685",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -731,7 +731,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewError_Fonts_Large.png",
+    "renderBasename": "BookmarksPreviewError_Fonts_Large-6596cca9.png",
     "sha256": "b4c9d05edd3fa0e7cf0e7dc7b98993ac330d76db0afb818098dffec4f37c5843",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -739,7 +739,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewError_Fonts_Larger.png",
+    "renderBasename": "BookmarksPreviewError_Fonts_Larger-6f8dcd86.png",
     "sha256": "85d2c492c959abfc104dee54ebad7a84baac9a868525036157af15f68fd6c609",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -747,7 +747,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewError_Fonts_Largest.png",
+    "renderBasename": "BookmarksPreviewError_Fonts_Largest-44482399.png",
     "sha256": "703060bf1f9a78dc2415e995c879dc1a1dd04aff73fc05e996d540ccb221d59d",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -755,7 +755,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewError_Fonts_Medium.png",
+    "renderBasename": "BookmarksPreviewError_Fonts_Medium-f3c1a65f.png",
     "sha256": "0f8d76a496713f5725e227a2278b88a7aba6a8de43bbb2e8fa72fb56bb24ca70",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -763,7 +763,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewError_Fonts_Normal.png",
+    "renderBasename": "BookmarksPreviewError_Fonts_Normal-aba4ec62.png",
     "sha256": "da059e25477bb3deb1ca78685ea72eaad40be805d6ccd7c3e4b086a1f442f685",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -771,7 +771,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewError",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewError_Fonts_Small.png",
+    "renderBasename": "BookmarksPreviewError_Fonts_Small-66fccb60.png",
     "sha256": "117d93bc4cfbe6ac7ea8639124ea48792b80cda6497349865c1a725c77574b66",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -779,7 +779,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLoading_Devices_Large_Round.png",
+    "renderBasename": "BookmarksPreviewLoading_Devices_Large_Round-192fee01.png",
     "sha256": "2e105367d3237c4517a52f7e250a07bbd5c7871f1dd35d30851e9e9860ee7dea",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -787,7 +787,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLoading_Devices_Small_Round.png",
+    "renderBasename": "BookmarksPreviewLoading_Devices_Small_Round-c475b7e7.png",
     "sha256": "e7eb72e3a8a0d0beefd51a5e648bb64042998c12eea8c08fbe4dc53ba0878a56",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -795,7 +795,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLoading_Fonts_Large.png",
+    "renderBasename": "BookmarksPreviewLoading_Fonts_Large-20492877.png",
     "sha256": "e548b3e7afcb7f47d65e08c1195ebc217c2860a265a247f30703f6a5260a09ce",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -803,7 +803,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLoading_Fonts_Larger.png",
+    "renderBasename": "BookmarksPreviewLoading_Fonts_Larger-89e32101.png",
     "sha256": "37cacd92d6c0df8a5388c420bf450febf675166a2c41a4ea40b53043f90469d1",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -811,7 +811,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLoading_Fonts_Largest.png",
+    "renderBasename": "BookmarksPreviewLoading_Fonts_Largest-c789f347.png",
     "sha256": "d2c8ef980191ae10f3a34ef0f12f18cd51fb9d3cbd2de7f11a31ae2a4706ab57",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -819,7 +819,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLoading_Fonts_Medium.png",
+    "renderBasename": "BookmarksPreviewLoading_Fonts_Medium-2098864d.png",
     "sha256": "19672c41dfc96e68b59f0fa8166354c94160296f120dde3d3f00fa83c7333fa3",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -827,7 +827,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLoading_Fonts_Normal.png",
+    "renderBasename": "BookmarksPreviewLoading_Fonts_Normal-f6bf91bd.png",
     "sha256": "e7eb72e3a8a0d0beefd51a5e648bb64042998c12eea8c08fbe4dc53ba0878a56",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -835,7 +835,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreviewLoading",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLoading_Fonts_Small.png",
+    "renderBasename": "BookmarksPreviewLoading_Fonts_Small-dd83c730.png",
     "sha256": "10ffc76a63483e9764c6fe955459d9adebf610464bf4079ed1eb83a9dd45627d",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -843,7 +843,7 @@
     "captureLabel": "scroll long",
     "functionName": "BookmarksPreviewLong",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreviewLong_Devices_Large_Round.png",
+    "renderBasename": "BookmarksPreviewLong_Devices_Large_Round-db316244.png",
     "sha256": "0f0a0ae8e0f0f1616bd8f454e471dadca648e2267a44e88a726f44e7d57450c9",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -851,7 +851,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreview_Devices_Large_Round.png",
+    "renderBasename": "BookmarksPreview_Devices_Large_Round-e89fefb0.png",
     "sha256": "0d122fb1de4f1ab56759d9aeb7df194f1c5775f10c028494f0755755e3de6a75",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -859,7 +859,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreview_Devices_Small_Round.png",
+    "renderBasename": "BookmarksPreview_Devices_Small_Round-4c641ad7.png",
     "sha256": "4d49d48a42a1873b8622bb5943b86d089d90624ced47a2f66a043747ffd67331",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -867,7 +867,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreview_Fonts_Large.png",
+    "renderBasename": "BookmarksPreview_Fonts_Large-7182421a.png",
     "sha256": "79ba7041ad38c9fb0b99291a8e34b9cb50f71491caeeb75407a13e6e1e78acf8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -875,7 +875,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreview_Fonts_Larger.png",
+    "renderBasename": "BookmarksPreview_Fonts_Larger-683e6421.png",
     "sha256": "6ca4a1c9a9d6fc5f034446763888a4bc3538a24deccdef09383e0877f03e28f3",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -883,7 +883,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreview_Fonts_Largest.png",
+    "renderBasename": "BookmarksPreview_Fonts_Largest-7dec4c49.png",
     "sha256": "7da8846470d437f984010102f2029cda9b0a3c6eaaa513665261a54270844c7a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -891,7 +891,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreview_Fonts_Medium.png",
+    "renderBasename": "BookmarksPreview_Fonts_Medium-034df691.png",
     "sha256": "0022907b6c87abda853c82e65e71357eb60bb8705bbe2bf55a96778620785a56",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -899,7 +899,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreview_Fonts_Normal.png",
+    "renderBasename": "BookmarksPreview_Fonts_Normal-12f819ce.png",
     "sha256": "4d49d48a42a1873b8622bb5943b86d089d90624ced47a2f66a043747ffd67331",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -907,7 +907,7 @@
     "captureLabel": "",
     "functionName": "BookmarksPreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksPreview_Fonts_Small.png",
+    "renderBasename": "BookmarksPreview_Fonts_Small-00622168.png",
     "sha256": "99af97ac41d4389cc3695331bae07c53d277e073d7d215664d52cc67fa7efcac",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt"
   },
@@ -915,7 +915,7 @@
     "captureLabel": "scroll long",
     "functionName": "ConferencesViewCuratedPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewCuratedPreview_Devices_Large_Round.png",
+    "renderBasename": "ConferencesViewCuratedPreview_Devices_Large_Round-ae86db23.png",
     "sha256": "ae7f5f24d155509d2168189f5bf2b2b73433ad5bf96df101e83053541c71f60c",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -923,7 +923,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewErrorPreview_Devices_Large_Round.png",
+    "renderBasename": "ConferencesViewErrorPreview_Devices_Large_Round-ece8b9a2.png",
     "sha256": "1ddbbf54061d06d3d4d789373f6b836aa701055b11fc6ac6a6a84ceb2b096a62",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -931,7 +931,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewErrorPreview_Devices_Small_Round.png",
+    "renderBasename": "ConferencesViewErrorPreview_Devices_Small_Round-27338daa.png",
     "sha256": "34c3d735849fa65cf36f3ba797c585d0e44b6ec524a03623d5af32997a4c7e3a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -939,7 +939,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewErrorPreview_Fonts_Large.png",
+    "renderBasename": "ConferencesViewErrorPreview_Fonts_Large-13f77957.png",
     "sha256": "6efccd0bea31349a0dc5e286ce660181d2ec1a2663a9a165d632ec10fb457ba2",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -947,7 +947,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewErrorPreview_Fonts_Larger.png",
+    "renderBasename": "ConferencesViewErrorPreview_Fonts_Larger-5be651e1.png",
     "sha256": "ac4dd6dc740ee2b27ba0a721b127b57f06c462d7ecace27603d0dcfa5e90f385",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -955,7 +955,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewErrorPreview_Fonts_Largest.png",
+    "renderBasename": "ConferencesViewErrorPreview_Fonts_Largest-cac3510c.png",
     "sha256": "4f982c7e8ac4a59b76cfbabacc8d75dd66f75d85e1c569b9d20fadf4d10a18cd",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -963,7 +963,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewErrorPreview_Fonts_Medium.png",
+    "renderBasename": "ConferencesViewErrorPreview_Fonts_Medium-43f54d2e.png",
     "sha256": "2328c969678826c5f8cc2ae74ab7236994e6730c3e40bb268af8c9256ad8aa0d",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -971,7 +971,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewErrorPreview_Fonts_Normal.png",
+    "renderBasename": "ConferencesViewErrorPreview_Fonts_Normal-ec938550.png",
     "sha256": "34c3d735849fa65cf36f3ba797c585d0e44b6ec524a03623d5af32997a4c7e3a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -979,7 +979,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewErrorPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewErrorPreview_Fonts_Small.png",
+    "renderBasename": "ConferencesViewErrorPreview_Fonts_Small-f3d2d29b.png",
     "sha256": "9e781fcbc935c27d854a77edb89b80509a01e3677a0380ed88fe9895e8d48e50",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -987,7 +987,7 @@
     "captureLabel": "scroll long",
     "functionName": "ConferencesViewLongPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewLongPreview_Devices_Large_Round.png",
+    "renderBasename": "ConferencesViewLongPreview_Devices_Large_Round-d9372525.png",
     "sha256": "83b3be235675f06ed3032dae838e7fc1d02e6d8e30bee137494b550c0e01a2a4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -995,7 +995,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewPreview_Devices_Large_Round.png",
+    "renderBasename": "ConferencesViewPreview_Devices_Large_Round-f2abab96.png",
     "sha256": "25d9163b147aecede593b39884ad94dc70d1ecb431310f6387faad38cbff1720",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -1003,7 +1003,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewPreview_Devices_Small_Round.png",
+    "renderBasename": "ConferencesViewPreview_Devices_Small_Round-3999b8b4.png",
     "sha256": "66af4a7648ba44b08b200b7a9fb2bc6692d4133d926723fa55b3761511581ee2",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -1011,7 +1011,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewPreview_Fonts_Large.png",
+    "renderBasename": "ConferencesViewPreview_Fonts_Large-02b9fe76.png",
     "sha256": "d1e96e1ad0733da6c123368ee11072e61963875d2cf40029ff8286874f4ea460",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -1019,7 +1019,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewPreview_Fonts_Larger.png",
+    "renderBasename": "ConferencesViewPreview_Fonts_Larger-c63d997a.png",
     "sha256": "cc7757bcbd1b7f37f2615447bd3696497c25acc2378e5271972cd1e386fbbe2e",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -1027,7 +1027,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewPreview_Fonts_Largest.png",
+    "renderBasename": "ConferencesViewPreview_Fonts_Largest-be422bdb.png",
     "sha256": "e9109f0cf568f733ab046f5e9db1e8f06791a168519acf9d737192de46d18782",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -1035,7 +1035,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewPreview_Fonts_Medium.png",
+    "renderBasename": "ConferencesViewPreview_Fonts_Medium-ccfbae8e.png",
     "sha256": "f11392857aaa00239b632a2c2b1f7744a2cf777005fae60346319dec1b587af3",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -1043,7 +1043,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewPreview_Fonts_Normal.png",
+    "renderBasename": "ConferencesViewPreview_Fonts_Normal-4cb89760.png",
     "sha256": "66af4a7648ba44b08b200b7a9fb2bc6692d4133d926723fa55b3761511581ee2",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -1051,7 +1051,7 @@
     "captureLabel": "",
     "functionName": "ConferencesViewPreview",
     "module": "wearApp",
-    "renderBasename": "ConferencesViewPreview_Fonts_Small.png",
+    "renderBasename": "ConferencesViewPreview_Fonts_Small-84ccedac.png",
     "sha256": "46f5b490116cc1a509357609edc089d83eb4686571cdd6665ca91157d85f01d3",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
@@ -1059,39 +1059,39 @@
     "captureLabel": "scroll long",
     "functionName": "HomeListViewAndroidMakers",
     "module": "wearApp",
-    "renderBasename": "HomeListViewAndroidMakers_Devices_Large_Round.png",
-    "sha256": "29920e6da56e690501bacf164eb051beed046576e5e7d9cb6842a0916d4dcddb",
+    "renderBasename": "HomeListViewAndroidMakers_Devices_Large_Round-12a9051b.png",
+    "sha256": "f7516345115067642667a5ba18591ea1bddb63cde9f110c206b42cd6479511fa",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewDevFest_Devices - Large Round": {
     "captureLabel": "scroll long",
     "functionName": "HomeListViewDevFest",
     "module": "wearApp",
-    "renderBasename": "HomeListViewDevFest_Devices_Large_Round.png",
-    "sha256": "8c426e5018bcc6cca23a2793a98729a23e850dfa54bada78c2fe7e4ab25964e0",
+    "renderBasename": "HomeListViewDevFest_Devices_Large_Round-14d42677.png",
+    "sha256": "1524e8982c9590cde9ea6f89f79146a3507c026288aaf6efaccd45628e456e9b",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewDroidcon_Devices - Large Round": {
     "captureLabel": "scroll long",
     "functionName": "HomeListViewDroidcon",
     "module": "wearApp",
-    "renderBasename": "HomeListViewDroidcon_Devices_Large_Round.png",
-    "sha256": "2a0d156c4f6b817c39431f80a21917659ca68a1cae0665395209155949a4656e",
+    "renderBasename": "HomeListViewDroidcon_Devices_Large_Round-4382e4a5.png",
+    "sha256": "d500145c8fc2b7edbdba1267d3e56326895e60e55ccdb8d35b755ef436a864f7",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewKotlinConf_Devices - Large Round": {
     "captureLabel": "scroll long",
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
-    "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round.png",
-    "sha256": "63f9d412b7c30440356f5ebfd578c5146dd6aaec0a723d96d82ad1c830781fb5",
+    "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round-86172c22.png",
+    "sha256": "5f26c99f35cc33d5e302e72a790a4099e4e328b7c2f24b2bfd8620d30c01dc50",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
     "captureLabel": "scroll top",
     "functionName": "HomeListViewLongPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewLongPreview_Devices_Large_Round_SCROLL_top.png",
+    "renderBasename": "HomeListViewLongPreview_Devices_Large_Round-5ef4376c_SCROLL_top.png",
     "sha256": "286596bc22428a6a98af710df6897a5081bcb4a4edffa39d0ec04fd1bde986b9",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1099,7 +1099,7 @@
     "captureLabel": "scroll end",
     "functionName": "HomeListViewLongPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewLongPreview_Devices_Large_Round_SCROLL_end.png",
+    "renderBasename": "HomeListViewLongPreview_Devices_Large_Round-5ef4376c_SCROLL_end.png",
     "sha256": "628bc44b7fde31b8c7650797a456db74db6714ea17781efacbc6669ca3c2a031",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1107,15 +1107,15 @@
     "captureLabel": "scroll long",
     "functionName": "HomeListViewLongPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewLongPreview_Devices_Large_Round_SCROLL_long.png",
-    "sha256": "1db86b1c8e420f7f39d6e1d525077545822037e76643b3cbf32fdc755f9a9e3a",
+    "renderBasename": "HomeListViewLongPreview_Devices_Large_Round-5ef4376c_SCROLL_long.png",
+    "sha256": "d555707a9e9a220782f74465e97100a375b2ef4e9ac391e5c6388a723b9646c8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round#3": {
     "captureLabel": "scroll gif",
     "functionName": "HomeListViewLongPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewLongPreview_Devices_Large_Round_SCROLL_gif.gif",
+    "renderBasename": "HomeListViewLongPreview_Devices_Large_Round-5ef4376c_SCROLL_gif.gif",
     "sha256": "66e2b493fa5a9cb8c7652907be48af7bff7e2d463bce9dc27ef4c2865549c39f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1123,7 +1123,7 @@
     "captureLabel": "",
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewPreview_Devices_Large_Round.png",
+    "renderBasename": "HomeListViewPreview_Devices_Large_Round-51d1d4d8.png",
     "sha256": "59ddd821d6359b2d4faee659996782f5f3d921d927c4f0860798aeb953dab0ab",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1131,7 +1131,7 @@
     "captureLabel": "",
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewPreview_Devices_Small_Round.png",
+    "renderBasename": "HomeListViewPreview_Devices_Small_Round-bd2ab0a6.png",
     "sha256": "2d23a0e9e22290aaff94c10d8e5c6caf719f1e46528d7ef2c2fcc2900ef72349",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1139,7 +1139,7 @@
     "captureLabel": "",
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewPreview_Fonts_Large.png",
+    "renderBasename": "HomeListViewPreview_Fonts_Large-96481448.png",
     "sha256": "eb181e0e8f652f76d7b9f1128b076ca358371676c82c414ff52ca893a1cda90a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1147,7 +1147,7 @@
     "captureLabel": "",
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewPreview_Fonts_Larger.png",
+    "renderBasename": "HomeListViewPreview_Fonts_Larger-3722d3d1.png",
     "sha256": "6181f3a6588a1a2b4f3b454d85b67d0781422d2f8207d71cb98ae54a42ef2462",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1155,7 +1155,7 @@
     "captureLabel": "",
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewPreview_Fonts_Largest.png",
+    "renderBasename": "HomeListViewPreview_Fonts_Largest-b2094fa8.png",
     "sha256": "7eb298d388636a3d7cf8200c4d20825ab5aef89b73e2d55a25ac7cc0582c41f6",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1163,7 +1163,7 @@
     "captureLabel": "",
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewPreview_Fonts_Medium.png",
+    "renderBasename": "HomeListViewPreview_Fonts_Medium-766b3aef.png",
     "sha256": "d150d1df249ad0dad38d0f63c7e73d201fb1e79efb7ffa85e3387180bdd7e9e7",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1171,7 +1171,7 @@
     "captureLabel": "",
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewPreview_Fonts_Normal.png",
+    "renderBasename": "HomeListViewPreview_Fonts_Normal-02552e9e.png",
     "sha256": "2d23a0e9e22290aaff94c10d8e5c6caf719f1e46528d7ef2c2fcc2900ef72349",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1179,7 +1179,7 @@
     "captureLabel": "",
     "functionName": "HomeListViewPreview",
     "module": "wearApp",
-    "renderBasename": "HomeListViewPreview_Fonts_Small.png",
+    "renderBasename": "HomeListViewPreview_Fonts_Small-5ffaad95.png",
     "sha256": "a0f8d2dcee2bbec9c1462b9618553e5c44c005db1d6f099a955585d932867c15",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
@@ -1187,7 +1187,7 @@
     "captureLabel": "",
     "functionName": "SessionDetailViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionDetailViewPreview_Devices_Large_Round.png",
+    "renderBasename": "SessionDetailViewPreview_Devices_Large_Round-2d541005.png",
     "sha256": "b8878bde578e785a79e76d4cc8f4517a8bd2d858c13ec832f2de04e91756cb48",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessiondetails/SessionDetailsView.kt"
   },
@@ -1195,7 +1195,7 @@
     "captureLabel": "scroll long",
     "functionName": "SessionListViewLongPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewLongPreview_Devices_Large_Round.png",
+    "renderBasename": "SessionListViewLongPreview_Devices_Large_Round-3e70be72.png",
     "sha256": "d0e199e0e950083e519cc60b4cc7ca21feb381262f123bab6c4cb6c94415c6c4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1203,7 +1203,7 @@
     "captureLabel": "",
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewPreview_Devices_Large_Round.png",
+    "renderBasename": "SessionListViewPreview_Devices_Large_Round-491f6518.png",
     "sha256": "1f318a7703a4d95a91ee3d9302a4a32c14b0bc6cf1161413866e4805dc4cb7c3",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1211,7 +1211,7 @@
     "captureLabel": "",
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewPreview_Devices_Small_Round.png",
+    "renderBasename": "SessionListViewPreview_Devices_Small_Round-ea08c791.png",
     "sha256": "485d403d2ddb78092fe6c1625e52c3358e5d31bf1ee22bfab59230326fa634a4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1219,7 +1219,7 @@
     "captureLabel": "",
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewPreview_Fonts_Large.png",
+    "renderBasename": "SessionListViewPreview_Fonts_Large-959d379c.png",
     "sha256": "3d75f6eb71a4f2835e6fde0606e86bafc2b1519214c7e783fdbc4759840acb88",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1227,7 +1227,7 @@
     "captureLabel": "",
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewPreview_Fonts_Larger.png",
+    "renderBasename": "SessionListViewPreview_Fonts_Larger-6729e759.png",
     "sha256": "c36c6bb6e4533050a3bbd256fce90cd257877b3dcb92eb2832da4d99edf95986",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1235,7 +1235,7 @@
     "captureLabel": "",
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewPreview_Fonts_Largest.png",
+    "renderBasename": "SessionListViewPreview_Fonts_Largest-a8304576.png",
     "sha256": "e065fda94a9f6f2edb9a2d706c3c3bf5ac3dabcd33b015621021543d02ad4a4f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1243,7 +1243,7 @@
     "captureLabel": "",
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewPreview_Fonts_Medium.png",
+    "renderBasename": "SessionListViewPreview_Fonts_Medium-37cb7e87.png",
     "sha256": "29b90933a150c253da78b006941d163d40e192f7c5588781c4077efd731c097a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1251,7 +1251,7 @@
     "captureLabel": "",
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewPreview_Fonts_Normal.png",
+    "renderBasename": "SessionListViewPreview_Fonts_Normal-f190aa45.png",
     "sha256": "485d403d2ddb78092fe6c1625e52c3358e5d31bf1ee22bfab59230326fa634a4",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1259,7 +1259,7 @@
     "captureLabel": "",
     "functionName": "SessionListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SessionListViewPreview_Fonts_Small.png",
+    "renderBasename": "SessionListViewPreview_Fonts_Small-c6c57b04.png",
     "sha256": "2cc16fbc347d12dfcd16d11566ad7220f41951163f3b457efd9dad80fbae6e3a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt"
   },
@@ -1267,7 +1267,7 @@
     "captureLabel": "scroll long",
     "functionName": "SettingsListViewLongPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewLongPreview_Devices_Large_Round.png",
+    "renderBasename": "SettingsListViewLongPreview_Devices_Large_Round-10efc2a2.png",
     "sha256": "ec766b7d5ce137396f957d479b0a5482e1efd4ddbbc71e680b02dedd25350639",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1275,7 +1275,7 @@
     "captureLabel": "",
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewPreview_Devices_Large_Round.png",
+    "renderBasename": "SettingsListViewPreview_Devices_Large_Round-a69b53b2.png",
     "sha256": "ba7da097bfaaa22465363b31bd093642b81457aa97723bb1699f912278fe94e6",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1283,7 +1283,7 @@
     "captureLabel": "",
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewPreview_Devices_Small_Round.png",
+    "renderBasename": "SettingsListViewPreview_Devices_Small_Round-b17b04f2.png",
     "sha256": "882f72a57139e06d08a6599bbf825489dbc24d651ae4f6f28b33d3a000babfc2",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1291,7 +1291,7 @@
     "captureLabel": "",
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewPreview_Fonts_Large.png",
+    "renderBasename": "SettingsListViewPreview_Fonts_Large-73c8c132.png",
     "sha256": "0b2769c431c108b5ba09069f1a00973a7717875340ca8405f0989698f632c8d5",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1299,7 +1299,7 @@
     "captureLabel": "",
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewPreview_Fonts_Larger.png",
+    "renderBasename": "SettingsListViewPreview_Fonts_Larger-56c5f9e9.png",
     "sha256": "164680eca669c6abd560e0dad61e489f8031f7dfa49c97e66ac45bc1beae67fe",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1307,7 +1307,7 @@
     "captureLabel": "",
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewPreview_Fonts_Largest.png",
+    "renderBasename": "SettingsListViewPreview_Fonts_Largest-5fd1a530.png",
     "sha256": "33c1cc55747a5870fd37bc0887a480a5773ed04c9883124e75209a4211e2bf96",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1315,7 +1315,7 @@
     "captureLabel": "",
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewPreview_Fonts_Medium.png",
+    "renderBasename": "SettingsListViewPreview_Fonts_Medium-a595862e.png",
     "sha256": "3e7133d4b9a0e1c977490b6a7c4416375a584872e36a43e37b83c62b2ab65ae6",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1323,7 +1323,7 @@
     "captureLabel": "",
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewPreview_Fonts_Normal.png",
+    "renderBasename": "SettingsListViewPreview_Fonts_Normal-5ba4d19c.png",
     "sha256": "882f72a57139e06d08a6599bbf825489dbc24d651ae4f6f28b33d3a000babfc2",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1331,7 +1331,7 @@
     "captureLabel": "",
     "functionName": "SettingsListViewPreview",
     "module": "wearApp",
-    "renderBasename": "SettingsListViewPreview_Fonts_Small.png",
+    "renderBasename": "SettingsListViewPreview_Fonts_Small-4660321a.png",
     "sha256": "d6f29e9da39855bd50a74a36e59723b2b85c2f55cee04008ad215e627ac4b95c",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
@@ -1339,7 +1339,7 @@
     "captureLabel": "scroll long",
     "functionName": "SpeakerDetailsViewPreview",
     "module": "wearApp",
-    "renderBasename": "SpeakerDetailsViewPreview_Devices_Large_Round.png",
+    "renderBasename": "SpeakerDetailsViewPreview_Devices_Large_Round-137728c3.png",
     "sha256": "a2de9333670b74608261c6368a5325a46aaf550c9b9624ff116362a0c85d10f0",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/speakerdetails/SpeakerDetailsView.kt"
   },
@@ -1347,7 +1347,7 @@
     "captureLabel": "",
     "functionName": "BookmarksTilePreview",
     "module": "wearApp",
-    "renderBasename": "BookmarksTilePreview_wearos_small_round.png",
+    "renderBasename": "BookmarksTilePreview_wearos_small_round-0de8cfc4.png",
     "sha256": "56f5afad650e0378415ca0c1899bb86d4d9911c78e588d8b3b64108e2d1f964c",
     "sourceFile": "src/debug/java/dev/johnoreilly/confetti/wear/tile/LoginTilePreview.kt"
   },
@@ -1355,7 +1355,7 @@
     "captureLabel": "",
     "functionName": "LoginTilePreview",
     "module": "wearApp",
-    "renderBasename": "LoginTilePreview_wearos_small_round.png",
+    "renderBasename": "LoginTilePreview_wearos_small_round-8d1c5048.png",
     "sha256": "1223e247d7800da5b6df1182a065271ae64e5d94a1de374dd1f488e207416f54",
     "sourceFile": "src/debug/java/dev/johnoreilly/confetti/wear/tile/LoginTilePreview.kt"
   },
@@ -1363,7 +1363,7 @@
     "captureLabel": "",
     "functionName": "NoConferenceTilePreview",
     "module": "wearApp",
-    "renderBasename": "NoConferenceTilePreview_wearos_small_round.png",
+    "renderBasename": "NoConferenceTilePreview_wearos_small_round-9c0c0598.png",
     "sha256": "544ff4b4398e096954bc33b0fa44f9418ea8edd2cc61547b60bb28a5feb6974c",
     "sourceFile": "src/debug/java/dev/johnoreilly/confetti/wear/tile/LoginTilePreview.kt"
   },
@@ -1371,7 +1371,7 @@
     "captureLabel": "",
     "functionName": "ColorSchemeSpecimenPreview",
     "module": "wearApp",
-    "renderBasename": "ColorSchemeSpecimenPreview.png",
+    "renderBasename": "ColorSchemeSpecimenPreview-8deffbd5.png",
     "sha256": "ae82267a0e80357eb3ff42994620d5b7f239abcb8c0b6caecef6b9a67e88b9ee",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1379,7 +1379,7 @@
     "captureLabel": "",
     "functionName": "DayChipPreview",
     "module": "wearApp",
-    "renderBasename": "DayChipPreview.png",
+    "renderBasename": "DayChipPreview-bed63cff.png",
     "sha256": "736d5e0f3036259c9f70bab9d96b5a874fdf6b25ad6dd7ebaf2a444399f0b9ba",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1387,7 +1387,7 @@
     "captureLabel": "",
     "functionName": "PlaceholderButtonPreview",
     "module": "wearApp",
-    "renderBasename": "PlaceholderButtonPreview.png",
+    "renderBasename": "PlaceholderButtonPreview-6b648e89.png",
     "sha256": "9e44fc2fc699035b5a390a3234155b2786efd341f933e87fa729ea8042c06dfe",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1395,7 +1395,7 @@
     "captureLabel": "",
     "functionName": "ScreenHeaderPreview",
     "module": "wearApp",
-    "renderBasename": "ScreenHeaderPreview.png",
+    "renderBasename": "ScreenHeaderPreview-e3101d55.png",
     "sha256": "bb6178ed7cd7124cee95b927b851037d6d630d7bdc49b63e018bc187ca4d84f5",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1403,7 +1403,7 @@
     "captureLabel": "",
     "functionName": "SectionHeaderPreview",
     "module": "wearApp",
-    "renderBasename": "SectionHeaderPreview.png",
+    "renderBasename": "SectionHeaderPreview-21921571.png",
     "sha256": "f7dd1660b92eef28fa865b55fad4611b3cf8d76e49afcb77ebe866d3f4ec4faf",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1411,7 +1411,7 @@
     "captureLabel": "",
     "functionName": "SessionCardBookmarkedPreview",
     "module": "wearApp",
-    "renderBasename": "SessionCardBookmarkedPreview.png",
+    "renderBasename": "SessionCardBookmarkedPreview-e2f70fe4.png",
     "sha256": "d6edc5479173dc9cdc5275ea286416f5449dfe0f657cd7901025191fcc636d29",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1419,7 +1419,7 @@
     "captureLabel": "",
     "functionName": "SessionCardLoadingPreview",
     "module": "wearApp",
-    "renderBasename": "SessionCardLoadingPreview.png",
+    "renderBasename": "SessionCardLoadingPreview-00105089.png",
     "sha256": "25d6cdcc4ecdc983057cafd1f3b054a03d431b95f1160b48d4b90efb27b46b4b",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1427,7 +1427,7 @@
     "captureLabel": "",
     "functionName": "SessionCardPopulatedPreview",
     "module": "wearApp",
-    "renderBasename": "SessionCardPopulatedPreview.png",
+    "renderBasename": "SessionCardPopulatedPreview-a246e629.png",
     "sha256": "d6edc5479173dc9cdc5275ea286416f5449dfe0f657cd7901025191fcc636d29",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1435,7 +1435,7 @@
     "captureLabel": "",
     "functionName": "SessionSpeakerChipPreview",
     "module": "wearApp",
-    "renderBasename": "SessionSpeakerChipPreview.png",
+    "renderBasename": "SessionSpeakerChipPreview-a82dcb1c.png",
     "sha256": "81c40d26fb97fe3d2f622c6d7cf81db6f252faf4f891974e88ea7bc95eb1c3c6",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1443,7 +1443,7 @@
     "captureLabel": "",
     "functionName": "SocialIconPreview",
     "module": "wearApp",
-    "renderBasename": "SocialIconPreview.png",
+    "renderBasename": "SocialIconPreview-d589b747.png",
     "sha256": "2f0fffc3f6256fbdeb26298e0781ab4575ee836547ad1578e6aeed5a993b17b6",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1451,7 +1451,7 @@
     "captureLabel": "",
     "functionName": "TypographySpecimenPreview",
     "module": "wearApp",
-    "renderBasename": "TypographySpecimenPreview.png",
+    "renderBasename": "TypographySpecimenPreview-68b374ee.png",
     "sha256": "a1630d928e2b24f33b5c05e233f0d99a6d3383a0c947d5b22fa35a12fe361d4c",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt"
   },
@@ -1459,7 +1459,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationAndroidMakersPreview",
     "module": "wearApp",
-    "renderBasename": "ThemeFoundationAndroidMakersPreview.png",
+    "renderBasename": "ThemeFoundationAndroidMakersPreview-e709db9d.png",
     "sha256": "c9d337d8677d0dd21e78d7b6dbe58a99f12a1f34b8b39ba99171dc889cdf9624",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
   },
@@ -1467,7 +1467,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationConfettiPreview",
     "module": "wearApp",
-    "renderBasename": "ThemeFoundationConfettiPreview.png",
+    "renderBasename": "ThemeFoundationConfettiPreview-dedc23f5.png",
     "sha256": "be309b31241a046fd827fc3a6e40b0059c14c8b7eb16b3fbf177f5fd6ab8a9f0",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
   },
@@ -1475,7 +1475,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationDevFestPreview",
     "module": "wearApp",
-    "renderBasename": "ThemeFoundationDevFestPreview.png",
+    "renderBasename": "ThemeFoundationDevFestPreview-53f18c05.png",
     "sha256": "892df4f5802935fc48be18786b9767d9d310cf68c9b402265db0592247da1ef7",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
   },
@@ -1483,7 +1483,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationDroidconPreview",
     "module": "wearApp",
-    "renderBasename": "ThemeFoundationDroidconPreview.png",
+    "renderBasename": "ThemeFoundationDroidconPreview-ec2acd5a.png",
     "sha256": "cead1b51da3221076fea13cef7e3d1439ceac43877c56674e4aaf08b19885329",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
   },
@@ -1491,7 +1491,7 @@
     "captureLabel": "",
     "functionName": "ThemeFoundationKotlinConfPreview",
     "module": "wearApp",
-    "renderBasename": "ThemeFoundationKotlinConfPreview.png",
+    "renderBasename": "ThemeFoundationKotlinConfPreview-4017d8ea.png",
     "sha256": "a2cf77eb1a730c4f29e9f30cb94f82b5d4cbddec76c3ae2dc9e8bc77c5579080",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt"
   },
@@ -1499,7 +1499,7 @@
     "captureLabel": "",
     "functionName": "Color_0x000080",
     "module": "wearApp",
-    "renderBasename": "Color_0x000080.png",
+    "renderBasename": "Color_0x000080-db54a72c.png",
     "sha256": "0ff238cf4bd7796837b03af97cd1490fb45425b269a81a981f5575e0b9755c01",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
@@ -1507,7 +1507,7 @@
     "captureLabel": "",
     "functionName": "Color_0x008000",
     "module": "wearApp",
-    "renderBasename": "Color_0x008000.png",
+    "renderBasename": "Color_0x008000-c396c847.png",
     "sha256": "65237207a7b2d9f8d780623477d14b89923cab103114583e855f4ecfee2fb156",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
@@ -1515,7 +1515,7 @@
     "captureLabel": "",
     "functionName": "Color_0x800000",
     "module": "wearApp",
-    "renderBasename": "Color_0x800000.png",
+    "renderBasename": "Color_0x800000-5f8e75cc.png",
     "sha256": "e3ba59da4fb47bca5d5cbdcb6ade240b7c0c3e3391fe2f7eb3192dd281023d0d",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
@@ -1523,7 +1523,7 @@
     "captureLabel": "",
     "functionName": "Defaults",
     "module": "wearApp",
-    "renderBasename": "Defaults.png",
+    "renderBasename": "Defaults-dbbe8909.png",
     "sha256": "3e68d40879687dd35f9e9f23e1aa045c0fa6bae0a196a38d93cbced6bcb9a149",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
@@ -1531,7 +1531,7 @@
     "captureLabel": "",
     "functionName": "NotSet",
     "module": "wearApp",
-    "renderBasename": "NotSet.png",
+    "renderBasename": "NotSet-5c6e4f51.png",
     "sha256": "71c04a483c5525497f5567b878e2bdbb89498969b741a6190a2fb55e2badbc29",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
@@ -1539,7 +1539,7 @@
     "captureLabel": "",
     "functionName": "Color_0x000080Swatches",
     "module": "wearApp",
-    "renderBasename": "Color_0x000080Swatches.png",
+    "renderBasename": "Color_0x000080Swatches-415a9eab.png",
     "sha256": "ffc13edeb8a4eef420c9f7d04140fed746b8ba1052967b45445a2e2ef3795462",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
@@ -1547,7 +1547,7 @@
     "captureLabel": "",
     "functionName": "Color_0x008000Swatches",
     "module": "wearApp",
-    "renderBasename": "Color_0x008000Swatches.png",
+    "renderBasename": "Color_0x008000Swatches-97db5913.png",
     "sha256": "ba07397941488858d87b70fd9b295ee9b23a260ee8b1efc6ddbb1b228652e4bc",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
@@ -1555,7 +1555,7 @@
     "captureLabel": "",
     "functionName": "Color_0x800000Swatches",
     "module": "wearApp",
-    "renderBasename": "Color_0x800000Swatches.png",
+    "renderBasename": "Color_0x800000Swatches-9a9417b9.png",
     "sha256": "0a46994507402a925deef527dc9f7832a4bc84df73f085eaffb44039ee3ddcd0",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
@@ -1563,7 +1563,7 @@
     "captureLabel": "",
     "functionName": "DefaultsSwatches",
     "module": "wearApp",
-    "renderBasename": "DefaultsSwatches.png",
+    "renderBasename": "DefaultsSwatches-11a5af85.png",
     "sha256": "fbdc79d0d1acaa138089b9af67ca408d86d29c81b5eda0bddb49681fc606a756",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
@@ -1571,7 +1571,7 @@
     "captureLabel": "",
     "functionName": "NotSetSwatches",
     "module": "wearApp",
-    "renderBasename": "NotSetSwatches.png",
+    "renderBasename": "NotSetSwatches-dc75f430.png",
     "sha256": "1650136dd8772da484b2072317a71f3973292a5b5adbd2b9108df1d71f5da469",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt"
   },
@@ -1580,7 +1580,7 @@
     "functionName": "AndroidMakers theme",
     "module": "wearApp",
     "renderBasename": "wearthemecatalog__AndroidMakers.png",
-    "sha256": "739a2b64d4a89105a20cc929894f2c8531eccc7406535817e31e253ea628bb68",
+    "sha256": "db05ebd2d0ff58298a9d8306f434265d68f0b02bdebf83b9c92a2742e2e16e67",
     "sourceFile": null
   },
   "wearApp/wearthemecatalog__Confetti__default_": {
@@ -1588,7 +1588,7 @@
     "functionName": "Confetti (default) theme",
     "module": "wearApp",
     "renderBasename": "wearthemecatalog__Confetti__default_.png",
-    "sha256": "0e52ddc78e9fd735e7a056defa5451d0601328ce7bf5a7fbf07f6d3e17475b9a",
+    "sha256": "0af3f0b09e06d5ab5a8a778f3e3227c6c0ec7b709b19e048da6084187595db4b",
     "sourceFile": null
   },
   "wearApp/wearthemecatalog__DevFest": {
@@ -1596,7 +1596,7 @@
     "functionName": "DevFest theme",
     "module": "wearApp",
     "renderBasename": "wearthemecatalog__DevFest.png",
-    "sha256": "dbcb9d03bd9ec1704fedfc6a2fc6399dc16b757a6789357333c6e89b2ef5a085",
+    "sha256": "95472a82694b2585b163f0880ab6e5885e4b9b468d4de807db26b1dc90b2030d",
     "sourceFile": null
   },
   "wearApp/wearthemecatalog__Droidcon": {
@@ -1604,7 +1604,7 @@
     "functionName": "Droidcon theme",
     "module": "wearApp",
     "renderBasename": "wearthemecatalog__Droidcon.png",
-    "sha256": "384f582387341160a5176f3f0d2ff3b999a5c932a6e9956ff4e45a6219e9e548",
+    "sha256": "748eca86e5a6d50f5920ecbdf01bcc03384a4a2666fe1c8819fcd4432e77f17b",
     "sourceFile": null
   },
   "wearApp/wearthemecatalog__KotlinConf": {
@@ -1612,7 +1612,7 @@
     "functionName": "KotlinConf theme",
     "module": "wearApp",
     "renderBasename": "wearthemecatalog__KotlinConf.png",
-    "sha256": "d331cb2eaa9ee736b099ec53fb5b9619fa708b2be1ffb3b25bd035e453b52a10",
+    "sha256": "93eadec5770449fc1ff37b1af2277a276db3a61943c8bf595421c136b5b6d42f",
     "sourceFile": null
   }
 }

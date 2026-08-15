@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "2b5bf43a9128e35ed3fb4ad75a290e6c3e69a7a8",
+    "generatedFrom": "e0a8b37eba20b3e54fd99c45ba3461e6e12f2784",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview.png",
@@ -372,6 +372,13 @@
             "path": "renders/androidApp/BookmarkOnPreview_Dark.png",
             "versions": [
                 {
+                    "blob": "82fa59c6731402994ffa7e0fef52edda19341334",
+                    "commit": "e0a8b37eba20b3e54fd99c45ba3461e6e12f2784",
+                    "date": "2026-08-15T08:57:09Z",
+                    "sourceSha": "7fc7137f",
+                    "commits": 1
+                },
+                {
                     "blob": "e8435d33a187742b9c03c008fe45d948c88df843",
                     "commit": "02c73d0fb166a10b9b3a93d2c9c73c9a6b03c1cd",
                     "date": "2026-08-13T17:52:34Z",
@@ -400,13 +407,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Light": {
             "path": "renders/androidApp/BookmarkOnPreview_Light.png",
             "versions": [
+                {
+                    "blob": "d32146b9d786ca47beece695e1110dea31582350",
+                    "commit": "e0a8b37eba20b3e54fd99c45ba3461e6e12f2784",
+                    "date": "2026-08-15T08:57:09Z",
+                    "sourceSha": "7fc7137f",
+                    "commits": 1
+                },
                 {
                     "blob": "a2b208f3b9c54c803e0ac7a4cd5e4d437ebc1656",
                     "commit": "02c73d0fb166a10b9b3a93d2c9c73c9a6b03c1cd",
@@ -429,7 +443,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 4,
             "unstable": false,
             "flapCount": 0
         },
@@ -546,6 +560,13 @@
             "path": "renders/androidApp/ScheduleScreenPreview_Dark.png",
             "versions": [
                 {
+                    "blob": "40d9b33d87a29586fd8ee8074812b233096dec45",
+                    "commit": "e0a8b37eba20b3e54fd99c45ba3461e6e12f2784",
+                    "date": "2026-08-15T08:57:09Z",
+                    "sourceSha": "7fc7137f",
+                    "commits": 1
+                },
+                {
                     "blob": "d8fc167b9cf8d774b60ef49cea2b7d30dae0a349",
                     "commit": "02c73d0fb166a10b9b3a93d2c9c73c9a6b03c1cd",
                     "date": "2026-08-13T17:52:34Z",
@@ -588,13 +609,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 6,
+            "observations": 7,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Light": {
             "path": "renders/androidApp/ScheduleScreenPreview_Light.png",
             "versions": [
+                {
+                    "blob": "a8b3df68a4d50495f1e760a2e08c2417b48318a8",
+                    "commit": "e0a8b37eba20b3e54fd99c45ba3461e6e12f2784",
+                    "date": "2026-08-15T08:57:09Z",
+                    "sourceSha": "7fc7137f",
+                    "commits": 1
+                },
                 {
                     "blob": "e9dfc683b3e65214897fee55e54567c26c627043",
                     "commit": "02c73d0fb166a10b9b3a93d2c9c73c9a6b03c1cd",
@@ -631,7 +659,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 5,
+            "observations": 6,
             "unstable": false,
             "flapCount": 0
         },
@@ -904,6 +932,13 @@
             "path": "renders/androidApp/SessionItemPopulatedPreview_Dark.png",
             "versions": [
                 {
+                    "blob": "5ffab88cb69cf7993f0f44c3d32762ee64cd1c7a",
+                    "commit": "e0a8b37eba20b3e54fd99c45ba3461e6e12f2784",
+                    "date": "2026-08-15T08:57:09Z",
+                    "sourceSha": "7fc7137f",
+                    "commits": 1
+                },
+                {
                     "blob": "f78560ab65a65418b0452f88897552788503f34b",
                     "commit": "02c73d0fb166a10b9b3a93d2c9c73c9a6b03c1cd",
                     "date": "2026-08-13T17:52:34Z",
@@ -939,13 +974,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 5,
+            "observations": 6,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Light": {
             "path": "renders/androidApp/SessionItemPopulatedPreview_Light.png",
             "versions": [
+                {
+                    "blob": "7363858f19876429a98c8c6d54acec9542af214a",
+                    "commit": "e0a8b37eba20b3e54fd99c45ba3461e6e12f2784",
+                    "date": "2026-08-15T08:57:09Z",
+                    "sourceSha": "7fc7137f",
+                    "commits": 1
+                },
                 {
                     "blob": "ab7c894bff1ea5639a97027e0debb1a14a656791",
                     "commit": "02c73d0fb166a10b9b3a93d2c9c73c9a6b03c1cd",
@@ -982,7 +1024,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 5,
+            "observations": 6,
             "unstable": false,
             "flapCount": 0
         },
@@ -3011,6 +3053,15 @@
             "path": "renders/wearApp/HomeListViewKotlinConf_Devices_Large_Round.png",
             "versions": [
                 {
+                    "blob": "8ac4397eee7f01ed1a00763167c8c32e7620b698",
+                    "commit": "e0a8b37eba20b3e54fd99c45ba3461e6e12f2784",
+                    "date": "2026-08-15T08:57:09Z",
+                    "sourceSha": "7fc7137f",
+                    "sinceCommit": "f3b496c1b5862fe8e2f8a5353d6c1ce62d4f257d",
+                    "commits": 13,
+                    "occurrences": 13
+                },
+                {
                     "blob": "89ee96a8e0d1078319041301985dfdce0e594b79",
                     "commit": "2b5bf43a9128e35ed3fb4ad75a290e6c3e69a7a8",
                     "date": "2026-08-15T08:48:21Z",
@@ -3018,15 +3069,6 @@
                     "sinceCommit": "5384c7ad39046db19361930e099184adb52ca688",
                     "commits": 13,
                     "occurrences": 13
-                },
-                {
-                    "blob": "8ac4397eee7f01ed1a00763167c8c32e7620b698",
-                    "commit": "289a5a2d3a3b77f3ded98746ea7b7772401a3173",
-                    "date": "2026-08-14T16:37:31Z",
-                    "sourceSha": "09685d08",
-                    "sinceCommit": "f3b496c1b5862fe8e2f8a5353d6c1ce62d4f257d",
-                    "commits": 12,
-                    "occurrences": 12
                 },
                 {
                     "blob": "f738b291c5b4704b73b44aa1bee3adde0e22ca21",
@@ -3047,9 +3089,9 @@
                     "occurrences": 5
                 }
             ],
-            "observations": 36,
+            "observations": 37,
             "unstable": true,
-            "flapCount": 32
+            "flapCount": 33
         },
         "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
             "path": "renders/wearApp/HomeListViewLongPreview_Devices_Large_Round_SCROLL_top.png",

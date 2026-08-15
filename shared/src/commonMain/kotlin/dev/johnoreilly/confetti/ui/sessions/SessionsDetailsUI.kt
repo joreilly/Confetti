@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.ui.sessions
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
@@ -68,11 +70,12 @@ fun SessionDetailsUI(component: SessionDetailsComponent) {
                 },
                 scrollBehavior = scrollBehavior,
             )
-        }
-    ) {
+        },
+        contentWindowInsets = WindowInsets(0.dp)
+    ) { innerPadding ->
         Box(
             modifier = Modifier
-                .padding(it)
+                .padding(top = innerPadding.calculateTopPadding())
                 .fillMaxSize()
         ) {
             when (val state = uiState) {

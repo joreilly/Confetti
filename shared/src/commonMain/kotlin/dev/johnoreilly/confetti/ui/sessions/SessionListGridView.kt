@@ -43,6 +43,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
 import coil3.compose.AsyncImage
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
@@ -187,7 +188,7 @@ private fun SessionScheduleGrid(
                     Modifier
                         .width(TimeAxisWidth)
                         .height(totalHeight)
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 16.dp + LocalBottomNavigationPadding.current)
                 ) {
                     var slotStart = gridStart
                     while (slotStart <= gridEnd) {
@@ -236,7 +237,7 @@ private fun SessionScheduleGrid(
                         Modifier
                             .width(RoomColumnWidth * rooms.size)
                             .height(totalHeight)
-                            .padding(bottom = 16.dp)
+                            .padding(bottom = 16.dp + LocalBottomNavigationPadding.current)
                     ) {
                         var slotStart = gridStart
                         while (slotStart <= gridEnd) {

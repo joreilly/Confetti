@@ -6,11 +6,15 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -117,15 +121,17 @@ fun ConferenceListView(component: ConferencesComponent) {
                     scrollBehavior = scrollBehavior,
                 )
             }
-        }
+        },
+        contentWindowInsets = WindowInsets(0.dp)
     ) { paddingValues ->
 
+        val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
         val uiState by component.uiState.subscribeAsState()
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(top = paddingValues.calculateTopPadding())
         ) {
             when (val uiState1 = uiState) {
                 ConferencesComponent.Error -> {} //ErrorView(component::refresh)
@@ -144,7 +150,10 @@ fun ConferenceListView(component: ConferencesComponent) {
                         }.filterValues { it.isNotEmpty() }
                     }
 
-                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(bottom = 16.dp + navigationBarsPadding)
+                    ) {
                         filteredConferenceListByYear.keys.sortedDescending().forEach { year ->
                             val conferenceList = filteredConferenceListByYear[year]
                             conferenceList?.let {

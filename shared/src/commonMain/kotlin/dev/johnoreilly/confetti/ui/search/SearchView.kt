@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -107,9 +109,11 @@ fun SearchView(
         },
         contentWindowInsets = WindowInsets(0.dp)
     ) { innerPadding ->
+        val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
         Box(
             modifier = Modifier
-                .padding(innerPadding)
+                .padding(top = innerPadding.calculateTopPadding())
+                .fillMaxSize()
         ) {
             if (loading) {
                 LoadingView()
@@ -122,7 +126,7 @@ fun SearchView(
                     )
                 } else {
                     LazyColumn(
-                        contentPadding = PaddingValues(bottom = LocalBottomNavigationPadding.current)
+                        contentPadding = PaddingValues(bottom = 16.dp + navigationBarsPadding)
                     ) {
                         sessionItems(
                             sessions = sessions,

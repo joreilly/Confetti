@@ -1,10 +1,17 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "289a5a2d3a3b77f3ded98746ea7b7772401a3173",
+    "generatedFrom": "2b5bf43a9128e35ed3fb4ad75a290e6c3e69a7a8",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview.png",
             "versions": [
+                {
+                    "blob": "ac20b99886a33a5aac0ca135128e1e8dce7eaf59",
+                    "commit": "2b5bf43a9128e35ed3fb4ad75a290e6c3e69a7a8",
+                    "date": "2026-08-15T08:48:21Z",
+                    "sourceSha": "6500313f",
+                    "commits": 1
+                },
                 {
                     "blob": "a98dfb74922322e110c8347573965598eb1997eb",
                     "commit": "02c73d0fb166a10b9b3a93d2c9c73c9a6b03c1cd",
@@ -27,7 +34,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 4,
             "unstable": false,
             "flapCount": 0
         },
@@ -3004,20 +3011,20 @@
             "path": "renders/wearApp/HomeListViewKotlinConf_Devices_Large_Round.png",
             "versions": [
                 {
+                    "blob": "89ee96a8e0d1078319041301985dfdce0e594b79",
+                    "commit": "2b5bf43a9128e35ed3fb4ad75a290e6c3e69a7a8",
+                    "date": "2026-08-15T08:48:21Z",
+                    "sourceSha": "6500313f",
+                    "sinceCommit": "5384c7ad39046db19361930e099184adb52ca688",
+                    "commits": 13,
+                    "occurrences": 13
+                },
+                {
                     "blob": "8ac4397eee7f01ed1a00763167c8c32e7620b698",
                     "commit": "289a5a2d3a3b77f3ded98746ea7b7772401a3173",
                     "date": "2026-08-14T16:37:31Z",
                     "sourceSha": "09685d08",
                     "sinceCommit": "f3b496c1b5862fe8e2f8a5353d6c1ce62d4f257d",
-                    "commits": 12,
-                    "occurrences": 12
-                },
-                {
-                    "blob": "89ee96a8e0d1078319041301985dfdce0e594b79",
-                    "commit": "6578f86bb4f8f53a6973deeabbe5c968527e0766",
-                    "date": "2026-08-13T21:17:46Z",
-                    "sourceSha": "dfca57ac",
-                    "sinceCommit": "5384c7ad39046db19361930e099184adb52ca688",
                     "commits": 12,
                     "occurrences": 12
                 },
@@ -3040,9 +3047,9 @@
                     "occurrences": 5
                 }
             ],
-            "observations": 35,
+            "observations": 36,
             "unstable": true,
-            "flapCount": 31
+            "flapCount": 32
         },
         "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
             "path": "renders/wearApp/HomeListViewLongPreview_Devices_Large_Round_SCROLL_top.png",

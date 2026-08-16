@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "93970bdf4c8ebf9b80623b84200e4128b026992c",
+    "generatedFrom": "46473d1e153f36914c49e8cb3aa947bf5d176e9e",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -545,6 +545,13 @@
             "path": "renders/androidApp/ConferenceSelectionPreview_Dark-902fcef6.png",
             "versions": [
                 {
+                    "blob": "c63b08597ce62019835320c2bde239f7dbb3cf59",
+                    "commit": "46473d1e153f36914c49e8cb3aa947bf5d176e9e",
+                    "date": "2026-08-16T18:14:42Z",
+                    "sourceSha": "be983c75",
+                    "commits": 1
+                },
+                {
                     "blob": "a3a5198c168864e7a7fb1e5524f816ceac59e6dd",
                     "commit": "aa173b6e96eeb90d37492c08fc1a15ba1595368f",
                     "date": "2026-08-16T09:56:01Z",
@@ -552,13 +559,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Light": {
             "path": "renders/androidApp/ConferenceSelectionPreview_Light-db39c3f8.png",
             "versions": [
+                {
+                    "blob": "ba18064e38fa5ed049cc997de718633a91ec96ea",
+                    "commit": "46473d1e153f36914c49e8cb3aa947bf5d176e9e",
+                    "date": "2026-08-16T18:14:42Z",
+                    "sourceSha": "be983c75",
+                    "commits": 1
+                },
                 {
                     "blob": "4826bd506a7cb81fa9fab9fdbe99356b1ca00bcf",
                     "commit": "aa173b6e96eeb90d37492c08fc1a15ba1595368f",
@@ -567,7 +581,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },

@@ -186,8 +186,6 @@ fun SettingsUI(
                 .padding(top = innerPadding.calculateTopPadding())
                 .fillMaxSize()
         ) {
-            HorizontalDivider(Modifier.padding(top = 8.dp))
-
             LazyColumn(modifier = Modifier.weight(1f)) {
                 item {
                     SettingsPanel(

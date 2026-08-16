@@ -39,7 +39,7 @@ import org.robolectric.annotation.GraphicsMode
 @RunWith(RobolectricTestRunner::class)
 @Config(
     application = KoinTestApp::class,
-    sdk = [30],
+    sdk = [35],
 )
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 abstract class BaseScreenshotTest(

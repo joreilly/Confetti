@@ -59,8 +59,8 @@ import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
-import dev.chrisbanes.haze.haze
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -191,7 +191,7 @@ fun ConferenceAgentView(
                 .imePadding()
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().haze(hazeState),
+                modifier = Modifier.fillMaxSize().hazeSource(hazeState),
                 state = listState,
                 contentPadding = PaddingValues(
                     start = 16.dp,
@@ -227,7 +227,7 @@ fun ConferenceAgentView(
                             inputBarHeightDp = size.height.toDp()
                         }
                     }
-                    .hazeChild(
+                    .hazeEffect(
                         state = hazeState,
                         style = HazeStyle(
                             backgroundColor = MaterialTheme.colorScheme.surface,

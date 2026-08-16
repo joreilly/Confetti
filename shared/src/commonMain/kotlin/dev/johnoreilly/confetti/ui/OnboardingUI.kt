@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
-import dev.chrisbanes.haze.haze
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import dev.johnoreilly.confetti.decompose.OnboardingComponent
 import dev.johnoreilly.confetti.permissions.rememberNotificationPermissionState
 import dev.johnoreilly.confetti.ui.component.ConfettiAlertDialog
@@ -39,43 +39,59 @@ import kotlinx.coroutines.launch
 @Composable
 fun OnboardingUI(component: OnboardingComponent) {
     ConferenceMaterialThemeFromSettings(seedColorString = null) {
-        OnboardingContent(component)
+        val notificationsEnabled by component.notificationsEnabled.collectAsState(initial = false)
+        var showPermissionDeniedDialog by remember { mutableStateOf(false) }
+
+        val notificationPermissionState = rememberNotificationPermissionState(
+            notificationsActive = notificationsEnabled,
+            onPermissionDeniedAlways = {
+                showPermissionDeniedDialog = true
+            },
+            onPermissionStatus = { hasPermission ->
+                if (notificationsEnabled != hasPermission) {
+                    component.updateNotificationsEnabled(hasPermission)
+                }
+            }
+        )
+
+        if (showPermissionDeniedDialog) {
+            ConfettiAlertDialog(
+                title = "Permission Required",
+                text = "Notification permission was permanently denied. Please enable it in Settings to receive updates.",
+                confirmText = "Open Settings",
+                onConfirm = {
+                    showPermissionDeniedDialog = false
+                    notificationPermissionState.openSettings()
+                },
+                dismissText = "Cancel",
+                onDismiss = { showPermissionDeniedDialog = false }
+            )
+        }
+
+        OnboardingContent(
+            notificationsEnabled = notificationsEnabled,
+            supportsNotifications = component.supportsNotifications,
+            onNotificationsToggle = { enabled ->
+                if (enabled) {
+                    notificationPermissionState.maybeRequest()
+                } else {
+                    component.updateNotificationsEnabled(false)
+                }
+            },
+            onComplete = component::completeOnboarding,
+        )
     }
 }
 
 @Composable
-private fun OnboardingContent(component: OnboardingComponent) {
+fun OnboardingContent(
+    notificationsEnabled: Boolean,
+    supportsNotifications: Boolean,
+    onNotificationsToggle: (Boolean) -> Unit,
+    onComplete: () -> Unit,
+) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = 0) { 3 }
-    val notificationsEnabled by component.notificationsEnabled.collectAsState(initial = false)
-
-    var showPermissionDeniedDialog by remember { mutableStateOf(false) }
-
-    val notificationPermissionState = rememberNotificationPermissionState(
-        notificationsActive = notificationsEnabled,
-        onPermissionDeniedAlways = {
-            showPermissionDeniedDialog = true
-        },
-        onPermissionStatus = { hasPermission ->
-            if (notificationsEnabled != hasPermission) {
-                component.updateNotificationsEnabled(hasPermission)
-            }
-        }
-    )
-
-    if (showPermissionDeniedDialog) {
-        ConfettiAlertDialog(
-            title = "Permission Required",
-            text = "Notification permission was permanently denied. Please enable it in Settings to receive updates.",
-            confirmText = "Open Settings",
-            onConfirm = {
-                showPermissionDeniedDialog = false
-                notificationPermissionState.openSettings()
-            },
-            dismissText = "Cancel",
-            onDismiss = { showPermissionDeniedDialog = false }
-        )
-    }
 
     // Infinite transition to create a slowly moving gradient background
     val infiniteTransition = rememberInfiniteTransition(label = "GradientAnimation")
@@ -120,7 +136,7 @@ private fun OnboardingContent(component: OnboardingComponent) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(backgroundBrush)
-                .haze(hazeState)
+                .hazeSource(hazeState)
         )
 
         // Scaffold as a sibling layout to prevent nested descendant error
@@ -161,7 +177,7 @@ private fun OnboardingContent(component: OnboardingComponent) {
                         .fillMaxWidth()
                         .padding(vertical = 16.dp)
                         .clip(cardShape)
-                        .hazeChild(
+                        .hazeEffect(
                             state = hazeState,
                             style = HazeStyle(
                                 backgroundColor = Color.Transparent,
@@ -184,14 +200,8 @@ private fun OnboardingContent(component: OnboardingComponent) {
                             2 -> OnboardingStep3(
                                 visible = pagerState.currentPage == 2,
                                 notificationsEnabled = notificationsEnabled,
-                                supportsNotifications = component.supportsNotifications,
-                                onNotificationsToggle = { enabled ->
-                                    if (enabled) {
-                                        notificationPermissionState.maybeRequest()
-                                    } else {
-                                        component.updateNotificationsEnabled(false)
-                                    }
-                                }
+                                supportsNotifications = supportsNotifications,
+                                onNotificationsToggle = onNotificationsToggle,
                             )
                         }
                     }
@@ -253,7 +263,7 @@ private fun OnboardingContent(component: OnboardingComponent) {
                                     pagerState.animateScrollToPage(pagerState.currentPage + 1)
                                 }
                             } else {
-                                component.completeOnboarding()
+                                onComplete()
                             }
                         }
                     ) {

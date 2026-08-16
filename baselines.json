@@ -247,6 +247,102 @@
     "sha256": "22fa74a8833a181dcceb82c02079640b7a39c5ea2c4e77a7da813fa977129f41",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt"
   },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AccountScreenPreview_Dark": {
+    "captureLabel": "",
+    "functionName": "AccountScreenPreview",
+    "module": "androidApp",
+    "renderBasename": "AccountScreenPreview_Dark-a7b60242.png",
+    "sha256": "cf1b73b09c39f7ff684dbfd4c7cb8fcd6c12ecbf3c963f94fb82f3430acc3dcd",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AccountScreenPreview_Light": {
+    "captureLabel": "",
+    "functionName": "AccountScreenPreview",
+    "module": "androidApp",
+    "renderBasename": "AccountScreenPreview_Light-5dce728d.png",
+    "sha256": "401a78676791be51537200b7073e150d6e97df4ef86bf7eb2916fa82b1c71c84",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Dark": {
+    "captureLabel": "",
+    "functionName": "AssistantConversationPreview",
+    "module": "androidApp",
+    "renderBasename": "AssistantConversationPreview_Dark-b38b7f49.png",
+    "sha256": "c152da6153e4f917718c1791af330fe5f8bb514780f225b02390b04c42d74eaf",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Light": {
+    "captureLabel": "",
+    "functionName": "AssistantConversationPreview",
+    "module": "androidApp",
+    "renderBasename": "AssistantConversationPreview_Light-0a5ca29b.png",
+    "sha256": "fc08c1ac7eb02ee386ce786e916f2da274ac02ca5a9d8a0adf9c870cf4bf8f14",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Dark": {
+    "captureLabel": "",
+    "functionName": "ConferenceSelectionPreview",
+    "module": "androidApp",
+    "renderBasename": "ConferenceSelectionPreview_Dark-902fcef6.png",
+    "sha256": "d389859e4f7cf6d3235119c84dc099d7799df8cefef0c6efc5cf96a2a41caee9",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Light": {
+    "captureLabel": "",
+    "functionName": "ConferenceSelectionPreview",
+    "module": "androidApp",
+    "renderBasename": "ConferenceSelectionPreview_Light-db39c3f8.png",
+    "sha256": "7176bda025ccf40a37c2b9837e725ad851156e6ae3e715b3788be26333bfc91b",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationDetailPreview_Dark - high contrast blur target": {
+    "captureLabel": "",
+    "functionName": "HazeBottomNavigationDetailPreview",
+    "module": "androidApp",
+    "renderBasename": "HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.png",
+    "sha256": "f41efcb47f88f659d0f89531ee70d9b3ab76411d0d30ff5aac1a6d4d8b9b0d31",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationDetailPreview_Light - high contrast blur target": {
+    "captureLabel": "",
+    "functionName": "HazeBottomNavigationDetailPreview",
+    "module": "androidApp",
+    "renderBasename": "HazeBottomNavigationDetailPreview_Light_high_contrast_blur_target-ffccf7c6.png",
+    "sha256": "de33749d022bdf105f84732c3e6a0098891313c109bc9601d5451e224fa2127e",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationPreview_Dark": {
+    "captureLabel": "",
+    "functionName": "HazeBottomNavigationPreview",
+    "module": "androidApp",
+    "renderBasename": "HazeBottomNavigationPreview_Dark-98edf98e.png",
+    "sha256": "694e394edb9bdcad64640681a50b0f9c41896b14b5e05e84439210a606a6539c",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationPreview_Light": {
+    "captureLabel": "",
+    "functionName": "HazeBottomNavigationPreview",
+    "module": "androidApp",
+    "renderBasename": "HazeBottomNavigationPreview_Light-8d68e7fd.png",
+    "sha256": "927d854ec4b2da8cc687534b8218b75cc63ec81488c758e93b3ab336018b93bb",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.OnboardingHazePreview_Dark": {
+    "captureLabel": "",
+    "functionName": "OnboardingHazePreview",
+    "module": "androidApp",
+    "renderBasename": "OnboardingHazePreview_Dark-61a55232.png",
+    "sha256": "42d70e402ef7d794a7848ac7c2a3ea39b8440db3bf3440a6188051cb3db4ae3e",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
+  "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.OnboardingHazePreview_Light": {
+    "captureLabel": "",
+    "functionName": "OnboardingHazePreview",
+    "module": "androidApp",
+    "renderBasename": "OnboardingHazePreview_Light-472e7fa2.png",
+    "sha256": "be48fe168a26d82b7f8ea074c221c1499cb1f31babe077b10928df6cb899a528",
+    "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
+  },
   "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Dark": {
     "captureLabel": "",
     "functionName": "ThemeFoundationAndroidPreview",
@@ -1084,7 +1180,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round-86172c22.png",
-    "sha256": "9201db074de6773ba7cb1829b0a840d1111dce97782f9851f91dec60ecffce7e",
+    "sha256": "5f26c99f35cc33d5e302e72a790a4099e4e328b7c2f24b2bfd8620d30c01dc50",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {

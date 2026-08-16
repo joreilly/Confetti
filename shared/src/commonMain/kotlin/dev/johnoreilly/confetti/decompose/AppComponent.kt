@@ -133,6 +133,7 @@ class DefaultAppComponent(
                 Child.Onboarding(
                     DefaultOnboardingComponent(
                         componentContext = componentContext,
+                        onSignInRequested = onSignIn,
                         onFinished = {
                             coroutineScope.launch {
                                 val conference: String = repository.getConference()

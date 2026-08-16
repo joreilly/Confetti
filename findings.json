@@ -1,18 +1,38 @@
 {
   "entries": [
     {
-      "annotatedBasename": "AndroidSessionDetailPreview_Phone_dark.a11y.png",
-      "cleanBasename": "AndroidSessionDetailPreview_Phone_dark.png",
+      "annotatedBasename": "AccountScreenPreview_Dark-a7b60242.a11y.png",
+      "cleanBasename": "AccountScreenPreview_Dark-a7b60242.png",
+      "findings": [
+        {
+          "boundsInScreen": "766,290,994,416",
+          "level": "WARNING",
+          "message": "This clickable item's speakable text: \"Sign in\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.view.View"
+        }
+      ],
+      "functionName": "AccountScreenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AccountScreenPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "AndroidSessionDetailPreview_Phone_dark-ae9a0f09.a11y.png",
+      "cleanBasename": "AndroidSessionDetailPreview_Phone_dark-ae9a0f09.png",
       "findings": [],
       "functionName": "AndroidSessionDetailPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSessionDetailPreview_Phone \u2014 dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "AndroidSpeakerDetailsPreview_Phone_dark.a11y.png",
-      "cleanBasename": "AndroidSpeakerDetailsPreview_Phone_dark.png",
+      "annotatedBasename": "AndroidSpeakerDetailsPreview_Phone_dark-e29a322a.a11y.png",
+      "cleanBasename": "AndroidSpeakerDetailsPreview_Phone_dark-e29a322a.png",
       "findings": [
         {
           "boundsInScreen": "277,189,802,714",
@@ -25,142 +45,255 @@
       "functionName": "AndroidSpeakerDetailsPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone \u2014 dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt",
       "variant": ""
     },
     {
+      "annotatedBasename": "AssistantConversationPreview_Dark-b38b7f49.a11y.png",
+      "cleanBasename": "AssistantConversationPreview_Dark-b38b7f49.png",
+      "findings": [],
+      "functionName": "AssistantConversationPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
       "annotatedBasename": "",
-      "cleanBasename": "BackgroundAndroid_Dark_theme.png",
+      "cleanBasename": "BackgroundAndroid_Dark_theme-c686adfb.png",
       "findings": [],
       "functionName": "BackgroundAndroid",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.component.BackgroundKt.BackgroundAndroid_Dark theme",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt",
       "variant": ""
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "BackgroundDefault_Dark_theme.png",
+      "cleanBasename": "BackgroundDefault_Dark_theme-cbff4c79.png",
       "findings": [],
       "functionName": "BackgroundDefault",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.component.BackgroundKt.BackgroundDefault_Dark theme",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt",
       "variant": ""
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "BackgroundDynamic_Dark_theme.png",
+      "cleanBasename": "BackgroundDynamic_Dark_theme-d5efd51a.png",
       "findings": [],
       "functionName": "BackgroundDynamic",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.component.BackgroundKt.BackgroundDynamic_Dark theme",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/component/Background.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "BookmarkAddPreview_Dark.a11y.png",
-      "cleanBasename": "BookmarkAddPreview_Dark.png",
+      "annotatedBasename": "BookmarkAddPreview_Dark-80892b0e.a11y.png",
+      "cleanBasename": "BookmarkAddPreview_Dark-80892b0e.png",
       "findings": [],
       "functionName": "BookmarkAddPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "BookmarkOnPreview_Dark.a11y.png",
-      "cleanBasename": "BookmarkOnPreview_Dark.png",
+      "annotatedBasename": "BookmarkOnPreview_Dark-0ced8c18.a11y.png",
+      "cleanBasename": "BookmarkOnPreview_Dark-0ced8c18.png",
       "findings": [],
       "functionName": "BookmarkOnPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "ColorSchemeSpecimenPreview_Dark.png",
+      "cleanBasename": "ColorSchemeSpecimenPreview_Dark-e8a86add.png",
       "findings": [],
       "functionName": "ColorSchemeSpecimenPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview_Dark",
-      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
-      "variant": ""
-    },
-    {
-      "annotatedBasename": "ConfettiHeaderPreview_Dark.a11y.png",
-      "cleanBasename": "ConfettiHeaderPreview_Dark.png",
-      "findings": [],
-      "functionName": "ConfettiHeaderPreview",
-      "module": "androidApp",
-      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Dark",
-      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
-      "variant": ""
-    },
-    {
-      "annotatedBasename": "ScheduleScreenPreview_Dark.a11y.png",
-      "cleanBasename": "ScheduleScreenPreview_Dark.png",
-      "findings": [],
-      "functionName": "ScheduleScreenPreview",
-      "module": "androidApp",
-      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "SessionDetailsPreview.png",
+      "cleanBasename": "ConferenceSelectionPreview_Dark-902fcef6.png",
+      "findings": [],
+      "functionName": "ConferenceSelectionPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ConfettiHeaderPreview_Dark-83a7050c.a11y.png",
+      "cleanBasename": "ConfettiHeaderPreview_Dark-83a7050c.png",
+      "findings": [],
+      "functionName": "ConfettiHeaderPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.a11y.png",
+      "cleanBasename": "HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.png",
+      "findings": [],
+      "functionName": "HazeBottomNavigationDetailPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationDetailPreview_Dark - high contrast blur target",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "HazeBottomNavigationPreview_Dark-98edf98e.a11y.png",
+      "cleanBasename": "HazeBottomNavigationPreview_Dark-98edf98e.png",
+      "findings": [
+        {
+          "boundsInScreen": "84,297,994,423",
+          "level": "INFO",
+          "message": "This non-clickable item's speakable text: \"A session card scrolling behind the navigation bar\" is identical to that of 5 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.widget.TextView"
+        }
+      ],
+      "functionName": "HazeBottomNavigationPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "OnboardingHazePreview_Dark-61a55232.a11y.png",
+      "cleanBasename": "OnboardingHazePreview_Dark-61a55232.png",
+      "findings": [
+        {
+          "boundsInScreen": "417,2166,480,2292",
+          "level": "ERROR",
+          "message": "This item may not have a label readable by screen readers.",
+          "type": "SpeakableTextPresentCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "480,2166,522,2292",
+          "level": "ERROR",
+          "message": "This item may not have a label readable by screen readers.",
+          "type": "SpeakableTextPresentCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "522,2166,648,2292",
+          "level": "ERROR",
+          "message": "This item may not have a label readable by screen readers.",
+          "type": "SpeakableTextPresentCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "417,2166,480,2292",
+          "level": "ERROR",
+          "message": "This item's width is 24dp. Consider making the width of this touch target 48dp or larger.",
+          "type": "TouchTargetSizeCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "480,2166,522,2292",
+          "level": "ERROR",
+          "message": "This item's width is 16dp. Consider making the width of this touch target 48dp or larger.",
+          "type": "TouchTargetSizeCheck",
+          "viewDescription": "android.view.View"
+        }
+      ],
+      "functionName": "OnboardingHazePreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.OnboardingHazePreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "ScheduleScreenPreview_Dark-67718575.a11y.png",
+      "cleanBasename": "ScheduleScreenPreview_Dark-67718575.png",
+      "findings": [],
+      "functionName": "ScheduleScreenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "",
+      "cleanBasename": "SessionDetailsPreview-80cd2284.png",
       "findings": [],
       "functionName": "SessionDetailsPreview",
       "module": "androidApp",
       "previewId": "ScreenshotTest.SessionDetailsPreview",
+      "rendersDir": "androidApp",
       "sourceFile": "src/screenshotTest/kotlin/ScreenshotTest.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionDetailsScreenPreview_Dark.a11y.png",
-      "cleanBasename": "SessionDetailsScreenPreview_Dark.png",
+      "annotatedBasename": "SessionDetailsScreenPreview_Dark-402cba37.a11y.png",
+      "cleanBasename": "SessionDetailsScreenPreview_Dark-402cba37.png",
       "findings": [],
       "functionName": "SessionDetailsScreenPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionDetailsScreenPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionItemBreakPreview_Dark.a11y.png",
-      "cleanBasename": "SessionItemBreakPreview_Dark.png",
+      "annotatedBasename": "SessionItemBreakPreview_Dark-ec404584.a11y.png",
+      "cleanBasename": "SessionItemBreakPreview_Dark-ec404584.png",
       "findings": [],
       "functionName": "SessionItemBreakPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemBreakPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionItemLightningPreview_Dark.a11y.png",
-      "cleanBasename": "SessionItemLightningPreview_Dark.png",
+      "annotatedBasename": "SessionItemLightningPreview_Dark-7aa5671e.a11y.png",
+      "cleanBasename": "SessionItemLightningPreview_Dark-7aa5671e.png",
       "findings": [],
       "functionName": "SessionItemLightningPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemLightningPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionItemPopulatedPreview_Dark.a11y.png",
-      "cleanBasename": "SessionItemPopulatedPreview_Dark.png",
+      "annotatedBasename": "SessionItemPopulatedPreview_Dark-631a7045.a11y.png",
+      "cleanBasename": "SessionItemPopulatedPreview_Dark-631a7045.png",
       "findings": [],
       "functionName": "SessionItemPopulatedPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SpeakerDetailsScreenPreview_Dark.a11y.png",
-      "cleanBasename": "SpeakerDetailsScreenPreview_Dark.png",
+      "annotatedBasename": "SpeakerDetailsScreenPreview_Dark-9ccb0a29.a11y.png",
+      "cleanBasename": "SpeakerDetailsScreenPreview_Dark-9ccb0a29.png",
       "findings": [
         {
           "boundsInScreen": "277,189,802,714",
@@ -173,122 +306,134 @@
       "functionName": "SpeakerDetailsScreenPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SpeakerItemPreview_Dark.a11y.png",
-      "cleanBasename": "SpeakerItemPreview_Dark.png",
+      "annotatedBasename": "SpeakerItemPreview_Dark-6d8d5283.a11y.png",
+      "cleanBasename": "SpeakerItemPreview_Dark-6d8d5283.png",
       "findings": [],
       "functionName": "SpeakerItemPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerItemPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationAndroidPreview_Dark.a11y.png",
-      "cleanBasename": "ThemeFoundationAndroidPreview_Dark.png",
+      "annotatedBasename": "ThemeFoundationAndroidPreview_Dark-dad8d762.a11y.png",
+      "cleanBasename": "ThemeFoundationAndroidPreview_Dark-dad8d762.png",
       "findings": [],
       "functionName": "ThemeFoundationAndroidPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationConferenceSeedPreview_Dark.a11y.png",
-      "cleanBasename": "ThemeFoundationConferenceSeedPreview_Dark.png",
+      "annotatedBasename": "ThemeFoundationConferenceSeedPreview_Dark-f74e7f38.a11y.png",
+      "cleanBasename": "ThemeFoundationConferenceSeedPreview_Dark-f74e7f38.png",
       "findings": [],
       "functionName": "ThemeFoundationConferenceSeedPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationConferenceSeedPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationCurrentPreview_Dark.a11y.png",
-      "cleanBasename": "ThemeFoundationCurrentPreview_Dark.png",
+      "annotatedBasename": "ThemeFoundationCurrentPreview_Dark-4dcfeff0.a11y.png",
+      "cleanBasename": "ThemeFoundationCurrentPreview_Dark-4dcfeff0.png",
       "findings": [],
       "functionName": "ThemeFoundationCurrentPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationCurrentPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationDefaultPreview_Dark.a11y.png",
-      "cleanBasename": "ThemeFoundationDefaultPreview_Dark.png",
+      "annotatedBasename": "ThemeFoundationDefaultPreview_Dark-ac6eb453.a11y.png",
+      "cleanBasename": "ThemeFoundationDefaultPreview_Dark-ac6eb453.png",
       "findings": [],
       "functionName": "ThemeFoundationDefaultPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDefaultPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationDynamicPreview_Dark.a11y.png",
-      "cleanBasename": "ThemeFoundationDynamicPreview_Dark.png",
+      "annotatedBasename": "ThemeFoundationDynamicPreview_Dark-2600609b.a11y.png",
+      "cleanBasename": "ThemeFoundationDynamicPreview_Dark-2600609b.png",
       "findings": [],
       "functionName": "ThemeFoundationDynamicPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDynamicPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "TypographySpecimenPreview_Dark.a11y.png",
-      "cleanBasename": "TypographySpecimenPreview_Dark.png",
+      "annotatedBasename": "TypographySpecimenPreview_Dark-3523357e.a11y.png",
+      "cleanBasename": "TypographySpecimenPreview_Dark-3523357e.png",
       "findings": [],
       "functionName": "TypographySpecimenPreview",
       "module": "androidApp",
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.TypographySpecimenPreview_Dark",
+      "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "BookmarksPreview_Devices_Large_Round.a11y.png",
-      "cleanBasename": "BookmarksPreview_Devices_Large_Round.png",
+      "annotatedBasename": "BookmarksPreview_Devices_Large_Round-e89fefb0.a11y.png",
+      "cleanBasename": "BookmarksPreview_Devices_Large_Round-e89fefb0.png",
       "findings": [],
       "functionName": "BookmarksPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "BookmarksPreviewEmpty_Devices_Large_Round.a11y.png",
-      "cleanBasename": "BookmarksPreviewEmpty_Devices_Large_Round.png",
+      "annotatedBasename": "BookmarksPreviewEmpty_Devices_Large_Round-77a986d2.a11y.png",
+      "cleanBasename": "BookmarksPreviewEmpty_Devices_Large_Round-77a986d2.png",
       "findings": [],
       "functionName": "BookmarksPreviewEmpty",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewEmpty_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "BookmarksPreviewError_Devices_Large_Round.a11y.png",
-      "cleanBasename": "BookmarksPreviewError_Devices_Large_Round.png",
+      "annotatedBasename": "BookmarksPreviewError_Devices_Large_Round-751696d8.a11y.png",
+      "cleanBasename": "BookmarksPreviewError_Devices_Large_Round-751696d8.png",
       "findings": [],
       "functionName": "BookmarksPreviewError",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewError_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "BookmarksPreviewErrorLong_Devices_Large_Round.a11y.png",
-      "cleanBasename": "BookmarksPreviewErrorLong_Devices_Large_Round.png",
+      "annotatedBasename": "BookmarksPreviewErrorLong_Devices_Large_Round-f88686f6.a11y.png",
+      "cleanBasename": "BookmarksPreviewErrorLong_Devices_Large_Round-f88686f6.png",
       "findings": [],
       "functionName": "BookmarksPreviewErrorLong",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewErrorLong_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "BookmarksPreviewLoading_Devices_Large_Round.a11y.png",
-      "cleanBasename": "BookmarksPreviewLoading_Devices_Large_Round.png",
+      "annotatedBasename": "BookmarksPreviewLoading_Devices_Large_Round-192fee01.a11y.png",
+      "cleanBasename": "BookmarksPreviewLoading_Devices_Large_Round-192fee01.png",
       "findings": [
         {
           "boundsInScreen": "24,161,430,321",
@@ -308,6 +453,7 @@
       "functionName": "BookmarksPreviewLoading",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewLoading_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt",
       "variant": "wearos_large_round"
     },
@@ -318,12 +464,13 @@
       "functionName": "BookmarksPreviewLong",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.bookmarks.BookmarksScreenKt.BookmarksPreviewLong_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/bookmarks/BookmarksScreen.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "ColorSchemeSpecimenPreview.a11y.png",
-      "cleanBasename": "ColorSchemeSpecimenPreview.png",
+      "annotatedBasename": "ColorSchemeSpecimenPreview-8deffbd5.a11y.png",
+      "cleanBasename": "ColorSchemeSpecimenPreview-8deffbd5.png",
       "findings": [
         {
           "boundsInScreen": "87,89,140,137",
@@ -336,22 +483,24 @@
       "functionName": "ColorSchemeSpecimenPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "Color_0x000080.png",
+      "cleanBasename": "Color_0x000080-db54a72c.png",
       "findings": [],
       "functionName": "Color_0x000080",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x000080",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "Color_0x000080Swatches.a11y.png",
-      "cleanBasename": "Color_0x000080Swatches.png",
+      "annotatedBasename": "Color_0x000080Swatches-415a9eab.a11y.png",
+      "cleanBasename": "Color_0x000080Swatches-415a9eab.png",
       "findings": [
         {
           "boundsInScreen": "0,236,432,276",
@@ -364,22 +513,24 @@
       "functionName": "Color_0x000080Swatches",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.Color_0x000080Swatches",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt",
       "variant": ""
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "Color_0x008000.png",
+      "cleanBasename": "Color_0x008000-c396c847.png",
       "findings": [],
       "functionName": "Color_0x008000",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x008000",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "Color_0x008000Swatches.a11y.png",
-      "cleanBasename": "Color_0x008000Swatches.png",
+      "annotatedBasename": "Color_0x008000Swatches-97db5913.a11y.png",
+      "cleanBasename": "Color_0x008000Swatches-97db5913.png",
       "findings": [
         {
           "boundsInScreen": "0,236,432,276",
@@ -392,22 +543,24 @@
       "functionName": "Color_0x008000Swatches",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.Color_0x008000Swatches",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt",
       "variant": ""
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "Color_0x800000.png",
+      "cleanBasename": "Color_0x800000-5f8e75cc.png",
       "findings": [],
       "functionName": "Color_0x800000",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x800000",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "Color_0x800000Swatches.a11y.png",
-      "cleanBasename": "Color_0x800000Swatches.png",
+      "annotatedBasename": "Color_0x800000Swatches-9a9417b9.a11y.png",
+      "cleanBasename": "Color_0x800000Swatches-9a9417b9.png",
       "findings": [
         {
           "boundsInScreen": "0,236,432,276",
@@ -420,22 +573,24 @@
       "functionName": "Color_0x800000Swatches",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.Color_0x800000Swatches",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ConferenceHomeScreen_Devices_Large_Round.a11y.png",
-      "cleanBasename": "ConferenceHomeScreen_Devices_Large_Round.png",
+      "annotatedBasename": "ConferenceHomeScreen_Devices_Large_Round-f0852b24.a11y.png",
+      "cleanBasename": "ConferenceHomeScreen_Devices_Large_Round-f0852b24.png",
       "findings": [],
       "functionName": "ConferenceHomeScreen",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ConferenceHomeScreenTestKt.ConferenceHomeScreen_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "ConferenceHomeScreenLoading_Devices_Large_Round.a11y.png",
-      "cleanBasename": "ConferenceHomeScreenLoading_Devices_Large_Round.png",
+      "annotatedBasename": "ConferenceHomeScreenLoading_Devices_Large_Round-a9d48560.a11y.png",
+      "cleanBasename": "ConferenceHomeScreenLoading_Devices_Large_Round-a9d48560.png",
       "findings": [
         {
           "boundsInScreen": "53,92,401,173",
@@ -448,16 +603,18 @@
       "functionName": "ConferenceHomeScreenLoading",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ConferenceHomeScreenTestKt.ConferenceHomeScreenLoading_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "ConferenceHomeScreenWithBookmarks_Devices_Large_Round.a11y.png",
-      "cleanBasename": "ConferenceHomeScreenWithBookmarks_Devices_Large_Round.png",
+      "annotatedBasename": "ConferenceHomeScreenWithBookmarks_Devices_Large_Round-53879197.a11y.png",
+      "cleanBasename": "ConferenceHomeScreenWithBookmarks_Devices_Large_Round-53879197.png",
       "findings": [],
       "functionName": "ConferenceHomeScreenWithBookmarks",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ConferenceHomeScreenTestKt.ConferenceHomeScreenWithBookmarks_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ConferenceHomeScreenTest.kt",
       "variant": "wearos_large_round"
     },
@@ -468,16 +625,18 @@
       "functionName": "ConferencesViewCuratedPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewCuratedPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "ConferencesViewErrorPreview_Devices_Large_Round.a11y.png",
-      "cleanBasename": "ConferencesViewErrorPreview_Devices_Large_Round.png",
+      "annotatedBasename": "ConferencesViewErrorPreview_Devices_Large_Round-ece8b9a2.a11y.png",
+      "cleanBasename": "ConferencesViewErrorPreview_Devices_Large_Round-ece8b9a2.png",
       "findings": [],
       "functionName": "ConferencesViewErrorPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewErrorPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt",
       "variant": "wearos_large_round"
     },
@@ -488,42 +647,46 @@
       "functionName": "ConferencesViewLongPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewLongPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "ConferencesViewPreview_Devices_Large_Round.a11y.png",
-      "cleanBasename": "ConferencesViewPreview_Devices_Large_Round.png",
+      "annotatedBasename": "ConferencesViewPreview_Devices_Large_Round-f2abab96.a11y.png",
+      "cleanBasename": "ConferencesViewPreview_Devices_Large_Round-f2abab96.png",
       "findings": [],
       "functionName": "ConferencesViewPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "DayChipPreview.a11y.png",
-      "cleanBasename": "DayChipPreview.png",
+      "annotatedBasename": "DayChipPreview-bed63cff.a11y.png",
+      "cleanBasename": "DayChipPreview-bed63cff.png",
       "findings": [],
       "functionName": "DayChipPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.DayChipPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "Defaults.png",
+      "cleanBasename": "Defaults-dbbe8909.png",
       "findings": [],
       "functionName": "Defaults",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Defaults",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "DefaultsSwatches.a11y.png",
-      "cleanBasename": "DefaultsSwatches.png",
+      "annotatedBasename": "DefaultsSwatches-11a5af85.a11y.png",
+      "cleanBasename": "DefaultsSwatches-11a5af85.png",
       "findings": [
         {
           "boundsInScreen": "0,236,432,276",
@@ -536,6 +699,7 @@
       "functionName": "DefaultsSwatches",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.DefaultsSwatches",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt",
       "variant": ""
     },
@@ -546,6 +710,7 @@
       "functionName": "HomeListViewAndroidMakers",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewAndroidMakers_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt",
       "variant": "wearos_large_round"
     },
@@ -556,6 +721,7 @@
       "functionName": "HomeListViewDevFest",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewDevFest_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt",
       "variant": "wearos_large_round"
     },
@@ -566,6 +732,7 @@
       "functionName": "HomeListViewDroidcon",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewDroidcon_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt",
       "variant": "wearos_large_round"
     },
@@ -576,32 +743,35 @@
       "functionName": "HomeListViewKotlinConf",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewKotlinConf_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "HomeListViewPreview_Devices_Large_Round.a11y.png",
-      "cleanBasename": "HomeListViewPreview_Devices_Large_Round.png",
+      "annotatedBasename": "HomeListViewPreview_Devices_Large_Round-51d1d4d8.a11y.png",
+      "cleanBasename": "HomeListViewPreview_Devices_Large_Round-51d1d4d8.png",
       "findings": [],
       "functionName": "HomeListViewPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt",
       "variant": "wearos_large_round"
     },
     {
       "annotatedBasename": "",
-      "cleanBasename": "NotSet.png",
+      "cleanBasename": "NotSet-5c6e4f51.png",
       "findings": [],
       "functionName": "NotSet",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.NotSet",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "NotSetSwatches.a11y.png",
-      "cleanBasename": "NotSetSwatches.png",
+      "annotatedBasename": "NotSetSwatches-dc75f430.a11y.png",
+      "cleanBasename": "NotSetSwatches-dc75f430.png",
       "findings": [
         {
           "boundsInScreen": "0,236,432,276",
@@ -614,52 +784,57 @@
       "functionName": "NotSetSwatches",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.NotSetSwatches",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemeSwatches.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "PlaceholderButtonPreview.a11y.png",
-      "cleanBasename": "PlaceholderButtonPreview.png",
+      "annotatedBasename": "PlaceholderButtonPreview-6b648e89.a11y.png",
+      "cleanBasename": "PlaceholderButtonPreview-6b648e89.png",
       "findings": [],
       "functionName": "PlaceholderButtonPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.PlaceholderButtonPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ScreenHeaderPreview.a11y.png",
-      "cleanBasename": "ScreenHeaderPreview.png",
+      "annotatedBasename": "ScreenHeaderPreview-e3101d55.a11y.png",
+      "cleanBasename": "ScreenHeaderPreview-e3101d55.png",
       "findings": [],
       "functionName": "ScreenHeaderPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.ScreenHeaderPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SectionHeaderPreview.a11y.png",
-      "cleanBasename": "SectionHeaderPreview.png",
+      "annotatedBasename": "SectionHeaderPreview-21921571.a11y.png",
+      "cleanBasename": "SectionHeaderPreview-21921571.png",
       "findings": [],
       "functionName": "SectionHeaderPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SectionHeaderPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionCardBookmarkedPreview.a11y.png",
-      "cleanBasename": "SessionCardBookmarkedPreview.png",
+      "annotatedBasename": "SessionCardBookmarkedPreview-e2f70fe4.a11y.png",
+      "cleanBasename": "SessionCardBookmarkedPreview-e2f70fe4.png",
       "findings": [],
       "functionName": "SessionCardBookmarkedPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SessionCardBookmarkedPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionCardLoadingPreview.a11y.png",
-      "cleanBasename": "SessionCardLoadingPreview.png",
+      "annotatedBasename": "SessionCardLoadingPreview-00105089.a11y.png",
+      "cleanBasename": "SessionCardLoadingPreview-00105089.png",
       "findings": [
         {
           "boundsInScreen": "0,0,595,213",
@@ -672,36 +847,40 @@
       "functionName": "SessionCardLoadingPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SessionCardLoadingPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionCardPopulatedPreview.a11y.png",
-      "cleanBasename": "SessionCardPopulatedPreview.png",
+      "annotatedBasename": "SessionCardPopulatedPreview-a246e629.a11y.png",
+      "cleanBasename": "SessionCardPopulatedPreview-a246e629.png",
       "findings": [],
       "functionName": "SessionCardPopulatedPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SessionCardPopulatedPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SessionDetailViewPreview_Devices_Large_Round.a11y.png",
-      "cleanBasename": "SessionDetailViewPreview_Devices_Large_Round.png",
+      "annotatedBasename": "SessionDetailViewPreview_Devices_Large_Round-2d541005.a11y.png",
+      "cleanBasename": "SessionDetailViewPreview_Devices_Large_Round-2d541005.png",
       "findings": [],
       "functionName": "SessionDetailViewPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewKt.SessionDetailViewPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessiondetails/SessionDetailsView.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "SessionDetailsScreen_Devices_Large_Round.a11y.png",
-      "cleanBasename": "SessionDetailsScreen_Devices_Large_Round.png",
+      "annotatedBasename": "SessionDetailsScreen_Devices_Large_Round-7542603b.a11y.png",
+      "cleanBasename": "SessionDetailsScreen_Devices_Large_Round-7542603b.png",
       "findings": [],
       "functionName": "SessionDetailsScreen",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.SessionDetailsScreenTestKt.SessionDetailsScreen_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/SessionDetailsScreenTest.kt",
       "variant": "wearos_large_round"
     },
@@ -712,26 +891,29 @@
       "functionName": "SessionListViewLongPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewLongPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "SessionListViewPreview_Devices_Large_Round.a11y.png",
-      "cleanBasename": "SessionListViewPreview_Devices_Large_Round.png",
+      "annotatedBasename": "SessionListViewPreview_Devices_Large_Round-491f6518.a11y.png",
+      "cleanBasename": "SessionListViewPreview_Devices_Large_Round-491f6518.png",
       "findings": [],
       "functionName": "SessionListViewPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.sessions.SessionsScreenKt.SessionListViewPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessions/SessionsScreen.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "SessionSpeakerChipPreview.a11y.png",
-      "cleanBasename": "SessionSpeakerChipPreview.png",
+      "annotatedBasename": "SessionSpeakerChipPreview-a82dcb1c.a11y.png",
+      "cleanBasename": "SessionSpeakerChipPreview-a82dcb1c.png",
       "findings": [],
       "functionName": "SessionSpeakerChipPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SessionSpeakerChipPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
@@ -742,22 +924,24 @@
       "functionName": "SettingsListViewLongPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewLongPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "SettingsListViewPreview_Devices_Large_Round.a11y.png",
-      "cleanBasename": "SettingsListViewPreview_Devices_Large_Round.png",
+      "annotatedBasename": "SettingsListViewPreview_Devices_Large_Round-a69b53b2.a11y.png",
+      "cleanBasename": "SettingsListViewPreview_Devices_Large_Round-a69b53b2.png",
       "findings": [],
       "functionName": "SettingsListViewPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "SocialIconPreview.a11y.png",
-      "cleanBasename": "SocialIconPreview.png",
+      "annotatedBasename": "SocialIconPreview-d589b747.a11y.png",
+      "cleanBasename": "SocialIconPreview-d589b747.png",
       "findings": [
         {
           "boundsInScreen": "0,0,595,63",
@@ -770,16 +954,18 @@
       "functionName": "SocialIconPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.SocialIconPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "SpeakerDetailsScreen_Devices_Large_Round.a11y.png",
-      "cleanBasename": "SpeakerDetailsScreen_Devices_Large_Round.png",
+      "annotatedBasename": "SpeakerDetailsScreen_Devices_Large_Round-4115a437.a11y.png",
+      "cleanBasename": "SpeakerDetailsScreen_Devices_Large_Round-4115a437.png",
       "findings": [],
       "functionName": "SpeakerDetailsScreen",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.SpeakerDetailsScreenTestKt.SpeakerDetailsScreen_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/SpeakerDetailsScreenTest.kt",
       "variant": "wearos_large_round"
     },
@@ -790,22 +976,24 @@
       "functionName": "SpeakerDetailsViewPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewKt.SpeakerDetailsViewPreview_Devices - Large Round",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/speakerdetails/SpeakerDetailsView.kt",
       "variant": "wearos_large_round"
     },
     {
-      "annotatedBasename": "ThemeFoundationAndroidMakersPreview.a11y.png",
-      "cleanBasename": "ThemeFoundationAndroidMakersPreview.png",
+      "annotatedBasename": "ThemeFoundationAndroidMakersPreview-e709db9d.a11y.png",
+      "cleanBasename": "ThemeFoundationAndroidMakersPreview-e709db9d.png",
       "findings": [],
       "functionName": "ThemeFoundationAndroidMakersPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidMakersPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationConfettiPreview.a11y.png",
-      "cleanBasename": "ThemeFoundationConfettiPreview.png",
+      "annotatedBasename": "ThemeFoundationConfettiPreview-dedc23f5.a11y.png",
+      "cleanBasename": "ThemeFoundationConfettiPreview-dedc23f5.png",
       "findings": [
         {
           "boundsInScreen": "32,32,187,81",
@@ -818,46 +1006,51 @@
       "functionName": "ThemeFoundationConfettiPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationConfettiPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationDevFestPreview.a11y.png",
-      "cleanBasename": "ThemeFoundationDevFestPreview.png",
+      "annotatedBasename": "ThemeFoundationDevFestPreview-53f18c05.a11y.png",
+      "cleanBasename": "ThemeFoundationDevFestPreview-53f18c05.png",
       "findings": [],
       "functionName": "ThemeFoundationDevFestPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationDevFestPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationDroidconPreview.a11y.png",
-      "cleanBasename": "ThemeFoundationDroidconPreview.png",
+      "annotatedBasename": "ThemeFoundationDroidconPreview-ec2acd5a.a11y.png",
+      "cleanBasename": "ThemeFoundationDroidconPreview-ec2acd5a.png",
       "findings": [],
       "functionName": "ThemeFoundationDroidconPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationDroidconPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "ThemeFoundationKotlinConfPreview.a11y.png",
-      "cleanBasename": "ThemeFoundationKotlinConfPreview.png",
+      "annotatedBasename": "ThemeFoundationKotlinConfPreview-4017d8ea.a11y.png",
+      "cleanBasename": "ThemeFoundationKotlinConfPreview-4017d8ea.png",
       "findings": [],
       "functionName": "ThemeFoundationKotlinConfPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ThemeFoundationPreviewsKt.ThemeFoundationKotlinConfPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
       "variant": ""
     },
     {
-      "annotatedBasename": "TypographySpecimenPreview.a11y.png",
-      "cleanBasename": "TypographySpecimenPreview.png",
+      "annotatedBasename": "TypographySpecimenPreview-68b374ee.a11y.png",
+      "cleanBasename": "TypographySpecimenPreview-68b374ee.png",
       "findings": [],
       "functionName": "TypographySpecimenPreview",
       "module": "wearApp",
       "previewId": "dev.johnoreilly.confetti.wear.ui.ComponentCatalogKt.TypographySpecimenPreview",
+      "rendersDir": "wearApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     }

@@ -85,10 +85,24 @@ object TestFixtures {
     )
 
     const val JohnUrl = "https://sessionize.com/image/48e7-400o400o2-HkquSQhsfczBGkrABwVTBc.jpg"
+    val JohnOreillySpeakerDetails = SpeakerDetails(
+        id = "0392772c-28d4-47f6-bd39-47d743fb4a81",
+        name = "John O'Reilly",
+        photoUrl = JohnUrl,
+        photoUrlThumbnail = JohnUrl,
+        tagline = "AI Unicorn Founder",
+        company = null,
+        companyLogoUrl = null,
+        city = null,
+        bio = "John is a Kotlin GDE that has been developing Android apps since 2010. He worked on server side Java applications in the 2000s and desktop clients in the 1990s. He's also been exploring and advocating for all things Kotlin Multiplatform since 2018.",
+        socials = emptyList(),
+        sessions = emptyList(),
+        __typename = "Speaker",
+    )
     val JohnOreilly = SessionDetails.Speaker(
         __typename = "Speaker",
         id = "0392772c-28d4-47f6-bd39-47d743fb4a81",
-        speakerDetails = SpeakerDetails(
+        sessionSpeakerDetails = dev.johnoreilly.confetti.fragment.SessionSpeakerDetails(
             id = "0392772c-28d4-47f6-bd39-47d743fb4a81",
             name = "John O'Reilly",
             photoUrl = JohnUrl,
@@ -97,18 +111,29 @@ object TestFixtures {
             company = null,
             companyLogoUrl = null,
             city = null,
-            bio = "John is a Kotlin GDE that has been developing Android apps since 2010. He worked on server side Java applications in the 2000s and desktop clients in the 1990s. He's also been exploring and advocating for all things Kotlin Multiplatform since 2018.",
-            socials = emptyList(),
-            sessions = emptyList(),
             __typename = "Speaker",
         )
     )
 
     const val MartinUrl = "https://sessionize.com/image/7c96-400o400o2-UiWeCMZDxPejrFsozKmLYr.jpeg"
+    val MartinBonninSpeakerDetails = SpeakerDetails(
+        id = "56fda597-4927-4d25-9a80-4795d15ef080",
+        name = "Martin Bonnin",
+        photoUrl = MartinUrl,
+        photoUrlThumbnail = MartinUrl,
+        tagline = "Software Engineer",
+        company = null,
+        companyLogoUrl = null,
+        city = null,
+        bio = "Martin is a maintainer of Apollo Kotlin. He has been writing Android applications since Cupcake and fell in love with Kotlin in 2017. Martin loves naming things and the sound of his laptop fan compiling all these type-safe programs. When not busy rewriting all his bash scripts in Kotlin, Martin loves to hike the Pyrénées or play a good game of Hearthstone.",
+        socials = emptyList(),
+        sessions = emptyList(),
+        __typename = "Speaker",
+    )
     val MartinBonnin = SessionDetails.Speaker(
         __typename = "Speaker",
         id = "56fda597-4927-4d25-9a80-4795d15ef080",
-        speakerDetails = SpeakerDetails(
+        sessionSpeakerDetails = dev.johnoreilly.confetti.fragment.SessionSpeakerDetails(
             id = "56fda597-4927-4d25-9a80-4795d15ef080",
             name = "Martin Bonnin",
             photoUrl = MartinUrl,
@@ -117,9 +142,6 @@ object TestFixtures {
             company = null,
             companyLogoUrl = null,
             city = null,
-            bio = "Martin is a maintainer of Apollo Kotlin. He has been writing Android applications since Cupcake and fell in love with Kotlin in 2017. Martin loves naming things and the sound of his laptop fan compiling all these type-safe programs. When not busy rewriting all his bash scripts in Kotlin, Martin loves to hike the Pyrénées or play a good game of Hearthstone.",
-            socials = emptyList(),
-            sessions = emptyList(),
             __typename = "Speaker",
         )
     )

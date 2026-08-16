@@ -101,7 +101,7 @@ fun SessionCardBookmarkedPreview() {
 fun SessionSpeakerChipPreview() {
     ConfettiThemeFixed {
         SessionSpeakerChip(
-            speaker = TestFixtures.JohnOreilly.speakerDetails,
+            speaker = TestFixtures.JohnOreilly.sessionSpeakerDetails,
             navigateToSpeaker = {},
         )
     }

@@ -148,7 +148,7 @@ private fun SessionCardContent(
         if (session?.speakers?.isNotEmpty() ?: true) {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(
-                    session?.speakers.orEmpty().joinToString(", ") { it.speakerDetails.name },
+                    session?.speakers.orEmpty().joinToString(", ") { it.sessionSpeakerDetails.name },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.Normal,

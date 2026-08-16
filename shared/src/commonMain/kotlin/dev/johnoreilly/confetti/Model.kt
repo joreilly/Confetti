@@ -3,6 +3,7 @@
 package dev.johnoreilly.confetti
 
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.fragment.SessionSpeakerDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -18,7 +19,7 @@ fun SessionDetails.isLightning() = !isService() &&
 
 fun SessionDetails.sessionSpeakerLocation(): String {
     var text = if (speakers.isNotEmpty())
-        speakers.joinToString(", ") { it.speakerDetails.name }
+        speakers.joinToString(", ") { it.sessionSpeakerDetails.name }
     else
         ""
     text += " (${room?.name})"
@@ -27,7 +28,7 @@ fun SessionDetails.sessionSpeakerLocation(): String {
 
 fun SessionDetails.sessionSpeakers(): String? {
     return if (speakers.isNotEmpty()) {
-        speakers.joinToString(", ") { it.speakerDetails.name }
+        speakers.joinToString(", ") { it.sessionSpeakerDetails.name }
     } else {
         null
     }
@@ -35,6 +36,10 @@ fun SessionDetails.sessionSpeakers(): String? {
 
 
 fun SpeakerDetails.fullNameAndCompany(): String {
+    return name + if (company.isNullOrBlank()) "" else ", " + this.company
+}
+
+fun SessionSpeakerDetails.fullNameAndCompany(): String {
     return name + if (company.isNullOrBlank()) "" else ", " + this.company
 }
 

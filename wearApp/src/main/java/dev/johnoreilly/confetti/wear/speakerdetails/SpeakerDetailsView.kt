@@ -238,7 +238,7 @@ fun SpeakerDetailsViewPreview() {
         SpeakerDetailsView(
             uiState = SpeakerDetailsUiState.Success(
                 conference = TestFixtures.conference,
-                details = TestFixtures.JohnOreilly.speakerDetails,
+                details = TestFixtures.JohnOreillySpeakerDetails,
             )
         )
     }

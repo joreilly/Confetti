@@ -465,11 +465,11 @@ private fun Speakers(conference: String, session: SessionDetails) {
                 .padding(2.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val url = speaker.speakerDetails.avatarUrl()
+            val url = speaker.sessionSpeakerDetails.avatarUrl()
             if (url?.isNotEmpty() == true) {
                 AsyncImage(
                     model = url,
-                    contentDescription = speaker.speakerDetails.name,
+                    contentDescription = speaker.sessionSpeakerDetails.name,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .size(20.dp)
@@ -479,7 +479,7 @@ private fun Speakers(conference: String, session: SessionDetails) {
 
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = speaker.speakerDetails.name,
+                text = speaker.sessionSpeakerDetails.name,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )

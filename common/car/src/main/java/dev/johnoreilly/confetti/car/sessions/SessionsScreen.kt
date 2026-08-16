@@ -92,7 +92,7 @@ class SessionsScreen(
             val listBuilder = ItemList.Builder()
 
             sessions.forEach { session ->
-                val speakers = session.speakers.map { it.speakerDetails.name }
+                val speakers = session.speakers.map { it.sessionSpeakerDetails.name }
 
                 listBuilder.addItem(
                     Row.Builder().apply {

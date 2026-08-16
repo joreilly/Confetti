@@ -30,7 +30,7 @@ private fun SessionDetails.summary(): String = buildString {
     room?.let { append("Room: ").append(it.name).append('\n') }
     if (speakers.isNotEmpty()) {
         append("Speakers: ")
-            .append(speakers.joinToString { it.speakerDetails.name })
+            .append(speakers.joinToString { it.sessionSpeakerDetails.name })
             .append('\n')
     }
     sessionDescription?.let { append("Description: ").append(it).append('\n') }

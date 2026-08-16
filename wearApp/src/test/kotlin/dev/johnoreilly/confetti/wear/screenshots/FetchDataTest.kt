@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.GetSessionsQuery
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.fragment.SessionSpeakerDetails
 import dev.johnoreilly.confetti.wear.app.KoinTestApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -82,17 +83,16 @@ class FetchDataTest : KoinTest {
         return """
             SessionDetails.Speaker(
                 __typename = "$__typename",
-                speakerDetails = SpeakerDetails(
-                    id = ${speakerDetails.id.quoted()},
-                    name = ${speakerDetails.name.quoted()},
-                    photoUrl = ${speakerDetails.photoUrl.quoted()},
-                    company = ${speakerDetails.company.quoted()},
-                    companyLogoUrl = ${speakerDetails.companyLogoUrl.quoted()},
-                    city = ${speakerDetails.city.quoted()},
-                    bio = ${speakerDetails.bio.quoted()},
-                    socials = listOf(
-                        ${speakerDetails.socials.joinToString(", ") { "SpeakerDetails.Social(${it.name}, ${it.url})" }}
-                    )
+                sessionSpeakerDetails = SessionSpeakerDetails(
+                    id = ${sessionSpeakerDetails.id.quoted()},
+                    name = ${sessionSpeakerDetails.name.quoted()},
+                    photoUrl = ${sessionSpeakerDetails.photoUrl.quoted()},
+                    photoUrlThumbnail = ${sessionSpeakerDetails.photoUrlThumbnail.quoted()},
+                    tagline = ${sessionSpeakerDetails.tagline.quoted()},
+                    company = ${sessionSpeakerDetails.company.quoted()},
+                    companyLogoUrl = ${sessionSpeakerDetails.companyLogoUrl.quoted()},
+                    city = ${sessionSpeakerDetails.city.quoted()},
+                    __typename = "${sessionSpeakerDetails.__typename}",
                 )
             )
         """.trimIndent()

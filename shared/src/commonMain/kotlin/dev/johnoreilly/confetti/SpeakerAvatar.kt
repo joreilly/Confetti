@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti
 
+import dev.johnoreilly.confetti.fragment.SessionSpeakerDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 
 /**
@@ -13,3 +14,4 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
  * need to pay for.
  */
 expect fun SpeakerDetails.avatarUrl(): String?
+expect fun SessionSpeakerDetails.avatarUrl(): String?

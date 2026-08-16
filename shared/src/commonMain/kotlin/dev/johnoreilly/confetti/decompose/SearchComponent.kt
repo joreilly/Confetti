@@ -145,7 +145,7 @@ class DefaultSearchComponent(
             yield(details.room?.name.orEmpty())
 
             details.speakers.forEach {
-                yield(it.speakerDetails.name)
+                yield(it.sessionSpeakerDetails.name)
             }
         }.any {
             it.adjustWith(ignoreDiacritics).contains(filter, ignoreCase)

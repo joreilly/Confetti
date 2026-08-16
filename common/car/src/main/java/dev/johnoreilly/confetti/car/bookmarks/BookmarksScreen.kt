@@ -76,7 +76,7 @@ class BookmarksScreen(
                 listBuilder.addItem(
                     Row.Builder()
                         .setTitle(session.title)
-                        .addText(session.speakers.map { it.speakerDetails.name }.toString())
+                        .addText(session.speakers.map { it.sessionSpeakerDetails.name }.toString())
                         .setOnClickListener {
                             component.onSessionClicked(id = session.id)
                         }

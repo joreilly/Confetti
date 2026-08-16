@@ -6,16 +6,43 @@ import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.decompose.Venue
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.fragment.SessionSpeakerDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
 
 const val JohnUrl = "https://sessionize.com/image/48e7-400o400o2-HkquSQhsfczBGkrABwVTBc.jpg"
+
+val johnOreillySpeaker = SpeakerDetails(
+    id = "0392772c-28d4-47f6-bd39-47d743fb4a81",
+    name = "John O'Reilly",
+    photoUrl = JohnUrl,
+    photoUrlThumbnail = JohnUrl,
+    tagline = "Software Engineer",
+    company = null,
+    companyLogoUrl = null,
+    city = null,
+    bio = "John is a Kotlin GDE that has been developing Android apps since 2010. He worked on server side Java applications in the 2000s and desktop clients in the 1990s. He's also been exploring and advocating for all things Kotlin Multiplatform since 2018.",
+    socials = listOf(
+        SpeakerDetails.Social(__typename = "Social", name = "Twitter", url = "https://twitter.com/joreilly", icon = null),
+        SpeakerDetails.Social(__typename = "Social", name = "Github", url = "https://github.com/joreilly", icon = null),
+    ),
+    sessions = listOf(
+        SpeakerDetails.Session(
+            __typename = "Session",
+            id = "368995",
+            title = "Confetti: building a Kotlin Multiplatform conference app in 40min",
+            startsAt = LocalDateTime.parse("2023-04-13T14:00"),
+        ),
+    ),
+    __typename = "Speaker",
+)
+
 val JohnOreilly = SessionDetails.Speaker(
     __typename = "Speaker",
     id = "0392772c-28d4-47f6-bd39-47d743fb4a81",
-    speakerDetails = SpeakerDetails(
+    sessionSpeakerDetails = SessionSpeakerDetails(
         id = "0392772c-28d4-47f6-bd39-47d743fb4a81",
         name = "John O'Reilly",
         photoUrl = JohnUrl,
@@ -24,28 +51,40 @@ val JohnOreilly = SessionDetails.Speaker(
         company = null,
         companyLogoUrl = null,
         city = null,
-        bio = "John is a Kotlin GDE that has been developing Android apps since 2010. He worked on server side Java applications in the 2000s and desktop clients in the 1990s. He's also been exploring and advocating for all things Kotlin Multiplatform since 2018.",
-        socials = listOf(
-            SpeakerDetails.Social(__typename = "Social", name = "Twitter", url = "https://twitter.com/joreilly", icon = null),
-            SpeakerDetails.Social(__typename = "Social", name = "Github", url = "https://github.com/joreilly", icon = null),
-        ),
-        sessions = listOf(
-            SpeakerDetails.Session(
-                __typename = "Session",
-                id = "368995",
-                title = "Confetti: building a Kotlin Multiplatform conference app in 40min",
-                startsAt = LocalDateTime.parse("2023-04-13T14:00"),
-            ),
-        ),
         __typename = "Speaker",
     )
 )
 
 const val MartinUrl = "https://sessionize.com/image/7c96-400o400o2-UiWeCMZDxPejrFsozKmLYr.jpeg"
+
+val martinBonninSpeaker = SpeakerDetails(
+    id = "56fda597-4927-4d25-9a80-4795d15ef080",
+    name = "Martin Bonnin",
+    photoUrl = MartinUrl,
+    photoUrlThumbnail = MartinUrl,
+    tagline = "Software Engineer",
+    company = null,
+    companyLogoUrl = null,
+    city = null,
+    bio = "Martin is a maintainer of Apollo Kotlin. He has been writing Android applications since Cupcake and fell in love with Kotlin in 2017. Martin loves naming things and the sound of his laptop fan compiling all these type-safe programs. When not busy rewriting all his bash scripts in Kotlin, Martin loves to hike the Pyrénées or play a good game of Hearthstone.",
+    socials = listOf(
+        SpeakerDetails.Social(__typename = "Social", name = "Twitter", url = "https://twitter.com/martin_bonnin", icon = null),
+    ),
+    sessions = listOf(
+        SpeakerDetails.Session(
+            __typename = "Session",
+            id = "368995",
+            title = "Confetti: building a Kotlin Multiplatform conference app in 40min",
+            startsAt = LocalDateTime.parse("2023-04-13T14:00"),
+        ),
+    ),
+    __typename = "Speaker",
+)
+
 val MartinBonnin = SessionDetails.Speaker(
     __typename = "Speaker",
     id = "56fda597-4927-4d25-9a80-4795d15ef080",
-    speakerDetails = SpeakerDetails(
+    sessionSpeakerDetails = SessionSpeakerDetails(
         id = "56fda597-4927-4d25-9a80-4795d15ef080",
         name = "Martin Bonnin",
         photoUrl = MartinUrl,
@@ -54,24 +93,9 @@ val MartinBonnin = SessionDetails.Speaker(
         company = null,
         companyLogoUrl = null,
         city = null,
-        bio = "Martin is a maintainer of Apollo Kotlin. He has been writing Android applications since Cupcake and fell in love with Kotlin in 2017. Martin loves naming things and the sound of his laptop fan compiling all these type-safe programs. When not busy rewriting all his bash scripts in Kotlin, Martin loves to hike the Pyrénées or play a good game of Hearthstone.",
-        socials = listOf(
-            SpeakerDetails.Social(__typename = "Social", name = "Twitter", url = "https://twitter.com/martin_bonnin", icon = null),
-        ),
-        sessions = listOf(
-            SpeakerDetails.Session(
-                __typename = "Session",
-                id = "368995",
-                title = "Confetti: building a Kotlin Multiplatform conference app in 40min",
-                startsAt = LocalDateTime.parse("2023-04-13T14:00"),
-            ),
-        ),
         __typename = "Speaker",
     )
 )
-
-val johnOreillySpeaker: SpeakerDetails = JohnOreilly.speakerDetails
-val martinBonninSpeaker: SpeakerDetails = MartinBonnin.speakerDetails
 
 val sessionDetails = SessionDetails(
     id = "368995",

@@ -179,11 +179,6 @@ fun ConferenceAgentView(
             }
         }
 
-        HorizontalDivider(
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
-            thickness = 1.dp
-        )
-
         Box(
             modifier = Modifier
                 .weight(1f)

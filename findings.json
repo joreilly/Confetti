@@ -1,6 +1,25 @@
 {
   "entries": [
     {
+      "annotatedBasename": "AccountScreenPreview_Dark-a7b60242.a11y.png",
+      "cleanBasename": "AccountScreenPreview_Dark-a7b60242.png",
+      "findings": [
+        {
+          "boundsInScreen": "766,290,994,416",
+          "level": "WARNING",
+          "message": "This clickable item's speakable text: \"Sign in\" is identical to that of 1 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.view.View"
+        }
+      ],
+      "functionName": "AccountScreenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AccountScreenPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
       "annotatedBasename": "AndroidSessionDetailPreview_Phone_dark-ae9a0f09.a11y.png",
       "cleanBasename": "AndroidSessionDetailPreview_Phone_dark-ae9a0f09.png",
       "findings": [],
@@ -28,6 +47,17 @@
       "previewId": "dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSpeakerDetailsPreview_Phone \u2014 dark",
       "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/AndroidScreenPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "AssistantConversationPreview_Dark-b38b7f49.a11y.png",
+      "cleanBasename": "AssistantConversationPreview_Dark-b38b7f49.png",
+      "findings": [],
+      "functionName": "AssistantConversationPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
       "variant": ""
     },
     {
@@ -97,6 +127,17 @@
       "variant": ""
     },
     {
+      "annotatedBasename": "",
+      "cleanBasename": "ConferenceSelectionPreview_Dark-902fcef6.png",
+      "findings": [],
+      "functionName": "ConferenceSelectionPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
       "annotatedBasename": "ConfettiHeaderPreview_Dark-83a7050c.a11y.png",
       "cleanBasename": "ConfettiHeaderPreview_Dark-83a7050c.png",
       "findings": [],
@@ -105,6 +146,83 @@
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Dark",
       "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.a11y.png",
+      "cleanBasename": "HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.png",
+      "findings": [],
+      "functionName": "HazeBottomNavigationDetailPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationDetailPreview_Dark - high contrast blur target",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "HazeBottomNavigationPreview_Dark-98edf98e.a11y.png",
+      "cleanBasename": "HazeBottomNavigationPreview_Dark-98edf98e.png",
+      "findings": [
+        {
+          "boundsInScreen": "84,297,994,423",
+          "level": "INFO",
+          "message": "This non-clickable item's speakable text: \"A session card scrolling behind the navigation bar\" is identical to that of 5 other item(s).",
+          "type": "DuplicateSpeakableTextCheck",
+          "viewDescription": "android.widget.TextView"
+        }
+      ],
+      "functionName": "HazeBottomNavigationPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "OnboardingHazePreview_Dark-61a55232.a11y.png",
+      "cleanBasename": "OnboardingHazePreview_Dark-61a55232.png",
+      "findings": [
+        {
+          "boundsInScreen": "417,2166,480,2292",
+          "level": "ERROR",
+          "message": "This item may not have a label readable by screen readers.",
+          "type": "SpeakableTextPresentCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "480,2166,522,2292",
+          "level": "ERROR",
+          "message": "This item may not have a label readable by screen readers.",
+          "type": "SpeakableTextPresentCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "522,2166,648,2292",
+          "level": "ERROR",
+          "message": "This item may not have a label readable by screen readers.",
+          "type": "SpeakableTextPresentCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "417,2166,480,2292",
+          "level": "ERROR",
+          "message": "This item's width is 24dp. Consider making the width of this touch target 48dp or larger.",
+          "type": "TouchTargetSizeCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "480,2166,522,2292",
+          "level": "ERROR",
+          "message": "This item's width is 16dp. Consider making the width of this touch target 48dp or larger.",
+          "type": "TouchTargetSizeCheck",
+          "viewDescription": "android.view.View"
+        }
+      ],
+      "functionName": "OnboardingHazePreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.OnboardingHazePreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
       "variant": ""
     },
     {

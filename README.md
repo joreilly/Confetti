@@ -1,10 +1,18 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/main`. 75 preview(s) across 2 module(s) · 5 error(s) · 2 warning(s) · 7 info._
+_Auto-generated from `compose-preview/a11y/main`. 81 preview(s) across 2 module(s) · 10 error(s) · 3 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
 ## androidApp
+
+### `AccountScreenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AccountScreenPreview_Dark-a7b60242.a11y.png" width="400" />
+
+| # | Level | Rule | Element | Message |
+|--:|---|---|---|---|
+| 1 | WARNING | DuplicateSpeakableTextCheck | android.view.View | This clickable item's speakable text: "Sign in" is identical to that of 1 other item(s). |
 
 ### `AndroidSessionDetailPreview`
 
@@ -19,6 +27,12 @@ _No findings._
 | # | Level | Rule | Element | Message |
 |--:|---|---|---|---|
 | 1 | WARNING | DuplicateSpeakableTextCheck | android.view.View | This clickable item's speakable text: "John O'Reilly" is identical to that of 1 other item(s). |
+
+### `AssistantConversationPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AssistantConversationPreview_Dark-b38b7f49.a11y.png" width="400" />
+
+_No findings._
 
 ### `BackgroundAndroid`
 
@@ -56,11 +70,43 @@ _No findings._
 
 _No findings._
 
+### `ConferenceSelectionPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ConferenceSelectionPreview_Dark-902fcef6.png" width="400" />
+
+_No findings._
+
 ### `ConfettiHeaderPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ConfettiHeaderPreview_Dark-83a7050c.a11y.png" width="400" />
 
 _No findings._
+
+### `HazeBottomNavigationDetailPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.a11y.png" width="400" />
+
+_No findings._
+
+### `HazeBottomNavigationPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/HazeBottomNavigationPreview_Dark-98edf98e.a11y.png" width="400" />
+
+| # | Level | Rule | Element | Message |
+|--:|---|---|---|---|
+| 1 | INFO | DuplicateSpeakableTextCheck | android.widget.TextView | This non-clickable item's speakable text: "A session card scrolling behind the navigation bar" is identical to that of 5 other item(s). |
+
+### `OnboardingHazePreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/OnboardingHazePreview_Dark-61a55232.a11y.png" width="400" />
+
+| # | Level | Rule | Element | Message |
+|--:|---|---|---|---|
+| 1 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
+| 2 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
+| 3 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
+| 4 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 24dp. Consider making the width of this touch target 48dp or larger. |
+| 5 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
 
 ### `ScheduleScreenPreview`
 

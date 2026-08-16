@@ -56,10 +56,8 @@ class DefaultSpeakerDetailsComponent(
 
     override val uiState: Value<SpeakerDetailsUiState> = flow {
         val initialBookmarks = repository.bookmarks(conference, user?.uid, user, FetchPolicy.CacheFirst).first()
-        // FixMe: add .speaker(id)
-        val response = repository.conferenceData(conference = conference, FetchPolicy.CacheFirst)
-        val details = response.data?.speakers?.nodes?.map { it.speakerDetails }
-            ?.firstOrNull { it.id == speakerId }
+        val response = repository.speaker(conference = conference, id = speakerId, fetchPolicy = FetchPolicy.CacheFirst)
+        val details = response.data?.speaker?.speakerDetails
 
         if (details != null) {
             val initialBookmarksSet = initialBookmarks.data?.bookmarks?.sessionIds.orEmpty().toSet()

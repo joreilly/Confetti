@@ -284,7 +284,7 @@
     "functionName": "ConferenceSelectionPreview",
     "module": "androidApp",
     "renderBasename": "ConferenceSelectionPreview_Dark-902fcef6.png",
-    "sha256": "d389859e4f7cf6d3235119c84dc099d7799df8cefef0c6efc5cf96a2a41caee9",
+    "sha256": "4e80919bbeccc31871774cd9ce59703af258743012400c4a1f700dc9a480ef2e",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Light": {
@@ -292,7 +292,7 @@
     "functionName": "ConferenceSelectionPreview",
     "module": "androidApp",
     "renderBasename": "ConferenceSelectionPreview_Light-db39c3f8.png",
-    "sha256": "7176bda025ccf40a37c2b9837e725ad851156e6ae3e715b3788be26333bfc91b",
+    "sha256": "c0fa9ab1d60b1e70747bf5fef4ca28cec58427464681b15016198b30137d6fc3",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationDetailPreview_Dark - high contrast blur target": {

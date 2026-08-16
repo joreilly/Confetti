@@ -268,7 +268,7 @@
     "functionName": "AssistantConversationPreview",
     "module": "androidApp",
     "renderBasename": "AssistantConversationPreview_Dark-b38b7f49.png",
-    "sha256": "c152da6153e4f917718c1791af330fe5f8bb514780f225b02390b04c42d74eaf",
+    "sha256": "99956da285beeed66894c4f5ca70287f5d7e86150c75bc275bbd9529cfa6139d",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Light": {
@@ -276,7 +276,7 @@
     "functionName": "AssistantConversationPreview",
     "module": "androidApp",
     "renderBasename": "AssistantConversationPreview_Light-0a5ca29b.png",
-    "sha256": "fc08c1ac7eb02ee386ce786e916f2da274ac02ca5a9d8a0adf9c870cf4bf8f14",
+    "sha256": "a02d4a43f6e7c77264822f8b39df4f614f4fb74bc6efa96298e290c9b171f26a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Dark": {
@@ -1180,7 +1180,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round-86172c22.png",
-    "sha256": "5f26c99f35cc33d5e302e72a790a4099e4e328b7c2f24b2bfd8620d30c01dc50",
+    "sha256": "9201db074de6773ba7cb1829b0a840d1111dce97782f9851f91dec60ecffce7e",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {

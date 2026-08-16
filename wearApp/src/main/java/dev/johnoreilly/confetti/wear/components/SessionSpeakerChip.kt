@@ -15,6 +15,7 @@ import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.SurfaceTransformation
 import coil.compose.SubcomposeAsyncImage
+import dev.johnoreilly.confetti.fragment.SessionSpeakerDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
@@ -25,10 +26,15 @@ val SpeakerDetails.wearPhotoUrl: String?
         "$it?size=Watch"
     } ?: photoUrl
 
+val SessionSpeakerDetails.wearPhotoUrl: String?
+    get() = photoUrlThumbnail?.let {
+        "$it?size=Watch"
+    } ?: photoUrl
+
 @Composable
 fun SessionSpeakerChip(
     modifier: Modifier = Modifier,
-    speaker: SpeakerDetails,
+    speaker: SessionSpeakerDetails,
     navigateToSpeaker: (String) -> Unit,
     transformation: SurfaceTransformation? = null,
 ) {

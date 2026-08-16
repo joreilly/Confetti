@@ -103,6 +103,17 @@ query GetVenue {
     }
 }
 
+fragment SessionSpeakerDetails on Speaker {
+    id
+    name
+    photoUrl
+    photoUrlThumbnail
+    tagline
+    company
+    companyLogoUrl
+    city
+}
+
 fragment SessionDetails on Session {
     id
     title
@@ -112,7 +123,7 @@ fragment SessionDetails on Session {
     sessionDescription: description
     language
     speakers {
-        ...SpeakerDetails
+        ...SessionSpeakerDetails
     }
     room {
         name

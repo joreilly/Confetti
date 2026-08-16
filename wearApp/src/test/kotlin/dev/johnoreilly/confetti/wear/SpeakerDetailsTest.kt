@@ -6,7 +6,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
-import dev.johnoreilly.confetti.wear.preview.TestFixtures.JohnOreilly
+import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import dev.johnoreilly.confetti.wear.screenshots.BaseScreenshotTest
 import dev.johnoreilly.confetti.wear.screenshots.WearDevice
 import dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsView
@@ -34,7 +34,7 @@ class SpeakerDetailsTest : BaseScreenshotTest() {
             TestScaffold {
                 SpeakerDetailsView(
                     columnState = columnState,
-                    uiState = SpeakerDetailsUiState.Success("myconf", JohnOreilly.speakerDetails),
+                    uiState = SpeakerDetailsUiState.Success("myconf", TestFixtures.JohnOreillySpeakerDetails),
                 )
             }
         }
@@ -52,7 +52,7 @@ class SpeakerDetailsTest : BaseScreenshotTest() {
         composeRule.setContent {
             TestScaffold {
                 SpeakerDetailsView(
-                    uiState = SpeakerDetailsUiState.Success("myconf", JohnOreilly.speakerDetails),
+                    uiState = SpeakerDetailsUiState.Success("myconf", TestFixtures.JohnOreillySpeakerDetails),
                 )
             }
         }

@@ -109,7 +109,7 @@ fun SessionDetailView(
                                 .minimumVerticalContentPadding(
                                     ButtonDefaults.minimumVerticalListContentPadding
                                 ),
-                            speaker = speaker.speakerDetails,
+                            speaker = speaker.sessionSpeakerDetails,
                             navigateToSpeaker = navigateToSpeaker,
                             transformation = SurfaceTransformation(transformationSpec),
                         )

@@ -50,6 +50,7 @@ import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.fragment.SessionSpeakerDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.preview.MobilePreviews
@@ -141,7 +142,7 @@ fun SessionDetailViewShared(
 
                     Column(modifier = Modifier.padding(contentPadding)) {
                         session.speakers.forEach { speaker ->
-                            SessionSpeakerInfo(conference, speaker.speakerDetails, onSpeakerClick)
+                            SessionSpeakerInfo(conference, speaker.sessionSpeakerDetails, onSpeakerClick)
                         }
                     }
 
@@ -174,7 +175,7 @@ fun SessionDetailViewShared(
 @Composable
 internal fun SessionSpeakerInfo(
     conference: String,
-    speaker: SpeakerDetails,
+    speaker: SessionSpeakerDetails,
     onSpeakerClick: (speakerId: String) -> Unit,
 ) {
     var showFullScreenPhoto by remember { mutableStateOf(false) }

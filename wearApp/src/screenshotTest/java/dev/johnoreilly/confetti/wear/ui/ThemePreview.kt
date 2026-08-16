@@ -43,7 +43,7 @@ fun ThemePreview(seedColor: Theme) {
             SectionHeader("Section Header")
             Text("Confetti: building a Kotlin Multiplatform conference app in 40min")
             ConferenceCard(conference = TestFixtures.conferences.first(), navigateToConference = {})
-            SessionSpeakerChip(speaker = TestFixtures.JohnOreilly.speakerDetails, navigateToSpeaker = {})
+            SessionSpeakerChip(speaker = TestFixtures.JohnOreilly.sessionSpeakerDetails, navigateToSpeaker = {})
             SessionCard(
                 session = TestFixtures.sessionDetails,
                 sessionSelected = {},

@@ -217,7 +217,7 @@ class SessionsSimpleComponent(
             details.sessionDescription.orEmpty().contains(filter, ignoreCase) ||
             details.room?.name?.contains(filter, ignoreCase) == true ||
             details.speakers.any { speaker ->
-                speaker.speakerDetails.name.contains(filter, ignoreCase)
+                speaker.sessionSpeakerDetails.name.contains(filter, ignoreCase)
             }
     }
 

@@ -110,7 +110,7 @@ fun AssistantConversationPreview() {
 @Composable
 fun ConferenceSelectionPreview() {
     ConferenceListView(
-        component = PreviewConferencesComponent(
+        component = PreviewMobileConferencesComponent(
             ConferencesComponent.Success(
                 conferenceListByYear = previewConferenceListState.conferenceListByYear,
                 currentConference = "kotlinconf2023",
@@ -119,7 +119,7 @@ fun ConferenceSelectionPreview() {
     )
 }
 
-private class PreviewConferencesComponent(
+private class PreviewMobileConferencesComponent(
     state: ConferencesComponent.UiState,
 ) : ConferencesComponent {
     override val uiState: Value<ConferencesComponent.UiState> = MutableValue(state)

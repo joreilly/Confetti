@@ -167,12 +167,8 @@ fun OnboardingContent(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (pagerState.currentPage < 2) {
-                        TextButton(onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(2)
-                            }
-                        }) {
+                    if (pagerState.currentPage < 3) {
+                        TextButton(onClick = onComplete) {
                             Text("Skip")
                         }
                     }

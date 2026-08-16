@@ -34,7 +34,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Scaffold
@@ -73,7 +72,7 @@ import org.jetbrains.compose.resources.stringResource
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
 import dev.johnoreilly.confetti.decompose.AppComponent
 import dev.johnoreilly.confetti.decompose.ConferenceComponent
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
@@ -190,17 +189,9 @@ fun HomeView(component: HomeComponent) {
             Scaffold(
                 bottomBar = {
                     if (!shouldShowNavRail) {
-                        BottomBar(
-                            component = component,
-                            modifier = Modifier.hazeChild(
-                                state = hazeState,
-                                style = HazeStyle(
-                                    backgroundColor = MaterialTheme.colorScheme.surface,
-                                    tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
-                                    blurRadius = 25.dp,
-                                )
-                            )
-                        )
+                        HazeBottomBar(hazeState = hazeState) {
+                            BottomBarItems(component)
+                        }
                     }
                 },
                 snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
@@ -307,47 +298,62 @@ private fun NavigationRail(component: HomeComponent) {
 
 
 @Composable
-private fun BottomBar(component: HomeComponent, modifier: Modifier = Modifier) {
-    Column {
+fun HazeBottomBar(
+    hazeState: HazeState,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit,
+) {
+    Column(modifier = modifier) {
         HorizontalDivider()
         NavigationBar(
-            modifier = modifier,
+            modifier = Modifier.hazeEffect(
+                state = hazeState,
+                style = HazeStyle(
+                    backgroundColor = MaterialTheme.colorScheme.surface,
+                    tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
+                    blurRadius = 25.dp,
+                )
+            ),
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
             tonalElevation = 0.dp,
             containerColor = Color.Transparent,
-        ) {
-            NavigationButtons(component = component) { isSelected, icon, text, badgeCount, onClick ->
-                val scale by animateFloatAsState(
-                    targetValue = if (isSelected) 1.12f else 1.0f,
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioMediumBouncy,
-                        stiffness = Spring.StiffnessMediumLow
-                    ),
-                    label = "NavItemScale"
-                )
-                NavigationBarItem(
-                    selected = isSelected,
-                    onClick = onClick,
-                    icon = {
-                        Box(modifier = Modifier.scale(scale)) {
-                            BadgedBox(
-                                badge = {
-                                    if (badgeCount > 0) {
-                                        Badge {
-                                            val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
-                                            Text(badgeText)
-                                        }
-                                    }
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun RowScope.BottomBarItems(component: HomeComponent) {
+    NavigationButtons(component = component) { isSelected, icon, text, badgeCount, onClick ->
+        val scale by animateFloatAsState(
+            targetValue = if (isSelected) 1.12f else 1.0f,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessMediumLow
+            ),
+            label = "NavItemScale"
+        )
+        NavigationBarItem(
+            selected = isSelected,
+            onClick = onClick,
+            icon = {
+                Box(modifier = Modifier.scale(scale)) {
+                    BadgedBox(
+                        badge = {
+                            if (badgeCount > 0) {
+                                Badge {
+                                    val badgeText = if (badgeCount > 99) "99+" else badgeCount.toString()
+                                    Text(badgeText)
                                 }
-                            ) {
-                                icon()
                             }
                         }
-                    },
-                    label = { Text(text) },
-                )
-            }
-        }
+                    ) {
+                        icon()
+                    }
+                }
+            },
+            label = { Text(text) },
+        )
     }
 }
 

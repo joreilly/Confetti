@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.utils.isCompact
 import dev.johnoreilly.confetti.utils.isExpanded
 import dev.johnoreilly.confetti.utils.thenNotNull
-import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeSource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +52,7 @@ fun HomeScaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)
             .thenNotNull(hazeState) { state ->
-                haze(state)
+                hazeSource(state)
             },
         topBar = {
             CenterAlignedTopAppBar(

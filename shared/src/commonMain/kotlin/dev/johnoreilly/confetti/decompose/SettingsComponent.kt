@@ -52,6 +52,7 @@ interface SettingsComponent {
     fun updateUseExperimentalFeatures(value: Boolean)
     fun updateNotificationsEnabled(value: Boolean)
     fun updateForceEnableAssistant(value: Boolean)
+    fun updateDeveloperMode(enabled: Boolean)
     fun enableDeveloperMode()
     fun sendNotifications()
     val supportsNotifications: Boolean
@@ -128,6 +129,16 @@ class DefaultSettingsComponent(
         }
     }
 
+    override fun updateDeveloperMode(enabled: Boolean) {
+        coroutineScope.launch {
+            appSettings.setDeveloperMode(enabled)
+            if (!enabled) {
+                appSettings.setExperimentalFeaturesEnabled(false)
+                appSettings.setForceEnableAssistant(false)
+            }
+        }
+    }
+
     override fun enableDeveloperMode() {
         coroutineScope.launch {
             appSettings.setDeveloperMode(true)
@@ -136,7 +147,7 @@ class DefaultSettingsComponent(
 
     override fun sendNotifications() {
         coroutineScope.launch {
-            notificationSender?.sendNotification(NotificationSender.AllFuture)
+            notificationSender?.sendNotification(NotificationSender.AllBookmarked)
         }
     }
 

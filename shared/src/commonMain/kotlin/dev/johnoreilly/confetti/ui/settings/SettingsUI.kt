@@ -2,9 +2,17 @@
 
 package dev.johnoreilly.confetti.ui.settings
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -18,10 +26,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -44,6 +56,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -51,6 +64,8 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -78,6 +93,7 @@ import dev.johnoreilly.confetti.decompose.DeveloperSettings
 import dev.johnoreilly.confetti.decompose.SettingsComponent
 import dev.johnoreilly.confetti.decompose.UserEditableSettings
 import dev.johnoreilly.confetti.permissions.rememberNotificationPermissionState
+import dev.johnoreilly.confetti.preview.MobilePreviews
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -95,6 +111,7 @@ fun SettingsUI(
         developerSettings = developerSettings,
         applicationInfo = component.applicationInfo,
         onEnableDeveloperMode = component::enableDeveloperMode,
+        onUpdateDeveloperMode = component::updateDeveloperMode,
         onSendNotifications = component::sendNotifications,
         supportsNotifications = component.supportsNotifications,
         onNotificationsEnabled = component::updateNotificationsEnabled,
@@ -111,6 +128,7 @@ fun SettingsUI(
     developerSettings: DeveloperSettings?,
     applicationInfo: ApplicationInfo,
     onEnableDeveloperMode: () -> Unit,
+    onUpdateDeveloperMode: (value: Boolean) -> Unit,
     onSendNotifications: () -> Unit,
     supportsNotifications: Boolean,
     onNotificationsEnabled: (value: Boolean) -> Unit,
@@ -118,6 +136,28 @@ fun SettingsUI(
     popBack: () -> Unit
 ) {
     var showPermissionDeniedDialog by remember { mutableStateOf(false) }
+    var showNotificationInfoDialog by remember { mutableStateOf(false) }
+    var showTokenInfoDialog by remember { mutableStateOf(false) }
+
+    if (showNotificationInfoDialog) {
+        ConfettiAlertDialog(
+            title = "Mock Notifications",
+            text = "Triggers local notifications for all bookmarked sessions (past and upcoming) in your selected conference to test notification alerts.",
+            confirmText = "Got it",
+            onConfirm = { showNotificationInfoDialog = false },
+            onDismiss = { showNotificationInfoDialog = false }
+        )
+    }
+
+    if (showTokenInfoDialog) {
+        ConfettiAlertDialog(
+            title = "Developer Token",
+            text = "An authentication token used for API requests and debugging. Tapping the row copies the token to your clipboard when signed in.",
+            confirmText = "Got it",
+            onConfirm = { showTokenInfoDialog = false },
+            onDismiss = { showTokenInfoDialog = false }
+        )
+    }
 
     val notificationPermissionState = rememberNotificationPermissionState(
         notificationsActive = userEditableSettings?.notificationsEnabled,
@@ -146,14 +186,6 @@ fun SettingsUI(
     }
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    val uriHandler = LocalUriHandler.current
-    /**
-     * usePlatformDefaultWidth = false is use as a temporary fix to allow
-     * height recalculation during recomposition. This, however, causes
-     * Dialog's to occupy full width in Compact mode. Therefore max width
-     * is configured below. This should be removed when there's fix to
-     * https://issuetracker.google.com/issues/221643630
-     */
     Scaffold(
         modifier = Modifier
             .fillMaxWidth()
@@ -186,82 +218,202 @@ fun SettingsUI(
                 .padding(top = innerPadding.calculateTopPadding())
                 .fillMaxSize()
         ) {
-            LazyColumn(modifier = Modifier.weight(1f)) {
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Group 1: Preferences (Theme & Notifications)
                 item {
-                    SettingsPanel(
-                        settings = userEditableSettings,
-                        onChangeDarkThemeConfig = onChangeDarkThemeConfig,
-                        onChangeUseExperimentalFeatures = onChangeUseExperimentalFeatures,
-                        onChangeNotificationsEnabled = { enabled ->
-                                if (enabled) {
-                                    notificationPermissionState.maybeRequest()
-                                } else {
-                                    onNotificationsEnabled(false)
-                                }
-                            },
-                        supportsNotifications = supportsNotifications,
-                    )
-                }
-
-                if (developerSettings != null) {
-                    item {
-                        Text(
-                            text = stringResource(Res.string.developerSettings),
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
-                        )
-                    }
-
-                    developerSettings.token?.let { token ->
-                        item {
-                            TokenSettingsRow(token = token)
-                        }
-                    }
-
-                    item {
-                        ActionSettingsRow(
-                            title = "Send Test Notification",
-                            subtitle = "Trigger a mock session reminder alert",
-                            onClick = onSendNotifications,
-                            enabled = supportsNotifications
-                        )
-                    }
-
-                    item {
-                        SwitchSettingsRow(
-                            title = "Force Open Assistant",
-                            description = "Enable Gemini Assistant without API key config",
-                            value = developerSettings.forceEnableAssistant,
-                            onValueChange = onChangeForceEnableAssistant
-                        )
-                    }
-                }
-            }
-
-            HorizontalDivider()
-
-            var developerModeCount by remember { mutableIntStateOf(0) }
-            Box(modifier = Modifier.run {
-                if (developerSettings == null) {
-                    clickable {
-                        developerModeCount++
-                        if (developerModeCount > 8) {
-                            onEnableDeveloperMode()
-                        }
-                    }
-                } else {
-                    this
-                }
-            }) {
-                Row(
-                    modifier = Modifier
-                        .padding(top = 16.dp, bottom = 16.dp + navigationBarsPadding),
-                ) {
-                    Column(
-                        Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                    Card(
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                        ),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Version: ${applicationInfo.versionName}")
+                        Column {
+                            if (userEditableSettings != null) {
+                                SwitchSettingsRow(
+                                    title = stringResource(Res.string.enable_notifications),
+                                    description = stringResource(Res.string.enable_notifications_desc),
+                                    value = userEditableSettings.notificationsEnabled,
+                                    onValueChange = { enabled ->
+                                        if (enabled) {
+                                            notificationPermissionState.maybeRequest()
+                                        } else {
+                                            onNotificationsEnabled(false)
+                                        }
+                                    },
+                                    enabled = supportsNotifications
+                                )
+
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                                )
+
+                                var showThemeDialog by remember { mutableStateOf(false) }
+                                val themeLabel = when (userEditableSettings.darkThemeConfig) {
+                                    DarkThemeConfig.FOLLOW_SYSTEM -> stringResource(Res.string.dark_mode_config_system_default)
+                                    DarkThemeConfig.LIGHT -> stringResource(Res.string.dark_mode_config_light)
+                                    DarkThemeConfig.DARK -> stringResource(Res.string.dark_mode_config_dark)
+                                }
+
+                                SelectionSettingsRow(
+                                    title = stringResource(Res.string.dark_mode_preference),
+                                    selectedValue = themeLabel,
+                                    onClick = { showThemeDialog = true }
+                                )
+
+                                if (showThemeDialog) {
+                                    DarkThemeConfigDialog(
+                                        currentConfig = userEditableSettings.darkThemeConfig,
+                                        onConfigSelected = onChangeDarkThemeConfig,
+                                        onDismissRequest = { showThemeDialog = false }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Group 2: Developer Options
+                item {
+                    val isDevMode = developerSettings != null
+
+                    val bannerContainerColor by animateColorAsState(
+                        targetValue = if (isDevMode) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLow,
+                        label = "developerOptionsBannerContainerColor"
+                    )
+                    val bannerContentColor by animateColorAsState(
+                        targetValue = if (isDevMode) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
+                        label = "developerOptionsBannerContentColor"
+                    )
+
+                    // Master Banner Card (Android System Settings Style)
+                    Card(
+                        shape = RoundedCornerShape(24.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = bannerContainerColor
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onUpdateDeveloperMode(!isDevMode) }
+                                .padding(horizontal = 20.dp, vertical = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Use developer options",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = bannerContentColor
+                            )
+                            Switch(
+                                checked = isDevMode,
+                                onCheckedChange = null
+                            )
+                        }
+                    }
+
+                    AnimatedVisibility(
+                        visible = isDevMode,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically()
+                    ) {
+                        Column {
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Card(
+                                shape = RoundedCornerShape(20.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                                ),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Column {
+                                    if (developerSettings != null) {
+                                        TokenSettingsRow(
+                                            token = developerSettings.token,
+                                            onInfoClick = { showTokenInfoDialog = true }
+                                        )
+
+                                        HorizontalDivider(
+                                            modifier = Modifier.padding(horizontal = 16.dp),
+                                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                                        )
+
+                                        ActionSettingsRow(
+                                            title = "Send Test Notification",
+                                            subtitle = "Trigger a mock session reminder alert",
+                                            onClick = onSendNotifications,
+                                            onInfoClick = { showNotificationInfoDialog = true },
+                                            enabled = supportsNotifications
+                                        )
+
+                                        HorizontalDivider(
+                                            modifier = Modifier.padding(horizontal = 16.dp),
+                                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                                        )
+
+                                        SwitchSettingsRow(
+                                            title = "Force Open Assistant",
+                                            description = "Enable Gemini Assistant without API key config",
+                                            value = developerSettings.forceEnableAssistant,
+                                            onValueChange = onChangeForceEnableAssistant
+                                        )
+                                    }
+
+                                    if (userEditableSettings != null) {
+                                        HorizontalDivider(
+                                            modifier = Modifier.padding(horizontal = 16.dp),
+                                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                                        )
+
+                                        SwitchSettingsRow(
+                                            title = stringResource(Res.string.use_experimental_features),
+                                            description = stringResource(Res.string.use_experimental_features_desc),
+                                            value = userEditableSettings.useExperimentalFeatures,
+                                            onValueChange = onChangeUseExperimentalFeatures
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Group 3: Version info footer
+                item {
+                    var developerModeCount by remember { mutableIntStateOf(0) }
+                    val clipboardManager = LocalClipboardManager.current
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp, bottom = navigationBarsPadding + 8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Confetti v${applicationInfo.versionName}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable {
+                                    clipboardManager.setText(AnnotatedString(applicationInfo.versionName))
+                                    if (developerSettings == null) {
+                                        developerModeCount++
+                                        if (developerModeCount > 8) {
+                                            onEnableDeveloperMode()
+                                        }
+                                    }
+                                }
+                                .padding(horizontal = 12.dp, vertical = 6.dp)
+                        )
                     }
                 }
             }
@@ -269,53 +421,7 @@ fun SettingsUI(
     }
 }
 
-@Composable
-private fun SettingsPanel(
-    settings: UserEditableSettings?,
-    supportsNotifications: Boolean,
-    onChangeUseExperimentalFeatures: (value: Boolean) -> Unit,
-    onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
-    onChangeNotificationsEnabled: (value: Boolean) -> Unit,
-) {
-    if (settings != null) {
-        var showThemeDialog by remember { mutableStateOf(false) }
 
-        SwitchSettingsRow(
-            title = stringResource(Res.string.enable_notifications),
-            description = stringResource(Res.string.enable_notifications_desc),
-            value = settings.notificationsEnabled,
-            onValueChange = onChangeNotificationsEnabled,
-            enabled = supportsNotifications
-        )
-
-        SwitchSettingsRow(
-            title = stringResource(Res.string.use_experimental_features),
-            description = stringResource(Res.string.use_experimental_features_desc),
-            value = settings.useExperimentalFeatures,
-            onValueChange = onChangeUseExperimentalFeatures
-        )
-
-        val themeLabel = when (settings.darkThemeConfig) {
-            DarkThemeConfig.FOLLOW_SYSTEM -> stringResource(Res.string.dark_mode_config_system_default)
-            DarkThemeConfig.LIGHT -> stringResource(Res.string.dark_mode_config_light)
-            DarkThemeConfig.DARK -> stringResource(Res.string.dark_mode_config_dark)
-        }
-
-        SelectionSettingsRow(
-            title = stringResource(Res.string.dark_mode_preference),
-            selectedValue = themeLabel,
-            onClick = { showThemeDialog = true }
-        )
-
-        if (showThemeDialog) {
-            DarkThemeConfigDialog(
-                currentConfig = settings.darkThemeConfig,
-                onConfigSelected = onChangeDarkThemeConfig,
-                onDismissRequest = { showThemeDialog = false }
-            )
-        }
-    }
-}
 
 @Composable
 private fun SwitchSettingsRow(
@@ -466,14 +572,18 @@ fun SettingsDialogThemeChooserRow(
 
 @Composable
 private fun TokenSettingsRow(
-    token: String
+    token: String?,
+    onInfoClick: (() -> Unit)? = null
 ) {
     val clipboardManager = LocalClipboardManager.current
+    val hasToken = !token.isNullOrBlank()
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                clipboardManager.setText(AnnotatedString(token))
+            .clickable(enabled = hasToken) {
+                if (token != null) {
+                    clipboardManager.setText(AnnotatedString(token))
+                }
             }
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -481,16 +591,26 @@ private fun TokenSettingsRow(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = "Developer Token",
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                color = if (hasToken) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = token,
+                text = if (hasToken) token.orEmpty() else "Not signed in",
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = if (hasToken) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+        }
+        if (onInfoClick != null) {
+            IconButton(onClick = onInfoClick) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = "Info",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
@@ -500,6 +620,7 @@ private fun ActionSettingsRow(
     title: String,
     subtitle: String? = null,
     onClick: () -> Unit,
+    onInfoClick: (() -> Unit)? = null,
     enabled: Boolean = true
 ) {
     Row(
@@ -524,7 +645,42 @@ private fun ActionSettingsRow(
                 )
             }
         }
+        if (onInfoClick != null) {
+            IconButton(onClick = onInfoClick) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = "Info",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
     }
+}
+
+@MobilePreviews
+@Composable
+private fun SettingsScreenPreview() {
+    SettingsUI(
+        userEditableSettings = UserEditableSettings(
+            darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+            useExperimentalFeatures = true,
+            notificationsEnabled = true
+        ),
+        onChangeUseExperimentalFeatures = {},
+        onChangeDarkThemeConfig = {},
+        developerSettings = DeveloperSettings(
+            token = "sample-token-12345",
+            forceEnableAssistant = false
+        ),
+        applicationInfo = ApplicationInfo("1.0.0 (100)"),
+        onEnableDeveloperMode = {},
+        onUpdateDeveloperMode = {},
+        onSendNotifications = {},
+        supportsNotifications = true,
+        onNotificationsEnabled = {},
+        onChangeForceEnableAssistant = {},
+        popBack = {}
+    )
 }
 
 

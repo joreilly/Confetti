@@ -332,7 +332,7 @@
     "functionName": "OnboardingHazePreview",
     "module": "androidApp",
     "renderBasename": "OnboardingHazePreview_Dark-61a55232.png",
-    "sha256": "2d74ebcb4c4489417b192bfe6235cbaf7b17dcf79419dd4d01df67a53bb31abc",
+    "sha256": "6d5d7758fdc98069e3602abfef6aad9f29ec4b2f8097467d769a5bae31e15bd1",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.OnboardingHazePreview_Light": {
@@ -340,7 +340,7 @@
     "functionName": "OnboardingHazePreview",
     "module": "androidApp",
     "renderBasename": "OnboardingHazePreview_Light-472e7fa2.png",
-    "sha256": "d832204a87d139c06ca3601d9048cd6d7b34fa055283de56d8fcfc3846786fc4",
+    "sha256": "ad3d22cc88d79038af619f61ce253d39577ee40615b9c926d72e1144e49b3b96",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Dark": {

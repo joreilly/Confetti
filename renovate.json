@@ -1,11 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended",
+    ":semanticCommitsDisabled"
   ],
+  "configMigration": true,
   "packageRules": [
     {
-      "description": "compose-ai-tools ships the preview CLI, the ee.schimke.composeai Gradle plugin, and the reusable CI composite actions as a single release, and this repo pins BOTH halves: the composeai-preview catalog key and the @v0.19.x action refs in design-artifacts.yml / compose-preview.yml. Without this rule they are separate updates and land in separate PRs, so the CLI and the action code that drives it skew apart between merges. Group them into one PR and skip the batching window so the published catalog tracks the renderer it was rendered with.",
+      "description": "Action bumps are low-risk and arrive in bursts — one round of checkout/setup-java/cache/upload-artifact majors landed as six separate PRs. Batch non-major action updates into a single PR; majors still get their own so the breaking-change notes actually get read. Kept first in the list so the more specific rules below can override the group for actions that have to ship alongside their library half.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "github actions"
+    },
+    {
+      "description": "compose-ai-tools ships the preview CLI, the ee.schimke.composeai Gradle plugin, and the reusable CI composite actions as a single release, and this repo pins BOTH halves: the composeai-preview catalog key and the versioned action refs in design-artifacts.yml / compose-preview.yml. Without this rule they are separate updates and land in separate PRs, so the CLI and the action code that drives it skew apart between merges. Group them into one PR and skip the batching window so the published catalog tracks the renderer it was rendered with.",
       "matchPackageNames": [
         "yschimke/compose-ai-tools",
         "/^ee\\.schimke\\.composeai($|[.:])/"
@@ -14,6 +28,20 @@
       "schedule": [
         "at any time"
       ]
+    },
+    {
+      "description": "Every com.squareup.okhttp3 artifact is published from one release and only supports being used at a matching version — okhttp, okhttp-coroutines and logging-interceptor all sit on the same classpath in backend/service-import. Renovate's monorepo data does not group them from Maven metadata alone, so v5.5.0 arrived as three independent PRs, each of which skews the classpath until the last one merges. The catalog now shares one `okhttp` version ref, which groups the declared entries; this rule keeps the guarantee for any okhttp3 artifact declared outside the catalog.",
+      "matchPackageNames": [
+        "/^com\\.squareup\\.okhttp3:/"
+      ],
+      "groupName": "okhttp"
+    },
+    {
+      "description": "kotlinx-datetime publishes a parallel `-0.6.x-compat` line for consumers still on the pre-kotlin.time.Instant API — which is what apollo-adapters-kotlinx-datetime needs. Plain 0.8.0 sorts ABOVE 0.8.0-0.6.x-compat in Maven ordering, so without this Renovate offers what looks like a routine patch bump and silently moves the repo off the compat line. Restrict updates to the compat line; delete this rule once the datetime consumers are on the new Instant API.",
+      "matchPackageNames": [
+        "org.jetbrains.kotlinx:kotlinx-datetime"
+      ],
+      "allowedVersions": "/-0\\.6\\.x-compat$/"
     },
     {
       "description": "AGP 9.3.x+ outruns what the locally installed Android Studio supports — sync fails with unsupported-AGP-version and \"could not find compile target\" errors. Hold AGP updates until Studio's bundled support catches up.",

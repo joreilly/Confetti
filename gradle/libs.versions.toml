@@ -4,6 +4,7 @@ ksp = "2.3.10"
 kotlinx-coroutines = "1.11.0"
 kotlinx-datetime = "0.8.0-0.6.x-compat"
 kotlinx-serialization = "1.11.0"
+ktor = "3.5.2"
 apollo-kotlin-execution = "0.1.2"
 tapmoc = "0.4.2"
 
@@ -32,12 +33,10 @@ kermit = "2.1.0"
 kmmbridge = "1.2.1"
 kotlin-csv = "1.11.0"
 koin = "4.2.2"
-kotlinx-coroutines-play-services = "1.11.0"
-lifecycle = "2.11.0"
-lifecycle-livedata-ktx = "2.11.0"
 materialkolor = "5.0.0"
 multiplatform-settings = "1.3.0"
 nav-compose = "2.9.8"
+okhttp = "5.5.0"
 okio = "3.18.1"
 permissions = "0.20.1"
 haze = "1.7.2"
@@ -46,6 +45,7 @@ stately = "2.1.0"
 protolayout = "1.4.1"
 robolectric = "4.16.1"
 room = "2.8.4"
+scrimage = "4.6.7"
 tiles-tooling-preview = "1.6.1"
 wear = "1.4.0"
 wear-watchface = "1.3.0"
@@ -71,13 +71,13 @@ androidx-credentials = { module = "androidx.credentials:credentials", version.re
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
-androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout" }
 androidx-protolayout-expression-pipeline = { module = "androidx.wear.protolayout:protolayout-expression-pipeline", version.ref = "protolayout" }
 androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout" }
-androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version = "1.4.1" }
+androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version.ref = "protolayout" }
 androidx-protolayout-proto = { module = "androidx.wear.protolayout:protolayout-proto", version.ref = "protolayout" }
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles-tooling-preview" }
 androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tiles-tooling-preview" }
@@ -106,7 +106,7 @@ spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-s
 spring-webflux = "org.springframework:spring-webflux:7.0.8"
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring" }
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
-ktor-server-netty = "io.ktor:ktor-server-netty:3.5.2"
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 apollo-annotations = { module = "com.apollographql.apollo:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo:apollo-tooling", version.ref = "apollo" }
 apollo-testing = { module = "com.apollographql.apollo:apollo-testing-support" }
@@ -121,8 +121,8 @@ coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "io-coil-kt" }
 coil-test = { module = "io.coil-kt:coil-test", version.ref = "io-coil-kt" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "io-coil3-kt" }
 coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "io-coil3-kt" }
-ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version = "3.5.2" }
-ktor-client-js = { group = "io.ktor", name = "ktor-client-js", version = "3.5.2" }
+ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
@@ -178,13 +178,13 @@ kotlin-csv = { module = "com.jsoizo:kotlin-csv-jvm", version.ref = "kotlin-csv" 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
-kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play-services" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-ktor-cio = "io.ktor:ktor-server-cio:3.5.2"
-ktor-status-pages = "io.ktor:ktor-server-status-pages:3.5.2"
-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+ktor-cio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
+ktor-status-pages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-window-size = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "composeWindowSize" }
 
@@ -193,9 +193,9 @@ multiplatform-settings-serialization = { module = "com.russhwolf:multiplatform-s
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatform-settings" }
 multiplatform-settings-make-observable  = { module = "com.russhwolf:multiplatform-settings-make-observable", version.ref = "multiplatform-settings" }
 multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
-okhttp = "com.squareup.okhttp3:okhttp:5.4.0"
-okhttp-coroutines = "com.squareup.okhttp3:okhttp-coroutines:5.4.0"
-okhttp-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.4.0"
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-coroutines = { module = "com.squareup.okhttp3:okhttp-coroutines", version.ref = "okhttp" }
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 play-services-auth = "com.google.android.gms:play-services-auth:21.6.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -205,15 +205,15 @@ plugin-google-services = "com.google.gms:google-services:4.5.0"
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
-plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version = "3.5.16" }
+plugin-spring-boot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "spring" }
 plugin-wire = { module = "com.squareup.wire:wire-gradle-plugin", version = "6.4.5" }
 plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
-scrimage-core = "com.sksamuel.scrimage:scrimage-core:4.6.7"
-scrimage-filters = "com.sksamuel.scrimage:scrimage-filters:4.6.7"
+scrimage-core = { module = "com.sksamuel.scrimage:scrimage-core", version.ref = "scrimage" }
+scrimage-filters = { module = "com.sksamuel.scrimage:scrimage-filters", version.ref = "scrimage" }
 snakeyaml = "org.yaml:snakeyaml:2.6"
 spring-web = "org.springframework:spring-web:6.2.19"
-stately-common = "co.touchlab:stately-common:2.1.0"
+stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }

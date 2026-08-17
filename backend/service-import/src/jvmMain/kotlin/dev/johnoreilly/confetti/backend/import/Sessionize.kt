@@ -465,7 +465,7 @@ object Sessionize {
     suspend fun importSwiftCon2026(): Int {
         return importDroidconBerlin(
             ConferenceId.SwiftCon2026.id,
-            "swiftCon 2026",
+            "swiftCon Berlin 2026",
             "https://sessionize.com/api/v2/0ymtl17i/view/All",
             "0xFFFF4600",
             days = listOf(
@@ -479,7 +479,7 @@ object Sessionize {
     suspend fun importFlutterCon2026(): Int {
         return importDroidconBerlin(
             ConferenceId.FlutterCon2026.id,
-            "flutterCon 2026",
+            "flutterCon Berlin 2026",
             "https://sessionize.com/api/v2/5jb6mz23/view/All",
             "0xFF008BFF",
             days = listOf(

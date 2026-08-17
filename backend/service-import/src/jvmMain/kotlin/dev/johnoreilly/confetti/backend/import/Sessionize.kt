@@ -462,6 +462,20 @@ object Sessionize {
         )
     }
 
+    suspend fun importSwiftCon2026(): Int {
+        return importDroidconBerlin(
+            ConferenceId.SwiftCon2026.id,
+            "swiftCon 2026",
+            "https://sessionize.com/api/v2/0ymtl17i/view/All",
+            "0xFFFF4600",
+            days = listOf(
+                LocalDate(2026, 10, 7),
+                LocalDate(2026, 10, 8),
+                LocalDate(2026, 10, 9)
+            )
+        )
+    }
+
 
     private val businessDesignCenter = DVenue(
         id = "main",

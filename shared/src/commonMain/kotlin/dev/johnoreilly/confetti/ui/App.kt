@@ -4,26 +4,26 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.ui.draw.scale
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material.icons.outlined.CalendarToday
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Badge
@@ -40,10 +40,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -51,24 +47,27 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
 import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.stack.animation.scale
+import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.agent_assistant
 import confetti.shared.generated.resources.bookmarks
 import confetti.shared.generated.resources.schedule
 import confetti.shared.generated.resources.speakers
-import confetti.shared.generated.resources.venue
-import org.jetbrains.compose.resources.stringResource
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
@@ -91,7 +90,10 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun App(component: DefaultAppComponent) {
-    Children(stack = component.stack) {
+    Children(
+        stack = component.stack,
+        animation = stackAnimation(animator = fade() + scale())
+    ) {
         when (val child = it.instance) {
             is AppComponent.Child.Loading -> LoadingView()
             is AppComponent.Child.Onboarding -> OnboardingUI(child.component)
@@ -127,17 +129,20 @@ fun ConferenceView(component: ConferenceComponent) {
                             }
                         }
                     )
+
                 is ConferenceComponent.Child.Settings -> {
                     child.component?.let { childComponent ->
                         SettingsUI(childComponent, component::onBackClicked)
                     }
                 }
+
                 is ConferenceComponent.Child.Agent -> {
                     ConferenceAgentView(
                         component = child.component,
                         onCloseClick = component::onBackClicked
                     )
                 }
+
                 is ConferenceComponent.Child.Search -> {
                     SearchUI(
                         component = child.component,

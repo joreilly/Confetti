@@ -221,7 +221,7 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 splash-screen = "androidx.core:core-splashscreen:1.0.1"
 test-espressocore = "androidx.test.espresso:espresso-core:3.6.1"
-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
+test-uiautomator = "androidx.test.uiautomator:uiautomator:2.4.0"
 wear-complications-data = { module = "androidx.wear.watchface:watchface-complications-data-source-ktx", version.ref = "wear-watchface"}
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wear-compose"}
 xoxo = "net.mbonnin.xoxo:xoxo:0.4.0"

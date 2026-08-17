@@ -12,10 +12,14 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Bookmarks
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Star
+import dev.johnoreilly.confetti.auth.User
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -40,6 +44,7 @@ import kotlinx.coroutines.launch
 fun OnboardingUI(component: OnboardingComponent) {
     ConferenceMaterialThemeFromSettings(seedColorString = null) {
         val notificationsEnabled by component.notificationsEnabled.collectAsState(initial = false)
+        val currentUser by component.currentUser.collectAsState(initial = null)
         var showPermissionDeniedDialog by remember { mutableStateOf(false) }
 
         val notificationPermissionState = rememberNotificationPermissionState(
@@ -69,6 +74,8 @@ fun OnboardingUI(component: OnboardingComponent) {
         }
 
         OnboardingContent(
+            user = currentUser,
+            onSignInClicked = component::onSignInClicked,
             notificationsEnabled = notificationsEnabled,
             supportsNotifications = component.supportsNotifications,
             onNotificationsToggle = { enabled ->
@@ -85,13 +92,15 @@ fun OnboardingUI(component: OnboardingComponent) {
 
 @Composable
 fun OnboardingContent(
+    user: User? = null,
+    onSignInClicked: () -> Unit = {},
     notificationsEnabled: Boolean,
     supportsNotifications: Boolean,
     onNotificationsToggle: (Boolean) -> Unit,
     onComplete: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState(initialPage = 0) { 3 }
+    val pagerState = rememberPagerState(initialPage = 0) { 4 }
 
     // Infinite transition to create a slowly moving gradient background
     val infiniteTransition = rememberInfiniteTransition(label = "GradientAnimation")
@@ -158,12 +167,8 @@ fun OnboardingContent(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (pagerState.currentPage < 2) {
-                        TextButton(onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(2)
-                            }
-                        }) {
+                    if (pagerState.currentPage < 3) {
+                        TextButton(onClick = onComplete) {
                             Text("Skip")
                         }
                     }
@@ -195,10 +200,15 @@ fun OnboardingContent(
                         modifier = Modifier.fillMaxSize()
                     ) { page ->
                         when (page) {
-                            0 -> OnboardingStep1(visible = pagerState.currentPage == 0)
-                            1 -> OnboardingStep2(visible = pagerState.currentPage == 1)
-                            2 -> OnboardingStep3(
+                            0 -> OnboardingWelcomeStep(visible = pagerState.currentPage == 0)
+                            1 -> OnboardingFeaturesStep(visible = pagerState.currentPage == 1)
+                            2 -> OnboardingSignInStep(
                                 visible = pagerState.currentPage == 2,
+                                user = user,
+                                onSignInClicked = onSignInClicked,
+                            )
+                            3 -> OnboardingNotificationsStep(
+                                visible = pagerState.currentPage == 3,
                                 notificationsEnabled = notificationsEnabled,
                                 supportsNotifications = supportsNotifications,
                                 onNotificationsToggle = onNotificationsToggle,
@@ -233,7 +243,7 @@ fun OnboardingContent(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        for (step in 0..2) {
+                        for (step in 0..3) {
                             val isActive = pagerState.currentPage == step
                             val width by animateDpAsState(targetValue = if (isActive) 24.dp else 8.dp)
                             val color = if (isActive) {
@@ -258,7 +268,7 @@ fun OnboardingContent(
                     // Next or Done Button
                     Button(
                         onClick = {
-                            if (pagerState.currentPage < 2) {
+                            if (pagerState.currentPage < 3) {
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(pagerState.currentPage + 1)
                                 }
@@ -267,7 +277,7 @@ fun OnboardingContent(
                             }
                         }
                     ) {
-                        Text(if (pagerState.currentPage == 2) "Done" else "Next")
+                        Text(if (pagerState.currentPage == 3) "Done" else "Next")
                     }
                 }
             }
@@ -276,7 +286,7 @@ fun OnboardingContent(
 }
 
 @Composable
-fun OnboardingStep1(visible: Boolean) {
+fun OnboardingWelcomeStep(visible: Boolean) {
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 }),
@@ -315,7 +325,7 @@ fun OnboardingStep1(visible: Boolean) {
 }
 
 @Composable
-fun OnboardingStep2(visible: Boolean) {
+fun OnboardingFeaturesStep(visible: Boolean) {
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 }),
@@ -376,7 +386,7 @@ private fun FeatureRow(text: String) {
 }
 
 @Composable
-fun OnboardingStep3(
+fun OnboardingNotificationsStep(
     visible: Boolean,
     notificationsEnabled: Boolean,
     supportsNotifications: Boolean,
@@ -434,6 +444,83 @@ fun OnboardingStep3(
                         style = MaterialTheme.typography.labelLarge,
                         color = if (notificationsEnabled) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun OnboardingSignInStep(
+    visible: Boolean,
+    user: User?,
+    onSignInClicked: () -> Unit,
+) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 }),
+        exit = fadeOut()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .size(96.dp)
+                    .padding(bottom = 24.dp)
+            )
+            Text(
+                text = "Sign In & Sync",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+            Text(
+                text = "Sign in to save your bookmarked sessions, preferences, and personal schedule across all your devices.",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
+            )
+            if (user != null) {
+                Row(
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.medium)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Text(
+                        text = "Signed in as ${user.name.ifEmpty { user.email ?: "User" }}",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            } else {
+                Button(
+                    onClick = onSignInClicked,
+                    shape = MaterialTheme.shapes.medium,
+                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(text = "Sign In")
                 }
             }
         }

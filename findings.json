@@ -183,35 +183,49 @@
       "cleanBasename": "OnboardingHazePreview_Dark-61a55232.png",
       "findings": [
         {
-          "boundsInScreen": "417,2166,480,2292",
+          "boundsInScreen": "396,2166,459,2292",
           "level": "ERROR",
           "message": "This item may not have a label readable by screen readers.",
           "type": "SpeakableTextPresentCheck",
           "viewDescription": "android.view.View"
         },
         {
-          "boundsInScreen": "480,2166,522,2292",
+          "boundsInScreen": "459,2166,501,2292",
           "level": "ERROR",
           "message": "This item may not have a label readable by screen readers.",
           "type": "SpeakableTextPresentCheck",
           "viewDescription": "android.view.View"
         },
         {
-          "boundsInScreen": "522,2166,648,2292",
+          "boundsInScreen": "501,2166,543,2292",
           "level": "ERROR",
           "message": "This item may not have a label readable by screen readers.",
           "type": "SpeakableTextPresentCheck",
           "viewDescription": "android.view.View"
         },
         {
-          "boundsInScreen": "417,2166,480,2292",
+          "boundsInScreen": "543,2166,669,2292",
+          "level": "ERROR",
+          "message": "This item may not have a label readable by screen readers.",
+          "type": "SpeakableTextPresentCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "396,2166,459,2292",
           "level": "ERROR",
           "message": "This item's width is 24dp. Consider making the width of this touch target 48dp or larger.",
           "type": "TouchTargetSizeCheck",
           "viewDescription": "android.view.View"
         },
         {
-          "boundsInScreen": "480,2166,522,2292",
+          "boundsInScreen": "459,2166,501,2292",
+          "level": "ERROR",
+          "message": "This item's width is 16dp. Consider making the width of this touch target 48dp or larger.",
+          "type": "TouchTargetSizeCheck",
+          "viewDescription": "android.view.View"
+        },
+        {
+          "boundsInScreen": "501,2166,543,2292",
           "level": "ERROR",
           "message": "This item's width is 16dp. Consider making the width of this touch target 48dp or larger.",
           "type": "TouchTargetSizeCheck",

@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/main`. 81 preview(s) across 2 module(s) · 10 error(s) · 3 warning(s) · 8 info._
+_Auto-generated from `compose-preview/a11y/main`. 81 preview(s) across 2 module(s) · 12 error(s) · 3 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -105,8 +105,10 @@ _No findings._
 | 1 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
 | 2 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
 | 3 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
-| 4 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 24dp. Consider making the width of this touch target 48dp or larger. |
-| 5 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
+| 4 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
+| 5 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 24dp. Consider making the width of this touch target 48dp or larger. |
+| 6 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
+| 7 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
 
 ### `ScheduleScreenPreview`
 

@@ -3,11 +3,10 @@ import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
-import org.gradle.api.Project
 import java.io.ByteArrayInputStream
 import java.io.File
 
-fun Project.uploadLandingPage() {
+fun uploadLandingPage(base: File, gcpServiceAccountJson: String) {
     val storage: Storage = StorageOptions.newBuilder()
         .setCredentials(GoogleCredentials.fromStream(ByteArrayInputStream(gcpServiceAccountJson.encodeToByteArray())))
         .build()
@@ -16,7 +15,6 @@ fun Project.uploadLandingPage() {
     val bucketName = "confetti-landing-page"
 
     println("uploading landing page...")
-    val base = file("public")
     base.walk().filter { it.isFile }
         .forEach { file ->
             file.inputStream().use {

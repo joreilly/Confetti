@@ -476,6 +476,20 @@ object Sessionize {
         )
     }
 
+    suspend fun importFlutterCon2026(): Int {
+        return importDroidconBerlin(
+            ConferenceId.FlutterCon2026.id,
+            "flutterCon 2026",
+            "https://sessionize.com/api/v2/5jb6mz23/view/All",
+            "0xFF008BFF",
+            days = listOf(
+                LocalDate(2026, 10, 7),
+                LocalDate(2026, 10, 8),
+                LocalDate(2026, 10, 9)
+            )
+        )
+    }
+
 
     private val businessDesignCenter = DVenue(
         id = "main",

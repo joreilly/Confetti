@@ -303,23 +303,20 @@ fun HazeBottomBar(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit,
 ) {
-    Column(modifier = modifier) {
-        HorizontalDivider()
-        NavigationBar(
-            modifier = Modifier.hazeEffect(
-                state = hazeState,
-                style = HazeStyle(
-                    backgroundColor = MaterialTheme.colorScheme.surface,
-                    tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
-                    blurRadius = 25.dp,
-                )
-            ),
-            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            tonalElevation = 0.dp,
-            containerColor = Color.Transparent,
-            content = content,
-        )
-    }
+    NavigationBar(
+        modifier = modifier.hazeEffect(
+            state = hazeState,
+            style = HazeStyle(
+                backgroundColor = MaterialTheme.colorScheme.surface,
+                tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
+                blurRadius = 25.dp,
+            )
+        ),
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        tonalElevation = 0.dp,
+        containerColor = Color.Transparent,
+        content = content,
+    )
 }
 
 @Composable

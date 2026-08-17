@@ -153,6 +153,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.AndroidMakers2026 -> Sessionize.importAndroidMakers2026()
         ConferenceId.DroidconUSA2026 -> Sessionize.importDroidconUSA2026()
         ConferenceId.DroidconBerlin2026 -> Sessionize.importDroidconBerlin2026()
+        ConferenceId.SwiftCon2026 -> Sessionize.importSwiftCon2026()
         null -> error("")
     }
 }

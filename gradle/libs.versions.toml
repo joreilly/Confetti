@@ -229,7 +229,8 @@ kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 tink = "com.google.crypto.tink:tink:1.23.0"
 jib-core = "com.google.cloud.tools:jib-core:0.27.2"
 google-cloud-run = "com.google.cloud:google-cloud-run:0.67.0"
-tapmoc = { module = "com.gradleup.tapmoc:com.gradleup.tapmoc.gradle.plugin", version.ref = "tapmoc" }
+# The real artifact, not the `...gradle.plugin` marker: Renovate cannot look markers up.
+tapmoc = { module = "com.gradleup.tapmoc:tapmoc-gradle-plugin", version.ref = "tapmoc" }
 generativeai = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }
 
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }

@@ -51,6 +51,18 @@
         "/^com\\.android\\.(application|library|test|dynamic-feature|kotlin\\.multiplatform\\.library|lint)$/"
       ],
       "enabled": false
+    },
+    {
+      "description": "KEEP IN SYNC WITH settings.gradle.kts. Renovate parses that file statically and cannot follow the loop that declares the repositories, so it detected none, fell back to Maven Central, and reported all 47 Google-Maven-only dependencies as \"no-result\" — silently freezing androidx out of updates. plugins.gradle.org is here because Renovate skips Maven Central for plugin markers. The apollo-snapshots repo is omitted on purpose: it is filtered to SNAPSHOTs, which Renovate must not offer.",
+      "matchManagers": [
+        "gradle"
+      ],
+      "registryUrls": [
+        "https://dl.google.com/android/maven2/",
+        "https://repo.maven.apache.org/maven2/",
+        "https://plugins.gradle.org/m2/",
+        "https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental"
+      ]
     }
   ]
 }

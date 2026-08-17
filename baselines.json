@@ -268,7 +268,7 @@
     "functionName": "AssistantConversationPreview",
     "module": "androidApp",
     "renderBasename": "AssistantConversationPreview_Dark-b38b7f49.png",
-    "sha256": "b1a40313b8f77459bcdfce13982945e78b765b6cb4bb3acea90b1ffbef9ae3b2",
+    "sha256": "bdbc49530275a2d754e40a7cd1b0b7520606bc9825800c3ba0da331ac6777064",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Light": {
@@ -276,7 +276,7 @@
     "functionName": "AssistantConversationPreview",
     "module": "androidApp",
     "renderBasename": "AssistantConversationPreview_Light-0a5ca29b.png",
-    "sha256": "5dd2d057d0afa32489a49f7e076133d8b65f9033e4a6b9a19b84189cb5d52259",
+    "sha256": "df112d2fed9d519e78e6de37e45f6e710ca57d158a0f63c42b7798f14e98ccb8",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Dark": {
@@ -300,7 +300,7 @@
     "functionName": "HazeBottomNavigationDetailPreview",
     "module": "androidApp",
     "renderBasename": "HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.png",
-    "sha256": "f41efcb47f88f659d0f89531ee70d9b3ab76411d0d30ff5aac1a6d4d8b9b0d31",
+    "sha256": "3767a5d9f140cba5b57c600580469975f6bddc1ceeaf68bdaca2ee62372da126",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationDetailPreview_Light - high contrast blur target": {
@@ -308,7 +308,7 @@
     "functionName": "HazeBottomNavigationDetailPreview",
     "module": "androidApp",
     "renderBasename": "HazeBottomNavigationDetailPreview_Light_high_contrast_blur_target-ffccf7c6.png",
-    "sha256": "de33749d022bdf105f84732c3e6a0098891313c109bc9601d5451e224fa2127e",
+    "sha256": "95c960524a5ee53abcb92a6f480f5893528598a2fb6867dc1fadedd080e5b598",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationPreview_Dark": {
@@ -316,7 +316,7 @@
     "functionName": "HazeBottomNavigationPreview",
     "module": "androidApp",
     "renderBasename": "HazeBottomNavigationPreview_Dark-98edf98e.png",
-    "sha256": "694e394edb9bdcad64640681a50b0f9c41896b14b5e05e84439210a606a6539c",
+    "sha256": "64d8c1b73f6e0da8af05814a754c06ac44040cd9114f83a624e5f20775b52ebc",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationPreview_Light": {
@@ -324,7 +324,7 @@
     "functionName": "HazeBottomNavigationPreview",
     "module": "androidApp",
     "renderBasename": "HazeBottomNavigationPreview_Light-8d68e7fd.png",
-    "sha256": "927d854ec4b2da8cc687534b8218b75cc63ec81488c758e93b3ab336018b93bb",
+    "sha256": "c738e7e542db3d51a55e6524c64e3c52df8ddb68052822e34271dc280d9ff5a3",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.OnboardingHazePreview_Dark": {

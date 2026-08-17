@@ -39,6 +39,13 @@ interface NotificationSender {
         }
     }
 
+    data object AllBookmarked: Selector {
+        override fun matches(
+            now: LocalDateTime,
+            session: SessionDetails
+        ): Boolean = true
+    }
+
     suspend fun sendNotification(selector: Selector = Today())
 
     suspend fun updateSchedule() {}

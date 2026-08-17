@@ -95,7 +95,7 @@ fun App(component: DefaultAppComponent) {
         animation = stackAnimation(animator = fade() + scale())
     ) {
         when (val child = it.instance) {
-            is AppComponent.Child.Loading -> LoadingView()
+            is AppComponent.Child.Initializing -> LoadingView()
             is AppComponent.Child.Onboarding -> OnboardingUI(child.component)
             is AppComponent.Child.Conferences -> ConferenceListView(child.component)
             is AppComponent.Child.Conference -> ConferenceView(child.component)

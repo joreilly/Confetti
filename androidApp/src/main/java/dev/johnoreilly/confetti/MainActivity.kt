@@ -2,7 +2,6 @@
 
 package dev.johnoreilly.confetti
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,11 +13,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.lifecycleScope
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.decompose.handleDeepLink
 import dev.johnoreilly.confetti.account.SignInProcess
+import dev.johnoreilly.confetti.decompose.AppComponent
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
 import dev.johnoreilly.confetti.decompose.ThemeBrand
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalDecomposeApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
@@ -59,6 +61,10 @@ class MainActivity : ComponentActivity() {
                 )
                 appComponent
             } ?: return
+
+        splashScreen.setKeepOnScreenCondition {
+            appComponent.stack.value.active.instance is AppComponent.Child.Initializing
+        }
 
         setContent {
             App(component = appComponent)

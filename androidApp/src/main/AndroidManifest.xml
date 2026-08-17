@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Confetti"
+        android:theme="@style/Theme.App.Starting"
         android:localeConfig="@xml/locale_config"
         android:enableOnBackInvokedCallback="true"
             tools:ignore="UnusedAttribute">

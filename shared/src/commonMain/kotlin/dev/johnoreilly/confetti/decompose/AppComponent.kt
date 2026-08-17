@@ -26,7 +26,7 @@ interface AppComponent {
     fun setUser(user: User?)
 
     sealed class Child {
-        object Loading : Child()
+        object Initializing : Child()
         class Onboarding(val component: OnboardingComponent) : Child()
         class Conferences(val component: ConferencesComponent) : Child()
         class Conference(val component: ConferenceComponent) : Child()
@@ -127,7 +127,7 @@ class DefaultAppComponent(
 
     private fun child(config: Config, componentContext: ComponentContext): Child =
         when (config) {
-            is Config.Loading -> Child.Loading
+            is Config.Loading -> Child.Initializing
 
             is Config.Onboarding ->
                 Child.Onboarding(

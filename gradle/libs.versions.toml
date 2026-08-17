@@ -113,7 +113,7 @@ apollo-testing = { module = "com.apollographql.apollo:apollo-testing-support" }
 apollo-debug-server = { module = "com.apollographql.apollo:apollo-debug-server" }
 atomicfu = "org.jetbrains.kotlinx:atomicfu:0.33.0"
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
-car-app-auto = "androidx.car.app:app:1.4.0"
+car-app-auto = "androidx.car.app:app:1.7.0"
 car-app-automotive = "androidx.car.app:app-automotive:1.4.0"
 coil-base = { module = "io.coil-kt:coil-base", version.ref = "io-coil-kt" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "io-coil-kt" }

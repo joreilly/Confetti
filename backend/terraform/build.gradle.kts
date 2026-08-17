@@ -1,9 +1,11 @@
 val file = layout.buildDirectory.file("service-account.json").get().asFile
 
 val createGcpCredentials = tasks.register("createGcpCredentials") {
+    val credentialsFile = file
+    val serviceAccountJson = provider { gcpServiceAccountJson }
     doLast {
-        file.parentFile.mkdirs()
-        file.writeText(gcpServiceAccountJson)
+        credentialsFile.parentFile.mkdirs()
+        credentialsFile.writeText(serviceAccountJson.get())
     }
 }
 val init = tasks.register("init", Exec::class.java) {

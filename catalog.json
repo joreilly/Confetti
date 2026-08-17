@@ -1,0 +1,2045 @@
+{
+  "schema": "design-parity-catalog/v1",
+  "system": "confetti-mobile",
+  "title": "Confetti Mobile",
+  "components": [
+    {
+      "componentId": "Typography",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/typography/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 258,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/typography__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.TypographySpecimenPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/typography/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 258,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/typography__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.TypographySpecimenPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Themes",
+      "group": "Theme",
+      "caption": "A type ramp read from MaterialTheme.typography (Confetti's Material 3 scale).",
+      "wireframe": "wireframes/typography.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 204
+    },
+    {
+      "componentId": "ColorScheme",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/colorscheme/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 158,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/colorscheme__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/colorscheme/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 158,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/colorscheme__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ColorSchemeSpecimenPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Themes",
+      "group": "Theme",
+      "caption": "Colour-role swatches read from MaterialTheme.colorScheme (the brand purple scheme).",
+      "wireframe": "wireframes/colorscheme.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 217
+    },
+    {
+      "componentId": "Theme/Confetti",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/theme-confetti/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 818,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-confetti__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDefaultPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/theme-confetti/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 818,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-confetti__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDefaultPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 245,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 448,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 651,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 854,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 346,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 211,
+            "y": 346,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 380,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 548,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 716,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 884,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        }
+      ],
+      "section": "Themes",
+      "group": "Theme foundations",
+      "caption": "Confetti brand scheme — colour roles, surface ramp and type ramp. The default when dynamic colour is off.",
+      "wireframe": "wireframes/theme-confetti.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "bodyLine": 162
+    },
+    {
+      "componentId": "Theme/Android",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/theme-android/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 818,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-android__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/theme-android/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 818,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-android__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 245,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 448,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 651,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 854,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 346,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 211,
+            "y": 346,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 380,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 548,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 716,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 884,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        }
+      ],
+      "section": "Themes",
+      "group": "Theme foundations",
+      "caption": "Android scheme — the green/teal alternative ConfettiTheme(androidTheme = true) selects.",
+      "wireframe": "wireframes/theme-android.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "bodyLine": 173
+    },
+    {
+      "componentId": "Theme/Dynamic",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/theme-dynamic/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 818,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-dynamic__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDynamicPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/theme-dynamic/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 818,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-dynamic__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationDynamicPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 245,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 448,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 651,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 854,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 346,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 211,
+            "y": 346,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 380,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 548,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 716,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 884,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        }
+      ],
+      "section": "Themes",
+      "group": "Theme foundations",
+      "caption": "Dynamic (Material You) — wallpaper-derived on Android 12+, falling back to the brand scheme below that.",
+      "wireframe": "wireframes/theme-dynamic.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "bodyLine": 183
+    },
+    {
+      "componentId": "Theme/ConferenceSeed",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/theme-conferenceseed/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 891,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-conferenceseed__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationConferenceSeedPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/theme-conferenceseed/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 891,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-conferenceseed__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationConferenceSeedPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 190,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 245,
+            "y": 190,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 448,
+            "y": 190,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 651,
+            "y": 190,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 854,
+            "y": 190,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 369,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 211,
+            "y": 369,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 380,
+            "y": 369,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 548,
+            "y": 369,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 716,
+            "y": 369,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 884,
+            "y": 369,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        }
+      ],
+      "section": "Themes",
+      "group": "Theme foundations",
+      "caption": "Conference-seeded scheme — what the app root actually installs, generated from conference.themeColor (shown with KotlinConf's #7F52FF).",
+      "wireframe": "wireframes/theme-conferenceseed.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "bodyLine": 194
+    },
+    {
+      "componentId": "Theme/Current",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/theme-current/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 818,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-current__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationCurrentPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/theme-current/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 818,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/theme-current__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationCurrentPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 245,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 448,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 651,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 854,
+            "y": 179,
+            "width": 182,
+            "height": 105
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 346,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 211,
+            "y": 346,
+            "width": 153,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 380,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 548,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 716,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 884,
+            "y": 346,
+            "width": 152,
+            "height": 79
+          },
+          "cornerRadius": 6
+        }
+      ],
+      "section": "Themes",
+      "group": "Theme foundations",
+      "caption": "Current Theme — follows the theme selected in the preview viewer; defaults to the Confetti brand scheme in static renders.",
+      "wireframe": "wireframes/theme-current.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt",
+      "bodyLine": 206
+    },
+    {
+      "componentId": "SessionItemView",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 499,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 499,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Light",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__lightning__dark__compact.png",
+          "state": "lightning",
+          "width": 1079,
+          "height": 499,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__lightning__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemLightningPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__lightning__light__compact.png",
+          "state": "lightning",
+          "width": 1079,
+          "height": 499,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__lightning__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemLightningPreview_Light",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__break__dark__compact.png",
+          "state": "break",
+          "width": 1079,
+          "height": 289,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__break__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemBreakPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessionitemview/ideal__break__light__compact.png",
+          "state": "break",
+          "width": 1079,
+          "height": 289,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessionitemview__ideal__break__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemBreakPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "checkbox",
+          "detail": {
+            "role": "checkbox",
+            "bounds": {
+              "x": 913,
+              "y": 35,
+              "width": 120,
+              "height": 120
+            }
+          },
+          "bounds": {
+            "x": 913,
+            "y": 35,
+            "width": 120,
+            "height": 120
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 149,
+            "width": 465,
+            "height": 43
+          },
+          "label": "John O'Reilly, Martin Bonnin",
+          "padding": {
+            "start": 0,
+            "top": 2,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 213,
+            "width": 304,
+            "height": 40
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 58,
+            "y": 218,
+            "width": 272,
+            "height": 30
+          },
+          "label": "Effectenbeurszaal",
+          "padding": {
+            "start": 6,
+            "top": 2,
+            "end": 6,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 362,
+            "y": 213,
+            "width": 128,
+            "height": 40
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 378,
+            "y": 218,
+            "width": 96,
+            "height": 30
+          },
+          "label": "Kotlin",
+          "padding": {
+            "start": 6,
+            "top": 2,
+            "end": 6,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 506,
+            "y": 213,
+            "width": 240,
+            "height": 40
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 522,
+            "y": 218,
+            "width": 208,
+            "height": 30
+          },
+          "label": "Multiplatform",
+          "padding": {
+            "start": 6,
+            "top": 2,
+            "end": 6,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 913,
+            "y": 35,
+            "width": 120,
+            "height": 120
+          },
+          "role": "Checkbox",
+          "cornerRadius": 20
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Session row — bold title, speakers, room, and the bookmark toggle.",
+      "wireframe": "wireframes/sessionitemview.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 129
+    },
+    {
+      "componentId": "Bookmark",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/bookmark/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 126,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/bookmark__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmark/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 126,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/bookmark__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkAddPreview_Light",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmark/ideal__bookmarked__dark__compact.png",
+          "state": "bookmarked",
+          "width": 1079,
+          "height": 126,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/bookmark__ideal__bookmarked__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/bookmark/ideal__bookmarked__light__compact.png",
+          "state": "bookmarked",
+          "width": 1079,
+          "height": 126,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/bookmark__ideal__bookmarked__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.BookmarkOnPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "checkbox",
+          "detail": {
+            "role": "checkbox",
+            "bounds": {
+              "x": 0,
+              "y": 11,
+              "width": 1078,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 11,
+            "width": 1078,
+            "height": 105
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 11,
+            "width": 1078,
+            "height": 105
+          },
+          "role": "Checkbox",
+          "cornerRadius": 20
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Bookmark toggle — the outlined add-bookmark icon.",
+      "wireframe": "wireframes/bookmark.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 175
+    },
+    {
+      "componentId": "SpeakerItemView",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/speakeritemview/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 189,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/speakeritemview__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerItemPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/speakeritemview/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 189,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/speakeritemview__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerItemPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 1078,
+              "height": 189
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1078,
+            "height": 189
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 42,
+            "y": 21,
+            "width": 147,
+            "height": 147
+          },
+          "cornerRadius": 28
+        }
+      ],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Speaker list row — circular avatar, name, and tagline.",
+      "wireframe": "wireframes/speakeritemview.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 187
+    },
+    {
+      "componentId": "ConfettiHeader",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/confettiheader/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 89,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/confettiheader__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/confettiheader/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 89,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/confettiheader__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ConfettiHeaderPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Components",
+      "group": "Components",
+      "caption": "Sticky section header — leading icon + bold title between two dividers.",
+      "wireframe": "wireframes/confettiheader.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 193
+    },
+    {
+      "componentId": "Schedule",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/schedule/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 2399,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/schedule__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/schedule/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 2399,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/schedule__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.ScheduleScreenPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "tab",
+          "detail": {
+            "role": "tab",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 1078,
+              "height": 126
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1078,
+            "height": 126
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "checkbox",
+          "detail": {
+            "role": "checkbox",
+            "bounds": {
+              "x": 913,
+              "y": 250,
+              "width": 120,
+              "height": 120
+            }
+          },
+          "bounds": {
+            "x": 913,
+            "y": 250,
+            "width": 120,
+            "height": 120
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "checkbox",
+          "detail": {
+            "role": "checkbox",
+            "bounds": {
+              "x": 921,
+              "y": 631,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 921,
+            "y": 631,
+            "width": 105,
+            "height": 105
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 507,
+            "y": 118,
+            "width": 63,
+            "height": 8
+          },
+          "cornerRadius": 3
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 364,
+            "width": 465,
+            "height": 43
+          },
+          "label": "John O'Reilly, Martin Bonnin",
+          "padding": {
+            "start": 0,
+            "top": 2,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 428,
+            "width": 304,
+            "height": 40
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 58,
+            "y": 433,
+            "width": 272,
+            "height": 30
+          },
+          "label": "Effectenbeurszaal",
+          "padding": {
+            "start": 6,
+            "top": 2,
+            "end": 6,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 362,
+            "y": 428,
+            "width": 128,
+            "height": 40
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 378,
+            "y": 433,
+            "width": 96,
+            "height": 30
+          },
+          "label": "Kotlin",
+          "padding": {
+            "start": 6,
+            "top": 2,
+            "end": 6,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 506,
+            "y": 428,
+            "width": 240,
+            "height": 40
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 522,
+            "y": 433,
+            "width": 208,
+            "height": 30
+          },
+          "label": "Multiplatform",
+          "padding": {
+            "start": 6,
+            "top": 2,
+            "end": 6,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 913,
+            "y": 250,
+            "width": 120,
+            "height": 120
+          },
+          "role": "Checkbox",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 674,
+            "width": 215,
+            "height": 43
+          },
+          "label": "John O'Reilly",
+          "padding": {
+            "start": 0,
+            "top": 2,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 738,
+            "width": 208,
+            "height": 40
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 58,
+            "y": 743,
+            "width": 176,
+            "height": 30
+          },
+          "label": "Veilingzaal",
+          "padding": {
+            "start": 6,
+            "top": 2,
+            "end": 6,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 266,
+            "y": 738,
+            "width": 437,
+            "height": 42
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 719,
+            "y": 738,
+            "width": 144,
+            "height": 40
+          },
+          "cornerRadius": 6
+        },
+        {
+          "bounds": {
+            "x": 735,
+            "y": 743,
+            "width": 112,
+            "height": 30
+          },
+          "label": "Compose",
+          "padding": {
+            "start": 6,
+            "top": 2,
+            "end": 6,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 921,
+            "y": 631,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Checkbox",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 924,
+            "width": 994,
+            "height": 159
+          },
+          "padding": {
+            "start": 16,
+            "top": 6,
+            "end": 16,
+            "bottom": 6
+          },
+          "cornerRadius": 12
+        },
+        {
+          "bounds": {
+            "x": 84,
+            "y": 956,
+            "width": 95,
+            "height": 95
+          },
+          "cornerRadius": 18.1
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Sessions schedule — day tabs over a list grouped by start time.",
+      "wireframe": "wireframes/schedule.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 235
+    },
+    {
+      "componentId": "SessionDetails",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/sessiondetails/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 2399,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessiondetails__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionDetailsScreenPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/sessiondetails/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 2399,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/sessiondetails__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionDetailsScreenPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 42,
+              "y": 1356,
+              "width": 994,
+              "height": 189
+            }
+          },
+          "bounds": {
+            "x": 42,
+            "y": 1356,
+            "width": 994,
+            "height": 189
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 42,
+              "y": 1545,
+              "width": 994,
+              "height": 189
+            }
+          },
+          "bounds": {
+            "x": 42,
+            "y": 1545,
+            "width": 994,
+            "height": 189
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1078,
+            "height": 2396
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 16
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 366,
+            "width": 287,
+            "height": 43
+          },
+          "label": "Effectenbeurszaal",
+          "padding": {
+            "start": 0,
+            "top": 2,
+            "end": 0,
+            "bottom": 2
+          }
+        },
+        {
+          "bounds": {
+            "x": 42,
+            "y": 1124,
+            "width": 130,
+            "height": 59
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 63,
+            "y": 1135,
+            "width": 88,
+            "height": 37
+          },
+          "label": "Kotlin",
+          "padding": {
+            "start": 8,
+            "top": 4,
+            "end": 8,
+            "bottom": 4
+          }
+        },
+        {
+          "bounds": {
+            "x": 193,
+            "y": 1124,
+            "width": 248,
+            "height": 59
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 214,
+            "y": 1135,
+            "width": 206,
+            "height": 37
+          },
+          "label": "Multiplatform",
+          "padding": {
+            "start": 8,
+            "top": 4,
+            "end": 8,
+            "bottom": 4
+          }
+        },
+        {
+          "bounds": {
+            "x": 462,
+            "y": 1124,
+            "width": 172,
+            "height": 59
+          },
+          "cornerRadius": 8
+        },
+        {
+          "bounds": {
+            "x": 483,
+            "y": 1135,
+            "width": 130,
+            "height": 37
+          },
+          "label": "GraphQL",
+          "padding": {
+            "start": 8,
+            "top": 4,
+            "end": 8,
+            "bottom": 4
+          }
+        },
+        {
+          "bounds": {
+            "x": 84,
+            "y": 1377,
+            "width": 147,
+            "height": 147
+          },
+          "cornerRadius": 28
+        },
+        {
+          "bounds": {
+            "x": 84,
+            "y": 1566,
+            "width": 147,
+            "height": 147
+          },
+          "cornerRadius": 28
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Session details — title, time, description, and speakers.",
+      "wireframe": "wireframes/sessiondetails.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 251
+    },
+    {
+      "componentId": "SpeakerDetails",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/speakerdetails/ideal__default__dark__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 2399,
+          "theme": "dark",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/speakerdetails__ideal__default__dark__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Dark",
+          "density": 2.625
+        },
+        {
+          "variant": "ideal",
+          "path": "images/speakerdetails/ideal__default__light__compact.png",
+          "state": "default",
+          "width": 1079,
+          "height": 2399,
+          "theme": "light",
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/confetti-mobile/p/speakerdetails__ideal__default__light__compact",
+          "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SpeakerDetailsScreenPreview_Light",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 414,
+              "y": 934,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 414,
+            "y": 934,
+            "width": 105,
+            "height": 105
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 561,
+              "y": 934,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 561,
+            "y": 934,
+            "width": 105,
+            "height": 105
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "checkbox",
+          "detail": {
+            "role": "checkbox",
+            "bounds": {
+              "x": 921,
+              "y": 1702,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 921,
+            "y": 1702,
+            "width": 105,
+            "height": 105
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 22,
+              "y": 32,
+              "width": 105,
+              "height": 105
+            }
+          },
+          "bounds": {
+            "x": 22,
+            "y": 32,
+            "width": 105,
+            "height": 105
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 168,
+            "width": 1078,
+            "height": 2228
+          },
+          "padding": {
+            "start": 0,
+            "top": 64,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 277,
+            "y": 189,
+            "width": 525,
+            "height": 525
+          },
+          "cornerRadius": 100
+        },
+        {
+          "bounds": {
+            "x": 414,
+            "y": 934,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 561,
+            "y": 934,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 921,
+            "y": 1702,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Checkbox",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 22,
+            "y": 32,
+            "width": 105,
+            "height": 105
+          },
+          "role": "Button",
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "padding": {
+            "start": 4,
+            "top": 0,
+            "end": 4,
+            "bottom": 0
+          }
+        }
+      ],
+      "section": "Screens",
+      "group": "Screens",
+      "caption": "Speaker details — photo, name, tagline, and bio.",
+      "wireframe": "wireframes/speakerdetails.svg",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "bodyLine": 263
+    }
+  ],
+  "library": [
+    "androidx.compose.material3:material3"
+  ],
+  "renderer": "compose-preview 1.9.0",
+  "generatedAt": "2026-08-17T07:06:50.024Z",
+  "themes": [
+    {
+      "id": "dev.johnoreilly.confetti.ui.AndroidMakersDarkThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.androidmakersdarkthemecatalog.dtcg.json",
+      "name": "AndroidMakers Dark",
+      "group": "Conference",
+      "dark": true
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.AndroidMakersLightThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.androidmakerslightthemecatalog.dtcg.json",
+      "name": "AndroidMakers Light",
+      "group": "Conference",
+      "dark": false
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.AndroidDarkThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.androiddarkthemecatalog.dtcg.json",
+      "name": "Android Dark",
+      "group": "Android",
+      "dark": true
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.AndroidLightThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.androidlightthemecatalog.dtcg.json",
+      "name": "Android Light",
+      "group": "Android",
+      "dark": false
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.ConfettiBrandDarkThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.confettibranddarkthemecatalog.dtcg.json",
+      "name": "Confetti brand Dark",
+      "group": "Confetti",
+      "dark": true
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.ConfettiBrandLightThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.confettibrandlightthemecatalog.dtcg.json",
+      "name": "Confetti brand Light",
+      "group": "Confetti",
+      "dark": false
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.DevFestDarkThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.devfestdarkthemecatalog.dtcg.json",
+      "name": "DevFest Dark",
+      "group": "Conference",
+      "dark": true
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.DevFestLightThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.devfestlightthemecatalog.dtcg.json",
+      "name": "DevFest Light",
+      "group": "Conference",
+      "dark": false
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.DroidconDarkThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.droidcondarkthemecatalog.dtcg.json",
+      "name": "Droidcon Dark",
+      "group": "Conference",
+      "dark": true
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.DroidconLightThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.droidconlightthemecatalog.dtcg.json",
+      "name": "Droidcon Light",
+      "group": "Conference",
+      "dark": false
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.DynamicDarkThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.dynamicdarkthemecatalog.dtcg.json",
+      "name": "Dynamic Dark",
+      "group": "Material You",
+      "dark": true
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.DynamicLightThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.dynamiclightthemecatalog.dtcg.json",
+      "name": "Dynamic Light",
+      "group": "Material You",
+      "dark": false
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.KotlinConfDarkThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.kotlinconfdarkthemecatalog.dtcg.json",
+      "name": "KotlinConf Dark",
+      "group": "Conference",
+      "dark": true
+    },
+    {
+      "id": "dev.johnoreilly.confetti.ui.KotlinConfLightThemeCatalog",
+      "tokensFile": "themes/dev.johnoreilly.confetti.ui.kotlinconflightthemecatalog.dtcg.json",
+      "name": "KotlinConf Light",
+      "group": "Conference",
+      "dark": false
+    }
+  ],
+  "failures": [
+    {
+      "id": "render-failed--mainactivity--activity-mainactivity",
+      "componentId": "MainActivity",
+      "preview": "activity__MainActivity",
+      "phase": "render",
+      "errorClass": "java.lang.IllegalStateException",
+      "message": "KoinApplication has not been started",
+      "stackTrace": "java.lang.IllegalStateException: KoinApplication has not been started\n\tat org.koin.core.context.GlobalContext.get(GlobalContext.kt:36)\n\tat org.koin.core.component.KoinComponent.getKoin(KoinComponent.kt:33)\n\tat dev.johnoreilly.confetti.decompose.DefaultAppComponent.getKoin(AppComponent.kt:36)\n\tat dev.johnoreilly.confetti.decompose.DefaultAppComponent$special$$inlined$inject$default$1.invoke(KoinComponent.kt:68)\n\tat kotlin.SynchronizedLazyImpl.getValue(LazyJVM.kt:86)\n\tat dev.johnoreilly.confetti.decompose.DefaultAppComponent.getAuthentication(AppComponent.kt:46)\n\tat dev.johnoreilly.confetti.decompose.DefaultAppComponent.<init>(AppComponent.kt:52)\n\tat dev.johnoreilly.confetti.decompose.DefaultAppComponent.<init>(AppComponent.kt:36)\n\tat dev.johnoreilly.confetti.MainActivity.onCreate$lambda$3(MainActivity.kt:45)\n\tat com.arkivanov.decompose.DeeplinkUtilsKt.handleDeepLink(DeeplinkUtils.kt:123)\n\tat com.arkivanov.decompose.DeeplinkUtilsKt.handleDeepLink$default(DeeplinkUtils.kt:105)\n\tat com.arkivanov.decompose.DeeplinkUtilsKt.handleDeepLink(DeeplinkUtils.kt:59)\n\tat dev.johnoreilly.confetti.MainActivity.onCreate(MainActivity.kt:41)\n\tat android.app.Activity.performCreate(Activity.java:9155)\n\tat android.app.Activity.performCreate(Activity.java:9133)\n\tat android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1521)\n\tat org.robolectric.android.internal.RoboMonitoringInstrumentation.callActivityOnCreate(RoboMonitoringInstrumentation.java:382)\n\tat org.robolectric.android.controller.ActivityController.lambda$create$0(ActivityController.java:136)\n\tat org.robolectric.shadows.ShadowPausedLooper.runPaused(ShadowPausedLooper.java:257)\n\tat org.robolectric.android.controller.ActivityController.create(ActivityController.java:134)\n\tat org.robolectric.android.controller.ActivityController.create(ActivityController.java:144)\n\tat org.robolectric.android.controller.ActivityController.setup(ActivityController.java:340)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$TourSession.launchIntent(AppTourRenderer.kt:194)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$TourSession.launch(AppTourRenderer.kt:122)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$render$statement$1.evaluate(AppTourRenderer.kt:75)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$testWithDisposal$1.evaluate(AndroidComposeTestRule.android.kt:418)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invokeSuspend(AndroidComposeTestRule.android.kt:438)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invokeSuspend(ComposeUiTest.android.kt:682)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt)\n\tat androidx.compose.ui.test.IdlingStrategy.withStrategy$suspendImpl(IdlingStrategy.android.kt:55)\n\tat androidx.compose.ui.test.IdlingStrategy.withStrategy(IdlingStrategy.android.kt)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invokeSuspend(ComposeUiTest.android.kt:679)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)\n\tat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)\n\tat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\n\tat kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)\n\tat kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)\n\tat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)\n\tat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\n\tat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)\n\tat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)\n\tat kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)\n\tat kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)\n\tat kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)\n\tat kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)\n\tat kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)\n\tat kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)\n\tat kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)\n\tat kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)\n\tat kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:658)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1.evaluate(AndroidComposeTestRule.android.kt:438)\n\tat ee.schimke.composeai.renderer.AppTourRenderer.render(AppTourRenderer.kt:99)\n\tat ee.schimke.composeai.renderer.RobolectricRenderTestBase.renderPreview(RobolectricRenderTest.kt:840)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n\tat org.robolectric.RobolectricTestRunner$HelperTestRunner$1.evaluate(RobolectricTestRunner.java:542)\n\tat org.robolectric.internal.SandboxTestRunner.lambda$executeInSandbox$4(SandboxTestRunner.java:429)\n\tat org.robolectric.internal.SandboxTestRunner.runInSandbox(SandboxTestRunner.java:455)\n\tat org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:420)\n\tat org.robolectric.internal.SandboxTestRunner$5.evaluate(SandboxTestRunner.java:405)\n\tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n\tat org.robolectric.internal.SandboxTestRunner.access$000(SandboxTestRunner.java:64)\n\tat org.robolectric.internal.SandboxTestRunner$4.evaluate(SandboxTestRunner.java:294)\n\tat org.robolectric.internal.SandboxTestRunner$2.evaluate(SandboxTestRunner.java:260)\n\tat org.robolectric.internal.SandboxTestRunner$3.lambda$evaluate$0(SandboxTestRunner.java:280)\n\tat org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThreadWithClassLoader$1(Sandbox.java:112)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n",
+      "topAppFrame": {
+        "file": "GlobalContext.kt",
+        "line": 36,
+        "function": "get"
+      }
+    },
+    {
+      "id": "render-failed--signinwithgoogleactivity--activity-signinwithgoogleactivity",
+      "componentId": "SignInWithGoogleActivity",
+      "preview": "activity__SignInWithGoogleActivity",
+      "phase": "render",
+      "errorClass": "java.lang.NullPointerException",
+      "message": "null cannot be cast to non-null type dev.johnoreilly.confetti.car.signin.SignInWithGoogleActivity.OnSignInComplete",
+      "stackTrace": "java.lang.NullPointerException: null cannot be cast to non-null type dev.johnoreilly.confetti.car.signin.SignInWithGoogleActivity.OnSignInComplete\n\tat dev.johnoreilly.confetti.car.signin.SignInWithGoogleActivity.onCreate(SignInWithGoogleActivity.kt:27)\n\tat android.app.Activity.performCreate(Activity.java:9155)\n\tat android.app.Activity.performCreate(Activity.java:9133)\n\tat android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1521)\n\tat org.robolectric.android.internal.RoboMonitoringInstrumentation.callActivityOnCreate(RoboMonitoringInstrumentation.java:382)\n\tat org.robolectric.android.controller.ActivityController.lambda$create$0(ActivityController.java:136)\n\tat org.robolectric.shadows.ShadowPausedLooper.runPaused(ShadowPausedLooper.java:257)\n\tat org.robolectric.android.controller.ActivityController.create(ActivityController.java:134)\n\tat org.robolectric.android.controller.ActivityController.create(ActivityController.java:144)\n\tat org.robolectric.android.controller.ActivityController.setup(ActivityController.java:340)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$TourSession.launchIntent(AppTourRenderer.kt:194)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$TourSession.launch(AppTourRenderer.kt:122)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$render$statement$1.evaluate(AppTourRenderer.kt:75)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$testWithDisposal$1.evaluate(AndroidComposeTestRule.android.kt:418)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invokeSuspend(AndroidComposeTestRule.android.kt:438)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invokeSuspend(ComposeUiTest.android.kt:682)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt)\n\tat androidx.compose.ui.test.IdlingStrategy.withStrategy$suspendImpl(IdlingStrategy.android.kt:55)\n\tat androidx.compose.ui.test.IdlingStrategy.withStrategy(IdlingStrategy.android.kt)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invokeSuspend(ComposeUiTest.android.kt:679)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)\n\tat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)\n\tat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\n\tat kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)\n\tat kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)\n\tat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)\n\tat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\n\tat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)\n\tat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)\n\tat kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)\n\tat kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)\n\tat kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)\n\tat kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)\n\tat kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)\n\tat kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)\n\tat kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)\n\tat kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)\n\tat kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:658)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1.evaluate(AndroidComposeTestRule.android.kt:438)\n\tat ee.schimke.composeai.renderer.AppTourRenderer.render(AppTourRenderer.kt:99)\n\tat ee.schimke.composeai.renderer.RobolectricRenderTestBase.renderPreview(RobolectricRenderTest.kt:840)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n\tat org.robolectric.RobolectricTestRunner$HelperTestRunner$1.evaluate(RobolectricTestRunner.java:542)\n\tat org.robolectric.internal.SandboxTestRunner.lambda$executeInSandbox$4(SandboxTestRunner.java:429)\n\tat org.robolectric.internal.SandboxTestRunner.runInSandbox(SandboxTestRunner.java:455)\n\tat org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:420)\n\tat org.robolectric.internal.SandboxTestRunner$5.evaluate(SandboxTestRunner.java:405)\n\tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n\tat org.robolectric.internal.SandboxTestRunner.access$000(SandboxTestRunner.java:64)\n\tat org.robolectric.internal.SandboxTestRunner$4.evaluate(SandboxTestRunner.java:294)\n\tat org.robolectric.internal.SandboxTestRunner$2.evaluate(SandboxTestRunner.java:260)\n\tat org.robolectric.internal.SandboxTestRunner$3.lambda$evaluate$0(SandboxTestRunner.java:280)\n\tat org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThreadWithClassLoader$1(Sandbox.java:112)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n",
+      "topAppFrame": {
+        "file": "SignInWithGoogleActivity.kt",
+        "line": 27,
+        "function": "onCreate"
+      }
+    },
+    {
+      "id": "render-failed--genericidpactivity--activity-genericidpactivity",
+      "componentId": "GenericIdpActivity",
+      "preview": "activity__GenericIdpActivity",
+      "phase": "render",
+      "errorClass": "java.lang.NullPointerException",
+      "message": "Cannot read the array length because \"bytes\" is null",
+      "stackTrace": "java.lang.NullPointerException: Cannot read the array length because \"bytes\" is null\n\tat com.google.android.gms.common.util.Hex.bytesToStringUppercase(com.google.android.gms:play-services-basement@@18.9.0:2)\n\tat com.google.android.gms.common.util.Hex.bytesToStringUppercase(com.google.android.gms:play-services-basement@@18.9.0:1)\n\tat com.google.firebase.auth.internal.GenericIdpActivity.onResume(com.google.firebase:firebase-auth@@24.2.0:242)\n\tat android.app.Instrumentation.callActivityOnResume(Instrumentation.java:1717)\n\tat org.robolectric.android.internal.RoboMonitoringInstrumentation.callActivityOnResume(RoboMonitoringInstrumentation.java:400)\n\tat android.app.Activity.performResume(Activity.java:9315)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat org.robolectric.shadows.ActivityReflector$$Reflector22.performResume(Unknown Source)\n\tat org.robolectric.android.controller.ActivityController.lambda$resume$5(ActivityController.java:195)\n\tat org.robolectric.shadows.ShadowPausedLooper.runPaused(ShadowPausedLooper.java:257)\n\tat org.robolectric.android.controller.ComponentController.invokeWhilePaused(ComponentController.java:64)\n\tat org.robolectric.android.controller.ActivityController.resume(ActivityController.java:190)\n\tat org.robolectric.android.controller.ActivityController.setup(ActivityController.java:340)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$TourSession.launchIntent(AppTourRenderer.kt:194)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$TourSession.launch(AppTourRenderer.kt:122)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$render$statement$1.evaluate(AppTourRenderer.kt:75)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$testWithDisposal$1.evaluate(AndroidComposeTestRule.android.kt:418)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invokeSuspend(AndroidComposeTestRule.android.kt:438)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invokeSuspend(ComposeUiTest.android.kt:682)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt)\n\tat androidx.compose.ui.test.IdlingStrategy.withStrategy$suspendImpl(IdlingStrategy.android.kt:55)\n\tat androidx.compose.ui.test.IdlingStrategy.withStrategy(IdlingStrategy.android.kt)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invokeSuspend(ComposeUiTest.android.kt:679)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)\n\tat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)\n\tat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\n\tat kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)\n\tat kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)\n\tat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)\n\tat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\n\tat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)\n\tat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)\n\tat kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)\n\tat kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)\n\tat kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)\n\tat kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)\n\tat kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)\n\tat kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)\n\tat kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)\n\tat kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)\n\tat kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:658)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1.evaluate(AndroidComposeTestRule.android.kt:438)\n\tat ee.schimke.composeai.renderer.AppTourRenderer.render(AppTourRenderer.kt:99)\n\tat ee.schimke.composeai.renderer.RobolectricRenderTestBase.renderPreview(RobolectricRenderTest.kt:840)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n\tat org.robolectric.RobolectricTestRunner$HelperTestRunner$1.evaluate(RobolectricTestRunner.java:542)\n\tat org.robolectric.internal.SandboxTestRunner.lambda$executeInSandbox$4(SandboxTestRunner.java:429)\n\tat org.robolectric.internal.SandboxTestRunner.runInSandbox(SandboxTestRunner.java:455)\n\tat org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:420)\n\tat org.robolectric.internal.SandboxTestRunner$5.evaluate(SandboxTestRunner.java:405)\n\tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n\tat org.robolectric.internal.SandboxTestRunner.access$000(SandboxTestRunner.java:64)\n\tat org.robolectric.internal.SandboxTestRunner$4.evaluate(SandboxTestRunner.java:294)\n\tat org.robolectric.internal.SandboxTestRunner$2.evaluate(SandboxTestRunner.java:260)\n\tat org.robolectric.internal.SandboxTestRunner$3.lambda$evaluate$0(SandboxTestRunner.java:280)\n\tat org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThreadWithClassLoader$1(Sandbox.java:112)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n",
+      "topAppFrame": {
+        "file": "com.google.android.gms:play-services-basement@@18.9.0",
+        "line": 2,
+        "function": "bytesToStringUppercase"
+      }
+    },
+    {
+      "id": "render-failed--recaptchaactivity--activity-recaptchaactivity",
+      "componentId": "RecaptchaActivity",
+      "preview": "activity__RecaptchaActivity",
+      "phase": "render",
+      "errorClass": "java.lang.NullPointerException",
+      "message": "Cannot read the array length because \"bytes\" is null",
+      "stackTrace": "java.lang.NullPointerException: Cannot read the array length because \"bytes\" is null\n\tat com.google.android.gms.common.util.Hex.bytesToStringUppercase(com.google.android.gms:play-services-basement@@18.9.0:2)\n\tat com.google.android.gms.common.util.Hex.bytesToStringUppercase(com.google.android.gms:play-services-basement@@18.9.0:1)\n\tat com.google.firebase.auth.internal.RecaptchaActivity.onResume(com.google.firebase:firebase-auth@@24.2.0:194)\n\tat android.app.Instrumentation.callActivityOnResume(Instrumentation.java:1717)\n\tat org.robolectric.android.internal.RoboMonitoringInstrumentation.callActivityOnResume(RoboMonitoringInstrumentation.java:400)\n\tat android.app.Activity.performResume(Activity.java:9315)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat org.robolectric.shadows.ActivityReflector$$Reflector22.performResume(Unknown Source)\n\tat org.robolectric.android.controller.ActivityController.lambda$resume$5(ActivityController.java:195)\n\tat org.robolectric.shadows.ShadowPausedLooper.runPaused(ShadowPausedLooper.java:257)\n\tat org.robolectric.android.controller.ComponentController.invokeWhilePaused(ComponentController.java:64)\n\tat org.robolectric.android.controller.ActivityController.resume(ActivityController.java:190)\n\tat org.robolectric.android.controller.ActivityController.setup(ActivityController.java:340)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$TourSession.launchIntent(AppTourRenderer.kt:194)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$TourSession.launch(AppTourRenderer.kt:122)\n\tat ee.schimke.composeai.renderer.AppTourRenderer$render$statement$1.evaluate(AppTourRenderer.kt:75)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$testWithDisposal$1.evaluate(AndroidComposeTestRule.android.kt:418)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invokeSuspend(AndroidComposeTestRule.android.kt:438)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(AndroidComposeTestRule.android.kt)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invokeSuspend(ComposeUiTest.android.kt:682)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(ComposeUiTest.android.kt)\n\tat androidx.compose.ui.test.IdlingStrategy.withStrategy$suspendImpl(IdlingStrategy.android.kt:55)\n\tat androidx.compose.ui.test.IdlingStrategy.withStrategy(IdlingStrategy.android.kt)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invokeSuspend(ComposeUiTest.android.kt:679)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(ComposeUiTest.android.kt)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)\n\tat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)\n\tat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\n\tat kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)\n\tat kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:98)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)\n\tat kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)\n\tat kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)\n\tat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)\n\tat kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:54)\n\tat kotlinx.coroutines.BuildersKt__BuildersKt.runBlockingImpl(Builders.kt:30)\n\tat kotlinx.coroutines.BuildersKt.runBlockingImpl(Unknown Source)\n\tat kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK(Builders.concurrent.kt:172)\n\tat kotlinx.coroutines.BuildersKt.runBlockingK(Unknown Source)\n\tat kotlinx.coroutines.BuildersKt__Builders_concurrentKt.runBlockingK$default(Builders.concurrent.kt:157)\n\tat kotlinx.coroutines.BuildersKt.runBlockingK$default(Unknown Source)\n\tat kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)\n\tat kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)\n\tat kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)\n\tat kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:1)\n\tat androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:658)\n\tat androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1.evaluate(AndroidComposeTestRule.android.kt:438)\n\tat ee.schimke.composeai.renderer.AppTourRenderer.render(AppTourRenderer.kt:99)\n\tat ee.schimke.composeai.renderer.RobolectricRenderTestBase.renderPreview(RobolectricRenderTest.kt:840)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n\tat org.robolectric.RobolectricTestRunner$HelperTestRunner$1.evaluate(RobolectricTestRunner.java:542)\n\tat org.robolectric.internal.SandboxTestRunner.lambda$executeInSandbox$4(SandboxTestRunner.java:429)\n\tat org.robolectric.internal.SandboxTestRunner.runInSandbox(SandboxTestRunner.java:455)\n\tat org.robolectric.internal.SandboxTestRunner.executeInSandbox(SandboxTestRunner.java:420)\n\tat org.robolectric.internal.SandboxTestRunner$5.evaluate(SandboxTestRunner.java:405)\n\tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n\tat org.robolectric.internal.SandboxTestRunner.access$000(SandboxTestRunner.java:64)\n\tat org.robolectric.internal.SandboxTestRunner$4.evaluate(SandboxTestRunner.java:294)\n\tat org.robolectric.internal.SandboxTestRunner$2.evaluate(SandboxTestRunner.java:260)\n\tat org.robolectric.internal.SandboxTestRunner$3.lambda$evaluate$0(SandboxTestRunner.java:280)\n\tat org.robolectric.internal.bytecode.Sandbox.lambda$runOnMainThreadWithClassLoader$1(Sandbox.java:112)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n",
+      "topAppFrame": {
+        "file": "com.google.android.gms:play-services-basement@@18.9.0",
+        "line": 2,
+        "function": "bytesToStringUppercase"
+      }
+    }
+  ],
+  "liveBundle": {
+    "path": "bundle/",
+    "file": "confetti-mobile-bundle.png"
+  },
+  "source": {
+    "repo": "joreilly/Confetti",
+    "ref": "main",
+    "module": ":androidApp"
+  }
+}

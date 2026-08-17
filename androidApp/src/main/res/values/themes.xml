@@ -11,4 +11,11 @@
 
     <style name="Theme.Confetti" parent="PlatformAdjusted.Theme.Confetti" />
 
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">?android:attr/colorBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_anim</item>
+        <item name="windowSplashScreenAnimationDuration">800</item>
+        <item name="postSplashScreenTheme">@style/Theme.Confetti</item>
+    </style>
+
 </resources>

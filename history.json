@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "947787e9d66596b9a6489192aaef583d867443cd",
+    "generatedFrom": "b2fcd1988c72fc3724dc9b64299a17cdc44cf0ba",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -501,6 +501,13 @@
             "path": "renders/androidApp/AssistantConversationPreview_Dark-b38b7f49.png",
             "versions": [
                 {
+                    "blob": "f967d03f8eb6f3f838b8706797cc3e11b61adbba",
+                    "commit": "b2fcd1988c72fc3724dc9b64299a17cdc44cf0ba",
+                    "date": "2026-08-17T10:46:59Z",
+                    "sourceSha": "1a5239da",
+                    "commits": 1
+                },
+                {
                     "blob": "e0cfcb0ef1e0555abfb7e8bec9d6b1e5cebd3790",
                     "commit": "a891447dead7d6ffbb717cce77876e775e7edbbf",
                     "date": "2026-08-16T20:04:19Z",
@@ -522,13 +529,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 4,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Light": {
             "path": "renders/androidApp/AssistantConversationPreview_Light-0a5ca29b.png",
             "versions": [
+                {
+                    "blob": "531b43ab370b1b0e0b3cf8f43cc5a4f665fff0cb",
+                    "commit": "b2fcd1988c72fc3724dc9b64299a17cdc44cf0ba",
+                    "date": "2026-08-17T10:46:59Z",
+                    "sourceSha": "1a5239da",
+                    "commits": 1
+                },
                 {
                     "blob": "e0ee916f6ee2a240d85f1345df4606267bb1e70b",
                     "commit": "a891447dead7d6ffbb717cce77876e775e7edbbf",
@@ -551,7 +565,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 4,
             "unstable": false,
             "flapCount": 0
         },
@@ -603,6 +617,13 @@
             "path": "renders/androidApp/HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.png",
             "versions": [
                 {
+                    "blob": "4e20bb3cf5e86588552d3e6b21286eff4a2c0255",
+                    "commit": "b2fcd1988c72fc3724dc9b64299a17cdc44cf0ba",
+                    "date": "2026-08-17T10:46:59Z",
+                    "sourceSha": "1a5239da",
+                    "commits": 1
+                },
+                {
                     "blob": "fbfaa1fb2809a88a0666f87628452bb94c310168",
                     "commit": "aa173b6e96eeb90d37492c08fc1a15ba1595368f",
                     "date": "2026-08-16T09:56:01Z",
@@ -610,13 +631,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationDetailPreview_Light - high contrast blur target": {
             "path": "renders/androidApp/HazeBottomNavigationDetailPreview_Light_high_contrast_blur_target-ffccf7c6.png",
             "versions": [
+                {
+                    "blob": "0f819b5f2e95aa45dc03ca1a70a4b0d9ffbaa7a3",
+                    "commit": "b2fcd1988c72fc3724dc9b64299a17cdc44cf0ba",
+                    "date": "2026-08-17T10:46:59Z",
+                    "sourceSha": "1a5239da",
+                    "commits": 1
+                },
                 {
                     "blob": "bb55393e8e35ef0d207fb6f0b56fa7afc654bd67",
                     "commit": "aa173b6e96eeb90d37492c08fc1a15ba1595368f",
@@ -625,13 +653,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationPreview_Dark": {
             "path": "renders/androidApp/HazeBottomNavigationPreview_Dark-98edf98e.png",
             "versions": [
+                {
+                    "blob": "75a5d8a62d108a38fa08c1a586f5790d5b291b47",
+                    "commit": "b2fcd1988c72fc3724dc9b64299a17cdc44cf0ba",
+                    "date": "2026-08-17T10:46:59Z",
+                    "sourceSha": "1a5239da",
+                    "commits": 1
+                },
                 {
                     "blob": "3feac50c83402b75889475787e2e415b82798e4a",
                     "commit": "aa173b6e96eeb90d37492c08fc1a15ba1595368f",
@@ -640,13 +675,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
         "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationPreview_Light": {
             "path": "renders/androidApp/HazeBottomNavigationPreview_Light-8d68e7fd.png",
             "versions": [
+                {
+                    "blob": "9693dbe94160a7be9b096706cb3e56fe55cbbbeb",
+                    "commit": "b2fcd1988c72fc3724dc9b64299a17cdc44cf0ba",
+                    "date": "2026-08-17T10:46:59Z",
+                    "sourceSha": "1a5239da",
+                    "commits": 1
+                },
                 {
                     "blob": "4cf875d01dbe315dd21d7fc8717aa379c42e9058",
                     "commit": "aa173b6e96eeb90d37492c08fc1a15ba1595368f",
@@ -655,7 +697,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },

@@ -2,7 +2,6 @@
 
 package dev.johnoreilly.confetti
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -64,7 +63,7 @@ class MainActivity : ComponentActivity() {
             } ?: return
 
         splashScreen.setKeepOnScreenCondition {
-            appComponent.stack.value.active.instance is AppComponent.Child.Loading
+            appComponent.stack.value.active.instance is AppComponent.Child.Initializing
         }
 
         setContent {

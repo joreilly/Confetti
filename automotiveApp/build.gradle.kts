@@ -131,6 +131,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.koin.bom))
 
     implementation(projects.common.car)
     implementation(projects.shared)

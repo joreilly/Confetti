@@ -32,6 +32,8 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.coil.bom))
+
     implementation(projects.shared)
 
     implementation(libs.coil.compose)

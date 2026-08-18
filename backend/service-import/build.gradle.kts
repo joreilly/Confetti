@@ -13,6 +13,10 @@ kotlin {
   sourceSets {
     val jvmMain by getting {
       dependencies {
+        implementation(project.dependencies.platform(libs.kotlinx.serialization.bom))
+        implementation(project.dependencies.platform(libs.ktor.bom))
+        implementation(project.dependencies.platform(libs.okhttp.bom))
+
         implementation(libs.jsonpath)
         implementation(libs.jsoup)
         implementation(libs.okhttp)

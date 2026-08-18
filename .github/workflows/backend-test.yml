@@ -32,7 +32,7 @@ jobs:
       with:
         cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
-    - uses: hashicorp/setup-terraform@v3
+    - uses: hashicorp/setup-terraform@v4
 
     - name: Build
       run: ./gradlew :backend:service-graphql:build :backend:service-import:build

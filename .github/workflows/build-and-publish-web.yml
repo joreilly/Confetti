@@ -46,7 +46,7 @@ jobs:
       # explicitly too so a fork PR can never deploy even if that ever changed.
       - name: Deploy
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
-        uses: JamesIves/github-pages-deploy-action@v4.8.0
+        uses: JamesIves/github-pages-deploy-action@v4.9.0
         with:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: compose-web/build/dist/wasmJs/productionExecutable # The folder the action should deploy.

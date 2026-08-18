@@ -106,7 +106,7 @@ kotlin {
                 api(libs.compose.window.size)
                 implementation(libs.lifecyle.runtime)
                 implementation(libs.haze)
-                api("com.mikepenz:multiplatform-markdown-renderer-m3:0.43.0")
+                api("com.mikepenz:multiplatform-markdown-renderer-m3:0.44.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.9.1")
 
                 implementation(libs.koog.agents)

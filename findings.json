@@ -50,8 +50,8 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "AssistantConversationPreview_Dark-b38b7f49.a11y.png",
-      "cleanBasename": "AssistantConversationPreview_Dark-b38b7f49.png",
+      "annotatedBasename": "",
+      "cleanBasename": "",
       "findings": [],
       "functionName": "AssistantConversationPreview",
       "module": "androidApp",

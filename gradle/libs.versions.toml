@@ -155,7 +155,7 @@ firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = "com.google.firebase:firebase-bom:34.16.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
-firebase-mpp-auth = "dev.gitlive:firebase-auth:2.5.0"
+firebase-mpp-auth = "dev.gitlive:firebase-auth:2.6.0"
 google-cloud-bom = "com.google.cloud:libraries-bom:26.86.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
 google-cloud-datastore = { module = "com.google.cloud:google-cloud-datastore" }

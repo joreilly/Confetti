@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.decompose
 
+import com.apollographql.cache.normalized.FetchPolicy
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -108,10 +109,22 @@ class DefaultAppComponent(
     }
 
     private suspend fun selectAndNavigateToDeepLinkedConference(conferenceId: String, sessionId: String? = null) {
-        // todo, consider changing how conference theme colors are decided so that only knowing the conference
-        //  ID is enough to also get the right color
-        repository.setConference(conference = conferenceId, conferenceThemeColor = null)
-        showConference(conference = conferenceId, conferenceThemeColor = null, initialSessionId = sessionId)
+        val conferenceThemeColor = fetchConferenceThemeColor(conferenceId)
+        repository.setConference(conference = conferenceId, conferenceThemeColor = conferenceThemeColor)
+        showConference(conference = conferenceId, conferenceThemeColor = conferenceThemeColor, initialSessionId = sessionId)
+    }
+
+    private suspend fun fetchConferenceThemeColor(conferenceId: String): String? {
+        return try {
+            repository.conferences(FetchPolicy.CacheFirst).data?.conferences
+                ?.firstOrNull { it.id == conferenceId }
+                ?.themeColor
+                ?: repository.conferences(FetchPolicy.NetworkOnly).data?.conferences
+                    ?.firstOrNull { it.id == conferenceId }
+                    ?.themeColor
+        } catch (e: Exception) {
+            null
+        }
     }
 
     private fun onUserChanged(uid: String?) {

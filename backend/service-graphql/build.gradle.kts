@@ -14,6 +14,11 @@ plugins {
 configureJavaCompatibility(17)
 
 dependencies {
+  implementation(platform(libs.kotlinx.coroutines.bom))
+  implementation(platform(libs.kotlinx.serialization.bom))
+  implementation(platform(libs.okhttp.bom))
+  implementation(platform(libs.spring.boot.bom))
+
   implementation(libs.spring.boot.starter.webflux)
   implementation(libs.apollo.execution.spring)
   implementation(libs.apollo.execution.reporting)

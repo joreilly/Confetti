@@ -158,6 +158,11 @@ kotlin {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
+    implementation(platform(libs.coil.bom))
+    implementation(platform(libs.coil3.bom))
+    implementation(platform(libs.koin.bom))
+
     implementation(projects.common.car)
     implementation(projects.shared)
 

@@ -16,10 +16,9 @@ androidx-datastore = "1.2.1"
 apollo = "5.0.1"
 apollo-adapters = "0.7.0"
 apollo-cache = "1.0.6"
-compose = "1.12.0"
+compose-bom = "2026.08.00"
 composeLifecyleRuntime="2.11.0"
 compose-multiplatform = "1.11.1"
-compose-material3 = "1.4.0"
 composeWindowSize = "0.5.0"
 credentials = "1.6.0"
 decompose = "3.5.0"
@@ -63,6 +62,15 @@ koogPromptExecutorAll = "1.1.1-beta"
 
 
 [libraries]
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+coil-bom = { module = "io.coil-kt:coil-bom", version.ref = "io-coil-kt" }
+coil3-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "io-coil3-kt" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
+kotlinx-coroutines-bom = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-bom", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-bom = { module = "org.jetbrains.kotlinx:kotlinx-serialization-bom", version.ref = "kotlinx-serialization" }
+ktor-bom = { module = "io.ktor:ktor-bom", version.ref = "ktor" }
+okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp" }
+spring-boot-bom = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-benchmarkmacro = "androidx.benchmark:benchmark-macro-junit4:1.4.1"
 androidx-complications-rendering = { module = "androidx.wear.watchface:watchface-complications-rendering", version = "1.3.0-alpha07"}
@@ -101,12 +109,12 @@ haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 stately-isolate = { module = "co.touchlab:stately-isolate", version.ref = "stately" }
 stately-iso-collections = { module = "co.touchlab:stately-iso-collections", version.ref = "stately" }
-spring-boot = { module = "org.springframework.boot:spring-boot", version.ref = "spring" }
-spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring" }
-spring-webflux = "org.springframework:spring-webflux:7.0.8"
-spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring" }
-spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+spring-boot = { module = "org.springframework.boot:spring-boot" }
+spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging" }
+spring-webflux = { module = "org.springframework:spring-webflux" }
+spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
 apollo-annotations = { module = "com.apollographql.apollo:apollo-annotations", version.ref = "apollo" }
 apollo-tooling = { module = "com.apollographql.apollo:apollo-tooling", version.ref = "apollo" }
 apollo-testing = { module = "com.apollographql.apollo:apollo-testing-support" }
@@ -115,25 +123,25 @@ atomicfu = "org.jetbrains.kotlinx:atomicfu:0.33.0"
 bare-graphQL = "net.mbonnin.bare-graphql:bare-graphql:0.0.2"
 car-app-auto = "androidx.car.app:app:1.7.0"
 car-app-automotive = "androidx.car.app:app-automotive:1.4.0"
-coil-base = { module = "io.coil-kt:coil-base", version.ref = "io-coil-kt" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "io-coil-kt" }
-coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "io-coil-kt" }
-coil-test = { module = "io.coil-kt:coil-test", version.ref = "io-coil-kt" }
-coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "io-coil3-kt" }
-coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "io-coil3-kt" }
-ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
-ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+coil-base = { module = "io.coil-kt:coil-base" }
+coil-compose = { module = "io.coil-kt:coil-compose" }
+coil-svg = { module = "io.coil-kt:coil-svg" }
+coil-test = { module = "io.coil-kt:coil-test" }
+coil3-compose = { module = "io.coil-kt.coil3:coil-compose" }
+coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3" }
+ktor-client-java = { module = "io.ktor:ktor-client-java" }
+ktor-client-js = { module = "io.ktor:ktor-client-js" }
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
-compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version = "1.7.8" }
+compose-material = { module = "androidx.compose.material:material" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "nav-compose" }
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-compose-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 decompose-decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 decompose-extensions-compose-experimental = { module = "com.arkivanov.decompose:extensions-compose-experimental", version.ref = "decompose" }
@@ -150,7 +158,7 @@ firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:2.5.0"
 google-cloud-bom = "com.google.cloud:libraries-bom:26.63.0"
 google-cloud-storage = { module = "com.google.cloud:google-cloud-storage" }
-google-cloud-datastore = "com.google.cloud:google-cloud-datastore:2.41.0"
+google-cloud-datastore = { module = "com.google.cloud:google-cloud-datastore" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 horologist-compose-tools = { module = "com.google.android.horologist:horologist-compose-tools", version.ref = "horologist" }
@@ -167,25 +175,25 @@ jsonpath = "com.eygraber:jsonpathkt-kotlinx:4.0.0"
 jsoup = "org.jsoup:jsoup:1.23.1"
 junit = "junit:junit:4.13.2"
 kaml = "com.charleskorn.kaml:kaml:0.104.0"
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-koin-compose-multiplatform = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager" }
+koin-compose = { module = "io.insert-koin:koin-androidx-compose" }
+koin-compose-multiplatform = { module = "io.insert-koin:koin-compose" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-test = { module = "io.insert-koin:koin-test" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4" }
 kotlin-csv = { module = "com.jsoizo:kotlin-csv-jvm", version.ref = "kotlin-csv" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
-kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
-kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines" }
-kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core" }
+kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-ktor-cio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
-ktor-status-pages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json" }
+ktor-cio = { module = "io.ktor:ktor-server-cio" }
+ktor-status-pages = { module = "io.ktor:ktor-server-status-pages" }
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-material3-core = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+material3-core = { module = "androidx.compose.material3:material3" }
 compose-window-size = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "composeWindowSize" }
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
@@ -212,7 +220,7 @@ roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gr
 scrimage-core = { module = "com.sksamuel.scrimage:scrimage-core", version.ref = "scrimage" }
 scrimage-filters = { module = "com.sksamuel.scrimage:scrimage-filters", version.ref = "scrimage" }
 snakeyaml = "org.yaml:snakeyaml:2.6"
-spring-web = "org.springframework:spring-web:6.2.19"
+spring-web = { module = "org.springframework:spring-web" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }

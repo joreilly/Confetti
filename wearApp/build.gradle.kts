@@ -147,6 +147,11 @@ dependencies {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
+    implementation(platform(libs.coil.bom))
+    implementation(platform(libs.koin.bom))
+    implementation(platform(libs.kotlinx.coroutines.bom))
+
     implementation(projects.shared)
 
     implementation(libs.composeai.preview.annotations)

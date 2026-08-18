@@ -17,6 +17,9 @@ kotlin {
     }
     val jvmMain by getting {
       dependencies {
+        api(project.dependencies.platform(libs.google.cloud.bom))
+        implementation(project.dependencies.platform(libs.kotlinx.serialization.bom))
+
         api(libs.google.cloud.datastore)
         implementation(libs.bare.graphQL)
         implementation(libs.kotlinx.serialization)

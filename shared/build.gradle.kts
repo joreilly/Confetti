@@ -64,6 +64,12 @@ kotlin {
         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
         commonMain {
             dependencies {
+                implementation(project.dependencies.platform(libs.coil3.bom))
+                api(project.dependencies.platform(libs.koin.bom))
+                implementation(project.dependencies.platform(libs.kotlinx.coroutines.bom))
+                implementation(project.dependencies.platform(libs.kotlinx.serialization.bom))
+                implementation(project.dependencies.platform(libs.ktor.bom))
+
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization)
                 implementation(libs.atomicfu)
@@ -141,6 +147,8 @@ kotlin {
             // the android target created by the AGP KMP library plugin
             dependsOn(mobileMain)
             dependencies {
+                api(project.dependencies.platform(libs.coil.bom))
+
                 api(projects.proto)
                 api(libs.androidx.lifecycle.viewmodel.ktx)
                 implementation(libs.okhttp)

@@ -23,7 +23,8 @@ fun DConfig.toConference(): Conference {
         name = name,
         timezone = timeZone,
         days = days,
-        themeColor = themeColor
+        themeColor = themeColor,
+        groupName = groupName
     )
 }
 

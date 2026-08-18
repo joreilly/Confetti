@@ -394,7 +394,8 @@ object Sessionize {
         name: String,
         url: String,
         themeColor: String,
-        days: List<LocalDate> = emptyList()
+        days: List<LocalDate> = emptyList(),
+        groupName: String? = null
     ): Int {
         return writeData(
             getData(url),
@@ -403,7 +404,8 @@ object Sessionize {
                 name = name,
                 timeZone = "Europe/Berlin",
                 days = days,
-                themeColor = themeColor
+                themeColor = themeColor,
+                groupName = groupName
             ),
             venue = DVenue(
                 id = "main",
@@ -458,7 +460,8 @@ object Sessionize {
                 LocalDate(2026, 10, 7),
                 LocalDate(2026, 10, 8),
                 LocalDate(2026, 10, 9)
-            )
+            ),
+            groupName = "next.app devCon Berlin"
         )
     }
 
@@ -472,7 +475,8 @@ object Sessionize {
                 LocalDate(2026, 10, 7),
                 LocalDate(2026, 10, 8),
                 LocalDate(2026, 10, 9)
-            )
+            ),
+            groupName = "next.app devCon Berlin"
         )
     }
 
@@ -486,7 +490,8 @@ object Sessionize {
                 LocalDate(2026, 10, 7),
                 LocalDate(2026, 10, 8),
                 LocalDate(2026, 10, 9)
-            )
+            ),
+            groupName = "next.app devCon Berlin"
         )
     }
 

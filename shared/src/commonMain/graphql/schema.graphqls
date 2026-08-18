@@ -62,6 +62,8 @@ type Conference {
   days: [LocalDate!]!
 
   themeColor: String
+
+  groupName: String
 }
 
 type Link {

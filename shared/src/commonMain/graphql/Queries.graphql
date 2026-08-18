@@ -82,6 +82,7 @@ query GetConferences{
         name
         timezone
         themeColor
+        groupName
     }
 }
 

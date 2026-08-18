@@ -455,5 +455,6 @@ data class Conference(
     val name: String,
     val timezone: String,
     val days: List<LocalDate>,
-    val themeColor: String? = null
+    val themeColor: String? = null,
+    val groupName: String? = null
 )

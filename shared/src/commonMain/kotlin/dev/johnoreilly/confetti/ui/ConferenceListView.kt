@@ -27,11 +27,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.graphics.Color
@@ -171,15 +173,34 @@ private fun ConferenceListContent(component: ConferencesComponent) {
                                     YearHeader(year.toString())
                                 }
 
-                                items(conferenceList) { conference ->
-                                    val isSelected = conference.id == uiState1.currentConference
-                                    ConferenceCard(
-                                        conference = conference,
-                                        isSelected = isSelected,
-                                        navigateToConference = {
-                                            component.onConferenceClicked(conference)
+                                val groupedConferenceList = conferenceList.groupBy { it.groupName }
+                                    .entries.toList()
+
+                                items(
+                                    items = groupedConferenceList,
+                                    key = { (groupName, group) -> groupName ?: group.first().id }
+                                ) { (groupName, group) ->
+                                    if (groupName != null && group.size > 1) {
+                                        ConferenceGroupCard(
+                                            groupName = groupName,
+                                            conferences = group,
+                                            currentConference = uiState1.currentConference,
+                                            navigateToConference = { conference ->
+                                                component.onConferenceClicked(conference)
+                                            }
+                                        )
+                                    } else {
+                                        group.forEach { conference ->
+                                            val isSelected = conference.id == uiState1.currentConference
+                                            ConferenceCard(
+                                                conference = conference,
+                                                isSelected = isSelected,
+                                                navigateToConference = {
+                                                    component.onConferenceClicked(conference)
+                                                }
+                                            )
                                         }
-                                    )
+                                    }
                                 }
                             }
                         }
@@ -262,6 +283,50 @@ fun ConferenceCard(
     }
 }
 
+
+@Composable
+fun ConferenceGroupCard(
+    groupName: String,
+    conferences: List<GetConferencesQuery.Conference>,
+    currentConference: String?,
+    navigateToConference: (GetConferencesQuery.Conference) -> Unit
+) {
+    OutlinedCard(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .fillMaxWidth()
+    ) {
+        Column(modifier = Modifier.padding(vertical = 8.dp)) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Groups,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = groupName,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            conferences.forEach { conference ->
+                ConferenceCard(
+                    conference = conference,
+                    isSelected = conference.id == currentConference,
+                    navigateToConference = { navigateToConference(conference) }
+                )
+            }
+        }
+    }
+}
 
 private fun getConferenceDatesString(days: List<LocalDate>): String {
     var conferenceDatesString = ""

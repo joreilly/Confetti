@@ -44,6 +44,7 @@ object ConferenceFixtures {
         ),
         name = "KotlinConf 2025",
         themeColor = null,  // theme comes from ConferenceTheme lookup
+        groupName = null,
     )
     val kotlinConfHome = HomeUiState(
         conference = kotlinConf.id,
@@ -75,6 +76,7 @@ object ConferenceFixtures {
         ),
         name = "Android Makers 2025",
         themeColor = null,
+        groupName = null,
     )
     val androidMakersHome = HomeUiState(
         conference = androidMakers.id,
@@ -106,6 +108,7 @@ object ConferenceFixtures {
         ),
         name = "droidcon London",
         themeColor = null,
+        groupName = null,
     )
     val droidconHome = HomeUiState(
         conference = droidcon.id,
@@ -137,6 +140,7 @@ object ConferenceFixtures {
         ),
         name = "DevFest Nantes",
         themeColor = null,
+        groupName = null,
     )
     val devFestHome = HomeUiState(
         conference = devFest.id,

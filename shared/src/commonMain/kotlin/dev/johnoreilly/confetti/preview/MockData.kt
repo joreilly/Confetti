@@ -207,6 +207,7 @@ val sampleConferences: List<GetConferencesQuery.Conference> = listOf(
         days = listOf(LocalDate.parse("2023-04-13"), LocalDate.parse("2023-04-14")),
         name = "KotlinConf 2023",
         themeColor = "0x7F52FF",
+        groupName = null,
     ),
     GetConferencesQuery.Conference(
         __typename = "Conference",
@@ -215,6 +216,7 @@ val sampleConferences: List<GetConferencesQuery.Conference> = listOf(
         days = listOf(LocalDate.parse("2023-10-26"), LocalDate.parse("2023-10-27")),
         name = "droidcon London 2023",
         themeColor = "0xA4C639",
+        groupName = null,
     ),
     GetConferencesQuery.Conference(
         __typename = "Conference",
@@ -223,6 +225,34 @@ val sampleConferences: List<GetConferencesQuery.Conference> = listOf(
         days = listOf(LocalDate.parse("2022-04-13"), LocalDate.parse("2022-04-14")),
         name = "KotlinConf 2022",
         themeColor = "0x7F52FF",
+        groupName = null,
+    ),
+    GetConferencesQuery.Conference(
+        __typename = "Conference",
+        id = "droidconberlin2026",
+        timezone = "Europe/Berlin",
+        days = listOf(LocalDate.parse("2026-10-07"), LocalDate.parse("2026-10-09")),
+        name = "droidcon Berlin 2026",
+        themeColor = "0xFFFFBE29",
+        groupName = "next.app devCon Berlin",
+    ),
+    GetConferencesQuery.Conference(
+        __typename = "Conference",
+        id = "swiftcon2026",
+        timezone = "Europe/Berlin",
+        days = listOf(LocalDate.parse("2026-10-07"), LocalDate.parse("2026-10-09")),
+        name = "swiftCon Berlin 2026",
+        themeColor = "0xFFFF4600",
+        groupName = "next.app devCon Berlin",
+    ),
+    GetConferencesQuery.Conference(
+        __typename = "Conference",
+        id = "fluttercon2026",
+        timezone = "Europe/Berlin",
+        days = listOf(LocalDate.parse("2026-10-07"), LocalDate.parse("2026-10-09")),
+        name = "flutterCon Berlin 2026",
+        themeColor = "0xFF008BFF",
+        groupName = "next.app devCon Berlin",
     ),
 )
 

@@ -152,7 +152,7 @@ desugar = "com.android.tools:desugar_jdk_libs:2.1.5"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.10.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-bom = "com.google.firebase:firebase-bom:34.16.0"
+firebase-bom = "com.google.firebase:firebase-bom:34.17.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:2.5.0"

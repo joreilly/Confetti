@@ -20,7 +20,6 @@ dependencies {
   implementation(platform(libs.spring.boot.bom))
 
   implementation(libs.spring.boot.starter.webflux)
-  implementation("org.springframework:spring-webflux:7.1.0-SNAPSHOT")
   implementation(libs.apollo.execution.spring)
   implementation(libs.apollo.execution.reporting)
   implementation(libs.kotlinx.datetime)

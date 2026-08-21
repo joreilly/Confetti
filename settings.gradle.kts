@@ -19,11 +19,6 @@ pluginManagement {
                     includeVersionByRegex("com.apollographql.execution", ".*", ".*SNAPSHOT.*")
                 }
             }
-            maven("https://repo.spring.io/snapshot") {
-                content {
-                    includeGroup("org.springframework")
-                }
-            }
         }
     }
 

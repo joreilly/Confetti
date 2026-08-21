@@ -14,7 +14,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect iOS-relevant changes
+    runs-on: ubuntu-latest
+    outputs:
+      ios: ${{ steps.filter.outputs.ios }}
+    steps:
+      # Main builds always run to seed caches. Pull requests first use a cheap
+      # Linux job to avoid reserving a macOS runner for platform-only changes.
+      - uses: actions/checkout@v7
+        if: github.event_name == 'pull_request'
+        with:
+          fetch-depth: 0
+
+      - name: Decide whether to build iOS
+        id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [[ "$EVENT_NAME" == "push" ]]; then
+            echo "ios=true" >> "$GITHUB_OUTPUT"
+          else
+            python3 .github/scripts/ios-changes.py "$BASE_SHA" "$HEAD_SHA"
+          fi
+
   build:
+    needs: changes
+    if: needs.changes.outputs.ios == 'true'
     runs-on: macos-latest
     env:
       # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so the
@@ -33,6 +61,8 @@ jobs:
       # Kotlin/Native framework compile (invoked by xcodebuild via ./gradlew
       # :shared:embedAndSignAppleFrameworkForXcode) resolves from cache on unchanged code.
       - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: Cache KMP libraries
         uses: actions/cache@v6
@@ -47,7 +77,9 @@ jobs:
           path: |
             ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
             ~/Library/Caches/org.swift.swiftpm
-          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          # Package.resolved is not committed, so include the Xcode project's
+          # package requirements instead of producing one constant empty hash.
+          key: ${{ runner.os }}-spm-${{ hashFiles('iosApp/iosApp.xcodeproj/project.pbxproj', '**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-spm-
 

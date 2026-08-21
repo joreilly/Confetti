@@ -504,6 +504,20 @@ object Sessionize {
         )
     }
 
+    suspend fun importNextAppDevConBerlin2026(): Int {
+        return importDroidconBerlin(
+            ConferenceId.NextAppDevConBerlin2026.id,
+            "next.app devCon Berlin 2026",
+            "https://sessionize.com/api/v2/yak5yl8m/view/All",
+            "0xFF04723D",
+            days = listOf(
+                LocalDate(2026, 10, 7),
+                LocalDate(2026, 10, 8),
+                LocalDate(2026, 10, 9)
+            )
+        )
+    }
+
 
     private val businessDesignCenter = DVenue(
         id = "main",

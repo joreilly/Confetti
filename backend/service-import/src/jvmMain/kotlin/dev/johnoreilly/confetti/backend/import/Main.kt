@@ -156,6 +156,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.SwiftCon2026 -> Sessionize.importSwiftCon2026()
         ConferenceId.FlutterCon2026 -> Sessionize.importFlutterCon2026()
         ConferenceId.ReactCon2026 -> Sessionize.importReactCon2026()
+        ConferenceId.NextAppDevConBerlin2026 -> Sessionize.importNextAppDevConBerlin2026()
         null -> error("")
     }
 }

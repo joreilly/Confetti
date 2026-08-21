@@ -62,6 +62,7 @@ interface SessionsComponent {
 
     fun refresh()
     fun onSearch(searchString: String)
+    fun onTrackSelected(track: String?)
     fun onSessionClicked(id: String)
     fun onSessionSelectionChanged(id: String?)
     fun onSignInClicked()
@@ -117,6 +118,10 @@ class DefaultSessionsComponent(
         simpleComponent.onSearch(searchString = searchString)
     }
 
+    override fun onTrackSelected(track: String?) {
+        simpleComponent.onTrackSelected(track = track)
+    }
+
     override fun onSessionClicked(id: String) {
         onSessionSelected(id)
     }
@@ -141,6 +146,7 @@ class SessionsSimpleComponent(
     private val dateService: DateService by inject()
     private val responseDatas = MutableStateFlow<ResponseData?>(null)
     private val searchQuery = MutableStateFlow("")
+    private val selectedTrack = MutableStateFlow<String?>(null)
     private val isRefreshing = MutableStateFlow(false)
     private val selectedSessionId = MutableStateFlow<String?>(null)
     private val appSettings: AppSettings by inject()
@@ -149,10 +155,9 @@ class SessionsSimpleComponent(
     private var cachedParsedData: ParsedConferenceData? = null
 
     val uiState: StateFlow<SessionsUiState> =
-        combineUiState()
-            .combine(searchQuery) { uiState, search ->
-                filterSessions(uiState, search)
-            }
+        combine(combineUiState(), searchQuery, selectedTrack) { uiState, search, track ->
+            filterSessions(uiState, search, track)
+        }
             // Run heavy mapping and filtering operations on Default dispatcher to avoid blocking UI.
             // Default dispatcher is preferred over IO dispatcher because these are CPU-bound memory tasks.
             .flowOn(Dispatchers.Default)
@@ -179,11 +184,15 @@ class SessionsSimpleComponent(
         searchQuery.value = searchString
     }
 
+    fun onTrackSelected(track: String?) {
+        selectedTrack.value = track
+    }
+
     fun onSessionSelectionChanged(id: String?) {
         selectedSessionId.value = id
     }
 
-    private fun filterSessions(uiState: SessionsUiState, filter: String): SessionsUiState {
+    private fun filterSessions(uiState: SessionsUiState, filter: String, track: String?): SessionsUiState {
         return if (uiState is SessionsUiState.Success) {
             val dateSessions = if (date != null) {
                 uiState.sessionsByStartTimeList.filter {
@@ -193,7 +202,7 @@ class SessionsSimpleComponent(
                 uiState.sessionsByStartTimeList
             }
 
-            val filteredSessions = if (filter.isNotBlank()) {
+            val textFilteredSessions = if (filter.isNotBlank()) {
                 dateSessions.map { outerMap ->
                     outerMap.mapValues { (_, value) ->
                         value.filter { session ->
@@ -203,6 +212,16 @@ class SessionsSimpleComponent(
                 }
             } else {
                 dateSessions
+            }
+
+            val filteredSessions = if (track != null) {
+                textFilteredSessions.map { outerMap ->
+                    outerMap.mapValues { (_, value) ->
+                        value.filter { session -> track in session.tags }
+                    }.filterValues { it.isNotEmpty() }
+                }
+            } else {
+                textFilteredSessions
             }
 
             uiState.copy(sessionsByStartTimeList = filteredSessions)
@@ -261,7 +280,7 @@ class SessionsSimpleComponent(
                         },
                     isRefreshing,
                     searchQuery,
-                    selectedSessionId,
+                    combine(selectedSessionId, selectedTrack) { session, track -> session to track },
                     appSettings.notificationsEnabledFlow,
                     ::uiStates
                 )
@@ -280,6 +299,7 @@ class SessionsSimpleComponent(
         }
 
         val conferenceName = sessionsData.config.name
+        val tracks = sessionsData.config.tracks
         val venueLat = sessionsData.venues.firstOrNull()?.latitude
         val venueLon = sessionsData.venues.firstOrNull()?.longitude
         val sessionsMap =
@@ -308,6 +328,7 @@ class SessionsSimpleComponent(
 
         val parsed = ParsedConferenceData(
             conferenceName = conferenceName,
+            tracks = tracks,
             venueLat = venueLat,
             venueLon = venueLon,
             confDates = confDates,
@@ -326,9 +347,10 @@ class SessionsSimpleComponent(
         refreshData: ResponseData,
         isRefreshing: Boolean,
         searchString: String,
-        selectedSessionId: String?,
+        selectedSessionIdAndTrack: Pair<String?, String?>,
         notificationsActive: Boolean,
     ): SessionsUiState {
+        val (selectedSessionId, selectedTrack) = selectedSessionIdAndTrack
         val bookmarksResponse = refreshData.bookmarksResponse
         val sessionsResponse = refreshData.sessionsResponse
         val bookmarksData = bookmarksResponse.data
@@ -348,6 +370,8 @@ class SessionsSimpleComponent(
             now = dateService.now(),
             conference = conference,
             conferenceName = parsed.conferenceName,
+            tracks = parsed.tracks,
+            selectedTrack = selectedTrack,
             venueLat = parsed.venueLat,
             venueLon = parsed.venueLon,
             confDates = parsed.confDates,
@@ -372,6 +396,8 @@ sealed interface SessionsUiState {
         val now: LocalDateTime,
         val conference: String,
         val conferenceName: String,
+        val tracks: List<String>,
+        val selectedTrack: String?,
         val venueLat: Double?,
         val venueLon: Double?,
         val confDates: List<LocalDate>,
@@ -389,6 +415,7 @@ sealed interface SessionsUiState {
 
 private data class ParsedConferenceData(
     val conferenceName: String,
+    val tracks: List<String>,
     val venueLat: Double?,
     val venueLon: Double?,
     val confDates: List<LocalDate>,

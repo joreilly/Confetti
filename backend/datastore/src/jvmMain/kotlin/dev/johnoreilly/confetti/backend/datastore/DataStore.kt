@@ -572,6 +572,7 @@ class DataStore {
             .set("timeZone", timeZone.toValue())
             .set("days", days.map { it.toString() }.toValue())
             .set("themeColor", themeColor.toValue())
+            .set("tracks", tracks.toValue())
             .build()
     }
 
@@ -581,7 +582,8 @@ class DataStore {
             name = getStringOrNull("name") ?: "",
             timeZone = getString("timeZone"),
             days = getList<StringValue>("days").map { LocalDate.parse(it.get()) },
-            themeColor = getStringOrNull("themeColor")
+            themeColor = getStringOrNull("themeColor"),
+            tracks = getListOrNull<StringValue>("tracks")?.map { it.get() } ?: emptyList()
         )
     }
 

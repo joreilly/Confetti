@@ -394,7 +394,8 @@ object Sessionize {
         name: String,
         url: String,
         themeColor: String,
-        days: List<LocalDate> = emptyList()
+        days: List<LocalDate> = emptyList(),
+        tracks: List<String> = emptyList()
     ): Int {
         return writeData(
             getData(url),
@@ -403,7 +404,8 @@ object Sessionize {
                 name = name,
                 timeZone = "Europe/Berlin",
                 days = days,
-                themeColor = themeColor
+                themeColor = themeColor,
+                tracks = tracks
             ),
             venue = DVenue(
                 id = "main",
@@ -458,6 +460,20 @@ object Sessionize {
                 LocalDate(2026, 10, 7),
                 LocalDate(2026, 10, 8),
                 LocalDate(2026, 10, 9)
+            ),
+            // Matches Sessionize's "Choose the PRIMARY event you are submitting for" category
+            // (id 134606), which every session tags itself with under "Which other events is
+            // your talk relevant for?" (id 113849) as well.
+            tracks = listOf(
+                "droidCon",
+                "flutterCon",
+                "reactCon",
+                "swiftCon",
+                "masCon",
+                "xr&game devsCon",
+                "agentic codingCon",
+                "techlead summit",
+                "cross-over track",
             )
         )
     }

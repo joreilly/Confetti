@@ -180,6 +180,8 @@ val sessionsSuccessState: SessionsUiState.Success = SessionsUiState.Success(
     searchString = "",
     selectedSessionId = null,
     notificationsActive = false,
+    tracks = listOf("droidCon", "swiftCon", "flutterCon", "reactCon"),
+    selectedTrack = null,
 )
 
 val sampleVenue = Venue(

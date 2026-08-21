@@ -87,6 +87,7 @@ fun SessionListGridView(
     onNavigateToSignIn: () -> Unit,
     isLoggedIn: Boolean,
     onRefresh: () -> Unit,
+    onTrackSelected: (String?) -> Unit,
 ) {
     when (uiState) {
         SessionsUiState.Error -> ErrorView(onRefresh = onRefresh)
@@ -99,6 +100,11 @@ fun SessionListGridView(
                 }
 
                 SessionListTabRow(pagerState, uiState)
+                TrackFilterRow(
+                    tracks = uiState.tracks,
+                    selectedTrack = uiState.selectedTrack,
+                    onTrackSelected = onTrackSelected,
+                )
 
                 HorizontalPager(state = pagerState) { page ->
                     SessionScheduleGrid(
@@ -576,6 +582,7 @@ internal fun SessionListGridViewLoadedPreview() {
         onNavigateToSignIn = {},
         isLoggedIn = false,
         onRefresh = {},
+        onTrackSelected = {},
     )
 }
 
@@ -590,5 +597,6 @@ internal fun SessionListGridViewLoadingPreview() {
         onNavigateToSignIn = {},
         isLoggedIn = false,
         onRefresh = {},
+        onTrackSelected = {},
     )
 }

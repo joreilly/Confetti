@@ -448,62 +448,6 @@ object Sessionize {
         )
     }
 
-    suspend fun importDroidconBerlin2026(): Int {
-        return importDroidconBerlin(
-            ConferenceId.DroidconBerlin2026.id,
-            "droidcon Berlin 2026",
-            "https://sessionize.com/api/v2/syf15uh9/view/All",
-            "0xFFFFBE29",
-            days = listOf(
-                LocalDate(2026, 10, 7),
-                LocalDate(2026, 10, 8),
-                LocalDate(2026, 10, 9)
-            )
-        )
-    }
-
-    suspend fun importSwiftCon2026(): Int {
-        return importDroidconBerlin(
-            ConferenceId.SwiftCon2026.id,
-            "swiftCon Berlin 2026",
-            "https://sessionize.com/api/v2/0ymtl17i/view/All",
-            "0xFFFF4600",
-            days = listOf(
-                LocalDate(2026, 10, 7),
-                LocalDate(2026, 10, 8),
-                LocalDate(2026, 10, 9)
-            )
-        )
-    }
-
-    suspend fun importFlutterCon2026(): Int {
-        return importDroidconBerlin(
-            ConferenceId.FlutterCon2026.id,
-            "flutterCon Berlin 2026",
-            "https://sessionize.com/api/v2/5jb6mz23/view/All",
-            "0xFF008BFF",
-            days = listOf(
-                LocalDate(2026, 10, 7),
-                LocalDate(2026, 10, 8),
-                LocalDate(2026, 10, 9)
-            )
-        )
-    }
-
-    suspend fun importReactCon2026(): Int {
-        return importDroidconBerlin(
-            ConferenceId.ReactCon2026.id,
-            "reactCon Berlin 2026",
-            "https://sessionize.com/api/v2/ampchpg2/view/All",
-            "0xFF8748F3",
-            days = listOf(
-                LocalDate(2026, 10, 7),
-                LocalDate(2026, 10, 8),
-                LocalDate(2026, 10, 9)
-            )
-        )
-    }
-
     suspend fun importNextAppDevConBerlin2026(): Int {
         return importDroidconBerlin(
             ConferenceId.NextAppDevConBerlin2026.id,

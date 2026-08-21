@@ -21,6 +21,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
 
@@ -57,6 +58,11 @@ suspend fun main(args: Array<String>) {
             post("/update/{conf}") {
                 val result = update(call.parameters["conf"])
                 call.respondText("$result sessions updated", status = HttpStatusCode.OK)
+            }
+            delete("/config/{conf}") {
+                val conf = call.parameters["conf"]!!
+                DataStore().deleteConfig(conf)
+                call.respondText("$conf config deleted", status = HttpStatusCode.OK)
             }
             post("/update-days") {
                 DataStore().updateDays()
@@ -152,10 +158,6 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.KotlinConf2026 -> Sessionize.importKotlinConf2026()
         ConferenceId.AndroidMakers2026 -> Sessionize.importAndroidMakers2026()
         ConferenceId.DroidconUSA2026 -> Sessionize.importDroidconUSA2026()
-        ConferenceId.DroidconBerlin2026 -> Sessionize.importDroidconBerlin2026()
-        ConferenceId.SwiftCon2026 -> Sessionize.importSwiftCon2026()
-        ConferenceId.FlutterCon2026 -> Sessionize.importFlutterCon2026()
-        ConferenceId.ReactCon2026 -> Sessionize.importReactCon2026()
         ConferenceId.NextAppDevConBerlin2026 -> Sessionize.importNextAppDevConBerlin2026()
         null -> error("")
     }

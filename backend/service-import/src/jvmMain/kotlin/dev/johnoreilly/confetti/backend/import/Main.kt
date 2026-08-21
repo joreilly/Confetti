@@ -31,6 +31,7 @@ suspend fun main(args: Array<String>) {
         - update a conference: curl -X POST http://localhost:8080/update/droidconsf
         - update the days of a conference: curl -X POST http://localhost:8080/update-days
         - update the shortDescription: ./gradlew localRun --args updateShortDescription
+        - delete a conference's config: ./gradlew localRun --args "deleteConfig droidconsf"
     """.trimIndent()
     )
 
@@ -39,6 +40,12 @@ suspend fun main(args: Array<String>) {
         when (command) {
             "updateShortDescription" -> {
                 updateShortDescription()
+            }
+
+            "deleteConfig" -> {
+                val conf = args.getOrNull(1) ?: error("Usage: deleteConfig <conferenceId>")
+                DataStore().deleteConfig(conf)
+                println("Deleted config for $conf")
             }
 
             else -> error("Unrecognized command $command")
@@ -152,10 +159,7 @@ private suspend fun update(conf: String?): Int {
         ConferenceId.KotlinConf2026 -> Sessionize.importKotlinConf2026()
         ConferenceId.AndroidMakers2026 -> Sessionize.importAndroidMakers2026()
         ConferenceId.DroidconUSA2026 -> Sessionize.importDroidconUSA2026()
-        ConferenceId.DroidconBerlin2026 -> Sessionize.importDroidconBerlin2026()
-        ConferenceId.SwiftCon2026 -> Sessionize.importSwiftCon2026()
-        ConferenceId.FlutterCon2026 -> Sessionize.importFlutterCon2026()
-        ConferenceId.ReactCon2026 -> Sessionize.importReactCon2026()
+        ConferenceId.NextAppDevConBerlin2026 -> Sessionize.importNextAppDevConBerlin2026()
         null -> error("")
     }
 }

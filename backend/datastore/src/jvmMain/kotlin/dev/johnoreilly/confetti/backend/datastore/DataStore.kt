@@ -328,6 +328,16 @@ class DataStore {
     }
 
 
+    fun deleteConfig(conf: String) {
+        log("deleteConfig")
+        datastore.delete(
+            keyFactory
+                .setKind(KIND_CONFIG)
+                .addAncestor(PathElement.of(KIND_CONF, conf))
+                .newKey(THE_CONFIG)
+        )
+    }
+
     fun readConfigs(orderBy: DOrderBy): List<DConfig> {
         log("readConfig")
         val query: EntityQuery? = Query.newEntityQueryBuilder()

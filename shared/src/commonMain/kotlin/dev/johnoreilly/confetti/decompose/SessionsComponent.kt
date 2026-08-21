@@ -396,7 +396,7 @@ sealed interface SessionsUiState {
         val now: LocalDateTime,
         val conference: String,
         val conferenceName: String,
-        val tracks: List<String>,
+        val tracks: List<GetConferenceDataQuery.Track>,
         val selectedTrack: String?,
         val venueLat: Double?,
         val venueLon: Double?,
@@ -415,7 +415,7 @@ sealed interface SessionsUiState {
 
 private data class ParsedConferenceData(
     val conferenceName: String,
-    val tracks: List<String>,
+    val tracks: List<GetConferenceDataQuery.Track>,
     val venueLat: Double?,
     val venueLon: Double?,
     val confDates: List<LocalDate>,

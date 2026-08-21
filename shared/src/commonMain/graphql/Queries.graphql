@@ -21,7 +21,10 @@ query GetConferenceData($first: Int! = 1000, $after: String = null) {
         timezone
         days
         themeColor
-        tracks
+        tracks {
+            name
+            color
+        }
     }
     venues {
         id

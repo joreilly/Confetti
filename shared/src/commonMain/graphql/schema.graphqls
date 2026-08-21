@@ -63,7 +63,7 @@ type Conference {
 
   themeColor: String
 
-  tracks: [String!]!
+  tracks: [Track!]!
 }
 
 type Link {
@@ -238,6 +238,12 @@ type SpeakerConnection {
   nodes: [Speaker!]!
 
   pageInfo: PageInfo!
+}
+
+type Track {
+  name: String!
+
+  color: String
 }
 
 type Venue {

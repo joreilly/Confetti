@@ -456,5 +456,10 @@ data class Conference(
     val timezone: String,
     val days: List<LocalDate>,
     val themeColor: String? = null,
-    val tracks: List<String> = emptyList()
+    val tracks: List<Track> = emptyList()
+)
+
+data class Track(
+    val name: String,
+    val color: String? = null,
 )

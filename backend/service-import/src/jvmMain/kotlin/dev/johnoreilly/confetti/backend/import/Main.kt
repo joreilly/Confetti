@@ -21,7 +21,6 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
-import io.ktor.server.routing.delete
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
 
@@ -32,6 +31,7 @@ suspend fun main(args: Array<String>) {
         - update a conference: curl -X POST http://localhost:8080/update/droidconsf
         - update the days of a conference: curl -X POST http://localhost:8080/update-days
         - update the shortDescription: ./gradlew localRun --args updateShortDescription
+        - delete a conference's config: ./gradlew localRun --args "deleteConfig droidconsf"
     """.trimIndent()
     )
 
@@ -40,6 +40,12 @@ suspend fun main(args: Array<String>) {
         when (command) {
             "updateShortDescription" -> {
                 updateShortDescription()
+            }
+
+            "deleteConfig" -> {
+                val conf = args.getOrNull(1) ?: error("Usage: deleteConfig <conferenceId>")
+                DataStore().deleteConfig(conf)
+                println("Deleted config for $conf")
             }
 
             else -> error("Unrecognized command $command")
@@ -58,11 +64,6 @@ suspend fun main(args: Array<String>) {
             post("/update/{conf}") {
                 val result = update(call.parameters["conf"])
                 call.respondText("$result sessions updated", status = HttpStatusCode.OK)
-            }
-            delete("/config/{conf}") {
-                val conf = call.parameters["conf"]!!
-                DataStore().deleteConfig(conf)
-                call.respondText("$conf config deleted", status = HttpStatusCode.OK)
             }
             post("/update-days") {
                 DataStore().updateDays()

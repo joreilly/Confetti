@@ -490,6 +490,20 @@ object Sessionize {
         )
     }
 
+    suspend fun importReactCon2026(): Int {
+        return importDroidconBerlin(
+            ConferenceId.ReactCon2026.id,
+            "reactCon Berlin 2026",
+            "https://sessionize.com/api/v2/ampchpg2/view/All",
+            "0xFF8748F3",
+            days = listOf(
+                LocalDate(2026, 10, 7),
+                LocalDate(2026, 10, 8),
+                LocalDate(2026, 10, 9)
+            )
+        )
+    }
+
 
     private val businessDesignCenter = DVenue(
         id = "main",

@@ -461,9 +461,10 @@ object Sessionize {
                 LocalDate(2026, 10, 8),
                 LocalDate(2026, 10, 9)
             ),
-            // Matches Sessionize's "Choose the PRIMARY event you are submitting for" category
-            // (id 134606), which every session tags itself with under "Which other events is
-            // your talk relevant for?" (id 113849) as well.
+            // Matches nextappcon.com's actual sub-conference pages (droidcon, fluttercon,
+            // reactcon, swiftcon, mascon, xr-mobile-showcase, agentic-coding-con,
+            // techlead-summit). "cross-over track" is a Sessionize tagging artifact, not a
+            // sub-conference attendees pick, so it's deliberately excluded here.
             tracks = listOf(
                 "droidCon",
                 "flutterCon",
@@ -473,7 +474,6 @@ object Sessionize {
                 "xr&game devsCon",
                 "agentic codingCon",
                 "techlead summit",
-                "cross-over track",
             )
         )
     }

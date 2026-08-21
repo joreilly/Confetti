@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,10 +38,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,13 +76,17 @@ private val RoomColumnWidth = 280.dp
 private val RoomHeaderHeight = 56.dp
 
 // Vertical scale of the grid: how tall one minute of conference time renders as.
-private val MinuteHeight = 3.dp
+private val MinuteHeight = 4.dp
 
 // Interval, in minutes, between horizontal gridlines/time labels.
 private const val GridSlotMinutes = 30
 
 // Below this rendered height, a session card switches to a compact, title-only layout.
-private val CompactCardThreshold = 64.dp
+// Kept proportional to MinuteHeight so the same ~20-minute duration triggers compact mode.
+private val CompactCardThreshold = 80.dp
+
+private val SpeakersSpacerHeight = 4.dp
+private val CardHorizontalPadding = 8.dp
 
 @Composable
 fun SessionListGridView(
@@ -399,6 +409,10 @@ private fun SessionGridCard(
     modifier: Modifier = Modifier,
 ) {
     val compact = height < CompactCardThreshold
+    val isLightning = session.isLightning()
+    val titleFontSize = if (compact) 12.sp else 16.sp
+    val titleMaxLines = if (compact) 2 else 4
+    val iconWidth = if (isLightning) (if (compact) 14.dp else 18.dp) else 0.dp
 
     Surface(
         modifier = modifier
@@ -406,46 +420,89 @@ private fun SessionGridCard(
             .border(BorderStroke(1.dp, MaterialTheme.colorScheme.primary)),
         color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
-        Box(Modifier.fillMaxSize()) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val density = LocalDensity.current
+            val textMeasurer = rememberTextMeasurer()
+            // Single source of truth for the title's style, used for both the real Text below and
+            // its measurement - merged onto the ambient style exactly like the Text composable
+            // does internally, so a bare TextStyle(fontSize = ...) here can't silently disagree
+            // with the ambient line-height and under-measure the title's real rendered height.
+            val titleStyle = LocalTextStyle.current.merge(TextStyle(fontSize = titleFontSize))
+
+            // How many speaker rows can physically fit below the title. Rather than guessing the
+            // title's height from its line count, measure it for real (same style/maxLines/width
+            // the Text below actually uses) - a static worst-case budget either overflows long
+            // titles or, if conservative enough to never overflow, wastes room and hides speakers
+            // that would have fit fine on a short title.
+            val maxSpeakerRows = if (compact) {
+                0
+            } else {
+                val titleWidthPx = with(density) {
+                    (maxWidth - CardHorizontalPadding * 2 - iconWidth).roundToPx()
+                }.coerceAtLeast(0)
+                val titleLayout = remember(session.title, titleWidthPx, titleStyle) {
+                    textMeasurer.measure(
+                        text = session.title,
+                        style = titleStyle,
+                        maxLines = titleMaxLines,
+                        overflow = TextOverflow.Ellipsis,
+                        constraints = Constraints(maxWidth = titleWidthPx),
+                    )
+                }
+                val titleHeight = with(density) { titleLayout.size.height.toDp() }
+
+                // Same reasoning for the speaker row: its avatar is a fixed 20dp, but the name
+                // text's actual line height (which can run taller than the avatar depending on
+                // font metrics) isn't - measure it with the exact style Speakers() renders with
+                // rather than assuming it matches the avatar.
+                val speakerTextStyle = MaterialTheme.typography.bodyMedium
+                val speakerRowHeight = remember(speakerTextStyle, density) {
+                    val nameLayout = textMeasurer.measure(
+                        text = "Speaker Name",
+                        style = speakerTextStyle,
+                        maxLines = 1,
+                    )
+                    val nameHeight = with(density) { nameLayout.size.height.toDp() }
+                    maxOf(20.dp, nameHeight) + 4.dp
+                }
+
+                val paddingV = 8.dp * 2
+                val remainingAfterTitle = height - paddingV - titleHeight - SpeakersSpacerHeight
+                (remainingAfterTitle / speakerRowHeight).toInt().coerceIn(0, MaxDisplayedSpeakers)
+            }
+
             Column(
                 modifier = Modifier.padding(
-                    horizontal = 8.dp,
-                    vertical = if (compact) 4.dp else 12.dp
+                    horizontal = CardHorizontalPadding,
+                    vertical = if (compact) 4.dp else 8.dp
                 ),
             ) {
-                Text(
-                    text = session.title,
-                    fontSize = if (compact) 12.sp else 16.sp,
-                    maxLines = if (compact) 2 else 4,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Start,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-                if (!compact) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Speakers(conference, session)
-                }
-                if (session.isLightning()) {
-                    Surface(
-                        modifier = Modifier.padding(top = if (compact) 2.dp else 8.dp),
-                        shape = MaterialTheme.shapes.extraSmall,
-                        color = MaterialTheme.colorScheme.primaryContainer
-                    ) {
-                        Row(Modifier.padding(vertical = 2.dp, horizontal = 6.dp)) {
-                            Icon(
-                                imageVector = ConfettiIcons.Bolt,
-                                contentDescription = "lightning",
-                                modifier = Modifier.size(12.dp),
-                            )
-                            if (!compact) {
-                                Spacer(Modifier.width(4.dp))
-                                Text(
-                                    "Lightning / ${session.startsAt.time}-${session.endsAt.time}",
-                                    fontSize = 10.sp,
-                                )
-                            }
-                        }
+                // The lightning marker always rides on the title line itself rather than in a
+                // separate row/pill below it - a lightning talk is exactly the case where the
+                // card is shortest on room, so any extra row is the first thing to get clipped.
+                Row(verticalAlignment = Alignment.Top) {
+                    if (isLightning) {
+                        Icon(
+                            imageVector = ConfettiIcons.Bolt,
+                            contentDescription = "lightning",
+                            modifier = Modifier
+                                .size(if (compact) 12.dp else 16.dp)
+                                .padding(top = 2.dp),
+                        )
+                        Spacer(Modifier.width(2.dp))
                     }
+                    Text(
+                        text = session.title,
+                        style = titleStyle,
+                        maxLines = titleMaxLines,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Start,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+                if (maxSpeakerRows > 0) {
+                    Spacer(modifier = Modifier.height(SpeakersSpacerHeight))
+                    Speakers(conference, session, maxVisible = maxSpeakerRows)
                 }
             }
             Bookmark(
@@ -462,9 +519,14 @@ private fun SessionGridCard(
     }
 }
 
+// Cap how many speaker rows a card renders outright - a session with many co-speakers lists the
+// rest as a "+N more" line instead of growing past the space the card's duration allows for.
+private const val MaxDisplayedSpeakers = 2
+
 @Composable
-private fun Speakers(conference: String, session: SessionDetails) {
-    session.speakers.forEach { speaker ->
+private fun Speakers(conference: String, session: SessionDetails, maxVisible: Int = MaxDisplayedSpeakers) {
+    val speakers = session.speakers
+    speakers.take(maxVisible).forEach { speaker ->
         Row(
             Modifier
                 .fillMaxWidth()
@@ -487,10 +549,20 @@ private fun Speakers(conference: String, session: SessionDetails) {
             Text(
                 text = speaker.sessionSpeakerDetails.name,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
-
         }
+    }
+    val hiddenCount = speakers.size - maxVisible
+    if (hiddenCount > 0) {
+        Text(
+            text = "+$hiddenCount more",
+            modifier = Modifier.padding(start = 2.dp),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 

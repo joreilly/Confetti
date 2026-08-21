@@ -33,6 +33,7 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.http.client.reactive.JdkClientHttpConnector
 import org.springframework.http.codec.ServerCodecConfigurer
@@ -67,7 +68,7 @@ class DefaultApplication {
         errorAttributes: ErrorAttributes?,
         webProperties: WebProperties,
         serverProperties: ServerProperties,
-        viewResolvers: ObjectProvider<ViewResolver?>,
+        viewResolvers: ObjectProvider<ViewResolver>,
         serverCodecConfigurer: ServerCodecConfigurer,
         applicationContext: ApplicationContext?
     ): ErrorWebExceptionHandler? {
@@ -132,7 +133,7 @@ class DefaultApplication {
             )
         }
 
-        (POST("/graphql") or GET("/graphql")).invoke { serverRequest ->
+        (POST("/graphql") or GET("/graphql") or RequestPredicates.method(HttpMethod.QUERY)).invoke { serverRequest ->
             var conference = serverRequest.queryParam("conference").getOrNull()
             if (conference == null) {
                 conference = serverRequest.headers().firstHeader("conference")

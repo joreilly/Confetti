@@ -241,6 +241,7 @@ fun ScheduleScreenPreview() {
             removeBookmark = {},
             onRefresh = {},
             onNavigateToSignIn = {},
+            onTrackSelected = {},
             isLoggedIn = false,
         )
     }

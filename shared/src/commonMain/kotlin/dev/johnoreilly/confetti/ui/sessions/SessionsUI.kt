@@ -48,6 +48,7 @@ fun SessionsUI(
                     addBookmark = {},
                     removeBookmark = {},
                     onNavigateToSignIn = {},
+                    onTrackSelected = component::onTrackSelected,
                     isLoggedIn = component.isLoggedIn,
                 )
             } else {
@@ -62,6 +63,7 @@ fun SessionsUI(
                     removeBookmark = component::removeBookmark,
                     onRefresh = component::refresh,
                     onNavigateToSignIn = component::onSignInClicked,
+                    onTrackSelected = component::onTrackSelected,
                     isLoggedIn = component.isLoggedIn,
                 )
             }

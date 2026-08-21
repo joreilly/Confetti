@@ -394,7 +394,8 @@ object Sessionize {
         name: String,
         url: String,
         themeColor: String,
-        days: List<LocalDate> = emptyList()
+        days: List<LocalDate> = emptyList(),
+        tracks: List<String> = emptyList()
     ): Int {
         return writeData(
             getData(url),
@@ -403,7 +404,8 @@ object Sessionize {
                 name = name,
                 timeZone = "Europe/Berlin",
                 days = days,
-                themeColor = themeColor
+                themeColor = themeColor,
+                tracks = tracks
             ),
             venue = DVenue(
                 id = "main",
@@ -458,6 +460,20 @@ object Sessionize {
                 LocalDate(2026, 10, 7),
                 LocalDate(2026, 10, 8),
                 LocalDate(2026, 10, 9)
+            ),
+            // Matches nextappcon.com's actual sub-conference pages (droidcon, fluttercon,
+            // reactcon, swiftcon, mascon, xr-mobile-showcase, agentic-coding-con,
+            // techlead-summit). "cross-over track" is a Sessionize tagging artifact, not a
+            // sub-conference attendees pick, so it's deliberately excluded here.
+            tracks = listOf(
+                "droidCon",
+                "flutterCon",
+                "reactCon",
+                "swiftCon",
+                "masCon",
+                "xr&game devsCon",
+                "agentic codingCon",
+                "techlead summit",
             )
         )
     }

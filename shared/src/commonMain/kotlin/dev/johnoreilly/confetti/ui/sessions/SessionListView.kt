@@ -44,6 +44,7 @@ fun SessionListView(
     removeBookmark: (sessionId: String) -> Unit,
     onRefresh: () -> Unit,
     onNavigateToSignIn: () -> Unit,
+    onTrackSelected: (String?) -> Unit,
     isLoggedIn: Boolean,
 ) {
     when (uiState) {
@@ -62,6 +63,11 @@ fun SessionListView(
                 }
 
                 SessionListTabRow(pagerState, uiState)
+                TrackFilterRow(
+                    tracks = uiState.tracks,
+                    selectedTrack = uiState.selectedTrack,
+                    onTrackSelected = onTrackSelected,
+                )
 
                 HorizontalPager(
                     state = pagerState,
@@ -161,6 +167,7 @@ internal fun SessionListViewLoadedPreview() {
         removeBookmark = {},
         onRefresh = {},
         onNavigateToSignIn = {},
+        onTrackSelected = {},
         isLoggedIn = false,
     )
 }
@@ -175,6 +182,7 @@ internal fun SessionListViewLoadingPreview() {
         removeBookmark = {},
         onRefresh = {},
         onNavigateToSignIn = {},
+        onTrackSelected = {},
         isLoggedIn = false,
     )
 }
@@ -189,6 +197,7 @@ internal fun SessionListViewErrorPreview() {
         removeBookmark = {},
         onRefresh = {},
         onNavigateToSignIn = {},
+        onTrackSelected = {},
         isLoggedIn = false,
     )
 }

@@ -73,7 +73,12 @@ data class DConfig(
   val timeZone: String,
   val days: List<LocalDate> = emptyList(),
   val themeColor: String? = null,
-  val tracks: List<String> = emptyList()
+  val tracks: List<DTrack> = emptyList()
+)
+
+data class DTrack(
+  val name: String,
+  val color: String? = null,
 )
 
 /**

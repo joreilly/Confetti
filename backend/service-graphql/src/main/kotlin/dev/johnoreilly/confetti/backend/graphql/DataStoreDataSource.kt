@@ -24,7 +24,7 @@ fun DConfig.toConference(): Conference {
         timezone = timeZone,
         days = days,
         themeColor = themeColor,
-        tracks = tracks
+        tracks = tracks.map { Track(name = it.name, color = it.color) }
     )
 }
 

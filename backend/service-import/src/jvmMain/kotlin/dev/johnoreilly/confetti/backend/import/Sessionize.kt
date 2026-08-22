@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.backend.datastore.DPartnerGroup
 import dev.johnoreilly.confetti.backend.datastore.DRoom
 import dev.johnoreilly.confetti.backend.datastore.DSession
 import dev.johnoreilly.confetti.backend.datastore.DSpeaker
+import dev.johnoreilly.confetti.backend.datastore.DTrack
 import dev.johnoreilly.confetti.backend.datastore.DVenue
 import dev.johnoreilly.confetti.backend.datastore.DataStore
 import kotlinx.datetime.LocalDate
@@ -395,7 +396,7 @@ object Sessionize {
         url: String,
         themeColor: String,
         days: List<LocalDate> = emptyList(),
-        tracks: List<String> = emptyList()
+        tracks: List<DTrack> = emptyList()
     ): Int {
         return writeData(
             getData(url),
@@ -465,15 +466,17 @@ object Sessionize {
             // reactcon, swiftcon, mascon, xr-mobile-showcase, agentic-coding-con,
             // techlead-summit). "cross-over track" is a Sessionize tagging artifact, not a
             // sub-conference attendees pick, so it's deliberately excluded here.
+            // Colors sampled directly from nextappcon.com/agenda's own topic filter dots, so
+            // Confetti's track colors match the official site rather than being invented here.
             tracks = listOf(
-                "droidCon",
-                "flutterCon",
-                "reactCon",
-                "swiftCon",
-                "masCon",
-                "xr&game devsCon",
-                "agentic codingCon",
-                "techlead summit",
+                DTrack("droidCon", "0xFF00FF4F"),
+                DTrack("flutterCon", "0xFF008BFF"),
+                DTrack("reactCon", "0xFFA26CFF"),
+                DTrack("swiftCon", "0xFFFF4600"),
+                DTrack("masCon", "0xFF29F3E9"),
+                DTrack("xr&game devsCon", "0xFFFF55E7"),
+                DTrack("agentic codingCon", "0xFFFFA400"),
+                DTrack("techlead summit", "0xFF7EBFF9"),
             )
         )
     }

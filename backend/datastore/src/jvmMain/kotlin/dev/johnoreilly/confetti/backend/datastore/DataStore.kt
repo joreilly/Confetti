@@ -572,7 +572,10 @@ class DataStore {
             .set("timeZone", timeZone.toValue())
             .set("days", days.map { it.toString() }.toValue())
             .set("themeColor", themeColor.toValue())
-            .set("tracks", tracks.toValue())
+            .set(
+                "tracks",
+                tracks.map { it.toMap().toJsonElement().toString() }.toValue()
+            )
             .build()
     }
 
@@ -583,7 +586,23 @@ class DataStore {
             timeZone = getString("timeZone"),
             days = getList<StringValue>("days").map { LocalDate.parse(it.get()) },
             themeColor = getStringOrNull("themeColor"),
-            tracks = getListOrNull<StringValue>("tracks")?.map { it.get() } ?: emptyList()
+            tracks = getListOrNull<StringValue>("tracks").orEmpty().map {
+                Json.parseToJsonElement(it.get()).toAny().asMap.toTrack()
+            }
+        )
+    }
+
+    private fun DTrack.toMap(): Map<String, Any?> {
+        return mapOf(
+            "name" to name,
+            "color" to color,
+        )
+    }
+
+    private fun Map<String, Any?>.toTrack(): DTrack {
+        return DTrack(
+            name = get("name").asString,
+            color = get("color")?.asString,
         )
     }
 

@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.preview
 
+import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.decompose.SessionsUiState
@@ -180,7 +181,12 @@ val sessionsSuccessState: SessionsUiState.Success = SessionsUiState.Success(
     searchString = "",
     selectedSessionId = null,
     notificationsActive = false,
-    tracks = listOf("droidCon", "swiftCon", "flutterCon", "reactCon"),
+    tracks = listOf(
+        GetConferenceDataQuery.Track(__typename = "Track", name = "droidCon", color = "0xFF00FF4F"),
+        GetConferenceDataQuery.Track(__typename = "Track", name = "swiftCon", color = "0xFFFF4600"),
+        GetConferenceDataQuery.Track(__typename = "Track", name = "flutterCon", color = "0xFF008BFF"),
+        GetConferenceDataQuery.Track(__typename = "Track", name = "reactCon", color = "0xFFA26CFF"),
+    ),
     selectedTrack = null,
 )
 

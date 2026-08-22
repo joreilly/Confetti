@@ -56,7 +56,7 @@ generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.22.0"
 roborazzi = "1.72.0"
 screenshot = "0.0.1-alpha16"
-composeai-preview = "1.14.1"
+composeai-preview = "1.32.0"
 koogAgents = "1.1.1"
 koogPromptExecutorAll = "1.1.1-beta"
 

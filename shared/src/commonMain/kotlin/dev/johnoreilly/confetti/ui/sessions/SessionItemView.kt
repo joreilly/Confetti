@@ -32,6 +32,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,6 +59,7 @@ fun SessionItemView(
     removeBookmark: (String) -> Unit,
     onNavigateToSignIn: () -> Unit = {},
     isLoggedIn: Boolean,
+    trackColor: Color? = null,
 ) {
     if (session.isBreak() || session.isService()) {
         BreakSessionItemView(session = session)
@@ -68,6 +72,7 @@ fun SessionItemView(
             removeBookmark = removeBookmark,
             onNavigateToSignIn = onNavigateToSignIn,
             isLoggedIn = isLoggedIn,
+            trackColor = trackColor,
         )
     }
 }
@@ -147,13 +152,24 @@ private fun TalkSessionItemView(
     removeBookmark: (String) -> Unit,
     onNavigateToSignIn: () -> Unit = {},
     isLoggedIn: Boolean,
+    trackColor: Color? = null,
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { sessionSelected(session.id) }),
+            .clickable(onClick = { sessionSelected(session.id) })
+            .let { m ->
+                // A left-edge accent in the session's track color, mirroring nextappcon.com's own
+                // agenda - sessions with no matching track keep the plain row look instead of
+                // guessing at a fallback color. drawWithContent (not drawBehind) so the accent
+                // paints on top of ListItem's own background fill instead of underneath it.
+                if (trackColor == null) m else m.drawWithContent {
+                    drawContent()
+                    drawRect(color = trackColor, size = Size(3.dp.toPx(), size.height))
+                }
+            },
         headlineContent = {
             Text(
                 text = session.title,

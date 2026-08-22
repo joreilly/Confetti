@@ -17,6 +17,8 @@ import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
+import dev.johnoreilly.confetti.isBreak
+import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.utils.DateService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -217,7 +219,12 @@ class SessionsSimpleComponent(
             val filteredSessions = if (track != null) {
                 textFilteredSessions.map { outerMap ->
                     outerMap.mapValues { (_, value) ->
-                        value.filter { session -> track in session.tags }
+                        // Breaks/registration/etc. aren't tagged with any track - they're
+                        // schedule-wide, not track-specific - so a track filter shouldn't hide
+                        // them (matches nextappcon.com's own agenda filter behavior).
+                        value.filter { session ->
+                            session.isBreak() || session.isService() || track in session.tags
+                        }
                     }.filterValues { it.isNotEmpty() }
                 }
             } else {

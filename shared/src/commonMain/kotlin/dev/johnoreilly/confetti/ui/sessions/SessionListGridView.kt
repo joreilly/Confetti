@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.sessions
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,6 +38,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -50,7 +53,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
+import dev.johnoreilly.confetti.ui.LocalTopBarCollapsedFraction
 import coil3.compose.AsyncImage
+import dev.johnoreilly.confetti.GetConferenceDataQuery
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.RoomDetails
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -59,6 +64,7 @@ import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.sessionsSuccessState
 import dev.johnoreilly.confetti.ui.SignInDialog
+import dev.johnoreilly.confetti.ui.trackColor
 import dev.johnoreilly.confetti.ui.component.ErrorView
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import dev.johnoreilly.confetti.ui.icons.Bolt
@@ -109,19 +115,26 @@ fun SessionListGridView(
                     uiState.formattedConfDates.size
                 }
 
+                AnimatedVisibility(visible = LocalTopBarCollapsedFraction.current < 0.5f) {
+                    TrackFilterRow(
+                        tracks = uiState.tracks,
+                        selectedTrack = uiState.selectedTrack,
+                        onTrackSelected = onTrackSelected,
+                    )
+                }
                 SessionListTabRow(pagerState, uiState)
-                TrackFilterRow(
-                    tracks = uiState.tracks,
-                    selectedTrack = uiState.selectedTrack,
-                    onTrackSelected = onTrackSelected,
-                )
 
-                HorizontalPager(state = pagerState) { page ->
+                HorizontalPager(
+                    state = pagerState,
+                    // workaround for collapsing toolbar glitching during the nested pager's grid scroll.
+                    pageNestedScrollConnection = remember { object : NestedScrollConnection {} },
+                ) { page ->
                     SessionScheduleGrid(
                         conference = uiState.conference,
                         confDate = uiState.confDates[page],
                         sessionsByStartTime = uiState.sessionsByStartTimeList[page],
                         allRooms = uiState.rooms,
+                        tracks = uiState.tracks,
                         bookmarks = uiState.bookmarks,
                         sessionSelected = sessionSelected,
                         addBookmark = addBookmark,
@@ -147,6 +160,7 @@ private fun SessionScheduleGrid(
     confDate: LocalDate,
     sessionsByStartTime: Map<String, List<SessionDetails>>,
     allRooms: List<RoomDetails>,
+    tracks: List<GetConferenceDataQuery.Track>,
     bookmarks: Set<String>,
     sessionSelected: (id: String) -> Unit,
     addBookmark: (sessionId: String) -> Unit,
@@ -293,6 +307,7 @@ private fun SessionScheduleGrid(
                                 SessionGridCard(
                                     conference = conference,
                                     session = placed.session,
+                                    trackColor = placed.session.trackColor(tracks),
                                     bookmarks = bookmarks,
                                     height = height,
                                     sessionSelected = sessionSelected,
@@ -399,6 +414,7 @@ private fun formatMinuteOfDay(minutes: Int): String {
 private fun SessionGridCard(
     conference: String,
     session: SessionDetails,
+    trackColor: Color?,
     bookmarks: Set<String>,
     height: Dp,
     sessionSelected: (id: String) -> Unit,
@@ -504,6 +520,18 @@ private fun SessionGridCard(
                     Spacer(modifier = Modifier.height(SpeakersSpacerHeight))
                     Speakers(conference, session, maxVisible = maxSpeakerRows)
                 }
+            }
+            // A left-edge accent in the session's track color, mirroring nextappcon.com's own
+            // agenda - sessions with no matching track (or no track data at all) keep the plain
+            // uniform border above instead of guessing at a fallback color.
+            if (trackColor != null) {
+                Box(
+                    Modifier
+                        .align(Alignment.CenterStart)
+                        .width(3.dp)
+                        .fillMaxHeight()
+                        .background(trackColor)
+                )
             }
             Bookmark(
                 modifier = Modifier.align(Alignment.TopEnd),

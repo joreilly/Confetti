@@ -13,9 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.johnoreilly.confetti.GetConferenceDataQuery
+import dev.johnoreilly.confetti.ui.toColorOrNull
 
 @Composable
 fun TrackFilterRow(
@@ -54,15 +54,5 @@ fun TrackFilterRow(
                 },
             )
         }
-    }
-}
-
-/** Parses a "0xAARRGGBB" string (as used for [dev.johnoreilly.confetti.GetConferenceDataQuery.Config.themeColor]) into a [Color], or null if absent/malformed. */
-@OptIn(ExperimentalStdlibApi::class)
-private fun String.toColorOrNull(): Color? {
-    return try {
-        Color(hexToLong(HexFormat { number.prefix = "0x" }))
-    } catch (e: Exception) {
-        null
     }
 }

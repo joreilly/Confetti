@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -77,8 +78,12 @@ fun HomeScaffold(
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding).fillMaxSize(),
-            content = content,
-        )
+        CompositionLocalProvider(
+            LocalTopBarCollapsedFraction provides scrollBehavior.state.collapsedFraction
+        ) {
+            Box(modifier = Modifier.padding(innerPadding).fillMaxSize(),
+                content = content,
+            )
+        }
     }
 }

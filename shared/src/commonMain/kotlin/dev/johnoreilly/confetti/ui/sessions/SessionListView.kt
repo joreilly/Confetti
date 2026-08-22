@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.ui.sessions
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.sessionsSuccessState
+import dev.johnoreilly.confetti.ui.LocalTopBarCollapsedFraction
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ErrorView
 import dev.johnoreilly.confetti.ui.component.LoadingView
@@ -33,6 +35,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
+import dev.johnoreilly.confetti.ui.trackColor
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -62,12 +65,14 @@ fun SessionListView(
                     uiState.formattedConfDates.size
                 }
 
+                AnimatedVisibility(visible = LocalTopBarCollapsedFraction.current < 0.5f) {
+                    TrackFilterRow(
+                        tracks = uiState.tracks,
+                        selectedTrack = uiState.selectedTrack,
+                        onTrackSelected = onTrackSelected,
+                    )
+                }
                 SessionListTabRow(pagerState, uiState)
-                TrackFilterRow(
-                    tracks = uiState.tracks,
-                    selectedTrack = uiState.selectedTrack,
-                    onTrackSelected = onTrackSelected,
-                )
 
                 HorizontalPager(
                     state = pagerState,
@@ -141,6 +146,7 @@ fun SessionListView(
                                         removeBookmark = removeBookmark,
                                         onNavigateToSignIn = onNavigateToSignIn,
                                         isLoggedIn = isLoggedIn,
+                                        trackColor = session.trackColor(uiState.tracks),
                                     )
                                     val isCurrentBreak = session.isBreak() || session.isService()
                                     val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())

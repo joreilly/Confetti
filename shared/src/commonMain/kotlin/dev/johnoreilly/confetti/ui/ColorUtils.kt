@@ -18,10 +18,16 @@ fun String?.toColorOrNull(): Color? {
 }
 
 /**
- * The color of the first track (in [tracks] order) this session is tagged with, or null if it
- * isn't tagged with any known track. A session can carry multiple track tags (e.g. a cross-listed
- * session) - first match wins, same tie-break [TrackFilterRow] uses for its filter chips.
+ * The color of this session's track, or null if it isn't tagged with any known track. A session
+ * can carry multiple track tags - e.g. "Swift Export: Where We Stand" is tagged both droidCon and
+ * swiftCon since it matters to both audiences, with source data
+ * `["Session", "Introductory and overview", "droidCon", "swiftCon", "swiftCon"]`. Sessionize's
+ * export consistently lists a session's actual/primary track *last* among its tags (matching
+ * nextappcon.com's own agenda, which colors that exact session swiftCon, not droidCon) - so unlike
+ * [TrackFilterRow], which just needs *a* match for filtering and doesn't care which, this takes the
+ * last tag that names a known track rather than the first one in [tracks] (config) order.
  */
 fun SessionDetails.trackColor(tracks: List<GetConferenceDataQuery.Track>): Color? {
-    return tracks.firstOrNull { it.name in tags }?.color?.toColorOrNull()
+    val byName = tracks.associateBy { it.name }
+    return tags.lastOrNull { it in byName }?.let { byName.getValue(it) }?.color?.toColorOrNull()
 }

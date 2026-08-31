@@ -39,7 +39,7 @@ jobs:
       run: git config lfs.locksverify false      
 
     - name: Commit Screenshots
-      uses: 'stefanzweifel/git-auto-commit-action@v5'
+      uses: 'stefanzweifel/git-auto-commit-action@v7'
       with:
         commit_message: '🤖 Updates screenshots'
         file_pattern: '**/screenshotTest/**/*.png'

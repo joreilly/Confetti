@@ -70,7 +70,7 @@ jobs:
           persist-credentials: false
           lfs: 'true'
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: 21

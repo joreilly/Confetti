@@ -2,23 +2,12 @@
 
 Auto-generated from `main`. Browse inline or compare against PR branches.
 
-> [!WARNING]
-> 2 preview(s) failed to render in the latest update (2 with no prior baseline to retain). See **Render Failures** below.
-
-## Render Failures
-
-The render task completed but no PNG was produced for these previews. Entries with a prior baseline keep their previous image; the rest are absent from the gallery until a successful render lands.
-
-| Preview | Module | Function | Source | Baseline |
-|---------|--------|----------|--------|----------|
-| `androidApp/activity__MainActivity` | androidApp | `MainActivity` | `—` | none |
-| `wearApp/activity__MainActivity` | wearApp | `MainActivity` | `—` | none |
-
 ## androidApp
 
 | Preview | Image |
 |---------|-------|
 | `SessionDetailsPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/SessionDetailsPreview-80cd2284.png" width="150" /> |
+| `MainActivity` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/activity__MainActivity.png" width="150" /> |
 | `AndroidSessionDetailPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/AndroidSessionDetailPreview_Phone_dark-ae9a0f09.png" width="150" /> |
 | `AndroidSessionDetailPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/AndroidSessionDetailPreview_Phone_light-bcba2932.png" width="150" /> |
 | `AndroidSessionDetailPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/AndroidSessionDetailPreview_Tablet_landscape-baf6dd1f.png" width="150" /> |
@@ -92,10 +81,77 @@ The render task completed but no PNG was produced for these previews. Entries wi
 | `KotlinConf Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__KotlinConf_Dark.png" width="150" /> |
 | `KotlinConf Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__KotlinConf_Light.png" width="150" /> |
 
+## shared
+
+| Preview | Image |
+|---------|-------|
+| `AccountIconSignedInPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/AccountIconSignedInPreview_Signed_in-69376947.png" width="150" /> |
+| `AccountIconSignedOutPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/AccountIconSignedOutPreview_Signed_out-e5f6cd36.png" width="150" /> |
+| `ConferenceCardPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceCardPreview_Conference_card-d8b49bf2.png" width="150" /> |
+| `ConferenceListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceListViewLoadedPreview_Phone_large-3aa334dd.png" width="150" /> |
+| `ConferenceListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceListViewLoadedPreview_Phone_small-576295ec.png" width="150" /> |
+| `ConferenceListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceListViewLoadedPreview_Tablet_landscape-a09396dd.png" width="150" /> |
+| `ConferenceListViewLoadingPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceListViewLoadingPreview_Loading-40ee75b6.png" width="150" /> |
+| `AccountViewSignedInPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/AccountViewSignedInPreview-e93ba336.png" width="150" /> |
+| `AccountViewSignedOutPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/AccountViewSignedOutPreview-b69ebed1.png" width="150" /> |
+| `BookmarksViewEmptyPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/BookmarksViewEmptyPreview_Empty-6e9462f6.png" width="150" /> |
+| `BookmarksViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/BookmarksViewLoadedPreview_Phone_large-f26eccbe.png" width="150" /> |
+| `BookmarksViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/BookmarksViewLoadedPreview_Phone_small-3730fb05.png" width="150" /> |
+| `BookmarksViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/BookmarksViewLoadedPreview_Tablet_landscape-2c6dcbec.png" width="150" /> |
+| `BookmarksViewLoadingPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/BookmarksViewLoadingPreview_Loading-38d33b77.png" width="150" /> |
+| `EmptyViewPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/EmptyViewPreview_Empty-6b5b6a8a.png" width="150" /> |
+| `ErrorViewNoRetryPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ErrorViewNoRetryPreview_Error_without_retry-cfa70dc4.png" width="150" /> |
+| `ErrorViewWithRetryPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ErrorViewWithRetryPreview_Error_with_retry-fc772491.png" width="150" /> |
+| `LoadingViewPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/LoadingViewPreview_Loading-4f8c89a0.png" width="150" /> |
+| `LoadingViewWithMessagePreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/LoadingViewWithMessagePreview_Loading_with_message-389c0949.png" width="150" /> |
+| `SearchViewEmptyQueryPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SearchViewEmptyQueryPreview_Empty_query-e92ae7d8.png" width="150" /> |
+| `SearchViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SearchViewLoadedPreview_Phone_large-14a12c5d.png" width="150" /> |
+| `SearchViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SearchViewLoadedPreview_Phone_small-4912a617.png" width="150" /> |
+| `SearchViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SearchViewLoadedPreview_Tablet_landscape-d66c0857.png" width="150" /> |
+| `SearchViewLoadingPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SearchViewLoadingPreview_Loading-b829e94f.png" width="150" /> |
+| `SessionDetailViewEmptyPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionDetailViewEmptyPreview_Empty-947eca97.png" width="150" /> |
+| `SessionDetailViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionDetailViewLoadedPreview_Phone_large-23f0403a.png" width="150" /> |
+| `SessionDetailViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionDetailViewLoadedPreview_Phone_small-898c8cbc.png" width="150" /> |
+| `SessionDetailViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionDetailViewLoadedPreview_Tablet_landscape-8e7a2e86.png" width="150" /> |
+| `SessionItemViewBreakPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionItemViewBreakPreview_Break-c0ba104e.png" width="150" /> |
+| `SessionItemViewLightningPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionItemViewLightningPreview_Lightning_talk-b0b30068.png" width="150" /> |
+| `SessionItemViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionItemViewLoadedPreview_Phone_large-dec394e2.png" width="150" /> |
+| `SessionItemViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionItemViewLoadedPreview_Phone_small-93ad50e5.png" width="150" /> |
+| `SessionItemViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionItemViewLoadedPreview_Tablet_landscape-ad99e92d.png" width="150" /> |
+| `SessionListGridViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListGridViewLoadedPreview_Phone_large-3c3de344.png" width="150" /> |
+| `SessionListGridViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListGridViewLoadedPreview_Phone_small-d12fb411.png" width="150" /> |
+| `SessionListGridViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png" width="150" /> |
+| `SessionListGridViewLoadingPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListGridViewLoadingPreview_Loading-c0b0a27c.png" width="150" /> |
+| `SessionListViewErrorPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListViewErrorPreview_Error-ac5e2139.png" width="150" /> |
+| `SessionListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListViewLoadedPreview_Phone_large-d6a8183c.png" width="150" /> |
+| `SessionListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListViewLoadedPreview_Phone_small-933c0456.png" width="150" /> |
+| `SessionListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListViewLoadedPreview_Tablet_landscape-bd102bb4.png" width="150" /> |
+| `SessionListViewLoadingPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SessionListViewLoadingPreview_Loading-e64962ea.png" width="150" /> |
+| `SettingsScreenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SettingsScreenPreview_Phone_large-fd155dd2.png" width="150" /> |
+| `SettingsScreenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SettingsScreenPreview_Phone_small-975176c7.png" width="150" /> |
+| `SettingsScreenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SettingsScreenPreview_Tablet_landscape-9aa5ddd0.png" width="150" /> |
+| `SpeakerItemViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerItemViewLoadedPreview_Phone_large-41821238.png" width="150" /> |
+| `SpeakerItemViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerItemViewLoadedPreview_Phone_small-787d4234.png" width="150" /> |
+| `SpeakerItemViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerItemViewLoadedPreview_Tablet_landscape-1c180fbb.png" width="150" /> |
+| `SpeakerItemViewNoTaglinePreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerItemViewNoTaglinePreview_No_tagline-7844bc92.png" width="150" /> |
+| `SpeakerDetailsViewAlternateSpeakerPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerDetailsViewAlternateSpeakerPreview_Different_speaker-5d06ad1a.png" width="150" /> |
+| `SpeakerDetailsViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerDetailsViewLoadedPreview_Phone_large-89e6bac8.png" width="150" /> |
+| `SpeakerDetailsViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerDetailsViewLoadedPreview_Phone_small-df73d484.png" width="150" /> |
+| `SpeakerDetailsViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerDetailsViewLoadedPreview_Tablet_landscape-58efb527.png" width="150" /> |
+| `SpeakerGridViewEmptyPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerGridViewEmptyPreview_Empty-e69a7086.png" width="150" /> |
+| `SpeakerGridViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerGridViewLoadedPreview_Phone_large-57300ee7.png" width="150" /> |
+| `SpeakerGridViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerGridViewLoadedPreview_Phone_small-2e44cd7b.png" width="150" /> |
+| `SpeakerGridViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/SpeakerGridViewLoadedPreview_Tablet_landscape-c5e83e7b.png" width="150" /> |
+| `VenueViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/VenueViewLoadedPreview_Phone_large-b6f27dff.png" width="150" /> |
+| `VenueViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/VenueViewLoadedPreview_Phone_small-f59709cb.png" width="150" /> |
+| `VenueViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/VenueViewLoadedPreview_Tablet_landscape-1e19528b.png" width="150" /> |
+| `VenueViewWithFloorPlanPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/VenueViewWithFloorPlanPreview_With_floor_plan-78f0fed0.png" width="150" /> |
+
 ## wearApp
 
 | Preview | Image |
 |---------|-------|
+| `MainActivity` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/activity__MainActivity.png" width="150" /> |
 | `ConferenceHomeScreenLoading` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ConferenceHomeScreenLoading_Devices_Large_Round-a9d48560.png" width="150" /> |
 | `ConferenceHomeScreenWithBookmarks` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ConferenceHomeScreenWithBookmarks_Devices_Large_Round-53879197.png" width="150" /> |
 | `ConferenceHomeScreen` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/wearApp/ConferenceHomeScreen_Devices_Large_Round-f0852b24.png" width="150" /> |

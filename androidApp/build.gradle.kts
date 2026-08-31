@@ -158,7 +158,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
+    implementation(enforcedPlatform(libs.compose.bom))
     implementation(platform(libs.coil.bom))
     implementation(platform(libs.coil3.bom))
     implementation(platform(libs.koin.bom))

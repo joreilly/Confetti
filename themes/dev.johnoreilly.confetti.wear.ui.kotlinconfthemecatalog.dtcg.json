@@ -1,0 +1,175 @@
+{
+  "$schema": "https://github.com/yschimke/design-parity/schema/dtcg-tokens.schema.json",
+  "color": {
+    "primary": {
+      "$type": "color",
+      "$value": "#cdbdffff"
+    },
+    "primaryDim": {
+      "$type": "color",
+      "$value": "#4b3e76ff"
+    },
+    "primaryContainer": {
+      "$type": "color",
+      "$value": "#4b3e76ff"
+    },
+    "onPrimary": {
+      "$type": "color",
+      "$value": "#34275eff"
+    },
+    "onPrimaryContainer": {
+      "$type": "color",
+      "$value": "#e8deffff"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "#cbc3dcff"
+    },
+    "secondaryDim": {
+      "$type": "color",
+      "$value": "#494458ff"
+    },
+    "secondaryContainer": {
+      "$type": "color",
+      "$value": "#494458ff"
+    },
+    "onSecondary": {
+      "$type": "color",
+      "$value": "#322e41ff"
+    },
+    "onSecondaryContainer": {
+      "$type": "color",
+      "$value": "#e7def8ff"
+    },
+    "tertiary": {
+      "$type": "color",
+      "$value": "#eeb8caff"
+    },
+    "tertiaryContainer": {
+      "$type": "color",
+      "$value": "#633b4aff"
+    },
+    "onTertiary": {
+      "$type": "color",
+      "$value": "#492533ff"
+    },
+    "onTertiaryContainer": {
+      "$type": "color",
+      "$value": "#ffd9e4ff"
+    },
+    "background": {
+      "$type": "color",
+      "$value": "#0f0d13ff"
+    },
+    "onBackground": {
+      "$type": "color",
+      "$value": "#e6e1e9ff"
+    },
+    "surfaceContainerLow": {
+      "$type": "color",
+      "$value": "#1c1b20ff"
+    },
+    "surfaceContainer": {
+      "$type": "color",
+      "$value": "#201f24ff"
+    },
+    "surfaceContainerHigh": {
+      "$type": "color",
+      "$value": "#2b292fff"
+    },
+    "onSurface": {
+      "$type": "color",
+      "$value": "#e6e1e9ff"
+    },
+    "onSurfaceVariant": {
+      "$type": "color",
+      "$value": "#cac4cfff"
+    },
+    "outline": {
+      "$type": "color",
+      "$value": "#938f99ff"
+    },
+    "outlineVariant": {
+      "$type": "color",
+      "$value": "#48454eff"
+    },
+    "error": {
+      "$type": "color",
+      "$value": "#ffb4abff"
+    },
+    "errorContainer": {
+      "$type": "color",
+      "$value": "#93000aff"
+    },
+    "onError": {
+      "$type": "color",
+      "$value": "#690005ff"
+    },
+    "onErrorContainer": {
+      "$type": "color",
+      "$value": "#ffdad6ff"
+    }
+  },
+  "type": {
+    "displaySmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"JetBrains Mono",
+        "fontSize": 24,
+        "fontWeight": 550,
+        "letterSpacing": 0.2,
+        "lineHeight": 26
+      }
+    },
+    "titleLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"JetBrains Mono",
+        "fontSize": 18,
+        "fontWeight": 500,
+        "letterSpacing": 0.2,
+        "lineHeight": 20
+      }
+    },
+    "titleMedium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"JetBrains Mono",
+        "fontSize": 16,
+        "fontWeight": 550,
+        "letterSpacing": 0.4,
+        "lineHeight": 18
+      }
+    },
+    "bodyLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Inter",
+        "fontSize": 16,
+        "fontWeight": 450,
+        "letterSpacing": 0.4,
+        "lineHeight": 18
+      }
+    },
+    "bodyMedium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Inter",
+        "fontSize": 14,
+        "fontWeight": 450,
+        "letterSpacing": 0.4,
+        "lineHeight": 16
+      }
+    },
+    "labelSmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Inter",
+        "fontSize": 13,
+        "fontWeight": 500,
+        "letterSpacing": 0.4,
+        "lineHeight": 16
+      }
+    }
+  }
+}

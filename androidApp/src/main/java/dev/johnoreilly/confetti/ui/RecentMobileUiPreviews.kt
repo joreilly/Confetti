@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.decompose.ConferenceAgentComponent
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.preview.previewConferenceListState
 import dev.johnoreilly.confetti.ui.account.AccountView
+import dev.johnoreilly.confetti.ui.settings.SettingsPreviewContent
 
 /**
  * Android-discoverable previews for the mobile UI work landed in August 2026. Shared-source
@@ -72,6 +73,26 @@ fun OnboardingHazePreview() {
             onNotificationsToggle = {},
             onComplete = {},
         )
+    }
+}
+
+@RecentMobileScreen
+@Composable
+fun OnboardingSignInStepPreview() {
+    ConfettiTheme(disableDynamicTheming = true) {
+        OnboardingSignInStep(
+            visible = true,
+            user = null,
+            onSignInClicked = {},
+        )
+    }
+}
+
+@RecentMobileScreen
+@Composable
+fun SettingsScreenPreview() {
+    ConfettiTheme(disableDynamicTheming = true) {
+        SettingsPreviewContent()
     }
 }
 

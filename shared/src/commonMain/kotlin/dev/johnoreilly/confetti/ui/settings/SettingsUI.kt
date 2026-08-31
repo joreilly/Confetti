@@ -660,6 +660,12 @@ private fun ActionSettingsRow(
 @MobilePreviews
 @Composable
 private fun SettingsScreenPreview() {
+    SettingsPreviewContent()
+}
+
+/** Stable sample state used by platform preview catalogs for the redesigned settings screen. */
+@Composable
+fun SettingsPreviewContent() {
     SettingsUI(
         userEditableSettings = UserEditableSettings(
             darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
@@ -682,5 +688,4 @@ private fun SettingsScreenPreview() {
         popBack = {}
     )
 }
-
 

@@ -1,0 +1,135 @@
+{
+  "$schema": "https://github.com/yschimke/design-parity/schema/dtcg-tokens.schema.json",
+  "color": {
+    "primary": {
+      "$type": "color",
+      "$value": "#8b5005ff"
+    },
+    "onPrimary": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "primaryContainer": {
+      "$type": "color",
+      "$value": "#ffdcbfff"
+    },
+    "onPrimaryContainer": {
+      "$type": "color",
+      "$value": "#6b3b00ff"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "#735943ff"
+    },
+    "onSecondary": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "secondaryContainer": {
+      "$type": "color",
+      "$value": "#ffdcbfff"
+    },
+    "onSecondaryContainer": {
+      "$type": "color",
+      "$value": "#59422dff"
+    },
+    "tertiary": {
+      "$type": "color",
+      "$value": "#596239ff"
+    },
+    "onTertiary": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "tertiaryContainer": {
+      "$type": "color",
+      "$value": "#dde8b3ff"
+    },
+    "onTertiaryContainer": {
+      "$type": "color",
+      "$value": "#424a23ff"
+    },
+    "error": {
+      "$type": "color",
+      "$value": "#ba1a1aff"
+    },
+    "onError": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "errorContainer": {
+      "$type": "color",
+      "$value": "#ffdad6ff"
+    },
+    "onErrorContainer": {
+      "$type": "color",
+      "$value": "#93000aff"
+    },
+    "surface": {
+      "$type": "color",
+      "$value": "#fff8f5ff"
+    },
+    "onSurface": {
+      "$type": "color",
+      "$value": "#211a14ff"
+    },
+    "surfaceVariant": {
+      "$type": "color",
+      "$value": "#f2dfd1ff"
+    },
+    "onSurfaceVariant": {
+      "$type": "color",
+      "$value": "#51443aff"
+    },
+    "outline": {
+      "$type": "color",
+      "$value": "#837469ff"
+    },
+    "outlineVariant": {
+      "$type": "color",
+      "$value": "#d5c3b6ff"
+    }
+  },
+  "type": {
+    "displaySmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.SansSerif",
+        "fontSize": 36,
+        "fontWeight": 400,
+        "letterSpacing": 0,
+        "lineHeight": 44
+      }
+    },
+    "titleLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.SansSerif",
+        "fontSize": 22,
+        "fontWeight": 400,
+        "letterSpacing": 0,
+        "lineHeight": 28
+      }
+    },
+    "bodyLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.SansSerif",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "letterSpacing": 0.5,
+        "lineHeight": 24
+      }
+    },
+    "labelSmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.SansSerif",
+        "fontSize": 11,
+        "fontWeight": 500,
+        "letterSpacing": 0.5,
+        "lineHeight": 16
+      }
+    }
+  }
+}

@@ -30,6 +30,8 @@ _No findings._
 
 ### `AssistantConversationPreview`
 
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/AssistantConversationPreview_Dark-b38b7f49.a11y.png" width="400" />
+
 _No findings._
 
 ### `BackgroundAndroid`

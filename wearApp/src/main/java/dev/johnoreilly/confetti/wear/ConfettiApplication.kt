@@ -4,6 +4,7 @@ package dev.johnoreilly.confetti.wear
 
 import android.app.Application
 import android.content.Context
+import android.content.pm.PackageManager
 import androidx.wear.phone.interactions.notifications.BridgingConfig
 import androidx.wear.phone.interactions.notifications.BridgingManager
 import coil.ImageLoader
@@ -25,29 +26,27 @@ import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.context.GlobalContext
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import java.net.URL
 
 class ConfettiApplication : Application(), ImageLoaderFactory {
 
-    private val isFirebaseInstalled
-        get() = try {
-            FirebaseApp.getInstance()
-            true
-        } catch (_: IllegalStateException) {
-            false
-        }
-
     override fun newImageLoader(): ImageLoader = get()
 
     override fun onCreate() {
         super.onCreate()
 
-        BridgingManager.fromContext(this).setConfig(
-            BridgingConfig.Builder(this, /* isBridgingEnabled = */ true)
-                .build()
-        )
+        if (packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH)) {
+            BridgingManager.fromContext(this).setConfig(
+                BridgingConfig.Builder(this, /* isBridgingEnabled = */ true)
+                    .build()
+            )
+        }
+
+        val isFirebaseInstalled =
+            FirebaseApp.getApps(this).isNotEmpty() || FirebaseApp.initializeApp(this) != null
 
         if (isFirebaseInstalled) {
             if (!BuildConfig.DEBUG) {
@@ -59,8 +58,10 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
         }
 
         val androidContext = this@ConfettiApplication
-        initWearApp(androidContext) {
-            workManagerFactory()
+        if (GlobalContext.getOrNull() == null) {
+            initWearApp(androidContext) {
+                workManagerFactory()
+            }
         }
 
         val callFactory = get<Call.Factory>()

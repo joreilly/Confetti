@@ -17,19 +17,15 @@ import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.context.GlobalContext
 
 class ConfettiApplication : Application() {
 
-    private val isFirebaseInstalled
-        get() = try {
-            FirebaseApp.getInstance()
-            true
-        } catch (ise: IllegalStateException) {
-            false
-        }
-
     override fun onCreate() {
         super.onCreate()
+
+        val isFirebaseInstalled =
+            FirebaseApp.getApps(this).isNotEmpty() || FirebaseApp.initializeApp(this) != null
 
         if (isFirebaseInstalled) {
             if (!BuildConfig.DEBUG) {
@@ -42,12 +38,14 @@ class ConfettiApplication : Application() {
             }
         }
 
-        initKoin {
-            androidLogger()
-            androidContext(this@ConfettiApplication)
-            modules(appModule)
+        if (GlobalContext.getOrNull() == null) {
+            initKoin {
+                androidLogger()
+                androidContext(this@ConfettiApplication)
+                modules(appModule)
 
-            workManagerFactory()
+                workManagerFactory()
+            }
         }
 
         val workManager = get<WorkManager>()

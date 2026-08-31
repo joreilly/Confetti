@@ -58,6 +58,7 @@ import okhttp3.OkHttpClient
 import okhttp3.WebSocket
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.dsl.workerOf
+import org.koin.core.context.GlobalContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
@@ -163,7 +164,10 @@ val Context.settingsStore by preferencesDataStore("settings")
 
 
 actual fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory {
-    val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory("$conference$uid.db")
+    val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory(
+        context = GlobalContext.get().get<Context>(),
+        name = "$conference$uid.db",
+    )
     return MemoryCacheFactory(10 * 1024 * 1024)
         .chain(sqlNormalizedCacheFactory)
 }

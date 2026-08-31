@@ -3,7 +3,7 @@
 Auto-generated from `main`. Browse inline or compare against PR branches.
 
 > [!WARNING]
-> 4 preview(s) failed to render in the latest update (2 retained from the prior baseline; 2 with no prior baseline to retain). See **Render Failures** below.
+> 2 preview(s) failed to render in the latest update (2 with no prior baseline to retain). See **Render Failures** below.
 
 ## Render Failures
 
@@ -12,8 +12,6 @@ The render task completed but no PNG was produced for these previews. Entries wi
 | Preview | Module | Function | Source | Baseline |
 |---------|--------|----------|--------|----------|
 | `androidApp/activity__MainActivity` | androidApp | `MainActivity` | `—` | none |
-| `androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Dark` | androidApp | `AssistantConversationPreview` | `src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt` | retained |
-| `androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.AssistantConversationPreview_Light` | androidApp | `AssistantConversationPreview` | `src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt` | retained |
 | `wearApp/activity__MainActivity` | wearApp | `MainActivity` | `—` | none |
 
 ## androidApp
@@ -53,6 +51,8 @@ The render task completed but no PNG was produced for these previews. Entries wi
 | `TypographySpecimenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/TypographySpecimenPreview_Light-e4709481.png" width="150" /> |
 | `AccountScreenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/AccountScreenPreview_Dark-a7b60242.png" width="150" /> |
 | `AccountScreenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/AccountScreenPreview_Light-5dce728d.png" width="150" /> |
+| `AssistantConversationPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/AssistantConversationPreview_Dark-b38b7f49.png" width="150" /> |
+| `AssistantConversationPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/AssistantConversationPreview_Light-0a5ca29b.png" width="150" /> |
 | `ConferenceSelectionPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ConferenceSelectionPreview_Dark-902fcef6.png" width="150" /> |
 | `ConferenceSelectionPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ConferenceSelectionPreview_Light-db39c3f8.png" width="150" /> |
 | `HazeBottomNavigationDetailPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/HazeBottomNavigationDetailPreview_Dark_high_contrast_blur_target-51c60974.png" width="150" /> |

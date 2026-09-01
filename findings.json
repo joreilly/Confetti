@@ -240,6 +240,17 @@
       "variant": ""
     },
     {
+      "annotatedBasename": "OnboardingSignInStepPreview_Dark-36612898.a11y.png",
+      "cleanBasename": "OnboardingSignInStepPreview_Dark-36612898.png",
+      "findings": [],
+      "functionName": "OnboardingSignInStepPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.OnboardingSignInStepPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
+      "variant": ""
+    },
+    {
       "annotatedBasename": "ScheduleScreenPreview_Dark-67718575.a11y.png",
       "cleanBasename": "ScheduleScreenPreview_Dark-67718575.png",
       "findings": [],
@@ -303,6 +314,17 @@
       "previewId": "dev.johnoreilly.confetti.ui.ComponentCatalogKt.SessionItemPopulatedPreview_Dark",
       "rendersDir": "androidApp",
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ComponentCatalog.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "",
+      "cleanBasename": "SettingsScreenPreview_Dark-ba1bef09.png",
+      "findings": [],
+      "functionName": "SettingsScreenPreview",
+      "module": "androidApp",
+      "previewId": "dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.SettingsScreenPreview_Dark",
+      "rendersDir": "androidApp",
+      "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt",
       "variant": ""
     },
     {

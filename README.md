@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/main`. 118 preview(s) across 3 module(s) · 12 error(s) · 3 warning(s) · 8 info._
+_Auto-generated from `compose-preview/a11y/main`. 120 preview(s) across 3 module(s) · 12 error(s) · 3 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -110,6 +110,12 @@ _No findings._
 | 6 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
 | 7 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
 
+### `OnboardingSignInStepPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/OnboardingSignInStepPreview_Dark-36612898.a11y.png" width="400" />
+
+_No findings._
+
 ### `ScheduleScreenPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/ScheduleScreenPreview_Dark-67718575.a11y.png" width="400" />
@@ -143,6 +149,12 @@ _No findings._
 ### `SessionItemPopulatedPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SessionItemPopulatedPreview_Dark-631a7045.a11y.png" width="400" />
+
+_No findings._
+
+### `SettingsScreenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/main/renders/androidApp/SettingsScreenPreview_Dark-ba1bef09.png" width="400" />
 
 _No findings._
 

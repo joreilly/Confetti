@@ -37,7 +37,7 @@ annotation class RecentMobileScreen
 @RecentMobileScreen
 @Composable
 fun HazeBottomNavigationPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         HazeBottomBarPreviewContent()
     }
 }
@@ -58,7 +58,7 @@ fun HazeBottomNavigationPreview() {
 )
 @Composable
 fun HazeBottomNavigationDetailPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         HazeBottomBarContrastPreviewContent()
     }
 }
@@ -66,7 +66,7 @@ fun HazeBottomNavigationDetailPreview() {
 @RecentMobileScreen
 @Composable
 fun OnboardingHazePreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         OnboardingContent(
             notificationsEnabled = false,
             supportsNotifications = true,
@@ -79,7 +79,7 @@ fun OnboardingHazePreview() {
 @RecentMobileScreen
 @Composable
 fun OnboardingSignInStepPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         OnboardingSignInStep(
             visible = true,
             user = null,
@@ -91,7 +91,7 @@ fun OnboardingSignInStepPreview() {
 @RecentMobileScreen
 @Composable
 fun SettingsScreenPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         SettingsPreviewContent()
     }
 }
@@ -99,7 +99,7 @@ fun SettingsScreenPreview() {
 @RecentMobileScreen
 @Composable
 fun AccountScreenPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         AccountView(
             state = AccountUiState.Success(
                 conferenceName = "KotlinConf 2026",
@@ -119,7 +119,7 @@ fun AccountScreenPreview() {
 @RecentMobileScreen
 @Composable
 fun AssistantConversationPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         ConferenceAgentView(
             component = PreviewConferenceAgentComponent(),
             onCloseClick = {},

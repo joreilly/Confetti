@@ -55,7 +55,7 @@ import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
 
 /** Confetti's brand theme with dynamic (Material You) theming disabled, so the catalog is deterministic. */
 @Composable
-private fun CatalogTheme(content: @Composable () -> Unit) {
+internal fun CatalogTheme(content: @Composable () -> Unit) {
     ConfettiTheme(disableDynamicTheming = true) {
         // The catalog renders with LocalInspectionMode = true, where Coil never executes a network
         // request — so speaker/venue AsyncImages would sit blank. A preview handler supplies the

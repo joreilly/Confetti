@@ -39,7 +39,7 @@ import dev.johnoreilly.confetti.ui.speakers.SpeakerDetailsView
 )
 @Composable
 internal fun AndroidSessionDetailPreview() {
-    ConfettiTheme {
+    CatalogTheme {
         SessionDetailViewShared(
             conference = "kotlinconf2023",
             session = sessionDetails,
@@ -70,7 +70,7 @@ internal fun AndroidSessionDetailPreview() {
 )
 @Composable
 internal fun AndroidSpeakerDetailsPreview() {
-    ConfettiTheme {
+    CatalogTheme {
         SpeakerDetailsView(
             conference = "kotlinconf2023",
             speaker = johnOreillySpeaker,

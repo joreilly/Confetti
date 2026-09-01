@@ -11,6 +11,7 @@ import dev.johnoreilly.confetti.decompose.ConferenceAgentComponent
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.preview.previewConferenceListState
 import dev.johnoreilly.confetti.ui.account.AccountView
+import dev.johnoreilly.confetti.ui.settings.SettingsPreviewContent
 
 /**
  * Android-discoverable previews for the mobile UI work landed in August 2026. Shared-source
@@ -36,7 +37,7 @@ annotation class RecentMobileScreen
 @RecentMobileScreen
 @Composable
 fun HazeBottomNavigationPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         HazeBottomBarPreviewContent()
     }
 }
@@ -57,7 +58,7 @@ fun HazeBottomNavigationPreview() {
 )
 @Composable
 fun HazeBottomNavigationDetailPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         HazeBottomBarContrastPreviewContent()
     }
 }
@@ -65,7 +66,7 @@ fun HazeBottomNavigationDetailPreview() {
 @RecentMobileScreen
 @Composable
 fun OnboardingHazePreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         OnboardingContent(
             notificationsEnabled = false,
             supportsNotifications = true,
@@ -77,8 +78,28 @@ fun OnboardingHazePreview() {
 
 @RecentMobileScreen
 @Composable
+fun OnboardingSignInStepPreview() {
+    CatalogTheme {
+        OnboardingSignInStep(
+            visible = true,
+            user = null,
+            onSignInClicked = {},
+        )
+    }
+}
+
+@RecentMobileScreen
+@Composable
+fun SettingsScreenPreview() {
+    CatalogTheme {
+        SettingsPreviewContent()
+    }
+}
+
+@RecentMobileScreen
+@Composable
 fun AccountScreenPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         AccountView(
             state = AccountUiState.Success(
                 conferenceName = "KotlinConf 2026",
@@ -98,7 +119,7 @@ fun AccountScreenPreview() {
 @RecentMobileScreen
 @Composable
 fun AssistantConversationPreview() {
-    ConfettiTheme(disableDynamicTheming = true) {
+    CatalogTheme {
         ConferenceAgentView(
             component = PreviewConferenceAgentComponent(),
             onCloseClick = {},

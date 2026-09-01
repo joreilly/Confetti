@@ -1,0 +1,71 @@
+name: Compose Preview Publish
+
+# Trusted half of the fork-PR preview handoff. It checks out only the base
+# repository's default branch and treats downloaded fork artifacts as data.
+# Never add a step here that executes files from the handoff artifact.
+on:
+  workflow_run:
+    workflows: [Compose Preview]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+
+# Let an in-flight publisher finish; the next run then supersedes its shared
+# preview branch and sticky comment with the newer head's output.
+concurrency:
+  group: compose-preview-publish-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish fork preview comment
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v7
+        with:
+          name: compose-preview-handoff
+          path: _compose_preview_handoff
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - id: pr
+        run: echo "number=$(cat _compose_preview_handoff/_pr_number)" >> "$GITHUB_OUTPUT"
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+        with:
+          phase: publish
+          handoff-dir: _compose_preview_handoff
+          pr-number: ${{ steps.pr.outputs.number }}
+
+  publish-a11y:
+    name: Publish fork a11y comment
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v7
+        with:
+          name: compose-preview-a11y-handoff
+          path: _compose_preview_a11y_handoff
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - id: pr
+        run: echo "number=$(cat _compose_preview_a11y_handoff/_pr_number)" >> "$GITHUB_OUTPUT"
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+        with:
+          phase: publish
+          handoff-dir: _compose_preview_a11y_handoff
+          pr-number: ${{ steps.pr.outputs.number }}

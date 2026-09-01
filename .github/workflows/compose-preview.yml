@@ -11,13 +11,10 @@ name: Compose Preview
 # rather than the sum. Notifications are skipped (Confetti has no notification
 # previews).
 #
-# NOTE: pushing the compose-preview/* baseline + PR branches needs a writable
-# GITHUB_TOKEN, which only same-repo events get. Fork PRs (e.g. yschimke ->
-# joreilly/Confetti) receive a read-only token, so the render would succeed but
-# the branch push 403s and fails the job. Both jobs are therefore gated to run
-# on push / workflow_dispatch and *same-repo* PRs only; external-fork PRs are
-# skipped (no write token to post a comment with anyway). On joreilly/Confetti
-# the default token already has contents:write, so its own PRs render + diff.
+# Fork PRs use an explicit two-workflow handoff. This workflow renders their
+# untrusted code with a read-only token and uploads data-only artifacts. The
+# trusted Compose Preview Publish workflow consumes those artifacts without
+# executing fork code, pushes the render branches, and posts sticky comments.
 
 # `paths-ignore` keeps the two 45-minute render jobs off changes that cannot
 # reach a Compose @Preview: the GraphQL/Ktor backend, the iOS app, the landing
@@ -50,9 +47,7 @@ on:
       - '**.md'
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 concurrency:
   group: compose-preview-${{ github.event.pull_request.number || github.ref }}
@@ -61,13 +56,15 @@ concurrency:
 jobs:
   apply:
     name: Render previews (baseline or PR comment, auto-selected)
-    # Skip external-fork PRs: they get a read-only token, so the render succeeds
-    # but the compose-preview/* branch push 403s and fails the job.
+    # Trusted path: same-repository PRs and baseline runs publish inline.
     if: >-
       github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    permissions:
+      contents: write
+      pull-requests: write
     env:
       # BuildFetch remote cache (see settings.gradle.kts). On main-branch runs ON_CI=true and the RW
       # token seed the cache from the render/compile task outputs; on PRs ON_CI is false so the same
@@ -105,12 +102,15 @@ jobs:
 
   a11y:
     name: A11y previews
-    # Same fork-token gate as the apply job above.
+    # Trusted path: same-repository PRs and baseline runs publish inline.
     if: >-
       github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    permissions:
+      contents: write
+      pull-requests: write
     env:
       # BuildFetch remote cache (see settings.gradle.kts). On main-branch runs ON_CI=true and the RW
       # token seed the cache from the render/compile task outputs; on PRs ON_CI is false so the same
@@ -137,3 +137,86 @@ jobs:
           catalog-key: composeai-preview
           missing-renders: warn
           only: a11y
+
+  render-fork:
+    name: Render previews (fork handoff)
+    # Keep this separate from the write-scoped job above. Some organizations
+    # allow write tokens for fork workflows; job-level read permission keeps
+    # untrusted Gradle code read-only even under that setting.
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    env:
+      ON_CI: false
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          lfs: 'true'
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'zulu'
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: true
+      - name: Warm Gradle wrapper
+        run: ./gradlew help
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+        with:
+          phase: render
+          handoff-dir: _compose_preview_handoff
+          cli-version: catalog
+          catalog-key: composeai-preview
+          missing-renders: warn
+          only: compose
+      - uses: actions/upload-artifact@v7
+        with:
+          name: compose-preview-handoff
+          path: _compose_preview_handoff/
+          if-no-files-found: error
+          retention-days: 1
+
+  a11y-fork:
+    name: A11y previews (fork handoff)
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    env:
+      ON_CI: false
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          lfs: 'true'
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'zulu'
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: true
+      - name: Warm Gradle wrapper
+        run: ./gradlew help
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+        with:
+          phase: render
+          handoff-dir: _compose_preview_a11y_handoff
+          cli-version: catalog
+          catalog-key: composeai-preview
+          missing-renders: warn
+          only: a11y
+      - uses: actions/upload-artifact@v7
+        with:
+          name: compose-preview-a11y-handoff
+          path: _compose_preview_a11y_handoff/
+          if-no-files-found: error
+          retention-days: 1

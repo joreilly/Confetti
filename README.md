@@ -50,6 +50,10 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `HazeBottomNavigationPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/HazeBottomNavigationPreview_Light-8d68e7fd.png" width="150" /> |
 | `OnboardingHazePreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/OnboardingHazePreview_Dark-61a55232.png" width="150" /> |
 | `OnboardingHazePreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/OnboardingHazePreview_Light-472e7fa2.png" width="150" /> |
+| `OnboardingSignInStepPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/OnboardingSignInStepPreview_Dark-36612898.png" width="150" /> |
+| `OnboardingSignInStepPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/OnboardingSignInStepPreview_Light-633a98a0.png" width="150" /> |
+| `SettingsScreenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/SettingsScreenPreview_Dark-ba1bef09.png" width="150" /> |
+| `SettingsScreenPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/SettingsScreenPreview_Light-dbd36222.png" width="150" /> |
 | `ThemeFoundationAndroidPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationAndroidPreview_Dark-dad8d762.png" width="150" /> |
 | `ThemeFoundationAndroidPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationAndroidPreview_Light-98d43561.png" width="150" /> |
 | `ThemeFoundationConferenceSeedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/ThemeFoundationConferenceSeedPreview_Dark-f74e7f38.png" width="150" /> |

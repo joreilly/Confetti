@@ -219,7 +219,7 @@ plugin-compose-multiplatform = { module = "org.jetbrains.compose:compose-gradle-
 roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
 scrimage-core = { module = "com.sksamuel.scrimage:scrimage-core", version.ref = "scrimage" }
 scrimage-filters = { module = "com.sksamuel.scrimage:scrimage-filters", version.ref = "scrimage" }
-snakeyaml = "org.yaml:snakeyaml:2.6"
+snakeyaml = "org.yaml:snakeyaml:2.7"
 spring-web = { module = "org.springframework:spring-web" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 

@@ -844,7 +844,7 @@
     "functionName": "SessionDetailViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionDetailViewLoadedPreview_Tablet_landscape-8e7a2e86.png",
-    "sha256": "c3b5f5b70fc0c7116141871d6850cc7dde4b2fee352fde7f7148a1a26cfa7421",
+    "sha256": "bcf17f942e3b0d36c070136f46352012c11d6f139dcd8c10f36874ea8d0a4d03",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionDetailsViewShared.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionItemViewKt.SessionItemViewBreakPreview_Break": {
@@ -892,7 +892,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Phone_large-3c3de344.png",
-    "sha256": "9b89082688d6ce7918700a37a50b7a488b61ec28d3ea83f2c14919864035b23e",
+    "sha256": "519c638846e8fc059feae052ff5a8ae8cc0323692484ac591fde37fdbf881cf2",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Phone (small)": {
@@ -900,7 +900,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Phone_small-d12fb411.png",
-    "sha256": "f9fb767f99df6da5ea20dda260f4b5a965321be036bdce991045b9142f9b1b22",
+    "sha256": "b7bc59c8db7a6b38f144b92326fdb8b1fa767067e5f18078097418812eed5598",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Tablet landscape": {
@@ -908,7 +908,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png",
-    "sha256": "b29d2db5ddd8cfa7105b1148dbf1e7037343fd297e7456c9e6e5976a59283769",
+    "sha256": "7055f286b0fecdac0fceb1bd33dbe69f844e1b410a71a354c69d03bfa2be9e1c",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadingPreview_Loading": {

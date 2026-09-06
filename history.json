@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "adec7b9e4a9872d6586d75f49458a94557891c9f",
+    "generatedFrom": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -1966,6 +1966,13 @@
             "path": "renders/shared/SessionDetailViewLoadedPreview_Tablet_landscape-8e7a2e86.png",
             "versions": [
                 {
+                    "blob": "68f02e286934b2f1e978d35a7cc69b81a44f0b26",
+                    "commit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
+                    "date": "2026-09-06T18:31:53Z",
+                    "sourceSha": "3968e3d1",
+                    "commits": 1
+                },
+                {
                     "blob": "6e4f1f06c2f4639273fdfefd967363cc8bfd7536",
                     "commit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
                     "date": "2026-08-31T13:57:41Z",
@@ -1973,7 +1980,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
@@ -2056,6 +2063,13 @@
             "path": "renders/shared/SessionListGridViewLoadedPreview_Phone_large-3c3de344.png",
             "versions": [
                 {
+                    "blob": "05eece62715df02c2e760a4bb1a7f5ab07238d32",
+                    "commit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
+                    "date": "2026-09-06T18:31:53Z",
+                    "sourceSha": "3968e3d1",
+                    "commits": 1
+                },
+                {
                     "blob": "87cdb92569ee418f93cbc14a26b4e299cd608d0d",
                     "commit": "adec7b9e4a9872d6586d75f49458a94557891c9f",
                     "date": "2026-09-06T18:02:15Z",
@@ -2070,13 +2084,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 3,
             "unstable": false,
             "flapCount": 0
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Phone (small)": {
             "path": "renders/shared/SessionListGridViewLoadedPreview_Phone_small-d12fb411.png",
             "versions": [
+                {
+                    "blob": "125a3be86e341fe9717472ee2429ee4303f2213c",
+                    "commit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
+                    "date": "2026-09-06T18:31:53Z",
+                    "sourceSha": "3968e3d1",
+                    "commits": 1
+                },
                 {
                     "blob": "fdc5649d2335a1dd0287bc0ff7e3a691eabf5008",
                     "commit": "adec7b9e4a9872d6586d75f49458a94557891c9f",
@@ -2092,13 +2113,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 3,
             "unstable": false,
             "flapCount": 0
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Tablet landscape": {
             "path": "renders/shared/SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png",
             "versions": [
+                {
+                    "blob": "84c2bfa1ebea9e3dc8e6d242e91261d50feb8b1b",
+                    "commit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
+                    "date": "2026-09-06T18:31:53Z",
+                    "sourceSha": "3968e3d1",
+                    "commits": 1
+                },
                 {
                     "blob": "2aa9c77b5b8e7c18e73fc6e6bc632a5eae60a9bc",
                     "commit": "adec7b9e4a9872d6586d75f49458a94557891c9f",
@@ -2114,7 +2142,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 3,
             "unstable": false,
             "flapCount": 0
         },

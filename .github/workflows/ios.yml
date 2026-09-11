@@ -121,9 +121,13 @@ jobs:
 
       # Build once for testing (app + test targets) on the simulator, then run the tests
       # without rebuilding. Simulator builds skip code signing / provisioning entirely.
-      # build-for-testing needs no concrete device, so it takes the generic destination.
+      # Both steps target the one resolved simulator. A generic destination
+      # ('generic/platform=iOS Simulator') looks tempting here but builds a universal binary,
+      # asking Gradle for x86_64 as well - and this project drops iosX64, so that fails with
+      # "Xcode Requested Architecture Not Configured in Gradle". A concrete arm64 simulator
+      # keeps ARCHS single-arch.
       - name: Build iOS app for testing
-        run: xcodebuild build-for-testing -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+        run: xcodebuild build-for-testing -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination "id=${{ steps.simulator.outputs.udid }}"
 
       - name: Run iOS unit tests
         run: xcodebuild test-without-building -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination "id=${{ steps.simulator.outputs.udid }}" -test-timeouts-enabled YES

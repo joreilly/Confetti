@@ -41,7 +41,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -85,6 +84,7 @@ import dev.johnoreilly.confetti.ui.settings.SettingsUI
 import dev.johnoreilly.confetti.ui.speakers.SpeakerDetailsUI
 import dev.johnoreilly.confetti.ui.speakers.SpeakersUI
 import dev.johnoreilly.confetti.ui.venue.VenueUI
+import dev.johnoreilly.confetti.utils.currentWindowSizeClass
 import dev.johnoreilly.confetti.utils.isExpanded
 import org.jetbrains.compose.resources.stringResource
 
@@ -106,7 +106,7 @@ fun App(component: DefaultAppComponent) {
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ConferenceView(component: ConferenceComponent) {
-    val windowSizeClass = calculateWindowSizeClass()
+    val windowSizeClass = currentWindowSizeClass()
     ConferenceMaterialThemeFromSettings(component.conferenceThemeColor) {
         ChildStack(
             stack = component.stack,
@@ -146,7 +146,7 @@ fun ConferenceView(component: ConferenceComponent) {
                 is ConferenceComponent.Child.Search -> {
                     SearchUI(
                         component = child.component,
-                        windowSizeClass = calculateWindowSizeClass(),
+                        windowSizeClass = currentWindowSizeClass(),
                         onBackClick = component::onBackClicked,
                     )
                 }
@@ -159,7 +159,7 @@ fun ConferenceView(component: ConferenceComponent) {
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun HomeView(component: HomeComponent) {
-    val windowSizeClass = calculateWindowSizeClass()
+    val windowSizeClass = currentWindowSizeClass()
     val shouldShowNavRail = windowSizeClass.isExpanded
     val snackbarHostState = remember { SnackbarHostState() }
     val hazeState = remember { HazeState() }

@@ -3,6 +3,16 @@ terraform {
     bucket = "confetti-tfstate"
     prefix = "terraform/state"
   }
+
+  # Pinned deliberately. With no constraint here and no committed .terraform.lock.hcl, every CI
+  # run downloaded whatever google-beta was newest, so a change to a provider *default* could
+  # (and did) break apply with no commit to this repo - see load_balancing_scheme below.
+  required_providers {
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "~> 8.0"
+    }
+  }
 }
 
 variable "region" {
@@ -105,6 +115,11 @@ resource "google_compute_backend_service" "router" {
   enable_cdn                      = true
   timeout_sec                     = 10
   connection_draining_timeout_sec = 10
+  # Set explicitly: the provider default moved to EXTERNAL_MANAGED, which GCP rejects as an
+  # in-place change ("Cannot change the load balancing scheme until the migration state is
+  # set to TEST_ALL_TRAFFIC"). The forwarding rules further down are EXTERNAL, so the
+  # backend services have to match.
+  load_balancing_scheme           = "EXTERNAL"
 
   custom_request_headers  = ["Host: ${google_compute_global_network_endpoint.router.fqdn}"]
   custom_response_headers = ["X-Cache-Hit: {cdn_cache_status}"]
@@ -131,9 +146,14 @@ resource "google_compute_backend_service" "router" {
 }
 
 resource "google_compute_backend_service" "graphql" {
-  provider   = google-beta
-  name       = "graphql"
-  enable_cdn = true
+  provider              = google-beta
+  name                  = "graphql"
+  enable_cdn            = true
+  # Set explicitly: the provider default moved to EXTERNAL_MANAGED, which GCP rejects as an
+  # in-place change ("Cannot change the load balancing scheme until the migration state is
+  # set to TEST_ALL_TRAFFIC"). The forwarding rules further down are EXTERNAL, so the
+  # backend services have to match.
+  load_balancing_scheme = "EXTERNAL"
 
   custom_response_headers = ["X-Cache-Hit: {cdn_cache_status}"]
 
@@ -160,9 +180,14 @@ resource "google_compute_backend_service" "graphql" {
 }
 
 resource "google_compute_backend_service" "import" {
-  provider   = google-beta
-  name       = "import"
-  enable_cdn = true
+  provider              = google-beta
+  name                  = "import"
+  enable_cdn            = true
+  # Set explicitly: the provider default moved to EXTERNAL_MANAGED, which GCP rejects as an
+  # in-place change ("Cannot change the load balancing scheme until the migration state is
+  # set to TEST_ALL_TRAFFIC"). The forwarding rules further down are EXTERNAL, so the
+  # backend services have to match.
+  load_balancing_scheme = "EXTERNAL"
 
   custom_response_headers = ["X-Cache-Hit: {cdn_cache_status}"]
 

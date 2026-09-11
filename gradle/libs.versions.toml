@@ -57,8 +57,8 @@ buildkonfig = "0.22.0"
 roborazzi = "1.73.0"
 screenshot = "0.0.1-alpha16"
 composeai-preview = "1.61.2"
-koogAgents = "1.1.1"
-koogPromptExecutorAll = "1.1.1-beta"
+koogAgents = "1.2.0"
+koogPromptExecutorAll = "1.2.0-beta"
 
 
 [libraries]
@@ -252,7 +252,7 @@ koog-prompt-executor-llms-all = { module = "ai.koog:prompt-executor-llms-all", v
 koog-prompt-executor-google-client = { module = "ai.koog:prompt-executor-google-client", version.ref = "koogPromptExecutorAll" }
 koog-http-client-ktor = { module = "ai.koog:http-client-ktor", version.ref = "koogAgents" }
 koog-embeddings-base = { module = "ai.koog:embeddings-base", version.ref = "koogAgents" }
-koog-rag-base = { module = "ai.koog:rag-base", version.ref = "koogPromptExecutorAll" }
+koog-rag-base = { module = "ai.koog:rag-base", version.ref = "koogAgents" }
 koog-rag-vector = { module = "ai.koog:rag-vector", version.ref = "koogPromptExecutorAll" }
 
 [bundles]

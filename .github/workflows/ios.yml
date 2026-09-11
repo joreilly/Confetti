@@ -88,10 +88,42 @@ jobs:
         run: |
           xcodes select 26.6
 
+      # Matching a destination by device name intermittently times out on the hosted runners:
+      # xcodebuild waits ~60s and then reports "Unable to find a device matching ... iPhone 17
+      # Pro" even though the same image builds fine on other runs. Resolve a concrete simulator
+      # up front with simctl and address it by UDID instead, so the tests never depend on
+      # xcodebuild's own name matching.
+      - name: Select iOS Simulator
+        id: simulator
+        run: |
+          udid=$(xcrun simctl list devices available --json | python3 -c '
+          import json, sys
+
+          devices = json.load(sys.stdin)["devices"]
+          candidates = []
+          for runtime, entries in devices.items():
+              if "iOS" not in runtime:
+                  continue
+              for entry in entries:
+                  if entry.get("isAvailable") and entry["name"].startswith("iPhone"):
+                      candidates.append((runtime, entry["name"], entry["udid"]))
+
+          if not candidates:
+              sys.exit("no available iPhone simulator on this runner")
+
+          # Prefer the device the workflow used to pin, otherwise just take one that exists.
+          preferred = [c for c in candidates if c[1] == "iPhone 17 Pro"]
+          runtime, name, udid = (preferred or candidates)[0]
+          print(f"{name} ({runtime}) -> {udid}", file=sys.stderr)
+          print(udid)
+          ')
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+
       # Build once for testing (app + test targets) on the simulator, then run the tests
       # without rebuilding. Simulator builds skip code signing / provisioning entirely.
+      # build-for-testing needs no concrete device, so it takes the generic destination.
       - name: Build iOS app for testing
-        run: xcodebuild build-for-testing -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+        run: xcodebuild build-for-testing -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
 
       - name: Run iOS unit tests
-        run: xcodebuild test-without-building -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -test-timeouts-enabled YES
+        run: xcodebuild test-without-building -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination "id=${{ steps.simulator.outputs.udid }}" -test-timeouts-enabled YES

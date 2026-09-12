@@ -85,7 +85,7 @@ jobs:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
       - name: Warm Gradle wrapper
         run: ./gradlew help
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.13.0
         with:
           # Pin the render CLI to the applied Gradle plugin version (single
           # source of truth: composeai-preview in gradle/libs.versions.toml)
@@ -131,7 +131,7 @@ jobs:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
       - name: Warm Gradle wrapper
         run: ./gradlew help
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.13.0
         with:
           cli-version: catalog
           catalog-key: composeai-preview
@@ -166,7 +166,7 @@ jobs:
           cache-read-only: true
       - name: Warm Gradle wrapper
         run: ./gradlew help
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.13.0
         with:
           phase: render
           handoff-dir: _compose_preview_handoff
@@ -206,7 +206,7 @@ jobs:
           cache-read-only: true
       - name: Warm Gradle wrapper
         run: ./gradlew help
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.13.0
         with:
           phase: render
           handoff-dir: _compose_preview_a11y_handoff

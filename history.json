@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "2087d26f08c0a5ae238af14c9b2c2cef8cf4669b",
+    "generatedFrom": "c244270c6a0aa6f2aa8216fd15510c087a83de3f",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -4507,6 +4507,15 @@
             "path": "renders/wearApp/HomeListViewKotlinConf_Devices_Large_Round-86172c22.png",
             "versions": [
                 {
+                    "blob": "09de5674d272e1277664361d70e50d14560d8536",
+                    "commit": "c244270c6a0aa6f2aa8216fd15510c087a83de3f",
+                    "date": "2026-09-12T10:16:20Z",
+                    "sourceSha": "e12bb3fd",
+                    "sinceCommit": "cb25e03e318901e5ac7e5d1432aec84861bd42d4",
+                    "commits": 19,
+                    "occurrences": 19
+                },
+                {
                     "blob": "ec85449b37e64a4b273bd6347e21abdfb1d74697",
                     "commit": "2d54a7819cd126a6a8077dd7d8e1b462508b22e6",
                     "date": "2026-09-11T20:25:11Z",
@@ -4514,20 +4523,11 @@
                     "sinceCommit": "59792c872c2a9eb9c5e775501d3bf6549e1304e9",
                     "commits": 18,
                     "occurrences": 18
-                },
-                {
-                    "blob": "09de5674d272e1277664361d70e50d14560d8536",
-                    "commit": "e98cd351fe25b2fe864fa99a481d115bf801ed16",
-                    "date": "2026-09-11T20:05:15Z",
-                    "sourceSha": "e1356428",
-                    "sinceCommit": "cb25e03e318901e5ac7e5d1432aec84861bd42d4",
-                    "commits": 18,
-                    "occurrences": 18
                 }
             ],
-            "observations": 36,
+            "observations": 37,
             "unstable": true,
-            "flapCount": 34
+            "flapCount": 35
         },
         "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
             "path": "renders/wearApp/HomeListViewLongPreview_Devices_Large_Round-5ef4376c_SCROLL_top.png",

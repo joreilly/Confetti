@@ -33,6 +33,9 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.client.reactive.JdkClientHttpConnector
 import org.springframework.http.codec.ServerCodecConfigurer
@@ -43,6 +46,8 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.result.view.ViewResolver
+import org.springframework.web.server.WebFilter
+import reactor.core.publisher.Mono
 import java.net.http.HttpClient
 import kotlin.jvm.optionals.getOrNull
 
@@ -60,6 +65,36 @@ class DefaultApplication {
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", corsConfig)
         return CorsWebFilter(source)
+    }
+
+    /**
+     * Emit Access-Control-Allow-Origin even when the request carries no Origin header.
+     *
+     * Apollo sends persisted queries as GETs, and those responses are `public, max-age=1800`, so
+     * Cloud CDN caches them - under a key of {protocol, host, query string, conference header}
+     * that does NOT include Origin (see backend/terraform/main.tf). [corsWebFilter] follows the
+     * CORS spec and only adds the header when the request has an Origin, which browsers send and
+     * the mobile apps do not. So whichever client warmed a cache entry decided, for the next 30
+     * minutes, whether browsers could read it: an entry warmed by a mobile request had no
+     * Access-Control-Allow-Origin, and every browser served that copy had the response blocked,
+     * silently leaving the web client with no data.
+     *
+     * The policy above is "*" regardless of caller, so emitting it unconditionally makes every
+     * cached copy valid for every client. Only fills in a header [corsWebFilter] did not already
+     * set, so genuine Origin requests keep their spec-compliant handling.
+     */
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    fun cacheSafeCorsHeaderFilter(): WebFilter = WebFilter { exchange, chain ->
+        exchange.response.beforeCommit {
+            exchange.response.headers.apply {
+                if (getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN) == null) {
+                    set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                }
+            }
+            Mono.empty()
+        }
+        chain.filter(exchange)
     }
 
     @Bean

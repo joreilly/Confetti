@@ -39,7 +39,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - id: pr
         run: echo "number=$(cat _compose_preview_handoff/_pr_number)" >> "$GITHUB_OUTPUT"
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.85.0
         with:
           phase: publish
           handoff-dir: _compose_preview_handoff
@@ -64,7 +64,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - id: pr
         run: echo "number=$(cat _compose_preview_a11y_handoff/_pr_number)" >> "$GITHUB_OUTPUT"
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.61.2
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.85.0
         with:
           phase: publish
           handoff-dir: _compose_preview_a11y_handoff

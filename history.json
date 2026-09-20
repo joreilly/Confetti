@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "e7876d925745d38935635f0f078be0b9e3925824",
+    "generatedFrom": "c41cc78c6ee3145973ddb99d98d57901c342259f",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -1977,6 +1977,13 @@
             "path": "renders/shared/SessionDetailViewLoadedPreview_Tablet_landscape-8e7a2e86.png",
             "versions": [
                 {
+                    "blob": "ad1f2022eb442b794367279101ee6d2542b3c3be",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "commits": 1
+                },
+                {
                     "blob": "6e4f1f06c2f4639273fdfefd967363cc8bfd7536",
                     "commit": "6bf0d4a4f35cf73bb5a9fcd4357e00db36e89a22",
                     "date": "2026-09-12T11:49:35Z",
@@ -1995,7 +2002,7 @@
                     "occurrences": 3
                 }
             ],
-            "observations": 7,
+            "observations": 8,
             "unstable": true,
             "flapCount": 5
         },
@@ -2078,20 +2085,20 @@
             "path": "renders/shared/SessionListGridViewLoadedPreview_Phone_large-3c3de344.png",
             "versions": [
                 {
+                    "blob": "05eece62715df02c2e760a4bb1a7f5ab07238d32",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "sinceCommit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
+                    "commits": 5,
+                    "occurrences": 5
+                },
+                {
                     "blob": "e49c3df56421b5540cc7d4b25dba9815f77c778b",
                     "commit": "6bf0d4a4f35cf73bb5a9fcd4357e00db36e89a22",
                     "date": "2026-09-12T11:49:35Z",
                     "sourceSha": "7710024b",
                     "sinceCommit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
-                    "commits": 4,
-                    "occurrences": 4
-                },
-                {
-                    "blob": "05eece62715df02c2e760a4bb1a7f5ab07238d32",
-                    "commit": "f9dbb8c2c12ebc04b1324addfbc142a6cbda999b",
-                    "date": "2026-09-12T10:24:47Z",
-                    "sourceSha": "acc451c1",
-                    "sinceCommit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
                     "commits": 4,
                     "occurrences": 4
                 },
@@ -2110,28 +2117,28 @@
                     "commits": 1
                 }
             ],
-            "observations": 10,
+            "observations": 11,
             "unstable": true,
-            "flapCount": 6
+            "flapCount": 7
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Phone (small)": {
             "path": "renders/shared/SessionListGridViewLoadedPreview_Phone_small-d12fb411.png",
             "versions": [
+                {
+                    "blob": "125a3be86e341fe9717472ee2429ee4303f2213c",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "sinceCommit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
+                    "commits": 5,
+                    "occurrences": 5
+                },
                 {
                     "blob": "13a6f98d9010a43d76487a97895d1a7a1abb8431",
                     "commit": "6bf0d4a4f35cf73bb5a9fcd4357e00db36e89a22",
                     "date": "2026-09-12T11:49:35Z",
                     "sourceSha": "7710024b",
                     "sinceCommit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
-                    "commits": 4,
-                    "occurrences": 4
-                },
-                {
-                    "blob": "125a3be86e341fe9717472ee2429ee4303f2213c",
-                    "commit": "f9dbb8c2c12ebc04b1324addfbc142a6cbda999b",
-                    "date": "2026-09-12T10:24:47Z",
-                    "sourceSha": "acc451c1",
-                    "sinceCommit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
                     "commits": 4,
                     "occurrences": 4
                 },
@@ -2150,28 +2157,28 @@
                     "commits": 1
                 }
             ],
-            "observations": 10,
+            "observations": 11,
             "unstable": true,
-            "flapCount": 6
+            "flapCount": 7
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Tablet landscape": {
             "path": "renders/shared/SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png",
             "versions": [
+                {
+                    "blob": "84c2bfa1ebea9e3dc8e6d242e91261d50feb8b1b",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "sinceCommit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
+                    "commits": 5,
+                    "occurrences": 5
+                },
                 {
                     "blob": "6e177e0a6d1a9491ea28af9946311b5b8e324bd1",
                     "commit": "6bf0d4a4f35cf73bb5a9fcd4357e00db36e89a22",
                     "date": "2026-09-12T11:49:35Z",
                     "sourceSha": "7710024b",
                     "sinceCommit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
-                    "commits": 4,
-                    "occurrences": 4
-                },
-                {
-                    "blob": "84c2bfa1ebea9e3dc8e6d242e91261d50feb8b1b",
-                    "commit": "f9dbb8c2c12ebc04b1324addfbc142a6cbda999b",
-                    "date": "2026-09-12T10:24:47Z",
-                    "sourceSha": "acc451c1",
-                    "sinceCommit": "adb78a61479bfa69bf4c904d5727c4c5515398a6",
                     "commits": 4,
                     "occurrences": 4
                 },
@@ -2190,9 +2197,9 @@
                     "commits": 1
                 }
             ],
-            "observations": 10,
+            "observations": 11,
             "unstable": true,
-            "flapCount": 6
+            "flapCount": 7
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadingPreview_Loading": {
             "path": "renders/shared/SessionListGridViewLoadingPreview_Loading-c0b0a27c.png",
@@ -4444,6 +4451,13 @@
             "path": "renders/wearApp/HomeListViewAndroidMakers_Devices_Large_Round-12a9051b.png",
             "versions": [
                 {
+                    "blob": "bbc515bfe4b36b04c90b95fee672c497b29931f1",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "commits": 1
+                },
+                {
                     "blob": "c28a622820e504361ed7df477c691f7bb632bf6a",
                     "commit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
                     "date": "2026-08-31T13:57:41Z",
@@ -4458,13 +4472,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 3,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewDevFest_Devices - Large Round": {
             "path": "renders/wearApp/HomeListViewDevFest_Devices_Large_Round-14d42677.png",
             "versions": [
+                {
+                    "blob": "e23e5bc8ab3e5cea83d5698d5e364c364a4fba79",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "commits": 1
+                },
                 {
                     "blob": "c9ad07a1f7e181e78f3581618b581044a7332319",
                     "commit": "cb25e03e318901e5ac7e5d1432aec84861bd42d4",
@@ -4473,13 +4494,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewDroidcon_Devices - Large Round": {
             "path": "renders/wearApp/HomeListViewDroidcon_Devices_Large_Round-4382e4a5.png",
             "versions": [
+                {
+                    "blob": "0323302ab86ba67eabb52d74980ac1a8eb2177ae",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "commits": 1
+                },
                 {
                     "blob": "5008e4d8a28afac616326ca4f9fb8ae75b5364bd",
                     "commit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
@@ -4495,13 +4523,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 3,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewKotlinConf_Devices - Large Round": {
             "path": "renders/wearApp/HomeListViewKotlinConf_Devices_Large_Round-86172c22.png",
             "versions": [
+                {
+                    "blob": "8ac4397eee7f01ed1a00763167c8c32e7620b698",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "commits": 1
+                },
                 {
                     "blob": "ec85449b37e64a4b273bd6347e21abdfb1d74697",
                     "commit": "e7876d925745d38935635f0f078be0b9e3925824",
@@ -4521,7 +4556,7 @@
                     "occurrences": 21
                 }
             ],
-            "observations": 42,
+            "observations": 43,
             "unstable": true,
             "flapCount": 40
         },
@@ -4559,6 +4594,13 @@
             "path": "renders/wearApp/HomeListViewLongPreview_Devices_Large_Round-5ef4376c_SCROLL_long.png",
             "versions": [
                 {
+                    "blob": "36ec7f07aa5a81386748073c3645dd73fadd7166",
+                    "commit": "c41cc78c6ee3145973ddb99d98d57901c342259f",
+                    "date": "2026-09-20T14:06:40Z",
+                    "sourceSha": "050a661f",
+                    "commits": 1
+                },
+                {
                     "blob": "0357761cc58cd569d21506fe81cb428e0582e7da",
                     "commit": "cb25e03e318901e5ac7e5d1432aec84861bd42d4",
                     "date": "2026-08-15T17:10:31Z",
@@ -4566,7 +4608,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },

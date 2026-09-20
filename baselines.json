@@ -844,7 +844,7 @@
     "functionName": "SessionDetailViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionDetailViewLoadedPreview_Tablet_landscape-8e7a2e86.png",
-    "sha256": "c3b5f5b70fc0c7116141871d6850cc7dde4b2fee352fde7f7148a1a26cfa7421",
+    "sha256": "d9bdfdfc377a0270263ecc563756ca06b5e3e6a619136ca9f9e5ab6953518fd4",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionDetailsViewShared.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionItemViewKt.SessionItemViewBreakPreview_Break": {
@@ -892,7 +892,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Phone_large-3c3de344.png",
-    "sha256": "39803885b36eb32b5941e04c0bce40faaf322db82ec2ada338cea88e257f8598",
+    "sha256": "519c638846e8fc059feae052ff5a8ae8cc0323692484ac591fde37fdbf881cf2",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Phone (small)": {
@@ -900,7 +900,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Phone_small-d12fb411.png",
-    "sha256": "b483e7f84c805b8124ee2aff20cde170ea28d5c684a61bdef7c920f1a660b8b5",
+    "sha256": "b7bc59c8db7a6b38f144b92326fdb8b1fa767067e5f18078097418812eed5598",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Tablet landscape": {
@@ -908,7 +908,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png",
-    "sha256": "7a3c2016838dae949803072262a9e7c2450b1196b30eeb6828f68979a6f80d3c",
+    "sha256": "7055f286b0fecdac0fceb1bd33dbe69f844e1b410a71a354c69d03bfa2be9e1c",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadingPreview_Loading": {
@@ -1692,7 +1692,7 @@
     "functionName": "HomeListViewAndroidMakers",
     "module": "wearApp",
     "renderBasename": "HomeListViewAndroidMakers_Devices_Large_Round-12a9051b.png",
-    "sha256": "8c008af7df3f54740ebd05168bf5be3feebca995c32eff558ba811f9235a01cb",
+    "sha256": "b0c13ef4bf5767080d8ab4c8dd4b588d2b862f2b37dbb07f48d8f865dbdc6594",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewDevFest_Devices - Large Round": {
@@ -1700,7 +1700,7 @@
     "functionName": "HomeListViewDevFest",
     "module": "wearApp",
     "renderBasename": "HomeListViewDevFest_Devices_Large_Round-14d42677.png",
-    "sha256": "1524e8982c9590cde9ea6f89f79146a3507c026288aaf6efaccd45628e456e9b",
+    "sha256": "8c426e5018bcc6cca23a2793a98729a23e850dfa54bada78c2fe7e4ab25964e0",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewDroidcon_Devices - Large Round": {
@@ -1708,7 +1708,7 @@
     "functionName": "HomeListViewDroidcon",
     "module": "wearApp",
     "renderBasename": "HomeListViewDroidcon_Devices_Large_Round-4382e4a5.png",
-    "sha256": "d5203e32f588ce706fc1a513b39726dd6552ebe8c79ec7c972213257f02085bd",
+    "sha256": "58c52d1bd06656ff8e3901eddc278e97235b65a3741dd264755e4e595f69a15b",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewKotlinConf_Devices - Large Round": {
@@ -1716,7 +1716,7 @@
     "functionName": "HomeListViewKotlinConf",
     "module": "wearApp",
     "renderBasename": "HomeListViewKotlinConf_Devices_Large_Round-86172c22.png",
-    "sha256": "9201db074de6773ba7cb1829b0a840d1111dce97782f9851f91dec60ecffce7e",
+    "sha256": "63f9d412b7c30440356f5ebfd578c5146dd6aaec0a723d96d82ad1c830781fb5",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round": {
@@ -1740,7 +1740,7 @@
     "functionName": "HomeListViewLongPreview",
     "module": "wearApp",
     "renderBasename": "HomeListViewLongPreview_Devices_Large_Round-5ef4376c_SCROLL_long.png",
-    "sha256": "d555707a9e9a220782f74465e97100a375b2ef4e9ac391e5c6388a723b9646c8",
+    "sha256": "1db86b1c8e420f7f39d6e1d525077545822037e76643b3cbf32fdc755f9a9e3a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/home/HomeScreen.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.home.HomeScreenKt.HomeListViewLongPreview_Devices - Large Round#3": {

@@ -1,0 +1,1139 @@
+{
+  "system": "confetti-wear",
+  "title": "Confetti Wear",
+  "label": "Compose",
+  "source": {
+    "repo": "joreilly/Confetti",
+    "ref": "main",
+    "module": ":wearApp"
+  },
+  "generatedAt": "2026-09-21T12:26:28.250Z",
+  "mappings": [
+    {
+      "componentId": "Typography",
+      "figmaLayerName": "Typography",
+      "componentName": "TypographySpecimenPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "TypographySpecimenPreview",
+      "figmaSvg": "figma/typography.svg"
+    },
+    {
+      "componentId": "ColorScheme",
+      "figmaLayerName": "ColorScheme",
+      "componentName": "ColorSchemeSpecimenPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ColorSchemeSpecimenPreview",
+      "figmaSvg": "figma/colorscheme.svg"
+    },
+    {
+      "componentId": "Theme/Confetti",
+      "figmaLayerName": "Theme/Confetti",
+      "componentName": "ThemeFoundationConfettiPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationConfettiPreview",
+      "figmaSvg": "figma/theme-confetti.svg"
+    },
+    {
+      "componentId": "Theme/KotlinConf",
+      "figmaLayerName": "Theme/KotlinConf",
+      "componentName": "ThemeFoundationKotlinConfPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationKotlinConfPreview",
+      "figmaSvg": "figma/theme-kotlinconf.svg"
+    },
+    {
+      "componentId": "Theme/AndroidMakers",
+      "figmaLayerName": "Theme/AndroidMakers",
+      "componentName": "ThemeFoundationAndroidMakersPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationAndroidMakersPreview",
+      "figmaSvg": "figma/theme-androidmakers.svg"
+    },
+    {
+      "componentId": "Theme/Droidcon",
+      "figmaLayerName": "Theme/Droidcon",
+      "componentName": "ThemeFoundationDroidconPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationDroidconPreview",
+      "figmaSvg": "figma/theme-droidcon.svg"
+    },
+    {
+      "componentId": "Theme/DevFest",
+      "figmaLayerName": "Theme/DevFest",
+      "componentName": "ThemeFoundationDevFestPreview",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ThemeFoundationPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "ThemeFoundationDevFestPreview",
+      "figmaSvg": "figma/theme-devfest.svg"
+    },
+    {
+      "componentId": "SessionCard",
+      "figmaLayerName": "SessionCard",
+      "componentName": "SessionCard",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/components/SessionCard.kt",
+      "label": "Compose",
+      "confidence": "MEDIUM",
+      "previewName": "SessionCardPopulatedPreview",
+      "codeSnippet": "SessionCard(\n    session = TODO(\"SessionDetails?\"),\n    sessionSelected = TODO(\"(String) -> Unit\"),\n    currentTime = TODO(\"LocalDateTime?\"),\n    isBookmarked = TODO(\"Boolean\"),\n    addBookmark = TODO(\"((String) -> Unit)?\"),\n    removeBookmark = TODO(\"((String) -> Unit)?\"),\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.components.SessionCard"
+      ],
+      "parameters": [
+        {
+          "name": "session",
+          "type": "SessionDetails?",
+          "typeFqn": "dev.johnoreilly.confetti.fragment.SessionDetails",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "sessionSelected",
+          "type": "(String) -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "currentTime",
+          "type": "LocalDateTime?",
+          "typeFqn": "kotlinx.datetime.LocalDateTime",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "isBookmarked",
+          "type": "Boolean",
+          "typeFqn": "kotlin.Boolean",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "addBookmark",
+          "type": "((String) -> Unit)?",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "removeBookmark",
+          "type": "((String) -> Unit)?",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "timeDisplay",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": true,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "placeholderState",
+          "type": "PlaceholderState",
+          "typeFqn": "androidx.wear.compose.material3.PlaceholderState",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "transformation",
+          "type": "SurfaceTransformation?",
+          "typeFqn": "androidx.wear.compose.material3.SurfaceTransformation",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "figmaSvg": "figma/sessioncard.svg"
+    },
+    {
+      "componentId": "SessionSpeakerChip",
+      "figmaLayerName": "SessionSpeakerChip",
+      "componentName": "SessionSpeakerChip",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/components/SessionSpeakerChip.kt",
+      "label": "Compose",
+      "confidence": "MEDIUM",
+      "previewName": "SessionSpeakerChipPreview",
+      "codeSnippet": "SessionSpeakerChip(\n    speaker = TODO(\"SessionSpeakerDetails\"),\n    navigateToSpeaker = TODO(\"(String) -> Unit\"),\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip"
+      ],
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "speaker",
+          "type": "SessionSpeakerDetails",
+          "typeFqn": "dev.johnoreilly.confetti.fragment.SessionSpeakerDetails",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "navigateToSpeaker",
+          "type": "(String) -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "transformation",
+          "type": "SurfaceTransformation?",
+          "typeFqn": "androidx.wear.compose.material3.SurfaceTransformation",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "figmaSvg": "figma/sessionspeakerchip.svg"
+    },
+    {
+      "componentId": "SectionHeader",
+      "figmaLayerName": "SectionHeader",
+      "componentName": "SectionHeader",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/components/SectionHeader.kt",
+      "label": "Compose",
+      "confidence": "MEDIUM",
+      "previewName": "SectionHeaderPreview",
+      "codeSnippet": "SectionHeader(\n    text = TODO(\"String\"),\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.components.SectionHeader"
+      ],
+      "parameters": [
+        {
+          "name": "text",
+          "type": "String",
+          "typeFqn": "kotlin.String",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "transformation",
+          "type": "SurfaceTransformation?",
+          "typeFqn": "androidx.wear.compose.material3.SurfaceTransformation",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "figmaSvg": "figma/sectionheader.svg"
+    },
+    {
+      "componentId": "ScreenHeader",
+      "figmaLayerName": "ScreenHeader",
+      "componentName": "ScreenHeader",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/components/SectionHeader.kt",
+      "label": "Compose",
+      "confidence": "MEDIUM",
+      "previewName": "ScreenHeaderPreview",
+      "codeSnippet": "ScreenHeader(\n    text = TODO(\"String\"),\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.components.ScreenHeader"
+      ],
+      "parameters": [
+        {
+          "name": "text",
+          "type": "String",
+          "typeFqn": "kotlin.String",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "transformation",
+          "type": "SurfaceTransformation?",
+          "typeFqn": "androidx.wear.compose.material3.SurfaceTransformation",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "figmaSvg": "figma/screenheader.svg"
+    },
+    {
+      "componentId": "PlaceholderButton",
+      "figmaLayerName": "PlaceholderButton",
+      "componentName": "PlaceholderButton",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/components/PlaceholderButton.kt",
+      "label": "Compose",
+      "confidence": "MEDIUM",
+      "previewName": "PlaceholderButtonPreview",
+      "codeSnippet": "PlaceholderButton()",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.components.PlaceholderButton"
+      ],
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "onClick",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "placeholderState",
+          "type": "PlaceholderState",
+          "typeFqn": "androidx.wear.compose.material3.PlaceholderState",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "secondaryLabel",
+          "type": "Boolean",
+          "typeFqn": "kotlin.Boolean",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "hasIcon",
+          "type": "Boolean",
+          "typeFqn": "kotlin.Boolean",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "enabled",
+          "type": "Boolean",
+          "typeFqn": "kotlin.Boolean",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "transformation",
+          "type": "SurfaceTransformation?",
+          "typeFqn": "androidx.wear.compose.material3.SurfaceTransformation",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "figmaSvg": "figma/placeholderbutton.svg"
+    },
+    {
+      "componentId": "SocialIcon",
+      "figmaLayerName": "SocialIcon",
+      "componentName": "SocialIcon",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/component/SocialIcon.kt",
+      "label": "Compose",
+      "confidence": "MEDIUM",
+      "previewName": "SocialIconPreview",
+      "codeSnippet": "SocialIcon(\n    imageVector = TODO(\"ImageVector\"),\n    contentDescription = TODO(\"String\"),\n    onClick = TODO(\"() -> Unit\"),\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.component.SocialIcon"
+      ],
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "imageVector",
+          "type": "ImageVector",
+          "typeFqn": "androidx.compose.ui.graphics.vector.ImageVector",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "contentDescription",
+          "type": "String",
+          "typeFqn": "kotlin.String",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "onClick",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/socialicon.svg"
+    },
+    {
+      "componentId": "DayChip",
+      "figmaLayerName": "DayChip",
+      "componentName": "ConfettiThemeFixed",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/ui/ConfettiThemeFixed.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "DayChipPreview",
+      "codeSnippet": "ConfettiThemeFixed(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.ui.ConfettiThemeFixed"
+      ],
+      "parameters": [
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "typeFqn": "androidx.wear.compose.material3.ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "typeFqn": "androidx.wear.compose.material3.Typography",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/daychip.svg"
+    },
+    {
+      "componentId": "Home",
+      "figmaLayerName": "Home",
+      "componentName": "ConfettiPreviewScaffold",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/preview/ConfettiPreviewScaffold.kt",
+      "label": "Compose",
+      "confidence": "LOW",
+      "previewName": "HomeListViewPreview",
+      "codeSnippet": "ConfettiPreviewScaffold(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold"
+      ],
+      "parameters": [
+        {
+          "name": "seedColor",
+          "type": "Color?",
+          "typeFqn": "androidx.compose.ui.graphics.Color",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "typeFqn": "androidx.wear.compose.material3.ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "typeFqn": "androidx.wear.compose.material3.Typography",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/home.svg"
+    },
+    {
+      "componentId": "Sessions",
+      "figmaLayerName": "Sessions",
+      "componentName": "ConfettiPreviewScaffold",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/preview/ConfettiPreviewScaffold.kt",
+      "label": "Compose",
+      "confidence": "LOW",
+      "previewName": "SessionListViewPreview",
+      "codeSnippet": "ConfettiPreviewScaffold(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold"
+      ],
+      "parameters": [
+        {
+          "name": "seedColor",
+          "type": "Color?",
+          "typeFqn": "androidx.compose.ui.graphics.Color",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "typeFqn": "androidx.wear.compose.material3.ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "typeFqn": "androidx.wear.compose.material3.Typography",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/sessions.svg"
+    },
+    {
+      "componentId": "SessionDetails",
+      "figmaLayerName": "SessionDetails",
+      "componentName": "TestScaffold",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/debug/java/dev/johnoreilly/confetti/wear/TestScaffold.kt",
+      "label": "Compose",
+      "confidence": "LOW",
+      "previewName": "SessionDetailsScreen",
+      "codeSnippet": "TestScaffold(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.TestScaffold"
+      ],
+      "parameters": [
+        {
+          "name": "fakeImageLoader",
+          "type": "FakeImageLoaderEngine?",
+          "typeFqn": "coil.test.FakeImageLoaderEngine",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/sessiondetails.svg"
+    },
+    {
+      "componentId": "SpeakerDetails",
+      "figmaLayerName": "SpeakerDetails",
+      "componentName": "TestScaffold",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/debug/java/dev/johnoreilly/confetti/wear/TestScaffold.kt",
+      "label": "Compose",
+      "confidence": "LOW",
+      "previewName": "SpeakerDetailsScreen",
+      "codeSnippet": "TestScaffold(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.TestScaffold"
+      ],
+      "parameters": [
+        {
+          "name": "fakeImageLoader",
+          "type": "FakeImageLoaderEngine?",
+          "typeFqn": "coil.test.FakeImageLoaderEngine",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/speakerdetails.svg"
+    },
+    {
+      "componentId": "Bookmarks",
+      "figmaLayerName": "Bookmarks",
+      "componentName": "ConfettiPreviewScaffold",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/preview/ConfettiPreviewScaffold.kt",
+      "label": "Compose",
+      "confidence": "LOW",
+      "previewName": "BookmarksPreview",
+      "codeSnippet": "ConfettiPreviewScaffold(\n    content = { },\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold"
+      ],
+      "parameters": [
+        {
+          "name": "seedColor",
+          "type": "Color?",
+          "typeFqn": "androidx.compose.ui.graphics.Color",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "colors",
+          "type": "ColorScheme",
+          "typeFqn": "androidx.wear.compose.material3.ColorScheme",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "typography",
+          "type": "Typography",
+          "typeFqn": "androidx.wear.compose.material3.Typography",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/bookmarks.svg"
+    },
+    {
+      "componentId": "Conferences",
+      "figmaLayerName": "Conferences",
+      "componentName": "ConferencesView",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt",
+      "label": "Compose",
+      "confidence": "MEDIUM",
+      "previewName": "ConferencesViewPreview",
+      "codeSnippet": "ConferencesView(\n    uiState = TODO(\"UiState\"),\n    navigateToConference = TODO(\"(Conference) -> Unit\"),\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.conferences.ConferencesView"
+      ],
+      "parameters": [
+        {
+          "name": "uiState",
+          "type": "UiState",
+          "typeFqn": "dev.johnoreilly.confetti.decompose.ConferencesComponent.UiState",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "navigateToConference",
+          "type": "(Conference) -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "columnState",
+          "type": "TransformingLazyColumnState",
+          "typeFqn": "androidx.wear.compose.foundation.lazy.TransformingLazyColumnState",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "onRetry",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/conferences.svg"
+    },
+    {
+      "componentId": "Settings",
+      "figmaLayerName": "Settings",
+      "componentName": "SettingsListView",
+      "source": "https://github.com/joreilly/Confetti/blob/main/wearApp/src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt",
+      "label": "Compose",
+      "confidence": "MEDIUM",
+      "previewName": "SettingsListViewPreview",
+      "codeSnippet": "SettingsListView(\n    uiState = TODO(\"SettingsUiState\"),\n    conferenceCleared = TODO(\"() -> Unit\"),\n    onRefreshClick = TODO(\"() -> Unit\"),\n    onSignIn = TODO(\"() -> Unit\"),\n    onSignOut = TODO(\"() -> Unit\"),\n    onEnableDeveloperMode = TODO(\"() -> Unit\"),\n    updatePreferences = TODO(\"(WearPreferences) -> Unit\"),\n)",
+      "imports": [
+        "import dev.johnoreilly.confetti.wear.settings.SettingsListView"
+      ],
+      "parameters": [
+        {
+          "name": "uiState",
+          "type": "SettingsUiState",
+          "typeFqn": "dev.johnoreilly.confetti.wear.settings.SettingsUiState",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "conferenceCleared",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "onRefreshClick",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "onSignIn",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "onSignOut",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "onEnableDeveloperMode",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "updatePreferences",
+          "type": "(WearPreferences) -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "columnState",
+          "type": "TransformingLazyColumnState",
+          "typeFqn": "androidx.wear.compose.foundation.lazy.TransformingLazyColumnState",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "figmaSvg": "figma/settings.svg"
+    }
+  ]
+}

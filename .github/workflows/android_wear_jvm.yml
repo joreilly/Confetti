@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   build-android:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     env:
       # BuildFetch remote cache (see settings.gradle.kts). On main-branch pushes this job is a
@@ -50,7 +50,7 @@ jobs:
       run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug
 
   build-jvm:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     env:
       # See build-android: writer (RW token + ON_CI) on main to seed :shared JVM task outputs,

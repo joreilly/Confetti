@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build-backend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     env:
       # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this

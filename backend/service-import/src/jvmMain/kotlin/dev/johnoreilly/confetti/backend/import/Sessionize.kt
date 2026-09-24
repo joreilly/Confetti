@@ -896,6 +896,19 @@ object Sessionize {
         )
     }
 
+    suspend fun importDroidconLondon2026(): Int {
+        return writeData(
+            getData(url = "https://sessionize.com/api/v2/quzwtqk1/view/All", zoneId = "Europe/London"),
+            config = DConfig(
+                id = ConferenceId.DroidConLondon2026.id,
+                name = "droidcon London 2026",
+                timeZone = "Europe/London",
+                themeColor = "0xFF75E1C6"
+            ),
+            venue = businessDesignCenter,
+        )
+    }
+
     suspend fun importDroidconUSA2026(): Int {
         val timeZone = "America/New_York"
         return writeData(

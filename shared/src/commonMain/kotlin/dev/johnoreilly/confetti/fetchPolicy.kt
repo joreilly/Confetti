@@ -7,18 +7,23 @@ import com.apollographql.apollo.api.Operation
 import com.apollographql.apollo.interceptor.ApolloInterceptor
 import com.apollographql.apollo.interceptor.ApolloInterceptorChain
 import com.apollographql.cache.normalized.FetchPolicy
-import com.apollographql.cache.normalized.cacheInfo
-import com.apollographql.cache.normalized.errorsAsException
 import com.apollographql.cache.normalized.fetchFromCache
 import com.apollographql.cache.normalized.fetchPolicy
 import com.apollographql.cache.normalized.fetchPolicyInterceptor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.launch
+
+private val backgroundScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
 /**
- * Use our custom fetch policy interceptor for the [FetchPolicy.CacheFirst] policy, and the Apollo built-in interceptors
- * for the other policies.
+ * Configure execution options to use [CacheFirstInterceptor] for [FetchPolicy.CacheFirst]
+ * and default Apollo interceptors for other policies.
  */
 fun <T> MutableExecutionOptions<T>.fetchPolicy(fetchPolicy: FetchPolicy) = when (fetchPolicy) {
     FetchPolicy.CacheFirst -> {
@@ -31,32 +36,29 @@ fun <T> MutableExecutionOptions<T>.fetchPolicy(fetchPolicy: FetchPolicy) = when 
 }
 
 /**
- * Returns by priority:
- * - the cached data if it's fresh
- * - the network data if it could be fetched
- * - the stale cached data
+ * Interceptor for [FetchPolicy.CacheFirst] operations.
+ *
+ * Emits cached data immediately to show the UI without delay.
+ * Updates the cache in the background. Network errors during background
+ * sync are ignored to keep valid cached data visible.
  */
 private object CacheFirstInterceptor : ApolloInterceptor {
     override fun <D : Operation.Data> intercept(
         request: ApolloRequest<D>,
         chain: ApolloInterceptorChain
     ): Flow<ApolloResponse<D>> = flow {
-        val cacheResponse = chain.proceed(request.newBuilder().fetchFromCache(true).build()).single()
-        if (cacheResponse.cacheInfo!!.isCacheHit && !cacheResponse.cacheInfo!!.isStale) {
+        val cacheResponse = chain.proceed(request.newBuilder().fetchFromCache(true).build()).singleOrNull()
+
+        if (cacheResponse?.data != null) {
+            // Emit cached data immediately to prevent startup loading delay.
             emit(cacheResponse)
+
+            // Refresh cache in background.
+            backgroundScope.launch { chain.proceed(request).collect() }
         } else {
-            // If the first emission is an exception, emit the cache response.
-            // For exceptions on subsequent emissions, emit the network responses.
-            var first = true
+            // Cache miss requires initial network fetch
             chain.proceed(request).collect { networkResponse ->
-                emit(
-                    if (networkResponse.exception == null || !first) {
-                        networkResponse
-                    } else {
-                        cacheResponse.errorsAsException()
-                    }
-                )
-                first = false
+                emit(networkResponse)
             }
         }
     }

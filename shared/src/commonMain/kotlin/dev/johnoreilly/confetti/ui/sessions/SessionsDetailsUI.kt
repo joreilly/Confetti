@@ -85,7 +85,8 @@ fun SessionDetailsUI(component: SessionDetailsComponent) {
                 is SessionDetailsUiState.Success ->
                     SessionDetailViewShared(
                         state.conference, state.sessionDetails,
-                        component::onSpeakerClicked
+                        component::onSpeakerClicked,
+                        onRoomClick = component::onVenueClicked,
                     )
             }
         }

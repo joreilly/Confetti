@@ -1,10 +1,17 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "7f4e27fcbc325dd40759def21a974b8b1a1a3da6",
+    "generatedFrom": "387ce5a1ab5f7e16c860f77b74f508b72734d253",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
             "versions": [
+                {
+                    "blob": "2de873f72ecfe598c0c255e5d8686f9702377322",
+                    "commit": "387ce5a1ab5f7e16c860f77b74f508b72734d253",
+                    "date": "2026-09-26T10:45:08Z",
+                    "sourceSha": "a9a302a2",
+                    "commits": 1
+                },
                 {
                     "blob": "98db6dd54b2a9a84819ccc0704344bbba2552cb2",
                     "commit": "7f4e27fcbc325dd40759def21a974b8b1a1a3da6",
@@ -31,7 +38,7 @@
                     "occurrences": 8
                 }
             ],
-            "observations": 17,
+            "observations": 18,
             "unstable": true,
             "flapCount": 14
         },

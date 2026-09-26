@@ -3,6 +3,7 @@
     <string name="sessions">Sessions</string>
     <string name="speakers">Intervenants</string>
     <string name="venue">Lieu</string>
+    <string name="show_venue">Afficher le lieu</string>
     <string name="search">Recherche</string>
     <string name="bookmarks">Signets</string>
     <string name="rooms">Salles</string>

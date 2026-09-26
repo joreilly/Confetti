@@ -38,6 +38,7 @@ interface SessionDetailsComponent {
     fun onCloseClicked()
     fun onSignInClicked()
     fun onSpeakerClicked(id: String)
+    fun onVenueClicked()
 }
 
 sealed class SessionDetailsUiState {
@@ -54,6 +55,7 @@ class DefaultSessionDetailsComponent(
     private val onFinished: () -> Unit = {},
     private val onSignIn: () -> Unit = {},
     private val onSpeakerSelected: (id: String) -> Unit,
+    private val onVenueSelected: () -> Unit = {},
 ) : SessionDetailsComponent, KoinComponent, ComponentContext by componentContext {
     private val repository: ConfettiRepository by inject()
     private val coroutineScope = coroutineScope()
@@ -133,5 +135,9 @@ class DefaultSessionDetailsComponent(
 
     override fun onSpeakerClicked(id: String) {
         onSpeakerSelected(id)
+    }
+
+    override fun onVenueClicked() {
+        onVenueSelected()
     }
 }

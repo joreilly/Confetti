@@ -13,17 +13,22 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayCircle
+import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -45,12 +50,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import confetti.shared.generated.resources.Res
+import confetti.shared.generated.resources.show_venue
 import confetti.shared.generated.resources.speakers
 import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -77,6 +82,7 @@ fun SessionDetailViewShared(
     conference: String,
     session: SessionDetails?,
     onSpeakerClick: (speakerId: String) -> Unit,
+    onRoomClick: (() -> Unit)? = null,
 ) {
     val scrollState = rememberScrollState()
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
@@ -102,18 +108,17 @@ fun SessionDetailViewShared(
 
                     Spacer(modifier = Modifier.size(16.dp))
 
-                    Text(
+                    SessionMetadataRow(
+                        icon = Icons.Outlined.Schedule,
                         text = sessionTimeString(session.startsAt, session.endsAt),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
                     )
 
-                    session.room?.name?.let { roomName ->
-                        Text(
-                            modifier = Modifier.padding(vertical = 2.dp),
+                    session.room?.name?.takeIf { it.isNotBlank() }?.let { roomName ->
+                        SessionMetadataRow(
+                            icon = Icons.Outlined.Place,
                             text = roomName,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.labelLarge.copy(fontStyle = FontStyle.Italic)
+                            onClick = onRoomClick,
+                            onClickLabel = stringResource(Res.string.show_venue),
                         )
                     }
 
@@ -176,6 +181,56 @@ fun SessionDetailViewShared(
                     Spacer(modifier = Modifier.size(16.dp))
                 }
             }
+        }
+    }
+}
+
+/**
+ * Icon + text line for the session's time and room. When [onClick] is set the whole row is
+ * the touch target (the room opens the venue floor plan), with a chevron to signal that.
+ */
+@Composable
+private fun SessionMetadataRow(
+    icon: ImageVector,
+    text: String,
+    onClick: (() -> Unit)? = null,
+    onClickLabel: String? = null,
+) {
+    val color = if (onClick != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(onClickLabel = onClickLabel, role = Role.Button, onClick = onClick)
+                } else {
+                    Modifier
+                }
+            )
+            .heightIn(min = 40.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(
+            text = text,
+            color = color,
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.weight(1f, fill = false),
+        )
+        if (onClick != null) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = color,
+            )
         }
     }
 }
@@ -335,6 +390,7 @@ internal fun SessionDetailViewLoadedPreview() {
             conference = "kotlinconf2023",
             session = sessionDetails,
             onSpeakerClick = {},
+            onRoomClick = {},
         )
     }
 }

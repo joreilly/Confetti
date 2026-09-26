@@ -3,6 +3,7 @@
     <string name="sessions">Seisiúin</string>
     <string name="speakers">Cainteoirí</string>
     <string name="venue">Ionad</string>
+    <string name="show_venue">Taispeáin an t-ionad</string>
     <string name="gemini">Gemini</string>
     <string name="search">Cuardach</string>
     <string name="bookmarks">Leabharmharcanna</string>

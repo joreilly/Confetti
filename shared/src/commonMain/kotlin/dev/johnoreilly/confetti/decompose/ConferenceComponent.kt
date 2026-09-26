@@ -93,6 +93,7 @@ class DefaultConferenceComponent(
                         onFinished = navigation::pop,
                         onSignIn = onSignIn,
                         onSpeakerSelected = { navigation.bringToFront(Config.SpeakerDetails(speakerId = it)) },
+                        onVenueSelected = { navigation.bringToFront(Config.Venue) },
                     )
                 )
 

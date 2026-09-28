@@ -1,10 +1,19 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "34ec39735538811ce7acefb3936958673ebb1e21",
+    "generatedFrom": "c7a12a77317584f7d5e1ef4b265b9e190ca62f93",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
             "versions": [
+                {
+                    "blob": "2de873f72ecfe598c0c255e5d8686f9702377322",
+                    "commit": "c7a12a77317584f7d5e1ef4b265b9e190ca62f93",
+                    "date": "2026-09-28T10:12:43Z",
+                    "sourceSha": "4b181ed1",
+                    "sinceCommit": "387ce5a1ab5f7e16c860f77b74f508b72734d253",
+                    "commits": 2,
+                    "occurrences": 2
+                },
                 {
                     "blob": "98db6dd54b2a9a84819ccc0704344bbba2552cb2",
                     "commit": "34ec39735538811ce7acefb3936958673ebb1e21",
@@ -13,13 +22,6 @@
                     "sinceCommit": "7f4e27fcbc325dd40759def21a974b8b1a1a3da6",
                     "commits": 2,
                     "occurrences": 2
-                },
-                {
-                    "blob": "2de873f72ecfe598c0c255e5d8686f9702377322",
-                    "commit": "387ce5a1ab5f7e16c860f77b74f508b72734d253",
-                    "date": "2026-09-26T10:45:08Z",
-                    "sourceSha": "a9a302a2",
-                    "commits": 1
                 },
                 {
                     "blob": "732671e0180032a1e1813b706833f7e85082c1a0",
@@ -40,9 +42,9 @@
                     "occurrences": 8
                 }
             ],
-            "observations": 19,
+            "observations": 20,
             "unstable": true,
-            "flapCount": 15
+            "flapCount": 16
         },
         "androidApp/activity__MainActivity": {
             "path": "renders/androidApp/activity__MainActivity.png",

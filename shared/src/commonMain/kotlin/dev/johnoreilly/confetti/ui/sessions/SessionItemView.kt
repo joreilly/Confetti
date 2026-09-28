@@ -45,6 +45,7 @@ import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isLightning
 import dev.johnoreilly.confetti.isService
+import dev.johnoreilly.confetti.listTags
 import dev.johnoreilly.confetti.sessionSpeakers
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.ui.bookmarks.Bookmark
@@ -59,6 +60,7 @@ fun SessionItemView(
     onNavigateToSignIn: () -> Unit = {},
     isLoggedIn: Boolean,
     trackColor: Color? = null,
+    tags: List<String> = session.listTags(),
 ) {
     if (session.isBreak() || session.isService()) {
         BreakSessionItemView(session = session)
@@ -72,6 +74,7 @@ fun SessionItemView(
             onNavigateToSignIn = onNavigateToSignIn,
             isLoggedIn = isLoggedIn,
             trackColor = trackColor,
+            tags = tags,
         )
     }
 }
@@ -152,6 +155,7 @@ private fun TalkSessionItemView(
     onNavigateToSignIn: () -> Unit = {},
     isLoggedIn: Boolean,
     trackColor: Color? = null,
+    tags: List<String>,
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
@@ -178,7 +182,7 @@ private fun TalkSessionItemView(
                     )
                 }
 
-                val hasBadges = session.room != null || session.isLightning() || session.tags.isNotEmpty()
+                val hasBadges = session.room != null || session.isLightning() || tags.isNotEmpty()
                 if (hasBadges) {
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -230,7 +234,7 @@ private fun TalkSessionItemView(
                             }
                         }
 
-                        session.tags.take(2).forEach { tag ->
+                        tags.forEach { tag ->
                             Surface(
                                 shape = RoundedCornerShape(6.dp),
                                 color = MaterialTheme.colorScheme.surfaceContainer,

@@ -34,6 +34,7 @@ import kotlin.math.abs
 import androidx.compose.foundation.layout.PaddingValues
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isService
+import dev.johnoreilly.confetti.listTags
 import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
 import dev.johnoreilly.confetti.ui.trackColor
 
@@ -64,6 +65,7 @@ fun SessionListView(
                 ) {
                     uiState.formattedConfDates.size
                 }
+                val trackNames = remember(uiState.tracks) { uiState.tracks.map { it.name }.toSet() }
 
                 AnimatedVisibility(visible = LocalTopBarCollapsedFraction.current < 0.5f) {
                     TrackFilterRow(
@@ -147,6 +149,7 @@ fun SessionListView(
                                         onNavigateToSignIn = onNavigateToSignIn,
                                         isLoggedIn = isLoggedIn,
                                         trackColor = session.trackColor(uiState.tracks),
+                                        tags = session.listTags(trackNames, uiState.selectedTrack),
                                     )
                                     val isCurrentBreak = session.isBreak() || session.isService()
                                     val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())

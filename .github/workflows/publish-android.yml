@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     env:
       # BuildFetch remote cache (see settings.gradle.kts). This is a trusted main-branch run, so
       # ON_CI=true: it pushes freshly-executed task outputs to the remote, seeding the cache that

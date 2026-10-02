@@ -64,7 +64,7 @@ interface SessionsComponent {
 
     fun refresh()
     fun onSearch(searchString: String)
-    fun onTrackSelected(track: String?)
+    fun onTrackSelectionChanged(tracks: Set<String>)
     fun onSessionClicked(id: String)
     fun onSessionSelectionChanged(id: String?)
     fun onSignInClicked()
@@ -76,12 +76,14 @@ class DefaultSessionsComponent(
     private val user: User?,
     private val onSessionSelected: (id: String) -> Unit,
     private val onSignIn: () -> Unit,
+    persistTrackSelection: Boolean = false,
 ) : SessionsComponent, KoinComponent, ComponentContext by componentContext {
     private val simpleComponent =
         SessionsSimpleComponent(
             componentContext = childContext(key = "Sessions"),
             conference = conference,
             user = user,
+            persistTrackSelection = persistTrackSelection,
         )
 
     private val coroutineScope = coroutineScope()
@@ -120,8 +122,8 @@ class DefaultSessionsComponent(
         simpleComponent.onSearch(searchString = searchString)
     }
 
-    override fun onTrackSelected(track: String?) {
-        simpleComponent.onTrackSelected(track = track)
+    override fun onTrackSelectionChanged(tracks: Set<String>) {
+        simpleComponent.onTrackSelectionChanged(tracks)
     }
 
     override fun onSessionClicked(id: String) {
@@ -142,23 +144,28 @@ class SessionsSimpleComponent(
     private val conference: String,
     private val user: User?,
     private val date: LocalDate? = null,
+    // Only screens that show the track filter row should persist (and so apply) the saved
+    // selection - Home/Bookmarks/Search reuse this component and must stay unfiltered.
+    private val persistTrackSelection: Boolean = false,
 ) : KoinComponent, ComponentContext by componentContext {
     private val coroutineScope = coroutineScope()
     private val repository: ConfettiRepository by inject()
     private val dateService: DateService by inject()
     private val responseDatas = MutableStateFlow<ResponseData?>(null)
     private val searchQuery = MutableStateFlow("")
-    private val selectedTrack = MutableStateFlow<String?>(null)
     private val isRefreshing = MutableStateFlow(false)
     private val selectedSessionId = MutableStateFlow<String?>(null)
     private val appSettings: AppSettings by inject()
+    private val localSelectedTracks = MutableStateFlow(emptySet<String>())
+    private val selectedTracks: Flow<Set<String>> =
+        if (persistTrackSelection) appSettings.selectedTracksFlow(conference) else localSelectedTracks
 
     private var lastSessionsData: GetConferenceDataQuery.Data? = null
     private var cachedParsedData: ParsedConferenceData? = null
 
     val uiState: StateFlow<SessionsUiState> =
-        combine(combineUiState(), searchQuery, selectedTrack) { uiState, search, track ->
-            filterSessions(uiState, search, track)
+        combine(combineUiState(), searchQuery) { uiState, search ->
+            filterSessions(uiState, search)
         }
             // Run heavy mapping and filtering operations on Default dispatcher to avoid blocking UI.
             // Default dispatcher is preferred over IO dispatcher because these are CPU-bound memory tasks.
@@ -186,15 +193,19 @@ class SessionsSimpleComponent(
         searchQuery.value = searchString
     }
 
-    fun onTrackSelected(track: String?) {
-        selectedTrack.value = track
+    fun onTrackSelectionChanged(tracks: Set<String>) {
+        if (persistTrackSelection) {
+            coroutineScope.launch { appSettings.setSelectedTracks(conference, tracks) }
+        } else {
+            localSelectedTracks.value = tracks
+        }
     }
 
     fun onSessionSelectionChanged(id: String?) {
         selectedSessionId.value = id
     }
 
-    private fun filterSessions(uiState: SessionsUiState, filter: String, track: String?): SessionsUiState {
+    private fun filterSessions(uiState: SessionsUiState, filter: String): SessionsUiState {
         return if (uiState is SessionsUiState.Success) {
             val dateSessions = if (date != null) {
                 uiState.sessionsByStartTimeList.filter {
@@ -216,14 +227,16 @@ class SessionsSimpleComponent(
                 dateSessions
             }
 
-            val filteredSessions = if (track != null) {
+            val selectedTracks = uiState.selectedTracks
+            val filteredSessions = if (selectedTracks.isNotEmpty()) {
                 textFilteredSessions.map { outerMap ->
                     outerMap.mapValues { (_, value) ->
                         // Breaks/registration/etc. aren't tagged with any track - they're
                         // schedule-wide, not track-specific - so a track filter shouldn't hide
                         // them (matches nextappcon.com's own agenda filter behavior).
                         value.filter { session ->
-                            session.isBreak() || session.isService() || track in session.tags
+                            session.isBreak() || session.isService() ||
+                                session.tags.any { it in selectedTracks }
                         }
                     }.filterValues { it.isNotEmpty() }
                 }
@@ -287,7 +300,7 @@ class SessionsSimpleComponent(
                         },
                     isRefreshing,
                     searchQuery,
-                    combine(selectedSessionId, selectedTrack) { session, track -> session to track },
+                    combine(selectedSessionId, selectedTracks) { session, tracks -> session to tracks },
                     appSettings.notificationsEnabledFlow,
                     ::uiStates
                 )
@@ -354,10 +367,10 @@ class SessionsSimpleComponent(
         refreshData: ResponseData,
         isRefreshing: Boolean,
         searchString: String,
-        selectedSessionIdAndTrack: Pair<String?, String?>,
+        selectedSessionIdAndTracks: Pair<String?, Set<String>>,
         notificationsActive: Boolean,
     ): SessionsUiState {
-        val (selectedSessionId, selectedTrack) = selectedSessionIdAndTrack
+        val (selectedSessionId, selectedTracks) = selectedSessionIdAndTracks
         val bookmarksResponse = refreshData.bookmarksResponse
         val sessionsResponse = refreshData.sessionsResponse
         val bookmarksData = bookmarksResponse.data
@@ -378,7 +391,9 @@ class SessionsSimpleComponent(
             conference = conference,
             conferenceName = parsed.conferenceName,
             tracks = parsed.tracks,
-            selectedTrack = selectedTrack,
+            // Drop saved tracks the conference no longer has (renamed/removed), otherwise
+            // they'd filter out every session with no chip left to deselect.
+            selectedTracks = selectedTracks intersect parsed.tracks.map { it.name }.toSet(),
             venueLat = parsed.venueLat,
             venueLon = parsed.venueLon,
             confDates = parsed.confDates,
@@ -404,7 +419,7 @@ sealed interface SessionsUiState {
         val conference: String,
         val conferenceName: String,
         val tracks: List<GetConferenceDataQuery.Track>,
-        val selectedTrack: String?,
+        val selectedTracks: Set<String>,
         val venueLat: Double?,
         val venueLon: Double?,
         val confDates: List<LocalDate>,

@@ -20,8 +20,8 @@ import dev.johnoreilly.confetti.ui.toColorOrNull
 @Composable
 fun TrackFilterRow(
     tracks: List<GetConferenceDataQuery.Track>,
-    selectedTrack: String?,
-    onTrackSelected: (String?) -> Unit,
+    selectedTracks: Set<String>,
+    onTrackSelectionChanged: (Set<String>) -> Unit,
 ) {
     if (tracks.isEmpty()) return
 
@@ -31,16 +31,18 @@ fun TrackFilterRow(
     ) {
         item {
             FilterChip(
-                selected = selectedTrack == null,
-                onClick = { onTrackSelected(null) },
+                selected = selectedTracks.isEmpty(),
+                onClick = { onTrackSelectionChanged(emptySet()) },
                 label = { Text("All") },
             )
         }
         items(tracks) { track ->
             val dotColor = track.color?.toColorOrNull()
             FilterChip(
-                selected = selectedTrack == track.name,
-                onClick = { onTrackSelected(if (selectedTrack == track.name) null else track.name) },
+                selected = track.name in selectedTracks,
+                onClick = {
+                    onTrackSelectionChanged(selectedTracks.toggleTrack(track.name, tracks.map { it.name }))
+                },
                 label = { Text(track.name) },
                 leadingIcon = dotColor?.let {
                     {
@@ -55,4 +57,14 @@ fun TrackFilterRow(
             )
         }
     }
+}
+
+/**
+ * Tracks are cumulative (e.g. droidCon + swiftCon), so tapping one adds or removes it rather than
+ * replacing the previous choice. Selecting every track is the same as no filter, so that collapses
+ * back to empty to show as "All".
+ */
+fun Set<String>.toggleTrack(track: String, allTracks: Collection<String>): Set<String> {
+    val newSelection = if (track in this) this - track else this + track
+    return if (allTracks.all { it in newSelection }) emptySet() else newSelection
 }

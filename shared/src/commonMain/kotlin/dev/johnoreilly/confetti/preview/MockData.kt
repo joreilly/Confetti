@@ -187,7 +187,7 @@ val sessionsSuccessState: SessionsUiState.Success = SessionsUiState.Success(
         GetConferenceDataQuery.Track(__typename = "Track", name = "flutterCon", color = "0xFF008BFF"),
         GetConferenceDataQuery.Track(__typename = "Track", name = "reactCon", color = "0xFFA26CFF"),
     ),
-    selectedTrack = null,
+    selectedTracks = emptySet(),
 )
 
 val sampleVenue = Venue(

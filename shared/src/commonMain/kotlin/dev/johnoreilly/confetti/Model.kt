@@ -25,14 +25,14 @@ private val SessionLevels = setOf("Introductory and overview", "Intermediate", "
 
 /**
  * The tags worth showing in a compact session list row, most useful first: the filtered-to
- * [selectedTrack], then the session's other tracks (e.g. a droidCon talk that's also swiftCon),
+ * [selectedTracks], then the session's other tracks (e.g. a droidCon talk that's also swiftCon),
  * then other tags such as Keynote/Workshop, with levels last. Sessionize exports list tags as
  * format, level, then tracks (with repeats), so taking the first few raw tags would show
  * "Session, Intermediate" and hide the track. The details screen still shows every tag.
  */
 fun SessionDetails.listTags(
     trackNames: Collection<String> = emptyList(),
-    selectedTrack: String? = null,
+    selectedTracks: Set<String> = emptySet(),
     maxTags: Int = 3,
 ): List<String> {
     val lightning = isLightning()
@@ -40,7 +40,7 @@ fun SessionDetails.listTags(
         .filterNot { it == DefaultSessionFormat || (lightning && it == LightningTalkFormat) }
         .sortedBy {
             when {
-                it == selectedTrack -> 0
+                it in selectedTracks -> 0
                 it in trackNames -> 1
                 it in SessionLevels -> 3
                 else -> 2

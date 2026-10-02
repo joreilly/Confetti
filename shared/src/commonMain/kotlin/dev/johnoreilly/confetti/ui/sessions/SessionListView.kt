@@ -48,7 +48,7 @@ fun SessionListView(
     removeBookmark: (sessionId: String) -> Unit,
     onRefresh: () -> Unit,
     onNavigateToSignIn: () -> Unit,
-    onTrackSelected: (String?) -> Unit,
+    onTrackSelectionChanged: (Set<String>) -> Unit,
     isLoggedIn: Boolean,
 ) {
     when (uiState) {
@@ -70,8 +70,8 @@ fun SessionListView(
                 AnimatedVisibility(visible = LocalTopBarCollapsedFraction.current < 0.5f) {
                     TrackFilterRow(
                         tracks = uiState.tracks,
-                        selectedTrack = uiState.selectedTrack,
-                        onTrackSelected = onTrackSelected,
+                        selectedTracks = uiState.selectedTracks,
+                        onTrackSelectionChanged = onTrackSelectionChanged,
                     )
                 }
                 SessionListTabRow(pagerState, uiState)
@@ -149,7 +149,7 @@ fun SessionListView(
                                         onNavigateToSignIn = onNavigateToSignIn,
                                         isLoggedIn = isLoggedIn,
                                         trackColor = session.trackColor(uiState.tracks),
-                                        tags = session.listTags(trackNames, uiState.selectedTrack),
+                                        tags = session.listTags(trackNames, uiState.selectedTracks),
                                     )
                                     val isCurrentBreak = session.isBreak() || session.isService()
                                     val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())
@@ -176,7 +176,7 @@ internal fun SessionListViewLoadedPreview() {
         removeBookmark = {},
         onRefresh = {},
         onNavigateToSignIn = {},
-        onTrackSelected = {},
+        onTrackSelectionChanged = {},
         isLoggedIn = false,
     )
 }
@@ -191,7 +191,7 @@ internal fun SessionListViewLoadingPreview() {
         removeBookmark = {},
         onRefresh = {},
         onNavigateToSignIn = {},
-        onTrackSelected = {},
+        onTrackSelectionChanged = {},
         isLoggedIn = false,
     )
 }
@@ -206,7 +206,7 @@ internal fun SessionListViewErrorPreview() {
         removeBookmark = {},
         onRefresh = {},
         onNavigateToSignIn = {},
-        onTrackSelected = {},
+        onTrackSelectionChanged = {},
         isLoggedIn = false,
     )
 }

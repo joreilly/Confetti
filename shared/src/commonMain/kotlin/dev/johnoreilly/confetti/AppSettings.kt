@@ -4,6 +4,7 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalSettingsApi::class)
 class AppSettings(val settings: FlowSettings) {
@@ -88,6 +89,18 @@ class AppSettings(val settings: FlowSettings) {
         settings.putBoolean(ONBOARDING_COMPLETED, value)
     }
 
+    // Stored per conference since track names differ between conferences. Newline-separated
+    // since track names are free text (e.g. "agentic codingCon") but never span lines.
+    fun selectedTracksFlow(conference: String): Flow<Set<String>> = settings
+        .getStringFlow(selectedTracksKey(conference), "")
+        .map { stored -> stored.split(SELECTED_TRACKS_SEPARATOR).filter { it.isNotEmpty() }.toSet() }
+
+    suspend fun setSelectedTracks(conference: String, tracks: Set<String>) {
+        settings.putString(selectedTracksKey(conference), tracks.joinToString(SELECTED_TRACKS_SEPARATOR))
+    }
+
+    private fun selectedTracksKey(conference: String) = "$SELECTED_TRACKS_PREFIX$conference"
+
     companion object {
         const val DEVELOPER_MODE = "developer_mode"
         const val EXPERIMENTAL_FEATURES_ENABLED = "experimental_features_enabled"
@@ -98,5 +111,7 @@ class AppSettings(val settings: FlowSettings) {
         const val CONFERENCE_NOT_SET = ""
         const val ONBOARDING_COMPLETED = "onboarding_completed"
         const val FORCE_ENABLE_ASSISTANT = "force_enable_assistant"
+        const val SELECTED_TRACKS_PREFIX = "selected_tracks_"
+        private const val SELECTED_TRACKS_SEPARATOR = "\n"
     }
 }

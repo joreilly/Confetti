@@ -27,7 +27,7 @@ class ListTagsTest {
         )
         assertEquals(
             listOf("agentic codingCon", "droidCon", "Keynote"),
-            session.listTags(tracks, selectedTrack = "agentic codingCon"),
+            session.listTags(tracks, selectedTracks = setOf("agentic codingCon")),
         )
     }
 

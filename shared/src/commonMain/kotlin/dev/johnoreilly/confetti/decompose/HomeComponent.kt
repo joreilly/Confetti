@@ -125,6 +125,7 @@ class DefaultHomeComponent(
                         user = user,
                         onSessionSelected = onSessionSelected,
                         onSignIn = onSignIn,
+                        persistTrackSelection = true,
                     )
                 )
 

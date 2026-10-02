@@ -103,7 +103,7 @@ fun SessionListGridView(
     onNavigateToSignIn: () -> Unit,
     isLoggedIn: Boolean,
     onRefresh: () -> Unit,
-    onTrackSelected: (String?) -> Unit,
+    onTrackSelectionChanged: (Set<String>) -> Unit,
 ) {
     when (uiState) {
         SessionsUiState.Error -> ErrorView(onRefresh = onRefresh)
@@ -118,8 +118,8 @@ fun SessionListGridView(
                 AnimatedVisibility(visible = LocalTopBarCollapsedFraction.current < 0.5f) {
                     TrackFilterRow(
                         tracks = uiState.tracks,
-                        selectedTrack = uiState.selectedTrack,
-                        onTrackSelected = onTrackSelected,
+                        selectedTracks = uiState.selectedTracks,
+                        onTrackSelectionChanged = onTrackSelectionChanged,
                     )
                 }
                 SessionListTabRow(pagerState, uiState)
@@ -682,7 +682,7 @@ internal fun SessionListGridViewLoadedPreview() {
         onNavigateToSignIn = {},
         isLoggedIn = false,
         onRefresh = {},
-        onTrackSelected = {},
+        onTrackSelectionChanged = {},
     )
 }
 
@@ -697,6 +697,6 @@ internal fun SessionListGridViewLoadingPreview() {
         onNavigateToSignIn = {},
         isLoggedIn = false,
         onRefresh = {},
-        onTrackSelected = {},
+        onTrackSelectionChanged = {},
     )
 }

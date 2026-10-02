@@ -26,7 +26,7 @@ class SessionsScreenTest(override val device: WearDevice) : BaseScreenshotTest()
         LocalDateTime.of(2022, 1, 1, 1, 1).toKotlinLocalDateTime(),
         "wearconf", "wearconf",
         listOf(),
-        null,
+        emptySet(),
         null,
         null,
         listOf(),

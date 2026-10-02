@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-android:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
 
     env:
       # Read-only BuildFetch remote cache (see settings.gradle.kts): RO token and no ON_CI, so this

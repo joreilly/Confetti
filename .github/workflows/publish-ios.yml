@@ -53,5 +53,11 @@ jobs:
         run: |
           xcodes select 26.6
 
+      # The optimized release link (:shared:linkReleaseFrameworkIosArm64) runs in the Gradle daemon
+      # and outgrew the repo's 4g heap (OOM on 2026-10-02); only publishing builds Release, so raise
+      # it here rather than for every build. User-home gradle.properties overrides the project one.
+      - name: Raise Gradle heap for release link
+        run: echo "org.gradle.jvmargs=-Xmx6g" >> ~/.gradle/gradle.properties
+
       - name: Build and upload to TestFlight
         run: fastlane ios beta

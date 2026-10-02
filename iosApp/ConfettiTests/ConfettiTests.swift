@@ -39,7 +39,8 @@ final class ConfettiTests: XCTestCase {
             conference: "test",
             user: nil,
             onSessionSelected: { _ in },
-            onSignIn: {}
+            onSignIn: {},
+            persistTrackSelection: false
         )
         
         let uiState = await awaitForState(viewModel.uiState) { $0 as? SessionsUiStateSuccess }

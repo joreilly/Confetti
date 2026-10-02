@@ -1,10 +1,19 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "7bbe2dbd248d7a6d1c9eaf187c3cf25552c854b7",
+    "generatedFrom": "890d0fad69df3651cf6bb69dd7861032e6106724",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
             "versions": [
+                {
+                    "blob": "2de873f72ecfe598c0c255e5d8686f9702377322",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "sinceCommit": "387ce5a1ab5f7e16c860f77b74f508b72734d253",
+                    "commits": 3,
+                    "occurrences": 3
+                },
                 {
                     "blob": "98db6dd54b2a9a84819ccc0704344bbba2552cb2",
                     "commit": "7bbe2dbd248d7a6d1c9eaf187c3cf25552c854b7",
@@ -13,15 +22,6 @@
                     "sinceCommit": "7f4e27fcbc325dd40759def21a974b8b1a1a3da6",
                     "commits": 3,
                     "occurrences": 3
-                },
-                {
-                    "blob": "2de873f72ecfe598c0c255e5d8686f9702377322",
-                    "commit": "c7a12a77317584f7d5e1ef4b265b9e190ca62f93",
-                    "date": "2026-09-28T10:12:43Z",
-                    "sourceSha": "4b181ed1",
-                    "sinceCommit": "387ce5a1ab5f7e16c860f77b74f508b72734d253",
-                    "commits": 2,
-                    "occurrences": 2
                 },
                 {
                     "blob": "732671e0180032a1e1813b706833f7e85082c1a0",
@@ -42,9 +42,9 @@
                     "occurrences": 8
                 }
             ],
-            "observations": 21,
+            "observations": 22,
             "unstable": true,
-            "flapCount": 17
+            "flapCount": 18
         },
         "androidApp/activity__MainActivity": {
             "path": "renders/androidApp/activity__MainActivity.png",
@@ -2114,17 +2114,19 @@
             "path": "renders/shared/SessionDetailViewLoadedPreview_Tablet_landscape-8e7a2e86.png",
             "versions": [
                 {
+                    "blob": "b0de1b1c304d9b70816f926a8ece6d65119ecba9",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "sinceCommit": "7f4e27fcbc325dd40759def21a974b8b1a1a3da6",
+                    "commits": 2,
+                    "occurrences": 2
+                },
+                {
                     "blob": "9e28d1e5278b342e435526f11cf2e2474de1b541",
                     "commit": "7bbe2dbd248d7a6d1c9eaf187c3cf25552c854b7",
                     "date": "2026-10-02T16:21:02Z",
                     "sourceSha": "43dd3722",
-                    "commits": 1
-                },
-                {
-                    "blob": "b0de1b1c304d9b70816f926a8ece6d65119ecba9",
-                    "commit": "7f4e27fcbc325dd40759def21a974b8b1a1a3da6",
-                    "date": "2026-09-26T10:35:56Z",
-                    "sourceSha": "fbc3a7ab",
                     "commits": 1
                 },
                 {
@@ -2153,9 +2155,9 @@
                     "occurrences": 3
                 }
             ],
-            "observations": 10,
+            "observations": 11,
             "unstable": true,
-            "flapCount": 5
+            "flapCount": 6
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionItemViewKt.SessionItemViewBreakPreview_Break": {
             "path": "renders/shared/SessionItemViewBreakPreview_Break-c0ba104e.png",
@@ -2257,6 +2259,15 @@
             "path": "renders/shared/SessionListGridViewLoadedPreview_Phone_large-3c3de344.png",
             "versions": [
                 {
+                    "blob": "bbac2043b8ddc4ad5635c673358893b43655b698",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "sinceCommit": "7a64be4d55a6ad83d0b20e748684845f39ced28a",
+                    "commits": 2,
+                    "occurrences": 2
+                },
+                {
                     "blob": "05eece62715df02c2e760a4bb1a7f5ab07238d32",
                     "commit": "7bbe2dbd248d7a6d1c9eaf187c3cf25552c854b7",
                     "date": "2026-10-02T16:21:02Z",
@@ -2275,13 +2286,6 @@
                     "occurrences": 5
                 },
                 {
-                    "blob": "bbac2043b8ddc4ad5635c673358893b43655b698",
-                    "commit": "7a64be4d55a6ad83d0b20e748684845f39ced28a",
-                    "date": "2026-09-11T18:43:21Z",
-                    "sourceSha": "89a54548",
-                    "commits": 1
-                },
-                {
                     "blob": "87cdb92569ee418f93cbc14a26b4e299cd608d0d",
                     "commit": "adec7b9e4a9872d6586d75f49458a94557891c9f",
                     "date": "2026-09-06T18:02:15Z",
@@ -2289,13 +2293,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 13,
+            "observations": 14,
             "unstable": true,
-            "flapCount": 9
+            "flapCount": 10
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Phone (small)": {
             "path": "renders/shared/SessionListGridViewLoadedPreview_Phone_small-d12fb411.png",
             "versions": [
+                {
+                    "blob": "868b8db0cce67e7d3cb463008b9127113977a3a5",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "commits": 1
+                },
                 {
                     "blob": "125a3be86e341fe9717472ee2429ee4303f2213c",
                     "commit": "7bbe2dbd248d7a6d1c9eaf187c3cf25552c854b7",
@@ -2329,13 +2340,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 13,
+            "observations": 14,
             "unstable": true,
             "flapCount": 9
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Tablet landscape": {
             "path": "renders/shared/SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png",
             "versions": [
+                {
+                    "blob": "be84fb7ccaf1db48d41a48290955d725c62a9ff5",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "commits": 1
+                },
                 {
                     "blob": "84c2bfa1ebea9e3dc8e6d242e91261d50feb8b1b",
                     "commit": "7bbe2dbd248d7a6d1c9eaf187c3cf25552c854b7",
@@ -2369,7 +2387,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 13,
+            "observations": 14,
             "unstable": true,
             "flapCount": 9
         },
@@ -2637,6 +2655,13 @@
             "path": "renders/shared/SpeakerDetailsViewAlternateSpeakerPreview_Different_speaker-5d06ad1a.png",
             "versions": [
                 {
+                    "blob": "69d2467b84e4d54b55f53bd30b7db2dbe39ea362",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "commits": 1
+                },
+                {
                     "blob": "a5818ddc3804596e81ab7e0333d434af0a33f533",
                     "commit": "34ec39735538811ce7acefb3936958673ebb1e21",
                     "date": "2026-09-28T10:04:29Z",
@@ -2655,7 +2680,7 @@
                     "occurrences": 5
                 }
             ],
-            "observations": 10,
+            "observations": 11,
             "unstable": true,
             "flapCount": 8
         },
@@ -2756,6 +2781,13 @@
             "path": "renders/shared/SpeakerGridViewLoadedPreview_Phone_large-57300ee7.png",
             "versions": [
                 {
+                    "blob": "954723c82f2b2a88b2bbbb82a400aa5e5fbf6740",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "commits": 1
+                },
+                {
                     "blob": "f9b6c49b668d81bac848ff577bca1bb1557fcad6",
                     "commit": "e7876d925745d38935635f0f078be0b9e3925824",
                     "date": "2026-09-19T14:30:35Z",
@@ -2786,13 +2818,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 6,
+            "observations": 7,
             "unstable": true,
             "flapCount": 2
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersGridViewKt.SpeakerGridViewLoadedPreview_Phone (small)": {
             "path": "renders/shared/SpeakerGridViewLoadedPreview_Phone_small-2e44cd7b.png",
             "versions": [
+                {
+                    "blob": "5fccd1438330fb2f7439f131030422b4683525bf",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "commits": 1
+                },
                 {
                     "blob": "25f81f044b3ba814174f917e0de3ca808287cdbd",
                     "commit": "e7876d925745d38935635f0f078be0b9e3925824",
@@ -2819,13 +2858,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 6,
+            "observations": 7,
             "unstable": true,
             "flapCount": 3
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersGridViewKt.SpeakerGridViewLoadedPreview_Tablet landscape": {
             "path": "renders/shared/SpeakerGridViewLoadedPreview_Tablet_landscape-c5e83e7b.png",
             "versions": [
+                {
+                    "blob": "e143524e25c3c52acbaf02e4abfae4e54bb721f3",
+                    "commit": "890d0fad69df3651cf6bb69dd7861032e6106724",
+                    "date": "2026-10-02T16:29:59Z",
+                    "sourceSha": "eef94ead",
+                    "commits": 1
+                },
                 {
                     "blob": "969efe9d12d4acbe866b1c4ac4a60ab0976e9537",
                     "commit": "e7876d925745d38935635f0f078be0b9e3925824",
@@ -2852,7 +2898,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 6,
+            "observations": 7,
             "unstable": true,
             "flapCount": 3
         },

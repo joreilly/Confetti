@@ -64,12 +64,19 @@ jobs:
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
-      - name: Cache KMP libraries
-        uses: actions/cache@v6
+      # Restore on every run, but only save from main: a ~/.konan cache is 0.5-0.9 GB, so
+      # PR-scoped copies quickly blow the repo's 10 GB cache quota. restore-keys lets a
+      # libs.versions.toml change start from the previous konan cache instead of from cold
+      # (~20 min extra of Kotlin/Native setup).
+      - name: Restore KMP libraries
+        id: konan-cache
+        uses: actions/cache/restore@v6
         with:
           path: |
             ~/.konan
           key: ${{ runner.os }}-v1-${{ hashFiles('**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-v1-
 
       - name: Cache SPM downloads
         uses: actions/cache@v6
@@ -118,6 +125,8 @@ jobs:
           print(udid)
           ')
           echo "udid=$udid" >> "$GITHUB_OUTPUT"
+          # Start booting now so it overlaps the build; the test step waits for it to finish.
+          xcrun simctl boot "$udid" || true
 
       # Build once for testing (app + test targets) on the simulator, then run the tests
       # without rebuilding. Simulator builds skip code signing / provisioning entirely.
@@ -129,5 +138,17 @@ jobs:
       - name: Build iOS app for testing
         run: xcodebuild build-for-testing -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination "id=${{ steps.simulator.outputs.udid }}"
 
+      # Parallel testing clones the simulator and boots the clone (~5 min on the hosted
+      # runners) for a couple of short tests, so run them serially on the pre-booted device.
       - name: Run iOS unit tests
-        run: xcodebuild test-without-building -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination "id=${{ steps.simulator.outputs.udid }}" -test-timeouts-enabled YES
+        run: |
+          xcrun simctl bootstatus "${{ steps.simulator.outputs.udid }}" -b
+          xcodebuild test-without-building -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination "id=${{ steps.simulator.outputs.udid }}" -test-timeouts-enabled YES -parallel-testing-enabled NO
+
+      - name: Save KMP libraries
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' && steps.konan-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            ~/.konan
+          key: ${{ steps.konan-cache.outputs.cache-primary-key }}

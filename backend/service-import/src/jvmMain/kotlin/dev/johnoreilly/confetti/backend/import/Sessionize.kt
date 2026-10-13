@@ -853,21 +853,36 @@ object Sessionize {
                 timeZone = "Europe/Lisbon",
                 themeColor = "0xFFFF7256"
             ),
-            venue = DVenue(
-                id = "main",
-                name = "Fórum Cultural de Alcochete",
-                address = "Fórum Cultural de Alcochete",
-                description = mapOf(
-                    "en" to "Fórum Cultural de Alcochete",
-                    "fr" to "Fórum Cultural de Alcochete.",
-                ),
-                latitude = 38.7458978,
-                longitude = -8.9743295,
-                imageUrl = "https://static.wixstatic.com/media/eb9bc0_1da6dc27109b4624b43f71701f60e90e~mv2.jpg/v1/crop/x_0,y_622,w_4096,h_1828/fill/w_531,h_237,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/forum%20cultural%20alcochete.jpg",
-                floorPlanUrl = null
-            )
+            venue = forumCulturalAlcochete,
         )
     }
+
+    suspend fun importDroidconLisbon2026(): Int {
+        return writeData(
+            getData(url = "https://sessionize.com/api/v2/ggr1u429/view/All", zoneId = "Europe/Lisbon"),
+            config = DConfig(
+                id = ConferenceId.DroidConLisbon2026.id,
+                name = "droidcon Lisbon 2026",
+                timeZone = "Europe/Lisbon",
+                themeColor = "0xFFFF7256"
+            ),
+            venue = forumCulturalAlcochete,
+        )
+    }
+
+    private val forumCulturalAlcochete = DVenue(
+        id = "main",
+        name = "Fórum Cultural de Alcochete",
+        address = "Fórum Cultural de Alcochete",
+        description = mapOf(
+            "en" to "Fórum Cultural de Alcochete",
+            "fr" to "Fórum Cultural de Alcochete.",
+        ),
+        latitude = 38.7458978,
+        longitude = -8.9743295,
+        imageUrl = "https://static.wixstatic.com/media/eb9bc0_1da6dc27109b4624b43f71701f60e90e~mv2.jpg/v1/crop/x_0,y_622,w_4096,h_1828/fill/w_531,h_237,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/forum%20cultural%20alcochete.jpg",
+        floorPlanUrl = null
+    )
 
 
     suspend fun importDroidconLondon2024(): Int {

@@ -32,6 +32,7 @@ Includes:
 * [Using KMM-ViewModel library to share VM between iOS and Android](https://johnoreilly.dev/posts/kmm-viewmodel/)
 * [Consuming Compose for iOS in a SwiftUI application](https://johnoreilly.dev/posts/swiftui-compose-ios/)
 * [Adding embeddings/RAG support to the Koog-based AI agent in Confetti](https://johnoreilly.dev/posts/confetti-koog-rag/)
+* [On-device embeddings with EmbeddingGemma 2 in the Koog-based Confetti AI agent](https://johnoreilly.dev/posts/confetti-embeddinggemma2/)
 
 
 ### Building

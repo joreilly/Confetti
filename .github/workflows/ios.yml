@@ -145,6 +145,48 @@ jobs:
           xcrun simctl bootstatus "${{ steps.simulator.outputs.udid }}" -b
           xcodebuild test-without-building -project iosApp/iosApp.xcodeproj -configuration Debug -scheme iosApp -sdk iphonesimulator -destination "id=${{ steps.simulator.outputs.udid }}" -test-timeouts-enabled YES -parallel-testing-enabled NO
 
+      # Launch the app on the same simulator and run the Maestro flow shared with the Android app,
+      # so runtime crashes (which the unit tests don't exercise) fail CI
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+        env:
+          MAESTRO_VERSION: 2.11.0
+
+      - name: Run Maestro tests
+        env:
+          # Starting Maestro's iOS driver on a cold runner can take a few minutes (default limit ~2 min)
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: 300000
+        run: |
+          # build-for-testing above put the app in the default DerivedData (kept for the SPM cache)
+          app=$(find ~/Library/Developer/Xcode/DerivedData -maxdepth 6 -type d -path '*/Build/Products/Debug-iphonesimulator/Confetti.app' | head -1)
+          xcrun simctl install "${{ steps.simulator.outputs.udid }}" "$app"
+          maestro --device "${{ steps.simulator.outputs.udid }}" test --debug-output maestro-debug -e APP_ID=dev.johnoreilly.confetti maestro/Confetti.flow
+
+      # takeScreenshot output: Maestro saves it under --debug-output's hidden .maestro directory
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: maestro-screenshot-ios
+          path: maestro-debug/**/takeScreenshot/*.png
+          include-hidden-files: true
+
+      - name: Collect iOS crash reports
+        if: failure()
+        run: |
+          mkdir -p maestro-debug/crash-reports
+          find "$HOME/Library/Logs/DiagnosticReports" -name 'Confetti*' -exec cp {} maestro-debug/crash-reports/ \; || true
+
+      # Maestro's logs, screenshots and view hierarchy, plus the app's crash report, to diagnose failures
+      # (Maestro writes under a hidden .maestro directory, hence include-hidden-files)
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: maestro-debug-ios
+          path: maestro-debug
+          include-hidden-files: true
+
       - name: Save KMP libraries
         if: ${{ !cancelled() && github.ref == 'refs/heads/main' && steps.konan-cache.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v6

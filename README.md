@@ -43,6 +43,11 @@ Requires Xcode 26 or later for the iOS client (Apple silicon only — the Intel
 simulator target was removed).
 JDK 17+ is required.
 
+### UI tests
+
+There's a [Maestro](https://maestro.mobile.dev/) UI test flow shared by the Android and iOS clients, run by CI on
+an emulator and a simulator (e.g. `maestro test -e APP_ID=dev.johnoreilly.confetti maestro/Confetti.flow`).
+
 ### Screenshots
 
 

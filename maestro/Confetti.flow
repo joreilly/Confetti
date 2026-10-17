@@ -1,0 +1,21 @@
+# Shared by the Android and iOS apps: CI passes APP_ID with -e
+appId: ${APP_ID}
+---
+- launchApp:
+    clearState: true
+
+- assertVisible: "Welcome to Confetti"
+- tapOn: "Skip"
+
+# Conferences and sessions come from the live Confetti backend, so allow for a slow network
+- extendedWaitUntil:
+    visible: "KotlinConf 2026"
+    timeout: 30000
+- tapOn: "KotlinConf 2026"
+
+# The schedule: day tabs ("20 May, 2026") above the session list
+- extendedWaitUntil:
+    visible: "\\d{2} \\w+, \\d{4}"
+    timeout: 30000
+- assertVisible: "Schedule"
+- takeScreenshot: Confetti

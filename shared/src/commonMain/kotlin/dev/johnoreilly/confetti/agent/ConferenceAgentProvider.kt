@@ -21,9 +21,9 @@ class ConferenceAgentProvider(
     private val promptExecutor: PromptExecutor,
     private val embedder: Embedder,
     private val embeddingCache: EmbeddingCache?,
-    // Embeddings/semantic search temporarily disabled. Flip to true to re-enable
-    // SearchSessionsTool and the semantic-search guidance in the system prompt.
-    private val embeddingsEnabled: Boolean = false,
+    // Semantic search is only on when embeddings are computed on-device, so it never
+    // makes Gemini embedding API calls. Pass true to enable it with a remote embedder.
+    private val embeddingsEnabled: Boolean = embedder is OnDeviceEmbedder,
 ) : AgentProvider {
 
     override val description: String =

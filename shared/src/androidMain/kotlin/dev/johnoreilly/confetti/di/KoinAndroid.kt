@@ -15,6 +15,7 @@ import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import com.apollographql.apollo.ApolloClient
+import com.google.ai.edge.litertlm.Backend
 import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
 import com.apollographql.apollo.network.http.DefaultHttpEngine
 import com.apollographql.apollo.network.ws.DefaultWebSocketEngine
@@ -38,6 +39,7 @@ import ai.koog.prompt.llm.LLModel
 import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.agent.ApiEmbedder
 import dev.johnoreilly.confetti.agent.EmbeddingCache
+import dev.johnoreilly.confetti.agent.LiteRtEmbedder
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
@@ -138,20 +140,37 @@ actual fun platformModule() = module {
     single<ApplicationInfo> { getApplicationInfo(get()) }
 
     single<EmbeddingCache> {
+        // Vectors from different models aren't comparable, so each model gets its own cache.
+        val dir = (get<Embedder>() as? LiteRtEmbedder)
+            ?.let { "confetti-embeddings-${it.modelFile.nameWithoutExtension}" }
+            ?: "confetti-embeddings"
         EmbeddingCache(
             fs = FileSystem.SYSTEM,
-            root = "${androidContext().cacheDir.absolutePath}/confetti-embeddings".toPath(),
+            root = "${androidContext().cacheDir.absolutePath}/$dir".toPath(),
         )
     }
 
     single<Embedder> {
-        ApiEmbedder(
-            provider = GoogleLLMClient(
-                apiKey = BuildKonfig.GEMINI_API_KEY,
-                httpClientFactory = KtorKoogHttpClient.Factory(),
-            ),
-            model = GoogleModels.Embeddings.GeminiEmbedding001,
-        )
+        val filesDir = androidContext().getExternalFilesDir(null)
+        val tensorModel = filesDir?.resolve(LiteRtEmbedder.TENSOR_G5_MODEL_FILE_NAME)
+        val cpuModel = filesDir?.resolve(LiteRtEmbedder.MODEL_FILE_NAME)
+        if (tensorModel?.exists() == true && Build.VERSION.SDK_INT >= 31 && Build.SOC_MODEL == "Tensor G5") {
+            LiteRtEmbedder(
+                modelFile = tensorModel,
+                backend = Backend.NPU(nativeLibraryDir = androidContext().applicationInfo.nativeLibraryDir),
+                cacheDir = androidContext().cacheDir,
+            )
+        } else if (cpuModel?.exists() == true) {
+            LiteRtEmbedder(cpuModel, Backend.CPU(), androidContext().cacheDir)
+        } else {
+            ApiEmbedder(
+                provider = GoogleLLMClient(
+                    apiKey = BuildKonfig.GEMINI_API_KEY,
+                    httpClientFactory = KtorKoogHttpClient.Factory(),
+                ),
+                model = GoogleModels.Embeddings.GeminiEmbedding001,
+            )
+        }
     }
 
     single<LLModel> { GoogleModels.Gemini2_5Flash }

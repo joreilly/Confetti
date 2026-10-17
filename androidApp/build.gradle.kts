@@ -136,6 +136,10 @@ android {
     }
 
     packaging {
+        // LiteRT loads the Tensor NPU dispatch library from nativeLibraryDir, so it must be extracted.
+        jniLibs {
+            useLegacyPackaging = true
+        }
         resources {
             excludes += listOf(
                 "/META-INF/AL2.0",

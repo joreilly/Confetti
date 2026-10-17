@@ -59,6 +59,8 @@ screenshot = "0.0.1-alpha16"
 composeai-preview = "1.85.0"
 koogAgents = "1.2.0"
 koogPromptExecutorAll = "1.2.0-beta"
+litertlm = "0.18.0"
+litertNpu = "2.3.0"
 
 
 [libraries]
@@ -254,6 +256,8 @@ koog-http-client-ktor = { module = "ai.koog:http-client-ktor", version.ref = "ko
 koog-embeddings-base = { module = "ai.koog:embeddings-base", version.ref = "koogAgents" }
 koog-rag-base = { module = "ai.koog:rag-base", version.ref = "koogAgents" }
 koog-rag-vector = { module = "ai.koog:rag-vector", version.ref = "koogPromptExecutorAll" }
+litertlm-android = { module = "com.google.ai.edge.litertlm:litertlm-android", version.ref = "litertlm" }
+litert-npu-runtime-google-tensor = { module = "com.google.ai.edge.litert:litert-npu-runtime-google-tensor", version.ref = "litertNpu" }
 
 [bundles]
 multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coroutines", "multiplatform-settings-serialization", "multiplatform-settings-make-observable"]

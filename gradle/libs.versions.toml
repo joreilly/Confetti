@@ -61,7 +61,7 @@ screenshot = "0.0.1-alpha16"
 # at an annotations-only version (3.17.1) that the plugin was never published as.
 composeai-preview = "2.68.2"
 composeai-preview-annotations = "3.17.1"
-koogAgents = "1.2.0"
+koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
 
 

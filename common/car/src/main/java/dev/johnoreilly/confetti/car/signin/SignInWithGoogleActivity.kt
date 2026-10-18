@@ -1,55 +1,39 @@
-@file:Suppress("DEPRECATION")
-
 package dev.johnoreilly.confetti.car.signin
 
 import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
 import androidx.activity.ComponentActivity
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import dev.johnoreilly.confetti.car.R
+import androidx.lifecycle.lifecycleScope
+import dev.johnoreilly.confetti.account.SignInProcess
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 const val BINDER_KEY = "binder"
 
 /**
- * Sign in with Google adapted from Android car samples:
- * - https://github.com/androidx/androidx/
+ * Sign in with Google for the car screens, which can't show the sign-in UI themselves.
+ *
+ * Uses Credential Manager through the shared [SignInProcess], like the phone and Wear apps; the
+ * legacy GoogleSignIn API this used to call was removed in play-services-auth 22.
  */
-
-class SignInWithGoogleActivity : ComponentActivity() {
+class SignInWithGoogleActivity : ComponentActivity(), KoinComponent {
+    private val signInProcess: SignInProcess by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val signInCompleteCallback = intent.extras?.getBinder(BINDER_KEY) as OnSignInComplete
 
-        val activityResultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-            val account = GoogleSignIn.getSignedInAccountFromIntent(result.data).result
-            signInCompleteCallback.onSignInComplete(account)
+        lifecycleScope.launch {
+            val signedIn = signInProcess.signIn(this@SignInWithGoogleActivity)
+            signInCompleteCallback.onSignInComplete(signedIn)
             finish()
         }
-
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if (account != null) {
-            signInCompleteCallback.onSignInComplete(account)
-            finish()
-        }
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(applicationContext.getString(R.string.default_web_client_id))
-            .requestEmail()
-            .requestProfile()
-            .build()
-
-        val signInClient = GoogleSignIn.getClient(this, gso)
-        activityResultLauncher.launch(signInClient.signInIntent)
     }
 
     abstract class OnSignInComplete: Binder(), IBinder {
-
-        abstract fun onSignInComplete(account: GoogleSignInAccount?)
+        abstract fun onSignInComplete(signedIn: Boolean)
     }
 }

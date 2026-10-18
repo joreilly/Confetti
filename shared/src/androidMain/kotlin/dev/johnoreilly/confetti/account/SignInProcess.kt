@@ -12,6 +12,7 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.SignInSuccess
 
 class SignInProcess(
     val credentialManager: CredentialManager,
@@ -31,8 +32,9 @@ class SignInProcess(
      * @see https://developer.android.com/identity/sign-in/credential-manager-siwg
      *
      * @param activityContext The context of the activity initiating the sign-in process.
+     * @return true when the user ended up signed in to Firebase.
      */
-    suspend fun signIn(activityContext: Context) {
+    suspend fun signIn(activityContext: Context): Boolean {
         val googleAuthOption = if (useSignInWithGoogle) {
             GetSignInWithGoogleOption.Builder(webClientId)
                 .build()
@@ -57,13 +59,13 @@ class SignInProcess(
 
             when {
                 credential is GoogleIdTokenCredential -> {
-                    authentication.signIn(credential.idToken)
+                    return authentication.signIn(credential.idToken) == SignInSuccess
                 }
 
                 credential is CustomCredential -> {
                     val googleIdTokenCredential = GoogleIdTokenCredential
                         .createFrom(credential.data)
-                    authentication.signIn(googleIdTokenCredential.idToken)
+                    return authentication.signIn(googleIdTokenCredential.idToken) == SignInSuccess
                 }
 
                 else -> {
@@ -79,6 +81,7 @@ class SignInProcess(
             println("Auth failed $e")
             // TODO show some failure
         }
+        return false
     }
 
     /**

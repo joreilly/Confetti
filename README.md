@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/pr`. 81 preview(s) across 2 module(s) · 10 error(s) · 3 warning(s) · 8 info._
+_Auto-generated from `compose-preview/a11y/pr`. 120 preview(s) across 3 module(s) · 12 error(s) · 3 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -105,8 +105,16 @@ _No findings._
 | 1 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
 | 2 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
 | 3 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
-| 4 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 24dp. Consider making the width of this touch target 48dp or larger. |
-| 5 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
+| 4 | ERROR | SpeakableTextPresentCheck | android.view.View | This item may not have a label readable by screen readers. |
+| 5 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 24dp. Consider making the width of this touch target 48dp or larger. |
+| 6 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
+| 7 | ERROR | TouchTargetSizeCheck | android.view.View | This item's width is 16dp. Consider making the width of this touch target 48dp or larger. |
+
+### `OnboardingSignInStepPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/androidApp/OnboardingSignInStepPreview_Dark-36612898.a11y.png" width="400" />
+
+_No findings._
 
 ### `ScheduleScreenPreview`
 
@@ -141,6 +149,12 @@ _No findings._
 ### `SessionItemPopulatedPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/androidApp/SessionItemPopulatedPreview_Dark-631a7045.a11y.png" width="400" />
+
+_No findings._
+
+### `SettingsScreenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/androidApp/SettingsScreenPreview_Dark-ba1bef09.png" width="400" />
 
 _No findings._
 
@@ -191,6 +205,230 @@ _No findings._
 ### `TypographySpecimenPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/androidApp/TypographySpecimenPreview_Dark-3523357e.a11y.png" width="400" />
+
+_No findings._
+
+## shared
+
+### `AccountIconSignedInPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/AccountIconSignedInPreview_Signed_in-69376947.a11y.png" width="400" />
+
+_No findings._
+
+### `AccountIconSignedOutPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/AccountIconSignedOutPreview_Signed_out-e5f6cd36.a11y.png" width="400" />
+
+_No findings._
+
+### `AccountViewSignedInPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/AccountViewSignedInPreview-e93ba336.a11y.png" width="400" />
+
+_No findings._
+
+### `AccountViewSignedOutPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/AccountViewSignedOutPreview-b69ebed1.a11y.png" width="400" />
+
+_No findings._
+
+### `BookmarksViewEmptyPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/BookmarksViewEmptyPreview_Empty-6e9462f6.a11y.png" width="400" />
+
+_No findings._
+
+### `BookmarksViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/BookmarksViewLoadedPreview_Phone_large-f26eccbe.a11y.png" width="400" />
+
+_No findings._
+
+### `BookmarksViewLoadingPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/BookmarksViewLoadingPreview_Loading-38d33b77.png" width="400" />
+
+_No findings._
+
+### `ConferenceCardPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/ConferenceCardPreview_Conference_card-d8b49bf2.a11y.png" width="400" />
+
+_No findings._
+
+### `ConferenceListViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/ConferenceListViewLoadedPreview_Phone_large-3aa334dd.a11y.png" width="400" />
+
+_No findings._
+
+### `ConferenceListViewLoadingPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/ConferenceListViewLoadingPreview_Loading-40ee75b6.a11y.png" width="400" />
+
+_No findings._
+
+### `EmptyViewPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/EmptyViewPreview_Empty-6b5b6a8a.a11y.png" width="400" />
+
+_No findings._
+
+### `ErrorViewNoRetryPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/ErrorViewNoRetryPreview_Error_without_retry-cfa70dc4.a11y.png" width="400" />
+
+_No findings._
+
+### `ErrorViewWithRetryPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/ErrorViewWithRetryPreview_Error_with_retry-fc772491.a11y.png" width="400" />
+
+_No findings._
+
+### `LoadingViewPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/LoadingViewPreview_Loading-4f8c89a0.png" width="400" />
+
+_No findings._
+
+### `LoadingViewWithMessagePreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/LoadingViewWithMessagePreview_Loading_with_message-389c0949.a11y.png" width="400" />
+
+_No findings._
+
+### `SearchViewEmptyQueryPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SearchViewEmptyQueryPreview_Empty_query-e92ae7d8.a11y.png" width="400" />
+
+_No findings._
+
+### `SearchViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SearchViewLoadedPreview_Phone_large-14a12c5d.a11y.png" width="400" />
+
+_No findings._
+
+### `SearchViewLoadingPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SearchViewLoadingPreview_Loading-b829e94f.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionDetailViewEmptyPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionDetailViewEmptyPreview_Empty-947eca97.png" width="400" />
+
+_No findings._
+
+### `SessionDetailViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionDetailViewLoadedPreview_Phone_large-23f0403a.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionItemViewBreakPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionItemViewBreakPreview_Break-c0ba104e.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionItemViewLightningPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionItemViewLightningPreview_Lightning_talk-b0b30068.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionItemViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionItemViewLoadedPreview_Phone_large-dec394e2.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionListGridViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionListGridViewLoadedPreview_Phone_large-3c3de344.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionListGridViewLoadingPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionListGridViewLoadingPreview_Loading-c0b0a27c.png" width="400" />
+
+_No findings._
+
+### `SessionListViewErrorPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionListViewErrorPreview_Error-ac5e2139.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionListViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionListViewLoadedPreview_Phone_large-d6a8183c.a11y.png" width="400" />
+
+_No findings._
+
+### `SessionListViewLoadingPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SessionListViewLoadingPreview_Loading-e64962ea.png" width="400" />
+
+_No findings._
+
+### `SettingsScreenPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SettingsScreenPreview_Phone_large-fd155dd2.a11y.png" width="400" />
+
+_No findings._
+
+### `SpeakerDetailsViewAlternateSpeakerPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SpeakerDetailsViewAlternateSpeakerPreview_Different_speaker-5d06ad1a.a11y.png" width="400" />
+
+_No findings._
+
+### `SpeakerDetailsViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SpeakerDetailsViewLoadedPreview_Phone_large-89e6bac8.a11y.png" width="400" />
+
+_No findings._
+
+### `SpeakerGridViewEmptyPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SpeakerGridViewEmptyPreview_Empty-e69a7086.a11y.png" width="400" />
+
+_No findings._
+
+### `SpeakerGridViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SpeakerGridViewLoadedPreview_Phone_large-57300ee7.a11y.png" width="400" />
+
+_No findings._
+
+### `SpeakerItemViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SpeakerItemViewLoadedPreview_Phone_large-41821238.a11y.png" width="400" />
+
+_No findings._
+
+### `SpeakerItemViewNoTaglinePreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/SpeakerItemViewNoTaglinePreview_No_tagline-7844bc92.a11y.png" width="400" />
+
+_No findings._
+
+### `VenueViewLoadedPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/VenueViewLoadedPreview_Phone_large-b6f27dff.a11y.png" width="400" />
+
+_No findings._
+
+### `VenueViewWithFloorPlanPreview`
+
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/VenueViewWithFloorPlanPreview_With_floor_plan-78f0fed0.a11y.png" width="400" />
 
 _No findings._
 

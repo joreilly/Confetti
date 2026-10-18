@@ -40,7 +40,6 @@ dependencies {
 
     implementation(libs.car.app.auto)
 
-    implementation(libs.play.services.auth)
 
     coreLibraryDesugaring(libs.desugar)
 }

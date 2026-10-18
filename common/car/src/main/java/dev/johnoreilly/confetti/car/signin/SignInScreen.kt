@@ -13,11 +13,10 @@ import androidx.car.app.model.ParkedOnlyOnClickListener
 import androidx.car.app.model.Template
 import androidx.car.app.model.signin.ProviderSignInMethod
 import androidx.car.app.model.signin.SignInTemplate
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import dev.johnoreilly.confetti.car.R
+import dev.johnoreilly.confetti.account.SignInProcess
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.car.utils.colorize
-import dev.johnoreilly.confetti.car.utils.googleSignInClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +29,7 @@ class SignInScreen(
 ) : Screen(carContext), KoinComponent {
 
     private val authentication: Authentication by inject()
+    private val signInProcess: SignInProcess by inject()
 
     override fun onGetTemplate(): Template {
         val providerSignInMethod = if (isAuthenticated) {
@@ -76,38 +76,39 @@ class SignInScreen(
                 )
                 .setBackgroundColor(CarColor.createCustom(Color.WHITE, Color.WHITE))
                 .setOnClickListener(ParkedOnlyOnClickListener.create {
-                    googleSignInClient(carContext).signOut()
-                    authentication.signOut()
-                    screenManager.popToRoot()
+                    // Clears the Credential Manager state as well as the Firebase session
+                    CoroutineScope(Dispatchers.Main).launch {
+                        signInProcess.signOut()
+                        screenManager.popToRoot()
+                    }
                 })
                 .build()
         )
     }
 
     private fun performSignInWithGoogleFlow(authentication: Authentication) {
-        val scope = CoroutineScope(Dispatchers.IO)
+        val scope = CoroutineScope(Dispatchers.Main)
 
         val extras = Bundle(1)
         extras.putBinder(BINDER_KEY, object : SignInWithGoogleActivity.OnSignInComplete() {
 
-            @Override
-            override fun onSignInComplete(account: GoogleSignInAccount?) {
-                if (account == null) {
-                    CarToast.makeText(carContext, R.string.auto_sign_in_failed, LENGTH_SHORT).show()
-                    return
-                }
-
+            override fun onSignInComplete(signedIn: Boolean) {
+                // SignInProcess has already signed in to Firebase; this runs on a binder thread
                 scope.launch {
-                    authentication.signIn(account.idToken ?: "")
+                    if (!signedIn) {
+                        CarToast.makeText(carContext, R.string.auto_sign_in_failed, LENGTH_SHORT).show()
+                        return@launch
+                    }
+                    CarToast.makeText(
+                        carContext,
+                        carContext.getString(
+                            R.string.auto_sign_in_success,
+                            authentication.currentUser.value?.name.orEmpty()
+                        ),
+                        LENGTH_SHORT
+                    ).show()
+                    screenManager.popToRoot()
                 }
-
-                CarToast.makeText(
-                    carContext,
-                    carContext.getString(R.string.auto_sign_in_success, account.givenName),
-                    LENGTH_SHORT
-                ).show()
-
-                screenManager.popToRoot()
             }
         })
 

@@ -4,7 +4,7 @@
     "functionName": "SessionDetailsPreview",
     "module": "androidApp",
     "renderBasename": "SessionDetailsPreview-80cd2284.png",
-    "sha256": "23825e401774db589d60e53cf6b0cf7026cde964b837209fb2e0612cd9e758ae",
+    "sha256": "cf981b13c9bfe66fb051b4517cf437fd64e63f3f50fa866ccc985eb7093ba12d",
     "sourceFile": "src/screenshotTest/kotlin/ScreenshotTest.kt"
   },
   "androidApp/activity__MainActivity": {
@@ -892,7 +892,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Phone_large-3c3de344.png",
-    "sha256": "b6bdce79cf3a4b48ad05a42d422afd7ae2b531d07aa03927e763b639ad197966",
+    "sha256": "39803885b36eb32b5941e04c0bce40faaf322db82ec2ada338cea88e257f8598",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Phone (small)": {
@@ -900,7 +900,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Phone_small-d12fb411.png",
-    "sha256": "1e3d867616785b4c335022c5cc4b0edfb32a8e3a1d4d97ae33790a185b8b0859",
+    "sha256": "b483e7f84c805b8124ee2aff20cde170ea28d5c684a61bdef7c920f1a660b8b5",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Tablet landscape": {
@@ -908,7 +908,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png",
-    "sha256": "1766d4637c0c2a9a7ea1778cb39cc34417a71df843cd854b3d24fe93e5eee170",
+    "sha256": "7a3c2016838dae949803072262a9e7c2450b1196b30eeb6828f68979a6f80d3c",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadingPreview_Loading": {

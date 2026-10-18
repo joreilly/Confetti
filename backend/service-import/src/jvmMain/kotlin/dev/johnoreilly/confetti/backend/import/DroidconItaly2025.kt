@@ -1,6 +1,6 @@
 package dev.johnoreilly.confetti.backend.import
 
-import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.jsoizo.kotlincsv.csvReader
 import dev.johnoreilly.confetti.backend.datastore.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime

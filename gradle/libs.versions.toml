@@ -56,7 +56,11 @@ generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.23.0"
 roborazzi = "1.76.0"
 screenshot = "0.0.1-alpha16"
-composeai-preview = "3.17.1"
+# The plugin and the annotation library are versioned independently upstream (plugin 2.x,
+# annotations 3.x), so they need separate keys: a shared key made Renovate point the plugin
+# at an annotations-only version (3.17.1) that the plugin was never published as.
+composeai-preview = "2.68.2"
+composeai-preview-annotations = "3.17.1"
 koogAgents = "1.2.0"
 koogPromptExecutorAll = "1.2.0-beta"
 
@@ -204,7 +208,7 @@ multiplatform-settings-datastore = { module = "com.russhwolf:multiplatform-setti
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-coroutines = { module = "com.squareup.okhttp3:okhttp-coroutines", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-play-services-auth = "com.google.android.gms:play-services-auth:22.0.0"
+play-services-auth = "com.google.android.gms:play-services-auth:21.6.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo" }
@@ -245,7 +249,7 @@ roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", versi
 roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
 roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 
-composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composeai-preview" }
+composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composeai-preview-annotations" }
 
 koog-agents = { module = "ai.koog:koog-agents", version.ref = "koogAgents" }
 koog-prompt-executor-llms-all = { module = "ai.koog:prompt-executor-llms-all", version.ref = "koogPromptExecutorAll" }

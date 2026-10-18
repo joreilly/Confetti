@@ -81,6 +81,11 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            // One JVM per test class: SessionNotificationTest (SDK 30) and the native-graphics
+            // screenshot tests (SDK 35) both make Robolectric load its native runtime, and in a shared
+            // JVM the second load fails with FileSystemAlreadyExistsException (maybeCopyFonts) — the
+            // "flaky" SpeakerDetailsScTest, which failed whenever Gradle ran it after the other.
+            all { it.forkEvery = 1 }
         }
     }
 

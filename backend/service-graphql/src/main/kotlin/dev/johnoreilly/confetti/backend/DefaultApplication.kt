@@ -22,13 +22,12 @@ import okio.Buffer
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.web.ErrorProperties
-import org.springframework.boot.autoconfigure.web.ServerProperties
 import org.springframework.boot.autoconfigure.web.WebProperties
-import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler
+import org.springframework.boot.webflux.autoconfigure.error.DefaultErrorWebExceptionHandler
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.runApplication
-import org.springframework.boot.web.reactive.error.ErrorAttributes
-import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
+import org.springframework.boot.webflux.error.ErrorAttributes
+import org.springframework.boot.webflux.error.ErrorWebExceptionHandler
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
@@ -99,18 +98,18 @@ class DefaultApplication {
 
     @Bean
     fun errorWebExceptionHandler(
-        errorAttributes: ErrorAttributes?,
+        errorAttributes: ErrorAttributes,
         webProperties: WebProperties,
-        serverProperties: ServerProperties,
-        viewResolvers: ObjectProvider<ViewResolver?>,
+        viewResolvers: ObjectProvider<ViewResolver>,
         serverCodecConfigurer: ServerCodecConfigurer,
-        applicationContext: ApplicationContext?
+        applicationContext: ApplicationContext
     ): ErrorWebExceptionHandler? {
-        serverProperties.error.includeMessage = ErrorProperties.IncludeAttribute.ALWAYS
+        // Spring Boot 4 moved the error settings from ServerProperties to WebProperties
+        webProperties.error.includeMessage = ErrorProperties.IncludeAttribute.ALWAYS
         val exceptionHandler = DefaultErrorWebExceptionHandler(
             errorAttributes,
             webProperties.resources,
-            serverProperties.error,
+            webProperties.error,
             applicationContext
         )
         exceptionHandler.setViewResolvers(viewResolvers.orderedStream().toList())

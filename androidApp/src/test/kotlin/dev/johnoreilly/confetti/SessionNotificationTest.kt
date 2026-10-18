@@ -15,9 +15,15 @@ import org.koin.core.context.GlobalContext.stopKoin
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.SQLiteMode
 
+// Legacy (Java) SQLite: this test runs the real ConfettiApplication, whose onCreate gets WorkManager,
+// which opens its SQLite database. Robolectric's native SQLite has crashed the test JVM on the Linux
+// CI runners (SIGSEGV in SQLiteConnectionNatives.nativeOpen after "Invalid ICU dat file path"), and
+// nothing here needs native SQLite.
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [30])
+@SQLiteMode(SQLiteMode.Mode.LEGACY)
 class SessionNotificationTest {
 
     @After

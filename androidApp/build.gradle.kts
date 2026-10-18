@@ -14,6 +14,7 @@ plugins {
     // AndroidScreenPreviews.kt and renders them for the published mobile catalog (see
     // catalog.mobile.spec.json + the design-artifacts workflow). Mirrors :wearApp.
     alias(libs.plugins.composeai.preview)
+    id("androidx.baselineprofile")
 }
 
 configureCompilerOptions()
@@ -123,18 +124,6 @@ android {
 
             matchingFallbacks += listOf("release")
         }
-//        create("benchmark") {
-//            isShrinkResources = true
-//            isMinifyEnabled = true
-//            signingConfig = signingConfigs.getByName("confetti")
-//            setProguardFiles(
-//                listOf(
-//                    getDefaultProguardFile("proguard-android-optimize.txt"),
-//                    "proguard-benchmark.pro"
-//                )
-//            )
-//            matchingFallbacks.addAll(listOf("release"))
-//        }
         getByName("debug") {
             signingConfig = signingConfigs.getByName("confetti")
         }
@@ -163,6 +152,7 @@ kotlin {
 }
 
 dependencies {
+    baselineProfile(project(":androidBenchmark"))
     implementation(enforcedPlatform(libs.compose.bom))
     implementation(platform(libs.coil.bom))
     implementation(platform(libs.coil3.bom))
@@ -226,4 +216,20 @@ dependencies {
     debugImplementation(libs.compose.ui.manifest)
 
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+}
+
+baselineProfile {
+    // Write the generated profile to src/main/generated/baselineProfiles so every build type uses it
+    mergeIntoMain = true
+}
+
+// The plugin's profiling builds copy release's signing config, whose keystore isn't checked in.
+// They're only installed on the generator's emulator, so sign them with the committed key.
+androidComponents {
+    onVariants(selector().withBuildType("nonMinifiedRelease")) {
+        it.signingConfig.setConfig(android.signingConfigs.getByName("confetti"))
+    }
+    onVariants(selector().withBuildType("benchmarkRelease")) {
+        it.signingConfig.setConfig(android.signingConfigs.getByName("confetti"))
+    }
 }

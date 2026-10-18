@@ -11,6 +11,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.plugin.kotlin)
     implementation(libs.plugin.android.application)
+    implementation(libs.plugin.androidx.baselineprofile)
     implementation(libs.plugin.apollo)
     implementation(libs.apollo.execution.gradle.plugin)
     implementation(libs.plugin.ksp)

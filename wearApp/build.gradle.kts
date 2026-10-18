@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.screenshot)
     alias(libs.plugins.composeai.preview)
+    id("androidx.baselineprofile")
 }
 
 configureCompilerOptions()
@@ -105,13 +106,6 @@ android {
             signingConfig = signingConfigs.getByName("release")
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
-//        create("benchmark") {
-//            isShrinkResources = true
-//            isMinifyEnabled = true
-//            signingConfig = signingConfigs.getByName("confetti")
-//            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-benchmark.pro"))
-//            matchingFallbacks.addAll(listOf("release"))
-//        }
         create("githubRelease") {
             isShrinkResources = true
             isMinifyEnabled = true
@@ -143,6 +137,7 @@ android {
 }
 
 dependencies {
+    baselineProfile(project(":wearBenchmark"))
     implementation(platform(libs.firebase.bom))
 }
 
@@ -268,4 +263,20 @@ tasks.register<ReadmeScreenshotTask>("readmeScreenshot") {
     selectedImages.from("snapshot/SessionsDetailsTest/sessionDetailsScreen[GenericLargeRound].png")
     selectedImages.from("snapshot/SpeakerDetailsTest/speakerDetailsScreen[GenericLargeRound].png")
     output.set(file("images/wearScreenshots.png"))
+}
+
+baselineProfile {
+    // Write the generated profile to src/main/generated/baselineProfiles so every build type uses it
+    mergeIntoMain = true
+}
+
+// The plugin's profiling builds copy release's signing config, whose keystore isn't checked in.
+// They're only installed on the generator's emulator, so sign them with the committed key.
+androidComponents {
+    onVariants(selector().withBuildType("nonMinifiedRelease")) {
+        it.signingConfig.setConfig(android.signingConfigs.getByName("confetti"))
+    }
+    onVariants(selector().withBuildType("benchmarkRelease")) {
+        it.signingConfig.setConfig(android.signingConfigs.getByName("confetti"))
+    }
 }

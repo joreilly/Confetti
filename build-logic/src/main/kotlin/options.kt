@@ -1,4 +1,4 @@
-import tapmoc.configureJavaCompatibility
+import com.gradleup.tapmoc.configureJavaCompatibility
 import org.gradle.api.Project
 
 fun Project.configureCompilerOptions(jvmVersion: Int = 17) {

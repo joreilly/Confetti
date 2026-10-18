@@ -1,4 +1,4 @@
-import tapmoc.configureJavaCompatibility
+import com.gradleup.tapmoc.configureJavaCompatibility
 
 plugins {
   kotlin("multiplatform")

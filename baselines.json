@@ -4,7 +4,7 @@
     "functionName": "SessionDetailsPreview",
     "module": "androidApp",
     "renderBasename": "SessionDetailsPreview-80cd2284.png",
-    "sha256": "23825e401774db589d60e53cf6b0cf7026cde964b837209fb2e0612cd9e758ae",
+    "sha256": "4995e55358a72cc3c339a5c3c0e0004a78ed58ec64f032a161b4a55ef2b4c332",
     "sourceFile": "src/screenshotTest/kotlin/ScreenshotTest.kt"
   },
   "androidApp/activity__MainActivity": {
@@ -900,7 +900,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Phone_small-d12fb411.png",
-    "sha256": "b483e7f84c805b8124ee2aff20cde170ea28d5c684a61bdef7c920f1a660b8b5",
+    "sha256": "8d8bca84fe27180cbbf277b3071ddb190ce14cf66c3c2b2bae450961345e8456",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Tablet landscape": {
@@ -908,7 +908,7 @@
     "functionName": "SessionListGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png",
-    "sha256": "7a3c2016838dae949803072262a9e7c2450b1196b30eeb6828f68979a6f80d3c",
+    "sha256": "8dc558dc0b86f5ae03fee4350c6c02444cf93305a7585d1104802bd1c976b291",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/sessions/SessionListGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadingPreview_Loading": {
@@ -988,7 +988,7 @@
     "functionName": "SpeakerItemViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerItemViewLoadedPreview_Phone_large-41821238.png",
-    "sha256": "45c6d65a4af156ffbe50093d0b5cf8c772f1bea7dd824841a0279658e405a09b",
+    "sha256": "e8be117f2d4a130bece2d56e921b891f8db64a2e3f642679ec1984d791107b4c",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakerItemView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakerItemViewKt.SpeakerItemViewLoadedPreview_Phone (small)": {
@@ -996,7 +996,7 @@
     "functionName": "SpeakerItemViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerItemViewLoadedPreview_Phone_small-787d4234.png",
-    "sha256": "3a40ba494f2885cf49c8071e9e2ae4a63a0decb06e050c273ead8554a0cd6051",
+    "sha256": "f1db22a96cc296c5e0a6c0a8a4ac95d625fd10668dc9d0a78bf3270c8393eb48",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakerItemView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakerItemViewKt.SpeakerItemViewLoadedPreview_Tablet landscape": {
@@ -1004,7 +1004,7 @@
     "functionName": "SpeakerItemViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerItemViewLoadedPreview_Tablet_landscape-1c180fbb.png",
-    "sha256": "cb01af5ad176e2c330c6cbaacc2d7478d23ce522377c20d97ef4e5e87e3e5dbe",
+    "sha256": "7afce02ef7c2d9cf409ed2654c2985f5f060bbb440c87591e1a6080c9b58dd8f",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakerItemView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakerItemViewKt.SpeakerItemViewNoTaglinePreview_No tagline": {
@@ -1012,7 +1012,7 @@
     "functionName": "SpeakerItemViewNoTaglinePreview",
     "module": "shared",
     "renderBasename": "SpeakerItemViewNoTaglinePreview_No_tagline-7844bc92.png",
-    "sha256": "32ce53df8c6aa4f1170e55a2603b28a183c3318ac69b182ab1c512781349ee5a",
+    "sha256": "e6d12d6281ff676bbe5362c7859536623b6179d8c951d20122848bb36a788cc8",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakerItemView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewAlternateSpeakerPreview_Different speaker": {
@@ -1020,7 +1020,7 @@
     "functionName": "SpeakerDetailsViewAlternateSpeakerPreview",
     "module": "shared",
     "renderBasename": "SpeakerDetailsViewAlternateSpeakerPreview_Different_speaker-5d06ad1a.png",
-    "sha256": "b72c9e3c6a04f8f4d87e8e96688e02d430892f9ad6f138be133b7642eda90f0a",
+    "sha256": "25943ad4b078be6204de3b27ec68f9d200efaf137a7e2ea392322a2196beeb10",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakersDetailsView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewLoadedPreview_Phone (large)": {
@@ -1028,7 +1028,7 @@
     "functionName": "SpeakerDetailsViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerDetailsViewLoadedPreview_Phone_large-89e6bac8.png",
-    "sha256": "b549a77e088c17988c00e04e7dedc6656f0a699d87ade9229aac0a02f2a54bb9",
+    "sha256": "f364ccae45af88fa46f92b9964e2c2c4c49b08eb1ceafba87b58086dfcfd353c",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakersDetailsView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewLoadedPreview_Phone (small)": {
@@ -1060,7 +1060,7 @@
     "functionName": "SpeakerGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerGridViewLoadedPreview_Phone_large-57300ee7.png",
-    "sha256": "f66d7202d022b6af0822a079ea9a478fbf9f77c75ec6133e95bbcad54c8323c8",
+    "sha256": "740e042daf7dfee8b8db4f76f49e3948d663c4bcc7a1b43b846aa53dd71c7191",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakersGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersGridViewKt.SpeakerGridViewLoadedPreview_Phone (small)": {
@@ -1068,7 +1068,7 @@
     "functionName": "SpeakerGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerGridViewLoadedPreview_Phone_small-2e44cd7b.png",
-    "sha256": "e6f2bcfeb9669faffe46d93cba499543ca9fbbd7b4021f59c133ef58d40bac15",
+    "sha256": "d0ecdda07505a7131ba8244005d6d09d41ce247959d0e112a78017fce80cfd27",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakersGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersGridViewKt.SpeakerGridViewLoadedPreview_Tablet landscape": {
@@ -1076,7 +1076,7 @@
     "functionName": "SpeakerGridViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerGridViewLoadedPreview_Tablet_landscape-c5e83e7b.png",
-    "sha256": "c33a3229e75e9e547ba63525c0b1c3e8a5ffc09522b829da80837d2bb800e547",
+    "sha256": "ca419d2cb671c2fc15de2797359c5d0f3f084f85b9f3fc6ff18ad18a64f737f7",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakersGridView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.venue.VenueViewKt.VenueViewLoadedPreview_Phone (large)": {

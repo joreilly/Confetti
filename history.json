@@ -1,10 +1,17 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "62e569738ae621dc214cb6db1dc0432b150533ca",
+    "generatedFrom": "d56f67495028907cc5ed7681999a0bd766d4047f",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
             "versions": [
+                {
+                    "blob": "d26e61773239ce4112fbf19150d9340390c21418",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "commits": 1
+                },
                 {
                     "blob": "2de873f72ecfe598c0c255e5d8686f9702377322",
                     "commit": "62e569738ae621dc214cb6db1dc0432b150533ca",
@@ -42,7 +49,7 @@
                     "occurrences": 8
                 }
             ],
-            "observations": 32,
+            "observations": 33,
             "unstable": true,
             "flapCount": 28
         },
@@ -2807,6 +2814,13 @@
             "path": "renders/shared/SessionListGridViewLoadedPreview_Phone_small-d12fb411.png",
             "versions": [
                 {
+                    "blob": "c6c5af9889d99afe8d39fab1c2327dcccab7ba59",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "commits": 1
+                },
+                {
                     "blob": "13a6f98d9010a43d76487a97895d1a7a1abb8431",
                     "commit": "a37f6af1a8592a694eb5156349a37d485ce0099b",
                     "date": "2026-10-18T15:10:47Z",
@@ -2850,13 +2864,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 20,
+            "observations": 21,
             "unstable": true,
             "flapCount": 15
         },
         "shared/dev.johnoreilly.confetti.ui.sessions.SessionListGridViewKt.SessionListGridViewLoadedPreview_Tablet landscape": {
             "path": "renders/shared/SessionListGridViewLoadedPreview_Tablet_landscape-2b469c0a.png",
             "versions": [
+                {
+                    "blob": "f64f67a93f3a4d0bc9f065ec637c3a21d7bd4eb5",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "commits": 1
+                },
                 {
                     "blob": "6e177e0a6d1a9491ea28af9946311b5b8e324bd1",
                     "commit": "a37f6af1a8592a694eb5156349a37d485ce0099b",
@@ -2901,7 +2922,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 20,
+            "observations": 21,
             "unstable": true,
             "flapCount": 15
         },
@@ -3065,6 +3086,15 @@
             "path": "renders/shared/SpeakerItemViewLoadedPreview_Phone_large-41821238.png",
             "versions": [
                 {
+                    "blob": "5f306dd4340ba455377787e902e5227fbbe939de",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "sinceCommit": "adec7b9e4a9872d6586d75f49458a94557891c9f",
+                    "commits": 6,
+                    "occurrences": 6
+                },
+                {
                     "blob": "ed298ec72635125acee557c95e2f16d65a01305b",
                     "commit": "a37f6af1a8592a694eb5156349a37d485ce0099b",
                     "date": "2026-10-18T15:10:47Z",
@@ -3072,24 +3102,24 @@
                     "sinceCommit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
                     "commits": 6,
                     "occurrences": 6
-                },
-                {
-                    "blob": "5f306dd4340ba455377787e902e5227fbbe939de",
-                    "commit": "34ec39735538811ce7acefb3936958673ebb1e21",
-                    "date": "2026-09-28T10:04:29Z",
-                    "sourceSha": "eab66bac",
-                    "sinceCommit": "adec7b9e4a9872d6586d75f49458a94557891c9f",
-                    "commits": 5,
-                    "occurrences": 5
                 }
             ],
-            "observations": 11,
+            "observations": 12,
             "unstable": true,
-            "flapCount": 9
+            "flapCount": 10
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakerItemViewKt.SpeakerItemViewLoadedPreview_Phone (small)": {
             "path": "renders/shared/SpeakerItemViewLoadedPreview_Phone_small-787d4234.png",
             "versions": [
+                {
+                    "blob": "406c0eb0926ff7bc34e46f6d3dab79494a4effc8",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "sinceCommit": "adec7b9e4a9872d6586d75f49458a94557891c9f",
+                    "commits": 6,
+                    "occurrences": 6
+                },
                 {
                     "blob": "a0983f382a80e7f80404540d4609d7617a8b3162",
                     "commit": "a37f6af1a8592a694eb5156349a37d485ce0099b",
@@ -3098,24 +3128,24 @@
                     "sinceCommit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
                     "commits": 6,
                     "occurrences": 6
-                },
-                {
-                    "blob": "406c0eb0926ff7bc34e46f6d3dab79494a4effc8",
-                    "commit": "34ec39735538811ce7acefb3936958673ebb1e21",
-                    "date": "2026-09-28T10:04:29Z",
-                    "sourceSha": "eab66bac",
-                    "sinceCommit": "adec7b9e4a9872d6586d75f49458a94557891c9f",
-                    "commits": 5,
-                    "occurrences": 5
                 }
             ],
-            "observations": 11,
+            "observations": 12,
             "unstable": true,
-            "flapCount": 9
+            "flapCount": 10
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakerItemViewKt.SpeakerItemViewLoadedPreview_Tablet landscape": {
             "path": "renders/shared/SpeakerItemViewLoadedPreview_Tablet_landscape-1c180fbb.png",
             "versions": [
+                {
+                    "blob": "053248b9924f109180b7958f465a71e47ff547a8",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "sinceCommit": "ce125486bad9113a37775fc2f860cf7f38fee2bd",
+                    "commits": 7,
+                    "occurrences": 7
+                },
                 {
                     "blob": "efc9e4674caa14f384dd4ab4daf0b29e9151c791",
                     "commit": "a37f6af1a8592a694eb5156349a37d485ce0099b",
@@ -3124,24 +3154,24 @@
                     "sinceCommit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
                     "commits": 7,
                     "occurrences": 7
-                },
-                {
-                    "blob": "053248b9924f109180b7958f465a71e47ff547a8",
-                    "commit": "34ec39735538811ce7acefb3936958673ebb1e21",
-                    "date": "2026-09-28T10:04:29Z",
-                    "sourceSha": "eab66bac",
-                    "sinceCommit": "ce125486bad9113a37775fc2f860cf7f38fee2bd",
-                    "commits": 6,
-                    "occurrences": 6
                 }
             ],
-            "observations": 13,
+            "observations": 14,
             "unstable": true,
-            "flapCount": 11
+            "flapCount": 12
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakerItemViewKt.SpeakerItemViewNoTaglinePreview_No tagline": {
             "path": "renders/shared/SpeakerItemViewNoTaglinePreview_No_tagline-7844bc92.png",
             "versions": [
+                {
+                    "blob": "4b342286d9fa7cff37ad797d847bd97e5bf087b6",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "sinceCommit": "ce125486bad9113a37775fc2f860cf7f38fee2bd",
+                    "commits": 6,
+                    "occurrences": 6
+                },
                 {
                     "blob": "a3ac949861999bf60e56ff43f64a48217612c004",
                     "commit": "a37f6af1a8592a694eb5156349a37d485ce0099b",
@@ -3150,24 +3180,22 @@
                     "sinceCommit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
                     "commits": 6,
                     "occurrences": 6
-                },
-                {
-                    "blob": "4b342286d9fa7cff37ad797d847bd97e5bf087b6",
-                    "commit": "34ec39735538811ce7acefb3936958673ebb1e21",
-                    "date": "2026-09-28T10:04:29Z",
-                    "sourceSha": "eab66bac",
-                    "sinceCommit": "ce125486bad9113a37775fc2f860cf7f38fee2bd",
-                    "commits": 5,
-                    "occurrences": 5
                 }
             ],
-            "observations": 11,
+            "observations": 12,
             "unstable": true,
-            "flapCount": 9
+            "flapCount": 10
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewAlternateSpeakerPreview_Different speaker": {
             "path": "renders/shared/SpeakerDetailsViewAlternateSpeakerPreview_Different_speaker-5d06ad1a.png",
             "versions": [
+                {
+                    "blob": "e5c490b6cb17ab2751d0dd6ed7a744729dbd8f72",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "commits": 1
+                },
                 {
                     "blob": "a5818ddc3804596e81ab7e0333d434af0a33f533",
                     "commit": "520091f3f44f553d7af6779975e8e82c086a1589",
@@ -3194,13 +3222,22 @@
                     "occurrences": 5
                 }
             ],
-            "observations": 12,
+            "observations": 13,
             "unstable": true,
             "flapCount": 9
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewLoadedPreview_Phone (large)": {
             "path": "renders/shared/SpeakerDetailsViewLoadedPreview_Phone_large-89e6bac8.png",
             "versions": [
+                {
+                    "blob": "cd3661d0fc2d1c97fe208d0f3d85db290c5c6617",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "sinceCommit": "ce125486bad9113a37775fc2f860cf7f38fee2bd",
+                    "commits": 6,
+                    "occurrences": 6
+                },
                 {
                     "blob": "0efe32be5800a2678f78167d66ff60eeefed6c37",
                     "commit": "a37f6af1a8592a694eb5156349a37d485ce0099b",
@@ -3209,20 +3246,11 @@
                     "sinceCommit": "da0ead5f95138918f36342e982c9aa1d0d8a238b",
                     "commits": 6,
                     "occurrences": 6
-                },
-                {
-                    "blob": "cd3661d0fc2d1c97fe208d0f3d85db290c5c6617",
-                    "commit": "34ec39735538811ce7acefb3936958673ebb1e21",
-                    "date": "2026-09-28T10:04:29Z",
-                    "sourceSha": "eab66bac",
-                    "sinceCommit": "ce125486bad9113a37775fc2f860cf7f38fee2bd",
-                    "commits": 5,
-                    "occurrences": 5
                 }
             ],
-            "observations": 11,
+            "observations": 12,
             "unstable": true,
-            "flapCount": 9
+            "flapCount": 10
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewLoadedPreview_Phone (small)": {
             "path": "renders/shared/SpeakerDetailsViewLoadedPreview_Phone_small-df73d484.png",
@@ -3295,6 +3323,13 @@
             "path": "renders/shared/SpeakerGridViewLoadedPreview_Phone_large-57300ee7.png",
             "versions": [
                 {
+                    "blob": "02507b98d7df60d463d74ba80c3faf5a05ceeebc",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "commits": 1
+                },
+                {
                     "blob": "f9b6c49b668d81bac848ff577bca1bb1557fcad6",
                     "commit": "520091f3f44f553d7af6779975e8e82c086a1589",
                     "date": "2026-10-04T17:49:10Z",
@@ -3332,13 +3367,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 8,
+            "observations": 9,
             "unstable": true,
             "flapCount": 3
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersGridViewKt.SpeakerGridViewLoadedPreview_Phone (small)": {
             "path": "renders/shared/SpeakerGridViewLoadedPreview_Phone_small-2e44cd7b.png",
             "versions": [
+                {
+                    "blob": "92856c31bb771867bd9f5f63235a1402a666960d",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "commits": 1
+                },
                 {
                     "blob": "25f81f044b3ba814174f917e0de3ca808287cdbd",
                     "commit": "520091f3f44f553d7af6779975e8e82c086a1589",
@@ -3372,13 +3414,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 8,
+            "observations": 9,
             "unstable": true,
             "flapCount": 4
         },
         "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersGridViewKt.SpeakerGridViewLoadedPreview_Tablet landscape": {
             "path": "renders/shared/SpeakerGridViewLoadedPreview_Tablet_landscape-c5e83e7b.png",
             "versions": [
+                {
+                    "blob": "925febb9de00ee45e93f5413d2134b8c04e9f09e",
+                    "commit": "d56f67495028907cc5ed7681999a0bd766d4047f",
+                    "date": "2026-10-19T07:27:46Z",
+                    "sourceSha": "82107191",
+                    "commits": 1
+                },
                 {
                     "blob": "969efe9d12d4acbe866b1c4ac4a60ab0976e9537",
                     "commit": "520091f3f44f553d7af6779975e8e82c086a1589",
@@ -3412,7 +3461,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 8,
+            "observations": 9,
             "unstable": true,
             "flapCount": 4
         },

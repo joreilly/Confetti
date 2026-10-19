@@ -50,7 +50,6 @@ resource "google_compute_url_map" "default" {
 
     path_rule {
       paths = [
-        "/graphiql",
         "/graphql",
         "/images/*"
       ]

@@ -7,7 +7,7 @@ The Confetti backend is composed of different components:
 * A KTor Import server in [service-import](service-import). This server updates the conference data when needed.
 * Conference data is stored in Google Datastore.
 * Bookmarks data is stored in Google Datastore.
-* The static landing page is served from Google Cloud Storage.
+* The static website is served from Google Cloud Storage.
 
 You can run the backend locally with the following task:
 

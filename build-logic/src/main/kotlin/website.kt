@@ -6,7 +6,7 @@ import com.google.cloud.storage.StorageOptions
 import java.io.ByteArrayInputStream
 import java.io.File
 
-fun uploadLandingPage(base: File, gcpServiceAccountJson: String) {
+fun uploadWebsite(base: File, gcpServiceAccountJson: String) {
     val storage: Storage = StorageOptions.newBuilder()
         .setCredentials(GoogleCredentials.fromStream(ByteArrayInputStream(gcpServiceAccountJson.encodeToByteArray())))
         .build()
@@ -14,7 +14,7 @@ fun uploadLandingPage(base: File, gcpServiceAccountJson: String) {
 
     val bucketName = "confetti-landing-page"
 
-    println("uploading landing page...")
+    println("uploading website...")
     base.walk().filter { it.isFile }
         .forEach { file ->
             file.inputStream().use {

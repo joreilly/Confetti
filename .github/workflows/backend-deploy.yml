@@ -7,7 +7,7 @@ on:
       - 'main'
     paths:
       - 'backend/**'
-      - 'landing-page/**'
+      - 'website/**'
       - 'build.gradle.kts'
       - 'settings.gradle.kts'
       - 'gradle/libs.versions.toml'
@@ -45,20 +45,20 @@ jobs:
 
     - uses: hashicorp/setup-terraform@v4
 
-    # Builds the landing page (see landing-page/package.json). pnpm's version comes from `packageManager`.
+    # pnpm's version comes from `packageManager`.
     - uses: pnpm/action-setup@v6
       with:
-        package_json_file: landing-page/package.json
+        package_json_file: website/package.json
 
     - uses: actions/setup-node@v7
       with:
-        node-version-file: landing-page/.node-version
+        node-version-file: website/.node-version
         cache: pnpm
-        cache-dependency-path: landing-page/pnpm-lock.yaml
+        cache-dependency-path: website/pnpm-lock.yaml
 
     - name: Build
       run: |
-        ./gradlew :setupCredentials uploadLandingPage
+        ./gradlew :setupCredentials uploadWebsite
         ./gradlew :backend:terraform:apply
         ./gradlew :backend:service-graphql:bumpCloudRunRevision
         ./gradlew :backend:service-import:bumpCloudRunRevision

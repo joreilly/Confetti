@@ -1,38 +1,35 @@
+@file:Suppress("UnstableApiUsage")
+
+// Generates :androidApp's baseline profile: ./gradlew :androidApp:generateBaselineProfile
 plugins {
-    kotlin("android")
     id("com.android.test")
+    id("androidx.baselineprofile")
 }
 
 android {
-    compileSdk = 35
+    namespace = "dev.johnoreilly.confetti.benchmark"
+    compileSdk = AndroidSdk.compile
 
     defaultConfig {
-        minSdk = 29
-        targetSdk = 35
+        minSdk = 28
+        targetSdk = AndroidSdk.target
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    compileOptions {
-        sourceCompatibility = org.gradle.api.JavaVersion.VERSION_17
-        targetCompatibility = org.gradle.api.JavaVersion.VERSION_17
-    }
+    targetProjectPath = ":androidApp"
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.majorVersion
-    }
-
-    buildTypes {
-        // declare a build type (release) to match the target app's build type
-        create("benchmark") {
-            isDebuggable = true
-            signingConfig = signingConfigs.getByName("debug")
+    testOptions.managedDevices.localDevices {
+        create("pixel6Api34") {
+            device = "Pixel 6"
+            apiLevel = 34
+            systemImageSource = "aosp"
         }
     }
+}
 
-    targetProjectPath(":androidApp")
-    experimentalProperties["android.experimental.self-instrumenting"] = true
-
-    namespace = "dev.johnoreilly.confetti.benchmark"
+baselineProfile {
+    managedDevices += "pixel6Api34"
+    useConnectedDevices = false
 }
 
 dependencies {
@@ -40,10 +37,4 @@ dependencies {
     implementation(libs.test.espressocore)
     implementation(libs.test.uiautomator)
     implementation(libs.androidx.benchmarkmacro)
-}
-
-androidComponents {
-    beforeVariants(selector().all()) { variant ->
-        variant.enable = variant.buildType == "benchmark"
-    }
 }

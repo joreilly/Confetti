@@ -211,6 +211,7 @@ okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-intercepto
 play-services-auth = "com.google.android.gms:play-services-auth:22.0.0"
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-application = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+plugin-androidx-baselineprofile = "androidx.benchmark:benchmark-baseline-profile-gradle-plugin:1.5.0"
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.8" }
 plugin-google-services = "com.google.gms:google-services:4.5.0"

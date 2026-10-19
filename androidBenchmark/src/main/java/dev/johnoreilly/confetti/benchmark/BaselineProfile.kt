@@ -3,14 +3,16 @@ package dev.johnoreilly.confetti.benchmark
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.filters.LargeTest
 import androidx.test.uiautomator.By
-import androidx.test.uiautomator.By.descContains
 import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
 import org.junit.Rule
 import org.junit.Test
+import java.util.regex.Pattern
 
+// Same journey as maestro/Confetti.flow: welcome screen -> conference list -> schedule.
+// Conferences come from the live backend, so pick the first one rather than a name that goes stale.
 @LargeTest
 class BaselineProfile {
     @get:Rule
@@ -24,20 +26,21 @@ class BaselineProfile {
             pressHome()
             startActivityAndWait()
 
-            val kotlinConf = device.findObject(descContains("KotlinConf 2023"))
+            // Only shown on first launch; later iterations go straight to the conference list
+            device.wait(Until.findObject(By.text("Skip")), 5_000)?.click()
 
-            if (kotlinConf != null) {
-                kotlinConf.click()
-                device.wait(Until.hasObject(descContains("Apr 13, 2023")), 5_000)
-            }
+            val conferenceList = device.wait(Until.findObject(By.scrollable(true)), 30_000)
+                ?: error("Conference list didn't load")
+            conferenceList.children.first().click()
 
-            val sessionList = device.findObject(By.scrollable(true))
+            // The schedule's day tabs, e.g. "20 May, 2026"
+            device.wait(Until.hasObject(By.text(Pattern.compile("\\d{2} \\w+, \\d{4}"))), 30_000)
 
-            device.downUp(sessionList)
+            device.wait(Until.findObject(By.scrollable(true)), 10_000)?.let { device.downUp(it) }
         }
     }
 
-    fun UiDevice.downUp(element: UiObject2) {
+    private fun UiDevice.downUp(element: UiObject2) {
         element.setGestureMargin(displayWidth / 4)
 
         element.fling(Direction.DOWN)

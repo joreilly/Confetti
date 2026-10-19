@@ -109,7 +109,7 @@ buildCache {
 }
 
 include(":androidApp")
-//include(":androidBenchmark")
+include(":androidBenchmark")
 //include(":automotiveApp")
 include(":common:car")
 include(":shared")
@@ -120,7 +120,7 @@ include(":backend:service-import")
 include(":backend:terraform")
 include(":landing-page")
 include(":wearApp")
-//include(":wearBenchmark")
+include(":wearBenchmark")
 include(":compose-desktop")
 include(":compose-web")
 include(":proto")

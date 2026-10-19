@@ -43,11 +43,11 @@ NON_IOS_PATHS = (
     "design/",
     "docs/",
     "fastlane/",
-    "landing-page/",
     "proto/",
     "tmp-previews/",
     "wearApp/",
     "wearBenchmark/",
+    "website/",
 )
 
 CATALOG_PATH = "gradle/libs.versions.toml"

@@ -17,8 +17,8 @@ name: Compose Preview
 # executing fork code, pushes the render branches, and posts sticky comments.
 
 # `paths-ignore` keeps the two 45-minute render jobs off changes that cannot
-# reach a Compose @Preview: the GraphQL/Ktor backend, the iOS app, the landing
-# page, and docs. Deliberately a denylist rather than an allowlist of UI paths
+# reach a Compose @Preview: the GraphQL/Ktor backend, the iOS app, the website,
+# and docs. Deliberately a denylist rather than an allowlist of UI paths
 # — previews render against shared Kotlin Multiplatform code and the version
 # catalog, so an allowlist would silently stop rendering the first time a
 # preview picked up a new transitive dependency. Note this does NOT cover
@@ -34,7 +34,7 @@ on:
     paths-ignore:
       - 'backend/**'
       - 'iosApp/**'
-      - 'landing-page/**'
+      - 'website/**'
       - 'docs/**'
       - '**.md'
   pull_request:
@@ -42,7 +42,7 @@ on:
     paths-ignore:
       - 'backend/**'
       - 'iosApp/**'
-      - 'landing-page/**'
+      - 'website/**'
       - 'docs/**'
       - '**.md'
   workflow_dispatch:

@@ -30,7 +30,16 @@ private fun File.contentType() : String{
     return when (this.extension) {
         "html", "htm" -> "text/html"
         "css" -> "text/css"
+        // Browsers refuse to run module scripts and workers served with a non-JavaScript type.
+        "js", "mjs" -> "text/javascript"
         "json" -> "application/json"
+        "svg" -> "image/svg+xml"
+        "png" -> "image/png"
+        "ttf" -> "font/ttf"
+        "otf" -> "font/otf"
+        "woff" -> "font/woff"
+        "woff2" -> "font/woff2"
+        "eot" -> "application/vnd.ms-fontobject"
         else -> "application/octet-stream"
     }
 }

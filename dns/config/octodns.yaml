@@ -1,0 +1,21 @@
+---
+providers:
+  # Source of truth: the hand-edited YAML files in ./zones
+  config:
+    class: octodns.provider.yaml.YamlProvider
+    directory: ./zones
+    default_ttl: 3600
+    enforce_order: false
+
+  # Target: the live Porkbun DNS records for the zones below
+  porkbun:
+    class: octodns_porkbun.PorkbunProvider
+    api_key: env/PORKBUN_API_KEY
+    secret_key: env/PORKBUN_SECRET_KEY
+
+zones:
+  confetti-app.dev.:
+    sources:
+      - config
+    targets:
+      - porkbun

@@ -1,0 +1,18 @@
+---
+# PLACEHOLDER: seeded from public DNS lookups only. Replace with the output of
+# `octodns-dump` (see dns/README.md) before merging, or records missing here
+# (e.g. Mailgun DKIM) will be deleted from Porkbun on the next apply.
+'':
+  - type: A
+    value: 34.120.192.247
+  - type: MX
+    values:
+      - exchange: mxa.mailgun.org.
+        preference: 10
+      - exchange: mxb.mailgun.org.
+        preference: 10
+  - type: TXT
+    value: v=spf1 include:mailgun.org ~all
+wasm:
+  type: A
+  value: 34.120.192.247

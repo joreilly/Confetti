@@ -1,0 +1,37 @@
+name: DNS Apply
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dns/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dns-apply
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    environment: dns
+    defaults:
+      run:
+        working-directory: dns
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - run: pip install -r requirements.txt
+
+      - name: octoDNS apply
+        env:
+          PORKBUN_API_KEY: ${{ secrets.PORKBUN_API_KEY }}
+          PORKBUN_SECRET_KEY: ${{ secrets.PORKBUN_SECRET_KEY }}
+        run: octodns-sync --config-file=config/octodns.yaml --doit

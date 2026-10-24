@@ -1,0 +1,77 @@
+name: DNS Plan
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "dns/**"
+      - ".github/workflows/dns-*.yml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: dns-plan-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    # Fork PRs get neither the Porkbun secrets nor a write token to comment, so skip them.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      PORKBUN_API_KEY: ${{ secrets.PORKBUN_API_KEY }}
+      PORKBUN_SECRET_KEY: ${{ secrets.PORKBUN_SECRET_KEY }}
+    defaults:
+      run:
+        working-directory: dns
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - run: pip install -r requirements.txt
+
+      - name: octoDNS validate
+        run: octodns-validate --config-file=config/octodns.yaml
+
+      - name: octoDNS plan (dry run)
+        run: |
+          set -o pipefail
+          octodns-sync --config-file=config/octodns.yaml 2>&1 | tee plan.txt
+
+      - name: Comment plan on PR
+        if: always()
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const plan = fs.existsSync('dns/plan.txt')
+              ? fs.readFileSync('dns/plan.txt', 'utf8').slice(-60000)
+              : 'No plan produced, see the workflow logs.';
+            const marker = '<!-- dns-plan -->';
+            const body = `${marker}\n### DNS Plan\n\n\`\`\`\n${plan}\n\`\`\``;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c => c.body?.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }

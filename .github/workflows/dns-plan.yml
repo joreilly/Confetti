@@ -20,6 +20,9 @@ jobs:
     # Fork PRs get neither the Porkbun secrets nor a write token to comment, so skip them.
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    env:
+      PORKBUN_API_KEY: ${{ secrets.PORKBUN_API_KEY }}
+      PORKBUN_SECRET_KEY: ${{ secrets.PORKBUN_SECRET_KEY }}
     defaults:
       run:
         working-directory: dns
@@ -36,9 +39,6 @@ jobs:
         run: octodns-validate --config-file=config/octodns.yaml
 
       - name: octoDNS plan (dry run)
-        env:
-          PORKBUN_API_KEY: ${{ secrets.PORKBUN_API_KEY }}
-          PORKBUN_SECRET_KEY: ${{ secrets.PORKBUN_SECRET_KEY }}
         run: |
           set -o pipefail
           octodns-sync --config-file=config/octodns.yaml 2>&1 | tee plan.txt

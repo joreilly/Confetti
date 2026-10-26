@@ -54,7 +54,7 @@ work-runtime-ktx = "2.12.0"
 spring = "4.1.1"
 generativeai = "0.9.0-1.1.0"
 buildkonfig = "0.23.0"
-roborazzi = "1.76.0"
+roborazzi = "1.77.0"
 screenshot = "0.0.1-alpha16"
 # The plugin and the annotation library are versioned independently upstream (plugin 2.x,
 # annotations 3.x), so they need separate keys: a shared key made Renovate point the plugin

@@ -1,0 +1,175 @@
+{
+  "$schema": "https://github.com/yschimke/design-parity/schema/dtcg-tokens.schema.json",
+  "color": {
+    "primary": {
+      "$type": "color",
+      "$value": "#e9ddffff"
+    },
+    "primaryDim": {
+      "$type": "color",
+      "$value": "#d0bcffff"
+    },
+    "primaryContainer": {
+      "$type": "color",
+      "$value": "#4d3d76ff"
+    },
+    "onPrimary": {
+      "$type": "color",
+      "$value": "#210f48ff"
+    },
+    "onPrimaryContainer": {
+      "$type": "color",
+      "$value": "#f6edffff"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "#dee0ffff"
+    },
+    "secondaryDim": {
+      "$type": "color",
+      "$value": "#bac3ffff"
+    },
+    "secondaryContainer": {
+      "$type": "color",
+      "$value": "#3a4376ff"
+    },
+    "onSecondary": {
+      "$type": "color",
+      "$value": "#0c1649ff"
+    },
+    "onSecondaryContainer": {
+      "$type": "color",
+      "$value": "#f0efffff"
+    },
+    "tertiary": {
+      "$type": "color",
+      "$value": "#ffdcc2ff"
+    },
+    "tertiaryContainer": {
+      "$type": "color",
+      "$value": "#6c3a03ff"
+    },
+    "onTertiary": {
+      "$type": "color",
+      "$value": "#2e1500ff"
+    },
+    "onTertiaryContainer": {
+      "$type": "color",
+      "$value": "#ffeee2ff"
+    },
+    "background": {
+      "$type": "color",
+      "$value": "#000000ff"
+    },
+    "onBackground": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "surfaceContainerLow": {
+      "$type": "color",
+      "$value": "#272430ff"
+    },
+    "surfaceContainer": {
+      "$type": "color",
+      "$value": "#332e3cff"
+    },
+    "surfaceContainerHigh": {
+      "$type": "color",
+      "$value": "#494453ff"
+    },
+    "onSurface": {
+      "$type": "color",
+      "$value": "#f6edffff"
+    },
+    "onSurfaceVariant": {
+      "$type": "color",
+      "$value": "#cac4d0ff"
+    },
+    "outline": {
+      "$type": "color",
+      "$value": "#948f9aff"
+    },
+    "outlineVariant": {
+      "$type": "color",
+      "$value": "#615d67ff"
+    },
+    "error": {
+      "$type": "color",
+      "$value": "#f2b8b5ff"
+    },
+    "errorContainer": {
+      "$type": "color",
+      "$value": "#8c1d18ff"
+    },
+    "onError": {
+      "$type": "color",
+      "$value": "#410e0bff"
+    },
+    "onErrorContainer": {
+      "$type": "color",
+      "$value": "#fceeeeff"
+    }
+  },
+  "type": {
+    "displaySmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Roboto Flex",
+        "fontSize": 24,
+        "fontWeight": 550,
+        "letterSpacing": 0.2,
+        "lineHeight": 26
+      }
+    },
+    "titleLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Roboto Flex",
+        "fontSize": 18,
+        "fontWeight": 500,
+        "letterSpacing": 0.2,
+        "lineHeight": 20
+      }
+    },
+    "titleMedium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Roboto Flex",
+        "fontSize": 16,
+        "fontWeight": 550,
+        "letterSpacing": 0.4,
+        "lineHeight": 18
+      }
+    },
+    "bodyLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Inter",
+        "fontSize": 16,
+        "fontWeight": 450,
+        "letterSpacing": 0.4,
+        "lineHeight": 18
+      }
+    },
+    "bodyMedium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Inter",
+        "fontSize": 14,
+        "fontWeight": 450,
+        "letterSpacing": 0.4,
+        "lineHeight": 16
+      }
+    },
+    "labelSmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontListFontFamily(fonts=[Font(GoogleFont(\"Inter",
+        "fontSize": 13,
+        "fontWeight": 500,
+        "letterSpacing": 0.4,
+        "lineHeight": 16
+      }
+    }
+  }
+}

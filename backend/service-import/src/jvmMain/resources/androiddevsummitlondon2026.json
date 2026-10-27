@@ -1,0 +1,210 @@
+{
+  "speakers": [
+    { "id": "ataul-munim", "name": "Ataul Munim", "tagline": "Manager Developer Relations Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/ataulmunim.jpg" },
+    { "id": "alejandra-stamato", "name": "Alejandra Stamato", "tagline": "Lead Android Developer", "company": "HubSpot", "photoUrl": "https://services.google.com/fh/files/events/alejandra_stamato.jpg" },
+    { "id": "martin-pelant", "name": "Martin Pelant", "tagline": "Software Engineer", "company": "Meta", "photoUrl": "https://services.google.com/fh/files/events/martin_pelant.jpeg" },
+    { "id": "subhag-bhatia", "name": "Subhag Bhatia", "tagline": "Software Engineer", "company": "Meta", "photoUrl": "https://services.google.com/fh/files/events/subhag_bhatia.jpg" },
+    { "id": "frank-deschenes", "name": "Frank Deschênes", "tagline": "Product Manager", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/francoisdeschenes.jpg" },
+    { "id": "yuri-schimke", "name": "Yuri Schimke", "tagline": "Software Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/misc/yuri_schimke.jpg" },
+    { "id": "arnaud-giuliani", "name": "Arnaud Giuliani", "tagline": "CPTO & Co-founder", "company": "Kotzilla", "photoUrl": "https://services.google.com/fh/files/misc/arnaud_giuliani.jpg" },
+    { "id": "ash-davies", "name": "Ash Davies", "tagline": "Senior Android Developer", "company": null, "photoUrl": "https://services.google.com/fh/files/events/ash_davies.jpg" },
+    { "id": "anton-beloglazov", "name": "Anton Beloglazov", "tagline": "Software Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/misc/anton_beloglazov.jpg" },
+    { "id": "nick-butcher", "name": "Nick Butcher", "tagline": "Product Manager", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/nick_butcher.png" },
+    { "id": "nicole-terc", "name": "Nicole Terc", "tagline": "Senior Software Engineer", "company": "HubSpot", "photoUrl": "https://services.google.com/fh/files/misc/nicole_terc1.jpg" },
+    { "id": "fung-lam", "name": "Fung Lam", "tagline": "Developer Relations Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/funglam.jpg" },
+    { "id": "chiping-yeh", "name": "Chiping Yeh", "tagline": "Developer Relations Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/chiping_yeh.jpg" },
+    { "id": "tom-colvin", "name": "Tom Colvin", "tagline": "CTO", "company": "Apptaura", "photoUrl": "https://services.google.com/fh/files/events/tom_colvin.jpg" },
+    { "id": "iury-souza", "name": "Iury Souza", "tagline": "Senior Engineer", "company": null, "photoUrl": "https://services.google.com/fh/files/misc/iurysouza.png" },
+    { "id": "maia-grotepass", "name": "Maia Grotepass", "tagline": "Staff Engineer Android", "company": "Qonto", "photoUrl": "https://services.google.com/fh/files/misc/maia_grotepass1.jpg" },
+    { "id": "slobodan-manojlovic", "name": "Slobodan Manojlović", "tagline": "VP/Lead Software Engineer", "company": "JPMorgan Chase", "photoUrl": "https://services.google.com/fh/files/misc/slobodan_manojlovic.jpg" },
+    { "id": "tristan-hamilton", "name": "Tristan Hamilton", "tagline": "Technical Lead", "company": "HubSpot", "photoUrl": "https://services.google.com/fh/files/misc/tristanhamilton.jpeg" },
+    { "id": "jose-alcerreca", "name": "Jose Alcérreca", "tagline": "Developer Relations Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/misc/jose_alcerreca.png" },
+    { "id": "christos-gkekas", "name": "Christos Gkekas", "tagline": "Software Engineer, Search Platforms", "company": "Google", "photoUrl": "https://services.google.com/fh/files/misc/christosgkekas.png" },
+    { "id": "ed-holloway-george", "name": "Ed Holloway-George", "tagline": "Mobile Tech Lead", "company": "Kraken", "photoUrl": "https://services.google.com/fh/files/misc/edholloway_george.png" },
+    { "id": "zhijian-zhao", "name": "Zhijian Zhao", "tagline": "Staff software engineer", "company": "JD.com", "photoUrl": "https://services.google.com/fh/files/misc/image_zijianzhao.jpg" },
+    { "id": "grant-kemp", "name": "Grant Kemp", "tagline": "Developer Relations Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/misc/grantkemp1.jpg" },
+    { "id": "ian-ballantyne", "name": "Ian Ballantyne", "tagline": "Technical Member of Staff", "company": "Google DeepMind", "photoUrl": "https://services.google.com/fh/files/events/ian_ballantyne.png" },
+    { "id": "zoe-lopez-latorre", "name": "Zoe Lopez-Latorre", "tagline": "Developer Relations Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/misc/zoelopez.jpg" },
+    { "id": "mario-bodemann", "name": "Mario Bodemann", "tagline": "Senior Developer Advocate", "company": "Yubico", "photoUrl": "https://services.google.com/fh/files/misc/mariobodemann.jpg" },
+    { "id": "hanrui-gao", "name": "Hanrui Gao", "tagline": "Developer Relations Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/hanrui_gao.jpg" },
+    { "id": "nataraj-k-r", "name": "Nataraj K R", "tagline": "Developer Relations Engineer, Android", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/natarajkr.jpeg" },
+    { "id": "yacine-rezgui", "name": "Yacine Rezgui", "tagline": "Developer Relations Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/yacine_rezgui.jpg" },
+    { "id": "alexandru-dumbravan", "name": "Alexandru Dumbravan", "tagline": "Senior Lead Engineer", "company": null, "photoUrl": "https://services.google.com/fh/files/misc/alexandrudumbravan.jpg" },
+    { "id": "alastair-breeze", "name": "Alastair Breeze", "tagline": "Staff Software Engineer", "company": "Google Cloud", "photoUrl": "https://services.google.com/fh/files/events/alastair_breeze.png" },
+    { "id": "oli-thompson", "name": "Oli Thompson", "tagline": "Junior Data Scientist", "company": "Formula E", "photoUrl": "https://services.google.com/fh/files/events/oli_thompson.jpeg" },
+    { "id": "andrei-shikov", "name": "Andrei Shikov", "tagline": "Software Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/andrei_shikov.jpg" },
+    { "id": "andrew-bailey", "name": "Andrew Bailey", "tagline": "Software Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/andrew_bailey.jpg" },
+    { "id": "egor-yusov", "name": "Egor Yusov", "tagline": "Software Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/misc/egor_yusov.jpg" },
+    { "id": "jay-abi-saad", "name": "Jay Abi-Saad", "tagline": "Software Engineer", "company": "Google", "photoUrl": "https://services.google.com/fh/files/events/jay_abi_aaad.jpg" }
+  ],
+  "sessions": [
+    {
+      "start": "09:00", "end": "10:00", "room": "6 Pancras Square", "type": "service",
+      "title": "Registration + breakfast",
+      "description": "We are looking forward to welcoming you at Android Dev Summit Extended. Please arrive at the Google 6PS office in King's Cross for badge collection in the lobby. There will be breakfast served in the event space.",
+      "speakers": []
+    },
+    {
+      "start": "10:00", "end": "10:15", "room": "Major Tom", "type": "talk",
+      "title": "Welcome",
+      "description": "A quick welcome to Android Dev Summit Extended, in London.",
+      "speakers": ["ataul-munim"]
+    },
+    {
+      "start": "10:15", "end": "10:35", "room": "Aladdin Sane", "type": "talk",
+      "title": "A rocky journey to targetSDK 36",
+      "description": "We knew it was coming, but it still began with an ominous Play Console warning: update to targetSdk 36 before the deadline. The upgrade sounded straightforward... until it wasn’t. In this session, I’ll share the challenges we encountered, assumptions that proved wrong, and what we learned along the way. It’s an honest, practical look at a major migration, including our mistakes and the lessons that could save other teams time and trouble.",
+      "speakers": ["alejandra-stamato"]
+    },
+    {
+      "start": "10:15", "end": "10:35", "room": "Major Tom", "type": "talk",
+      "title": "Lessons from WhatsApp's Wear OS journey",
+      "description": "Hear directly from WhatsApp engineers on how they upgraded their Wear OS app at scale. This session covers the architectural and UX decisions behind integrating Material 3 and adopting Wear Widgets. Gain direct insight into the lessons, patterns and tools the team used to update their app and deliver a cohesive user experience.",
+      "speakers": ["martin-pelant", "subhag-bhatia"]
+    },
+    {
+      "start": "10:35", "end": "10:55", "room": "Major Tom", "type": "talk",
+      "title": "Evolving Tiles to Wear Widgets using Jetpack Glance and Remote Compose",
+      "description": "In this session, we will take a technical deep dive into the evolution from full-screen Tiles to dynamic, partial-height Wear Widgets. We will explore the technical benefits of the unified Jetpack Glance API and the new Remote Compose engine, detailing how they seamlessly align with Modern Android Development. Finally, we will share the latest UX guidance and walk through practical migration strategies to help you build the next generation of glanceable UI.",
+      "speakers": ["frank-deschenes", "yuri-schimke"]
+    },
+    {
+      "start": "10:35", "end": "10:55", "room": "Aladdin Sane", "type": "talk",
+      "title": "Koin & the Kotlin compiler",
+      "description": "Koin is taking its biggest leap in 8 years: embracing the Kotlin Compiler. This talk shows what happens when your favorite DI framework moves the heavy lifting to compile time. From an automated DSL and precomputed dependency indexes to real compile-time safety guarantees. Same simplicity, new superpowers.",
+      "speakers": ["arnaud-giuliani"]
+    },
+    {
+      "start": "10:55", "end": "11:25", "room": "Aladdin Sane", "type": "talk",
+      "title": "The state of navigation in Kotlin Multiplatform",
+      "description": "While navigation across mobile, desktop, and web remains a core architectural challenge, the launch of Jetpack Navigation Multiplatform disrupted the ecosystem, challenging established community favourites like Decompose and Voyager. We’ll evaluate the current reality of multiplatform navigation, and you’ll leave with a clear framework to choose the tool that fits your codebase with the least amount of architectural regret.",
+      "speakers": ["ash-davies"]
+    },
+    {
+      "start": "10:55", "end": "11:25", "room": "Major Tom", "type": "talk",
+      "title": "Let agents generate UI in your Android apps with A2UI",
+      "description": "A2UI is transitioning from web-centric components to native Android. The new Jetpack Compose renderer for A2UI v0.9 enables developers to render dynamic, LLM-generated UI natively. Instead of webviews, it leverages a Coroutine-driven actor framework, sealed-class lifecycles, and native Material 3 integration.\n\nThis session walks through the new architecture, explaining how server-driven component trees translate into reactive Compose nodes, and how built-in layout transitions handle structural updates smoothly without blocking the UI.",
+      "speakers": ["anton-beloglazov", "nick-butcher"]
+    },
+    {
+      "start": "11:25", "end": "11:50", "room": "6 Pancras Square", "type": "service",
+      "title": "Morning coffee break",
+      "description": "Grab some refreshments and meet with Android experts for Q&A, alongside the chance to network with other developers.",
+      "speakers": []
+    },
+    {
+      "start": "11:50", "end": "12:30", "room": "Aladdin Sane", "type": "talk",
+      "title": "Community in the agentic era",
+      "description": "The way we write code, search for information, and learn new technologies is changing. As more of these tasks become automated, what keeps developer communities relevant? This talk explores what community means in the agentic era. If these tools change how we learn, who creates the next best practices? If knowledge becomes a commodity, what makes a community valuable? And if Android was built by its community, what role will that community play in shaping what's next?",
+      "speakers": ["nicole-terc"]
+    },
+    {
+      "start": "11:50", "end": "12:30", "room": "Major Tom", "type": "talk",
+      "title": "Actionable strategies for reducing your app's Bitmap memory footprint",
+      "description": "Managing Bitmap memory is critical for mitigating Out-Of-Memory (OOM) risks in visually rich Android apps. While developers know to reduce image sizes, achieving long-term app stability comes from mastering two other key pillars: Reuse and Recycle. This session delivers a practical playbook for optimizing memory performance using modern tools, open-source libraries like Glide and Coil, and system-level APIs.\n\nIn this session, you will learn how to diagnose real-world memory regressions using Android Vitals, implement advanced caching (Reuse) patterns with Glide and Coil, and proactively release memory (Recycle) using the onTrimMemory callback.",
+      "speakers": ["fung-lam"]
+    },
+    {
+      "start": "12:30", "end": "13:00", "room": "Major Tom", "type": "talk",
+      "title": "Delivering seamless sign in and digital credentials on Android",
+      "description": "As the industry moves away from passwords and physical wallets, delivering a modern user journey demands both seamless authentication and trusted identity verification. While passkeys establish secure one tap logins, switching devices remains one of the largest drop off points in user engagement. Learn how to reduce migration friction using the Restore Credentials API to meet the new Google Play Zero Tap Sign In standard.\n\nThis session explores how a single integration with Android Credential Manager unifies passkeys, silent device restoration, and Digital Credentials, allowing you to verify identity attributes directly from the device and build an effortless, secure onboarding flow.",
+      "speakers": ["chiping-yeh", "tom-colvin"]
+    },
+    {
+      "start": "12:30", "end": "13:00", "room": "Aladdin Sane", "type": "talk",
+      "title": "Agentic developer productivity",
+      "description": "As new tools rapidly reshape modern software engineering, this panel will explore how companies and developers are leveraging agentic coding, automated agents, and specialized developer tooling in their daily workflows.\n\nWe aim to highlight practical applications, discuss measurable productivity improvements, and candidly address the challenges engineering teams face when integrating these tools at scale.",
+      "speakers": ["iury-souza", "maia-grotepass", "slobodan-manojlovic", "tristan-hamilton", "jose-alcerreca", "arnaud-giuliani", "christos-gkekas"]
+    },
+    {
+      "start": "13:00", "end": "14:00", "room": "6 Pancras Square", "type": "service",
+      "title": "Lunch",
+      "description": "Join us for lunch, meet experts for Q&A and network with other developers.",
+      "speakers": []
+    },
+    {
+      "start": "14:00", "end": "14:40", "room": "Aladdin Sane", "type": "talk",
+      "title": "The Android developer career path",
+      "description": "This moderated panel brings together senior Android leaders in industry to share how agentic and intelligent tools are changing the Android developer career path. They offer real-world, on-the-ground insights about what they're seeing in their teams and amongst their peers in the community. The second half of the session will be dedicated to audience Q&A, inviting folks to share any techniques that have worked well within their teams. You'll leave with a clearer picture of how to adapt your skills and guide your teams.",
+      "speakers": ["alejandra-stamato", "ed-holloway-george", "zhijian-zhao", "nicole-terc", "ash-davies", "grant-kemp"]
+    },
+    {
+      "start": "14:00", "end": "14:40", "room": "Major Tom", "type": "talk",
+      "title": "Agentic coding workflows with small models",
+      "description": "While large frontier models dominate the headlines, small language models (SLMs) like Gemma 4 offer low-latency, cost-effective, and fully offline intelligence to augment daily developer workflows.\n\nThis talk explores practical patterns for integrating small models into Android development, from smart task routing to cost optimization, using Gemma 4 as our primary hands-on case study to demonstrate real-world use cases and how to configure developer tools and agentic workflows.",
+      "speakers": ["jose-alcerreca", "ian-ballantyne", "zoe-lopez-latorre"]
+    },
+    {
+      "start": "14:40", "end": "14:55", "room": "Aladdin Sane", "type": "talk",
+      "title": "The state of post quantum cryptography on Android",
+      "description": "Are we in a pre post-quantum cryptography (PQC) timeline? I'll survey the current state of post-quantum cryptography on Android to see what you need to do to become quantum-safe before your cryptography gets cracked.",
+      "speakers": ["mario-bodemann"]
+    },
+    {
+      "start": "14:40", "end": "15:15", "room": "Major Tom", "type": "talk",
+      "title": "Enabling seamless cross-device interactions",
+      "description": "As users move between phones, wearables, and audio peripherals, delivering fluid cross-device experiences has become essential for engagement. However, relying on standard networking approaches often leads to battery drain, latency spikes, and fragmented user sessions.\n\nThis deep dive introduces specialized Android APIs built for multi-device communication, offering memory- and power-efficient patterns to keep transitions between devices instant, reliable, and intuitive.",
+      "speakers": ["hanrui-gao", "nataraj-k-r", "yacine-rezgui"]
+    },
+    {
+      "start": "14:55", "end": "15:10", "room": "Aladdin Sane", "type": "talk",
+      "title": "Fun docs: Scraping Android projects for visual docs",
+      "description": "Static documentation is often outdated the moment it is written. Instead of manually mapping out legacy features or drawing diagrams that will be ignored next month, we can generate visual documentation directly from our codebase. This talk walks through how to build an automated scraper for an Android project, including how to extract structured data from Composable functions, ViewModels, and Repositories to automatically map UI screens and their associated REST API calls.",
+      "speakers": ["alexandru-dumbravan"]
+    },
+    {
+      "start": "15:15", "end": "15:30", "room": "Major Tom", "type": "talk",
+      "title": "Building a Formula E co-driver on Android with ML Kit and Gemini Nano",
+      "description": "A racing car is a demanding environment of high speed, heat, and telemetry constraints. How can an on-device agent help process real-time vehicle data for sports and engineering applications?\n\nThis technical session explores an experimental hybrid architecture combining edge hardware and cloud agents. We'll walk through a research proof-of-concept using a Raspberry Pi to stream CAN bus telemetry, a Pixel phone running an on-device conversational agent powered by ML Kit and Gemini Nano, and an agent-to-agent (A2A) Cloud connection for post-race workflows.",
+      "speakers": ["alastair-breeze", "oli-thompson"]
+    },
+    {
+      "start": "15:15", "end": "15:30", "room": "Aladdin Sane", "type": "talk",
+      "title": "Converting an Android app to Multiplatform with Antigravity",
+      "description": "Take a medium sized Android app and convert it to a multiplatform app using Antigravity. What preparation steps help the process? What steps work well? What extra setup is needed for the non-Android platforms.",
+      "speakers": ["maia-grotepass"]
+    },
+    {
+      "start": "15:30", "end": "15:50", "room": "6 Pancras Square", "type": "service",
+      "title": "Afternoon coffee break",
+      "description": "Grab some refreshments, meet experts for Q&A and network with other developers.",
+      "speakers": []
+    },
+    {
+      "start": "15:50", "end": "16:20", "room": "Aladdin Sane", "type": "talk",
+      "title": "Optimizing Android apps for 100M+ users",
+      "description": "Performance optimization becomes a very different problem once an Android app grows to millions of users, hundreds of features, and a large engineering organization. At that scale, optimizing a few slow methods or fixing individual memory issues is no longer enough — performance needs to be treated as an engineering system. I’ll share practical lessons from working on large-scale mobile applications, including Lark and TikTok.",
+      "speakers": ["zhijian-zhao"]
+    },
+    {
+      "start": "15:50", "end": "16:25", "room": "Major Tom", "type": "talk",
+      "title": "Outperform yourself in Compose",
+      "description": "Jetpack Compose makes it easy to design high-quality user interfaces, but it can be difficult to track down issues that affect UI performance. These kinds of issues can lead to problems that your users notice, like startup latency, and dropped frames that appear as scroll jank or choppy animations.\n\nIn this talk, we’ll introduce tools to uncover what’s impacting your UI’s performance, focusing on Perfetto and (re-)composition tracing. We’ll then explore specific anti-patterns you may be using that are secretly costing you, how you can find them in your code, and what positive patterns you can replace them with. By the end of this talk, you’ll understand how to think in Compose with a performance mindset, and how to profile, analyze, and verify performance optimizations in your app.",
+      "speakers": ["andrei-shikov", "andrew-bailey"]
+    },
+    {
+      "start": "16:25", "end": "16:40", "room": "6 Pancras Square", "type": "talk",
+      "title": "Moving beyond 2D with custom 3D geometry in the Jetpack XR SDK",
+      "description": "Transitioning your Android applications from traditional 2D screens into spatial environments requires a new approach to constructing shapes.\n\nIn this session, we will explore the Custom Mesh API in the Jetpack XR SDK, which allows you to programmatically generate procedural 3D geometry directly at runtime. We will walk through the core workflow, from defining vertex layouts to rendering dynamic objects seamlessly within the user's physical space.\n\nBy the end of this talk, you will have the practical skills to build interactive, custom 3D geometry completely from code.",
+      "speakers": ["egor-yusov", "jay-abi-saad"]
+    },
+    {
+      "start": "16:40", "end": "17:00", "room": "6 Pancras Square", "type": "service",
+      "title": "Refreshments and get seated for the keynote",
+      "description": "Grab some refreshments and get ready for the keynote livestream from Android Dev Summit in the U.S.",
+      "speakers": []
+    },
+    {
+      "start": "17:00", "end": "18:00", "room": "6 Pancras Square", "type": "talk",
+      "title": "Keynote livestream",
+      "description": "Tune in to the keynote livestream from Android Dev Summit U.S. event.",
+      "speakers": []
+    },
+    {
+      "start": "18:00", "end": "19:00", "room": "6 Pancras Square", "type": "service",
+      "title": "Happy hour and networking",
+      "description": "Stay for happy hour! Meet with product teams building Android and connect with professional developers.",
+      "speakers": []
+    }
+  ]
+}

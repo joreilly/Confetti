@@ -13,7 +13,7 @@ dependencies {
     implementation(libs.plugin.android.application)
     implementation(libs.plugin.androidx.baselineprofile)
     implementation(libs.plugin.apollo)
-    implementation(libs.apollo.execution.gradle.plugin)
+    implementation(libs.galak.gradle.plugin)
     implementation(libs.plugin.ksp)
     implementation(libs.plugin.kotlin.serialization)
     implementation(libs.plugin.kotlin.spring)

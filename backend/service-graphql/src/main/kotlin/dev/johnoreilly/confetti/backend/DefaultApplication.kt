@@ -26,6 +26,9 @@ import org.springframework.boot.autoconfigure.web.ErrorProperties
 import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.runApplication
+import org.springframework.boot.web.server.ConfigurableWebServerFactory
+import org.springframework.boot.web.server.Http2
+import org.springframework.boot.web.server.WebServerFactoryCustomizer
 import org.springframework.boot.webflux.autoconfigure.error.DefaultErrorWebExceptionHandler
 import org.springframework.boot.webflux.error.ErrorAttributes
 import org.springframework.boot.webflux.error.ErrorWebExceptionHandler
@@ -98,6 +101,19 @@ class DefaultApplication {
         }
         chain.filter(exchange)
     }
+
+    /**
+     * Without SSL, Reactor Netty then serves both HTTP/1.1 and h2c (cleartext HTTP/2) on the same port.
+     *
+     * Cloud Run talks h2c to the container (see the "h2c" port in backend/terraform/main.tf). This is
+     * an attempt to get QUERY requests through: over HTTP/1.1, Cloud Run's proxy resets them with
+     * "reset reason: protocol error".
+     */
+    @Bean
+    fun http2Customizer(): WebServerFactoryCustomizer<ConfigurableWebServerFactory> =
+        WebServerFactoryCustomizer { factory ->
+            factory.setHttp2(Http2().apply { isEnabled = true })
+        }
 
     @Bean
     fun errorWebExceptionHandler(

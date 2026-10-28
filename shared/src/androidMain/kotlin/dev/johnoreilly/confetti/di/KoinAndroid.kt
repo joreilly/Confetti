@@ -33,13 +33,18 @@ import ai.koog.embeddings.base.Embedder
 import ai.koog.http.client.ktor.KtorKoogHttpClient
 import ai.koog.prompt.executor.clients.google.GoogleLLMClient
 import ai.koog.prompt.executor.clients.google.GoogleModels
+import ai.koog.prompt.executor.llms.MultiLLMPromptExecutor
 import ai.koog.prompt.executor.llms.all.simpleGoogleAIExecutor
 import ai.koog.prompt.executor.model.PromptExecutor
+import ai.koog.prompt.llm.LLMCapability
 import ai.koog.prompt.llm.LLModel
 import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.agent.ApiEmbedder
 import dev.johnoreilly.confetti.agent.EmbeddingCache
 import dev.johnoreilly.confetti.agent.LiteRtEmbedder
+import dev.johnoreilly.confetti.agent.litert.LiteRTClientConfig
+import dev.johnoreilly.confetti.agent.litert.LiteRTLLMClient
+import dev.johnoreilly.confetti.agent.litert.LiteRTLLMProvider
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
@@ -53,6 +58,7 @@ import dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.work.SessionAlarmRescheduleWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import java.io.File
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import okhttp3.Call
@@ -173,11 +179,43 @@ actual fun platformModule() = module {
         }
     }
 
-    single<LLModel> { GoogleModels.Gemini2_5Flash }
+    // On-device Gemma 4 (Tensor G5 NPU) when its model file has been pushed, otherwise Gemini.
+    single<LLModel> {
+        if (localGemmaModelFile(androidContext()) != null) LocalGemma4E2BTensorG5 else GoogleModels.Gemini2_5Flash
+    }
     single<PromptExecutor> {
-        simpleGoogleAIExecutor(BuildKonfig.GEMINI_API_KEY, KtorKoogHttpClient.Factory())
+        val context = androidContext()
+        val gemmaFile = localGemmaModelFile(context)
+        if (gemmaFile != null) {
+            MultiLLMPromptExecutor(
+                LiteRTLLMClient(
+                    LiteRTClientConfig(
+                        defaultModel = LocalGemma4E2BTensorG5,
+                        modelsPath = gemmaFile.parent,
+                        cacheDir = context.cacheDir.absolutePath,
+                        backend = Backend.NPU(nativeLibraryDir = context.applicationInfo.nativeLibraryDir),
+                    )
+                )
+            )
+        } else {
+            simpleGoogleAIExecutor(BuildKonfig.GEMINI_API_KEY, KtorKoogHttpClient.Factory())
+        }
     }
 }
+
+private val LocalGemma4E2BTensorG5 = LLModel(
+    provider = LiteRTLLMProvider,
+    id = "gemma-4-E2B-it_Google_Tensor_G5.litertlm",
+    capabilities = listOf(LLMCapability.Tools, LLMCapability.Completion),
+    // The NPU build is compiled with a fixed 4K context (the CPU/GPU builds support 32K).
+    contextLength = 4_096,
+    maxOutputTokens = 1_024,
+)
+
+private fun localGemmaModelFile(context: Context): File? =
+    context.getExternalFilesDir(null)
+        ?.resolve(LocalGemma4E2BTensorG5.id)
+        ?.takeIf { it.exists() && Build.VERSION.SDK_INT >= 31 && Build.SOC_MODEL == "Tensor G5" }
 
 val Context.settingsStore by preferencesDataStore("settings")
 

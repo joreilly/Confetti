@@ -63,7 +63,7 @@ composeai-preview = "2.68.2"
 composeai-preview-annotations = "3.17.1"
 koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
-litertlm = "0.18.0"
+litertlm = "0.18.1"
 litertNpu = "2.3.0"
 
 

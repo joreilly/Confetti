@@ -1,0 +1,4 @@
+minimumReleaseAgeExclude:
+  - '@graphiql/react@1.0.0-rc.4'
+  - '@graphiql/toolkit@1.0.0-rc.1'
+  - graphiql@6.0.0-rc.3

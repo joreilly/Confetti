@@ -22,12 +22,7 @@ pluginManagement {
             }
             mavenCentral()
             gradlePluginPortal()
-            exclusiveContent {
-                forRepository { it.maven("https://storage.googleapis.com/apollo-snapshots/m2") }
-                filter {
-                    includeVersionByRegex("com.apollographql.execution", ".*", ".*SNAPSHOT.*")
-                }
-            }
+//            maven("https://galak.mbonnin.net/.m2/snapshots/")
         }
     }
 }

@@ -6,10 +6,6 @@ import com.apollographql.apollo.api.ExecutionContext
 import com.apollographql.apollo.execution.ExecutableSchema
 import com.apollographql.apollo.execution.GraphQLResponse
 import com.apollographql.apollo.execution.InMemoryPersistedDocumentCache
-import com.apollographql.execution.reporting.ApolloReportingInstrumentation
-import com.apollographql.execution.reporting.ApolloReportingOperationContext
-import com.apollographql.execution.spring.apolloSandboxRoutes
-import com.apollographql.execution.spring.parseAsGraphQLRequest
 import com.example.ServiceExecutableSchemaBuilder
 import com.google.firebase.auth.FirebaseAuthException
 import dev.johnoreilly.confetti.backend.datastore.ConferenceId
@@ -18,14 +14,19 @@ import dev.johnoreilly.confetti.backend.graphql.DataStoreDataSource
 import dev.johnoreilly.confetti.backend.graphql.TestDataSource
 import dev.johnoreilly.confetti.backend.resize.AvatarFetcher
 import dev.johnoreilly.confetti.backend.resize.AvatarSize
+import galak.apollo.reporting.ApolloReportingInstrumentation
+import galak.apollo.reporting.ApolloReportingOperationContext
+import galak.spring.OnRequestResult
+import galak.spring.apolloSandboxRoutes
+import galak.spring.galakRoutes
 import okio.Buffer
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.web.ErrorProperties
 import org.springframework.boot.autoconfigure.web.WebProperties
-import org.springframework.boot.webflux.autoconfigure.error.DefaultErrorWebExceptionHandler
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.runApplication
+import org.springframework.boot.webflux.autoconfigure.error.DefaultErrorWebExceptionHandler
 import org.springframework.boot.webflux.error.ErrorAttributes
 import org.springframework.boot.webflux.error.ErrorWebExceptionHandler
 import org.springframework.context.ApplicationContext
@@ -35,7 +36,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
 import org.springframework.http.client.reactive.JdkClientHttpConnector
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
@@ -43,7 +43,10 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.server.*
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.bodyValueAndAwait
+import org.springframework.web.reactive.function.server.coRouter
+import org.springframework.web.reactive.function.server.queryParamOrNull
 import org.springframework.web.reactive.result.view.ViewResolver
 import org.springframework.web.server.WebFilter
 import reactor.core.publisher.Mono
@@ -141,6 +144,7 @@ class DefaultApplication {
     fun executableSchema(): ExecutableSchema {
         return ServiceExecutableSchemaBuilder()
             .persistedDocumentCache(InMemoryPersistedDocumentCache())
+            .exposeServiceCapabilities(false)
             .apply {
                 val apolloKey = System.getenv("APOLLO_KEY")
                 if (apolloKey != null) {
@@ -166,63 +170,63 @@ class DefaultApplication {
             )
         }
 
-        (POST("/graphql") or GET("/graphql")).invoke { serverRequest ->
-            var conference = serverRequest.queryParam("conference").getOrNull()
-            if (conference == null) {
-                conference = serverRequest.headers().firstHeader("conference")
-            }
-            if (conference == null) {
-                conference = ConferenceId.KotlinConf2023.id
-            }
-
-            val uid = try {
-                serverRequest.headers().firstHeader("authorization")
-                    ?.substring("Bearer ".length)
-                    ?.firebaseUid()
-            } catch (e: FirebaseAuthException) {
-                return@invoke status(401).bodyValueAndAwait(e.message ?: "FirebaseAuthException")
-            }
-
-            if (ConferenceId.entries.find { it.id == conference } == null && conference != "all") {
-                throw BadConferenceException(conference)
-            }
-            val source = when (conference) {
-                ConferenceId.TestConference.id -> TestDataSource()
-                else -> DataStoreDataSource(conference, uid)
-            }
-
-            val maxAge = when (conference) {
-                "test" -> 0L
-                else -> 1800L
-            }
-            val maxAgeContext = MaxAgeContext(maxAge)
-
-            val executionContext = UidContext(uid) +
-                SourceContext(source) +
-                ConferenceContext(conference) +
-                maxAgeContext +
-                ApolloReportingOperationContext(
-                    serverRequest.headers().header("apollographql-client-name").firstOrNull(),
-                    serverRequest.headers().header("apollographql-client-version").firstOrNull(),
-                )
-
-            val graphqlRequestResult = serverRequest.parseAsGraphQLRequest()
-            if (!graphqlRequestResult.isSuccess) {
-                return@invoke badRequest().buildAndAwait()
-            }
-            val graphQLResponse = executableSchema.execute(graphqlRequestResult.getOrThrow(), executionContext)
-
-            return@invoke ok().contentType(MediaType.parseMediaType("application/graphql-response+json"))
-                .apply {
-                    if (maxAgeContext.maxAge == 0L || !graphQLResponse.canBeCached()) {
-                        header("Cache-Control", "no-store")
-                    } else {
-                        header("Cache-Control", "public, max-age=$maxAge")
-                    }
-                    header("Vary", "conference")
+        galakRoutes(
+            executableSchema = executableSchema,
+            onRequest = { serverRequest ->
+                var conference = serverRequest.queryParam("conference").getOrNull()
+                if (conference == null) {
+                    conference = serverRequest.headers().firstHeader("conference")
                 }
-                .bodyValueAndAwait(graphQLResponse.toByteArray())
-        }
+                if (conference == null) {
+                    conference = ConferenceId.KotlinConf2023.id
+                }
+
+                val uid = try {
+                    serverRequest.headers().firstHeader("authorization")
+                        ?.substring("Bearer ".length)
+                        ?.firebaseUid()
+                } catch (e: FirebaseAuthException) {
+                    return@galakRoutes OnRequestResult.Error(
+                        status = 401,
+                        message = e.message ?: "FirebaseAuthException"
+                    )
+                }
+
+                if (ConferenceId.entries.find { it.id == conference } == null && conference != "all") {
+                    throw BadConferenceException(conference)
+                }
+                val source = when (conference) {
+                    ConferenceId.TestConference.id -> TestDataSource()
+                    else -> DataStoreDataSource(conference, uid)
+                }
+
+                val maxAge = when (conference) {
+                    "test" -> 0L
+                    else -> 1800L
+                }
+                val maxAgeContext = MaxAgeContext(maxAge)
+
+                OnRequestResult.Proceed(
+                    UidContext(uid) +
+                        SourceContext(source) +
+                        ConferenceContext(conference) +
+                        maxAgeContext +
+                        ApolloReportingOperationContext(
+                            serverRequest.headers().header("apollographql-client-name").firstOrNull(),
+                            serverRequest.headers().header("apollographql-client-version").firstOrNull(),
+                        )
+                )
+            },
+            onResponse = { graphqlResponse, executionContext ->
+                val maxAgeContext = executionContext[MaxAgeContext]!!
+
+                if (maxAgeContext.maxAge == 0L || !graphqlResponse.canBeCached()) {
+                    header("Cache-Control", "no-store")
+                } else {
+                    header("Cache-Control", "public, max-age=${maxAgeContext.maxAge}")
+                }
+                header("Vary", "conference")
+            })
 
         apolloSandboxRoutes("Confetti playground")
     }

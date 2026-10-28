@@ -5,7 +5,7 @@ kotlinx-coroutines = "1.11.0"
 kotlinx-datetime = "0.8.0-0.6.x-compat"
 kotlinx-serialization = "1.11.0"
 ktor = "3.6.0"
-apollo-kotlin-execution = "0.1.2"
+galak = "0.0.0"
 tapmoc = "0.5.0"
 
 # 9.1.x is the newest AGP the current Android Studio release supports
@@ -103,9 +103,10 @@ apollo-normalized-cache-in-memory = { module = "com.apollographql.cache:normaliz
 apollo-normalized-cache-sqlite = { module = "com.apollographql.cache:normalized-cache-sqlite", version.ref = "apollo-cache" }
 apollo-normalized-cache-compiler-plugin = { module = "com.apollographql.cache:normalized-cache-apollo-compiler-plugin", version.ref = "apollo-cache" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime" }
-apollo-execution-spring = { module = "com.apollographql.execution:apollo-execution-spring", version.ref = "apollo-kotlin-execution" }
-apollo-execution-reporting = { module = "com.apollographql.execution:apollo-execution-reporting", version.ref = "apollo-kotlin-execution" }
-apollo-execution-gradle-plugin = { module = "com.apollographql.execution:apollo-execution-gradle-plugin", version.ref = "apollo-kotlin-execution" }
+apollo-execution = { module = "com.apollographql.apollo:apollo-execution", version.ref = "apollo" }
+galak-spring = { module = "net.mbonnin.galak:galak-spring", version.ref = "galak" }
+galak-apollo-reporting = { module = "net.mbonnin.galak:galak-apollo-reporting", version.ref = "galak" }
+galak-gradle-plugin = { module = "net.mbonnin.galak:galak-gradle-plugin", version.ref = "galak" }
 permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "permissions" }
 permissions-notifications = { module = "dev.icerock.moko:permissions-notifications", version.ref = "permissions" }
 permissions = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }

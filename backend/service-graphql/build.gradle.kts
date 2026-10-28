@@ -8,7 +8,7 @@ plugins {
   id("org.jetbrains.kotlin.plugin.serialization")
   id("org.springframework.boot")
   id("com.google.devtools.ksp")
-  id("com.apollographql.execution")
+  id("net.mbonnin.galak")
 }
 
 configureJavaCompatibility(17)
@@ -20,8 +20,9 @@ dependencies {
   implementation(platform(libs.spring.boot.bom))
 
   implementation(libs.spring.boot.starter.webflux)
-  implementation(libs.apollo.execution.spring)
-  implementation(libs.apollo.execution.reporting)
+  implementation(libs.galak.spring)
+  implementation(libs.apollo.execution)
+  implementation(libs.galak.apollo.reporting)
   implementation(libs.kotlinx.datetime)
   implementation(libs.kotlinx.serialization)
   implementation(libs.bare.graphQL)
@@ -48,7 +49,7 @@ springBoot {
   mainClass.set("dev.johnoreilly.confetti.backend.MainKt")
 }
 
-apolloExecution {
+galak {
   service("service") {
     schemaFile.set(file("../../shared/src/commonMain/graphql/schema.graphqls"))
   }

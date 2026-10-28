@@ -2,7 +2,7 @@
   "name": "confetti-website",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@12.14.0",
+  "packageManager": "pnpm@12.16.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

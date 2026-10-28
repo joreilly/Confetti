@@ -179,21 +179,22 @@ actual fun platformModule() = module {
         }
     }
 
-    // On-device Gemma 4 (Tensor G5 NPU) when its model file has been pushed, otherwise Gemini.
+    // On-device Gemma 4 when a model file has been pushed (E4B on CPU, else E2B on the
+    // Tensor G5 NPU), otherwise Gemini.
     single<LLModel> {
-        if (localGemmaModelFile(androidContext()) != null) LocalGemma4E2BTensorG5 else GoogleModels.Gemini2_5Flash
+        localGemma(androidContext())?.model ?: GoogleModels.Gemini2_5Flash
     }
     single<PromptExecutor> {
         val context = androidContext()
-        val gemmaFile = localGemmaModelFile(context)
-        if (gemmaFile != null) {
+        val gemma = localGemma(context)
+        if (gemma != null) {
             MultiLLMPromptExecutor(
                 LiteRTLLMClient(
                     LiteRTClientConfig(
-                        defaultModel = LocalGemma4E2BTensorG5,
-                        modelsPath = gemmaFile.parent,
+                        defaultModel = gemma.model,
+                        modelsPath = gemma.file.parent,
                         cacheDir = context.cacheDir.absolutePath,
-                        backend = Backend.NPU(nativeLibraryDir = context.applicationInfo.nativeLibraryDir),
+                        backend = gemma.backend,
                     )
                 )
             )
@@ -202,6 +203,15 @@ actual fun platformModule() = module {
         }
     }
 }
+
+private val LocalGemma4E4B = LLModel(
+    provider = LiteRTLLMProvider,
+    id = "gemma-4-E4B-it.litertlm",
+    capabilities = listOf(LLMCapability.Tools, LLMCapability.Completion),
+    // The CPU build supports 32K; 16K keeps the KV cache's memory use down.
+    contextLength = 16_384,
+    maxOutputTokens = 1_024,
+)
 
 private val LocalGemma4E2BTensorG5 = LLModel(
     provider = LiteRTLLMProvider,
@@ -212,10 +222,24 @@ private val LocalGemma4E2BTensorG5 = LLModel(
     maxOutputTokens = 1_024,
 )
 
-private fun localGemmaModelFile(context: Context): File? =
-    context.getExternalFilesDir(null)
-        ?.resolve(LocalGemma4E2BTensorG5.id)
-        ?.takeIf { it.exists() && Build.VERSION.SDK_INT >= 31 && Build.SOC_MODEL == "Tensor G5" }
+private class LocalGemma(val model: LLModel, val file: File, val backend: Backend)
+
+private fun localGemma(context: Context): LocalGemma? {
+    val filesDir = context.getExternalFilesDir(null) ?: return null
+    filesDir.resolve(LocalGemma4E4B.id).takeIf { it.exists() }?.let {
+        return LocalGemma(LocalGemma4E4B, it, Backend.CPU())
+    }
+    filesDir.resolve(LocalGemma4E2BTensorG5.id)
+        .takeIf { it.exists() && Build.VERSION.SDK_INT >= 31 && Build.SOC_MODEL == "Tensor G5" }
+        ?.let {
+            return LocalGemma(
+                LocalGemma4E2BTensorG5,
+                it,
+                Backend.NPU(nativeLibraryDir = context.applicationInfo.nativeLibraryDir),
+            )
+        }
+    return null
+}
 
 val Context.settingsStore by preferencesDataStore("settings")
 

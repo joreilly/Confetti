@@ -8,6 +8,7 @@ import ai.koog.agents.core.tools.ToolDescriptor
 import ai.koog.prompt.Prompt
 import ai.koog.prompt.llm.LLModel
 import ai.koog.prompt.message.Message
+import com.google.ai.edge.litertlm.Backend
 import com.google.ai.edge.litertlm.Contents
 import com.google.ai.edge.litertlm.Conversation
 import com.google.ai.edge.litertlm.ConversationConfig
@@ -74,6 +75,9 @@ internal class LiteRTLLMSession(private val config: LiteRTClientConfig) {
         val newEngineConfig = EngineConfig(
             modelPath = modelPath,
             backend = config.backend,
+            // NPU builds are compiled with a fixed context; CPU/GPU builds otherwise use the
+            // model file's (smaller) default, so size the KV cache to the model's context length.
+            maxNumTokens = model.contextLength?.toInt()?.takeIf { config.backend !is Backend.NPU },
             cacheDir = config.cacheDir,
         )
 

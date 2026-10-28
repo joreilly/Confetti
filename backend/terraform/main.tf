@@ -306,6 +306,11 @@ resource "google_cloud_run_v2_service" "graphql" {
   template {
     containers {
       image = "us-west1-docker.pkg.dev/confetti-349319/graphql-images/graphql"
+      # End-to-end HTTP/2, see DefaultApplication.http2Customizer() in backend/service-graphql
+      ports {
+        name           = "h2c"
+        container_port = 8080
+      }
       resources {
         cpu_idle = true
         startup_cpu_boost = true

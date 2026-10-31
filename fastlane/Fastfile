@@ -160,6 +160,22 @@ platform :android do
     end
 
 
+    desc "Promote Wear OS app from internal to production in Play Store"
+    lane :promoteWearAppToProd do |options|
+
+        supply(
+            package_name: "dev.johnoreilly.confetti",
+            track: "wear:internal",
+            track_promote_to: "wear:production",
+            skip_upload_apk: true,
+            skip_upload_metadata: true,
+            skip_upload_images: true,
+            skip_upload_screenshots: true,
+            skip_upload_changelogs: true
+        )
+    end
+
+
   # You can define as many lanes as you want
 
   after_all do |lane|

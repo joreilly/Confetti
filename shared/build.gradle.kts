@@ -161,6 +161,8 @@ kotlin {
                 api(libs.okio)
                 implementation(libs.horologist.datalayer)
                 implementation(libs.coil.svg)
+                implementation(libs.litertlm.android)
+                implementation(libs.litert.npu.runtime.google.tensor)
 
                 implementation(libs.firebase.analytics)
                 implementation(libs.compose.navigation)

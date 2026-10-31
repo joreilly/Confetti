@@ -15,6 +15,7 @@ import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import com.apollographql.apollo.ApolloClient
+import com.google.ai.edge.litertlm.Backend
 import com.apollographql.apollo.network.http.ApolloClientAwarenessInterceptor
 import com.apollographql.apollo.network.http.DefaultHttpEngine
 import com.apollographql.apollo.network.ws.DefaultWebSocketEngine
@@ -32,12 +33,18 @@ import ai.koog.embeddings.base.Embedder
 import ai.koog.http.client.ktor.KtorKoogHttpClient
 import ai.koog.prompt.executor.clients.google.GoogleLLMClient
 import ai.koog.prompt.executor.clients.google.GoogleModels
+import ai.koog.prompt.executor.llms.MultiLLMPromptExecutor
 import ai.koog.prompt.executor.llms.all.simpleGoogleAIExecutor
 import ai.koog.prompt.executor.model.PromptExecutor
+import ai.koog.prompt.llm.LLMCapability
 import ai.koog.prompt.llm.LLModel
 import dev.johnoreilly.confetti.BuildKonfig
 import dev.johnoreilly.confetti.agent.ApiEmbedder
 import dev.johnoreilly.confetti.agent.EmbeddingCache
+import dev.johnoreilly.confetti.agent.LiteRtEmbedder
+import dev.johnoreilly.confetti.agent.litert.LiteRTClientConfig
+import dev.johnoreilly.confetti.agent.litert.LiteRTLLMClient
+import dev.johnoreilly.confetti.agent.litert.LiteRTLLMProvider
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.analytics.AndroidLoggingAnalyticsLogger
 import dev.johnoreilly.confetti.analytics.FirebaseAnalyticsLogger
@@ -51,6 +58,7 @@ import dev.johnoreilly.confetti.work.SessionNotificationSender
 import dev.johnoreilly.confetti.work.SessionAlarmRescheduleWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import java.io.File
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import okhttp3.Call
@@ -138,26 +146,99 @@ actual fun platformModule() = module {
     single<ApplicationInfo> { getApplicationInfo(get()) }
 
     single<EmbeddingCache> {
+        // Vectors from different models aren't comparable, so each model gets its own cache.
+        val dir = (get<Embedder>() as? LiteRtEmbedder)
+            ?.let { "confetti-embeddings-${it.modelFile.nameWithoutExtension}" }
+            ?: "confetti-embeddings"
         EmbeddingCache(
             fs = FileSystem.SYSTEM,
-            root = "${androidContext().cacheDir.absolutePath}/confetti-embeddings".toPath(),
+            root = "${androidContext().cacheDir.absolutePath}/$dir".toPath(),
         )
     }
 
     single<Embedder> {
-        ApiEmbedder(
-            provider = GoogleLLMClient(
-                apiKey = BuildKonfig.GEMINI_API_KEY,
-                httpClientFactory = KtorKoogHttpClient.Factory(),
-            ),
-            model = GoogleModels.Embeddings.GeminiEmbedding001,
-        )
+        val filesDir = androidContext().getExternalFilesDir(null)
+        val tensorModel = filesDir?.resolve(LiteRtEmbedder.TENSOR_G5_MODEL_FILE_NAME)
+        val cpuModel = filesDir?.resolve(LiteRtEmbedder.MODEL_FILE_NAME)
+        if (tensorModel?.exists() == true && Build.VERSION.SDK_INT >= 31 && Build.SOC_MODEL == "Tensor G5") {
+            LiteRtEmbedder(
+                modelFile = tensorModel,
+                backend = Backend.NPU(nativeLibraryDir = androidContext().applicationInfo.nativeLibraryDir),
+                cacheDir = androidContext().cacheDir,
+            )
+        } else if (cpuModel?.exists() == true) {
+            LiteRtEmbedder(cpuModel, Backend.CPU(), androidContext().cacheDir)
+        } else {
+            ApiEmbedder(
+                provider = GoogleLLMClient(
+                    apiKey = BuildKonfig.GEMINI_API_KEY,
+                    httpClientFactory = KtorKoogHttpClient.Factory(),
+                ),
+                model = GoogleModels.Embeddings.GeminiEmbedding001,
+            )
+        }
     }
 
-    single<LLModel> { GoogleModels.Gemini2_5Flash }
-    single<PromptExecutor> {
-        simpleGoogleAIExecutor(BuildKonfig.GEMINI_API_KEY, KtorKoogHttpClient.Factory())
+    // On-device Gemma 4 when a model file has been pushed (E4B on CPU, else E2B on the
+    // Tensor G5 NPU), otherwise Gemini.
+    single<LLModel> {
+        localGemma(androidContext())?.model ?: GoogleModels.Gemini2_5Flash
     }
+    single<PromptExecutor> {
+        val context = androidContext()
+        val gemma = localGemma(context)
+        if (gemma != null) {
+            MultiLLMPromptExecutor(
+                LiteRTLLMClient(
+                    LiteRTClientConfig(
+                        defaultModel = gemma.model,
+                        modelsPath = gemma.file.parent,
+                        cacheDir = context.cacheDir.absolutePath,
+                        backend = gemma.backend,
+                    )
+                )
+            )
+        } else {
+            simpleGoogleAIExecutor(BuildKonfig.GEMINI_API_KEY, KtorKoogHttpClient.Factory())
+        }
+    }
+}
+
+private val LocalGemma4E4B = LLModel(
+    provider = LiteRTLLMProvider,
+    id = "gemma-4-E4B-it.litertlm",
+    capabilities = listOf(LLMCapability.Tools, LLMCapability.Completion),
+    // The CPU build supports 32K; 16K keeps the KV cache's memory use down.
+    contextLength = 16_384,
+    maxOutputTokens = 1_024,
+)
+
+private val LocalGemma4E2BTensorG5 = LLModel(
+    provider = LiteRTLLMProvider,
+    id = "gemma-4-E2B-it_Google_Tensor_G5.litertlm",
+    capabilities = listOf(LLMCapability.Tools, LLMCapability.Completion),
+    // The NPU build is compiled with a fixed 4K context (the CPU/GPU builds support 32K).
+    contextLength = 4_096,
+    maxOutputTokens = 1_024,
+)
+
+private class LocalGemma(val model: LLModel, val file: File, val backend: Backend)
+
+private fun localGemma(context: Context): LocalGemma? {
+    val filesDir = context.getExternalFilesDir(null) ?: return null
+    filesDir.resolve(LocalGemma4E4B.id).takeIf { it.exists() }?.let {
+        return LocalGemma(LocalGemma4E4B, it, Backend.CPU())
+    }
+    filesDir.resolve(LocalGemma4E2BTensorG5.id)
+        .takeIf { it.exists() && Build.VERSION.SDK_INT >= 31 && Build.SOC_MODEL == "Tensor G5" }
+        ?.let {
+            return LocalGemma(
+                LocalGemma4E2BTensorG5,
+                it,
+                Backend.NPU(nativeLibraryDir = context.applicationInfo.nativeLibraryDir),
+            )
+        }
+    return null
 }
 
 val Context.settingsStore by preferencesDataStore("settings")

@@ -3,6 +3,7 @@ package dev.johnoreilly.confetti.functions
 import androidx.annotation.RequiresApi
 import androidx.appfunctions.AppFunctionDeclaration
 import androidx.appfunctions.AppFunctionElementNotFoundException
+import androidx.appfunctions.AppFunctionPermissionRequiredException
 import androidx.appfunctions.AppFunctionSerializable
 import androidx.appfunctions.AppFunctionService
 import androidx.appfunctions.AppFunctionServiceEntryPoint
@@ -10,6 +11,7 @@ import com.apollographql.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
 import dev.johnoreilly.confetti.auth.Authentication
+import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,7 +35,8 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
     private val authentication: Authentication by inject()
 
     /**
-     * Bookmarks a session in the currently selected conference.
+     * Bookmarks a session in the currently selected conference. Requires the user to be
+     * signed in to Confetti.
      *
      * @param sessionId ID of the session to bookmark, as returned in [SessionResponse.id].
      * @return true if the bookmark was saved.
@@ -41,12 +44,13 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun addBookmark(sessionId: String): Boolean = withContext(Dispatchers.IO) {
         val conference = requireConference()
-        val user = authentication.currentUser.value
+        val user = requireSignedInUser()
         repository.addBookmark(conference, user?.uid, user, sessionId)
     }
 
     /**
-     * Removes the bookmark from a session in the currently selected conference.
+     * Removes the bookmark from a session in the currently selected conference. Requires the
+     * user to be signed in to Confetti.
      *
      * @param sessionId ID of the session to un-bookmark, as returned in [SessionResponse.id].
      * @return true if the bookmark was removed.
@@ -54,7 +58,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun removeBookmark(sessionId: String): Boolean = withContext(Dispatchers.IO) {
         val conference = requireConference()
-        val user = authentication.currentUser.value
+        val user = requireSignedInUser()
         repository.removeBookmark(conference, user?.uid, user, sessionId)
     }
 
@@ -87,6 +91,13 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
                 "No conference is selected. Open Confetti and choose a conference first."
             )
         }
+
+    // Bookmarks are stored per signed-in user; like the app UI, refuse rather than report a
+    // bookmark that was never saved.
+    private fun requireSignedInUser(): User =
+        authentication.currentUser.value ?: throw AppFunctionPermissionRequiredException(
+            "Bookmarks need a Confetti account. Open Confetti and sign in first."
+        )
 
     private fun SessionDetails.toResponse() = SessionResponse(
         id = id,

@@ -1,0 +1,129 @@
+{
+  "$schema": "https://github.com/yschimke/design-parity/schema/dtcg-tokens.schema.json",
+  "color": {
+    "primary": {
+      "$type": "color",
+      "$value": "#8c4190ff"
+    },
+    "onPrimary": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "primaryContainer": {
+      "$type": "color",
+      "$value": "#ffd5fcff"
+    },
+    "onPrimaryContainer": {
+      "$type": "color",
+      "$value": "#36003dff"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "#a23f16ff"
+    },
+    "onSecondary": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "secondaryContainer": {
+      "$type": "color",
+      "$value": "#ffebfbff"
+    },
+    "onSecondaryContainer": {
+      "$type": "color",
+      "$value": "#390c00ff"
+    },
+    "tertiary": {
+      "$type": "color",
+      "$value": "#006781ff"
+    },
+    "onTertiary": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "tertiaryContainer": {
+      "$type": "color",
+      "$value": "#b5eaffff"
+    },
+    "onTertiaryContainer": {
+      "$type": "color",
+      "$value": "#001f29ff"
+    },
+    "error": {
+      "$type": "color",
+      "$value": "#ba1b1bff"
+    },
+    "onError": {
+      "$type": "color",
+      "$value": "#ffffffff"
+    },
+    "errorContainer": {
+      "$type": "color",
+      "$value": "#ffdad4ff"
+    },
+    "onErrorContainer": {
+      "$type": "color",
+      "$value": "#410001ff"
+    },
+    "surface": {
+      "$type": "color",
+      "$value": "#fcfcfcff"
+    },
+    "onSurface": {
+      "$type": "color",
+      "$value": "#201a1bff"
+    },
+    "surfaceVariant": {
+      "$type": "color",
+      "$value": "#eddee8ff"
+    },
+    "onSurfaceVariant": {
+      "$type": "color",
+      "$value": "#4e444cff"
+    },
+    "outline": {
+      "$type": "color",
+      "$value": "#7f747cff"
+    },
+    "outlineVariant": {
+      "$type": "color",
+      "$value": "#cac4d0ff"
+    }
+  },
+  "type": {
+    "displaySmall": {
+      "$type": "typography",
+      "$value": {
+        "fontSize": 36,
+        "fontWeight": 400,
+        "lineHeight": 44
+      }
+    },
+    "titleLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontSize": 22,
+        "fontWeight": 700,
+        "lineHeight": 28
+      }
+    },
+    "bodyLarge": {
+      "$type": "typography",
+      "$value": {
+        "fontSize": 16,
+        "fontWeight": 400,
+        "letterSpacing": 0.5,
+        "lineHeight": 24
+      }
+    },
+    "labelSmall": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "FontFamily.Monospace",
+        "fontSize": 10,
+        "fontWeight": 500,
+        "lineHeight": 16
+      }
+    }
+  }
+}

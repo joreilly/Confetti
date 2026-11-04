@@ -9,6 +9,8 @@ import ai.koog.embeddings.base.Embedder
 import ai.koog.prompt.dsl.prompt
 import ai.koog.prompt.executor.model.PromptExecutor
 import ai.koog.prompt.llm.LLModel
+import ai.koog.prompt.message.Message
+import ai.koog.prompt.message.MessagePart
 import dev.johnoreilly.confetti.ConfettiRepository
 import kotlin.time.ExperimentalTime
 
@@ -21,9 +23,9 @@ class ConferenceAgentProvider(
     private val promptExecutor: PromptExecutor,
     private val embedder: Embedder,
     private val embeddingCache: EmbeddingCache?,
-    // Embeddings/semantic search temporarily disabled. Flip to true to re-enable
-    // SearchSessionsTool and the semantic-search guidance in the system prompt.
-    private val embeddingsEnabled: Boolean = false,
+    // Semantic search is only on when embeddings are computed on-device, so it never
+    // makes Gemini embedding API calls. Pass true to enable it with a remote embedder.
+    private val embeddingsEnabled: Boolean = embedder is OnDeviceEmbedder,
 ) : AgentProvider {
 
     override val description: String =
@@ -47,13 +49,16 @@ class ConferenceAgentProvider(
             null
         }
 
+        // Small (on-device) context windows need compact tool output and pruned history.
+        val smallContext = (llModel.contextLength ?: Long.MAX_VALUE) <= 8_192
+        val toolLimits = if (smallContext) ToolOutputLimits.Compact else ToolOutputLimits()
         val toolRegistry = ToolRegistry {
-            tool(GetSessionsTool(repository, conference))
+            tool(GetSessionsTool(repository, conference, toolLimits))
             if (sessionIndex != null) {
-                tool(SearchSessionsTool(sessionIndex))
+                tool(SearchSessionsTool(sessionIndex, toolLimits))
             }
             tool(GetSessionByIdTool(repository, conference))
-            tool(GetSpeakersTool(repository, conference))
+            tool(GetSpeakersTool(repository, conference, toolLimits))
             tool(GetSpeakerByIdTool(repository, conference))
         }
 
@@ -81,6 +86,16 @@ class ConferenceAgentProvider(
             """.trimIndent()
         }
 
+        // On-device models generate slowly, so long answers dominate response time.
+        val briefAnswerGuidance = if (smallContext) {
+            "\n\n" + """
+            Keep answers brief: list each session on one line as its title, speakers and
+            start time. Do not repeat session descriptions unless the user asks for them.
+            """.trimIndent()
+        } else {
+            ""
+        }
+
         val agentConfig = AIAgentConfig(
             prompt = prompt("confetti") {
                 system(
@@ -90,7 +105,7 @@ class ConferenceAgentProvider(
                     Use the provided tools to look up sessions and speakers — do not invent ids,
                     titles or any other details. When recommending sessions, reference them by
                     title and include their speakers, start time and room when available.
-                    """.trimIndent() + "\n" + sessionToolGuidance,
+                    """.trimIndent() + "\n" + sessionToolGuidance + briefAnswerGuidance,
                 )
             },
             model = llModel,
@@ -99,7 +114,7 @@ class ConferenceAgentProvider(
 
         return AIAgent(
             promptExecutor = promptExecutor,
-            strategy = createStrategy(onAssistantMessage),
+            strategy = createStrategy(onAssistantMessage, pruneHistory = smallContext),
             agentConfig = agentConfig,
             toolRegistry = toolRegistry,
         ) {
@@ -114,12 +129,18 @@ class ConferenceAgentProvider(
         }
     }
 
-    private fun createStrategy(onAssistantMessage: suspend (String) -> String) =
+    private fun createStrategy(
+        onAssistantMessage: suspend (String) -> String,
+        pruneHistory: Boolean,
+    ) =
         functionalStrategy<String, String> { initialInput ->
             var inputMessage = initialInput
             var assistantMessage = ""
 
             while (inputMessage.isNotEmpty()) {
+                if (pruneHistory) {
+                    llm.writeSession { prompt = prompt.withMessages(::pruneForSmallContext) }
+                }
                 var response = requestLLM(inputMessage)
 
                 while (getToolCalls(response).isNotEmpty()) {
@@ -132,4 +153,21 @@ class ConferenceAgentProvider(
             }
             assistantMessage
         }
+}
+
+/**
+ * Keeps a conversation within a small context window between turns: drops earlier turns'
+ * tool calls and results (the answers that used them are kept), then the oldest exchanges
+ * until the remaining history fits a rough character budget.
+ */
+private fun pruneForSmallContext(messages: List<Message>): List<Message> {
+    val (system, history) = messages
+        .filterNot { message -> message.parts.isNotEmpty() && message.parts.all { it is MessagePart.Tool } }
+        .partition { it is Message.System }
+    val trimmed = history.toMutableList()
+    // ~4 chars per token; leaves room for the system prompt, tool schemas and the next turn.
+    while (trimmed.size > 1 && trimmed.sumOf { it.textContent().length } > 6_000) {
+        trimmed.removeAt(0)
+    }
+    return system + trimmed.dropWhile { it !is Message.User }
 }

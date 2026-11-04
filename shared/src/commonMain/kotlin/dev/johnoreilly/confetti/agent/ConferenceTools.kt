@@ -21,7 +21,20 @@ private suspend fun ConfettiRepository.allSpeakers(conference: String): List<Spe
         .orEmpty()
 }
 
-private fun SessionDetails.summary(): String = buildString {
+/** Caps on list-tool output, so results fit in a small (e.g. on-device) model's context window. */
+data class ToolOutputLimits(
+    val maxResults: Int = Int.MAX_VALUE,
+    val maxTextChars: Int = Int.MAX_VALUE,
+) {
+    companion object {
+        val Compact = ToolOutputLimits(maxResults = 5, maxTextChars = 200)
+    }
+}
+
+private fun String.truncate(maxChars: Int): String =
+    if (length <= maxChars) this else take(maxChars).trimEnd() + "…"
+
+private fun SessionDetails.summary(maxTextChars: Int = Int.MAX_VALUE): String = buildString {
     append("Id: ").append(id).append('\n')
     append("Title: ").append(title).append('\n')
     append("Type: ").append(type).append('\n')
@@ -33,15 +46,15 @@ private fun SessionDetails.summary(): String = buildString {
             .append(speakers.joinToString { it.sessionSpeakerDetails.name })
             .append('\n')
     }
-    sessionDescription?.let { append("Description: ").append(it).append('\n') }
+    sessionDescription?.let { append("Description: ").append(it.truncate(maxTextChars)).append('\n') }
 }
 
-private fun SpeakerDetails.summary(): String = buildString {
+private fun SpeakerDetails.summary(maxTextChars: Int = Int.MAX_VALUE): String = buildString {
     append("Id: ").append(id).append('\n')
     append("Name: ").append(name).append('\n')
     company?.let { append("Company: ").append(it).append('\n') }
     tagline?.let { append("Tagline: ").append(it).append('\n') }
-    bio?.let { append("Bio: ").append(it).append('\n') }
+    bio?.let { append("Bio: ").append(it.truncate(maxTextChars)).append('\n') }
     if (sessions.isNotEmpty()) {
         append("Sessions: ")
             .append(sessions.joinToString { "${it.title} (${it.id})" })
@@ -52,6 +65,7 @@ private fun SpeakerDetails.summary(): String = buildString {
 class GetSessionsTool(
     private val repository: ConfettiRepository,
     private val conference: String,
+    private val limits: ToolOutputLimits = ToolOutputLimits(),
 ) : SimpleTool<GetSessionsTool.Args>(
     argsType = typeToken<Args>(),
     name = "GetSessionsTool",
@@ -79,14 +93,15 @@ class GetSessionsTool(
                     pattern.containsMatchIn(session.sessionDescription.orEmpty())
             }
         }
-        val limit = args.limit.coerceAtLeast(1)
-        return filtered.take(limit).joinToString(separator = "\n\n") { it.summary() }
+        val limit = args.limit.coerceIn(1, limits.maxResults)
+        return filtered.take(limit).joinToString(separator = "\n\n") { it.summary(limits.maxTextChars) }
             .ifEmpty { "No matching sessions." }
     }
 }
 
 class SearchSessionsTool(
     private val index: SessionEmbeddingIndex,
+    private val limits: ToolOutputLimits = ToolOutputLimits(),
 ) : SimpleTool<SearchSessionsTool.Args>(
     argsType = typeToken<Args>(),
     name = "SearchSessionsTool",
@@ -105,10 +120,10 @@ class SearchSessionsTool(
     )
 
     override suspend fun execute(args: Args): String {
-        val matches = index.search(args.query, args.topK)
+        val matches = index.search(args.query, args.topK.coerceIn(1, limits.maxResults))
         if (matches.isEmpty()) return "No matching sessions."
         return matches.joinToString(separator = "\n\n") { scored ->
-            "Score: ${(scored.score * 1000).toInt() / 1000.0}\n${scored.session.summary()}"
+            "Score: ${(scored.score * 1000).toInt() / 1000.0}\n${scored.session.summary(limits.maxTextChars)}"
         }
     }
 }
@@ -137,6 +152,7 @@ class GetSessionByIdTool(
 class GetSpeakersTool(
     private val repository: ConfettiRepository,
     private val conference: String,
+    private val limits: ToolOutputLimits = ToolOutputLimits(),
 ) : SimpleTool<GetSpeakersTool.Args>(
     argsType = typeToken<Args>(),
     name = "GetSpeakersTool",
@@ -164,8 +180,8 @@ class GetSpeakersTool(
                     pattern.containsMatchIn(speaker.bio.orEmpty())
             }
         }
-        val limit = args.limit.coerceAtLeast(1)
-        return filtered.take(limit).joinToString(separator = "\n\n") { it.summary() }
+        val limit = args.limit.coerceIn(1, limits.maxResults)
+        return filtered.take(limit).joinToString(separator = "\n\n") { it.summary(limits.maxTextChars) }
             .ifEmpty { "No matching speakers." }
     }
 }

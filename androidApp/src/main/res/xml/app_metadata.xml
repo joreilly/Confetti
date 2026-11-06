@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppFunctionAppMetadata xmlns:appfn="http://schemas.android.com/apk/androidx.appfunctions"
+    appfn:instructions="Confetti is a conference schedule app: it lists the sessions of the conference the user has selected and manages the user's session bookmarks.
+Operational patterns:
+- 'listSessions' returns the session IDs that 'addBookmark' and 'removeBookmark' take.
+- All functions act on the currently selected conference, which 'getConference' returns.
+Constraints:
+- A conference must already be selected in the app; switching conference is not supported.
+- Adding or removing bookmarks requires the user to be signed in to Confetti." />

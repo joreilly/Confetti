@@ -65,7 +65,11 @@ koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
 
 
+androidx-appfunctions = "1.0.0-beta01"
+
 [libraries]
+androidx-appfunctions = { module = "androidx.appfunctions:appfunctions", version.ref = "androidx-appfunctions" }
+androidx-appfunctions-compiler = { module = "androidx.appfunctions:appfunctions-compiler", version.ref = "androidx-appfunctions" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 coil-bom = { module = "io.coil-kt:coil-bom", version.ref = "io-coil-kt" }
 coil3-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "io-coil3-kt" }

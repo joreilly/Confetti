@@ -36,10 +36,23 @@ import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.listTags
 import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.NativeComponents
+import dev.johnoreilly.confetti.ui.components.SessionCardModel
+import dev.johnoreilly.confetti.ui.components.SlotTracker
+import androidx.compose.foundation.layout.fillMaxWidth
 import dev.johnoreilly.confetti.ui.trackColor
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Arrangement
 
+/**
+ * The agenda. The conference header, promotion and session cards are drawn by [components], the
+ * context the screen's entry point supplies: Confetti's own composables, or a conference's designs.
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
+context(components: ConferenceComponents)
 fun SessionListView(
 
     uiState: SessionsUiState,
@@ -118,8 +131,9 @@ fun SessionListView(
                             val stickyHeaderIndex = stickyHeader?.index ?: 0
                             val initialItemIndex = initialItem?.index ?: 0
 
-                            // Sum the index of the initial item and the sticky headers.
-                            stickyHeaderIndex + initialItemIndex
+                            // Sum the index of the initial item and the sticky headers, after
+                            // the conference item at the top.
+                            CONFERENCE_ITEMS + stickyHeaderIndex + initialItemIndex
                         }
                     }
 
@@ -133,6 +147,18 @@ fun SessionListView(
                             state = listState,
                             contentPadding = PaddingValues(bottom = LocalBottomNavigationPadding.current)
                         ) {
+                            // Conference-styled header and promotion (Livery), scrolling with
+                            // the agenda; empty (no height) without a design.
+                            item(key = "conference") {
+                                Column(
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                                ) {
+                                    components.ConferenceHeader(uiState)
+                                    components.Promo("home.feed", uiState.conference, Modifier.fillMaxWidth())
+                                }
+                            }
+
                             sessions.forEach { (startTime, sessions) ->
 
                                 stickyHeader {
@@ -140,17 +166,25 @@ fun SessionListView(
                                 }
 
                                 itemsIndexed(sessions) { index, session ->
-                                    SessionItemView(
+                                    val card = SessionCardModel(
+                                        conference = uiState.conference,
                                         session = session,
-                                        sessionSelected = sessionSelected,
+                                        now = uiState.now,
                                         isBookmarked = uiState.bookmarks.contains(session.id),
-                                        addBookmark = addBookmark,
-                                        removeBookmark = removeBookmark,
-                                        onNavigateToSignIn = onNavigateToSignIn,
                                         isLoggedIn = isLoggedIn,
                                         trackColor = session.trackColor(uiState.tracks),
                                         tags = session.listTags(trackNames, uiState.selectedTracks),
+                                        sessionSelected = sessionSelected,
+                                        addBookmark = addBookmark,
+                                        removeBookmark = removeBookmark,
+                                        onNavigateToSignIn = onNavigateToSignIn,
                                     )
+                                    if (session.isBreak() || session.isService()) {
+                                        // Breaks are the agenda's own, never a conference's design.
+                                        NativeComponents().SessionCard(card, SlotTracker.None)
+                                    } else {
+                                        components.SessionCard(card)
+                                    }
                                     val isCurrentBreak = session.isBreak() || session.isService()
                                     val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())
                                     if (index < sessions.lastIndex && !isCurrentBreak && !isNextBreak) {
@@ -169,44 +203,53 @@ fun SessionListView(
 @MobilePreviews
 @Composable
 internal fun SessionListViewLoadedPreview() {
-    SessionListView(
-        uiState = sessionsSuccessState,
-        sessionSelected = {},
-        addBookmark = {},
-        removeBookmark = {},
-        onRefresh = {},
-        onNavigateToSignIn = {},
-        onTrackSelectionChanged = {},
-        isLoggedIn = false,
-    )
+    with(NativeComponents()) {
+        SessionListView(
+            uiState = sessionsSuccessState,
+            sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {},
+            onRefresh = {},
+            onNavigateToSignIn = {},
+            onTrackSelectionChanged = {},
+            isLoggedIn = false,
+        )
+    }
 }
 
 @Preview(name = "Loading", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun SessionListViewLoadingPreview() {
-    SessionListView(
-        uiState = SessionsUiState.Loading,
-        sessionSelected = {},
-        addBookmark = {},
-        removeBookmark = {},
-        onRefresh = {},
-        onNavigateToSignIn = {},
-        onTrackSelectionChanged = {},
-        isLoggedIn = false,
-    )
+    with(NativeComponents()) {
+        SessionListView(
+            uiState = SessionsUiState.Loading,
+            sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {},
+            onRefresh = {},
+            onNavigateToSignIn = {},
+            onTrackSelectionChanged = {},
+            isLoggedIn = false,
+        )
+    }
 }
 
 @Preview(name = "Error", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun SessionListViewErrorPreview() {
-    SessionListView(
-        uiState = SessionsUiState.Error,
-        sessionSelected = {},
-        addBookmark = {},
-        removeBookmark = {},
-        onRefresh = {},
-        onNavigateToSignIn = {},
-        onTrackSelectionChanged = {},
-        isLoggedIn = false,
-    )
+    with(NativeComponents()) {
+        SessionListView(
+            uiState = SessionsUiState.Error,
+            sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {},
+            onRefresh = {},
+            onNavigateToSignIn = {},
+            onTrackSelectionChanged = {},
+            isLoggedIn = false,
+        )
+    }
 }
+
+/** Items above the first sticky header: the conference header and promotion. */
+private const val CONFERENCE_ITEMS = 1

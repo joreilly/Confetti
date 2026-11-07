@@ -55,6 +55,9 @@ android {
 
         versionCode = versionCode()
         versionName = versionName()
+
+        // sduiDebug's Livery settings (see the build type); empty for the variants without it.
+        buildConfigField("String", "LIVERY_FORCED_ARM", "\"\"")
     }
 
     androidResources {
@@ -134,6 +137,8 @@ android {
             initWith(getByName("debug"))
             versionNameSuffix = "-sdui"
             matchingFallbacks += listOf("debug")
+            // -Pconfetti.livery.arm=native|livery pins the sdui arm (QA, screenshots).
+            buildConfigField("String", "LIVERY_FORCED_ARM", "\"${findProperty("confetti.livery.arm") ?: ""}\"")
         }
     }
 

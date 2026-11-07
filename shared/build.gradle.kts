@@ -90,6 +90,10 @@ kotlin {
 
                 api(libs.kermit)
 
+                // The contracts the conference components are drawn against (Livery-free): the
+                // data classes screens fill and the action names both arms report taps under.
+                api(projects.liveryContracts)
+
                 implementation(compose.ui)
                 implementation(compose.runtime)
                 implementation(compose.foundation)

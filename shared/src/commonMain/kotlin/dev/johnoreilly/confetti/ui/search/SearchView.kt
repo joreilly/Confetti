@@ -5,6 +5,7 @@
 
 package dev.johnoreilly.confetti.ui.search
 
+import dev.johnoreilly.confetti.preview.PreviewImages
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -219,20 +220,22 @@ private fun LazyListScope.sessionItems(
 @MobilePreviews
 @Composable
 internal fun SearchViewLoadedPreview() {
-    SearchView(
-        search = "kotlin",
-        onSearchChange = {},
-        sessions = listOf(sessionDetails, lightningSession),
-        speakers = sampleSpeakers,
-        navigateToSession = {},
-        navigateToSpeaker = {},
-        onSignIn = {},
-        bookmarks = setOf(sessionDetails.id),
-        addBookmark = {},
-        removeBookmark = {},
-        loading = false,
-        isLoggedIn = true,
-    )
+    PreviewImages {
+        SearchView(
+            search = "kotlin",
+            onSearchChange = {},
+            sessions = listOf(sessionDetails, lightningSession),
+            speakers = sampleSpeakers,
+            navigateToSession = {},
+            navigateToSpeaker = {},
+            onSignIn = {},
+            bookmarks = setOf(sessionDetails.id),
+            addBookmark = {},
+            removeBookmark = {},
+            loading = false,
+            isLoggedIn = true,
+        )
+    }
 }
 
 @Preview(name = "Empty query", widthDp = 411, heightDp = 914, showBackground = true)

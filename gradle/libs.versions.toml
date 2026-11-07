@@ -138,6 +138,7 @@ coil-test = { module = "io.coil-kt:coil-test" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose" }
 coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3" }
 ktor-client-java = { module = "io.ktor:ktor-client-java" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp" }
 ktor-client-js = { module = "io.ktor:ktor-client-js" }
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
@@ -161,6 +162,7 @@ firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.1
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = "com.google.firebase:firebase-bom:35.1.0"
+firebase-config = { module = "com.google.firebase:firebase-config" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
 firebase-mpp-auth = "dev.gitlive:firebase-auth:2.7.0"

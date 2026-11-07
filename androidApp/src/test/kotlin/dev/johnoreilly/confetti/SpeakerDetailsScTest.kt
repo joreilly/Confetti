@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti
 
+import dev.johnoreilly.confetti.ui.components.NativeComponents
 import androidx.compose.ui.test.onNodeWithText
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.speakers.SpeakerDetailsView
@@ -34,13 +35,15 @@ class SpeakerDetailsScTest : BaseScreenshotTest() {
                 it.onNodeWithText("Ben Zweber").assertExists()
             }
         ) {
-            SpeakerDetailsView(
-                conference = "droidconLondon2014",
-                speaker = mockSpeaker,
-                navigateToSession = {},
-                popBack = {},
-                onSocialLinkClicked = {}
-            )
+            with(NativeComponents()) {
+                SpeakerDetailsView(
+                    conference = "droidconLondon2014",
+                    speaker = mockSpeaker,
+                    navigateToSession = {},
+                    popBack = {},
+                    onSocialLinkClicked = {}
+                )
+            }
         }
     }
 }

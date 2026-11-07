@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.ui.sessions
 
+import dev.johnoreilly.confetti.ui.components.NativeComponents
+import dev.johnoreilly.confetti.preview.PreviewImages
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -75,9 +77,11 @@ import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import sessionStartDateTimeFormat
 import sessionTimeFormat
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
+context(components: ConferenceComponents)
 fun SessionDetailViewShared(
     conference: String,
     session: SessionDetails?,
@@ -143,6 +147,9 @@ fun SessionDetailViewShared(
                         }
                     }
                     Spacer(modifier = Modifier.size(16.dp))
+
+                    // A growth placement under the talk (Livery): feedback, the next workshop...
+                    components.Promo("session.footer", conference, Modifier.fillMaxWidth())
                 }
 
                 if (session.speakers.isNotEmpty()) {
@@ -385,13 +392,17 @@ private fun sessionTimeString(startsAt: LocalDateTime, endsAt: LocalDateTime): S
 @MobilePreviews
 @Composable
 internal fun SessionDetailViewLoadedPreview() {
-    MaterialTheme {
-        SessionDetailViewShared(
-            conference = "kotlinconf2023",
-            session = sessionDetails,
-            onSpeakerClick = {},
-            onRoomClick = {},
-        )
+    PreviewImages {
+        MaterialTheme {
+            with(NativeComponents()) {
+                SessionDetailViewShared(
+                    conference = "kotlinconf2023",
+                    session = sessionDetails,
+                    onSpeakerClick = {},
+                    onRoomClick = {},
+                )
+            }
+        }
     }
 }
 
@@ -399,10 +410,12 @@ internal fun SessionDetailViewLoadedPreview() {
 @Composable
 internal fun SessionDetailViewEmptyPreview() {
     MaterialTheme {
-        SessionDetailViewShared(
-            conference = "kotlinconf2023",
-            session = null,
-            onSpeakerClick = {},
-        )
+        with(NativeComponents()) {
+            SessionDetailViewShared(
+                conference = "kotlinconf2023",
+                session = null,
+                onSpeakerClick = {},
+            )
+        }
     }
 }

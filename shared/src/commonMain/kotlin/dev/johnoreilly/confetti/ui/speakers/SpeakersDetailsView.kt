@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.speakers
 
+import dev.johnoreilly.confetti.ui.components.NativeComponents
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -68,9 +69,11 @@ import dev.johnoreilly.confetti.ui.sessions.SocialIcon
 import org.jetbrains.compose.resources.stringResource
 
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+context(components: ConferenceComponents)
 fun SpeakerDetailsView(
     conference: String,
     speaker: SpeakerDetails,
@@ -205,6 +208,9 @@ fun SpeakerDetailsView(
                 isLoggedIn = isLoggedIn,
                 navigateToSession = navigateToSession,
             )
+
+            // A growth placement on speaker pages (Livery): a sponsor, a meetup, a survey.
+            components.Promo("speaker.footer", conference, Modifier.fillMaxWidth().padding(16.dp))
         }
     }
 
@@ -285,17 +291,19 @@ fun SpeakerTalks(
 @Composable
 internal fun SpeakerDetailsViewLoadedPreview() {
     MaterialTheme {
-        SpeakerDetailsView(
-            conference = "kotlinconf2023",
-            speaker = johnOreillySpeaker,
-            isBookmarked = { false },
-            addBookmark = {},
-            removeBookmark = {},
-            isLoggedIn = true,
-            navigateToSession = {},
-            popBack = {},
-            onSocialLinkClicked = {},
-        )
+        with(NativeComponents()) {
+            SpeakerDetailsView(
+                conference = "kotlinconf2023",
+                speaker = johnOreillySpeaker,
+                isBookmarked = { false },
+                addBookmark = {},
+                removeBookmark = {},
+                isLoggedIn = true,
+                navigateToSession = {},
+                popBack = {},
+                onSocialLinkClicked = {},
+            )
+        }
     }
 }
 
@@ -303,16 +311,18 @@ internal fun SpeakerDetailsViewLoadedPreview() {
 @Composable
 internal fun SpeakerDetailsViewAlternateSpeakerPreview() {
     MaterialTheme {
-        SpeakerDetailsView(
-            conference = "kotlinconf2023",
-            speaker = martinBonninSpeaker,
-            isBookmarked = { false },
-            addBookmark = {},
-            removeBookmark = {},
-            isLoggedIn = true,
-            navigateToSession = {},
-            popBack = {},
-            onSocialLinkClicked = {},
-        )
+        with(NativeComponents()) {
+            SpeakerDetailsView(
+                conference = "kotlinconf2023",
+                speaker = martinBonninSpeaker,
+                isBookmarked = { false },
+                addBookmark = {},
+                removeBookmark = {},
+                isLoggedIn = true,
+                navigateToSession = {},
+                popBack = {},
+                onSocialLinkClicked = {},
+            )
+        }
     }
 }

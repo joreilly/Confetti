@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti.ui.bookmarks
 
+import dev.johnoreilly.confetti.preview.PreviewImages
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -205,17 +206,19 @@ private fun BookmarksHorizontalPager(
 @MobilePreviews
 @Composable
 internal fun BookmarksViewLoadedPreview() {
-    BookmarksView(
-        pastSessions = emptyMap(),
-        upcomingSessions = bookmarkedSessionsByDate,
-        navigateToSession = {},
-        onSignIn = {},
-        bookmarks = setOf(sessionDetails.id),
-        addBookmark = {},
-        removeBookmark = {},
-        loading = false,
-        isLoggedIn = true,
-    )
+    PreviewImages {
+        BookmarksView(
+            pastSessions = emptyMap(),
+            upcomingSessions = bookmarkedSessionsByDate,
+            navigateToSession = {},
+            onSignIn = {},
+            bookmarks = setOf(sessionDetails.id),
+            addBookmark = {},
+            removeBookmark = {},
+            loading = false,
+            isLoggedIn = true,
+        )
+    }
 }
 
 @Preview(name = "Empty", widthDp = 411, heightDp = 914, showBackground = true)

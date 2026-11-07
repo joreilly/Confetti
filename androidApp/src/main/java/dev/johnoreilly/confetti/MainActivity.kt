@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -38,6 +39,7 @@ class MainActivity : ComponentActivity() {
 
         var userEditableSettings by mutableStateOf<UserEditableSettings?>(null)
         val signInProcess: SignInProcess by inject()
+        val components: ConferenceComponents by inject()
 
         val appComponent =
             handleDeepLink { uri ->
@@ -67,7 +69,8 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            App(component = appComponent)
+            // The screens draw their conference components with this context (see AppModule).
+            with(components) { App(component = appComponent) }
         }
     }
 }

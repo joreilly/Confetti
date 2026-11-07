@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui
 
+import dev.johnoreilly.confetti.ui.components.NativeComponents
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.window.ComposeUIViewController
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
@@ -10,7 +11,9 @@ import platform.UIKit.UIViewController
 fun SessionDetailsViewController(conference: String, session: SessionDetails, conferenceThemeColor: String?, onSpeakerClick: (speakerId: String) -> Unit): UIViewController =
     ComposeUIViewController {
         ConferenceMaterialThemeFromSettings(conferenceThemeColor) {
-            SessionDetailViewShared(conference, session, onSpeakerClick)
+            with(NativeComponents()) {
+                SessionDetailViewShared(conference, session, onSpeakerClick)
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.speakers
 
+import dev.johnoreilly.confetti.preview.PreviewImages
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -121,11 +122,13 @@ fun SpeakerGridView(
 @MobilePreviews
 @Composable
 internal fun SpeakerGridViewLoadedPreview() {
-    SpeakerGridView(
-        conference = "kotlinconf2023",
-        speakers = sampleSpeakers,
-        navigateToSpeaker = {},
-    )
+    PreviewImages {
+        SpeakerGridView(
+            conference = "kotlinconf2023",
+            speakers = sampleSpeakers,
+            navigateToSpeaker = {},
+        )
+    }
 }
 
 @Preview(name = "Empty", widthDp = 411, heightDp = 914, showBackground = true)

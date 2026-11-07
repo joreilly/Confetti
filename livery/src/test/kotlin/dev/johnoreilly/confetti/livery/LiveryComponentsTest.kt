@@ -1,0 +1,152 @@
+package dev.johnoreilly.confetti.livery
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.getOrNull
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performClick
+import androidx.test.core.app.ApplicationProvider
+import dev.johnoreilly.confetti.analytics.AnalyticsEvent
+import dev.johnoreilly.confetti.analytics.AnalyticsLogger
+import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.preview.sessionDetails
+import dev.johnoreilly.confetti.ui.components.ConferenceComponentsFactory
+import dev.johnoreilly.confetti.ui.components.NativeComponents
+import dev.johnoreilly.confetti.ui.components.SduiComponents
+import dev.johnoreilly.confetti.ui.components.SduiTracking
+import dev.johnoreilly.confetti.ui.components.SessionCardModel
+import dev.johnoreilly.confetti.ui.livery.LiveryComponents
+import kotlinx.datetime.LocalDateTime
+import okhttp3.OkHttpClient
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
+
+/**
+ * The conference components as the app's screens use them, before any templates exist: every
+ * slot draws Confetti's own row, tracked as the experiment's events, and the native arm never
+ * builds Livery.
+ */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [35])
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
+class LiveryComponentsTest {
+    @get:Rule val compose = createComposeRule()
+
+    private val live = LocalDateTime.parse("2023-04-13T14:10")
+    private val logged = mutableListOf<AnalyticsEvent>()
+    private val analytics = object : AnalyticsLogger {
+        override fun logEvent(event: AnalyticsEvent) { synchronized(logged) { logged += event } }
+    }
+
+    private fun livery() = LiveryComponents(
+        confettiLiveryStyling(ApplicationProvider.getApplicationContext(), liveryHttpClient(OkHttpClient()), analytics, refresh = false),
+        NativeComponents(SduiTracking(analytics), SduiExperiment.LIVERY),
+    )
+
+    /** The app finds this module through ServiceLoader, as only the sduiDebug variant can. */
+    @Test fun registeredAsTheVariantsFactory() {
+        assertTrue(ConferenceComponentsFactory.load() is LiveryComponentsFactory)
+    }
+
+    @Test fun nativeArmNeverBuildsLivery() {
+        val components = SduiComponents(
+            arms = { SduiExperiment.NATIVE },
+            native = NativeComponents(SduiTracking(analytics), SduiExperiment.NATIVE),
+            livery = { error("the native arm must not build Livery") },
+        )
+        compose.setContent {
+            MaterialTheme(colorScheme = lightColorScheme()) {
+                Column {
+                    for (conference in listOf("kotlinconf2026", "droidconlondon2025")) components.SessionCard(card(conference))
+                    components.Promo("home.feed", "droidconlondon2026", Modifier.fillMaxWidth())
+                }
+            }
+        }
+        compose.waitForIdle()
+        assertEquals(2, nativeRows())
+        compose.onAllNodesWithText(sessionDetails.title)[0].performClick()
+        compose.waitForIdle()
+        assertFalse(components.liveryStarted)
+        val events = synchronized(logged) { logged.toList() }
+        assertEquals(2, events.count { it.id == "livery_impression" })
+        val tap = events.single { it.id == "livery_action" }
+        assertEquals("open", tap.properties["action"])
+        assertEquals(SduiExperiment.NATIVE, tap.properties["exp_${SduiExperiment.ID}"])
+        assertEquals(SduiExperiment.NATIVE_DESIGN, tap.properties["design_id"])
+    }
+
+    /** With no catalog yet, the livery arm builds Livery and draws Confetti's own rows. */
+    @Test fun liveryArmWithoutTemplatesDrawsNativeRows() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        compose.setContent {
+            MaterialTheme(colorScheme = lightColorScheme()) {
+                Column {
+                    components.SessionCard(card("kotlinconf2026"))
+                    components.SessionCard(card("droidconlondon2025"))
+                }
+            }
+        }
+        compose.waitForIdle()
+        assertTrue(components.liveryStarted)
+        assertEquals(2, nativeRows())
+        assertEquals(0, compose.onAllNodes(liverySlot).fetchSemanticsNodes().size)
+    }
+
+    /** A row a lazy list reuses for another session reports that session's impression too. */
+    @Test fun anImpressionPerSessionShown() {
+        val native = NativeComponents(SduiTracking(analytics), SduiExperiment.NATIVE)
+        var session by mutableStateOf(sessionDetails)
+        compose.setContent { native.SessionCard(card("kotlinconf2026", session)) }
+        fun impressions() = synchronized(logged) { logged.count { it.id == "livery_impression" } }
+        compose.waitUntil(10_000) { impressions() == 1 }
+        session = sessionDetails.copy(id = "another-session", title = "Another session")
+        compose.waitForIdle()
+        compose.waitUntil(10_000) { impressions() == 2 }
+    }
+
+    /** A signed-out bookmark tap counts, as a design's `bookmark` action does. */
+    @Test fun signedOutBookmarkTapsCount() {
+        val native = NativeComponents(SduiTracking(analytics), SduiExperiment.NATIVE)
+        val signedOut = card("kotlinconf2026").let {
+            SessionCardModel(it.conference, it.session, it.now, false, false, null, emptyList(), {}, {}, {}, {})
+        }
+        compose.setContent { MaterialTheme { native.SessionCard(signedOut) } }
+        compose.onNodeWithContentDescription("add bookmark").performClick()
+        compose.waitForIdle()
+        val tap = synchronized(logged) { logged.single { it.id == "livery_action" } }
+        assertEquals("bookmark", tap.properties["action"])
+    }
+
+    private fun card(conference: String, session: SessionDetails = sessionDetails) = SessionCardModel(
+        conference = conference, session = session, now = live, isBookmarked = false, isLoggedIn = true,
+        trackColor = null, tags = emptyList(), sessionSelected = {}, addBookmark = {}, removeBookmark = {}, onNavigateToSignIn = {},
+    )
+
+    /** Confetti's own rows: the title as text outside any template. */
+    private fun nativeRows() =
+        compose.onAllNodes(hasText(sessionDetails.title) and !hasAnyAncestor(liverySlot)).fetchSemanticsNodes().size
+
+    /** A node a Livery template drew: LiveryHost tags each player `livery:<placement or contract>:<design>`. */
+    private val liverySlot = SemanticsMatcher("is a Livery slot") {
+        it.config.getOrNull(SemanticsProperties.TestTag)?.startsWith("livery:") == true
+    }
+}

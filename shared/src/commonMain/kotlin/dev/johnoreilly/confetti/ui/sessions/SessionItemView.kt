@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.sessions
 
+import dev.johnoreilly.confetti.preview.PreviewImages
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,6 +62,8 @@ fun SessionItemView(
     isLoggedIn: Boolean,
     trackColor: Color? = null,
     tags: List<String> = session.listTags(),
+    /** Every tap on the bookmark button, signed in or not (before the sign-in prompt): for analytics. */
+    onBookmarkTap: () -> Unit = {},
 ) {
     if (session.isBreak() || session.isService()) {
         BreakSessionItemView(session = session)
@@ -75,6 +78,7 @@ fun SessionItemView(
             isLoggedIn = isLoggedIn,
             trackColor = trackColor,
             tags = tags,
+            onBookmarkTap = onBookmarkTap,
         )
     }
 }
@@ -156,6 +160,7 @@ private fun TalkSessionItemView(
     isLoggedIn: Boolean,
     trackColor: Color? = null,
     tags: List<String>,
+    onBookmarkTap: () -> Unit,
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
@@ -255,6 +260,7 @@ private fun TalkSessionItemView(
             Bookmark(
                 isBookmarked = isBookmarked,
                 onBookmarkChange = { shouldAdd ->
+                    onBookmarkTap()
                     if (!isLoggedIn) {
                         showDialog = true
                         return@Bookmark
@@ -280,27 +286,31 @@ private fun TalkSessionItemView(
 @MobilePreviews
 @Composable
 internal fun SessionItemViewLoadedPreview() {
-    SessionItemView(
-        session = sessionDetails,
-        sessionSelected = {},
-        isBookmarked = true,
-        addBookmark = {},
-        removeBookmark = {},
-        isLoggedIn = true,
-    )
+    PreviewImages {
+        SessionItemView(
+            session = sessionDetails,
+            sessionSelected = {},
+            isBookmarked = true,
+            addBookmark = {},
+            removeBookmark = {},
+            isLoggedIn = true,
+        )
+    }
 }
 
 @Preview(name = "Lightning talk", widthDp = 411, heightDp = 220, showBackground = true)
 @Composable
 internal fun SessionItemViewLightningPreview() {
-    SessionItemView(
-        session = lightningSession,
-        sessionSelected = {},
-        isBookmarked = false,
-        addBookmark = {},
-        removeBookmark = {},
-        isLoggedIn = false,
-    )
+    PreviewImages {
+        SessionItemView(
+            session = lightningSession,
+            sessionSelected = {},
+            isBookmarked = false,
+            addBookmark = {},
+            removeBookmark = {},
+            isLoggedIn = false,
+        )
+    }
 }
 
 @Preview(name = "Break", widthDp = 411, heightDp = 140, showBackground = true)

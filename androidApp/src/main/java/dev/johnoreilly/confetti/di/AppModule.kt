@@ -13,12 +13,24 @@ import dev.johnoreilly.confetti.auth.DefaultAuthentication
 import dev.johnoreilly.confetti.decompose.ConferenceRefresh
 import dev.johnoreilly.confetti.wear.WearSettingsSync
 import dev.johnoreilly.confetti.work.WorkManagerConferenceRefresh
+import dev.johnoreilly.confetti.BuildConfig
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.ConferenceComponentsFactory
+import dev.johnoreilly.confetti.ui.components.NativeComponents
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val appModule = module {
+    // What the app draws its conference components with: Confetti's own, unless the variant
+    // includes a module that provides others (sduiDebug: :livery, per conference sdui arm).
+    single<ConferenceComponents> {
+        ConferenceComponentsFactory.load()?.create(
+            androidContext(), okHttp = get(), analytics = get(),
+            options = mapOf("forcedArm" to BuildConfig.LIVERY_FORCED_ARM),
+        ) ?: NativeComponents()
+    }
     single<ConfettiRepository> {
         ConfettiRepository().apply {
             addConferenceListener { conference, colorScheme ->

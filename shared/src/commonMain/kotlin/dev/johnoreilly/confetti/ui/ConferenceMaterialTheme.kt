@@ -3,6 +3,8 @@ package dev.johnoreilly.confetti.ui
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -13,6 +15,12 @@ import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import org.koin.compose.koinInject
 
+/**
+ * True inside a conference whose colours are the user's Material 3 dynamic colours rather than the
+ * conference's seeded scheme. Livery slots then push the [MaterialTheme] colours into their designs.
+ */
+val LocalDynamicColorInUse = staticCompositionLocalOf { false }
+
 @OptIn(ExperimentalStdlibApi::class)
 @Composable
 fun ConferenceMaterialTheme(
@@ -22,7 +30,9 @@ fun ConferenceMaterialTheme(
     content: @Composable () -> Unit,
 ) {
     if (useDynamicColor) {
-        content()
+        // The user's dynamic (wallpaper) colours, from the theme around this one: say so, so
+        // conference-styled slots take them too instead of the conference's palette.
+        CompositionLocalProvider(LocalDynamicColorInUse provides true, content = content)
         return
     }
 

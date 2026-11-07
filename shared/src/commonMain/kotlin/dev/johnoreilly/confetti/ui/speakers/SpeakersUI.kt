@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.speakers
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
@@ -51,6 +52,7 @@ fun SpeakersUI(
 }
 
 @Composable
+context(components: ConferenceComponents)
 fun SpeakerDetailsUI(component: SpeakerDetailsComponent) {
     val uriHandler = LocalUriHandler.current
     val uiState by component.uiState.subscribeAsState()

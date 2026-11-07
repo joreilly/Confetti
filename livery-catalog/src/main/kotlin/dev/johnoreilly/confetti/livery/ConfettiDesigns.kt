@@ -40,7 +40,9 @@ val ConfettiDesigns: List<DesignDef> = designs(
     session = { with(ContractScope(SessionContract, Confetti)) { ConfettiSession() } },
     speaker = { with(ContractScope(SpeakerContract, Confetti)) { ConfettiSpeaker() } },
     promo = { with(ContractScope(PromoContract, Confetti)) { ConfettiPromo() } },
-    // A two-line headline and a three-line body leave the CTA no room at 200dp.
+    // At the contracts' limits: a two-line name and tagline leave the tickets button no room at
+    // 210dp, and a two-line headline and three-line body the promo's CTA none at 200dp.
+    headerHeightDp = 250,
     promoHeightDp = 240,
 )
 

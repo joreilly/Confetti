@@ -71,7 +71,8 @@ fun DroidconHeader() {
             LivePill(inputBool(C.live), c.primary, c.onPrimary, text = "HAPPENING NOW")
         }
         Label(input(C.name), c.onSurface, size = 30, weight = FontWeight.ExtraBold, maxLines = 2)
-        Label(input(C.tagline), c.muted, size = 15, weight = FontWeight.Normal, maxLines = 2)
+        // One line: with a two-line name in Space Mono, a second leaves the tickets button no room.
+        Label(input(C.tagline), c.muted, size = 15, weight = FontWeight.Normal, maxLines = 1)
         Label("◉ ".rs + input(C.location), c.tertiary, size = 13, weight = FontWeight.SemiBold)
         // Only when the app has somewhere to send people: no URL, no button.
         val ticketsUrl = input(C.ticketsUrl)

@@ -144,19 +144,25 @@ class SduiComponents(
     private val arms: SduiArms,
     private val native: ConferenceComponents,
     livery: () -> ConferenceComponents,
+    /** Conferences outside the experiment: drawn natively, never counted in either arm. */
+    private val untracked: ConferenceComponents = NativeComponents(),
 ) : ConferenceComponents {
     private val liveryLazy = lazy(livery)
 
     /** Whether the Livery side has been built (tests: the native arm must never build it). */
     val liveryStarted: Boolean get() = liveryLazy.isInitialized()
 
-    fun armFor(conference: String): String {
-        val series = ConferenceSeries.of(conference) ?: return SduiExperiment.NATIVE
+    /** The conference's arm, or null when it has no series and so isn't in the experiment. */
+    fun armFor(conference: String): String? {
+        val series = ConferenceSeries.of(conference) ?: return null
         return arms.arm(series) ?: SduiExperiment.LIVERY
     }
 
-    private fun pick(conference: String): ConferenceComponents =
-        if (armFor(conference) == SduiExperiment.LIVERY) liveryLazy.value else native
+    private fun pick(conference: String): ConferenceComponents = when (armFor(conference)) {
+        SduiExperiment.LIVERY -> liveryLazy.value
+        null -> untracked
+        else -> native
+    }
 
     @Composable
     override fun ConferenceHeader(state: SessionsUiState.Success) = pick(state.conference).ConferenceHeader(state)

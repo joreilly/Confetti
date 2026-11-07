@@ -118,6 +118,19 @@ class LiveryComponentsTest {
         assertEquals(SduiExperiment.NATIVE_DESIGN, tap.properties["design_id"])
     }
 
+    /** A conference with no series draws native rows but is counted in neither arm. */
+    @Test fun aConferenceOutsideTheExperimentIsNotCounted() {
+        val components = SduiComponents(
+            arms = { SduiExperiment.NATIVE },
+            native = NativeComponents(SduiTracking(analytics), SduiExperiment.NATIVE),
+            livery = { error("not in the experiment") },
+        )
+        compose.setContent { MaterialTheme(colorScheme = lightColorScheme()) { components.SessionCard(card("fosdem2025")) } }
+        compose.waitForIdle()
+        assertEquals(1, nativeRows())
+        assertEquals(0, synchronized(logged) { logged.count { it.id == "livery_impression" } })
+    }
+
     /** With no catalog yet, the livery arm builds Livery and draws Confetti's own rows. */
     @Test fun liveryArmWithoutTemplatesDrawsNativeRows() {
         val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)

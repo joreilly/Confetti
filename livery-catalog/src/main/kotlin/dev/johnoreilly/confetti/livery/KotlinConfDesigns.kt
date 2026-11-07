@@ -61,7 +61,7 @@ private val White = Color.White
 
 /** The Kotlin gradient, its direction turning once every ~30 s. */
 private fun kotlinGradient(c: BrandColors, drift: Boolean = true): RemoteBrush {
-    val t = RemoteTimeVariables.continuousSeconds * 0.2f
+    val t = RemoteTimeVariables.animationTime * 0.2f
     val dx = if (drift) cos(t) * 300f else 300f.rf
     val dy = if (drift) sin(t) * 300f else 300f.rf
     return RemoteBrush.linearGradient(
@@ -95,7 +95,7 @@ fun KotlinConfHeader() {
           RemoteBox(
             modifier = RemoteModifier
                 .size(88.rdp, 88.rdp)
-                .rotate(RemoteTimeVariables.continuousSeconds * 12f)
+                .rotate(RemoteTimeVariables.animationTime * 12f)
                 .clip(RemoteRoundedCornerShape(18.rdp))
                 .border(6.rdp, onBrand.copy(alpha = 0.35f.rf), RemoteRoundedCornerShape(18.rdp)),
           )

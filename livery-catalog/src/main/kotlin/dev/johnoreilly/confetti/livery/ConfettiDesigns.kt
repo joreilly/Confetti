@@ -40,6 +40,8 @@ val ConfettiDesigns: List<DesignDef> = designs(
     session = { with(ContractScope(SessionContract, Confetti)) { ConfettiSession() } },
     speaker = { with(ContractScope(SpeakerContract, Confetti)) { ConfettiSpeaker() } },
     promo = { with(ContractScope(PromoContract, Confetti)) { ConfettiPromo() } },
+    // A two-line headline and a three-line body leave the CTA no room at 200dp.
+    promoHeightDp = 240,
 )
 
 @Composable

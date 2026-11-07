@@ -46,6 +46,30 @@ jobs:
     - name: Wear Unit Tests
       run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest
 
+    # Diagnostics for the intermittent "Gradle Test Executor 1 finished with non-zero exit value 1"
+    # crash, which happens before any test reports a result and so leaves nothing in the log.
+    - name: Memory at failure
+      if: failure()
+      run: |
+        free -m
+        ps -eo pid,rss,args --sort=-rss | head -15 | cut -c1-200
+        sudo -n dmesg 2>/dev/null | grep -iE 'out of memory|oom-kill|killed process' | tail -10 || true
+
+    - name: Upload test diagnostics
+      if: failure()
+      uses: actions/upload-artifact@v7
+      with:
+        name: android-test-diagnostics
+        path: |
+          androidApp/build/reports/tests/
+          androidApp/build/test-results/
+          wearApp/build/reports/tests/
+          wearApp/build/test-results/
+          **/hs_err_pid*.log
+          ~/.gradle/daemon/*/daemon-*.log
+        retention-days: 7
+        if-no-files-found: ignore
+
     - name: Build
       run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug
 

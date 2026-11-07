@@ -1,25 +1,25 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "43b9d49e9666c47498e11374de34495b362a5002",
+    "generatedFrom": "8d992d68cfbf5e1033437b437c77ac3d5ada627f",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
             "versions": [
+                {
+                    "blob": "2de873f72ecfe598c0c255e5d8686f9702377322",
+                    "commit": "8d992d68cfbf5e1033437b437c77ac3d5ada627f",
+                    "date": "2026-11-07T12:38:53Z",
+                    "sourceSha": "c4369145",
+                    "sinceCommit": "387ce5a1ab5f7e16c860f77b74f508b72734d253",
+                    "commits": 11,
+                    "occurrences": 11
+                },
                 {
                     "blob": "98db6dd54b2a9a84819ccc0704344bbba2552cb2",
                     "commit": "43b9d49e9666c47498e11374de34495b362a5002",
                     "date": "2026-11-07T12:22:50Z",
                     "sourceSha": "c5b7a06f",
                     "sinceCommit": "7f4e27fcbc325dd40759def21a974b8b1a1a3da6",
-                    "commits": 10,
-                    "occurrences": 10
-                },
-                {
-                    "blob": "2de873f72ecfe598c0c255e5d8686f9702377322",
-                    "commit": "38ec72dcd968df703dcc8e04599f3929636b86fe",
-                    "date": "2026-10-24T22:13:48Z",
-                    "sourceSha": "4e005703",
-                    "sinceCommit": "387ce5a1ab5f7e16c860f77b74f508b72734d253",
                     "commits": 10,
                     "occurrences": 10
                 },
@@ -49,9 +49,9 @@
                     "occurrences": 8
                 }
             ],
-            "observations": 37,
+            "observations": 38,
             "unstable": true,
-            "flapCount": 32
+            "flapCount": 33
         },
         "androidApp/activity__MainActivity": {
             "path": "renders/androidApp/activity__MainActivity.png",

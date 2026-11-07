@@ -164,6 +164,19 @@ kotlin {
     }
 }
 
+// Firebase Analytics' measurement engine off in unit tests. SessionNotificationTest runs the real
+// ConfettiApplication, and its FirebaseApp init starts measurement on a background thread
+// ("ScionFrontendApi"). Under Robolectric, AppMeasurementDynamiteService fails bytecode
+// verification there ("VerifyError: Bad access to protected data in getfield"), and now and then
+// that takes the test JVM down mid-test ("Gradle Test Executor N finished with non-zero exit
+// value 1"). Without the implementation, the measurement API finds no service and stays off, as
+// on a device without Play services. Production variants are untouched.
+configurations.matching { it.name.endsWith("UnitTestRuntimeClasspath") }.configureEach {
+    exclude(group = "com.google.android.gms", module = "play-services-measurement")
+    exclude(group = "com.google.android.gms", module = "play-services-measurement-impl")
+    exclude(group = "com.google.android.gms", module = "play-services-measurement-sdk")
+}
+
 dependencies {
     baselineProfile(project(":androidBenchmark"))
     implementation(enforcedPlatform(libs.compose.bom))

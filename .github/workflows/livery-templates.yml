@@ -1,0 +1,123 @@
+name: Livery templates
+
+# Each conference series' Livery catalog (livery-catalog/catalogs/<series>), checked on pull
+# requests and published on main to the `livery-templates` branch as static channels:
+#
+#   https://raw.githubusercontent.com/<owner>/<repo>/livery-templates/catalogs/<series>/manifest.json
+#
+# which the sduiDebug build fetches (and prefers over the copy bundled into the APK). A weekly run
+# republishes, because a catalog's manifest expires (catalog.json `expiresInDays`) and an expired
+# download falls back to the bundled copy.
+
+on:
+  pull_request:
+    paths:
+      - 'livery-catalog/**'
+      - 'shared/src/commonMain/kotlin/dev/johnoreilly/confetti/ui/components/**'
+      - 'livery/**'
+      - 'livery-contracts/**'
+      - 'gradle/libs.versions.toml'
+      - '.github/workflows/livery-templates.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'livery-catalog/**'
+      - 'shared/src/commonMain/kotlin/dev/johnoreilly/confetti/ui/components/**'
+      - 'livery/**'
+      - 'livery-contracts/**'
+      - 'gradle/libs.versions.toml'
+      - '.github/workflows/livery-templates.yml'
+  schedule:
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: livery-templates-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  catalogs:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'zulu'
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+      # The contract checks, and each checked-in catalog equals what the Kotlin designs capture.
+      - name: Test
+        run: ./gradlew :livery-contracts:jvmTest :livery-catalog:test
+
+      # The :livery module with the bundled catalogs: each conference's designs (the base where
+      # it has none), per-conference arms, and the native arm never building Livery.
+      - name: Livery slots
+        run: ./gradlew :livery:testDebugUnitTest
+
+      # `livery build --inspect` per series. The serial is the build time (Livery's default), so it
+      # only grows, and the weekly republish's fresh expiry is a newer catalog to installed apps.
+      - name: Build channels
+        run: ./gradlew :livery-catalog:buildLiveryChannels
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: livery-channels
+          path: livery-catalog/build/livery-channels
+
+  publish:
+    needs: catalogs
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: livery-channels
+          path: channels
+
+      - name: Push to the livery-templates branch
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch --depth=1 origin livery-templates; then
+            git worktree add site FETCH_HEAD
+            git -C site checkout -B livery-templates
+          else
+            git worktree add --detach site
+            git -C site checkout --orphan livery-templates
+            git -C site rm -rfq .
+          fi
+          rm -rf site/catalogs
+          mkdir -p site/catalogs
+          cp -r channels/. site/catalogs/
+          cat > site/README.md <<EOF
+          # Confetti Livery templates
+
+          Published by the Livery templates workflow from ${SOURCE_SHA}. One static catalog
+          channel per conference series: \`catalogs/<series>/manifest.json\`. Don't edit by hand:
+          change \`livery-catalog/\` on main.
+          EOF
+          git -C site add -A
+          if git -C site diff --cached --quiet; then
+            echo "No change"
+          else
+            git -C site commit -qm "Livery templates from ${SOURCE_SHA}"
+            git -C site push origin livery-templates
+          fi

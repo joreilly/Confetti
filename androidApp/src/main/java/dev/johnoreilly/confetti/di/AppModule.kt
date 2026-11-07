@@ -28,7 +28,10 @@ val appModule = module {
     single<ConferenceComponents> {
         ConferenceComponentsFactory.load()?.create(
             androidContext(), okHttp = get(), analytics = get(),
-            options = mapOf("forcedArm" to BuildConfig.LIVERY_FORCED_ARM),
+            options = mapOf(
+                "forcedArm" to BuildConfig.LIVERY_FORCED_ARM,
+                "templatesUrl" to BuildConfig.LIVERY_TEMPLATES_URL,
+            ),
         ) ?: NativeComponents()
     }
     single<ConfettiRepository> {

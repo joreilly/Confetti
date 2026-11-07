@@ -83,7 +83,8 @@ class LiveryStyling(
 ) {
     val catalogs: Map<String, SeriesCatalog> = catalogs.mapValues { (series, repo) -> SeriesCatalog(series, repo) }
 
-    fun catalog(conference: String): SeriesCatalog? = ConferenceSeries.of(conference)?.let { catalogs[it] }
+    /** The conference's catalog: its series', else the base one (Confetti's own look). */
+    fun catalog(conference: String): SeriesCatalog? = catalogs[ConferenceSeries.catalogFor(conference, catalogs.keys)]
 
     fun context(conference: String, segments: Set<String> = emptySet()) = DecisionContext(
         nowEpochMs = clock.nowEpochMs(), platform = platform, locale = locale, appVersion = appVersion,

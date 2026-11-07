@@ -41,9 +41,9 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
 /**
- * The conference components as the app's screens use them, before any templates exist: every
- * slot draws Confetti's own row, tracked as the experiment's events, and the native arm never
- * builds Livery.
+ * The conference components as the app's screens use them: the livery arm draws the bundled
+ * catalogs (the base one where a conference has none), the native arm Confetti's own rows, both
+ * tracked as the experiment's events, and the native arm never builds Livery.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [35])
@@ -95,7 +95,8 @@ class LiveryComponentsTest {
     }
 
     /** With no catalog yet, the livery arm builds Livery and draws Confetti's own rows. */
-    @Test fun liveryArmWithoutTemplatesDrawsNativeRows() {
+    /** A conference without a catalog of its own draws the base one: Confetti's look, by Livery. */
+    @Test fun liveryArmDrawsTheBaseTemplates() {
         val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
         compose.setContent {
             MaterialTheme(colorScheme = lightColorScheme()) {
@@ -105,14 +106,16 @@ class LiveryComponentsTest {
                 }
             }
         }
-        compose.waitForIdle()
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 2 }
         assertTrue(components.liveryStarted)
-        assertEquals(2, nativeRows())
-        assertEquals(0, compose.onAllNodes(liverySlot).fetchSemanticsNodes().size)
-        // Those rows count as impressions in the livery arm, as the native arm's rows do.
-        compose.waitUntil(10_000) { synchronized(logged) { logged.count { it.id == "livery_impression" } } == 2 }
+        assertEquals(0, nativeRows())
+        val tags = compose.onAllNodes(liverySlot).fetchSemanticsNodes().map { it.config[SemanticsProperties.TestTag] }
+        assertTrue(tags.toString(), tags.all { it.endsWith(":confetti-session") })
+        // The templates' impressions, tagged with the arm, as the native arm's rows are.
+        compose.waitUntil(10_000) {
+            synchronized(logged) { logged.count { it.id == "livery_impression" && it.properties["design_id"] == "confetti-session" } } == 2
+        }
         val impression = synchronized(logged) { logged.first { it.id == "livery_impression" } }
-        assertEquals(SduiExperiment.NATIVE_DESIGN, impression.properties["design_id"])
         assertEquals(SduiExperiment.LIVERY, impression.properties["exp_${SduiExperiment.ID}"])
     }
 

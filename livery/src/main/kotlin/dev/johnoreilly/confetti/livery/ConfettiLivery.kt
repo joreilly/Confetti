@@ -93,7 +93,7 @@ class FirebaseSduiArms(private val forced: String? = null) : SduiArms {
     private val remoteConfig by lazy {
         runCatching {
             Firebase.remoteConfig.apply {
-                setDefaultsAsync(ConferenceSeries.ALL.associate { key(it) to SduiExperiment.LIVERY })
+                setDefaultsAsync((ConferenceSeries.ALL + ConferenceSeries.BASE).associate { key(it) to SduiExperiment.LIVERY })
                 fetchAndActivate()
             }
         }.getOrNull()
@@ -144,7 +144,11 @@ fun confettiLiveryStyling(
 ): LiveryStyling {
     val app = context.applicationContext
     val fetcher = KtorFetcher(httpClient)
-    val catalogs = ConferenceSeries.ALL.associateWith { series ->
+    // A catalog per series this build bundles (catalogs/<series>, built into :livery's assets),
+    // the base one included: a series without one draws the base catalog's designs.
+    val catalogs = (ConferenceSeries.ALL + ConferenceSeries.BASE)
+        .filter { AndroidBundled.fromAssets(app, "livery/$it") != null }
+        .associateWith { series ->
         TemplateRepository(
             source = StaticSource("${templatesUrl.trimEnd('/')}/$series/", id = "confetti-$series"),
             fetcher = fetcher,

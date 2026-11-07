@@ -231,8 +231,18 @@ object ConferenceSeries {
 
     private val prefixes = listOf("droidcon" to "droidcon", "kotlinconf" to "kotlinconf")
 
-    /** Every series with designs: one Livery catalog each (`catalogs/<series>/`). */
+    /** Every conference series that can have designs of its own: one Livery catalog each (`catalogs/<series>/`). */
     val ALL: List<String> = prefixes.map { it.second }.distinct()
+
+    /**
+     * The base catalog (`catalogs/confetti/`): Confetti's own look, drawn by Livery, for every
+     * conference without a catalog of its own.
+     */
+    const val BASE: String = "confetti"
+
+    /** The catalog a conference draws from: its series', when there is one, else [BASE]. */
+    fun catalogFor(conferenceId: String, available: Set<String>): String =
+        of(conferenceId)?.takeIf { it in available } ?: BASE
 
     fun of(conferenceId: String): String? =
         prefixes.firstOrNull { (prefix, _) -> conferenceId.startsWith(prefix) }?.second

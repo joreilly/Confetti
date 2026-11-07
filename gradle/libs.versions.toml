@@ -64,11 +64,17 @@ composeai-preview-annotations = "3.17.1"
 koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
 livery = "0.4.0"
+rc-players = "2.24.0"
 
 
 [libraries]
 livery-compose = { module = "ee.schimke.composeai:livery-compose", version.ref = "livery" }
 livery-client = { module = "ee.schimke.composeai:livery-client", version.ref = "livery" }
+livery-render = { module = "ee.schimke.composeai:livery-render", version.ref = "livery" }
+livery-publish = { module = "ee.schimke.composeai:livery-publish", version.ref = "livery" }
+rc-players-bom = { module = "ee.schimke.composeai:rc-players-bom", version.ref = "rc-players" }
+rc-player-compose = { module = "ee.schimke.composeai:rc-player-compose" }
+rc-remote-creation-compose = { module = "ee.schimke.composeai:third-party-remote-creation-compose" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 coil-bom = { module = "io.coil-kt:coil-bom", version.ref = "io-coil-kt" }
 coil3-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "io-coil3-kt" }
@@ -271,6 +277,7 @@ multiplatform-settings = ["multiplatform-settings", "multiplatform-settings-coro
 apollo = ["apollo-normalized-cache-in-memory", "apollo-adapters"]
 
 [plugins]
+livery-catalog = { id = "ee.schimke.composeai.livery.catalog", version.ref = "livery" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
 kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "kmmbridge" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }

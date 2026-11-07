@@ -150,8 +150,9 @@ class SduiComponents(
     /** Whether the Livery side has been built (tests: the native arm must never build it). */
     val liveryStarted: Boolean get() = liveryLazy.isInitialized()
 
+    /** The conference's arm: its series' (`sdui_droidcon`), or the base catalog's (`sdui_confetti`). */
     fun armFor(conference: String): String {
-        val series = ConferenceSeries.of(conference) ?: return SduiExperiment.NATIVE
+        val series = ConferenceSeries.of(conference) ?: ConferenceSeries.BASE
         return arms.arm(series) ?: SduiExperiment.LIVERY
     }
 

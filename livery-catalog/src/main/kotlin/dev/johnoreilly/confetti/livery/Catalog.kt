@@ -11,13 +11,7 @@ class TemplateDef(
     /** Capture size in dp. Layout happens in the player; this is the document's nominal size. */
     val widthDp: Int,
     val heightDp: Int,
-    /**
-     * A document written below Compose, straight to AndroidX's `RemoteComposeWriter`, for what the
-     * CMP fork can't write yet (an AGSL shader). Set instead of [content]; it records its reads and
-     * emits on the [TemplateScope] like a composable does.
-     */
-    val raw: ((TemplateScope) -> ByteArray)? = null,
-    val content: @Composable () -> Unit = {},
+    val content: @Composable () -> Unit,
 )
 
 class DesignDef(

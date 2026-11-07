@@ -254,12 +254,8 @@ shader, so it plays on every client.
 **The shader experiment (KotlinConf header).** `kotlinconf-header-shader` draws the same header
 over an AGSL mesh gradient (`MeshGradientAgsl` in `KotlinConfShaderDesigns.kt`). Its uniforms are
 the player's `animationTime`, the card's size and the theme's primary, secondary and tertiary,
-which a theme pack or dynamic colour sets as usual. rc-players' CMP fork can't write a shader yet
-(yschimke/rc-players#826 adds `RemoteBrush.runtimeShader`, unreleased). So this one template is
-written a level down, with AndroidX's `RemoteComposeWriter` (`remote-creation-core`, catalog-only,
-never on an app classpath). Its inputs are named `USER:<input>` exactly as the Compose captures name
-them, and it records its reads and emits on the same `TemplateScope`, so the contract checks cover
-it.
+which a theme pack or dynamic colour sets as usual. It is `KotlinConfHeader(shader = true)`: the
+same composable with `RemoteBrush.runtimeShader` (rc-players 2.28.0) in place of `meshGlows`.
 
 | mesh (default) | shader | shader, dynamic colour |
 |---|---|---|

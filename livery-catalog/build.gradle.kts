@@ -29,8 +29,6 @@ dependencies {
     implementation(platform(libs.rc.players.bom))
     // Authoring: the CMP fork of androidx remote-creation-compose (JVM + Android + iOS).
     implementation(libs.rc.remote.creation.compose)
-    // Below the fork: AndroidX's RemoteComposeWriter, for the documents it can't write (AGSL shaders).
-    implementation(libs.androidx.remote.creation.core)
     // Playing back (previews, tests): the Compose player and Livery's contract binding.
     implementation(libs.rc.player.compose)
     implementation(projects.liveryContracts)

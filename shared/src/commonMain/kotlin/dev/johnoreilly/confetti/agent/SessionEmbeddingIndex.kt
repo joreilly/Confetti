@@ -50,7 +50,7 @@ class SessionEmbeddingIndex(
 
     suspend fun search(query: String, topK: Int): List<Scored> {
         ensureBuilt()
-        val queryVector = embedder.embed(query)
+        val queryVector = embedder.embedQuery(query)
 
         val titleScores = mutableMapOf<String, Double>()
         titleStorage.allDocumentsWithPayload().toList().forEach { (sessionId, v) ->
@@ -77,19 +77,37 @@ class SessionEmbeddingIndex(
             val sessions = repository.allSessions(conference)
             val cachedIds = titleStorage.allDocuments().toList().toSet()
             for (session in sessions.filter { it.id !in cachedIds }) {
-                val titleVec = embedder.embed(session.title)
+                val titleVec = embedder.embedDocument(session.title)
                 titleStorage.store(session.id, titleVec)
                 val docText = session.sessionDescription
                     ?.takeIf { it.isNotBlank() }
                     ?.let { "${session.title}\n$it" }
                     ?: session.title
-                val docVec = embedder.embed(docText)
+                val docVec = embedder.embedDocument(docText)
                 docStorage.store(session.id, docVec)
             }
             built = true
         }
     }
 }
+
+/**
+ * An [Embedder] for models trained on asymmetric retrieval (e.g. EmbeddingGemma), which
+ * expect queries and documents to be embedded with different task prompts.
+ */
+interface RetrievalEmbedder : Embedder {
+    suspend fun embedQuery(text: String): Vector
+    suspend fun embedDocument(text: String): Vector
+}
+
+/** Marker for embedders that run locally, with no per-call API cost. */
+interface OnDeviceEmbedder : Embedder
+
+private suspend fun Embedder.embedQuery(text: String): Vector =
+    if (this is RetrievalEmbedder) embedQuery(text) else embed(text)
+
+private suspend fun Embedder.embedDocument(text: String): Vector =
+    if (this is RetrievalEmbedder) embedDocument(text) else embed(text)
 
 class ApiEmbedder(
     private val provider: LLMEmbeddingProviderAPI,

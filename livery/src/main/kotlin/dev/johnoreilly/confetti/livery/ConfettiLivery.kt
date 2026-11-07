@@ -85,31 +85,65 @@ fun confettiComponents(
  * experiment on those parameters: Firebase assigns users, counts exposures and reads the outcome
  * from Analytics, where every slot's events carry `exp_sdui`.
  *
- * Each arm is read once per process and kept, so a background fetch never swaps the UI under the
- * user; the next launch draws what it activated. Until a fetch has activated, and wherever Firebase
- * isn't available (tests), a series draws [SduiExperiment.LIVERY], and keeps it for the process.
+ * `livery_enabled` is the kill switch: set it to `false` and every series draws
+ * [SduiExperiment.NATIVE], so Livery is never built (no repository, no bundled catalog, no
+ * player), whatever its arm. Use it when Livery is crashing or misbehaving in the field; the A/B
+ * test's events then all report `exp_sdui=native`, so pause the experiment while it's off.
+ *
+ * Each value is read once per process and kept, so a background fetch never swaps the UI under
+ * the user; the next launch draws what it activated (Remote Config activates a fetch on the next
+ * read, and the app fetches at every launch). Until a fetch has activated, and wherever Firebase
+ * isn't available (tests), Livery is enabled and a series draws [SduiExperiment.LIVERY].
  */
-class FirebaseSduiArms(private val forced: String? = null) : SduiArms {
-    private val remoteConfig by lazy {
-        runCatching {
-            Firebase.remoteConfig.apply {
-                setDefaultsAsync((ConferenceSeries.ALL + ConferenceSeries.BASE).associate { key(it) to SduiExperiment.LIVERY })
-                fetchAndActivate()
-            }
-        }.getOrNull()
-    }
+class FirebaseSduiArms(
+    private val forced: String? = null,
+    private val config: RemoteValues = FirebaseRemoteValues,
+) : SduiArms {
     private val arms = ConcurrentHashMap<String, String>()
+
+    /** Read once: a kill switch that flips mid-session applies from the next launch. */
+    private val enabled: Boolean by lazy { config[KILL_SWITCH]?.toBooleanStrictOrNull() ?: true }
 
     override fun arm(series: String): String? {
         forced?.let { return it }
+        if (!enabled) return SduiExperiment.NATIVE
         arms[series]?.let { return it }
         // Whatever this first lookup draws is kept, the default included: a value that arrives
         // later in this process (defaults or a fetch finishing) applies from the next launch.
-        val value = remoteConfig?.getString(key(series))?.takeIf { it in SduiExperiment.ARMS } ?: SduiExperiment.LIVERY
+        val value = config[key(series)]?.takeIf { it in SduiExperiment.ARMS } ?: SduiExperiment.LIVERY
         return arms.putIfAbsent(series, value) ?: value
     }
 
-    private fun key(series: String) = "${SduiExperiment.ID}_$series"
+    /** Where the switch and arms come from: Firebase Remote Config in the app, a map in tests. */
+    fun interface RemoteValues {
+        /** The value of [key], or null when it has none. */
+        operator fun get(key: String): String?
+    }
+
+    /** Firebase Remote Config, with every key's default, fetched and activated on first use. */
+    object FirebaseRemoteValues : RemoteValues {
+        private val remoteConfig by lazy {
+            runCatching {
+                Firebase.remoteConfig.apply {
+                    setDefaultsAsync(
+                        (ConferenceSeries.ALL + ConferenceSeries.BASE).associate { key(it) to SduiExperiment.LIVERY } +
+                            (KILL_SWITCH to "true"),
+                    )
+                    fetchAndActivate()
+                }
+            }.getOrNull()
+        }
+
+        override fun get(key: String): String? =
+            runCatching { remoteConfig?.getString(key) }.getOrNull()?.takeIf { it.isNotEmpty() }
+    }
+
+    companion object {
+        /** Remote Config's kill switch: `false` turns Livery off everywhere. */
+        const val KILL_SWITCH = "livery_enabled"
+
+        private fun key(series: String) = "${SduiExperiment.ID}_$series"
+    }
 }
 
 /**

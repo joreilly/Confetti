@@ -246,11 +246,12 @@ fun KotlinConfSessionWidget() {
             .clip(RemoteRoundedCornerShape(24.rdp))
             .background(kotlinGradient(c, drift = false))
             .clickable(emit(C.open))
-            .padding(16.rdp),
-        verticalArrangement = RemoteArrangement.spacedBy(4.rdp),
+            .padding(horizontal = 16.rdp, vertical = 12.rdp),
+        verticalArrangement = RemoteArrangement.spacedBy(2.rdp),
     ) {
         Label("Next · ".rs + input(C.time), onBrand, size = 12, weight = FontWeight.SemiBold)
-        Label(input(C.title), onBrand, size = 17, weight = FontWeight.Black, maxLines = 3)
+        // Two lines at most: at the launcher's nominal 120dp, a third pushes the room out.
+        Label(input(C.title), onBrand, size = 16, weight = FontWeight.Black, maxLines = 2)
         Label(input(C.room), onBrand, size = 12, weight = FontWeight.Medium)
     }
 }

@@ -512,17 +512,6 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "ConferenceListViewErrorPreview_Error-8b9bd3b7.a11y.png",
-      "cleanBasename": "ConferenceListViewErrorPreview_Error-8b9bd3b7.png",
-      "findings": [],
-      "functionName": "ConferenceListViewErrorPreview",
-      "module": "shared",
-      "previewId": "dev.johnoreilly.confetti.ui.ConferenceListViewKt.ConferenceListViewErrorPreview_Error",
-      "rendersDir": "shared",
-      "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/ConferenceListView.kt",
-      "variant": ""
-    },
-    {
       "annotatedBasename": "ConferenceListViewLoadedPreview_Phone_large-3aa334dd.a11y.png",
       "cleanBasename": "ConferenceListViewLoadedPreview_Phone_large-3aa334dd.png",
       "findings": [],

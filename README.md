@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/pr`. 121 preview(s) across 3 module(s) · 12 error(s) · 3 warning(s) · 8 info._
+_Auto-generated from `compose-preview/a11y/pr`. 120 preview(s) across 3 module(s) · 12 error(s) · 3 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -255,12 +255,6 @@ _No findings._
 ### `ConferenceCardPreview`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/ConferenceCardPreview_Conference_card-d8b49bf2.a11y.png" width="400" />
-
-_No findings._
-
-### `ConferenceListViewErrorPreview`
-
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/shared/ConferenceListViewErrorPreview_Error-8b9bd3b7.a11y.png" width="400" />
 
 _No findings._
 

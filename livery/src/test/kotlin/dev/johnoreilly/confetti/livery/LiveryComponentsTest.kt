@@ -140,23 +140,29 @@ class LiveryComponentsTest {
         assertEquals(SduiExperiment.LIVERY, impression.properties["exp_${SduiExperiment.ID}"])
     }
 
-    /** A slot Confetti draws nothing for (the header) counts no impression when it has no template. */
+    /**
+     * A slot Confetti draws nothing for (the header) never counts a native impression: native
+     * impressions match the native rows on screen, whether or not the catalog has templates.
+     */
     @Test fun anEmptyFallbackCountsNoImpression() {
         val styling = confettiLiveryStyling(ApplicationProvider.getApplicationContext(), liveryHttpClient(OkHttpClient()), analytics, refresh = false)
         compose.setContent {
             Column {
                 ConferenceSlot(styling, "droidconlondon2025", ConferenceCard(name = "droidcon London", dates = "29-30 Oct"), fallback = null)
                 ConferenceSlot(styling, "droidconlondon2025", sessionDetails.toSessionCard(live, isBookmarked = false), identity = "s1") {
-                    BasicText("row")
+                    BasicText("native row")
                 }
             }
         }
-        compose.waitUntil(10_000) { synchronized(logged) { logged.count { it.id == "livery_impression" } } >= 1 }
-        compose.waitForIdle()
+        // Either the session's template or its native row, once the slot has planned.
+        compose.waitUntil(10_000) { synchronized(logged) { logged.any { it.id == "livery_impression" } } }
         Thread.sleep(200)
         compose.waitForIdle()
-        // Only the session row, which drew something.
-        assertEquals(1, synchronized(logged) { logged.count { it.id == "livery_impression" } })
+        val nativeRows = compose.onAllNodesWithText("native row").fetchSemanticsNodes().size
+        val nativeImpressions = synchronized(logged) {
+            logged.count { it.id == "livery_impression" && it.properties["design_id"] == SduiExperiment.NATIVE_DESIGN }
+        }
+        assertEquals(nativeRows, nativeImpressions)
     }
 
     /** A row a lazy list reuses for another session reports that session's impression too. */

@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.livery
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
@@ -27,7 +28,9 @@ import dev.johnoreilly.confetti.ui.components.NativeComponents
 import dev.johnoreilly.confetti.ui.components.SduiComponents
 import dev.johnoreilly.confetti.ui.components.SduiTracking
 import dev.johnoreilly.confetti.ui.components.SessionCardModel
+import dev.johnoreilly.confetti.ui.livery.ConferenceSlot
 import dev.johnoreilly.confetti.ui.livery.LiveryComponents
+import dev.johnoreilly.confetti.ui.livery.toSessionCard
 import kotlinx.datetime.LocalDateTime
 import okhttp3.OkHttpClient
 import org.junit.Assert.assertEquals
@@ -135,6 +138,25 @@ class LiveryComponentsTest {
         val impression = synchronized(logged) { logged.first { it.id == "livery_impression" } }
         assertEquals(SduiExperiment.NATIVE_DESIGN, impression.properties["design_id"])
         assertEquals(SduiExperiment.LIVERY, impression.properties["exp_${SduiExperiment.ID}"])
+    }
+
+    /** A slot Confetti draws nothing for (the header) counts no impression when it has no template. */
+    @Test fun anEmptyFallbackCountsNoImpression() {
+        val styling = confettiLiveryStyling(ApplicationProvider.getApplicationContext(), liveryHttpClient(OkHttpClient()), analytics, refresh = false)
+        compose.setContent {
+            Column {
+                ConferenceSlot(styling, "droidconlondon2025", ConferenceCard(name = "droidcon London", dates = "29-30 Oct"), fallback = null)
+                ConferenceSlot(styling, "droidconlondon2025", sessionDetails.toSessionCard(live, isBookmarked = false), identity = "s1") {
+                    BasicText("row")
+                }
+            }
+        }
+        compose.waitUntil(10_000) { synchronized(logged) { logged.count { it.id == "livery_impression" } } >= 1 }
+        compose.waitForIdle()
+        Thread.sleep(200)
+        compose.waitForIdle()
+        // Only the session row, which drew something.
+        assertEquals(1, synchronized(logged) { logged.count { it.id == "livery_impression" } })
     }
 
     /** A row a lazy list reuses for another session reports that session's impression too. */

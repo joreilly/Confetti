@@ -180,9 +180,13 @@ fun ConferenceSlot(
     /** What the slot shows (a session id): a lazy list can reuse a slot for another item. */
     identity: Any? = null,
     actions: ActionHandlers = emptyMap(),
-    fallback: @Composable (SlotTracker) -> Unit,
+    /**
+     * Confetti's own composable, drawn where there's no template. Null when Confetti draws nothing
+     * there (the header): then nothing is shown and no impression is counted, as in the native arm.
+     */
+    fallback: (@Composable (SlotTracker) -> Unit)?,
 ) {
-    val catalog = styling.catalog(conference) ?: return fallback(SlotTracker.None)
+    val catalog = styling.catalog(conference) ?: return fallback?.invoke(SlotTracker.None) ?: Unit
     LaunchedEffect(catalog) { catalog.refreshIfDue() }
     val contract = data.contract
     val json = remember(data) { data.toJson() }
@@ -193,6 +197,8 @@ fun ConferenceSlot(
     // Re-planned when the data or the colours change, and on a refreshed catalog (LiverySlot
     // watches the repository's revision): a mode switch or a new wallpaper recolours live.
     LiverySlot(key = json to colors, host = host, modifier = modifier, fallback = { reason ->
+        // Nothing to draw (the header): nothing to see, so no impression either.
+        val draw = fallback ?: return@LiverySlot
         // A reason means there's no template here, so Confetti's row is what the user sees: its
         // impression counts, once per item, as the native arm's does. None (still planning) is
         // the brief placeholder before a template arrives, and isn't counted.
@@ -203,7 +209,7 @@ fun ConferenceSlot(
                 ))
             }
         }
-        fallback(native)
+        draw(native)
     }) {
         catalog.planner.forAppData(catalog.query(contract), json, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
     }

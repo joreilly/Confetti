@@ -424,6 +424,28 @@
       "variant": ""
     },
     {
+      "annotatedBasename": "LiveryDroidconPreview_droidcon-dea0f94d.a11y.png",
+      "cleanBasename": "LiveryDroidconPreview_droidcon-dea0f94d.png",
+      "findings": [],
+      "functionName": "LiveryDroidconPreview",
+      "module": "livery",
+      "previewId": "dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryDroidconPreview_droidcon",
+      "rendersDir": "livery",
+      "sourceFile": "src/main/kotlin/dev/johnoreilly/confetti/ui/livery/LiveryPreviews.kt",
+      "variant": ""
+    },
+    {
+      "annotatedBasename": "LiveryKotlinConfPreview_KotlinConf-fa3081e5.a11y.png",
+      "cleanBasename": "LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",
+      "findings": [],
+      "functionName": "LiveryKotlinConfPreview",
+      "module": "livery",
+      "previewId": "dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf",
+      "rendersDir": "livery",
+      "sourceFile": "src/main/kotlin/dev/johnoreilly/confetti/ui/livery/LiveryPreviews.kt",
+      "variant": ""
+    },
+    {
       "annotatedBasename": "AccountIconSignedInPreview_Signed_in-69376947.a11y.png",
       "cleanBasename": "AccountIconSignedInPreview_Signed_in-69376947.png",
       "findings": [],

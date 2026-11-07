@@ -42,7 +42,8 @@ fun designs(
     brand: ConferenceBrand, example: String, title: String,
     header: @Composable () -> Unit, session: @Composable () -> Unit, speaker: @Composable () -> Unit, promo: @Composable () -> Unit,
     // Capture heights: a slot is as tall as its document, so a design whose content needs more
-    // room than the default must ask for it, or its last row (often the action) is clipped.
+    // room than the default must ask for it, or its last row (often the action) is clipped. Each
+    // contract's `long` example renders every input at its limit to check that it fits.
     headerHeightDp: Int = 210,
     sessionHeightDp: Int = 150,
     speakerHeightDp: Int = 110,

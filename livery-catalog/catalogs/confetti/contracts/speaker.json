@@ -67,6 +67,11 @@
       "name": "Alex Kotlin",
       "tagline": "Kotlin team · JetBrains",
       "sessions": "Keynote"
+    },
+    "long": {
+      "name": "A speaker name that runs to sixty characters, just to check!",
+      "tagline": "A job title and a company name that wraps over two lines and keeps on going on.",
+      "sessions": "Twenty-char sessions"
     }
   }
 }

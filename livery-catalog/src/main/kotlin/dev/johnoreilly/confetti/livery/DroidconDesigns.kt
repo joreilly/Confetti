@@ -40,6 +40,10 @@ val DroidconDesigns: List<DesignDef> = designs(
     promo = { DroidconPromo() },
     // Space Mono is wide: the tagline wraps, and the tickets button needs the extra rows.
     headerHeightDp = 250,
+    // At the contracts' limits: a two-line tagline pushes the speaker's sessions out at 110dp,
+    // and a three-line body the promo's CTA at 200dp.
+    speakerHeightDp = 130,
+    promoHeightDp = 250,
     sessionWidget = { DroidconSessionWidget() },
     sessionWear = { DroidconSessionWear() },
 )

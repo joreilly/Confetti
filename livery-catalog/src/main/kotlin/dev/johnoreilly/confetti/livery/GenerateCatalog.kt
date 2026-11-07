@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.livery
 
 import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
+import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
 import androidx.compose.remote.creation.compose.capture.captureCommonRemoteDocument
 import androidx.compose.runtime.CompositionLocalProvider
@@ -59,6 +60,9 @@ fun capture(design: DesignDef, template: TemplateDef): CapturedTemplate = runBlo
             width = template.widthDp, height = template.heightDp, densityDpi = 160,
             densityBehavior = RemoteDensityBehavior.Dp,
         ),
+        // The host's density as an expression, not the capture's constant: any dp a design turns
+        // into pixels (RemoteDp.toPx) is converted on the device that plays it.
+        remoteDensity = RemoteDensity.Host,
     ) {
         CompositionLocalProvider(LocalTemplateScope provides scope) { template.content() }
     }

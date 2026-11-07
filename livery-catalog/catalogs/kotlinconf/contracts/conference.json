@@ -1,0 +1,100 @@
+{
+  "id": "confetti/conference",
+  "major": 1,
+  "minor": 0,
+  "title": "Conference header",
+  "dataSource": "App",
+  "inputs": {
+    "theme.primary": {
+      "type": "color",
+      "role": "primary"
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "role": "onPrimary"
+    },
+    "theme.secondary": {
+      "type": "color",
+      "role": "secondary"
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "role": "tertiary"
+    },
+    "theme.surface": {
+      "type": "color",
+      "role": "surface"
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "role": "onSurface"
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "role": "onSurfaceVariant"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 40
+    },
+    "dates": {
+      "type": "string",
+      "required": true,
+      "maxLength": 32,
+      "description": "already formatted for the locale"
+    },
+    "location": {
+      "type": "string",
+      "maxLength": 60
+    },
+    "tagline": {
+      "type": "string",
+      "maxLength": 90
+    },
+    "live": {
+      "type": "bool",
+      "default": false,
+      "description": "the conference is on today"
+    },
+    "ticketsUrl": {
+      "type": "string",
+      "maxLength": 200
+    }
+  },
+  "actions": {
+    "tickets": {
+      "kind": "open-url",
+      "args": {
+        "url": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  },
+  "examples": {
+    "default": {
+      "name": "droidcon London",
+      "dates": "29–30 OCT 2026",
+      "location": "Business Design Centre, London",
+      "tagline": "The Android developer community, in person.",
+      "live": true,
+      "ticketsUrl": "https://london.droidcon.com"
+    },
+    "kotlinconf": {
+      "name": "KotlinConf 2026",
+      "dates": "May 21–23, 2026",
+      "location": "Messe München, Munich",
+      "tagline": "The Kotlin conference, by JetBrains.",
+      "live": true,
+      "ticketsUrl": "https://kotlinconf.com"
+    },
+    "long": {
+      "name": "A conference name that is forty chars xx",
+      "dates": "Thirty-two characters of dates x",
+      "location": "A venue name that runs on for quite a while, sixty chars xx",
+      "tagline": "A tagline at its ninety character limit, to check that the header wraps and stays legibl"
+    }
+  }
+}

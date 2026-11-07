@@ -1,0 +1,11 @@
+{
+  "id": "kotlinconf-header",
+  "contract": "confetti/conference@1",
+  "title": "KotlinConf header",
+  "author": "confetti",
+  "variant": "default",
+  "install": "Always",
+  "tags": {
+    "series": "kotlinconf"
+  }
+}

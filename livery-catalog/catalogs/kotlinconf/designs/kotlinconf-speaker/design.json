@@ -1,0 +1,11 @@
+{
+  "id": "kotlinconf-speaker",
+  "contract": "confetti/speaker@1",
+  "title": "KotlinConf speaker",
+  "author": "confetti",
+  "variant": "default",
+  "install": "Always",
+  "tags": {
+    "series": "kotlinconf"
+  }
+}

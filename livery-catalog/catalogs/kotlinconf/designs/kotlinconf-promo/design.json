@@ -1,0 +1,11 @@
+{
+  "id": "kotlinconf-promo",
+  "contract": "confetti/promo@1",
+  "title": "KotlinConf promotion",
+  "author": "confetti",
+  "variant": "default",
+  "install": "OnDemand",
+  "tags": {
+    "series": "kotlinconf"
+  }
+}

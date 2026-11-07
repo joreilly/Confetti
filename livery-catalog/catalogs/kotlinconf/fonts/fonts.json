@@ -1,0 +1,6 @@
+[
+  { "file": "Poppins-Regular.ttf", "family": "Poppins", "weight": 400, "license": "OFL-1.1" },
+  { "file": "Poppins-SemiBold.ttf", "family": "Poppins", "weight": 600, "license": "OFL-1.1" },
+  { "file": "Poppins-Bold.ttf", "family": "Poppins", "weight": 700, "license": "OFL-1.1" },
+  { "file": "Poppins-ExtraBold.ttf", "family": "Poppins", "weight": 800, "license": "OFL-1.1" }
+]

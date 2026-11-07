@@ -41,14 +41,20 @@ private fun wear(content: @Composable () -> Unit) = TemplateDef("wear-large", WE
 fun designs(
     brand: ConferenceBrand, example: String, title: String,
     header: @Composable () -> Unit, session: @Composable () -> Unit, speaker: @Composable () -> Unit, promo: @Composable () -> Unit,
+    // Capture heights: a slot is as tall as its document, so a design whose content needs more
+    // room than the default must ask for it, or its last row (often the action) is clipped. Each
+    // contract's `long` example renders every input at its limit to check that it fits.
+    headerHeightDp: Int = 210,
+    sessionHeightDp: Int = 150,
     speakerHeightDp: Int = 110,
+    promoHeightDp: Int = 200,
     sessionWidget: (@Composable () -> Unit)? = null, sessionWear: (@Composable () -> Unit)? = null,
 ) = listOf(
-    DesignDef("${brand.series}-header", ConferenceContract, brand, "$title header", example, listOf(inApp(210, header))),
+    DesignDef("${brand.series}-header", ConferenceContract, brand, "$title header", example, listOf(inApp(headerHeightDp, header))),
     DesignDef("${brand.series}-session", SessionContract, brand, "$title session", example,
-        listOfNotNull(inApp(150, session), sessionWidget?.let(::launcher), sessionWear?.let(::wear))),
+        listOfNotNull(inApp(sessionHeightDp, session), sessionWidget?.let(::launcher), sessionWear?.let(::wear))),
     DesignDef("${brand.series}-speaker", SpeakerContract, brand, "$title speaker", example, listOf(inApp(speakerHeightDp, speaker))),
-    DesignDef("${brand.series}-promo", PromoContract, brand, "$title promotion", example, listOf(inApp(200, promo)), install = "OnDemand"),
+    DesignDef("${brand.series}-promo", PromoContract, brand, "$title promotion", example, listOf(inApp(promoHeightDp, promo)), install = "OnDemand"),
 )
 
 /** Every design in every catalog. Each conference's designs join in their own PR. */

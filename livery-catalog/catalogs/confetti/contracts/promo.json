@@ -85,6 +85,13 @@
       "body": "A full-day workshop the day before the conference. 12 seats left.",
       "cta": "Book a seat",
       "url": "https://kotlinconf.com/workshops"
+    },
+    "long": {
+      "eyebrow": "Twenty chars eyebrow",
+      "headline": "A headline that runs to forty-eight characters x",
+      "body": "A body that runs on for all of the one hundred and twenty characters it may use, to check that the whole promotion fits.",
+      "cta": "Twenty-char CTA text",
+      "url": "https://kotlinconf.com/workshops"
     }
   }
 }

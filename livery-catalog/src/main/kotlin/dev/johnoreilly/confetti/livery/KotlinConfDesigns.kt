@@ -48,6 +48,9 @@ val KotlinConfDesigns: List<DesignDef> = designs(
     speaker = { KotlinConfSpeaker() },
     promo = { KotlinConfPromo() },
     speakerHeightDp = 230,
+    // Poppins at the promo's sizes wraps the headline and body to two lines each; the CTA needs
+    // the extra room to stay a button.
+    promoHeightDp = 250,
     sessionWidget = { KotlinConfSessionWidget() },
     sessionWear = { KotlinConfSessionWear() },
 )

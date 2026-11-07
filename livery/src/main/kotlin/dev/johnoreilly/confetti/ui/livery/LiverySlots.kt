@@ -154,6 +154,15 @@ class LiveryStyling(
 
     companion object {
         val InApp = PlayerCapabilities(Surfaces.IN_APP, maxRcApiLevel = 7, profiles = setOf("androidx"))
+
+        /** Livery's feature for a document with an AGSL shader (ShaderData), as its publisher marks it. */
+        const val SHADERS = "shaders"
+
+        /**
+         * [InApp], saying it runs AGSL shaders when [shaders]: a template that needs them is only
+         * served to a player that says so, and every other player gets its design's fallback.
+         */
+        fun inApp(shaders: Boolean): PlayerCapabilities = if (shaders) InApp.copy(features = InApp.features + SHADERS) else InApp
     }
 }
 

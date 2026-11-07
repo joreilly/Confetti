@@ -247,15 +247,42 @@ no repository, bundled catalog or player. It's read once per process like the ar
 effect at the next launch after the app fetches it. While it's off, every event reports
 `exp_sdui=native`, so pause the A/B test until it's back on.
 
-**Animated headers, and shaders next.** Each header is a slow mesh gradient: radial glows of the
-theme's colours, layered over the card and drifting on `animationTime` (`meshGlows` in
-`Common.kt`). That needs no shader, so it plays on every client. AGSL shaders are the follow-up
-experiment. They need rc-players' `RemoteBrush.runtimeShader` (yschimke/rc-players#826), or
-`ShaderData` written straight to the document writer. Not every client can run them: AndroidX's
-player needs Android 13 or later and the AndroidX profile, and widget hosts can't run them at all.
-So a shader header would ship as its own design, alongside the mesh one, and be picked only for
-clients that report shader support. Everyone else gets the mesh design, or a server-rendered
-static image of the shader.
+**Animated headers.** Each header is a slow mesh gradient: radial glows of the theme's colours,
+layered over the card and drifting on `animationTime` (`meshGlows` in `Common.kt`). That needs no
+shader, so it plays on every client.
+
+**The shader experiment (KotlinConf header).** `kotlinconf-header-shader` draws the same header
+over an AGSL mesh gradient (`MeshGradientAgsl` in `KotlinConfShaderDesigns.kt`). Its uniforms are
+the player's `animationTime`, the card's size and the theme's primary, secondary and tertiary,
+which a theme pack or dynamic colour sets as usual. rc-players' CMP fork can't write a shader yet
+(yschimke/rc-players#826 adds `RemoteBrush.runtimeShader`, unreleased). So this one template is
+written a level down, with AndroidX's `RemoteComposeWriter` (`remote-creation-core`, catalog-only,
+never on an app classpath). Its inputs are named `USER:<input>` exactly as the Compose captures name
+them, and it records its reads and emits on the same `TemplateScope`, so the contract checks cover
+it.
+
+| mesh (default) | shader | shader, dynamic colour |
+|---|---|---|
+| ![](renders/kotlinconf-header-in-app.png) | ![](renders/kotlinconf-header-shader-in-app-shader.png) | ![](renders/kotlinconf-header-shader-in-app-shader-dynamic-teal-light.png) |
+
+Not every client can run a shader. The design carries two templates, and Livery picks between them:
+
+- `in-app-shader` holds the shader. Livery's publisher marks any document with `ShaderData` as
+  `features: [shaders]`, and the selector serves it only to a player that lists that feature. The
+  app lists it on Android 13+ (RuntimeShader). Skia-backed players (desktop, iOS) could list it
+  too.
+- `in-app` is the fallback for every other player: the default design's document, byte for byte.
+  Within a design Livery prefers the narrower size range, so the shader template caps its width,
+  far beyond any header's, and wins wherever it's eligible.
+
+Only an experiment shows the design (`experiments/header_shader.json`: arms `mesh` and `shader`,
+Android). A query without a design id draws the `default` variant, so nobody outside the experiment
+sees it. Livery assigns the arm on the device and reports exposure as `exp_header_shader`.
+`livery_shaders` in Remote Config (`true` by default) stops the app listing the feature, so a shader
+that misbehaves on some devices can be turned off without turning Livery off. Every player then
+gets the fallback. The fallback could later be a server-rendered still of the shader (a Livery
+asset), for clients that should keep the look without running it. `ShaderExperimentTest` checks
+all of this against the channel the publisher builds.
 
 **Interaction tracking.** Every event goes to Confetti's own `AnalyticsLogger`, as Livery's flat
 analytics events (logcat in debug, Firebase in release):

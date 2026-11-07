@@ -1,0 +1,31 @@
+{
+  "target": {
+    "surface": "in-app",
+    "rcApiLevel": 7,
+    "profiles": [
+      "androidx"
+    ],
+    "size": {
+      "minWidthDp": 280,
+      "maxWidthDp": 4000
+    }
+  },
+  "reads": [
+    "theme.primary",
+    "theme.onPrimary",
+    "theme.secondary",
+    "theme.tertiary",
+    "dates",
+    "live",
+    "name",
+    "tagline",
+    "location",
+    "ticketsUrl"
+  ],
+  "emits": [
+    "tickets"
+  ],
+  "fonts": [
+    "Poppins"
+  ]
+}

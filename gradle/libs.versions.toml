@@ -75,6 +75,9 @@ livery-publish = { module = "ee.schimke.composeai:livery-publish", version.ref =
 rc-players-bom = { module = "ee.schimke.composeai:rc-players-bom", version.ref = "rc-players" }
 rc-player-compose = { module = "ee.schimke.composeai:rc-player-compose" }
 rc-remote-creation-compose = { module = "ee.schimke.composeai:third-party-remote-creation-compose" }
+# AndroidX's own Remote Compose writer, for what the CMP fork can't write yet (AGSL shaders: the
+# shader experiment in livery-catalog). JVM-only and catalog-only: never on an app classpath.
+androidx-remote-creation-core = { module = "androidx.compose.remote:remote-creation-core", version = "1.0.0-alpha23" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 coil-bom = { module = "io.coil-kt:coil-bom", version.ref = "io-coil-kt" }
 coil3-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "io-coil3-kt" }

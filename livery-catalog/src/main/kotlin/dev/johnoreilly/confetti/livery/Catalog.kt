@@ -11,7 +11,13 @@ class TemplateDef(
     /** Capture size in dp. Layout happens in the player; this is the document's nominal size. */
     val widthDp: Int,
     val heightDp: Int,
-    val content: @Composable () -> Unit,
+    /**
+     * A document written below Compose, straight to AndroidX's `RemoteComposeWriter`, for what the
+     * CMP fork can't write yet (an AGSL shader). Set instead of [content]; it records its reads and
+     * emits on the [TemplateScope] like a composable does.
+     */
+    val raw: ((TemplateScope) -> ByteArray)? = null,
+    val content: @Composable () -> Unit = {},
 )
 
 class DesignDef(
@@ -26,13 +32,13 @@ class DesignDef(
     val variant: String = "default",
 )
 
-private const val IN_APP = """{ "surface": "in-app", "rcApiLevel": 7, "profiles": ["androidx"], "size": { "minWidthDp": 280 } }"""
+internal const val IN_APP = """{ "surface": "in-app", "rcApiLevel": 7, "profiles": ["androidx"], "size": { "minWidthDp": 280 } }"""
 private const val LAUNCHER = """{ "surface": "launcher-widget", "rcApiLevel": 7, "profiles": ["widgets"], "size": { "minWidthDp": 110, "maxWidthDp": 400, "minHeightDp": 80, "maxHeightDp": 400 } }"""
 private const val WEAR_LARGE = """{ "surface": "wear-widget", "rcApiLevel": 7, "profiles": ["glance-wear"], "container": "wear:large", "theme": "baked:dark" }"""
 
-private fun inApp(heightDp: Int, content: @Composable () -> Unit) = TemplateDef("in-app", IN_APP, 360, heightDp, content)
-private fun launcher(content: @Composable () -> Unit) = TemplateDef("launcher", LAUNCHER, 250, 120, content)
-private fun wear(content: @Composable () -> Unit) = TemplateDef("wear-large", WEAR_LARGE, 200, 112, content)
+private fun inApp(heightDp: Int, content: @Composable () -> Unit) = TemplateDef("in-app", IN_APP, 360, heightDp, content = content)
+private fun launcher(content: @Composable () -> Unit) = TemplateDef("launcher", LAUNCHER, 250, 120, content = content)
+private fun wear(content: @Composable () -> Unit) = TemplateDef("wear-large", WEAR_LARGE, 200, 112, content = content)
 
 /**
  * A brand's four designs: [sessionWidget] and [sessionWear] add the session's launcher and Wear
@@ -58,4 +64,4 @@ fun designs(
 )
 
 /** Every design in every catalog. Each conference's designs join in their own PR. */
-val AllDesigns: List<DesignDef> = ConfettiDesigns + DroidconDesigns + KotlinConfDesigns
+val AllDesigns: List<DesignDef> = ConfettiDesigns + DroidconDesigns + KotlinConfDesigns + KotlinConfShaderDesigns

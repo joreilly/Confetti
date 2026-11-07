@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.livery
 
 import android.content.Context
+import android.os.Build
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.remoteConfig
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
@@ -127,7 +128,7 @@ class FirebaseSduiArms(
                 Firebase.remoteConfig.apply {
                     setDefaultsAsync(
                         (ConferenceSeries.ALL + ConferenceSeries.BASE).associate { key(it) to SduiExperiment.LIVERY } +
-                            (KILL_SWITCH to "true"),
+                            (KILL_SWITCH to "true") + (SHADERS_SWITCH to "true"),
                     )
                     fetchAndActivate()
                 }
@@ -142,9 +143,25 @@ class FirebaseSduiArms(
         /** Remote Config's kill switch: `false` turns Livery off everywhere. */
         const val KILL_SWITCH = "livery_enabled"
 
+        /** Remote Config's switch for AGSL shaders: `false` serves every design's shader-free template. */
+        const val SHADERS_SWITCH = "livery_shaders"
+
         private fun key(series: String) = "${SduiExperiment.ID}_$series"
     }
 }
+
+/**
+ * Whether Livery may draw templates with an AGSL shader here (the KotlinConf header experiment's
+ * `shader` arm): Android 13+, the first with RuntimeShader, unless Remote Config's
+ * [FirebaseSduiArms.SHADERS_SWITCH] is `false`. Otherwise the player says it has no shaders and
+ * Livery serves the design's fallback template, so a shader that misbehaves on some devices can be
+ * turned off without turning Livery off. Read once, when the styling is built.
+ */
+fun shadersSupported(
+    sdkInt: Int = Build.VERSION.SDK_INT,
+    config: FirebaseSduiArms.RemoteValues = FirebaseSduiArms.FirebaseRemoteValues,
+): Boolean = sdkInt >= Build.VERSION_CODES.TIRAMISU &&
+    config[FirebaseSduiArms.SHADERS_SWITCH]?.toBooleanStrictOrNull() != false
 
 /**
  * Livery's Ktor client on the app's own [OkHttpClient] (its connection pool, cache, interceptors
@@ -175,7 +192,9 @@ fun confettiLiveryStyling(
     templatesUrl: String = "",
     clock: Clock = Clock { System.currentTimeMillis() },
     refresh: Boolean = templatesUrl.isNotEmpty(),
+    shaders: Boolean = shadersSupported(),
 ): LiveryStyling {
+    val capabilities = LiveryStyling.inApp(shaders)
     val app = context.applicationContext
     val fetcher = KtorFetcher(httpClient)
     // A catalog per series this build bundles (catalogs/<series>, built into :livery's assets),
@@ -192,7 +211,7 @@ fun confettiLiveryStyling(
             blobs = FileBlobStore(File(app.cacheDir, "livery/$series/blobs")),
             kv = FileKeyValueStore(File(app.filesDir, "livery/$series")),
             clock = clock,
-            targets = listOf(LiveryStyling.InApp),
+            targets = listOf(capabilities),
             bundled = AndroidBundled.fromAssets(app, "livery/$series"),
         )
     }
@@ -213,6 +232,7 @@ fun confettiLiveryStyling(
             )
         },
         refresh = refresh,
+        capabilities = capabilities,
     )
 }
 

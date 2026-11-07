@@ -55,6 +55,7 @@ class CapturedTemplate(
 /** Captures one template to Remote Compose bytes on the JVM, recording what it read and emitted. */
 fun capture(design: DesignDef, template: TemplateDef): CapturedTemplate = runBlocking {
     val scope = TemplateScope(design.contract, design.brand)
+    template.raw?.let { write -> return@runBlocking CapturedTemplate(design, template, write(scope), scope.reads, scope.emits, scope.fonts) }
     val bytes = captureCommonRemoteDocument(
         creationDisplayInfo = RemoteCreationDisplayInfo(
             width = template.widthDp, height = template.heightDp, densityDpi = 160,
@@ -147,7 +148,7 @@ fun checkContracts(captured: List<CapturedTemplate>, catalog: File, brand: Confe
     captured.groupBy { it.design }.forEach { (design, templates) ->
         val emitted = templates.flatMap { it.emits }.toSet()
         design.contract.actions.keys.filterNot { it in emitted }.forEach { problems += "${design.id}: never emits ${design.contract.ref} action '$it'" }
-        templates.filter { it.template.name == "in-app" }.forEach { t ->
+        templates.filter { it.template.name.startsWith("in-app") }.forEach { t ->
             design.contract.inputs.values.filter { it.required && it.name !in t.reads }
                 .forEach { problems += "${design.id}/in-app: doesn't show required input '${it.name}'" }
         }
@@ -267,18 +268,18 @@ private fun renderSeries(brand: ConferenceBrand, captured: List<CapturedTemplate
         "dynamic-teal-light" to (Color(0xFF00897B) to false),
         "dynamic-rose-dark" to (Color(0xFFD81B60) to true),
     )
-    captured.filter { it.template.name == "in-app" }.forEach { t ->
+    captured.filter { it.template.name.startsWith("in-app") }.forEach { t ->
         val c = t.design.contract
         val data = c.data(c.examples.getValue(t.design.example))
         for (dark in listOf(false, true)) {
             val mode = if (dark) "dark" else "light"
-            out.resolve("${t.design.id}-in-app-$mode.png")
+            out.resolve("${t.design.id}-${t.template.name}-$mode.png")
                 .writeBytes(render(t, data, pack(ConferenceSeries.themePack(brand.series, dark)), dark))
         }
         dynamic.forEach { (name, seed) ->
             val (color, dark) = seed
             val scheme = dynamicColorScheme(seedColor = color, isDark = dark, isAmoled = false)
-            out.resolve("${t.design.id}-in-app-$name.png").writeBytes(render(t, data, scheme.toLiveryTheme(), dark))
+            out.resolve("${t.design.id}-${t.template.name}-$name.png").writeBytes(render(t, data, scheme.toLiveryTheme(), dark))
         }
     }
 }

@@ -107,7 +107,7 @@ kotlin {
                 implementation(libs.lifecyle.runtime)
                 implementation(libs.haze)
                 api("com.mikepenz:multiplatform-markdown-renderer-m3:0.46.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.9.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.9.2")
 
                 implementation(libs.koog.agents)
                 implementation(libs.koog.prompt.executor.llms.all)

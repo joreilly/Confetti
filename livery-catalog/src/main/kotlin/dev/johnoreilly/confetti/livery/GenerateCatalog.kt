@@ -241,7 +241,8 @@ private fun renderSeries(brand: ConferenceBrand, captured: List<CapturedTemplate
     captured.forEach { t ->
         val c = t.design.contract
         out.resolve("${t.design.id}-${t.template.name}.png").writeBytes(render(t, c.data(c.examples.getValue(t.design.example))))
-        c.examples["long"]?.takeIf { t.template.name == "in-app" }?.let { long ->
+        // Every template, widgets and Wear included, at the contract's input limits.
+        c.examples["long"]?.let { long ->
             out.resolve("${t.design.id}-${t.template.name}-long.png").writeBytes(render(t, c.data(long)))
         }
     }

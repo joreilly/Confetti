@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import dev.johnoreilly.confetti.ui.components.NativeComponents
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -45,12 +46,14 @@ import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
  * full-screen entries on a phone.
  */
 
-/** Confetti's brand theme with dynamic (Material You) theming disabled, so the catalog is deterministic. */
+/** Confetti's theme (no dynamic colour), bundled preview images, and [components] for the screens. */
 @Composable
-internal fun CatalogTheme(content: @Composable () -> Unit) {
+internal fun CatalogTheme(
+    components: ConferenceComponents = NativeComponents(),
+    content: @Composable context(ConferenceComponents) () -> Unit,
+) {
     ConfettiTheme(disableDynamicTheming = true) {
-        // Speaker photos from the bundled preview images, never the network (see PreviewImages).
-        PreviewImages(content = content)
+        PreviewImages { with(components) { content() } }
     }
 }
 
@@ -186,18 +189,16 @@ fun ColorSchemeSpecimenPreview() {
 @Composable
 fun ScheduleScreenPreview() {
     CatalogTheme {
-        with(NativeComponents()) {
-            SessionListView(
-                uiState = sessionsSuccessState,
-                sessionSelected = {},
-                addBookmark = {},
-                removeBookmark = {},
-                onRefresh = {},
-                onNavigateToSignIn = {},
-                onTrackSelectionChanged = {},
-                isLoggedIn = false,
-            )
-        }
+        SessionListView(
+            uiState = sessionsSuccessState,
+            sessionSelected = {},
+            addBookmark = {},
+            removeBookmark = {},
+            onRefresh = {},
+            onNavigateToSignIn = {},
+            onTrackSelectionChanged = {},
+            isLoggedIn = false,
+        )
     }
 }
 
@@ -205,13 +206,11 @@ fun ScheduleScreenPreview() {
 @Composable
 fun SessionDetailsScreenPreview() {
     CatalogTheme {
-        with(NativeComponents()) {
-            SessionDetailViewShared(
-                conference = "kotlinconf2023",
-                session = sessionDetails,
-                onSpeakerClick = {},
-            )
-        }
+        SessionDetailViewShared(
+            conference = "kotlinconf2023",
+            session = sessionDetails,
+            onSpeakerClick = {},
+        )
     }
 }
 
@@ -219,14 +218,12 @@ fun SessionDetailsScreenPreview() {
 @Composable
 fun SpeakerDetailsScreenPreview() {
     CatalogTheme {
-        with(NativeComponents()) {
-            SpeakerDetailsView(
-                conference = "kotlinconf2023",
-                speaker = johnOreillySpeaker,
-                navigateToSession = {},
-                popBack = {},
-                onSocialLinkClicked = {},
-            )
-        }
+        SpeakerDetailsView(
+            conference = "kotlinconf2023",
+            speaker = johnOreillySpeaker,
+            navigateToSession = {},
+            popBack = {},
+            onSocialLinkClicked = {},
+        )
     }
 }

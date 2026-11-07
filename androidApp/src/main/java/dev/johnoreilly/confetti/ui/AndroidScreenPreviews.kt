@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.ui
 
-import dev.johnoreilly.confetti.ui.components.NativeComponents
 import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,14 +40,12 @@ import dev.johnoreilly.confetti.ui.speakers.SpeakerDetailsView
 @Composable
 internal fun AndroidSessionDetailPreview() {
     CatalogTheme {
-        with(NativeComponents()) {
-            SessionDetailViewShared(
-                conference = "kotlinconf2023",
-                session = sessionDetails,
-                onSpeakerClick = {},
-                onRoomClick = {},
-            )
-        }
+        SessionDetailViewShared(
+            conference = "kotlinconf2023",
+            session = sessionDetails,
+            onSpeakerClick = {},
+            onRoomClick = {},
+        )
     }
 }
 
@@ -75,14 +72,12 @@ internal fun AndroidSessionDetailPreview() {
 @Composable
 internal fun AndroidSpeakerDetailsPreview() {
     CatalogTheme {
-        with(NativeComponents()) {
-            SpeakerDetailsView(
-                conference = "kotlinconf2023",
-                speaker = johnOreillySpeaker,
-                navigateToSession = {},
-                popBack = {},
-                onSocialLinkClicked = {},
-            )
-        }
+        SpeakerDetailsView(
+            conference = "kotlinconf2023",
+            speaker = johnOreillySpeaker,
+            navigateToSession = {},
+            popBack = {},
+            onSocialLinkClicked = {},
+        )
     }
 }

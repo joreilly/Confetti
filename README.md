@@ -124,7 +124,7 @@ _No findings._
 
 ### `SessionDetailsPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/androidApp/SessionDetailsPreview-80cd2284.a11y.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/androidApp/SessionDetailsPreview-80cd2284.png" width="400" />
 
 _No findings._
 

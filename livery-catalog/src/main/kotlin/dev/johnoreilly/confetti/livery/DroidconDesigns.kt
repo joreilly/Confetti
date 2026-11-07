@@ -57,6 +57,11 @@ fun DroidconHeader() {
             .fillMaxWidth()
             .clip(RemoteRoundedCornerShape(8.rdp))
             .background(c.surface)
+            // A faint terminal glow: green and blue light drifting behind the copy.
+            .meshGlows(listOf(
+                Glow(c.primary.copy(alpha = 0.2f.rf), x = 320f, y = 30f, radius = 200f, periodSeconds = 32f),
+                Glow(c.tertiary.copy(alpha = 0.16f.rf), x = 40f, y = 240f, radius = 190f, periodSeconds = 24f, phase = 3f),
+            ))
             .border(1.rdp, c.primary, RemoteRoundedCornerShape(8.rdp))
             .padding(20.rdp),
         verticalArrangement = RemoteArrangement.spacedBy(6.rdp),

@@ -81,7 +81,14 @@ fun KotlinConfHeader() {
         modifier = RemoteModifier
             .fillMaxWidth()
             .clip(RemoteRoundedCornerShape(24.rdp))
-            .background(kotlinGradient(c)),
+            // The Kotlin colours as a slow mesh rather than a straight gradient: purple underneath,
+            // magenta and coral light drifting across it.
+            .background(c.primary)
+            .meshGlows(listOf(
+                Glow(c.secondary.copy(alpha = 0.85f.rf), x = 300f, y = 40f, radius = 230f, drift = 50f, periodSeconds = 28f),
+                Glow(c.tertiary.copy(alpha = 0.75f.rf), x = 50f, y = 180f, radius = 200f, drift = 50f, periodSeconds = 36f, phase = 2.5f),
+                Glow(c.secondary.copy(alpha = 0.35f.rf), x = 120f, y = 0f, radius = 160f, drift = 60f, periodSeconds = 22f, phase = 5f),
+            )),
     ) {
         // A slowly turning "K" diamond in the corner: decoration, on the player's clock.
         RemoteBox(RemoteModifier.fillMaxWidth().padding(top = 14.rdp, end = 18.rdp), contentAlignment = RemoteAlignment.TopEnd) {

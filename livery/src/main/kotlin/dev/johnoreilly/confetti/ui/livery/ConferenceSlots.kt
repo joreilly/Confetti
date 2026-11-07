@@ -76,7 +76,9 @@ class LiveryComponents(
             conference = state.conference,
             data = card,
             actions = mapOf(ConferenceContract.tickets to { args -> args["url"]?.let(uriHandler::openUri) }),
-        ) {}
+            // Native draws no header, so without a template there's nothing to see or count.
+            fallback = null,
+        )
     }
 
     @Composable
@@ -105,7 +107,7 @@ fun SpeakerCardSlot(
     conference: String,
     speaker: SpeakerDetails,
     onOpen: () -> Unit = {},
-    fallback: @Composable (SlotTracker) -> Unit = {},
+    fallback: (@Composable (SlotTracker) -> Unit)? = null,
 ) {
     ConferenceSlot(
         styling = styling,

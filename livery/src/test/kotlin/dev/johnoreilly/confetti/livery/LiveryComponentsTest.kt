@@ -109,6 +109,11 @@ class LiveryComponentsTest {
         assertTrue(components.liveryStarted)
         assertEquals(2, nativeRows())
         assertEquals(0, compose.onAllNodes(liverySlot).fetchSemanticsNodes().size)
+        // Those rows count as impressions in the livery arm, as the native arm's rows do.
+        compose.waitUntil(10_000) { synchronized(logged) { logged.count { it.id == "livery_impression" } } == 2 }
+        val impression = synchronized(logged) { logged.first { it.id == "livery_impression" } }
+        assertEquals(SduiExperiment.NATIVE_DESIGN, impression.properties["design_id"])
+        assertEquals(SduiExperiment.LIVERY, impression.properties["exp_${SduiExperiment.ID}"])
     }
 
     /** A row a lazy list reuses for another session reports that session's impression too. */

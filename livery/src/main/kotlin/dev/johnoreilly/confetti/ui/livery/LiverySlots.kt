@@ -177,6 +177,8 @@ fun ConferenceSlot(
     conference: String,
     data: ContractData,
     modifier: Modifier = Modifier.fillMaxWidth(),
+    /** What the slot shows (a session id): a lazy list can reuse a slot for another item. */
+    identity: Any? = null,
     actions: ActionHandlers = emptyMap(),
     fallback: @Composable (SlotTracker) -> Unit,
 ) {
@@ -190,7 +192,19 @@ fun ConferenceSlot(
     val native = remember(catalog, contract) { nativeTracker(styling, catalog, contract) }
     // Re-planned when the data or the colours change, and on a refreshed catalog (LiverySlot
     // watches the repository's revision): a mode switch or a new wallpaper recolours live.
-    LiverySlot(key = json to colors, host = host, modifier = modifier, fallback = { fallback(native) }) {
+    LiverySlot(key = json to colors, host = host, modifier = modifier, fallback = { reason ->
+        // A reason means there's no template here, so Confetti's row is what the user sees: its
+        // impression counts, once per item, as the native arm's does. None (still planning) is
+        // the brief placeholder before a template arrives, and isn't counted.
+        if (reason != null) {
+            LaunchedEffect(contract, identity) {
+                catalog.slotEvents.emit(TemplateEvent(
+                    TemplateEvent.Type.Impression, styling.clock.nowEpochMs(), designId = SduiExperiment.NATIVE_DESIGN, detail = contract.ref,
+                ))
+            }
+        }
+        fallback(native)
+    }) {
         catalog.planner.forAppData(catalog.query(contract), json, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
     }
 }

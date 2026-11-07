@@ -85,6 +85,7 @@ class LiveryComponents(
             styling = styling,
             conference = card.conference,
             data = card.session.toSessionCard(card.now, card.isBookmarked),
+            identity = card.session.id,
             actions = mapOf(
                 SessionContract.open to { _ -> card.sessionSelected(card.session.id) },
                 SessionContract.bookmark to { _ -> card.toggleBookmark() },
@@ -110,6 +111,7 @@ fun SpeakerCardSlot(
         styling = styling,
         conference = conference,
         data = speaker.toSpeakerCard(),
+        identity = speaker.id,
         actions = mapOf(SpeakerContract.open to { _ -> onOpen() }),
         fallback = fallback,
     )

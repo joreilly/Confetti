@@ -53,6 +53,12 @@ fun ConfettiHeader() {
             .fillMaxWidth()
             .clip(RemoteRoundedCornerShape(16.rdp))
             .background(c.primary)
+            // A slow mesh of the brand's other two colours under the copy.
+            .meshGlows(listOf(
+                Glow(c.secondary.copy(alpha = 0.45f.rf), x = 310f, y = 10f, radius = 190f, periodSeconds = 34f),
+                Glow(c.tertiary.copy(alpha = 0.4f.rf), x = 30f, y = 200f, radius = 180f, periodSeconds = 26f, phase = 2f),
+                Glow(c.onPrimary.copy(alpha = 0.08f.rf), x = 180f, y = 100f, radius = 130f, drift = 60f, periodSeconds = 40f, phase = 4f),
+            ))
             .padding(20.rdp),
         verticalArrangement = RemoteArrangement.spacedBy(6.rdp),
     ) {

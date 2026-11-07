@@ -92,6 +92,7 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `AccountIconSignedInPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/AccountIconSignedInPreview_Signed_in-69376947.png" width="150" /> |
 | `AccountIconSignedOutPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/AccountIconSignedOutPreview_Signed_out-e5f6cd36.png" width="150" /> |
 | `ConferenceCardPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceCardPreview_Conference_card-d8b49bf2.png" width="150" /> |
+| `ConferenceListViewErrorPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceListViewErrorPreview_Error-8b9bd3b7.png" width="150" /> |
 | `ConferenceListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceListViewLoadedPreview_Phone_large-3aa334dd.png" width="150" /> |
 | `ConferenceListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceListViewLoadedPreview_Phone_small-576295ec.png" width="150" /> |
 | `ConferenceListViewLoadedPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/shared/ConferenceListViewLoadedPreview_Tablet_landscape-a09396dd.png" width="150" /> |

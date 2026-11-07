@@ -46,9 +46,13 @@ jobs:
     - name: Wear Unit Tests
       run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest :livery:testDebugUnitTest
 
-    # :livery builds on its own like any library; sduiDebug is the one app variant that includes it.
     - name: Build
-      run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug :livery:assembleDebug :androidApp:assembleSduiDebug
+      run: ./gradlew :androidApp:assembleDebug :wearApp:assembleDebug
+
+    # :livery builds on its own like any library; sduiDebug is the one app variant that includes it.
+    # A separate invocation: three apps' dex merges in one build ran the runner's 4 GB heap out.
+    - name: Build sduiDebug
+      run: ./gradlew :livery:assembleDebug :androidApp:assembleSduiDebug
 
   # Launch the app on an emulator and run the Maestro flow shared with the iOS app
   maestro:

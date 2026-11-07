@@ -73,6 +73,13 @@
         "https://plugins.gradle.org/m2/",
         "https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental"
       ]
+    },
+    {
+      "description": "website/ installs with pnpm, whose minimumReleaseAge (1 day) policy rejects any lockfile entry published less than a day ago. Backend Deploy runs that install, but PR CI doesn't, so a Renovate PR for a same-day release (graphiql 6.0.1, 2026-11-07) shows green, merges, and then breaks every deploy until the packages age out. Hold npm updates for the same day so Renovate only proposes versions pnpm will accept. Packages from one monorepo release (graphiql + @graphiql/*) are published together, so this also covers their transitive entries.",
+      "matchManagers": [
+        "npm"
+      ],
+      "minimumReleaseAge": "1 day"
     }
   ]
 }

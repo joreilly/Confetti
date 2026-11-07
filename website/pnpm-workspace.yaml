@@ -1,4 +1,6 @@
+# Versions allowed through pnpm's minimumReleaseAge (1 day) check before they are a day old.
+# Only add entries for releases that have been reviewed. Remove them once they're over a day old.
 minimumReleaseAgeExclude:
-  - '@graphiql/react@1.0.0-rc.4'
-  - '@graphiql/toolkit@1.0.0-rc.1'
-  - graphiql@6.0.0-rc.3
+  - '@graphiql/react@1.0.2'
+  - '@graphiql/toolkit@1.0.1'
+  - graphiql@6.0.1

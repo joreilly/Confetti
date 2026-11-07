@@ -127,6 +127,14 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("confetti")
         }
+        // Server-driven UI: debug plus the :livery module (Livery templates per conference, with
+        // Confetti's own composables as the fallback). The only variant that includes Livery. Same
+        // applicationId as debug: google-services.json has no client for a suffixed one.
+        create("sduiDebug") {
+            initWith(getByName("debug"))
+            versionNameSuffix = "-sdui"
+            matchingFallbacks += listOf("debug")
+        }
     }
 
     packaging {
@@ -214,6 +222,9 @@ dependencies {
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.coil.test)
     debugImplementation(libs.compose.ui.manifest)
+    "sduiDebugImplementation"(libs.compose.ui.manifest)
+    // Livery, only in the sduiDebug build type: no other variant ships it.
+    "sduiDebugImplementation"(projects.livery)
 
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 }
@@ -226,6 +237,10 @@ baselineProfile {
 // The plugin's profiling builds copy release's signing config, whose keystore isn't checked in.
 // They're only installed on the generator's emulator, so sign them with the committed key.
 androidComponents {
+    // AGP creates unit tests only for the test build type (debug); sduiDebug's run too.
+    beforeVariants(selector().withBuildType("sduiDebug")) { variant ->
+        variant.hostTests[com.android.build.api.variant.HostTestBuilder.UNIT_TEST_TYPE]?.enable = true
+    }
     onVariants(selector().withBuildType("nonMinifiedRelease")) {
         it.signingConfig.setConfig(android.signingConfigs.getByName("confetti"))
     }

@@ -241,6 +241,22 @@ per process before drawing, so a background fetch never swaps the UI mid-session
 no value yet (first launch before a fetch, or no Firebase) draws `livery`.
 `-Pconfetti.livery.arm=native|livery` pins it for QA.
 
+**The kill switch.** `livery_enabled` in Remote Config, `true` by default. Set it to `false` and
+every conference draws Confetti's own composables, whatever its arm, and Livery isn't built at all:
+no repository, bundled catalog or player. It's read once per process like the arms, so it takes
+effect at the next launch after the app fetches it. While it's off, every event reports
+`exp_sdui=native`, so pause the A/B test until it's back on.
+
+**Animated headers, and shaders next.** Each header is a slow mesh gradient: radial glows of the
+theme's colours, layered over the card and drifting on `animationTime` (`meshGlows` in
+`Common.kt`). That needs no shader, so it plays on every client. AGSL shaders are the follow-up
+experiment. They need rc-players' `RemoteBrush.runtimeShader` (yschimke/rc-players#826), or
+`ShaderData` written straight to the document writer. Not every client can run them: AndroidX's
+player needs Android 13 or later and the AndroidX profile, and widget hosts can't run them at all.
+So a shader header would ship as its own design, alongside the mesh one, and be picked only for
+clients that report shader support. Everyone else gets the mesh design, or a server-rendered
+static image of the shader.
+
 **Interaction tracking.** Every event goes to Confetti's own `AnalyticsLogger`, as Livery's flat
 analytics events (logcat in debug, Firebase in release):
 - `livery_impression`, `livery_viewable` and `livery_leave` with `duration_ms`;

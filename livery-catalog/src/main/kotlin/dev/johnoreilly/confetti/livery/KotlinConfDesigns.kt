@@ -47,14 +47,12 @@ val KotlinConfDesigns: List<DesignDef> = designs(
     session = { KotlinConfSession() },
     speaker = { KotlinConfSpeaker() },
     promo = { KotlinConfPromo() },
-    // Poppins' tall line height: a two-line name or title needs the room for the rows below it
-    // (the header's location, the session's tag), as the contracts' long examples show.
+    // Poppins' tall line height: at the contracts' limits (their `long` examples) a two-line name,
+    // title, tagline or body needs the room for the row below it (location, tag, sessions, CTA).
     headerHeightDp = 250,
     sessionHeightDp = 170,
-    speakerHeightDp = 230,
-    // Poppins at the promo's sizes wraps the headline and body to two lines each; the CTA needs
-    // the extra room to stay a button.
-    promoHeightDp = 250,
+    speakerHeightDp = 260,
+    promoHeightDp = 275,
     sessionWidget = { KotlinConfSessionWidget() },
     sessionWear = { KotlinConfSessionWear() },
 )

@@ -199,6 +199,10 @@ object SpeakerContract : ConfettiContract("confetti/speaker", 1, 0, "Speaker car
     override val examples get() = mapOf(
         "default" to mapOf(name to "Jane Doe", tagline to "Android GDE · Acme", sessions to "2 sessions"),
         "kotlinconf" to mapOf(name to "Alex Kotlin", tagline to "Kotlin team · JetBrains", sessions to "Keynote"),
+        // Every input at its limit: the renders check the card still fits.
+        "long" to mapOf(name to "A speaker name that runs to sixty characters, just to check!", tagline to
+            "A job title and a company name that wraps over two lines and keeps on going on.",
+            sessions to "Twenty-char sessions"),
     )
 }
 
@@ -217,6 +221,9 @@ object PromoContract : ConfettiContract("confetti/promo", 1, 0, "Conference prom
             body to "Drinks, demos and the famous droidcon quiz. Badge required.", cta to "SEE DETAILS", url to "https://london.droidcon.com"),
         "kotlinconf" to mapOf(eyebrow to "Workshops", headline to "Hands-on Compose Multiplatform",
             body to "A full-day workshop the day before the conference. 12 seats left.", cta to "Book a seat", url to "https://kotlinconf.com/workshops"),
+        "long" to mapOf(eyebrow to "Twenty chars eyebrow", headline to "A headline that runs to forty-eight characters x",
+            body to "A body that runs on for all of the one hundred and twenty characters it may use, to check that the whole promotion fits.",
+            cta to "Twenty-char CTA text", url to "https://kotlinconf.com/workshops"),
     )
 }
 

@@ -68,9 +68,8 @@ import confetti.shared.generated.resources.bookmarks
 import confetti.shared.generated.resources.schedule
 import confetti.shared.generated.resources.speakers
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.HazeStyle
-import dev.chrisbanes.haze.HazeTint
-import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.HazeInput
+import dev.chrisbanes.haze.blur.hazeBlur
 import dev.johnoreilly.confetti.decompose.AppComponent
 import dev.johnoreilly.confetti.decompose.ConferenceComponent
 import dev.johnoreilly.confetti.decompose.DefaultAppComponent
@@ -309,12 +308,12 @@ fun HazeBottomBar(
     content: @Composable RowScope.() -> Unit,
 ) {
     NavigationBar(
-        modifier = modifier.hazeEffect(
-            state = hazeState,
-            style = HazeStyle(
-                backgroundColor = MaterialTheme.colorScheme.surface,
-                tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
-                blurRadius = 25.dp,
+        modifier = modifier.hazeBlur(
+            input = HazeInput.Sources(hazeState),
+            style = rememberHazeBlurStyle(
+                background = MaterialTheme.colorScheme.surface,
+                tint = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                radius = 25.dp,
             )
         ),
         contentColor = MaterialTheme.colorScheme.onSurfaceVariant,

@@ -162,7 +162,9 @@ object ConferenceContract : ConfettiContract("confetti/conference", 1, 0, "Confe
             tagline to "The Kotlin conference, by JetBrains.", live to true, ticketsUrl to "https://kotlinconf.com"),
         "long" to mapOf(name to "A conference name that is forty chars xx", dates to "Thirty-two characters of dates x",
             location to "A venue name that runs on for quite a while, sixty chars xx",
-            tagline to "A tagline at its ninety character limit, to check that the header wraps and stays legibl"),
+            tagline to "A tagline at its ninety character limit, to check that the header wraps and stays legibl",
+            // With a tickets button too: a long venue must leave it room.
+            ticketsUrl to "https://example.com/tickets"),
     )
 }
 

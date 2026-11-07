@@ -206,7 +206,8 @@ fun DroidconSessionWidget() {
         verticalArrangement = RemoteArrangement.spacedBy(4.rdp),
     ) {
         Label("> NEXT UP · ".rs + input(C.time), c.primary, size = 12)
-        Label(input(C.title), c.onSurface, size = 16, weight = FontWeight.Bold, maxLines = 3)
+        // Two lines at most: at the launcher's nominal 120dp, a third leaves no room for the time.
+        Label(input(C.title), c.onSurface, size = 16, weight = FontWeight.Bold, maxLines = 2)
         Label(input(C.room), c.muted, size = 12, weight = FontWeight.Medium)
     }
 }

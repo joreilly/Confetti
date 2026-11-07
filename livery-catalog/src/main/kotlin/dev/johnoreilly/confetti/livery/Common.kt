@@ -1,6 +1,11 @@
 package dev.johnoreilly.confetti.livery
 
+import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteOffset
+import androidx.compose.remote.creation.compose.shaders.RemoteBrush
+import androidx.compose.remote.creation.compose.shaders.radialGradient
+import androidx.compose.remote.creation.compose.state.cos
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.state.RemoteTimeVariables
 import androidx.compose.remote.creation.compose.state.rs
@@ -13,6 +18,7 @@ import androidx.compose.remote.creation.compose.modifier.visibility
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.RemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteColor
+import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.RemoteString
@@ -56,6 +62,40 @@ private const val GONE = 0
 private const val VISIBLE = 1
 
 fun RemoteBoolean.visibleIf(): RemoteInt = select(VISIBLE.ri, GONE.ri)
+
+/**
+ * One soft light in a [meshGlows] background: a radial glow of [color] fading to clear, centred
+ * at ([x], [y]) dp and orbiting that point by [drift] dp once every [periodSeconds].
+ */
+class Glow(
+    val color: RemoteColor,
+    val x: Float,
+    val y: Float,
+    val radius: Float,
+    val drift: Float = 40f,
+    val periodSeconds: Float = 30f,
+    val phase: Float = 0f,
+)
+
+/**
+ * A mesh-gradient look without a custom shader (Remote Compose has none, only linear, radial and
+ * sweep gradients): radial glows layered over the card's own background, each on a slow ellipse
+ * on the player's clock. Meant to be barely noticed: low-alpha colours and periods of 20–40 s,
+ * so it reads as a living surface, not an animation. Costs nothing on the app side.
+ */
+fun RemoteModifier.meshGlows(glows: List<Glow>): RemoteModifier = glows.fold(this) { m, g ->
+    val t = RemoteTimeVariables.continuousSeconds * (2f * Math.PI.toFloat() / g.periodSeconds) + g.phase
+    m.background(
+        RemoteBrush.radialGradient(
+            colors = listOf(g.color, g.color.copy(alpha = 0f.rf)),
+            // In dp, converted on the player: the same mesh on every screen density.
+            center = RemoteOffset(px(cos(t) * g.drift + g.x), px(sin(t) * (g.drift * 0.6f) + g.y)),
+            radius = px(g.radius.rf),
+        ),
+    )
+}
+
+private fun px(dp: RemoteFloat): RemoteFloat = RemoteDensity.Host.toPx(RemoteDp(dp))
 
 /** 0.45…1.0, once every ~1.5 s, on the player's clock: no recomposition, no re-capture. */
 fun pulse(): RemoteFloat = sin(RemoteTimeVariables.continuousSeconds * 4f) * 0.275f + 0.725f

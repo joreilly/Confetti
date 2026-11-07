@@ -1,6 +1,5 @@
 package dev.johnoreilly.confetti.livery
 
-import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.shaders.RemoteBrush
@@ -80,25 +79,26 @@ class Glow(
 /**
  * A mesh-gradient look without a custom shader (Remote Compose has none, only linear, radial and
  * sweep gradients): radial glows layered over the card's own background, each on a slow ellipse
- * on the player's clock. Meant to be barely noticed: low-alpha colours and periods of 20–40 s,
+ * on the document's animation clock. Meant to be barely noticed: low-alpha colours and periods of 20–40 s,
  * so it reads as a living surface, not an animation. Costs nothing on the app side.
  */
 fun RemoteModifier.meshGlows(glows: List<Glow>): RemoteModifier = glows.fold(this) { m, g ->
-    val t = RemoteTimeVariables.continuousSeconds * (2f * Math.PI.toFloat() / g.periodSeconds) + g.phase
+    val t = RemoteTimeVariables.animationTime * (2f * Math.PI.toFloat() / g.periodSeconds) + g.phase
     m.background(
         RemoteBrush.radialGradient(
             colors = listOf(g.color, g.color.copy(alpha = 0f.rf)),
-            // In dp, converted on the player: the same mesh on every screen density.
+            // In dp: capture uses the host's density (GenerateCatalog), so toPx() is an expression the
+            // player evaluates, and the mesh sits the same on every screen.
             center = RemoteOffset(px(cos(t) * g.drift + g.x), px(sin(t) * (g.drift * 0.6f) + g.y)),
             radius = px(g.radius.rf),
         ),
     )
 }
 
-private fun px(dp: RemoteFloat): RemoteFloat = RemoteDensity.Host.toPx(RemoteDp(dp))
+private fun px(dp: RemoteFloat): RemoteFloat = RemoteDp(dp).toPx()
 
-/** 0.45…1.0, once every ~1.5 s, on the player's clock: no recomposition, no re-capture. */
-fun pulse(): RemoteFloat = sin(RemoteTimeVariables.continuousSeconds * 4f) * 0.275f + 0.725f
+/** 0.45…1.0, once every ~1.5 s, on the document's animation clock: no recomposition, no re-capture. */
+fun pulse(): RemoteFloat = sin(RemoteTimeVariables.animationTime * 4f) * 0.275f + 0.725f
 
 @Composable
 fun Label(

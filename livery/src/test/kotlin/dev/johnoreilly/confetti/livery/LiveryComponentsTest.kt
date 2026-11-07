@@ -67,6 +67,27 @@ class LiveryComponentsTest {
         assertTrue(ConferenceComponentsFactory.load() is LiveryComponentsFactory)
     }
 
+    /** Remote Config's kill switch: the app's real components, with Livery never built. */
+    @Test fun theKillSwitchNeverBuildsLivery() {
+        val off = FirebaseSduiArms(config = { mapOf(FirebaseSduiArms.KILL_SWITCH to "false")[it] })
+        val components = confettiComponents(
+            ApplicationProvider.getApplicationContext(), OkHttpClient(), analytics, arms = off,
+        )
+        compose.setContent {
+            MaterialTheme(colorScheme = lightColorScheme()) {
+                Column {
+                    for (conference in listOf("kotlinconf2026", "droidconlondon2025", "fosdem2025")) {
+                        components.SessionCard(card(conference))
+                    }
+                }
+            }
+        }
+        compose.waitForIdle()
+        assertEquals(3, nativeRows())
+        assertEquals(0, compose.onAllNodes(liverySlot).fetchSemanticsNodes().size)
+        assertFalse(components.liveryStarted)
+    }
+
     @Test fun nativeArmNeverBuildsLivery() {
         val components = SduiComponents(
             arms = { SduiExperiment.NATIVE },

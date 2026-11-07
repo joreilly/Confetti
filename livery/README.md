@@ -9,3 +9,6 @@ composables as the fallback.
   include it, and draw Confetti's own UI.
 - The module builds, tests and renders its previews in its own `debug` and `release`, like any
   library, so CI covers it without the app variant.
+
+The catalogs it draws, the A/B test and the findings from building it are in
+[`livery-catalog/README.md`](../livery-catalog/README.md).

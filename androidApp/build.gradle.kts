@@ -234,6 +234,10 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.rule)
     testImplementation(libs.coil.test)
+    // SpeakerPhotoLoadingTest: Coil's ktor3 fetcher uses HttpClient(), whose engine must be OkHttp
+    // in every variant (sduiDebug's :livery pulls rc-player-compose, which must not add CIO).
+    testImplementation(platform(libs.ktor.bom))
+    testImplementation(libs.ktor.client.okhttp)
     debugImplementation(libs.compose.ui.manifest)
     "sduiDebugImplementation"(libs.compose.ui.manifest)
     // Livery, only in the sduiDebug build type: no other variant ships it.

@@ -1,0 +1,29 @@
+{
+  "target": {
+    "surface": "wear-widget",
+    "rcApiLevel": 7,
+    "profiles": [
+      "glance-wear"
+    ],
+    "container": "wear:large",
+    "theme": "baked:dark"
+  },
+  "reads": [
+    "theme.primary",
+    "theme.onPrimary",
+    "theme.secondary",
+    "theme.tertiary",
+    "theme.surface",
+    "theme.onSurface",
+    "theme.onSurfaceVariant",
+    "time",
+    "title",
+    "room"
+  ],
+  "emits": [
+    "open"
+  ],
+  "fonts": [
+    "Space Mono"
+  ]
+}

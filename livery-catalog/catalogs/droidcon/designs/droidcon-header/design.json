@@ -1,0 +1,11 @@
+{
+  "id": "droidcon-header",
+  "contract": "confetti/conference@1",
+  "title": "droidcon header",
+  "author": "confetti",
+  "variant": "default",
+  "install": "Always",
+  "tags": {
+    "series": "droidcon"
+  }
+}

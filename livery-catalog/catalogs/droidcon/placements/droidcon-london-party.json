@@ -1,0 +1,26 @@
+{
+  "id": "droidcon-london-party",
+  "placement": "home.feed",
+  "priority": 20,
+  "template": {
+    "designId": "droidcon-promo"
+  },
+  "data": {
+    "eyebrow": "TONIGHT",
+    "headline": "Community party at 7pm",
+    "body": "Drinks, demos and the famous droidcon quiz. Badge required.",
+    "cta": "SEE DETAILS",
+    "url": "https://london.droidcon.com/party"
+  },
+  "startEpochMs": 1793275200000,
+  "endEpochMs": 1793314800000,
+  "conditions": {
+    "segments": [
+      "conference:droidconlondon2026"
+    ]
+  },
+  "frequency": {
+    "maxImpressions": 3,
+    "perSeconds": 86400
+  }
+}

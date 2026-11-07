@@ -1,0 +1,103 @@
+{
+  "id": "confetti/session",
+  "major": 1,
+  "minor": 0,
+  "title": "Session card",
+  "dataSource": "App",
+  "inputs": {
+    "theme.primary": {
+      "type": "color",
+      "role": "primary"
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "role": "onPrimary"
+    },
+    "theme.secondary": {
+      "type": "color",
+      "role": "secondary"
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "role": "tertiary"
+    },
+    "theme.surface": {
+      "type": "color",
+      "role": "surface"
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "role": "onSurface"
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "role": "onSurfaceVariant"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 120
+    },
+    "speakers": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "names, comma separated"
+    },
+    "room": {
+      "type": "string",
+      "maxLength": 30
+    },
+    "time": {
+      "type": "string",
+      "maxLength": 20,
+      "description": "already formatted, e.g. 10:30 – 11:10"
+    },
+    "tag": {
+      "type": "string",
+      "maxLength": 24
+    },
+    "live": {
+      "type": "bool",
+      "default": false
+    },
+    "bookmarked": {
+      "type": "bool",
+      "default": false
+    }
+  },
+  "actions": {
+    "open": {
+      "kind": "app:open-session"
+    },
+    "bookmark": {
+      "kind": "app:toggle-bookmark"
+    }
+  },
+  "examples": {
+    "default": {
+      "title": "Building adaptive apps with Compose",
+      "speakers": "Jane Doe, John Smith",
+      "room": "Hall 1",
+      "time": "10:30 – 11:10",
+      "tag": "compose",
+      "live": true,
+      "bookmarked": true
+    },
+    "kotlinconf": {
+      "title": "What's new in Kotlin 2.4",
+      "speakers": "Alex Kotlin",
+      "room": "Auditorium",
+      "time": "09:00 – 09:45",
+      "tag": "language",
+      "live": true,
+      "bookmarked": false
+    },
+    "long": {
+      "title": "A very long session title that keeps going to check how the card wraps at two lines and then ellipsizes the rest",
+      "speakers": "Speaker One, Speaker Two, Speaker Three, Speaker Four",
+      "room": "Room with a long name",
+      "time": "10:30 – 11:10",
+      "tag": "multiplatform"
+    }
+  }
+}

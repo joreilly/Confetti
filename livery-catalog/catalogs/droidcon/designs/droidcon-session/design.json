@@ -1,0 +1,11 @@
+{
+  "id": "droidcon-session",
+  "contract": "confetti/session@1",
+  "title": "droidcon session",
+  "author": "confetti",
+  "variant": "default",
+  "install": "Always",
+  "tags": {
+    "series": "droidcon"
+  }
+}

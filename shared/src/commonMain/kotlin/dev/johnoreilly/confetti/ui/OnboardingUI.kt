@@ -31,9 +31,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.HazeStyle
-import dev.chrisbanes.haze.HazeTint
-import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.HazeInput
+import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.johnoreilly.confetti.decompose.OnboardingComponent
 import dev.johnoreilly.confetti.permissions.rememberNotificationPermissionState
@@ -182,12 +181,12 @@ fun OnboardingContent(
                         .fillMaxWidth()
                         .padding(vertical = 16.dp)
                         .clip(cardShape)
-                        .hazeEffect(
-                            state = hazeState,
-                            style = HazeStyle(
-                                backgroundColor = Color.Transparent,
-                                tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.70f)),
-                                blurRadius = 30.dp,
+                        .hazeBlur(
+                            input = HazeInput.Sources(hazeState),
+                            style = rememberHazeBlurStyle(
+                                background = Color.Transparent,
+                                tint = MaterialTheme.colorScheme.surface.copy(alpha = 0.70f),
+                                radius = 30.dp,
                             )
                         ),
                     colors = CardDefaults.cardColors(

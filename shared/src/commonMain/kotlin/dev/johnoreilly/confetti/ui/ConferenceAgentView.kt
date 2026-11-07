@@ -57,9 +57,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.animation.core.*
 import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.HazeStyle
-import dev.chrisbanes.haze.HazeTint
-import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.HazeInput
+import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -222,12 +221,12 @@ fun ConferenceAgentView(
                             inputBarHeightDp = size.height.toDp()
                         }
                     }
-                    .hazeEffect(
-                        state = hazeState,
-                        style = HazeStyle(
-                            backgroundColor = MaterialTheme.colorScheme.surface,
-                            tint = HazeTint(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)),
-                            blurRadius = 25.dp,
+                    .hazeBlur(
+                        input = HazeInput.Sources(hazeState),
+                        style = rememberHazeBlurStyle(
+                            background = MaterialTheme.colorScheme.surface,
+                            tint = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                            radius = 25.dp,
                         )
                     )
             ) {

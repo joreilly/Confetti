@@ -38,7 +38,7 @@ nav-compose = "2.10.2"
 okhttp = "5.5.1"
 okio = "3.18.2"
 permissions = "0.20.1"
-haze = "1.7.3"
+haze = "2.1.0"
 cache4k = "0.14.0"
 stately = "2.1.0"
 protolayout = "1.4.2"
@@ -111,6 +111,7 @@ permissions-compose = { module = "dev.icerock.moko:permissions-compose", version
 permissions-notifications = { module = "dev.icerock.moko:permissions-notifications", version.ref = "permissions" }
 permissions = { module = "dev.icerock.moko:permissions", version.ref = "permissions" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+haze-blur = { module = "dev.chrisbanes.haze:haze-blur", version.ref = "haze" }
 cache4k = { module = "io.github.reactivecircus.cache4k:cache4k", version.ref = "cache4k" }
 stately-isolate = { module = "co.touchlab:stately-isolate", version.ref = "stately" }
 stately-iso-collections = { module = "co.touchlab:stately-iso-collections", version.ref = "stately" }

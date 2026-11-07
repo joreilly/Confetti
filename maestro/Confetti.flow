@@ -8,10 +8,12 @@ appId: ${APP_ID}
 - tapOn: "Skip"
 
 # Conferences and sessions come from the live Confetti backend, so allow for a slow network
-# before scrolling: the list is newest-first, so KotlinConf drifts down as conferences are added
+# before scrolling: the list is newest-first, so KotlinConf drifts down as conferences are added.
+# 60s because a fresh install retries the conference fetch up to 3 times, and a dropped TLS
+# handshake on CI can take ~10s per attempt
 - extendedWaitUntil:
     visible: "\\d{4}"
-    timeout: 30000
+    timeout: 60000
 - scrollUntilVisible:
     element: "KotlinConf 2026"
     direction: DOWN

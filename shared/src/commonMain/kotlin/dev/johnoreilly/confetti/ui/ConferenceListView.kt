@@ -71,6 +71,7 @@ import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.previewConferenceListState
 import dev.johnoreilly.confetti.preview.sampleConferences
 import dev.johnoreilly.confetti.ui.component.ConfettiSearch
+import dev.johnoreilly.confetti.ui.component.ErrorView
 import dev.johnoreilly.confetti.ui.component.LoadingView
 import kotlinx.datetime.LocalDate
 
@@ -144,7 +145,7 @@ private fun ConferenceListContent(component: ConferencesComponent) {
                 .imePadding()
         ) {
             when (val uiState1 = uiState) {
-                ConferencesComponent.Error -> {} //ErrorView(component::refresh)
+                ConferencesComponent.Error -> ErrorView(onRefresh = component::refresh)
                 ConferencesComponent.Loading -> LoadingView()
 
                 is ConferencesComponent.Success -> {
@@ -316,6 +317,14 @@ internal fun ConferenceListViewLoadedPreview() {
 internal fun ConferenceListViewLoadingPreview() {
     ConferenceListView(
         component = PreviewConferencesComponent(ConferencesComponent.Loading),
+    )
+}
+
+@Preview(name = "Error", widthDp = 411, heightDp = 914, showBackground = true)
+@Composable
+internal fun ConferenceListViewErrorPreview() {
+    ConferenceListView(
+        component = PreviewConferencesComponent(ConferencesComponent.Error),
     )
 }
 

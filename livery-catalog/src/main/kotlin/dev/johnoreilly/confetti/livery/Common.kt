@@ -139,9 +139,15 @@ fun LivePill(live: RemoteBoolean, background: RemoteColor, content: RemoteColor,
 
 /** A small rounded tag. */
 @Composable
-fun Chip(text: RemoteString, background: RemoteColor, content: RemoteColor, corner: Int = 50) {
+fun Chip(
+    text: RemoteString,
+    background: RemoteColor,
+    content: RemoteColor,
+    corner: Int = 50,
+    modifier: RemoteModifier = RemoteModifier,
+) {
     RemoteBox(
-        modifier = RemoteModifier
+        modifier = modifier
             .clip(RemoteRoundedCornerShape(corner.rdp))
             .background(background)
             .padding(horizontal = 10.rdp, vertical = 4.rdp),

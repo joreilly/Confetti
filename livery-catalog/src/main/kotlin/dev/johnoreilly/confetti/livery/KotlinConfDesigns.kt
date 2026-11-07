@@ -47,6 +47,10 @@ val KotlinConfDesigns: List<DesignDef> = designs(
     session = { KotlinConfSession() },
     speaker = { KotlinConfSpeaker() },
     promo = { KotlinConfPromo() },
+    // Poppins' tall line height: a two-line name or title needs the room for the rows below it
+    // (the header's location, the session's tag), as the contracts' long examples show.
+    headerHeightDp = 250,
+    sessionHeightDp = 170,
     speakerHeightDp = 230,
     // Poppins at the promo's sizes wraps the headline and body to two lines each; the CTA needs
     // the extra room to stay a button.
@@ -100,7 +104,7 @@ fun KotlinConfHeader() {
                 LivePill(inputBool(C.live), onBrand, c.primary, text = "Live now")
             }
             Label(input(C.name), onBrand, size = 32, weight = FontWeight.Black, maxLines = 2)
-            Label(input(C.tagline), onBrand, size = 15, weight = FontWeight.Normal, maxLines = 2)
+            Label(input(C.tagline), onBrand, size = 15, weight = FontWeight.Normal, maxLines = 1)
             RemoteRow(
                 modifier = RemoteModifier.padding(top = 10.rdp),
                 horizontalArrangement = RemoteArrangement.spacedBy(8.rdp),

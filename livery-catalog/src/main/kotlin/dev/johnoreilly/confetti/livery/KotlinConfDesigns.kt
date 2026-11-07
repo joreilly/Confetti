@@ -49,7 +49,7 @@ val KotlinConfDesigns: List<DesignDef> = designs(
     promo = { KotlinConfPromo() },
     // Poppins' tall line height: at the contracts' limits (their `long` examples) a two-line name,
     // title, tagline or body needs the room for the row below it (location, tag, sessions, CTA).
-    headerHeightDp = 250,
+    headerHeightDp = 290,
     sessionHeightDp = 170,
     speakerHeightDp = 260,
     promoHeightDp = 275,
@@ -110,10 +110,11 @@ fun KotlinConfHeader() {
             }
             Label(input(C.name), onBrand, size = 32, weight = FontWeight.Black, maxLines = 2)
             Label(input(C.tagline), onBrand, size = 15, weight = FontWeight.Normal, maxLines = 1)
-            RemoteRow(
-                modifier = RemoteModifier.padding(top = 10.rdp),
-                horizontalArrangement = RemoteArrangement.spacedBy(8.rdp),
-                verticalAlignment = RemoteAlignment.CenterVertically,
+            // The venue and the tickets button on lines of their own: side by side, a long venue
+            // pushed the button out of the card.
+            RemoteColumn(
+                modifier = RemoteModifier.padding(top = 8.rdp),
+                verticalArrangement = RemoteArrangement.spacedBy(8.rdp),
             ) {
                 Chip(input(C.location), onBrand.copy(alpha = 0.2f.rf), onBrand)
                 // Only when the app has somewhere to send people: no URL, no button.

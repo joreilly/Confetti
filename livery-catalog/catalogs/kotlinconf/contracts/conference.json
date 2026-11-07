@@ -94,7 +94,8 @@
       "name": "A conference name that is forty chars xx",
       "dates": "Thirty-two characters of dates x",
       "location": "A venue name that runs on for quite a while, sixty chars xx",
-      "tagline": "A tagline at its ninety character limit, to check that the header wraps and stays legibl"
+      "tagline": "A tagline at its ninety character limit, to check that the header wraps and stays legibl",
+      "ticketsUrl": "https://example.com/tickets"
     }
   }
 }

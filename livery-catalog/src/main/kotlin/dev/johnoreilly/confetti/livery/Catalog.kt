@@ -24,6 +24,13 @@ class DesignDef(
     val templates: List<TemplateDef>,
     val install: String = "Always",
     val variant: String = "default",
+    /**
+     * Beyond its series: what this design is for, e.g. `type=keynote`, `tag=<a track or category>`
+     * or `session=<id>`. The app asks for those most specific first, and falls back to the
+     * series' default design. A tagged design needs a [variant] of its own, so the plain query's
+     * `default` still wins for every other item.
+     */
+    val tags: Map<String, String> = emptyMap(),
 )
 
 internal const val IN_APP = """{ "surface": "in-app", "rcApiLevel": 7, "profiles": ["androidx"], "size": { "minWidthDp": 280 } }"""
@@ -58,4 +65,4 @@ fun designs(
 )
 
 /** Every design in every catalog. Each conference's designs join in their own PR. */
-val AllDesigns: List<DesignDef> = ConfettiDesigns + DroidconDesigns + KotlinConfDesigns + KotlinConfShaderDesigns
+val AllDesigns: List<DesignDef> = ConfettiDesigns + DroidconDesigns + KotlinConfDesigns + KotlinConfShaderDesigns + KotlinConfKeynoteDesigns

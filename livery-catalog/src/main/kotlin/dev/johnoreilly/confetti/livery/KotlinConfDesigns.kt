@@ -59,6 +59,70 @@ val KotlinConfDesigns: List<DesignDef> = designs(
 
 private val White = Color.White
 
+/**
+ * Session designs made for some sessions only, each with a variant of its own so the plain query's
+ * `default` still wins for the rest. KotlinConf's data (Sessionize) marks its keynote only by title,
+ * so that one is made for the talk itself (`session=<id>`, KotlinConf 2026's opening keynote);
+ * session formats and tracks are tags (`tag=Lightning talk`, `tag=Android`).
+ */
+val KotlinConfKeynoteDesigns: List<DesignDef> = listOf(
+    DesignDef(
+        "kotlinconf-session-keynote", SessionContract, KotlinConf, "KotlinConf opening keynote", "kotlinconf",
+        templates = listOf(TemplateDef("in-app", IN_APP, 360, 200) { KotlinConfKeynoteSession() }),
+        variant = "keynote",
+        tags = mapOf("session" to KOTLINCONF_2026_KEYNOTE),
+    ),
+    DesignDef(
+        "kotlinconf-session-lightning", SessionContract, KotlinConf, "KotlinConf lightning talk", "kotlinconf",
+        templates = listOf(TemplateDef("in-app", IN_APP, 360, 200) { KotlinConfSession(badge = "⚡ Lightning talk") }),
+        variant = "lightning",
+        tags = mapOf("tag" to "Lightning talk"),
+    ),
+)
+
+/** Sessionize's id for KotlinConf 2026's opening keynote, which Confetti keeps as the session id. */
+const val KOTLINCONF_2026_KEYNOTE = "1148503"
+
+@Composable
+fun KotlinConfKeynoteSession() {
+    val C = SessionContract
+    val c = brandColors(KotlinConf)
+    val onBrand = c.onPrimary
+    val bookmarked = inputBool(C.bookmarked)
+    RemoteRow(
+        modifier = RemoteModifier
+            .fillMaxWidth()
+            .clip(RemoteRoundedCornerShape(24.rdp))
+            .background(kotlinGradient(c))
+            .clickable(emit(C.open))
+            .padding(18.rdp),
+        horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
+    ) {
+        RemoteColumn(RemoteModifier.weight(1f), verticalArrangement = RemoteArrangement.spacedBy(6.rdp)) {
+            RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
+                Chip("Keynote".rs, onBrand, c.primary)
+                LivePill(inputBool(C.live), c.tertiary, onBrand, text = "Live")
+                Label(input(C.time), onBrand, size = 13, weight = FontWeight.SemiBold, modifier = RemoteModifier.weight(1f))
+            }
+            Label(input(C.title), onBrand, size = 22, weight = FontWeight.Black, maxLines = 2)
+            Label(input(C.speakers), onBrand, size = 15, weight = FontWeight.SemiBold)
+            Label(input(C.room), onBrand, size = 13, weight = FontWeight.Medium)
+        }
+        RemoteBox(
+            modifier = RemoteModifier
+                .size(40.rdp, 40.rdp)
+                // Half the size: the capture draws a small RemoteCircleShape clip as a rounded square.
+                .clip(RemoteRoundedCornerShape(20.rdp))
+                .background(bookmarked.select(onBrand, onBrand.copy(alpha = 0.2f.rf)))
+                .border(1.5f.rdp, onBrand, RemoteRoundedCornerShape(20.rdp))
+                .clickable(emit(C.bookmark)),
+            contentAlignment = RemoteAlignment.Center,
+        ) {
+            Label(bookmarked.select("♥".rs, "♡".rs), bookmarked.select(c.primary, onBrand), size = 18)
+        }
+    }
+}
+
 /** The Kotlin gradient, its direction turning once every ~30 s. */
 private fun kotlinGradient(c: BrandColors, drift: Boolean = true): RemoteBrush {
     val t = RemoteTimeVariables.animationTime * 0.2f
@@ -136,7 +200,10 @@ fun KotlinConfHeader(shader: Boolean = false) {
 }
 
 @Composable
-fun KotlinConfSession() {
+fun KotlinConfSession(
+    /** A label above the title, for a design made for some sessions only. */
+    badge: String? = null,
+) {
     val C = SessionContract
     val c = brandColors(KotlinConf)
     val bookmarked = inputBool(C.bookmarked)
@@ -151,6 +218,7 @@ fun KotlinConfSession() {
         horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
     ) {
         RemoteColumn(RemoteModifier.weight(1f), verticalArrangement = RemoteArrangement.spacedBy(6.rdp)) {
+            if (badge != null) Label(badge.rs, c.tertiary, size = 13, weight = FontWeight.Black)
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
                 Chip(input(C.time), c.primary, c.onPrimary)
                 LivePill(inputBool(C.live), c.tertiary, c.onPrimary, text = "Live")

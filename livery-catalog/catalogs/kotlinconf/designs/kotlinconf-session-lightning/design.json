@@ -1,0 +1,12 @@
+{
+  "id": "kotlinconf-session-lightning",
+  "contract": "confetti/session@1",
+  "title": "KotlinConf lightning talk",
+  "author": "confetti",
+  "variant": "lightning",
+  "install": "Always",
+  "tags": {
+    "series": "kotlinconf",
+    "tag": "Lightning talk"
+  }
+}

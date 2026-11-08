@@ -1,0 +1,12 @@
+{
+  "id": "kotlinconf-session-keynote",
+  "contract": "confetti/session@1",
+  "title": "KotlinConf opening keynote",
+  "author": "confetti",
+  "variant": "keynote",
+  "install": "Always",
+  "tags": {
+    "series": "kotlinconf",
+    "session": "1148503"
+  }
+}

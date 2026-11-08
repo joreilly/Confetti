@@ -1,0 +1,77 @@
+{
+  "id": "confetti/speaker",
+  "major": 1,
+  "minor": 0,
+  "title": "Speaker card",
+  "dataSource": "App",
+  "inputs": {
+    "theme.primary": {
+      "type": "color",
+      "role": "primary"
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "role": "onPrimary"
+    },
+    "theme.secondary": {
+      "type": "color",
+      "role": "secondary"
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "role": "tertiary"
+    },
+    "theme.surface": {
+      "type": "color",
+      "role": "surface"
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "role": "onSurface"
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "role": "onSurfaceVariant"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60
+    },
+    "tagline": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "job title and company"
+    },
+    "photo": {
+      "type": "image"
+    },
+    "sessions": {
+      "type": "string",
+      "maxLength": 20,
+      "description": "already formatted, e.g. 2 sessions"
+    }
+  },
+  "actions": {
+    "open": {
+      "kind": "app:open-speaker"
+    }
+  },
+  "examples": {
+    "default": {
+      "name": "Jane Doe",
+      "tagline": "Android GDE · Acme",
+      "sessions": "2 sessions"
+    },
+    "kotlinconf": {
+      "name": "Alex Kotlin",
+      "tagline": "Kotlin team · JetBrains",
+      "sessions": "Keynote"
+    },
+    "long": {
+      "name": "A speaker name that runs to sixty characters, just to check!",
+      "tagline": "A job title and a company name that wraps over two lines and keeps on going on.",
+      "sessions": "Twenty-char sessions"
+    }
+  }
+}

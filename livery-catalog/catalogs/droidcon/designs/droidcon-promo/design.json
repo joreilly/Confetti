@@ -1,0 +1,11 @@
+{
+  "id": "droidcon-promo",
+  "contract": "confetti/promo@1",
+  "title": "droidcon promotion",
+  "author": "confetti",
+  "variant": "default",
+  "install": "OnDemand",
+  "tags": {
+    "series": "droidcon"
+  }
+}

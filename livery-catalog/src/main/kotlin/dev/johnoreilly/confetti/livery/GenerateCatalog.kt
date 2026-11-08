@@ -246,6 +246,18 @@ private fun renderSeries(brand: ConferenceBrand, captured: List<CapturedTemplate
             out.resolve("${t.design.id}-${t.template.name}-long.png").writeBytes(render(t, c.data(long)))
         }
     }
+    if (brand == Droidcon) {
+        // What an admin's data-only change looks like: the same droidcon documents, recoloured by
+        // a different theme pack's values (here a venue blue for droidcon Berlin), no new capture.
+        val berlin = Bindings(mapOf(
+            "theme.primary" to NamedValue.Color(0xFF4FC3F7), "theme.secondary" to NamedValue.Color(0xFFFFD54F),
+            "theme.tertiary" to NamedValue.Color(0xFF7E57C2), "theme.onPrimary" to NamedValue.Color(0xFF0B1A2A),
+        ))
+        captured.filter { it.template.name == "in-app" && it.design.contract != PromoContract }.forEach { t ->
+            val c = t.design.contract
+            out.resolve("${t.design.id}-in-app-berlin-theme.png").writeBytes(render(t, c.data(c.examples.getValue(t.design.example)), berlin))
+        }
+    }
     // Light and dark: the same documents with each mode's theme pack, as the app pushes them.
     fun pack(id: String) = catalog.resolve("themes/$id.json").takeIf { it.isFile }
         ?.let { Bindings(json.decodeFromString<ThemePack>(it.readText()).values) } ?: error("no theme pack $id")

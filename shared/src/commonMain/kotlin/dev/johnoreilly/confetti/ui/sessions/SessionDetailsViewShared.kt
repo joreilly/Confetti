@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.ui.sessions
 
+import dev.johnoreilly.confetti.preview.ComponentsPreview
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -63,7 +65,6 @@ import dev.johnoreilly.confetti.fragment.SessionSpeakerDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.preview.MobilePreviews
-import dev.johnoreilly.confetti.preview.PreviewImages
 import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
@@ -79,6 +80,7 @@ import sessionTimeFormat
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
+context(components: ConferenceComponents)
 fun SessionDetailViewShared(
     conference: String,
     session: SessionDetails?,
@@ -144,6 +146,11 @@ fun SessionDetailViewShared(
                         }
                     }
                     Spacer(modifier = Modifier.size(16.dp))
+
+                    // A promotion under the talk: feedback, the next workshop...
+                    if (components.hasPromo(SESSION_FOOTER, conference)) {
+                        components.Promo(SESSION_FOOTER, conference, Modifier.fillMaxWidth())
+                    }
                 }
 
                 if (session.speakers.isNotEmpty()) {
@@ -386,8 +393,8 @@ private fun sessionTimeString(startsAt: LocalDateTime, endsAt: LocalDateTime): S
 @MobilePreviews
 @Composable
 internal fun SessionDetailViewLoadedPreview() {
-    PreviewImages {
-        MaterialTheme {
+    MaterialTheme {
+        ComponentsPreview {
             SessionDetailViewShared(
                 conference = "kotlinconf2023",
                 session = sessionDetails,
@@ -402,10 +409,15 @@ internal fun SessionDetailViewLoadedPreview() {
 @Composable
 internal fun SessionDetailViewEmptyPreview() {
     MaterialTheme {
-        SessionDetailViewShared(
-            conference = "kotlinconf2023",
-            session = null,
-            onSpeakerClick = {},
-        )
+        ComponentsPreview {
+            SessionDetailViewShared(
+                conference = "kotlinconf2023",
+                session = null,
+                onSpeakerClick = {},
+            )
+        }
     }
 }
+
+/** The promotion placement under a talk. */
+private const val SESSION_FOOTER = "session.footer"

@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.livery
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.johnoreilly.confetti.analytics.AnalyticsEvent
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
@@ -125,6 +126,12 @@ class SduiComponents(
     @Composable
     override fun SectionHeader(conference: String, text: String, icon: ImageVector) =
         pick(conference).SectionHeader(conference, text, icon)
+
+    override fun hasPromo(placement: String, conference: String) = pick(conference).hasPromo(placement, conference)
+
+    @Composable
+    override fun Promo(placement: String, conference: String, modifier: Modifier) =
+        pick(conference).Promo(placement, conference, modifier)
 }
 
 /**

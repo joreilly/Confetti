@@ -70,7 +70,7 @@ livery-contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, 
         │                     what `livery build` publishes to the livery-templates branch
         │
         ├── shared/ui/components  ConferenceComponents: what the screens draw a conference's
-        │                     theme, header, session and speaker cards and section headers with
+        │                     theme, header, session and speaker cards, section headers and promotions with
         │                     (a context parameter). Koin binds NativeComponents; no Livery
         │                     types: shared doesn't depend on Livery
         └── livery/           (Android library, in the app only as sduiDebugImplementation)
@@ -143,7 +143,7 @@ Every contract also takes the conference palette as theme roles (`theme.primary`
 
 | Surface | Status here |
 | --- | --- |
-| Phone and tablet (Android) | Wired: the agenda header and the session and speaker cards (the catalogs already hold promotions; the app draws them in a later change). Only in the `sduiDebug` build type (see below); every other variant draws Confetti's own UI |
+| Phone and tablet (Android) | Wired: the agenda header, session and speaker cards, and promotions in the agenda, under sessions and on speaker pages. Only in the `sduiDebug` build type (see below); every other variant draws Confetti's own UI |
 | iOS, desktop, web | The same shared components compile for every target; each platform root draws `App()` through `WithConferenceComponents`, which takes the implementation Koin binds (today `NativeComponents`; Livery's needs a repository and a bundled or hosted catalog) |
 | Launcher widget | Templates authored (`launcher` target); next: a `LiveryLauncherWidgetProvider` for "next session" |
 | Wear | Templates authored (`wear-widget`, `wear:large`); next: a `LiveryWearWidget` beside the existing tiles |
@@ -221,7 +221,7 @@ ships it. The renders use the same files.
 
 **Screens draw through `ConferenceComponents`.** The agenda, session and speaker screens take it
 as a context parameter (`context(components: ConferenceComponents)`) and call
-`components.SessionCard(…)`, `components.ConferenceHeader(…)` and `components.SpeakerCard(…)`. The
+`components.SessionCard(…)`, `components.ConferenceHeader(…)`, `components.SpeakerCard(…)` and `components.Promo(…)`. The
 parameter is threaded from `App()` down, with no CompositionLocal: every platform's root calls
 `WithConferenceComponents { App(…) }`, which supplies the implementation Koin binds, and previews
 use `ComponentsPreview { … }`. Shared's Koin module binds `NativeComponents`; sduiDebug's

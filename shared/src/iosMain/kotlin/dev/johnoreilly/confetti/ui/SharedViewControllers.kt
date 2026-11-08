@@ -6,6 +6,7 @@ import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.sessions.SessionDetailViewShared
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.WithConferenceComponents
 import org.koin.compose.koinInject
 import platform.UIKit.UIViewController
 
@@ -13,7 +14,9 @@ fun SessionDetailsViewController(conference: String, session: SessionDetails, co
     ComposeUIViewController {
         val components: ConferenceComponents = koinInject()
         components.ConferenceTheme(conference, conferenceThemeColor) {
-            SessionDetailViewShared(conference, session, onSpeakerClick)
+            WithConferenceComponents(components) {
+                SessionDetailViewShared(conference, session, onSpeakerClick)
+            }
         }
     }
 

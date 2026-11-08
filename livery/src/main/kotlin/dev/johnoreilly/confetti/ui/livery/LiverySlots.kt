@@ -11,16 +11,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalUriHandler
 import dev.johnoreilly.confetti.livery.Action
 import dev.johnoreilly.confetti.livery.ConferenceSeries
 import dev.johnoreilly.confetti.livery.ConfettiContract
 import dev.johnoreilly.confetti.livery.ContractData
+import dev.johnoreilly.confetti.livery.PromoContract
 import dev.johnoreilly.confetti.livery.SduiExperiment
 import dev.johnoreilly.confetti.livery.SlotTracker
 import dev.johnoreilly.confetti.livery.materialThemeValues
@@ -141,10 +144,18 @@ class LiveryStyling(
         /** Whether the catalog has a design for [contract]: a screen makes room for a slot only then. */
         fun hasDesign(contract: ConfettiContract): Boolean = designed?.contains(contract.ref) == true
 
-        /** Keeps [hasDesign] current: reads the catalog now and again on every new revision. */
+        /** The placements this catalog has rules for; null until [watchDesigns] reads it. */
+        private var placed by mutableStateOf<Set<String>?>(null)
+
+        /** Whether the catalog has a rule for [placement] (its rules may still decide on none). */
+        fun hasPlacement(placement: String): Boolean = placed?.contains(placement) == true
+
+        /** Keeps [hasDesign] and [hasPlacement] current: reads the catalog now and on every new revision. */
         suspend fun watchDesigns() {
             repository.revision.collect {
-                designed = repository.current()?.designs.orEmpty().filterNot { it.revoked }.mapTo(mutableSetOf()) { it.contract }
+                val manifest = repository.current()
+                designed = manifest?.designs.orEmpty().filterNot { it.revoked }.mapTo(mutableSetOf()) { it.contract }
+                placed = manifest?.placements.orEmpty().mapTo(mutableSetOf()) { it.placement }
             }
         }
 
@@ -246,6 +257,36 @@ private fun nativeTracker(
         TemplateEvent.Type.Action, styling.clock.nowEpochMs(), designId = SduiExperiment.NATIVE_DESIGN,
         action = action.name, detail = contract.ref, args = args.filterKeys { it == action.arg },
     ))
+}
+
+/**
+ * A growth placement (`home.feed`, `session.footer`, `speaker.footer`): whatever the conference
+ * catalog's rules decide for its attendees right now. Draws nothing when nothing is decided or
+ * when it is dismissed.
+ */
+@Composable
+fun PromoSlot(
+    styling: LiveryStyling,
+    placement: String,
+    conference: String,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    segments: Set<String> = emptySet(),
+) {
+    val catalog = styling.catalog(conference) ?: return
+    var dismissed by rememberSaveable(placement, conference) { mutableStateOf(false) }
+    if (dismissed) return
+    LaunchedEffect(catalog) { catalog.refreshIfDue() }
+    val uriHandler = LocalUriHandler.current
+    val host = rememberHost(styling, catalog, mapOf(
+        PromoContract.ctaAction to { args -> args["url"]?.let(uriHandler::openUri) },
+        PromoContract.dismiss to { _ -> dismissed = true },
+    ))
+    val colors = rememberSlotColors()
+    LiverySlot(key = Triple(placement, conference, colors), host = host, modifier = modifier) {
+        val decision = catalog.decider.decide(placement, styling.context(conference, segments))
+            ?: return@LiverySlot PlanResult.Fallback("no decision for $placement")
+        catalog.planner.forDecision(catalog.query(PromoContract), decision, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
+    }
 }
 
 /**

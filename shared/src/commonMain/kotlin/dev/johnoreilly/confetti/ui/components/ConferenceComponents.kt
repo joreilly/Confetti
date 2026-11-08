@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti.ui.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.johnoreilly.confetti.decompose.SessionsUiState
@@ -14,10 +15,10 @@ import kotlinx.datetime.LocalDateTime
 import org.koin.compose.koinInject
 
 /**
- * What a conference can restyle: its theme, the header above its agenda, and the items and section
- * headers of its lists (agenda, bookmarks, search, speakers). The app's composables take it as a
- * context parameter (`context(components: ConferenceComponents)`) from `App()` down, so no screen
- * looks it up.
+ * What a conference can restyle: its theme, the header above its agenda, the items and section
+ * headers of its lists (agenda, bookmarks, search, speakers), and the promotions placed around the
+ * app. The app's composables take it as a context parameter
+ * (`context(components: ConferenceComponents)`) from `App()` down, so no screen looks it up.
  *
  * Koin binds the implementation (Confetti's own [NativeComponents] by default), and each platform's
  * root reaches the app through [WithConferenceComponents]. An implementation that restyles only
@@ -46,6 +47,16 @@ interface ConferenceComponents {
     /** A list's section header: a time in the agenda and bookmarks, a result type in search. */
     @Composable
     fun SectionHeader(conference: String, text: String, icon: ImageVector)
+
+    /**
+     * Whether [conference] may show a promotion at [placement] (`home.feed`, `session.footer`,
+     * `speaker.footer`): a screen only makes room for one where it may.
+     */
+    fun hasPromo(placement: String, conference: String): Boolean
+
+    /** A promotion at [placement], when [hasPromo]. */
+    @Composable
+    fun Promo(placement: String, conference: String, modifier: Modifier)
 }
 
 /** What a session card needs, whoever draws it: the talk, its state and the list's callbacks. */
@@ -78,7 +89,7 @@ class SpeakerCardModel(
     val speakerSelected: (String) -> Unit,
 )
 
-/** Confetti's own composables, and no agenda header. */
+/** Confetti's own composables, and no agenda header or promotions. */
 open class NativeComponents : ConferenceComponents {
     @Composable
     override fun ConferenceTheme(conference: String, themeColor: String?, content: @Composable () -> Unit) =
@@ -110,6 +121,11 @@ open class NativeComponents : ConferenceComponents {
     @Composable
     override fun SectionHeader(conference: String, text: String, icon: ImageVector) =
         ConfettiHeader(icon = icon, text = text)
+
+    override fun hasPromo(placement: String, conference: String) = false
+
+    @Composable
+    override fun Promo(placement: String, conference: String, modifier: Modifier) {}
 }
 
 /**

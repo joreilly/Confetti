@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.ui.speakers
 
+import dev.johnoreilly.confetti.preview.ComponentsPreview
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,7 +48,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import dev.johnoreilly.confetti.preview.PreviewImages
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.filled.Close
@@ -72,6 +73,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+context(components: ConferenceComponents)
 fun SpeakerDetailsView(
     conference: String,
     speaker: SpeakerDetails,
@@ -206,6 +208,11 @@ fun SpeakerDetailsView(
                 isLoggedIn = isLoggedIn,
                 navigateToSession = navigateToSession,
             )
+
+            // A promotion on speaker pages: a sponsor, a meetup, a survey.
+            if (components.hasPromo(SPEAKER_FOOTER, conference)) {
+                components.Promo(SPEAKER_FOOTER, conference, Modifier.fillMaxWidth().padding(16.dp))
+            }
         }
     }
 
@@ -285,8 +292,8 @@ fun SpeakerTalks(
 @MobilePreviews
 @Composable
 internal fun SpeakerDetailsViewLoadedPreview() {
-    PreviewImages {
-        MaterialTheme {
+    MaterialTheme {
+        ComponentsPreview {
             SpeakerDetailsView(
                 conference = "kotlinconf2023",
                 speaker = johnOreillySpeaker,
@@ -305,8 +312,8 @@ internal fun SpeakerDetailsViewLoadedPreview() {
 @Preview(name = "Different speaker", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun SpeakerDetailsViewAlternateSpeakerPreview() {
-    PreviewImages {
-        MaterialTheme {
+    MaterialTheme {
+        ComponentsPreview {
             SpeakerDetailsView(
                 conference = "kotlinconf2023",
                 speaker = martinBonninSpeaker,
@@ -321,3 +328,6 @@ internal fun SpeakerDetailsViewAlternateSpeakerPreview() {
         }
     }
 }
+
+/** The promotion placement on a speaker's page. */
+private const val SPEAKER_FOOTER = "speaker.footer"

@@ -1,6 +1,11 @@
 package dev.johnoreilly.confetti.ui.livery
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalUriHandler
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -16,6 +21,8 @@ import dev.johnoreilly.confetti.livery.SpeakerContract
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import dev.johnoreilly.confetti.livery.TrackedNativeComponents
 import dev.johnoreilly.confetti.ui.components.SessionCardModel
+import dev.johnoreilly.confetti.ui.components.SpeakerCardModel
+import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.livery.SlotTracker
 import kotlinx.datetime.LocalDateTime
 import sessionTimeFormat
@@ -60,18 +67,26 @@ fun SpeakerDetails.toSpeakerCard() = SpeakerCard(
 
 /**
  * The conference's Livery designs as [ConferenceComponents]: what `SduiComponents` draws for a
- * conference in the livery arm. Livery maps the agenda's header and the session cards; everything
- * else is [native]'s. A mapped slot with no template for this conference (or a conference with no
+ * conference in the livery arm. Livery maps the agenda's header, the session cards and the speaker
+ * cards; everything else is [native]'s. A mapped slot with no template for this conference (or a conference with no
  * catalog) draws [native] too, reporting its taps as `design_id=native`.
  */
 class LiveryComponents(
     private val styling: LiveryStyling,
     private val native: TrackedNativeComponents,
 ) : ConferenceComponents by native {
-    /** A conference with a catalog has a header slot (empty while its catalog has no header design). */
-    override fun hasConferenceHeader(conference: String) = styling.catalog(conference) != null
+    /** Native's theme, while this conference's catalog is watched for the designs it has. */
+    @Composable
+    override fun ConferenceTheme(conference: String, themeColor: String?, content: @Composable () -> Unit) {
+        styling.catalog(conference)?.let { catalog -> LaunchedEffect(catalog) { catalog.watchDesigns() } }
+        native.ConferenceTheme(conference, themeColor, content)
+    }
 
-    /** The header; the designs draw their tickets button only when there is a ticketsUrl (Confetti's data has none yet). */
+    /** Only once the conference's catalog has a header design: the agenda adds no empty item. */
+    override fun hasConferenceHeader(conference: String) =
+        styling.catalog(conference)?.hasDesign(ConferenceContract) == true
+
+    /** The header. The designs draw their tickets button only when there is a ticketsUrl (none in Confetti's data yet). */
     @Composable
     override fun ConferenceHeader(state: SessionsUiState.Success) {
         val card = state.toConferenceCard() ?: return
@@ -90,6 +105,8 @@ class LiveryComponents(
     override fun SessionCard(card: SessionCardModel) {
         // Breaks are the agenda's own: Confetti's row, never a design, and never counted.
         if (card.session.isBreak() || card.session.isService()) return native.SessionCard(card, SlotTracker.None)
+        // Signed out, the star asks first, as Confetti's own row does.
+        var askToSignIn by remember { mutableStateOf(false) }
         ConferenceSlot(
             styling = styling,
             conference = card.conference,
@@ -97,13 +114,25 @@ class LiveryComponents(
             identity = card.session.id,
             actions = mapOf(
                 SessionContract.open to { _ -> card.sessionSelected(card.session.id) },
-                SessionContract.bookmark to { _ -> card.toggleBookmark() },
+                SessionContract.bookmark to { _ -> if (card.isLoggedIn) card.toggleBookmark() else askToSignIn = true },
             ),
         ) { tracker -> native.SessionCard(card, tracker) }
+        if (askToSignIn) {
+            SignInDialog(onDismissRequest = { askToSignIn = false }, onSignInClicked = card.onNavigateToSignIn)
+        }
     }
+
+    @Composable
+    override fun SpeakerCard(card: SpeakerCardModel) = SpeakerCardSlot(
+        styling = styling,
+        conference = card.conference,
+        speaker = card.speaker,
+        onOpen = { card.speakerSelected(card.speaker.id) },
+        fallback = { native.SpeakerCard(card) },
+    )
 }
 
-/** A speaker, in the conference's speaker design, or [fallback]. Not placed on a screen yet. */
+/** A speaker, in the conference's speaker design, or [fallback]: the speakers grid's cards. */
 @Composable
 fun SpeakerCardSlot(
     styling: LiveryStyling,

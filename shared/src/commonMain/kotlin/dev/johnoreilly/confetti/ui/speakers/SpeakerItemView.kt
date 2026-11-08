@@ -20,6 +20,7 @@ import dev.johnoreilly.confetti.ui.component.FullScreenPhotoDialog
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import dev.johnoreilly.confetti.preview.PreviewImages
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
@@ -100,17 +101,21 @@ fun SpeakerItemView(
 @MobilePreviews
 @Composable
 internal fun SpeakerItemViewLoadedPreview() {
-    SpeakerItemView(
-        speaker = johnOreillySpeaker,
-        navigateToSpeaker = {},
-    )
+    PreviewImages {
+        SpeakerItemView(
+            speaker = johnOreillySpeaker,
+            navigateToSpeaker = {},
+        )
+    }
 }
 
 @Preview(name = "No tagline", widthDp = 411, heightDp = 100, showBackground = true)
 @Composable
 internal fun SpeakerItemViewNoTaglinePreview() {
-    SpeakerItemView(
-        speaker = johnOreillySpeaker.copy(tagline = null),
-        navigateToSpeaker = {},
-    )
+    PreviewImages {
+        SpeakerItemView(
+            speaker = johnOreillySpeaker.copy(tagline = null),
+            navigateToSpeaker = {},
+        )
+    }
 }

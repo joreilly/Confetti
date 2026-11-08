@@ -85,6 +85,13 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `KotlinConf Dark theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__KotlinConf_Dark.png" width="150" /> |
 | `KotlinConf Light theme` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/androidApp/themecatalog__KotlinConf_Light.png" width="150" /> |
 
+## livery
+
+| Preview | Image |
+|---------|-------|
+| `LiveryDroidconPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/livery/LiveryDroidconPreview_droidcon-dea0f94d.png" width="150" /> |
+| `LiveryKotlinConfPreview` | <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/main/renders/livery/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png" width="150" /> |
+
 ## shared
 
 | Preview | Image |

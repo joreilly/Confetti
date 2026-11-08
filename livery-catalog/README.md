@@ -9,14 +9,20 @@ tonal Material cards), which every conference without designs of its own draws; 
 (dark, terminal-flavoured, Android green); and **KotlinConf** (the Kotlin gradient, soft corners,
 a gradient that drifts on the player's clock).
 
+**The source is always Kotlin.** Every design is a `@RemoteComposable` function in
+`livery-catalog/src/main`; a `.rc` document is build output (`build/livery/catalogs/`, and the
+APK's bundled catalogs) or lives on the `livery-templates` branch the workflow publishes. Neither
+`.rc` files nor renders are committed: a design change in a pull request is a Kotlin diff, and its
+pictures are the preview renders (below, from the `livery-templates` branch).
+
 | | Confetti (base) | droidcon | KotlinConf |
 | --- | --- | --- | --- |
-| Header | ![](renders/confetti-header-in-app.png) | ![](renders/droidcon-header-in-app.png) | ![](renders/kotlinconf-header-in-app.png) |
-| Session | ![](renders/confetti-session-in-app.png) | ![](renders/droidcon-session-in-app.png) | ![](renders/kotlinconf-session-in-app.png) |
-| Speaker | ![](renders/confetti-speaker-in-app.png) | ![](renders/droidcon-speaker-in-app.png) | ![](renders/kotlinconf-speaker-in-app.png) |
-| Promotion | ![](renders/confetti-promo-in-app.png) | ![](renders/droidcon-promo-in-app.png) | ![](renders/kotlinconf-promo-in-app.png) |
-| Launcher widget | | ![](renders/droidcon-session-launcher.png) | ![](renders/kotlinconf-session-launcher.png) |
-| Wear widget | | ![](renders/droidcon-session-wear-large.png) | ![](renders/kotlinconf-session-wear-large.png) |
+| Header | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-header-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-header-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-header-in-app.png) |
+| Session | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-session-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-in-app.png) |
+| Speaker | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-speaker-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-speaker-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-speaker-in-app.png) |
+| Promotion | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-promo-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-promo-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-promo-in-app.png) |
+| Launcher widget | | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-launcher.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-launcher.png) |
+| Wear widget | | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-wear-large.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-wear-large.png) |
 
 ### Light, dark and Material 3 dynamic colour
 
@@ -36,9 +42,9 @@ Changing the mode or the wallpaper recolours a slot live, without restarting its
 
 | | Light | Dark | Dynamic (teal wallpaper) |
 | --- | --- | --- | --- |
-| Confetti | ![](renders/confetti-session-in-app-light.png) | ![](renders/confetti-session-in-app-dark.png) | ![](renders/confetti-session-in-app-dynamic-teal-light.png) |
-| droidcon | ![](renders/droidcon-session-in-app-light.png) | ![](renders/droidcon-session-in-app-dark.png) | ![](renders/droidcon-session-in-app-dynamic-teal-light.png) |
-| KotlinConf | ![](renders/kotlinconf-session-in-app-light.png) | ![](renders/kotlinconf-session-in-app-dark.png) | ![](renders/kotlinconf-session-in-app-dynamic-teal-light.png) |
+| Confetti | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-session-in-app-light.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-session-in-app-dark.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-session-in-app-dynamic-teal-light.png) |
+| droidcon | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-in-app-light.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-in-app-dark.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-in-app-dynamic-teal-light.png) |
+| KotlinConf | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-in-app-light.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-in-app-dark.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-in-app-dynamic-teal-light.png) |
 
 ### In the app
 
@@ -54,9 +60,9 @@ new capture, no app release, just values.
 
 | droidcon (catalog theme) | droidcon, Berlin theme pack |
 | --- | --- |
-| ![](renders/droidcon-header-in-app.png) | ![](renders/droidcon-header-in-app-berlin-theme.png) |
-| ![](renders/droidcon-session-in-app.png) | ![](renders/droidcon-session-in-app-berlin-theme.png) |
-| ![](renders/droidcon-speaker-in-app.png) | ![](renders/droidcon-speaker-in-app-berlin-theme.png) |
+| ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-header-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-header-in-app-berlin-theme.png) |
+| ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-in-app-berlin-theme.png) |
+| ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-speaker-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-speaker-in-app-berlin-theme.png) |
 
 ## How it fits together
 
@@ -64,26 +70,29 @@ new capture, no app release, just values.
 livery-contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, JVM, wasm)
         │  used by both sides
         ├── livery-catalog/   designs as @RemoteComposable functions (rc-players' CMP fork of
-        │                     remote-creation-compose), captured to .rc on the JVM, plus
-        │                     plus themes, placements and fonts (data)
-        │       └── catalogs/<series>/  one Livery catalog source tree per conference series:
-        │                     what `livery build` publishes to the livery-templates branch
+        │                     remote-creation-compose), captured to .rc on the JVM at build time
+        │       └── catalogs/<series>/  each series' hand-edited data only: themes, placements,
+        │                     experiments, fonts. The build adds the captured designs and
+        │                     contracts in build/livery/catalogs/<series>/, what `livery build`
+        │                     publishes to the livery-templates branch
         │
         ├── shared/ui/components  ConferenceComponents: what the screens draw a conference's
-        │                     header, session cards and promotions with (a context parameter):
-        │                     NativeComponents, or SduiComponents choosing per conference. No
-        │                     Livery types: shared doesn't depend on Livery
+        │                     theme, header, session and speaker cards and section headers with
+        │                     (a context parameter). Koin binds NativeComponents; no Livery
+        │                     types: shared doesn't depend on Livery
         └── livery/           (Android library, in the app only as sduiDebugImplementation)
                               LiveryComponents: contract-typed slots with the native row as the
                               fallback; Firebase Remote Config arms; the repositories (every
-                              catalogs/<series> bundled into its assets); Livery on the app's
-                              OkHttpClient. Found by the app through ServiceLoader
-                              (ConferenceComponentsFactory), so no other variant links it
+                              series catalog the build generates, bundled into its assets); Livery on the app's
+                              OkHttpClient. sduiModule rebinds ConferenceComponents to
+                              SduiComponents (choosing per conference); only sduiDebug's
+                              Application loads it, so no other variant links it
 ```
 
 ```bash
-./gradlew :livery-catalog:generateLiveryCatalog   # capture designs, write catalogs/ and renders/
-./gradlew :livery-catalog:test                    # contract checks; catalogs/ match the sources
+./gradlew :livery-catalog:generateLiveryCatalog   # capture designs -> build/livery/catalogs/<series>/ (cached)
+./gradlew :livery-catalog:renderLiveryCatalog     # preview renders -> build/livery/renders/
+./gradlew :livery-catalog:test                    # contract checks on the generated catalogs
 ./gradlew :livery-catalog:buildLiveryChannels     # livery build --inspect per series -> build/livery-channels/
 ./gradlew :livery-contracts:jvmTest
 ./gradlew :livery:testDebugUnitTest                # slots, arms and fallbacks on Robolectric
@@ -103,7 +112,8 @@ enforced at every step. `Contracts.kt` is the source of truth:
 3. **Generation checks** (`CatalogTest`): every example binds through Livery's `ContractBinder`
    (the gate devices use), every design emits each of its contract's actions and shows every
    required input, theme packs only set theme roles, and placements carry data their design's
-   contract accepts. The checked-in `catalogs/` must equal what the sources generate.
+   contract accepts. Each series' generated catalog holds only its own designs, and carries its
+   hand-edited data unchanged.
 4. **Livery's publisher**: `livery build --inspect` decodes every `.rc` and checks it against its
    sidecar (the Android build runs this through the Gradle plugin).
 5. **Runtime**: binding refuses unknown or over-long values, so the app trims first
@@ -126,7 +136,7 @@ Every contract also takes the conference palette as theme roles (`theme.primary`
 1. **Conference-styled components.** Designs carry a `series` tag (`droidcon`, `kotlinconf`);
    the app maps a conference id to its series (`ConferenceSeries`) and asks for that tag. A
    conference with no series draws the base catalog (`ConferenceSeries.catalogFor`), and any
-   platform root that passes `NativeComponents()` keeps Confetti's own UI.
+   build without the sdui module (every platform but Android's sduiDebug) keeps Confetti's own UI.
 2. **Conference assets.** The header shows the conference's own branding and copy, and a theme
    pack per series (`catalogs/<series>/themes/`) holds the palette as data: change a colour there and every
    template follows, with no new document.
@@ -142,8 +152,8 @@ Every contract also takes the conference palette as theme roles (`theme.primary`
 
 | Surface | Status here |
 | --- | --- |
-| Phone and tablet (Android) | Wired: agenda header, promotion and session cards, promotions under sessions and on speaker pages. Only in the `sduiDebug` build type (see below); every other variant draws Confetti's own UI |
-| iOS, desktop, web | The same shared components compile for every target; each platform root passes a `ConferenceComponents` into `App()` (today `NativeComponents()`; Livery's needs a repository and a bundled or hosted catalog) |
+| Phone and tablet (Android) | Wired: the agenda header and the session and speaker cards (the catalogs already hold promotions; the app draws them in a later change). Only in the `sduiDebug` build type (see below); every other variant draws Confetti's own UI |
+| iOS, desktop, web | The same shared components compile for every target; each platform root draws `App()` through `WithConferenceComponents`, which takes the implementation Koin binds (today `NativeComponents`; Livery's needs a repository and a bundled or hosted catalog) |
 | Launcher widget | Templates authored (`launcher` target); next: a `LiveryLauncherWidgetProvider` for "next session" |
 | Wear | Templates authored (`wear-widget`, `wear:large`); next: a `LiveryWearWidget` beside the existing tiles |
 
@@ -155,10 +165,13 @@ conference admin would be:
 1. In the app (admin role), long-press a styled slot and write a request ("make the droidcon
    header say Berlin and use the blue from the venue"). The app sends it with the slot's
    design id, contract and current data to an agent session.
-2. The agent works on this source tree through `livery-mcp` (`livery-mcp livery-catalog/catalogs/droidcon
-   --write --preview-out …`): `get_contract` for what it may use; data-only changes (copy, a theme
-   pack's colours, a placement's schedule) are JSON edits checked by `validate_data`; a layout
-   change edits the design's Kotlin and is re-captured. `render_preview` shows the result.
+2. The agent works on the generated catalog through `livery-mcp` (`livery-mcp
+   livery-catalog/build/livery/catalogs/droidcon --preview-out …`, after
+   `:livery-catalog:generateLiveryCatalog`): `get_contract` for what it may use; data-only changes
+   (copy, a theme pack's colours, a placement's schedule) are edits to the hand-edited JSON in
+   `catalogs/droidcon/`, checked by `validate_data`; a layout change edits the design's Kotlin and
+   is re-captured. `render_preview` shows the result. Either way the change it proposes is source:
+   Kotlin or data, never a `.rc`.
 3. `build_preview` / `publish_preview` publish an unsigned preview channel; the admin's debug
    build plays it in place, with their real data.
 4. Approved, it becomes a PR here: CI runs `CatalogTest` and `livery build --inspect`, then
@@ -216,14 +229,15 @@ ships it. The renders use the same files.
 
 | droidcon (Space Mono) | KotlinConf (Poppins) |
 | --- | --- |
-| ![](renders/droidcon-session-in-app.png) | ![](renders/kotlinconf-session-in-app.png) |
+| ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-in-app.png) |
 
 **Screens draw through `ConferenceComponents`.** The agenda, session and speaker screens take it
 as a context parameter (`context(components: ConferenceComponents)`) and call
-`components.SessionCard(…)`, `components.ConferenceHeader(…)` and `components.Promo(…)`. The
-parameter is threaded from `App()` down, with no CompositionLocal: Android's `MainActivity` passes
-the one Koin built (`ConferenceComponentsFactory.load()?.create(…) ?: NativeComponents()`), and
-iOS, desktop, web, previews and wrappers pass `with(NativeComponents()) { … }`. The interface has
+`components.SessionCard(…)`, `components.ConferenceHeader(…)` and `components.SpeakerCard(…)`. The
+parameter is threaded from `App()` down, with no CompositionLocal: every platform's root calls
+`WithConferenceComponents { App(…) }`, which supplies the implementation Koin binds, and previews
+use `ComponentsPreview { … }`. Shared's Koin module binds `NativeComponents`; sduiDebug's
+Application adds `sduiModule`, whose later binding replaces it with `SduiComponents`. The interface has
 no Livery types, so:
 
 - `NativeComponents` is Confetti's own composables, and what every build but sduiDebug uses;

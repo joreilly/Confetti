@@ -111,7 +111,8 @@ fun KotlinConfKeynoteSession() {
         RemoteBox(
             modifier = RemoteModifier
                 .size(40.rdp, 40.rdp)
-                // Half the size: the capture draws a small RemoteCircleShape clip as a rounded square.
+                // A fixed radius, half the size: RemoteCircleShape's radius is written against the
+                // previous component's size (a remote-creation-compose bug), not this box's.
                 .clip(RemoteRoundedCornerShape(20.rdp))
                 .background(bookmarked.select(onBrand, onBrand.copy(alpha = 0.2f.rf)))
                 .border(1.5f.rdp, onBrand, RemoteRoundedCornerShape(20.rdp))

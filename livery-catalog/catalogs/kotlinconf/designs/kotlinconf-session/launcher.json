@@ -1,0 +1,33 @@
+{
+  "target": {
+    "surface": "launcher-widget",
+    "rcApiLevel": 7,
+    "profiles": [
+      "widgets"
+    ],
+    "size": {
+      "minWidthDp": 110,
+      "maxWidthDp": 400,
+      "minHeightDp": 80,
+      "maxHeightDp": 400
+    }
+  },
+  "reads": [
+    "theme.primary",
+    "theme.onPrimary",
+    "theme.secondary",
+    "theme.tertiary",
+    "theme.surface",
+    "theme.onSurface",
+    "theme.onSurfaceVariant",
+    "time",
+    "title",
+    "room"
+  ],
+  "emits": [
+    "open"
+  ],
+  "fonts": [
+    "Poppins"
+  ]
+}

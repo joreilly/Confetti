@@ -55,4 +55,17 @@ val Droidcon = ConferenceBrand(
     fontFamily = "Space Mono",
 )
 
-val AllBrands: List<ConferenceBrand> = listOf(Confetti, Droidcon)
+val KotlinConf = ConferenceBrand(
+    series = "kotlinconf",
+    primary = Color(0xFF7F52FF), // Kotlin purple
+    onPrimary = Color(0xFFFFFFFF),
+    secondary = Color(0xFFC811E2),
+    tertiary = Color(0xFFE54857),
+    surface = Color(0xFF19191C),
+    onSurface = Color(0xFFFFFFFF),
+    muted = Color(0xFFC7C2D6),
+    // Geometric and round, to go with the soft corners and the gradient.
+    fontFamily = "Poppins",
+)
+
+val AllBrands: List<ConferenceBrand> = listOf(Confetti, Droidcon, KotlinConf)

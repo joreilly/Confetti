@@ -1,0 +1,24 @@
+{
+  "id": "kotlinconf-workshops",
+  "placement": "home.feed",
+  "priority": 20,
+  "template": {
+    "designId": "kotlinconf-promo"
+  },
+  "data": {
+    "eyebrow": "Workshops",
+    "headline": "Hands-on Compose Multiplatform",
+    "body": "A full-day workshop the day before the conference. 12 seats left.",
+    "cta": "Book a seat",
+    "url": "https://kotlinconf.com/workshops"
+  },
+  "endEpochMs": 1779260400000,
+  "conditions": {
+    "segments": [
+      "conference:kotlinconf2026"
+    ],
+    "excludeSegments": [
+      "workshop-booked"
+    ]
+  }
+}

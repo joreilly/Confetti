@@ -39,3 +39,10 @@ swiftpm
 *.app.dSYM.zip
 
 */.compose-preview-history
+
+# Livery: the designs' source is Kotlin; .rc catalogs and renders are build output
+# (livery-catalog/build/livery) or live on the livery-templates branch, never committed.
+livery-catalog/catalogs/*/catalog.json
+livery-catalog/catalogs/*/contracts/
+livery-catalog/catalogs/*/designs/
+livery-catalog/renders/

@@ -5,6 +5,9 @@
 plugins {
     id("com.android.library")
     alias(libs.plugins.compose.compiler)
+    // Livery's catalog builder, for its BuildLiveryCatalog task type only: the plugin itself bundles
+    // one catalog, and Confetti bundles one per series (below).
+    alias(libs.plugins.livery.catalog) apply false
 }
 
 configureCompilerOptions()
@@ -15,6 +18,13 @@ android {
         minSdk = AndroidSdk.min
         // -Pconfetti.livery.arm=native|livery pins the sdui arm (QA, screenshots).
         buildConfigField("String", "FORCED_ARM", "\"${findProperty("confetti.livery.arm") ?: ""}\"")
+        // Each series is served from <url>/<series>/manifest.json: the livery-templates branch the
+        // Livery templates workflow publishes. Until it has published (404), the app draws the
+        // bundled catalogs. -Pconfetti.livery.templates=<url> points at another (a fork's
+        // raw.githubusercontent.com/<owner>/Confetti/livery-templates/catalogs, a PR's channel).
+        val templates = (findProperty("confetti.livery.templates") as String?)
+            ?: "https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/catalogs"
+        buildConfigField("String", "TEMPLATES_URL", "\"$templates\"")
     }
 
     testOptions {
@@ -65,4 +75,30 @@ dependencies {
     testImplementation(libs.compose.ui.test.junit4)
 
     coreLibraryDesugaring(libs.desugar)
+}
+
+// Each series catalog (confetti, the base, and any conference's), generated from the Kotlin designs
+// at build time by :livery-catalog:generateLiveryCatalog and built and checked like
+// `livery build --inspect` into this module's assets at livery/<series>/, where
+// AndroidBundled.fromAssets(context, "livery/<series>") reads it back. The bundled copy has serial 0,
+// so a catalog the app downloads (the livery-templates branch) always replaces it.
+val liveryCatalogs = rootProject.layout.projectDirectory.dir("livery-catalog/catalogs").asFile
+    .listFiles { f -> f.isDirectory }.orEmpty().map { it.name }.sorted()
+val generatedLiveryCatalogs = rootProject.layout.projectDirectory.dir("livery-catalog/build/livery/catalogs")
+val liveryCatalogTasks = liveryCatalogs.map { series ->
+    tasks.register<ee.schimke.livery.gradle.BuildLiveryCatalog>("buildLiveryCatalog${series.replaceFirstChar { it.uppercase() }}") {
+        group = "build"
+        description = "Builds the $series Livery catalog into generated assets"
+        dependsOn(":livery-catalog:generateLiveryCatalog")
+        source.set(generatedLiveryCatalogs.dir(series))
+        assetsPath.set("livery/$series")
+        inspect.set(true)
+        outputDir.set(layout.buildDirectory.dir("generated/livery/$series"))
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        liveryCatalogTasks.forEach { variant.sources.assets?.addGeneratedSourceDirectory(it, ee.schimke.livery.gradle.BuildLiveryCatalog::outputDir) }
+    }
 }

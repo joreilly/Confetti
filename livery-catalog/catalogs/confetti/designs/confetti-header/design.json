@@ -1,0 +1,11 @@
+{
+  "id": "confetti-header",
+  "contract": "confetti/conference@1",
+  "title": "Confetti header",
+  "author": "confetti",
+  "variant": "default",
+  "install": "Always",
+  "tags": {
+    "series": "confetti"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "confetti-promo",
+  "contract": "confetti/promo@1",
+  "title": "Confetti promotion",
+  "author": "confetti",
+  "variant": "default",
+  "install": "OnDemand",
+  "tags": {
+    "series": "confetti"
+  }
+}

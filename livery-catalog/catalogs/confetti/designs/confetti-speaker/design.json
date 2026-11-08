@@ -1,0 +1,11 @@
+{
+  "id": "confetti-speaker",
+  "contract": "confetti/speaker@1",
+  "title": "Confetti speaker",
+  "author": "confetti",
+  "variant": "default",
+  "install": "Always",
+  "tags": {
+    "series": "confetti"
+  }
+}

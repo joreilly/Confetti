@@ -1,0 +1,97 @@
+{
+  "id": "confetti/promo",
+  "major": 1,
+  "minor": 0,
+  "title": "Conference promotion",
+  "dataSource": "Decision",
+  "inputs": {
+    "theme.primary": {
+      "type": "color",
+      "role": "primary"
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "role": "onPrimary"
+    },
+    "theme.secondary": {
+      "type": "color",
+      "role": "secondary"
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "role": "tertiary"
+    },
+    "theme.surface": {
+      "type": "color",
+      "role": "surface"
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "role": "onSurface"
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "role": "onSurfaceVariant"
+    },
+    "eyebrow": {
+      "type": "string",
+      "maxLength": 20
+    },
+    "headline": {
+      "type": "string",
+      "required": true,
+      "maxLength": 48
+    },
+    "body": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "cta": {
+      "type": "string",
+      "required": true,
+      "maxLength": 20
+    },
+    "url": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    }
+  },
+  "actions": {
+    "cta": {
+      "kind": "open-url",
+      "args": {
+        "url": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "dismiss": {
+      "kind": "dismiss"
+    }
+  },
+  "examples": {
+    "default": {
+      "eyebrow": "TONIGHT",
+      "headline": "Community party at 7pm",
+      "body": "Drinks, demos and the famous droidcon quiz. Badge required.",
+      "cta": "SEE DETAILS",
+      "url": "https://london.droidcon.com"
+    },
+    "kotlinconf": {
+      "eyebrow": "Workshops",
+      "headline": "Hands-on Compose Multiplatform",
+      "body": "A full-day workshop the day before the conference. 12 seats left.",
+      "cta": "Book a seat",
+      "url": "https://kotlinconf.com/workshops"
+    },
+    "long": {
+      "eyebrow": "Twenty chars eyebrow",
+      "headline": "A headline that runs to forty-eight characters x",
+      "body": "A body that runs on for all of the one hundred and twenty characters it may use, to check that the whole promotion fits.",
+      "cta": "Twenty-char CTA text",
+      "url": "https://kotlinconf.com/workshops"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "catalog": "confetti-confetti",
+  "channel": "main",
+  "ttlSeconds": 3600,
+  "expiresInDays": 30
+}

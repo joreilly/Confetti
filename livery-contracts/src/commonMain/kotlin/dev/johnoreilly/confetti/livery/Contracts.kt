@@ -162,7 +162,9 @@ object ConferenceContract : ConfettiContract("confetti/conference", 1, 0, "Confe
             tagline to "The Kotlin conference, by JetBrains.", live to true, ticketsUrl to "https://kotlinconf.com"),
         "long" to mapOf(name to "A conference name that is forty chars xx", dates to "Thirty-two characters of dates x",
             location to "A venue name that runs on for quite a while, sixty chars xx",
-            tagline to "A tagline at its ninety character limit, to check that the header wraps and stays legibl"),
+            tagline to "A tagline at its ninety character limit, to check that the header wraps and stays legibl",
+            // With a tickets button too: a long venue must leave it room.
+            ticketsUrl to "https://example.com/tickets"),
     )
 }
 
@@ -199,6 +201,10 @@ object SpeakerContract : ConfettiContract("confetti/speaker", 1, 0, "Speaker car
     override val examples get() = mapOf(
         "default" to mapOf(name to "Jane Doe", tagline to "Android GDE · Acme", sessions to "2 sessions"),
         "kotlinconf" to mapOf(name to "Alex Kotlin", tagline to "Kotlin team · JetBrains", sessions to "Keynote"),
+        // Every input at its limit: the renders check the card still fits.
+        "long" to mapOf(name to "A speaker name that runs to sixty characters, just to check!", tagline to
+            "A job title and a company name that wraps over two lines and keeps on going on.",
+            sessions to "Twenty-char sessions"),
     )
 }
 
@@ -217,6 +223,9 @@ object PromoContract : ConfettiContract("confetti/promo", 1, 0, "Conference prom
             body to "Drinks, demos and the famous droidcon quiz. Badge required.", cta to "SEE DETAILS", url to "https://london.droidcon.com"),
         "kotlinconf" to mapOf(eyebrow to "Workshops", headline to "Hands-on Compose Multiplatform",
             body to "A full-day workshop the day before the conference. 12 seats left.", cta to "Book a seat", url to "https://kotlinconf.com/workshops"),
+        "long" to mapOf(eyebrow to "Twenty chars eyebrow", headline to "A headline that runs to forty-eight characters x",
+            body to "A body that runs on for all of the one hundred and twenty characters it may use, to check that the whole promotion fits.",
+            cta to "Twenty-char CTA text", url to "https://kotlinconf.com/workshops"),
     )
 }
 
@@ -231,8 +240,18 @@ object ConferenceSeries {
 
     private val prefixes = listOf("droidcon" to "droidcon", "kotlinconf" to "kotlinconf")
 
-    /** Every series with designs: one Livery catalog each (`catalogs/<series>/`). */
+    /** Every conference series that can have designs of its own: one Livery catalog each (`catalogs/<series>/`). */
     val ALL: List<String> = prefixes.map { it.second }.distinct()
+
+    /**
+     * The base catalog (`catalogs/confetti/`): Confetti's own look, drawn by Livery, for every
+     * conference without a catalog of its own.
+     */
+    const val BASE: String = "confetti"
+
+    /** The catalog a conference draws from: its series', when there is one, else [BASE]. */
+    fun catalogFor(conferenceId: String, available: Set<String>): String =
+        of(conferenceId)?.takeIf { it in available } ?: BASE
 
     fun of(conferenceId: String): String? =
         prefixes.firstOrNull { (prefix, _) -> conferenceId.startsWith(prefix) }?.second

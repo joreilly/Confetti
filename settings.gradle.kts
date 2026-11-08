@@ -120,6 +120,7 @@ include(":compose-desktop")
 include(":compose-web")
 include(":proto")
 include(":livery")
+include(":livery-catalog")
 include(":livery-contracts")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {

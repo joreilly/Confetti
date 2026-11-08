@@ -1,0 +1,30 @@
+{
+  "target": {
+    "surface": "in-app",
+    "rcApiLevel": 7,
+    "profiles": [
+      "androidx"
+    ],
+    "size": {
+      "minWidthDp": 280
+    }
+  },
+  "reads": [
+    "theme.primary",
+    "theme.onPrimary",
+    "theme.secondary",
+    "theme.tertiary",
+    "theme.surface",
+    "theme.onSurface",
+    "theme.onSurfaceVariant",
+    "eyebrow",
+    "headline",
+    "body",
+    "url",
+    "cta"
+  ],
+  "emits": [
+    "dismiss",
+    "cta"
+  ]
+}

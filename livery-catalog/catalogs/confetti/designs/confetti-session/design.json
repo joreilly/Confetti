@@ -1,0 +1,11 @@
+{
+  "id": "confetti-session",
+  "contract": "confetti/session@1",
+  "title": "Confetti session",
+  "author": "confetti",
+  "variant": "default",
+  "install": "Always",
+  "tags": {
+    "series": "confetti"
+  }
+}

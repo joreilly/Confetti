@@ -18,8 +18,12 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.GlobalContext
+import org.koin.core.module.Module
 
-class ConfettiApplication : Application() {
+open class ConfettiApplication : Application() {
+
+    /** Koin modules a build variant adds after the app's own, to override its bindings. */
+    protected open val variantModules: List<Module> get() = emptyList()
 
     override fun onCreate() {
         super.onCreate()
@@ -43,6 +47,7 @@ class ConfettiApplication : Application() {
                 androidLogger()
                 androidContext(this@ConfettiApplication)
                 modules(appModule)
+                modules(variantModules)
 
                 workManagerFactory()
             }

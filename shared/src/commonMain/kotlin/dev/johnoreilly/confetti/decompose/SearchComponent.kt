@@ -23,6 +23,7 @@ import org.koin.core.component.inject
 
 interface SearchComponent {
 
+    val conference: String
     val isLoggedIn: Boolean
     val search: Flow<String>
     val loading: Flow<Boolean>
@@ -40,7 +41,7 @@ interface SearchComponent {
 
 class DefaultSearchComponent(
     componentContext: ComponentContext,
-    private val conference: String,
+    override val conference: String,
     private val user: User?,
     private val onSessionSelected: (id: String) -> Unit,
     private val onSpeakerSelected: (id: String) -> Unit,

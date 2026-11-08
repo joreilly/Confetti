@@ -1,4 +1,5 @@
 import androidx.compose.material3.MaterialTheme
+import dev.johnoreilly.confetti.ui.components.WithConferenceComponents
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
 import com.apollographql.apollo.ApolloClient
@@ -36,7 +37,7 @@ fun main() {
 
     ComposeViewport(content = {
             MaterialTheme {
-                App(appComponent)
+                WithConferenceComponents { App(appComponent) }
             }
         })
 }

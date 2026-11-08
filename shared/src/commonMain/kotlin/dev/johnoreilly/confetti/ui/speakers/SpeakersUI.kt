@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.speakers
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+context(components: ConferenceComponents)
 fun SpeakersUI(
     component: SpeakersComponent,
     windowSizeClass: WindowSizeClass,

@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.sessions
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import dev.johnoreilly.confetti.utils.isExpanded
 import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
+context(components: ConferenceComponents)
 fun SessionsUI(
     component: SessionsComponent,
     windowSizeClass: WindowSizeClass,

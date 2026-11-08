@@ -17,6 +17,7 @@ import kotlinx.serialization.Serializable
 interface ConferenceComponent : BackHandlerOwner {
 
     val stack: Value<ChildStack<*, Child>>
+    val conference: String
     val conferenceThemeColor: String?
 
     fun onBackClicked()
@@ -36,7 +37,7 @@ interface ConferenceComponent : BackHandlerOwner {
 class DefaultConferenceComponent(
     componentContext: ComponentContext,
     private val user: User?,
-    private val conference: String,
+    override val conference: String,
     override val conferenceThemeColor: String?,
     private val onSwitchConference: () -> Unit,
     private val onSignOut: () -> Unit,

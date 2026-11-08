@@ -7,6 +7,8 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.ApolloClientCache
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.NativeComponents
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -30,6 +32,10 @@ fun commonModule() = module {
     singleOf(::ConfettiRepository)
     singleOf(::AppSettings)
     singleOf(::ApolloClientCache)
+
+    // What the app draws its conference components with: Confetti's own, unless a platform's
+    // module overrides it.
+    single<ConferenceComponents> { NativeComponents() }
 }
 
 expect fun getNormalizedCacheFactory(conference: String, uid: String?): NormalizedCacheFactory

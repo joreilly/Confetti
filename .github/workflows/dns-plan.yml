@@ -29,9 +29,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
-          python-version: "3.13"
+          python-version: "3.15"
 
       - run: pip install -r requirements.txt
 
@@ -45,7 +45,7 @@ jobs:
 
       - name: Comment plan on PR
         if: always()
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');

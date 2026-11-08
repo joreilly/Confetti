@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- The sduiDebug build's application adds the sdui Koin module (see SduiConfettiApplication). -->
+    <application
+        android:name=".SduiConfettiApplication"
+        tools:replace="android:name" />
+</manifest>

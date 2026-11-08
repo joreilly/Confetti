@@ -13,6 +13,8 @@ android {
     compileSdk = AndroidSdk.compile
     defaultConfig {
         minSdk = AndroidSdk.min
+        // -Pconfetti.livery.arm=native|livery pins the sdui arm (QA, screenshots).
+        buildConfigField("String", "FORCED_ARM", "\"${findProperty("confetti.livery.arm") ?: ""}\"")
     }
 
     testOptions {
@@ -27,6 +29,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     namespace = "dev.johnoreilly.confetti.livery"
@@ -35,8 +38,31 @@ android {
 dependencies {
     implementation(enforcedPlatform(libs.compose.bom))
     implementation(projects.shared)
+    implementation(projects.liveryContracts)
     implementation(libs.livery.client)
-    implementation(libs.livery.compose)
+    implementation(libs.livery.compose) {
+        // rc-player-compose declares Ktor's CIO engine but never uses it; beside OkHttp it would
+        // make HttpClient()'s default engine arbitrary for the app's own clients too.
+        exclude(group = "io.ktor", module = "ktor-client-cio")
+    }
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.material3.core)
+    implementation(libs.kotlinx.datetime)
+    // Livery's catalog and image fetches on the app's own OkHttpClient (ConfettiLivery.kt).
+    implementation(libs.okhttp)
+    implementation(platform(libs.ktor.bom))
+    implementation(libs.ktor.client.okhttp)
+    // The sdui experiment's arm per conference (Firebase A/B Testing over Remote Config).
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.config)
+
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.manifest)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.compose.ui.test.junit4)
 
     coreLibraryDesugaring(libs.desugar)
 }

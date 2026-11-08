@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.sessions
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,6 +35,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+context(components: ConferenceComponents)
 fun SessionDetailsUI(component: SessionDetailsComponent) {
     val uriHandler = LocalUriHandler.current
     var showDialog by remember { mutableStateOf(false) }

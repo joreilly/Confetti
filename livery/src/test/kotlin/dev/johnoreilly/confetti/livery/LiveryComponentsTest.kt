@@ -2,11 +2,13 @@ package dev.johnoreilly.confetti.livery
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.SemanticsMatcher
@@ -112,6 +114,7 @@ class LiveryComponentsTest {
             MaterialTheme(colorScheme = lightColorScheme()) {
                 Column {
                     for (conference in listOf("kotlinconf2026", "droidconlondon2025")) components.SessionCard(card(conference))
+                    components.Promo("home.feed", "droidconlondon2026", Modifier.fillMaxWidth())
                 }
             }
         }

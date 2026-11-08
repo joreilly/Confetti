@@ -1,6 +1,7 @@
 package dev.johnoreilly.confetti
 
 import androidx.compose.ui.test.onNodeWithText
+import dev.johnoreilly.confetti.preview.ComponentsPreview
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.speakers.SpeakerDetailsView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,13 +35,15 @@ class SpeakerDetailsScTest : BaseScreenshotTest() {
                 it.onNodeWithText("Ben Zweber").assertExists()
             }
         ) {
-            SpeakerDetailsView(
-                conference = "droidconLondon2014",
-                speaker = mockSpeaker,
-                navigateToSession = {},
-                popBack = {},
-                onSocialLinkClicked = {}
-            )
+            ComponentsPreview {
+                SpeakerDetailsView(
+                    conference = "droidconLondon2014",
+                    speaker = mockSpeaker,
+                    navigateToSession = {},
+                    popBack = {},
+                    onSocialLinkClicked = {}
+                )
+            }
         }
     }
 }

@@ -1,9 +1,11 @@
 package dev.johnoreilly.confetti.ui.livery
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import dev.johnoreilly.confetti.livery.SduiExperiment
@@ -17,8 +19,9 @@ import kotlinx.datetime.LocalDateTime
 import okhttp3.OkHttpClient
 
 /**
- * A conference's session card as LiveryComponents draws it, from the module's bundled catalogs
- * only (no network). A conference with no template for the slot draws Confetti's own row.
+ * A conference's session card and home-feed promotion as LiveryComponents draws them, from the
+ * module's bundled catalogs only (no network). A conference with no template for the slot draws
+ * Confetti's own row, and nothing for the promotion.
  */
 @Preview(name = "KotlinConf", widthDp = 400, showBackground = true)
 @Composable
@@ -47,6 +50,7 @@ private fun LiveryPreview(conference: String) {
                         sessionSelected = {}, addBookmark = {}, removeBookmark = {}, onNavigateToSignIn = {},
                     ),
                 )
+                components.Promo("home.feed", conference, Modifier.fillMaxWidth())
             }
         }
     }

@@ -64,7 +64,7 @@ composeai-preview-annotations = "3.27.3"
 koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
 livery = "0.4.0"
-rc-players = "2.24.0"
+rc-players = "2.28.0"
 
 
 [libraries]

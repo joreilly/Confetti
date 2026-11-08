@@ -1,0 +1,11 @@
+{
+  "id": "kotlinconf-header-shader",
+  "contract": "confetti/conference@1",
+  "title": "KotlinConf header (AGSL shader)",
+  "author": "confetti",
+  "variant": "shader",
+  "install": "Always",
+  "tags": {
+    "series": "kotlinconf"
+  }
+}

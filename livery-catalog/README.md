@@ -70,15 +70,16 @@ livery-contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, 
         │                     what `livery build` publishes to the livery-templates branch
         │
         ├── shared/ui/components  ConferenceComponents: what the screens draw a conference's
-        │                     header, session cards and promotions with (a context parameter):
-        │                     NativeComponents, or SduiComponents choosing per conference. No
-        │                     Livery types: shared doesn't depend on Livery
+        │                     theme, header, session and speaker cards and section headers with
+        │                     (a context parameter). Koin binds NativeComponents; no Livery
+        │                     types: shared doesn't depend on Livery
         └── livery/           (Android library, in the app only as sduiDebugImplementation)
                               LiveryComponents: contract-typed slots with the native row as the
                               fallback; Firebase Remote Config arms; the repositories (every
                               catalogs/<series> bundled into its assets); Livery on the app's
-                              OkHttpClient. Found by the app through ServiceLoader
-                              (ConferenceComponentsFactory), so no other variant links it
+                              OkHttpClient. sduiModule rebinds ConferenceComponents to
+                              SduiComponents (choosing per conference); only sduiDebug's
+                              Application loads it, so no other variant links it
 ```
 
 ```bash
@@ -126,7 +127,7 @@ Every contract also takes the conference palette as theme roles (`theme.primary`
 1. **Conference-styled components.** Designs carry a `series` tag (`droidcon`, `kotlinconf`);
    the app maps a conference id to its series (`ConferenceSeries`) and asks for that tag. A
    conference with no series draws the base catalog (`ConferenceSeries.catalogFor`), and any
-   platform root that passes `NativeComponents()` keeps Confetti's own UI.
+   build without the sdui module (every platform but Android's sduiDebug) keeps Confetti's own UI.
 2. **Conference assets.** The header shows the conference's own branding and copy, and a theme
    pack per series (`catalogs/<series>/themes/`) holds the palette as data: change a colour there and every
    template follows, with no new document.
@@ -142,8 +143,8 @@ Every contract also takes the conference palette as theme roles (`theme.primary`
 
 | Surface | Status here |
 | --- | --- |
-| Phone and tablet (Android) | Wired: agenda header, promotion and session cards, promotions under sessions and on speaker pages. Only in the `sduiDebug` build type (see below); every other variant draws Confetti's own UI |
-| iOS, desktop, web | The same shared components compile for every target; each platform root passes a `ConferenceComponents` into `App()` (today `NativeComponents()`; Livery's needs a repository and a bundled or hosted catalog) |
+| Phone and tablet (Android) | Wired: the agenda header and the session and speaker cards (the catalogs already hold promotions; the app draws them in a later change). Only in the `sduiDebug` build type (see below); every other variant draws Confetti's own UI |
+| iOS, desktop, web | The same shared components compile for every target; each platform root draws `App()` through `WithConferenceComponents`, which takes the implementation Koin binds (today `NativeComponents`; Livery's needs a repository and a bundled or hosted catalog) |
 | Launcher widget | Templates authored (`launcher` target); next: a `LiveryLauncherWidgetProvider` for "next session" |
 | Wear | Templates authored (`wear-widget`, `wear:large`); next: a `LiveryWearWidget` beside the existing tiles |
 
@@ -220,10 +221,11 @@ ships it. The renders use the same files.
 
 **Screens draw through `ConferenceComponents`.** The agenda, session and speaker screens take it
 as a context parameter (`context(components: ConferenceComponents)`) and call
-`components.SessionCard(…)`, `components.ConferenceHeader(…)` and `components.Promo(…)`. The
-parameter is threaded from `App()` down, with no CompositionLocal: Android's `MainActivity` passes
-the one Koin built (`ConferenceComponentsFactory.load()?.create(…) ?: NativeComponents()`), and
-iOS, desktop, web, previews and wrappers pass `with(NativeComponents()) { … }`. The interface has
+`components.SessionCard(…)`, `components.ConferenceHeader(…)` and `components.SpeakerCard(…)`. The
+parameter is threaded from `App()` down, with no CompositionLocal: every platform's root calls
+`WithConferenceComponents { App(…) }`, which supplies the implementation Koin binds, and previews
+use `ComponentsPreview { … }`. Shared's Koin module binds `NativeComponents`; sduiDebug's
+Application adds `sduiModule`, whose later binding replaces it with `SduiComponents`. The interface has
 no Livery types, so:
 
 - `NativeComponents` is Confetti's own composables, and what every build but sduiDebug uses;

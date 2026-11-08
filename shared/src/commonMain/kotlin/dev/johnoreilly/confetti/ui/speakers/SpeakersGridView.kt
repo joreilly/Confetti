@@ -38,8 +38,12 @@ import dev.johnoreilly.confetti.ui.icons.Person
 
 
 import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.SpeakerCardModel
+import dev.johnoreilly.confetti.preview.ComponentsPreview
 
 @Composable
+context(components: ConferenceComponents)
 fun SpeakerGridView(
     conference: String,
     speakers: List<SpeakerDetails>,
@@ -55,85 +59,95 @@ fun SpeakerGridView(
         ),
         content = {
             items(speakers) { speaker ->
-                Card(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                        .clickable { navigateToSpeaker(speaker.id) },
-                    shape = MaterialTheme.shapes.medium,
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        SubcomposeAsyncImage(
-                            model = speaker.avatarUrl(),
-                            contentDescription = speaker.name,
-                            loading = {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(24.dp),
-                                    strokeWidth = 2.dp
-                                )
-                            },
-                            error = {
-                                Icon(
-                                    imageVector = ConfettiIcons.Person,
-                                    contentDescription = speaker.name,
-                                    modifier = Modifier
-                                        .size(80.dp)
-                                        .clip(CircleShape),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            },
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(80.dp)
-                                .clip(CircleShape)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = speaker.name,
-                            style = MaterialTheme.typography.titleMedium,
-                            textAlign = TextAlign.Center,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        speaker.tagline?.let { company ->
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                text = company,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                textAlign = TextAlign.Center,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        }
-                    }
-                }
+                components.SpeakerCard(SpeakerCardModel(conference, speaker, navigateToSpeaker))
             }
         }
     )
 }
 
+/** Confetti's own card for a speaker in the grid. */
+@Composable
+fun SpeakerGridItem(speaker: SpeakerDetails, navigateToSpeaker: (id: String) -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable { navigateToSpeaker(speaker.id) },
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SubcomposeAsyncImage(
+                model = speaker.avatarUrl(),
+                contentDescription = speaker.name,
+                loading = {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        strokeWidth = 2.dp
+                    )
+                },
+                error = {
+                    Icon(
+                        imageVector = ConfettiIcons.Person,
+                        contentDescription = speaker.name,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(CircleShape),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                },
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = speaker.name,
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            speaker.tagline?.let { company ->
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = company,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+}
+
 @MobilePreviews
 @Composable
 internal fun SpeakerGridViewLoadedPreview() {
-    SpeakerGridView(
-        conference = "kotlinconf2023",
-        speakers = sampleSpeakers,
-        navigateToSpeaker = {},
-    )
+    ComponentsPreview {
+        SpeakerGridView(
+            conference = "kotlinconf2023",
+            speakers = sampleSpeakers,
+            navigateToSpeaker = {},
+        )
+    }
 }
 
 @Preview(name = "Empty", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun SpeakerGridViewEmptyPreview() {
-    SpeakerGridView(
-        conference = "kotlinconf2023",
-        speakers = emptyList(),
-        navigateToSpeaker = {},
-    )
+    ComponentsPreview {
+        SpeakerGridView(
+            conference = "kotlinconf2023",
+            speakers = emptyList(),
+            navigateToSpeaker = {},
+        )
+    }
 }

@@ -1,6 +1,8 @@
 package dev.johnoreilly.confetti.ui
 
 import android.content.Context
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.NativeComponents
 import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.background
@@ -53,9 +55,15 @@ import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
  * full-screen entries on a phone.
  */
 
-/** Confetti's brand theme with dynamic (Material You) theming disabled, so the catalog is deterministic. */
+/**
+ * Confetti's brand theme with dynamic (Material You) theming disabled, so the catalog is
+ * deterministic, and [components] as the screens' context.
+ */
 @Composable
-internal fun CatalogTheme(content: @Composable () -> Unit) {
+internal fun CatalogTheme(
+    components: ConferenceComponents = NativeComponents(),
+    content: @Composable context(ConferenceComponents) () -> Unit,
+) {
     ConfettiTheme(disableDynamicTheming = true) {
         // The catalog renders with LocalInspectionMode = true, where Coil never executes a network
         // request — so speaker/venue AsyncImages would sit blank. A preview handler supplies the
@@ -63,8 +71,9 @@ internal fun CatalogTheme(content: @Composable () -> Unit) {
         // the published catalog shows real faces. Production is untouched (no handler there).
         CompositionLocalProvider(
             LocalAsyncImagePreviewHandler provides catalogImagePreviewHandler(),
-            content = content,
-        )
+        ) {
+            content(components)
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.search
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -7,6 +8,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.decompose.SearchComponent
 
 @Composable
+context(components: ConferenceComponents)
 fun SearchUI(
     component: SearchComponent,
     windowSizeClass: WindowSizeClass,
@@ -19,6 +21,7 @@ fun SearchUI(
     val speakers by component.speakers.collectAsStateWithLifecycle(initialValue = emptyList())
 
     SearchView(
+        conference = component.conference,
         navigateToSession = component::onSessionClicked,
         navigateToSpeaker = component::onSpeakerClicked,
         onSignIn = component::onSignInClicked,

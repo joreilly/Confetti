@@ -37,13 +37,18 @@ import dev.johnoreilly.confetti.ui.LocalBottomNavigationPadding
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.EmptyView
 import dev.johnoreilly.confetti.ui.component.LoadingView
-import dev.johnoreilly.confetti.ui.sessions.SessionItemView
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.SessionCardModel
+import dev.johnoreilly.confetti.preview.ComponentsPreview
+import dev.johnoreilly.confetti.listTags
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
+context(components: ConferenceComponents)
 fun BookmarksView(
+    conference: String,
     pastSessions: DateSessionsMap,
     upcomingSessions: DateSessionsMap,
     navigateToSession: (id: String) -> Unit,
@@ -58,6 +63,7 @@ fun BookmarksView(
         LoadingView()
     } else {
         BookmarksContent(
+            conference = conference,
             pastSessions = pastSessions,
             upcomingSessions = upcomingSessions,
             navigateToSession = navigateToSession,
@@ -71,7 +77,9 @@ fun BookmarksView(
 }
 
 @Composable
+context(components: ConferenceComponents)
 private fun BookmarksContent(
+    conference: String,
     pastSessions: DateSessionsMap,
     upcomingSessions: DateSessionsMap,
     navigateToSession: (id: String) -> Unit,
@@ -88,6 +96,7 @@ private fun BookmarksContent(
 
         BookmarksTabRow(pagerState = pagerState)
         BookmarksHorizontalPager(
+            conference = conference,
             pagerState = pagerState,
             pastSessions = pastSessions,
             upcomingSessions = upcomingSessions,
@@ -141,7 +150,9 @@ private fun BookmarksTabRow(pagerState: PagerState) {
 }
 
 @Composable
+context(components: ConferenceComponents)
 private fun BookmarksHorizontalPager(
+    conference: String,
     pagerState: PagerState,
     pastSessions: DateSessionsMap,
     upcomingSessions: DateSessionsMap,
@@ -174,21 +185,24 @@ private fun BookmarksHorizontalPager(
 
                 displayedSessions.forEach { (dateTime, sessions) ->
                     stickyHeader {
-                        ConfettiHeader(
-                            icon = Icons.Filled.AccessTime,
-                            text = dateTime.time.toString()
-                        )
+                        components.SectionHeader(conference, dateTime.time.toString(), Icons.Filled.AccessTime)
                     }
 
                     itemsIndexed(sessions) { index, session ->
-                        SessionItemView(
-                            session = session,
-                            sessionSelected = navigateToSession,
-                            isBookmarked = bookmarks.contains(session.id),
-                            addBookmark = { sessionId -> addBookmark(sessionId) },
-                            removeBookmark = { sessionId -> removeBookmark(sessionId) },
-                            onNavigateToSignIn = onSignIn,
-                            isLoggedIn = isLoggedIn,
+                        components.SessionCard(
+                            SessionCardModel(
+                                conference = conference,
+                                session = session,
+                                now = null,
+                                isBookmarked = bookmarks.contains(session.id),
+                                isLoggedIn = isLoggedIn,
+                                trackColor = null,
+                                tags = session.listTags(),
+                                sessionSelected = navigateToSession,
+                                addBookmark = addBookmark,
+                                removeBookmark = removeBookmark,
+                                onNavigateToSignIn = onSignIn,
+                            )
                         )
                         val isCurrentBreak = session.isBreak() || session.isService()
                         val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())
@@ -205,47 +219,56 @@ private fun BookmarksHorizontalPager(
 @MobilePreviews
 @Composable
 internal fun BookmarksViewLoadedPreview() {
-    BookmarksView(
-        pastSessions = emptyMap(),
-        upcomingSessions = bookmarkedSessionsByDate,
-        navigateToSession = {},
-        onSignIn = {},
-        bookmarks = setOf(sessionDetails.id),
-        addBookmark = {},
-        removeBookmark = {},
-        loading = false,
-        isLoggedIn = true,
-    )
+    ComponentsPreview {
+        BookmarksView(
+            conference = "kotlinconf2023",
+            pastSessions = emptyMap(),
+            upcomingSessions = bookmarkedSessionsByDate,
+            navigateToSession = {},
+            onSignIn = {},
+            bookmarks = setOf(sessionDetails.id),
+            addBookmark = {},
+            removeBookmark = {},
+            loading = false,
+            isLoggedIn = true,
+        )
+    }
 }
 
 @Preview(name = "Empty", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun BookmarksViewEmptyPreview() {
-    BookmarksView(
-        pastSessions = emptyMap(),
-        upcomingSessions = emptyMap(),
-        navigateToSession = {},
-        onSignIn = {},
-        bookmarks = emptySet(),
-        addBookmark = {},
-        removeBookmark = {},
-        loading = false,
-        isLoggedIn = true,
-    )
+    ComponentsPreview {
+        BookmarksView(
+            conference = "kotlinconf2023",
+            pastSessions = emptyMap(),
+            upcomingSessions = emptyMap(),
+            navigateToSession = {},
+            onSignIn = {},
+            bookmarks = emptySet(),
+            addBookmark = {},
+            removeBookmark = {},
+            loading = false,
+            isLoggedIn = true,
+        )
+    }
 }
 
 @Preview(name = "Loading", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun BookmarksViewLoadingPreview() {
-    BookmarksView(
-        pastSessions = emptyMap(),
-        upcomingSessions = emptyMap(),
-        navigateToSession = {},
-        onSignIn = {},
-        bookmarks = emptySet(),
-        addBookmark = {},
-        removeBookmark = {},
-        loading = true,
-        isLoggedIn = false,
-    )
+    ComponentsPreview {
+        BookmarksView(
+            conference = "kotlinconf2023",
+            pastSessions = emptyMap(),
+            upcomingSessions = emptyMap(),
+            navigateToSession = {},
+            onSignIn = {},
+            bookmarks = emptySet(),
+            addBookmark = {},
+            removeBookmark = {},
+            loading = true,
+            isLoggedIn = false,
+        )
+    }
 }

@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui
 
+import dev.johnoreilly.confetti.ui.components.WithConferenceComponents
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -28,6 +29,6 @@ fun MainViewController(
         modifier = Modifier.fillMaxSize(),
         endEdgeEnabled = false,
     ) {
-        App(component)
+        WithConferenceComponents { App(component) }
     }
 }

@@ -5,11 +5,14 @@ import androidx.compose.ui.window.ComposeUIViewController
 import dev.johnoreilly.confetti.decompose.ConferencesComponent
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.ui.sessions.SessionDetailViewShared
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import org.koin.compose.koinInject
 import platform.UIKit.UIViewController
 
 fun SessionDetailsViewController(conference: String, session: SessionDetails, conferenceThemeColor: String?, onSpeakerClick: (speakerId: String) -> Unit): UIViewController =
     ComposeUIViewController {
-        ConferenceMaterialThemeFromSettings(conferenceThemeColor) {
+        val components: ConferenceComponents = koinInject()
+        components.ConferenceTheme(conference, conferenceThemeColor) {
             SessionDetailViewShared(conference, session, onSpeakerClick)
         }
     }

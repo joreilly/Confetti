@@ -2,6 +2,7 @@
 
 package dev.johnoreilly.confetti
 
+import dev.johnoreilly.confetti.ui.components.WithConferenceComponents
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -67,7 +68,8 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            App(component = appComponent)
+            // The screens draw their conference components with the ones bound in Koin.
+            WithConferenceComponents { App(component = appComponent) }
         }
     }
 }

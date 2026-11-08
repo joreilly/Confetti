@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -88,6 +89,7 @@ import dev.johnoreilly.confetti.utils.isExpanded
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
+context(components: ConferenceComponents)
 fun App(component: DefaultAppComponent) {
     Children(
         stack = component.stack,
@@ -104,9 +106,10 @@ fun App(component: DefaultAppComponent) {
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
+context(components: ConferenceComponents)
 fun ConferenceView(component: ConferenceComponent) {
     val windowSizeClass = currentWindowSizeClass()
-    ConferenceMaterialThemeFromSettings(component.conferenceThemeColor) {
+    components.ConferenceTheme(component.conference, component.conferenceThemeColor) {
         ChildStack(
             stack = component.stack,
             animation = predictiveBackAnimation(
@@ -157,6 +160,7 @@ fun ConferenceView(component: ConferenceComponent) {
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
+context(components: ConferenceComponents)
 fun HomeView(component: HomeComponent) {
     val windowSizeClass = currentWindowSizeClass()
     val shouldShowNavRail = windowSizeClass.isExpanded

@@ -18,6 +18,7 @@ import org.koin.core.component.inject
 
 interface BookmarksComponent {
 
+    val conference: String
     val isLoggedIn: Boolean
     val loading: Flow<Boolean>
     val bookmarks: Flow<Set<String>>
@@ -32,7 +33,7 @@ interface BookmarksComponent {
 
 class DefaultBookmarksComponent(
     componentContext: ComponentContext,
-    private val conference: String,
+    override val conference: String,
     private val user: User?,
     private val onSessionSelected: (id: String) -> Unit,
     private val onSignIn: () -> Unit,

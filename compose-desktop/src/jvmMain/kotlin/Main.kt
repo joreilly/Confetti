@@ -1,4 +1,5 @@
 import androidx.compose.material3.MaterialTheme
+import dev.johnoreilly.confetti.ui.components.WithConferenceComponents
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.platform.LocalWindowInfo
@@ -88,7 +89,7 @@ fun main() {
             )
 
             MaterialTheme {
-                App(appComponent)
+                WithConferenceComponents { App(appComponent) }
             }
         }
     }

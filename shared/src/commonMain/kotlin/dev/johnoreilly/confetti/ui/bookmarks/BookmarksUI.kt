@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.ui.bookmarks
 
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -12,6 +13,7 @@ import dev.johnoreilly.confetti.ui.HomeScaffold
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
+context(components: ConferenceComponents)
 fun BookmarksUI(
     component: BookmarksComponent,
     windowSizeClass: WindowSizeClass,
@@ -30,6 +32,7 @@ fun BookmarksUI(
         topBarActions = topBarActions,
     ) {
         BookmarksView(
+            conference = component.conference,
             navigateToSession = component::onSessionClicked,
             onSignIn = component::onSignInClicked,
             pastSessions = pastSessions,

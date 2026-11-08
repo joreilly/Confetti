@@ -72,7 +72,10 @@ import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.component.ConfettiSearch
 import dev.johnoreilly.confetti.ui.component.LoadingView
-import dev.johnoreilly.confetti.ui.sessions.SessionItemView
+import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.SessionCardModel
+import dev.johnoreilly.confetti.preview.ComponentsPreview
+import dev.johnoreilly.confetti.listTags
 import dev.johnoreilly.confetti.ui.speakers.SpeakerItemView
 import org.jetbrains.compose.resources.stringResource
 
@@ -84,7 +87,9 @@ import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.ui.component.EmptyView
 
 @Composable
+context(components: ConferenceComponents)
 fun SearchView(
+    conference: String,
     search: String,
     onSearchChange: (String) -> Unit,
     sessions: List<SessionDetails>,
@@ -131,6 +136,7 @@ fun SearchView(
                         contentPadding = PaddingValues(bottom = 16.dp + navigationBarsPadding)
                     ) {
                         sessionItems(
+                            conference = conference,
                             sessions = sessions,
                             navigateToSession = navigateToSession,
                             bookmarks = bookmarks,
@@ -140,6 +146,7 @@ fun SearchView(
                             isLoggedIn = isLoggedIn,
                         )
                         speakerItems(
+                            conference = conference,
                             speakers = speakers,
                             navigateToSpeaker = navigateToSpeaker,
                         )
@@ -157,17 +164,16 @@ fun SearchView(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
+context(components: ConferenceComponents)
 private fun LazyListScope.speakerItems(
+    conference: String,
     speakers: List<SpeakerDetails>,
     navigateToSpeaker: (id: String) -> Unit,
 ) {
     // Shows header if and only if there are speaker results.
     if (speakers.isNotEmpty()) {
         stickyHeader {
-            ConfettiHeader(
-                icon = Icons.Filled.Person,
-                text = stringResource(Res.string.speakers),
-            )
+            components.SectionHeader(conference, stringResource(Res.string.speakers), Icons.Filled.Person)
         }
     }
     items(speakers) { speaker ->
@@ -178,7 +184,9 @@ private fun LazyListScope.speakerItems(
     }
 }
 
+context(components: ConferenceComponents)
 private fun LazyListScope.sessionItems(
+    conference: String,
     sessions: List<SessionDetails>,
     navigateToSession: (id: String) -> Unit,
     bookmarks: Set<String>,
@@ -190,21 +198,24 @@ private fun LazyListScope.sessionItems(
     // Shows header if and only if there are session results.
     if (sessions.isNotEmpty()) {
         stickyHeader {
-            ConfettiHeader(
-                icon = Icons.Filled.Event,
-                text = stringResource(Res.string.sessions),
-            )
+            components.SectionHeader(conference, stringResource(Res.string.sessions), Icons.Filled.Event)
         }
     }
     itemsIndexed(sessions) { index, session ->
-        SessionItemView(
-            session = session,
-            sessionSelected = navigateToSession,
-            isBookmarked = bookmarks.contains(session.id),
-            addBookmark = { sessionId -> addBookmark(sessionId) },
-            removeBookmark = { sessionId -> removeBookmark(sessionId) },
-            onNavigateToSignIn = onSignIn,
-            isLoggedIn = isLoggedIn,
+        components.SessionCard(
+            SessionCardModel(
+                conference = conference,
+                session = session,
+                now = null,
+                isBookmarked = bookmarks.contains(session.id),
+                isLoggedIn = isLoggedIn,
+                trackColor = null,
+                tags = session.listTags(),
+                sessionSelected = navigateToSession,
+                addBookmark = addBookmark,
+                removeBookmark = removeBookmark,
+                onNavigateToSignIn = onSignIn,
+            )
         )
         val isCurrentBreak = session.isBreak() || session.isService()
         val isNextBreak = index < sessions.lastIndex && (sessions[index + 1].isBreak() || sessions[index + 1].isService())
@@ -219,56 +230,65 @@ private fun LazyListScope.sessionItems(
 @MobilePreviews
 @Composable
 internal fun SearchViewLoadedPreview() {
-    SearchView(
-        search = "kotlin",
-        onSearchChange = {},
-        sessions = listOf(sessionDetails, lightningSession),
-        speakers = sampleSpeakers,
-        navigateToSession = {},
-        navigateToSpeaker = {},
-        onSignIn = {},
-        bookmarks = setOf(sessionDetails.id),
-        addBookmark = {},
-        removeBookmark = {},
-        loading = false,
-        isLoggedIn = true,
-    )
+    ComponentsPreview {
+        SearchView(
+            conference = "kotlinconf2023",
+            search = "kotlin",
+            onSearchChange = {},
+            sessions = listOf(sessionDetails, lightningSession),
+            speakers = sampleSpeakers,
+            navigateToSession = {},
+            navigateToSpeaker = {},
+            onSignIn = {},
+            bookmarks = setOf(sessionDetails.id),
+            addBookmark = {},
+            removeBookmark = {},
+            loading = false,
+            isLoggedIn = true,
+        )
+    }
 }
 
 @Preview(name = "Empty query", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun SearchViewEmptyQueryPreview() {
-    SearchView(
-        search = "",
-        onSearchChange = {},
-        sessions = emptyList(),
-        speakers = emptyList(),
-        navigateToSession = {},
-        navigateToSpeaker = {},
-        onSignIn = {},
-        bookmarks = emptySet(),
-        addBookmark = {},
-        removeBookmark = {},
-        loading = false,
-        isLoggedIn = false,
-    )
+    ComponentsPreview {
+        SearchView(
+            conference = "kotlinconf2023",
+            search = "",
+            onSearchChange = {},
+            sessions = emptyList(),
+            speakers = emptyList(),
+            navigateToSession = {},
+            navigateToSpeaker = {},
+            onSignIn = {},
+            bookmarks = emptySet(),
+            addBookmark = {},
+            removeBookmark = {},
+            loading = false,
+            isLoggedIn = false,
+        )
+    }
 }
 
 @Preview(name = "Loading", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun SearchViewLoadingPreview() {
-    SearchView(
-        search = "kotlin",
-        onSearchChange = {},
-        sessions = emptyList(),
-        speakers = emptyList(),
-        navigateToSession = {},
-        navigateToSpeaker = {},
-        onSignIn = {},
-        bookmarks = emptySet(),
-        addBookmark = {},
-        removeBookmark = {},
-        loading = true,
-        isLoggedIn = false,
-    )
+    ComponentsPreview {
+        SearchView(
+            conference = "kotlinconf2023",
+            search = "kotlin",
+            onSearchChange = {},
+            sessions = emptyList(),
+            speakers = emptyList(),
+            navigateToSession = {},
+            navigateToSpeaker = {},
+            onSignIn = {},
+            bookmarks = emptySet(),
+            addBookmark = {},
+            removeBookmark = {},
+            loading = true,
+            isLoggedIn = false,
+        )
+    }
 }

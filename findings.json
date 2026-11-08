@@ -424,7 +424,7 @@
       "variant": ""
     },
     {
-      "annotatedBasename": "",
+      "annotatedBasename": "LiveryDroidconPreview_droidcon-dea0f94d.a11y.png",
       "cleanBasename": "LiveryDroidconPreview_droidcon-dea0f94d.png",
       "findings": [],
       "functionName": "LiveryDroidconPreview",
@@ -1530,6 +1530,5 @@
       "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/ui/ComponentCatalog.kt",
       "variant": ""
     }
-  ],
-  "status": "atf-unavailable"
+  ]
 }

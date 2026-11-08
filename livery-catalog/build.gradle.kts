@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.kotlinx.serialization)
 
     testImplementation(kotlin("test"))
+    testImplementation(libs.livery.client)
 }
 
 // One catalog per conference series: catalogs/confetti (the base), and one per conference. Only the
@@ -120,4 +121,11 @@ catalogsDir.asFile.listFiles { f -> f.isDirectory }.orEmpty().map { it.name }.so
         })
     }
     buildLiveryChannels.configure { dependsOn(task) }
+}
+
+// ShaderExperimentTest reads the KotlinConf channel as the publisher builds it, to check what
+// Livery's own selector picks from it (the shader template, its fallback, the default design).
+tasks.named<Test>("test") {
+    dependsOn("buildLiveryChannelKotlinconf")
+    systemProperty("livery.channels", channelsDir.get().asFile.absolutePath)
 }

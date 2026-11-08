@@ -58,4 +58,4 @@ fun designs(
 )
 
 /** Every design in every catalog. Each conference's designs join in their own PR. */
-val AllDesigns: List<DesignDef> = ConfettiDesigns + DroidconDesigns
+val AllDesigns: List<DesignDef> = ConfettiDesigns + DroidconDesigns + KotlinConfDesigns

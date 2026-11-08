@@ -1,0 +1,35 @@
+{
+  "id": "kotlinconf-light",
+  "title": "KotlinConf (light)",
+  "mode": "light",
+  "values": {
+    "theme.primary": {
+      "type": "color",
+      "argb": 4285218032
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "argb": 4294967295
+    },
+    "theme.secondary": {
+      "type": "color",
+      "argb": 4289793993
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "argb": 4292425288
+    },
+    "theme.surface": {
+      "type": "color",
+      "argb": 4294967295
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "argb": 4279834908
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "argb": 4284175984
+    }
+  }
+}

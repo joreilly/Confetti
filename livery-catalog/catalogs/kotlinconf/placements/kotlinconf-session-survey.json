@@ -1,0 +1,24 @@
+{
+  "id": "kotlinconf-session-survey",
+  "placement": "session.footer",
+  "priority": 5,
+  "template": {
+    "designId": "kotlinconf-promo"
+  },
+  "data": {
+    "eyebrow": "1 minute",
+    "headline": "How was this session?",
+    "body": "Rate it and help speakers improve their talks.",
+    "cta": "Rate session",
+    "url": "https://kotlinconf.com/feedback"
+  },
+  "conditions": {
+    "segments": [
+      "conference:kotlinconf2026"
+    ]
+  },
+  "frequency": {
+    "maxImpressions": 1,
+    "perSeconds": 3600
+  }
+}

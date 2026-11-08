@@ -129,7 +129,7 @@ class LiveryComponentsTest {
     }
 
     /** With no catalog yet, the livery arm builds Livery and draws Confetti's own rows. */
-    /** droidcon draws its own catalog; a conference without one (here KotlinConf) the base. */
+    /** Each conference draws its series' catalog, and one without a series (here Fosdem) the base. */
     @Test fun liveryArmDrawsEachConferencesCatalog() {
         val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
         compose.setContent {
@@ -137,18 +137,19 @@ class LiveryComponentsTest {
                 Column {
                     components.SessionCard(card("kotlinconf2026"))
                     components.SessionCard(card("droidconlondon2025"))
+                    components.SessionCard(card("fosdem2025"))
                 }
             }
         }
-        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 2 }
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 3 }
         assertTrue(components.liveryStarted)
         assertEquals(0, nativeRows())
         val tags = compose.onAllNodes(liverySlot).fetchSemanticsNodes().map { it.config[SemanticsProperties.TestTag] }
-        assertEquals(listOf("confetti-session", "droidcon-session"), tags.map { it.substringAfterLast(':') })
+        assertEquals(listOf("kotlinconf-session", "droidcon-session", "confetti-session"), tags.map { it.substringAfterLast(':') })
         // The templates' impressions, tagged with the arm, as the native arm's rows are.
         compose.waitUntil(10_000) {
             synchronized(logged) { logged.filter { it.id == "livery_impression" }.map { it.properties["design_id"] }.toSet() } ==
-                setOf("confetti-session", "droidcon-session")
+                setOf("kotlinconf-session", "droidcon-session", "confetti-session")
         }
         val impression = synchronized(logged) { logged.first { it.id == "livery_impression" } }
         assertEquals(SduiExperiment.LIVERY, impression.properties["exp_${SduiExperiment.ID}"])

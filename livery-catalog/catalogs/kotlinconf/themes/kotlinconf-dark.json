@@ -1,0 +1,35 @@
+{
+  "id": "kotlinconf-dark",
+  "title": "KotlinConf (dark)",
+  "mode": "dark",
+  "values": {
+    "theme.primary": {
+      "type": "color",
+      "argb": 4286534399
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "argb": 4294967295
+    },
+    "theme.secondary": {
+      "type": "color",
+      "argb": 4291301858
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "argb": 4293216343
+    },
+    "theme.surface": {
+      "type": "color",
+      "argb": 4279834908
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "argb": 4294967295
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "argb": 4291281622
+    }
+  }
+}

@@ -99,13 +99,13 @@ fun ConfettiSession() {
         verticalAlignment = RemoteAlignment.CenterVertically,
     ) {
         RemoteColumn(
-            modifier = RemoteModifier.weight(1f).padding(start = 16.rdp, top = 12.rdp, end = 8.rdp, bottom = 12.rdp),
+            modifier = RemoteModifier.weight(1f.rf).padding(start = 16.rdp, top = 12.rdp, end = 8.rdp, bottom = 12.rdp),
             verticalArrangement = RemoteArrangement.spacedBy(4.rdp),
         ) {
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
                 Label(text { time }, c.primary, size = 12, weight = FontWeight.SemiBold)
                 LivePill(flag { live }, c.secondary, c.onPrimary, text = "Live")
-                Label(text { room }, c.muted, size = 12, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f))
+                Label(text { room }, c.muted, size = 12, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
             }
             Label(text { title }, c.onSurface, size = 16, weight = FontWeight.SemiBold, maxLines = 2)
             Label(text { speakers }, c.muted, size = 13, weight = FontWeight.Normal)
@@ -141,7 +141,7 @@ fun ConfettiSpeaker() {
             contentScale = RemoteContentScale.Crop,
             alpha = 1f.rf,
         )
-        RemoteColumn(RemoteModifier.weight(1f), verticalArrangement = RemoteArrangement.spacedBy(2.rdp)) {
+        RemoteColumn(RemoteModifier.weight(1f.rf), verticalArrangement = RemoteArrangement.spacedBy(2.rdp)) {
             Label(text { name }, c.onSurface, size = 18, weight = FontWeight.SemiBold)
             Label(text { tagline }, c.muted, size = 13, weight = FontWeight.Normal, maxLines = 2)
             Label(text { sessions }, c.primary, size = 12, weight = FontWeight.Medium)
@@ -162,7 +162,7 @@ fun ConfettiPromo() {
         verticalArrangement = RemoteArrangement.spacedBy(6.rdp),
     ) {
         RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
-            Label(text { eyebrow }, c.secondary, size = 12, weight = FontWeight.SemiBold, modifier = RemoteModifier.weight(1f))
+            Label(text { eyebrow }, c.secondary, size = 12, weight = FontWeight.SemiBold, modifier = RemoteModifier.weight(1f.rf))
             RemoteBox(
                 modifier = RemoteModifier.size(32.rdp, 32.rdp).clickable(action { dismiss }),
                 contentAlignment = RemoteAlignment.Center,

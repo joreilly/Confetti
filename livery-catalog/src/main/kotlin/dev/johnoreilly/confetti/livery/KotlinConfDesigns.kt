@@ -98,11 +98,11 @@ fun KotlinConfKeynoteSession() {
             .padding(18.rdp),
         horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
     ) {
-        RemoteColumn(RemoteModifier.weight(1f), verticalArrangement = RemoteArrangement.spacedBy(6.rdp)) {
+        RemoteColumn(RemoteModifier.weight(1f.rf), verticalArrangement = RemoteArrangement.spacedBy(6.rdp)) {
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
                 Chip("Keynote".rs, onBrand, c.primary)
                 LivePill(inputBool(C.live), c.tertiary, onBrand, text = "Live")
-                Label(input(C.time), onBrand, size = 13, weight = FontWeight.SemiBold, modifier = RemoteModifier.weight(1f))
+                Label(input(C.time), onBrand, size = 13, weight = FontWeight.SemiBold, modifier = RemoteModifier.weight(1f.rf))
             }
             Label(input(C.title), onBrand, size = 22, weight = FontWeight.Black, maxLines = 2)
             Label(input(C.speakers), onBrand, size = 15, weight = FontWeight.SemiBold)
@@ -111,11 +111,9 @@ fun KotlinConfKeynoteSession() {
         RemoteBox(
             modifier = RemoteModifier
                 .size(40.rdp, 40.rdp)
-                // A fixed radius, half the size: RemoteCircleShape's radius is written against the
-                // previous component's size (a remote-creation-compose bug), not this box's.
-                .clip(RemoteRoundedCornerShape(20.rdp))
+                .clip(RemoteCircleShape)
                 .background(bookmarked.select(onBrand, onBrand.copy(alpha = 0.2f.rf)))
-                .border(1.5f.rdp, onBrand, RemoteRoundedCornerShape(20.rdp))
+                .border(1.5f.rdp, onBrand, RemoteCircleShape)
                 .clickable(emit(C.bookmark)),
             contentAlignment = RemoteAlignment.Center,
         ) {
@@ -218,12 +216,12 @@ fun KotlinConfSession(
             .padding(16.rdp),
         horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
     ) {
-        RemoteColumn(RemoteModifier.weight(1f), verticalArrangement = RemoteArrangement.spacedBy(6.rdp)) {
+        RemoteColumn(RemoteModifier.weight(1f.rf), verticalArrangement = RemoteArrangement.spacedBy(6.rdp)) {
             if (badge != null) Label(badge.rs, c.tertiary, size = 13, weight = FontWeight.Black)
             RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
                 Chip(input(C.time), c.primary, c.onPrimary)
                 LivePill(inputBool(C.live), c.tertiary, c.onPrimary, text = "Live")
-                Label(input(C.room), c.muted, size = 13, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f))
+                Label(input(C.room), c.muted, size = 13, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
             }
             Label(input(C.title), c.onSurface, size = 18, weight = FontWeight.Bold, maxLines = 2)
             Label(input(C.speakers), c.muted, size = 14, weight = FontWeight.Normal)
@@ -289,7 +287,7 @@ fun KotlinConfPromo() {
         verticalArrangement = RemoteArrangement.spacedBy(6.rdp),
     ) {
         RemoteRow(RemoteModifier.fillMaxWidth(), verticalAlignment = RemoteAlignment.CenterVertically) {
-            Label(input(C.eyebrow), onBrand, size = 13, weight = FontWeight.SemiBold, modifier = RemoteModifier.weight(1f))
+            Label(input(C.eyebrow), onBrand, size = 13, weight = FontWeight.SemiBold, modifier = RemoteModifier.weight(1f.rf))
             RemoteBox(
                 RemoteModifier.size(28.rdp, 28.rdp).clip(RemoteCircleShape).background(onBrand.copy(alpha = 0.2f.rf)).clickable(emit(C.dismiss)),
                 contentAlignment = RemoteAlignment.Center,

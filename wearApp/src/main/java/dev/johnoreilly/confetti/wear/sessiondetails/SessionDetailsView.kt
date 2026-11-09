@@ -123,7 +123,7 @@ fun SessionDetailView(
 
 @WearPreviewLargeRound
 @WearPreviewSmallRound
-@ScrollingPreview(modes = [ScrollMode.LONG])
+@ScrollingPreview(modes = [ScrollMode.END, ScrollMode.LONG], reduceMotion = false)
 @Composable
 fun SessionDetailViewPreview() {
     ConfettiPreviewScaffold {

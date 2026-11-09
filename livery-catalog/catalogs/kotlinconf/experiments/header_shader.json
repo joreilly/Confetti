@@ -1,0 +1,9 @@
+{
+  "id": "header_shader",
+  "allocationBasisPoints": 10000,
+  "conditions": { "platforms": ["android"] },
+  "arms": [
+    { "id": "mesh", "weight": 1, "designs": { "confetti/conference@1": "kotlinconf-header" } },
+    { "id": "shader", "weight": 1, "designs": { "confetti/conference@1": "kotlinconf-header-shader" } }
+  ]
+}

@@ -34,4 +34,14 @@ class FirebaseSduiArmsTest {
     @Test fun aForcedArmWins() {
         assertEquals(SduiExperiment.NATIVE, FirebaseSduiArms(forced = SduiExperiment.NATIVE).arm("kotlinconf"))
     }
+
+    /** Shaders on Android 13+ unless Remote Config turns them off; nothing turns them on below 13. */
+    @Test fun shadersNeedAndroid13AndTheSwitch() {
+        val none = FirebaseSduiArms.RemoteValues { null }
+        val off = FirebaseSduiArms.RemoteValues { mapOf(FirebaseSduiArms.SHADERS_SWITCH to "false")[it] }
+        val on = FirebaseSduiArms.RemoteValues { mapOf(FirebaseSduiArms.SHADERS_SWITCH to "true")[it] }
+        assertEquals(true, shadersSupported(sdkInt = 33, config = none))
+        assertEquals(false, shadersSupported(sdkInt = 33, config = off))
+        assertEquals(false, shadersSupported(sdkInt = 32, config = on))
+    }
 }

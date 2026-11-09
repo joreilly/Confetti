@@ -49,6 +49,10 @@ dependencies {
     implementation(enforcedPlatform(libs.compose.bom))
     implementation(projects.shared)
     implementation(projects.liveryContracts)
+    // Livery and the Remote Compose players come from their BOMs, the same ones :livery-catalog
+    // captures the templates with, so the app plays a document with the player it was made for.
+    implementation(platform(libs.livery.bom))
+    implementation(platform(libs.rc.players.bom))
     implementation(libs.livery.client)
     implementation(libs.livery.compose) {
         // rc-player-compose declares Ktor's CIO engine but never uses it; beside OkHttp it would

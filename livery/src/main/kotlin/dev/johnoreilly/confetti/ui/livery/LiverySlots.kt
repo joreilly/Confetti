@@ -51,6 +51,7 @@ import ee.schimke.livery.protocol.TemplateEvent
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.serialization.json.JsonObject
 
 /**
  * What a platform hands the shared UI to draw conference-styled slots. Absent (the default), every
@@ -161,8 +162,13 @@ class LiveryStyling(
 
         fun theme(dark: Boolean): suspend () -> Bindings? = { repository.theme(ConferenceSeries.themePack(series, dark)) ?: repository.theme(series) }
 
-        fun query(contract: ConfettiContract) =
-            TemplateQuery(contract.ref, capabilities, tags = mapOf(ConferenceSeries.TAG to series), minor = contract.minor)
+        /** The series' design for [contract]; with [tags], only one tagged for them too (a keynote's). */
+        fun query(contract: ConfettiContract, tags: Map<String, String> = emptyMap()) =
+            TemplateQuery(contract.ref, capabilities, tags = mapOf(ConferenceSeries.TAG to series) + tags, minor = contract.minor)
+
+        /** A query per tag set in [specific], most specific first, then the series' own. */
+        fun queries(contract: ConfettiContract, specific: List<Map<String, String>>) =
+            specific.map { query(contract, it) } + query(contract)
 
         /**
          * Events through [Experiments.sink] (an `Impression` reports a catalog experiment's
@@ -210,6 +216,11 @@ fun ConferenceSlot(
     modifier: Modifier = Modifier.fillMaxWidth(),
     /** What the slot shows (a session id): a lazy list can reuse a slot for another item. */
     identity: Any? = null,
+    /**
+     * Tag sets for a design made for this item, most specific first (this talk, its track, its
+     * format): the first with a design draws, else the series' own.
+     */
+    specific: List<Map<String, String>> = emptyList(),
     actions: ActionHandlers = emptyMap(),
     /**
      * Confetti's own composable, drawn where there's no template. Null when Confetti draws nothing
@@ -227,7 +238,7 @@ fun ConferenceSlot(
     val native = remember(catalog, contract) { nativeTracker(styling, catalog, contract) }
     // Re-planned when the data or the colours change, and on a refreshed catalog (LiverySlot
     // watches the repository's revision): a mode switch or a new wallpaper recolours live.
-    LiverySlot(key = json to colors, host = host, modifier = modifier, fallback = { reason ->
+    LiverySlot(key = Triple(json, colors, specific), host = host, modifier = modifier, fallback = { reason ->
         // Nothing to draw (the header): nothing to see, so no impression either.
         val draw = fallback ?: return@LiverySlot
         // A reason means there's no template here, so Confetti's row is what the user sees: its
@@ -242,8 +253,18 @@ fun ConferenceSlot(
         }
         draw(native)
     }) {
-        catalog.planner.forAppData(catalog.query(contract), json, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
+        catalog.planFirst(catalog.queries(contract, specific), json, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
     }
+}
+
+/**
+ * Plans the first of [queries] that has a template: Livery's `SlotPlanner.forAppData(queries, …)`
+ * (yschimke/livery#45), which does this in one pass over the catalog. Replace this with it once
+ * Confetti is on a Livery release that has it.
+ */
+private suspend fun LiveryStyling.SeriesCatalog.planFirst(queries: List<TemplateQuery>, data: JsonObject, extra: Bindings): PlanResult {
+    val query = queries.dropLast(1).firstOrNull { repository.resolve(it) != null } ?: queries.last()
+    return planner.forAppData(query, data, extra)
 }
 
 private fun nativeTracker(

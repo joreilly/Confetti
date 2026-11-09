@@ -246,6 +246,19 @@ no Livery types, so:
   use, so a session where every conference is in the native arm never constructs a repository,
   reads a bundled catalog or fetches a template (`LiveryComponentsTest.nativeArmNeverBuildsLivery`).
 
+**Designs made for some sessions.** A session card asks for a design made for it, most specific
+first: this talk (`session=<id>`), each of its tags in order (`tag=<name>`: its track, which
+Confetti keeps as a tag, and its categories, such as Sessionize's session format), then its format
+(`type=<type>`), and then the series' own design. The first that the catalog has a template for
+draws. KotlinConf's catalog shows two: its 2026 opening keynote (`session=1148503`, on the Kotlin
+gradient; Sessionize marks a keynote only by its title) and lightning talks (`tag=Lightning talk`).
+Each has a variant of its own, so the series' `default` design still wins for every other
+session (`SpecificDesignsTest`).
+
+| Opening keynote | Lightning talk |
+| --- | --- |
+| ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-keynote-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-lightning-in-app.png) |
+
 **The A/B test: Livery against the composables, in Firebase.** Each series has a Remote Config
 parameter, `sdui_droidcon`, `sdui_kotlinconf` and `sdui_confetti` (every conference on the
 base catalog), set to `native` or `livery`. Run the split as a

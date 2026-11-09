@@ -228,7 +228,7 @@ fun generate(brand: ConferenceBrand, catalog: File): List<CapturedTemplate> {
         dir.resolve("design.json").writeText(buildJsonObject {
             put("id", design.id); put("contract", design.contract.ref); put("title", design.title)
             put("author", "confetti"); put("variant", design.variant); put("install", design.install)
-            put("tags", buildJsonObject { put("series", design.brand.series) })
+            put("tags", buildJsonObject { put("series", design.brand.series); design.tags.forEach { (k, v) -> put(k, v) } })
         }.pretty())
         templates.forEach { t ->
             dir.resolve("${t.template.name}.rc").writeBytes(t.bytes)

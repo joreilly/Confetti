@@ -55,6 +55,15 @@ fun SessionDetails.toSessionCard(now: LocalDateTime?, isBookmarked: Boolean) = S
     bookmarked = isBookmarked,
 )
 
+/**
+ * What a session design can be made for, most specific first: this talk (`session=<id>`), each of
+ * its tags in order (`tag=<name>`: its track, which Confetti keeps as a tag, and its categories),
+ * then its format (`type=keynote`). A card draws the first that the conference's catalog has a
+ * design for, else the series' own session design.
+ */
+fun SessionDetails.designTags(): List<Map<String, String>> =
+    listOf(mapOf("session" to id)) + tags.map { mapOf("tag" to it) } + listOf(mapOf("type" to type))
+
 fun SpeakerDetails.toSpeakerCard() = SpeakerCard(
     name = name,
     tagline = listOfNotNull(tagline, company).filter { it.isNotBlank() }.joinToString(" · "),
@@ -113,6 +122,7 @@ class LiveryComponents(
             conference = card.conference,
             data = card.session.toSessionCard(card.now, card.isBookmarked),
             identity = card.session.id,
+            specific = card.session.designTags(),
             actions = mapOf(
                 SessionContract.open to { _ -> card.sessionSelected(card.session.id) },
                 SessionContract.bookmark to { _ -> if (card.isLoggedIn) card.toggleBookmark() else askToSignIn = true },

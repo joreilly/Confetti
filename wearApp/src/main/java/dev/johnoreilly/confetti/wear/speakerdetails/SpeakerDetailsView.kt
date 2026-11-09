@@ -38,9 +38,8 @@ import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Person
 import dev.johnoreilly.confetti.wear.components.InspectionSpeakerImage
-import dev.johnoreilly.confetti.wear.components.bodyTextContentPadding
-import dev.johnoreilly.confetti.wear.components.bodyTextHorizontalPadding
 import dev.johnoreilly.confetti.wear.components.bodyTextItems
+import dev.johnoreilly.confetti.wear.components.bodyTextModifier
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -74,7 +73,7 @@ fun SpeakerDetailsView(
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
-            contentPadding = bodyTextContentPadding(contentPadding),
+            contentPadding = contentPadding,
         ) {
             if (uiState is SpeakerDetailsUiState.Loading) {
                 item {
@@ -201,15 +200,7 @@ fun SpeakerDetailsView(
                 if (speaker == null || speaker.tagline != null) {
                     item {
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .graphicsLayer {
-                                    with(transformationSpec) {
-                                        applyContainerTransformation(scrollProgress)
-                                    }
-                                }
-                                .transformedHeight(this, transformationSpec)
-                                .padding(horizontal = bodyTextHorizontalPadding()),
+                            modifier = bodyTextModifier(transformationSpec),
                             text = speaker?.tagline ?: "",
                         )
                     }

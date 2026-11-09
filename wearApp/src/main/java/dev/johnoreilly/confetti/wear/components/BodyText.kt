@@ -1,40 +1,63 @@
 package dev.johnoreilly.confetti.wear.components
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.TextDefaults
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 
 /**
- * Extra horizontal inset for multi-line body text, on top of the ScreenScaffold content padding.
+ * Modifier for a plain Text item in a TransformingLazyColumn.
  *
- * Body text is laid out as a rectangle, but on a round screen the chord gets narrower towards
- * the top and bottom, so the corners of a full-width paragraph fall outside the display.
+ * - Applies the container transformation so the text scales/fades at the screen edges.
+ * - Uses the Wear M3 text list padding, so a list that starts or ends with text gets enough
+ *   top/bottom content padding to keep the first/last line inside a round screen.
+ * - Adds a round-screen horizontal inset so the corners of multi-line text stay on screen.
  */
 @Composable
-fun bodyTextHorizontalPadding(): Dp {
+fun TransformingLazyColumnItemScope.bodyTextModifier(
+    transformationSpec: TransformationSpec,
+): Modifier = Modifier
+    .fillMaxWidth()
+    .graphicsLayer {
+        with(transformationSpec) {
+            applyContainerTransformation(scrollProgress)
+        }
+    }
+    .transformedHeight(this, transformationSpec)
+    .minimumVerticalContentPadding(
+        TextDefaults.minimumTopListContentPadding,
+        TextDefaults.minimumBottomListContentPadding,
+    )
+    .padding(horizontal = bodyTextHorizontalInset())
+
+/**
+ * Extra horizontal inset for multi-line text, on top of the ScreenScaffold content padding.
+ *
+ * The scaffold padding is enough for pill-shaped components, but a rectangular block of text
+ * still has its corners cut off by a round screen. This matches the Wear M3
+ * `PaddingDefaults.horizontalContentPaddingPercentage` (internal in Wear Compose M3 1.7).
+ */
+@Composable
+private fun bodyTextHorizontalInset(): Dp {
     val configuration = LocalConfiguration.current
     return if (configuration.isScreenRound) {
-        (configuration.screenWidthDp * BodyTextExtraHorizontalPaddingFraction).dp
+        (configuration.screenWidthDp * HorizontalContentPaddingPercentage / 100f).dp
     } else {
         0.dp
     }
 }
 
-private const val BodyTextExtraHorizontalPaddingFraction = 0.05f
+private const val HorizontalContentPaddingPercentage = 5.2f
 
 /**
  * Splits long text into short, sentence-sized chunks.
@@ -53,7 +76,7 @@ internal fun splitBodyText(text: String): List<String> =
         .filter { it.isNotEmpty() }
 
 /**
- * Adds [text] to the list as one item per sentence, inset for round screens.
+ * Adds [text] to the list as one item per sentence.
  */
 fun TransformingLazyColumnScope.bodyTextItems(
     text: String,
@@ -63,40 +86,8 @@ fun TransformingLazyColumnScope.bodyTextItems(
     val chunks = splitBodyText(text)
     items(count = chunks.size, key = { "$keyPrefix-$it" }) { index ->
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .graphicsLayer {
-                    with(transformationSpec) {
-                        applyContainerTransformation(scrollProgress)
-                    }
-                }
-                .transformedHeight(this, transformationSpec)
-                .padding(horizontal = bodyTextHorizontalPadding()),
+            modifier = bodyTextModifier(transformationSpec),
             text = chunks[index],
-            textAlign = TextAlign.Start,
         )
     }
 }
-
-/**
- * List content padding for a screen whose last item is body text.
- *
- * The default bottom padding leaves the final line in the narrowest part of a round screen, where
- * its corners are cut off. Raise the bottom padding so the last line sits where the display is
- * wide enough for it.
- */
-@Composable
-fun bodyTextContentPadding(contentPadding: PaddingValues): PaddingValues {
-    val configuration = LocalConfiguration.current
-    if (!configuration.isScreenRound) return contentPadding
-    val layoutDirection = LocalLayoutDirection.current
-    val minBottom = (configuration.screenHeightDp * BodyTextMinBottomPaddingFraction).dp
-    return PaddingValues(
-        start = contentPadding.calculateStartPadding(layoutDirection),
-        top = contentPadding.calculateTopPadding(),
-        end = contentPadding.calculateEndPadding(layoutDirection),
-        bottom = maxOf(contentPadding.calculateBottomPadding(), minBottom),
-    )
-}
-
-private const val BodyTextMinBottomPaddingFraction = 0.2f

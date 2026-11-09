@@ -2,7 +2,6 @@ package dev.johnoreilly.confetti.wear.sessiondetails
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,8 +24,8 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
-import dev.johnoreilly.confetti.wear.components.bodyTextHorizontalPadding
 import dev.johnoreilly.confetti.wear.components.bodyTextItems
+import dev.johnoreilly.confetti.wear.components.bodyTextModifier
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
@@ -79,15 +78,7 @@ fun SessionDetailView(
                             timeFormatter.format(session.startsAt.toJavaLocalDateTime())
                         }
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .graphicsLayer {
-                                    with(transformationSpec) {
-                                        applyContainerTransformation(scrollProgress)
-                                    }
-                                }
-                                .transformedHeight(this, transformationSpec)
-                                .padding(horizontal = bodyTextHorizontalPadding()),
+                            modifier = bodyTextModifier(transformationSpec),
                             text = time,
                         )
                     }

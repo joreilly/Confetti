@@ -1,0 +1,843 @@
+{
+    "catalog": "confetti-kotlinconf",
+    "serial": 1794216254154,
+    "generatedAtEpochMs": 1794216254154,
+    "expiresAtEpochMs": 1796808254154,
+    "minClient": 2,
+    "contracts": [
+        {
+            "id": "confetti/conference",
+            "major": 1,
+            "title": "Conference header",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 40
+                },
+                "dates": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 32,
+                    "description": "already formatted for the locale"
+                },
+                "location": {
+                    "type": "string",
+                    "maxLength": 60
+                },
+                "tagline": {
+                    "type": "string",
+                    "maxLength": 90
+                },
+                "live": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "the conference is on today"
+                },
+                "ticketsUrl": {
+                    "type": "string",
+                    "maxLength": 200
+                }
+            },
+            "actions": {
+                "tickets": {
+                    "kind": "open-url",
+                    "args": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "examples": {
+                "default": {
+                    "name": "droidcon London",
+                    "dates": "29–30 OCT 2026",
+                    "location": "Business Design Centre, London",
+                    "tagline": "The Android developer community, in person.",
+                    "live": true,
+                    "ticketsUrl": "https://london.droidcon.com"
+                },
+                "kotlinconf": {
+                    "name": "KotlinConf 2026",
+                    "dates": "May 21–23, 2026",
+                    "location": "Messe München, Munich",
+                    "tagline": "The Kotlin conference, by JetBrains.",
+                    "live": true,
+                    "ticketsUrl": "https://kotlinconf.com"
+                },
+                "long": {
+                    "name": "A conference name that is forty chars xx",
+                    "dates": "Thirty-two characters of dates x",
+                    "location": "A venue name that runs on for quite a while, sixty chars xx",
+                    "tagline": "A tagline at its ninety character limit, to check that the header wraps and stays legibl",
+                    "ticketsUrl": "https://example.com/tickets"
+                }
+            }
+        },
+        {
+            "id": "confetti/promo",
+            "major": 1,
+            "title": "Conference promotion",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "eyebrow": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "headline": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 48
+                },
+                "body": {
+                    "type": "string",
+                    "maxLength": 120
+                },
+                "cta": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 20
+                },
+                "url": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 200
+                }
+            },
+            "actions": {
+                "cta": {
+                    "kind": "open-url",
+                    "args": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                },
+                "dismiss": {
+                    "kind": "dismiss"
+                }
+            },
+            "examples": {
+                "default": {
+                    "eyebrow": "TONIGHT",
+                    "headline": "Community party at 7pm",
+                    "body": "Drinks, demos and the famous droidcon quiz. Badge required.",
+                    "cta": "SEE DETAILS",
+                    "url": "https://london.droidcon.com"
+                },
+                "kotlinconf": {
+                    "eyebrow": "Workshops",
+                    "headline": "Hands-on Compose Multiplatform",
+                    "body": "A full-day workshop the day before the conference. 12 seats left.",
+                    "cta": "Book a seat",
+                    "url": "https://kotlinconf.com/workshops"
+                },
+                "long": {
+                    "eyebrow": "Twenty chars eyebrow",
+                    "headline": "A headline that runs to forty-eight characters x",
+                    "body": "A body that runs on for all of the one hundred and twenty characters it may use, to check that the whole promotion fits.",
+                    "cta": "Twenty-char CTA text",
+                    "url": "https://kotlinconf.com/workshops"
+                }
+            },
+            "dataSource": "Decision"
+        },
+        {
+            "id": "confetti/session",
+            "major": 1,
+            "title": "Session card",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 120
+                },
+                "speakers": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "names, comma separated"
+                },
+                "room": {
+                    "type": "string",
+                    "maxLength": 30
+                },
+                "time": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "already formatted, e.g. 10:30 – 11:10"
+                },
+                "tag": {
+                    "type": "string",
+                    "maxLength": 24
+                },
+                "live": {
+                    "type": "bool",
+                    "default": false
+                },
+                "bookmarked": {
+                    "type": "bool",
+                    "default": false
+                }
+            },
+            "actions": {
+                "open": {
+                    "kind": "app:open-session"
+                },
+                "bookmark": {
+                    "kind": "app:toggle-bookmark"
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "Building adaptive apps with Compose",
+                    "speakers": "Jane Doe, John Smith",
+                    "room": "Hall 1",
+                    "time": "10:30 – 11:10",
+                    "tag": "compose",
+                    "live": true,
+                    "bookmarked": true
+                },
+                "kotlinconf": {
+                    "title": "What's new in Kotlin 2.4",
+                    "speakers": "Alex Kotlin",
+                    "room": "Auditorium",
+                    "time": "09:00 – 09:45",
+                    "tag": "language",
+                    "live": true,
+                    "bookmarked": false
+                },
+                "long": {
+                    "title": "A very long session title that keeps going to check how the card wraps at two lines and then ellipsizes the rest",
+                    "speakers": "Speaker One, Speaker Two, Speaker Three, Speaker Four",
+                    "room": "Room with a long name",
+                    "time": "10:30 – 11:10",
+                    "tag": "multiplatform"
+                }
+            }
+        },
+        {
+            "id": "confetti/speaker",
+            "major": 1,
+            "title": "Speaker card",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 60
+                },
+                "tagline": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "job title and company"
+                },
+                "photo": {
+                    "type": "image"
+                },
+                "sessions": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "already formatted, e.g. 2 sessions"
+                }
+            },
+            "actions": {
+                "open": {
+                    "kind": "app:open-speaker"
+                }
+            },
+            "examples": {
+                "default": {
+                    "name": "Jane Doe",
+                    "tagline": "Android GDE · Acme",
+                    "sessions": "2 sessions"
+                },
+                "kotlinconf": {
+                    "name": "Alex Kotlin",
+                    "tagline": "Kotlin team · JetBrains",
+                    "sessions": "Keynote"
+                },
+                "long": {
+                    "name": "A speaker name that runs to sixty characters, just to check!",
+                    "tagline": "A job title and a company name that wraps over two lines and keeps on going on.",
+                    "sessions": "Twenty-char sessions"
+                }
+            }
+        }
+    ],
+    "designs": [
+        {
+            "id": "kotlinconf-header",
+            "contract": "confetti/conference@1",
+            "title": "KotlinConf header",
+            "author": "confetti",
+            "tags": {
+                "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "kotlinconf-promo",
+            "contract": "confetti/promo@1",
+            "title": "KotlinConf promotion",
+            "author": "confetti",
+            "tags": {
+                "series": "kotlinconf"
+            }
+        },
+        {
+            "id": "kotlinconf-session",
+            "contract": "confetti/session@1",
+            "title": "KotlinConf session",
+            "author": "confetti",
+            "tags": {
+                "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "kotlinconf-speaker",
+            "contract": "confetti/speaker@1",
+            "title": "KotlinConf speaker",
+            "author": "confetti",
+            "tags": {
+                "series": "kotlinconf"
+            },
+            "install": "Always"
+        }
+    ],
+    "templates": [
+        {
+            "sha256": "233483b4b0dbf556939d535a04db789f58645e999ffc80fe8c2054e86deef0c1",
+            "bytes": 3714,
+            "designId": "kotlinconf-header",
+            "contract": "confetti/conference@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "dates",
+                "live",
+                "name",
+                "tagline",
+                "location",
+                "ticketsUrl"
+            ],
+            "emits": [
+                "tickets"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "80376a6dde4d99db0776e9c18e7502ba78ce88956d0415f9236932dab87136c6",
+            "bytes": 2094,
+            "designId": "kotlinconf-promo",
+            "contract": "confetti/promo@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "eyebrow",
+                "headline",
+                "body",
+                "url",
+                "cta"
+            ],
+            "emits": [
+                "dismiss",
+                "cta"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "0780560a3725bb5be529069af03b27b48011bdf8035030d5ba27f6d849c09afb",
+            "bytes": 2777,
+            "designId": "kotlinconf-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "bookmarked",
+                "time",
+                "live",
+                "room",
+                "title",
+                "speakers",
+                "tag"
+            ],
+            "emits": [
+                "open",
+                "bookmark"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "759dc7a85c0ff3dbd6b7e5c06a5c83c7cefb6bf83bc4c9991365f9b60a268db9",
+            "bytes": 1181,
+            "designId": "kotlinconf-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "launcher-widget",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "widgets"
+                ],
+                "size": {
+                    "minWidthDp": 110,
+                    "maxWidthDp": 400,
+                    "minHeightDp": 80,
+                    "maxHeightDp": 400
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "time",
+                "title",
+                "room"
+            ],
+            "emits": [
+                "open"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "072959c41215449ea6287ce53b64cc05c7ede7875cca7600ea9d729c012874f2",
+            "bytes": 1305,
+            "designId": "kotlinconf-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "wear-widget",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "glance-wear"
+                ],
+                "theme": "baked:dark",
+                "container": "wear:large"
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "time",
+                "title",
+                "room"
+            ],
+            "emits": [
+                "open"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "0d06ac61ba1ed7b9110582f7c49fa0b4b17eaf51c6524bccb2f04cab3d13467a",
+            "bytes": 1964,
+            "designId": "kotlinconf-speaker",
+            "contract": "confetti/speaker@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "photo",
+                "name",
+                "tagline",
+                "sessions"
+            ],
+            "emits": [
+                "open"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        }
+    ],
+    "themes": [
+        {
+            "id": "kotlinconf-dark",
+            "title": "KotlinConf (dark)",
+            "mode": "dark",
+            "values": {
+                "theme.primary": {
+                    "type": "color",
+                    "argb": 4286534399
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "argb": 4294967295
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "argb": 4291301858
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "argb": 4293216343
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "argb": 4279834908
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "argb": 4294967295
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "argb": 4291281622
+                }
+            }
+        },
+        {
+            "id": "kotlinconf-light",
+            "title": "KotlinConf (light)",
+            "values": {
+                "theme.primary": {
+                    "type": "color",
+                    "argb": 4285218032
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "argb": 4294967295
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "argb": 4289793993
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "argb": 4292425288
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "argb": 4294967295
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "argb": 4279834908
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "argb": 4284175984
+                }
+            }
+        }
+    ],
+    "placements": [
+        {
+            "id": "kotlinconf-session-survey",
+            "placement": "session.footer",
+            "template": {
+                "designId": "kotlinconf-promo"
+            },
+            "data": {
+                "eyebrow": "1 minute",
+                "headline": "How was this session?",
+                "body": "Rate it and help speakers improve their talks.",
+                "cta": "Rate session",
+                "url": "https://kotlinconf.com/feedback"
+            },
+            "priority": 5,
+            "conditions": {
+                "segments": [
+                    "conference:kotlinconf2026"
+                ]
+            },
+            "frequency": {
+                "maxImpressions": 1,
+                "perSeconds": 3600
+            }
+        },
+        {
+            "id": "kotlinconf-workshops",
+            "placement": "home.feed",
+            "template": {
+                "designId": "kotlinconf-promo"
+            },
+            "data": {
+                "eyebrow": "Workshops",
+                "headline": "Hands-on Compose Multiplatform",
+                "body": "A full-day workshop the day before the conference. 12 seats left.",
+                "cta": "Book a seat",
+                "url": "https://kotlinconf.com/workshops"
+            },
+            "priority": 20,
+            "endEpochMs": 1779260400000,
+            "conditions": {
+                "segments": [
+                    "conference:kotlinconf2026"
+                ],
+                "excludeSegments": [
+                    "workshop-booked"
+                ]
+            }
+        }
+    ],
+    "assets": [
+        {
+            "sha256": "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+            "bytes": 160316,
+            "mime": "font/ttf",
+            "kind": "font",
+            "font": {
+                "family": "Poppins"
+            },
+            "license": "OFL-1.1"
+        },
+        {
+            "sha256": "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+            "bytes": 157312,
+            "mime": "font/ttf",
+            "kind": "font",
+            "font": {
+                "family": "Poppins",
+                "weight": 600
+            },
+            "license": "OFL-1.1"
+        },
+        {
+            "sha256": "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+            "bytes": 155996,
+            "mime": "font/ttf",
+            "kind": "font",
+            "font": {
+                "family": "Poppins",
+                "weight": 700
+            },
+            "license": "OFL-1.1"
+        },
+        {
+            "sha256": "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1",
+            "bytes": 154836,
+            "mime": "font/ttf",
+            "kind": "font",
+            "font": {
+                "family": "Poppins",
+                "weight": 800
+            },
+            "license": "OFL-1.1"
+        }
+    ]
+}

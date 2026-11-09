@@ -1,0 +1,816 @@
+{
+    "catalog": "confetti-droidcon",
+    "serial": 1794216254194,
+    "generatedAtEpochMs": 1794216254194,
+    "expiresAtEpochMs": 1796808254194,
+    "minClient": 2,
+    "contracts": [
+        {
+            "id": "confetti/conference",
+            "major": 1,
+            "title": "Conference header",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 40
+                },
+                "dates": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 32,
+                    "description": "already formatted for the locale"
+                },
+                "location": {
+                    "type": "string",
+                    "maxLength": 60
+                },
+                "tagline": {
+                    "type": "string",
+                    "maxLength": 90
+                },
+                "live": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "the conference is on today"
+                },
+                "ticketsUrl": {
+                    "type": "string",
+                    "maxLength": 200
+                }
+            },
+            "actions": {
+                "tickets": {
+                    "kind": "open-url",
+                    "args": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "examples": {
+                "default": {
+                    "name": "droidcon London",
+                    "dates": "29–30 OCT 2026",
+                    "location": "Business Design Centre, London",
+                    "tagline": "The Android developer community, in person.",
+                    "live": true,
+                    "ticketsUrl": "https://london.droidcon.com"
+                },
+                "kotlinconf": {
+                    "name": "KotlinConf 2026",
+                    "dates": "May 21–23, 2026",
+                    "location": "Messe München, Munich",
+                    "tagline": "The Kotlin conference, by JetBrains.",
+                    "live": true,
+                    "ticketsUrl": "https://kotlinconf.com"
+                },
+                "long": {
+                    "name": "A conference name that is forty chars xx",
+                    "dates": "Thirty-two characters of dates x",
+                    "location": "A venue name that runs on for quite a while, sixty chars xx",
+                    "tagline": "A tagline at its ninety character limit, to check that the header wraps and stays legibl",
+                    "ticketsUrl": "https://example.com/tickets"
+                }
+            }
+        },
+        {
+            "id": "confetti/promo",
+            "major": 1,
+            "title": "Conference promotion",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "eyebrow": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "headline": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 48
+                },
+                "body": {
+                    "type": "string",
+                    "maxLength": 120
+                },
+                "cta": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 20
+                },
+                "url": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 200
+                }
+            },
+            "actions": {
+                "cta": {
+                    "kind": "open-url",
+                    "args": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                },
+                "dismiss": {
+                    "kind": "dismiss"
+                }
+            },
+            "examples": {
+                "default": {
+                    "eyebrow": "TONIGHT",
+                    "headline": "Community party at 7pm",
+                    "body": "Drinks, demos and the famous droidcon quiz. Badge required.",
+                    "cta": "SEE DETAILS",
+                    "url": "https://london.droidcon.com"
+                },
+                "kotlinconf": {
+                    "eyebrow": "Workshops",
+                    "headline": "Hands-on Compose Multiplatform",
+                    "body": "A full-day workshop the day before the conference. 12 seats left.",
+                    "cta": "Book a seat",
+                    "url": "https://kotlinconf.com/workshops"
+                },
+                "long": {
+                    "eyebrow": "Twenty chars eyebrow",
+                    "headline": "A headline that runs to forty-eight characters x",
+                    "body": "A body that runs on for all of the one hundred and twenty characters it may use, to check that the whole promotion fits.",
+                    "cta": "Twenty-char CTA text",
+                    "url": "https://kotlinconf.com/workshops"
+                }
+            },
+            "dataSource": "Decision"
+        },
+        {
+            "id": "confetti/session",
+            "major": 1,
+            "title": "Session card",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 120
+                },
+                "speakers": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "names, comma separated"
+                },
+                "room": {
+                    "type": "string",
+                    "maxLength": 30
+                },
+                "time": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "already formatted, e.g. 10:30 – 11:10"
+                },
+                "tag": {
+                    "type": "string",
+                    "maxLength": 24
+                },
+                "live": {
+                    "type": "bool",
+                    "default": false
+                },
+                "bookmarked": {
+                    "type": "bool",
+                    "default": false
+                }
+            },
+            "actions": {
+                "open": {
+                    "kind": "app:open-session"
+                },
+                "bookmark": {
+                    "kind": "app:toggle-bookmark"
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "Building adaptive apps with Compose",
+                    "speakers": "Jane Doe, John Smith",
+                    "room": "Hall 1",
+                    "time": "10:30 – 11:10",
+                    "tag": "compose",
+                    "live": true,
+                    "bookmarked": true
+                },
+                "kotlinconf": {
+                    "title": "What's new in Kotlin 2.4",
+                    "speakers": "Alex Kotlin",
+                    "room": "Auditorium",
+                    "time": "09:00 – 09:45",
+                    "tag": "language",
+                    "live": true,
+                    "bookmarked": false
+                },
+                "long": {
+                    "title": "A very long session title that keeps going to check how the card wraps at two lines and then ellipsizes the rest",
+                    "speakers": "Speaker One, Speaker Two, Speaker Three, Speaker Four",
+                    "room": "Room with a long name",
+                    "time": "10:30 – 11:10",
+                    "tag": "multiplatform"
+                }
+            }
+        },
+        {
+            "id": "confetti/speaker",
+            "major": 1,
+            "title": "Speaker card",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 60
+                },
+                "tagline": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "job title and company"
+                },
+                "photo": {
+                    "type": "image"
+                },
+                "sessions": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "already formatted, e.g. 2 sessions"
+                }
+            },
+            "actions": {
+                "open": {
+                    "kind": "app:open-speaker"
+                }
+            },
+            "examples": {
+                "default": {
+                    "name": "Jane Doe",
+                    "tagline": "Android GDE · Acme",
+                    "sessions": "2 sessions"
+                },
+                "kotlinconf": {
+                    "name": "Alex Kotlin",
+                    "tagline": "Kotlin team · JetBrains",
+                    "sessions": "Keynote"
+                },
+                "long": {
+                    "name": "A speaker name that runs to sixty characters, just to check!",
+                    "tagline": "A job title and a company name that wraps over two lines and keeps on going on.",
+                    "sessions": "Twenty-char sessions"
+                }
+            }
+        }
+    ],
+    "designs": [
+        {
+            "id": "droidcon-header",
+            "contract": "confetti/conference@1",
+            "title": "droidcon header",
+            "author": "confetti",
+            "tags": {
+                "series": "droidcon"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "droidcon-promo",
+            "contract": "confetti/promo@1",
+            "title": "droidcon promotion",
+            "author": "confetti",
+            "tags": {
+                "series": "droidcon"
+            }
+        },
+        {
+            "id": "droidcon-session",
+            "contract": "confetti/session@1",
+            "title": "droidcon session",
+            "author": "confetti",
+            "tags": {
+                "series": "droidcon"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "droidcon-speaker",
+            "contract": "confetti/speaker@1",
+            "title": "droidcon speaker",
+            "author": "confetti",
+            "tags": {
+                "series": "droidcon"
+            },
+            "install": "Always"
+        }
+    ],
+    "templates": [
+        {
+            "sha256": "84ed4efe70e16ab97f4434000ddd7de891e3d9ce114aa3d7c57b7cf45da371de",
+            "bytes": 2856,
+            "designId": "droidcon-header",
+            "contract": "confetti/conference@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "dates",
+                "live",
+                "name",
+                "tagline",
+                "location",
+                "ticketsUrl"
+            ],
+            "emits": [
+                "tickets"
+            ],
+            "assets": [
+                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
+            ],
+            "fonts": [
+                "Space Mono"
+            ]
+        },
+        {
+            "sha256": "9f7081b35326cd2af1946a35539abe1291feb90546b69d0e6024a2bd599f7ea2",
+            "bytes": 1775,
+            "designId": "droidcon-promo",
+            "contract": "confetti/promo@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "eyebrow",
+                "headline",
+                "body",
+                "url",
+                "cta"
+            ],
+            "emits": [
+                "dismiss",
+                "cta"
+            ],
+            "assets": [
+                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
+            ],
+            "fonts": [
+                "Space Mono"
+            ]
+        },
+        {
+            "sha256": "179915189abaabbc2fc2f654ee0dcac19bd6ad8a0c55f5340c3d5b9574fce7d1",
+            "bytes": 2724,
+            "designId": "droidcon-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "bookmarked",
+                "time",
+                "live",
+                "room",
+                "title",
+                "speakers",
+                "tag"
+            ],
+            "emits": [
+                "open",
+                "bookmark"
+            ],
+            "assets": [
+                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
+            ],
+            "fonts": [
+                "Space Mono"
+            ]
+        },
+        {
+            "sha256": "7ad3e1afeb369d4ca940e349913a166e4de8b7496b0d33f324160d5565e0a4d6",
+            "bytes": 1076,
+            "designId": "droidcon-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "launcher-widget",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "widgets"
+                ],
+                "size": {
+                    "minWidthDp": 110,
+                    "maxWidthDp": 400,
+                    "minHeightDp": 80,
+                    "maxHeightDp": 400
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "time",
+                "title",
+                "room"
+            ],
+            "emits": [
+                "open"
+            ],
+            "assets": [
+                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
+            ],
+            "fonts": [
+                "Space Mono"
+            ]
+        },
+        {
+            "sha256": "2591c36be870c17bad62978f93b906fb17027b2a5d784c0c6b0d629a01c48d52",
+            "bytes": 1195,
+            "designId": "droidcon-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "wear-widget",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "glance-wear"
+                ],
+                "theme": "baked:dark",
+                "container": "wear:large"
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "time",
+                "title",
+                "room"
+            ],
+            "emits": [
+                "open"
+            ],
+            "assets": [
+                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
+            ],
+            "fonts": [
+                "Space Mono"
+            ]
+        },
+        {
+            "sha256": "3b9bc1fec57a0809aeacfa0495b16fb5d370d7c37e4d3f89b1c3655f55bbdad5",
+            "bytes": 1774,
+            "designId": "droidcon-speaker",
+            "contract": "confetti/speaker@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "photo",
+                "name",
+                "tagline",
+                "sessions"
+            ],
+            "emits": [
+                "open"
+            ],
+            "assets": [
+                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
+            ],
+            "fonts": [
+                "Space Mono"
+            ]
+        }
+    ],
+    "themes": [
+        {
+            "id": "droidcon-dark",
+            "title": "droidcon (dark)",
+            "mode": "dark",
+            "values": {
+                "theme.primary": {
+                    "type": "color",
+                    "argb": 4282244228
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "argb": 4279111958
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "argb": 4290049354
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "argb": 4282549748
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "argb": 4279111958
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "argb": 4294309882
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "argb": 4288324786
+                }
+            }
+        },
+        {
+            "id": "droidcon-light",
+            "title": "droidcon (light)",
+            "values": {
+                "theme.primary": {
+                    "type": "color",
+                    "argb": 4278942275
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "argb": 4294967295
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "argb": 4283202048
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "argb": 4279918544
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "argb": 4294244341
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "argb": 4279111958
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "argb": 4283061603
+                }
+            }
+        }
+    ],
+    "placements": [
+        {
+            "id": "droidcon-london-party",
+            "placement": "home.feed",
+            "template": {
+                "designId": "droidcon-promo"
+            },
+            "data": {
+                "eyebrow": "TONIGHT",
+                "headline": "Community party at 7pm",
+                "body": "Drinks, demos and the famous droidcon quiz. Badge required.",
+                "cta": "SEE DETAILS",
+                "url": "https://london.droidcon.com/party"
+            },
+            "priority": 20,
+            "startEpochMs": 1793275200000,
+            "endEpochMs": 1793314800000,
+            "conditions": {
+                "segments": [
+                    "conference:droidconlondon2026"
+                ]
+            },
+            "frequency": {
+                "maxImpressions": 3,
+                "perSeconds": 86400
+            }
+        },
+        {
+            "id": "droidcon-sponsor-booth",
+            "placement": "speaker.footer",
+            "template": {
+                "designId": "droidcon-promo"
+            },
+            "data": {
+                "eyebrow": "SPONSOR",
+                "headline": "Meet the team at booth 12",
+                "body": "Live demos every hour, and the best stickers in the hall.",
+                "cta": "FIND BOOTH",
+                "url": "https://london.droidcon.com/partners"
+            },
+            "priority": 10,
+            "conditions": {
+                "segments": [
+                    "conference:droidconlondon2026"
+                ]
+            },
+            "rollout": {
+                "experiment": "droidcon-sponsor-2026",
+                "arm": "speaker-footer",
+                "toBasisPoints": 5000
+            },
+            "frequency": {
+                "maxImpressions": 5,
+                "perSeconds": 86400
+            }
+        }
+    ],
+    "assets": [
+        {
+            "sha256": "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+            "bytes": 99356,
+            "mime": "font/ttf",
+            "kind": "font",
+            "font": {
+                "family": "Space Mono"
+            },
+            "license": "OFL-1.1"
+        },
+        {
+            "sha256": "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59",
+            "bytes": 98232,
+            "mime": "font/ttf",
+            "kind": "font",
+            "font": {
+                "family": "Space Mono",
+                "weight": 700
+            },
+            "license": "OFL-1.1"
+        }
+    ]
+}

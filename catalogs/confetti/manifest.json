@@ -1,0 +1,629 @@
+{
+    "catalog": "confetti-confetti",
+    "serial": 1794216254227,
+    "generatedAtEpochMs": 1794216254227,
+    "expiresAtEpochMs": 1796808254227,
+    "contracts": [
+        {
+            "id": "confetti/conference",
+            "major": 1,
+            "title": "Conference header",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 40
+                },
+                "dates": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 32,
+                    "description": "already formatted for the locale"
+                },
+                "location": {
+                    "type": "string",
+                    "maxLength": 60
+                },
+                "tagline": {
+                    "type": "string",
+                    "maxLength": 90
+                },
+                "live": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "the conference is on today"
+                },
+                "ticketsUrl": {
+                    "type": "string",
+                    "maxLength": 200
+                }
+            },
+            "actions": {
+                "tickets": {
+                    "kind": "open-url",
+                    "args": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "examples": {
+                "default": {
+                    "name": "droidcon London",
+                    "dates": "29–30 OCT 2026",
+                    "location": "Business Design Centre, London",
+                    "tagline": "The Android developer community, in person.",
+                    "live": true,
+                    "ticketsUrl": "https://london.droidcon.com"
+                },
+                "kotlinconf": {
+                    "name": "KotlinConf 2026",
+                    "dates": "May 21–23, 2026",
+                    "location": "Messe München, Munich",
+                    "tagline": "The Kotlin conference, by JetBrains.",
+                    "live": true,
+                    "ticketsUrl": "https://kotlinconf.com"
+                },
+                "long": {
+                    "name": "A conference name that is forty chars xx",
+                    "dates": "Thirty-two characters of dates x",
+                    "location": "A venue name that runs on for quite a while, sixty chars xx",
+                    "tagline": "A tagline at its ninety character limit, to check that the header wraps and stays legibl",
+                    "ticketsUrl": "https://example.com/tickets"
+                }
+            }
+        },
+        {
+            "id": "confetti/promo",
+            "major": 1,
+            "title": "Conference promotion",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "eyebrow": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "headline": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 48
+                },
+                "body": {
+                    "type": "string",
+                    "maxLength": 120
+                },
+                "cta": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 20
+                },
+                "url": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 200
+                }
+            },
+            "actions": {
+                "cta": {
+                    "kind": "open-url",
+                    "args": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                },
+                "dismiss": {
+                    "kind": "dismiss"
+                }
+            },
+            "examples": {
+                "default": {
+                    "eyebrow": "TONIGHT",
+                    "headline": "Community party at 7pm",
+                    "body": "Drinks, demos and the famous droidcon quiz. Badge required.",
+                    "cta": "SEE DETAILS",
+                    "url": "https://london.droidcon.com"
+                },
+                "kotlinconf": {
+                    "eyebrow": "Workshops",
+                    "headline": "Hands-on Compose Multiplatform",
+                    "body": "A full-day workshop the day before the conference. 12 seats left.",
+                    "cta": "Book a seat",
+                    "url": "https://kotlinconf.com/workshops"
+                },
+                "long": {
+                    "eyebrow": "Twenty chars eyebrow",
+                    "headline": "A headline that runs to forty-eight characters x",
+                    "body": "A body that runs on for all of the one hundred and twenty characters it may use, to check that the whole promotion fits.",
+                    "cta": "Twenty-char CTA text",
+                    "url": "https://kotlinconf.com/workshops"
+                }
+            },
+            "dataSource": "Decision"
+        },
+        {
+            "id": "confetti/session",
+            "major": 1,
+            "title": "Session card",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 120
+                },
+                "speakers": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "names, comma separated"
+                },
+                "room": {
+                    "type": "string",
+                    "maxLength": 30
+                },
+                "time": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "already formatted, e.g. 10:30 – 11:10"
+                },
+                "tag": {
+                    "type": "string",
+                    "maxLength": 24
+                },
+                "live": {
+                    "type": "bool",
+                    "default": false
+                },
+                "bookmarked": {
+                    "type": "bool",
+                    "default": false
+                }
+            },
+            "actions": {
+                "open": {
+                    "kind": "app:open-session"
+                },
+                "bookmark": {
+                    "kind": "app:toggle-bookmark"
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "Building adaptive apps with Compose",
+                    "speakers": "Jane Doe, John Smith",
+                    "room": "Hall 1",
+                    "time": "10:30 – 11:10",
+                    "tag": "compose",
+                    "live": true,
+                    "bookmarked": true
+                },
+                "kotlinconf": {
+                    "title": "What's new in Kotlin 2.4",
+                    "speakers": "Alex Kotlin",
+                    "room": "Auditorium",
+                    "time": "09:00 – 09:45",
+                    "tag": "language",
+                    "live": true,
+                    "bookmarked": false
+                },
+                "long": {
+                    "title": "A very long session title that keeps going to check how the card wraps at two lines and then ellipsizes the rest",
+                    "speakers": "Speaker One, Speaker Two, Speaker Three, Speaker Four",
+                    "room": "Room with a long name",
+                    "time": "10:30 – 11:10",
+                    "tag": "multiplatform"
+                }
+            }
+        },
+        {
+            "id": "confetti/speaker",
+            "major": 1,
+            "title": "Speaker card",
+            "inputs": {
+                "theme.primary": {
+                    "type": "color",
+                    "role": "primary"
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "role": "onPrimary"
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "role": "secondary"
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "role": "tertiary"
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "role": "surface"
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "role": "onSurface"
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "role": "onSurfaceVariant"
+                },
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 60
+                },
+                "tagline": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "job title and company"
+                },
+                "photo": {
+                    "type": "image"
+                },
+                "sessions": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "already formatted, e.g. 2 sessions"
+                }
+            },
+            "actions": {
+                "open": {
+                    "kind": "app:open-speaker"
+                }
+            },
+            "examples": {
+                "default": {
+                    "name": "Jane Doe",
+                    "tagline": "Android GDE · Acme",
+                    "sessions": "2 sessions"
+                },
+                "kotlinconf": {
+                    "name": "Alex Kotlin",
+                    "tagline": "Kotlin team · JetBrains",
+                    "sessions": "Keynote"
+                },
+                "long": {
+                    "name": "A speaker name that runs to sixty characters, just to check!",
+                    "tagline": "A job title and a company name that wraps over two lines and keeps on going on.",
+                    "sessions": "Twenty-char sessions"
+                }
+            }
+        }
+    ],
+    "designs": [
+        {
+            "id": "confetti-header",
+            "contract": "confetti/conference@1",
+            "title": "Confetti header",
+            "author": "confetti",
+            "tags": {
+                "series": "confetti"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "confetti-promo",
+            "contract": "confetti/promo@1",
+            "title": "Confetti promotion",
+            "author": "confetti",
+            "tags": {
+                "series": "confetti"
+            }
+        },
+        {
+            "id": "confetti-session",
+            "contract": "confetti/session@1",
+            "title": "Confetti session",
+            "author": "confetti",
+            "tags": {
+                "series": "confetti"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "confetti-speaker",
+            "contract": "confetti/speaker@1",
+            "title": "Confetti speaker",
+            "author": "confetti",
+            "tags": {
+                "series": "confetti"
+            },
+            "install": "Always"
+        }
+    ],
+    "templates": [
+        {
+            "sha256": "4d10db4b2a5a8cad5e51ca96a18bd3efcb4aa04fd602555cbc19149227fc076b",
+            "bytes": 3082,
+            "designId": "confetti-header",
+            "contract": "confetti/conference@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "dates",
+                "live",
+                "name",
+                "tagline",
+                "location",
+                "ticketsUrl"
+            ],
+            "emits": [
+                "tickets"
+            ]
+        },
+        {
+            "sha256": "b717734e214623b12ae45dbc406a1aeb6c20b14ce43581ffc6f2a85fefb4b70c",
+            "bytes": 1974,
+            "designId": "confetti-promo",
+            "contract": "confetti/promo@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "eyebrow",
+                "headline",
+                "body",
+                "url",
+                "cta"
+            ],
+            "emits": [
+                "dismiss",
+                "cta"
+            ]
+        },
+        {
+            "sha256": "16d6104731a7e384dd300ee9b1395ab49717344734d36ff8f108fc8bb0ea6cae",
+            "bytes": 2620,
+            "designId": "confetti-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "bookmarked",
+                "time",
+                "live",
+                "room",
+                "title",
+                "speakers",
+                "tag"
+            ],
+            "emits": [
+                "open",
+                "bookmark"
+            ]
+        },
+        {
+            "sha256": "142e18b664d16e84018805069d5ea3df4fa4b8bb5f889365f43c5f46d8fc1ed8",
+            "bytes": 1393,
+            "designId": "confetti-speaker",
+            "contract": "confetti/speaker@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "photo",
+                "name",
+                "tagline",
+                "sessions"
+            ],
+            "emits": [
+                "open"
+            ]
+        }
+    ],
+    "themes": [
+        {
+            "id": "confetti-dark",
+            "title": "Confetti (dark)",
+            "mode": "dark",
+            "values": {
+                "theme.primary": {
+                    "type": "color",
+                    "argb": 4294945023
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "argb": 4283828829
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "argb": 4294948249
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "argb": 4284339452
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "argb": 4281148720
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "argb": 4293713893
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "argb": 4291871692
+                }
+            }
+        },
+        {
+            "id": "confetti-light",
+            "title": "Confetti (light)",
+            "values": {
+                "theme.primary": {
+                    "type": "color",
+                    "argb": 4287381904
+                },
+                "theme.onPrimary": {
+                    "type": "color",
+                    "argb": 4294967295
+                },
+                "theme.secondary": {
+                    "type": "color",
+                    "argb": 4288823062
+                },
+                "theme.tertiary": {
+                    "type": "color",
+                    "argb": 4278216577
+                },
+                "theme.surface": {
+                    "type": "color",
+                    "argb": 4293779176
+                },
+                "theme.onSurface": {
+                    "type": "color",
+                    "argb": 4280293915
+                },
+                "theme.onSurfaceVariant": {
+                    "type": "color",
+                    "argb": 4283319372
+                }
+            }
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
+    "generatedFrom": "23646d9bd5f7d6dae2115066c26e2a822eeabed9",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -2969,6 +2969,13 @@
             "path": "renders/livery/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",
             "versions": [
                 {
+                    "blob": "e0e248d7180d7aa1737767cd8f93922337c1c554",
+                    "commit": "23646d9bd5f7d6dae2115066c26e2a822eeabed9",
+                    "date": "2026-11-09T23:02:28Z",
+                    "sourceSha": "5250cb10",
+                    "commits": 1
+                },
+                {
                     "blob": "fddfb7400d8eec9b38d3686c42c499d2f05aaa01",
                     "commit": "87c4e80a0bec178eccc1adfcbe98b81329b5322e",
                     "date": "2026-11-09T09:27:07Z",
@@ -2983,7 +2990,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 3,
             "unstable": false,
             "flapCount": 0
         },

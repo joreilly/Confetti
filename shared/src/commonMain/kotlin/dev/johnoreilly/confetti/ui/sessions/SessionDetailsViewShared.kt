@@ -63,6 +63,7 @@ import dev.johnoreilly.confetti.fragment.SessionSpeakerDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.preview.MobilePreviews
+import dev.johnoreilly.confetti.preview.PreviewImages
 import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
@@ -385,13 +386,15 @@ private fun sessionTimeString(startsAt: LocalDateTime, endsAt: LocalDateTime): S
 @MobilePreviews
 @Composable
 internal fun SessionDetailViewLoadedPreview() {
-    MaterialTheme {
-        SessionDetailViewShared(
-            conference = "kotlinconf2023",
-            session = sessionDetails,
-            onSpeakerClick = {},
-            onRoomClick = {},
-        )
+    PreviewImages {
+        MaterialTheme {
+            SessionDetailViewShared(
+                conference = "kotlinconf2023",
+                session = sessionDetails,
+                onSpeakerClick = {},
+                onRoomClick = {},
+            )
+        }
     }
 }
 

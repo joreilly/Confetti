@@ -100,7 +100,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
       - name: Install export engine (pinned npm packages)
         working-directory: compose-ai-tools/scripts/design-artifacts
         run: npm ci

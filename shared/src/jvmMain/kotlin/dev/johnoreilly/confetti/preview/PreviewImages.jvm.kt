@@ -1,8 +1,8 @@
 package dev.johnoreilly.confetti.preview
 
-import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asSkiaBitmap
 import coil3.Image
+import coil3.asImage
 
-/** No bundled preview photos here: previews draw the placeholder. */
-@Composable
-internal actual fun rememberBundledPreviewImages(): (name: String?) -> Image? = { null }
+internal actual fun ImageBitmap.asCoilImage(): Image = asSkiaBitmap().asImage()

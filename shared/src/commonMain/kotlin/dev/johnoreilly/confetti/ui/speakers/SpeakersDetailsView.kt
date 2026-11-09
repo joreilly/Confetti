@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import dev.johnoreilly.confetti.preview.PreviewImages
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.filled.Close
@@ -284,35 +285,39 @@ fun SpeakerTalks(
 @MobilePreviews
 @Composable
 internal fun SpeakerDetailsViewLoadedPreview() {
-    MaterialTheme {
-        SpeakerDetailsView(
-            conference = "kotlinconf2023",
-            speaker = johnOreillySpeaker,
-            isBookmarked = { false },
-            addBookmark = {},
-            removeBookmark = {},
-            isLoggedIn = true,
-            navigateToSession = {},
-            popBack = {},
-            onSocialLinkClicked = {},
-        )
+    PreviewImages {
+        MaterialTheme {
+            SpeakerDetailsView(
+                conference = "kotlinconf2023",
+                speaker = johnOreillySpeaker,
+                isBookmarked = { false },
+                addBookmark = {},
+                removeBookmark = {},
+                isLoggedIn = true,
+                navigateToSession = {},
+                popBack = {},
+                onSocialLinkClicked = {},
+            )
+        }
     }
 }
 
 @Preview(name = "Different speaker", widthDp = 411, heightDp = 914, showBackground = true)
 @Composable
 internal fun SpeakerDetailsViewAlternateSpeakerPreview() {
-    MaterialTheme {
-        SpeakerDetailsView(
-            conference = "kotlinconf2023",
-            speaker = martinBonninSpeaker,
-            isBookmarked = { false },
-            addBookmark = {},
-            removeBookmark = {},
-            isLoggedIn = true,
-            navigateToSession = {},
-            popBack = {},
-            onSocialLinkClicked = {},
-        )
+    PreviewImages {
+        MaterialTheme {
+            SpeakerDetailsView(
+                conference = "kotlinconf2023",
+                speaker = martinBonninSpeaker,
+                isBookmarked = { false },
+                addBookmark = {},
+                removeBookmark = {},
+                isLoggedIn = true,
+                navigateToSession = {},
+                popBack = {},
+                onSocialLinkClicked = {},
+            )
+        }
     }
 }

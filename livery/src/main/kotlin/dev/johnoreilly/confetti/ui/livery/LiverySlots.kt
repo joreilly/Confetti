@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -129,6 +131,19 @@ class LiveryStyling(
                 throw e
             } catch (_: Exception) {
                 // Offline or a bad catalog: the bundled or cached one keeps drawing until next time.
+            }
+        }
+
+        /** The contracts this catalog has a live design for; null until [watchDesigns] reads it. */
+        private var designed by mutableStateOf<Set<String>?>(null)
+
+        /** Whether the catalog has a design for [contract]: a screen makes room for a slot only then. */
+        fun hasDesign(contract: ConfettiContract): Boolean = designed?.contains(contract.ref) == true
+
+        /** Keeps [hasDesign] current: reads the catalog now and again on every new revision. */
+        suspend fun watchDesigns() {
+            repository.revision.collect {
+                designed = repository.current()?.designs.orEmpty().filterNot { it.revoked }.mapTo(mutableSetOf()) { it.contract }
             }
         }
 

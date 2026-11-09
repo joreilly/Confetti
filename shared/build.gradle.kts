@@ -196,6 +196,13 @@ kotlin {
             }
         }
 
+        jvmTest {
+            dependencies {
+                // Skia's native runtime, for the tests that decode and render preview images.
+                implementation(compose.desktop.currentOs)
+            }
+        }
+
         val wasmJsMain by getting {
             dependencies {
                 // coil3-network-ktor needs an explicit HttpClientEngine per platform; without

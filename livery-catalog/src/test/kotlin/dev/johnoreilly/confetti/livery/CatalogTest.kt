@@ -4,6 +4,7 @@ import java.io.File
 import java.nio.file.Files
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 /**
@@ -39,6 +40,12 @@ class CatalogTest {
                 assertTrue(copy.isFile && copy.readBytes().contentEquals(f.readBytes()), "${brand.series}: ${f.relativeTo(root)}")
             }
         }
+    }
+
+    @Test fun conferencesHaveTheirOwnTypeface() {
+        // The conferences' catalogs look different down to the face: droidcon's isn't KotlinConf's.
+        assertNotEquals(Droidcon.fontFamily, KotlinConf.fontFamily)
+        assertTrue(AllBrands.mapNotNull { it.fontFamily }.let { it.size == it.toSet().size })
     }
 
     @Test fun everyTemplateUsesItsBrandsTypeface() {

@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "b26d867ba9fd415e7c65706e00a241ee285e9706",
+    "generatedFrom": "87c4e80a0bec178eccc1adfcbe98b81329b5322e",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -2947,20 +2947,12 @@
             "path": "renders/livery/LiveryDroidconPreview_droidcon-dea0f94d.png",
             "versions": [
                 {
-                    "blob": "39be68e906374342f90bd82c76f000eaf7c2a73d",
-                    "commit": "d400ebf6cc9eb103011ec3e2c95ff41d60eb2dc1",
-                    "date": "2026-11-08T17:45:51Z",
-                    "sourceSha": "8932c8de",
+                    "blob": "8fd1d6de0887441f846a80a771e3b9607b726654",
+                    "commit": "87c4e80a0bec178eccc1adfcbe98b81329b5322e",
+                    "date": "2026-11-09T09:27:07Z",
+                    "sourceSha": "13ebb7b2",
                     "commits": 1
-                }
-            ],
-            "observations": 1,
-            "unstable": false,
-            "flapCount": 0
-        },
-        "livery/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
-            "path": "renders/livery/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",
-            "versions": [
+                },
                 {
                     "blob": "39be68e906374342f90bd82c76f000eaf7c2a73d",
                     "commit": "d400ebf6cc9eb103011ec3e2c95ff41d60eb2dc1",
@@ -2969,7 +2961,29 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
+            "unstable": false,
+            "flapCount": 0
+        },
+        "livery/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
+            "path": "renders/livery/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",
+            "versions": [
+                {
+                    "blob": "fddfb7400d8eec9b38d3686c42c499d2f05aaa01",
+                    "commit": "87c4e80a0bec178eccc1adfcbe98b81329b5322e",
+                    "date": "2026-11-09T09:27:07Z",
+                    "sourceSha": "13ebb7b2",
+                    "commits": 1
+                },
+                {
+                    "blob": "39be68e906374342f90bd82c76f000eaf7c2a73d",
+                    "commit": "d400ebf6cc9eb103011ec3e2c95ff41d60eb2dc1",
+                    "date": "2026-11-08T17:45:51Z",
+                    "sourceSha": "8932c8de",
+                    "commits": 1
+                }
+            ],
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },

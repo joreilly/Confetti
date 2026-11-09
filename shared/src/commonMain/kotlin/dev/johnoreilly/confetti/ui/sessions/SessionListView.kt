@@ -41,10 +41,11 @@ import dev.johnoreilly.confetti.ui.components.SessionCardModel
 import dev.johnoreilly.confetti.preview.ComponentsPreview
 import dev.johnoreilly.confetti.ui.trackColor
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 
 /**
- * The agenda. The conference header and session cards are drawn by [components], the
+ * The agenda. The conference header, its promotion and the session cards are drawn by [components], the
  * context the screen's entry point supplies: Confetti's own composables, or a conference's designs.
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -76,8 +77,11 @@ fun SessionListView(
                     uiState.formattedConfDates.size
                 }
                 val trackNames = remember(uiState.tracks) { uiState.tracks.map { it.name }.toSet() }
-                // Items above the first sticky header: the conference's header, when it has one.
-                val headerItems = if (components.hasConferenceHeader(uiState.conference)) 1 else 0
+                // Items above the first sticky header: the conference's header and its home-feed
+                // promotion, each when it has one.
+                val hasHeader = components.hasConferenceHeader(uiState.conference)
+                val hasPromo = components.hasPromo(HOME_FEED, uiState.conference)
+                val headerItems = (if (hasHeader) 1 else 0) + (if (hasPromo) 1 else 0)
 
                 AnimatedVisibility(visible = LocalTopBarCollapsedFraction.current < 0.5f) {
                     TrackFilterRow(
@@ -148,11 +152,17 @@ fun SessionListView(
                         ) {
                             // The conference's header, scrolling with the agenda: no item when
                             // it has none.
-                            if (headerItems > 0) {
+                            if (hasHeader) {
                                 item(key = "conference-header") {
                                     Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                                         components.ConferenceHeader(uiState)
                                     }
+                                }
+                            }
+                            // A promotion on the home feed, likewise its own item.
+                            if (hasPromo) {
+                                item(key = "promo-$HOME_FEED") {
+                                    components.Promo(HOME_FEED, uiState.conference, Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp))
                                 }
                             }
 
@@ -242,3 +252,6 @@ internal fun SessionListViewErrorPreview() {
         )
     }
 }
+
+/** The agenda's promotion placement. */
+private const val HOME_FEED = "home.feed"

@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -67,8 +68,8 @@ fun SpeakerDetails.toSpeakerCard() = SpeakerCard(
 
 /**
  * The conference's Livery designs as [ConferenceComponents]: what `SduiComponents` draws for a
- * conference in the livery arm. Livery maps the agenda's header, the session cards and the speaker
- * cards; everything else is [native]'s. A mapped slot with no template for this conference (or a conference with no
+ * conference in the livery arm. Livery maps the agenda's header, the session and speaker cards
+ * and the promotions; everything else is [native]'s. A mapped slot with no template for this conference (or a conference with no
  * catalog) draws [native] too, reporting its taps as `design_id=native`.
  */
 class LiveryComponents(
@@ -130,6 +131,14 @@ class LiveryComponents(
         onOpen = { card.speakerSelected(card.speaker.id) },
         fallback = { native.SpeakerCard(card) },
     )
+
+    /** Only where the conference's catalog has a rule for [placement]: a screen adds no empty item. */
+    override fun hasPromo(placement: String, conference: String) =
+        styling.catalog(conference)?.hasPlacement(placement) == true
+
+    @Composable
+    override fun Promo(placement: String, conference: String, modifier: Modifier) =
+        PromoSlot(styling, placement, conference, modifier)
 }
 
 /** A speaker, in the conference's speaker design, or [fallback]: the speakers grid's cards. */

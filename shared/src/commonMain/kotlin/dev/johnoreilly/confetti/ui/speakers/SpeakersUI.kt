@@ -53,6 +53,7 @@ fun SpeakersUI(
 }
 
 @Composable
+context(components: ConferenceComponents)
 fun SpeakerDetailsUI(component: SpeakerDetailsComponent) {
     val uriHandler = LocalUriHandler.current
     val uiState by component.uiState.subscribeAsState()

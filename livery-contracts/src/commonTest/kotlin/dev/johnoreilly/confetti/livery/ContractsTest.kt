@@ -7,13 +7,10 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ContractsTest {
-    @Test fun everyContractTakesTheThemeRoles() {
-        AllContracts.forEach { c ->
-            assertEquals(
-                listOf("primary", "onPrimary", "secondary", "tertiary", "surface", "onSurface", "onSurfaceVariant"),
-                c.inputs.values.mapNotNull { it.role }, c.ref,
-            )
-        }
+    @Test fun noContractDeclaresThemeRoles() {
+        // Theme roles (`theme.<role>`) are Livery's: the host fills them from its colour scheme and a
+        // theme pack replaces them, without any contract listing them.
+        AllContracts.forEach { c -> assertTrue(c.inputs.keys.none { it.startsWith("theme.") }, c.ref) }
     }
 
     @Test fun dataOnlyTakesTheContractsOwnInputs() {
@@ -34,11 +31,7 @@ class ContractsTest {
         assertTrue("\"url\"" in tickets, tickets)
     }
 
-    @Test fun materialColoursCoverEveryThemeRole() {
-        val values = materialThemeValues(1, 2, 3, 4, 5, 6, 7)
-        AllContracts.forEach { c ->
-            assertEquals(c.inputs.values.filter { it.role != null }.map { it.name }.toSet(), values.keys, c.ref)
-        }
+    @Test fun themePackNamesTheMode() {
         assertEquals("droidcon-dark", ConferenceSeries.themePack("droidcon", dark = true))
     }
 }

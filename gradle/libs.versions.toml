@@ -69,6 +69,7 @@ rc-players = "2.31.0"
 
 [libraries]
 livery-compose = { module = "ee.schimke.composeai:livery-compose", version.ref = "livery" }
+livery-compose-material3 = { module = "ee.schimke.composeai:livery-compose-material3", version.ref = "livery" }
 livery-client = { module = "ee.schimke.composeai:livery-client", version.ref = "livery" }
 livery-render = { module = "ee.schimke.composeai:livery-render", version.ref = "livery" }
 livery-publish = { module = "ee.schimke.composeai:livery-publish", version.ref = "livery" }

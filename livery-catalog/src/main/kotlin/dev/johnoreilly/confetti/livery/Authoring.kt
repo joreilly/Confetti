@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.livery
 
+import ee.schimke.livery.protocol.ThemeRoles
 import androidx.compose.remote.creation.compose.action.RemoteAction
 import androidx.compose.remote.creation.compose.action.hostAction
 import androidx.compose.remote.creation.compose.state.RemoteBoolean
@@ -38,6 +39,12 @@ class TemplateScope(val contract: ConfettiContract, val brand: ConferenceBrand? 
         reads += input.name
     }
 
+    /** A theme role ([ThemeRoles]): Livery's, so no contract declares it, but it is still a read. */
+    fun readTheme(role: String) {
+        check(role in ThemeRoles.MATERIAL3) { "$role is not a Material 3 theme role" }
+        reads += role
+    }
+
     fun emit(action: Action) {
         check(contract.actions[action.name] === action) { "${action.name} is not an action of ${contract.ref}" }
         emits += action.name
@@ -69,12 +76,14 @@ fun inputBool(input: Input): RemoteBoolean {
     return rememberNamedRemoteBoolean(input.name, initial)
 }
 
-/** A colour input: a theme role (`theme.primary`) a theme pack can override; the brand is the initial value. */
+/**
+ * A Material 3 colour role ([ThemeRoles], `theme.primary`): the host fills it from its colour
+ * scheme and a theme pack can replace it; [initial] (the brand's colour) draws until one does.
+ */
 @Composable
-fun inputColor(input: Input, initial: Color): RemoteColor {
-    require(input.type == InputType.Color) { "${input.name} is ${input.type}" }
-    LocalTemplateScope.current.read(input)
-    return rememberNamedRemoteColor(input.name, initial)
+fun themeColor(role: String, initial: Color): RemoteColor {
+    LocalTemplateScope.current.readTheme(role)
+    return rememberNamedRemoteColor(role, initial)
 }
 
 /** An image input, drawn from `livery:value/<input>` (PROTOCOL §6.1); the client resolves it. */

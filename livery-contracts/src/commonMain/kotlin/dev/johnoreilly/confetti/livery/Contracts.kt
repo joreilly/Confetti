@@ -27,7 +27,6 @@ class Input(
     val required: Boolean = false,
     val maxLength: kotlin.Int? = null,
     val default: JsonElement? = null,
-    val role: kotlin.String? = null,
     val description: kotlin.String? = null,
     val since: kotlin.Int = 0,
 )
@@ -85,15 +84,6 @@ abstract class ConfettiContract(
         _inputs[it.name] = it
     }
 
-    /** Every contract takes the conference palette as theme roles, so a theme pack can recolour it. */
-    val theme = ThemeInputs(
-        primary = role("primary"), onPrimary = role("onPrimary"), secondary = role("secondary"),
-        tertiary = role("tertiary"), surface = role("surface"), onSurface = role("onSurface"),
-        onSurfaceVariant = role("onSurfaceVariant"),
-    )
-
-    private fun role(role: String) = add(Input("theme.$role", InputType.Color, role = role))
-
     /** Example datasets: the picker's previews, the renders, and what an agent starts from. */
     abstract val examples: Map<String, Map<Input, Any>>
 
@@ -107,7 +97,6 @@ abstract class ConfettiContract(
                     if (i.required) put("required", true)
                     i.maxLength?.let { put("maxLength", it) }
                     i.default?.let { put("default", it) }
-                    i.role?.let { put("role", it) }
                     i.description?.let { put("description", it) }
                     if (i.since > 0) put("since", i.since)
                 }
@@ -139,11 +128,6 @@ abstract class ConfettiContract(
         }
     }
 }
-
-class ThemeInputs(
-    val primary: Input, val onPrimary: Input, val secondary: Input, val tertiary: Input,
-    val surface: Input, val onSurface: Input, val onSurfaceVariant: Input,
-)
 
 /** The conference header: the top of the home screen, and a launcher widget's banner. */
 object ConferenceContract : ConfettiContract("confetti/conference", 1, 0, "Conference header", DataSource.App, "conference") {
@@ -262,29 +246,3 @@ object ConferenceSeries {
     /** The theme pack for a series in the app's current mode: `droidcon-light`, `kotlinconf-dark`. */
     fun themePack(series: String, dark: Boolean): String = "$series-${if (dark) "dark" else "light"}"
 }
-
-/**
- * The theme roles every contract takes (see [ThemeInputs]), from a Material 3 colour scheme: how a
- * user's dynamic colours reach a design. Named arguments so each platform passes the scheme's
- * fields explicitly; one mapping for the apps and the catalog's renders.
- *
- * `surface` is the colour a design draws its cards on: pass the scheme's `surfaceContainerHigh`,
- * so a card stands off the screen behind it in both modes.
- */
-fun materialThemeValues(
-    primary: Long,
-    onPrimary: Long,
-    secondary: Long,
-    tertiary: Long,
-    surface: Long,
-    onSurface: Long,
-    onSurfaceVariant: Long,
-): Map<String, Long> = mapOf(
-    "theme.primary" to primary,
-    "theme.onPrimary" to onPrimary,
-    "theme.secondary" to secondary,
-    "theme.tertiary" to tertiary,
-    "theme.surface" to surface,
-    "theme.onSurface" to onSurface,
-    "theme.onSurfaceVariant" to onSurfaceVariant,
-)

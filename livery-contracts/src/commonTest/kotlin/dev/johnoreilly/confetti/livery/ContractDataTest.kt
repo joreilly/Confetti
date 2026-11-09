@@ -13,9 +13,9 @@ class ContractDataTest {
         SpeakerCard("Jane Doe", "GDE · Acme", "https://example.com/jane.png", "2 sessions"),
     )
 
-    @Test fun everyNonThemeInputIsMapped() {
+    @Test fun everyInputIsMapped() {
         full.forEach { d ->
-            val expected = d.contract.inputs.values.filter { it.role == null }.map { it.name }.toSet()
+            val expected = d.contract.inputs.values.map { it.name }.toSet()
             assertEquals(expected, d.values().keys.map { it.name }.toSet(), d.contract.ref)
         }
         // Every app-filled contract has a data class.

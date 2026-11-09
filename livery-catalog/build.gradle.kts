@@ -36,6 +36,7 @@ dependencies {
     // Playing back (previews, tests): the Compose player and Livery's contract binding.
     implementation(libs.rc.player.compose)
     implementation(projects.liveryContracts)
+    implementation(platform(libs.livery.bom))
     implementation(libs.livery.compose)
     implementation(libs.livery.render)
     implementation(libs.livery.compose.material3)
@@ -47,6 +48,7 @@ dependencies {
     implementation(libs.kotlinx.serialization)
 
     testImplementation(kotlin("test"))
+    testImplementation(platform(libs.livery.bom))
     testImplementation(libs.livery.client)
 }
 
@@ -92,6 +94,7 @@ tasks.register<JavaExec>("renderLiveryCatalog") {
 val liveryCli: Configuration by configurations.creating
 
 dependencies {
+    liveryCli(platform(libs.livery.bom))
     liveryCli(libs.livery.publish)
 }
 

@@ -19,12 +19,34 @@
       "groupName": "github actions"
     },
     {
-      "description": "compose-ai-tools ships the preview CLI, the ee.schimke.composeai Gradle plugin, and the reusable CI composite actions as a single release, and this repo pins BOTH halves: the composeai-preview catalog key and the versioned action refs in design-artifacts.yml / compose-preview.yml. Without this rule they are separate updates and land in separate PRs, so the CLI and the action code that drives it skew apart between merges. Group them into one PR and skip the batching window so the published catalog tracks the renderer it was rendered with.",
+      "description": "compose-ai-tools ships the preview CLI, the ee.schimke.composeai.preview Gradle plugin, preview-annotations and the reusable CI composite actions as one release, and this repo pins BOTH halves: the composeai-preview catalog key and the versioned action refs in the compose-preview workflows and design-artifacts.yml. Group them into one PR and skip the batching window so the CLI and the action code that drives it never skew. Only compose-ai-tools' own artifacts: Livery and rc-players also publish under ee.schimke.composeai but are separate projects with their own releases and rules below.",
       "matchPackageNames": [
         "yschimke/compose-ai-tools",
-        "/^ee\\.schimke\\.composeai($|[.:])/"
+        "/^ee\\.schimke\\.composeai\\.preview($|[.:])/",
+        "ee.schimke.composeai:preview-annotations"
       ],
       "groupName": "compose-ai-tools",
+      "schedule": [
+        "at any time"
+      ]
+    },
+    {
+      "description": "Livery is versioned through its BOM (livery-bom), which pins every Livery module, livery-publish and the Gradle plugin's jar included; the catalog declares the modules without versions. The `livery` version ref also pins the ee.schimke.composeai.livery.catalog plugin, which a BOM can't cover, so group the BOM and the plugin marker into one PR.",
+      "matchPackageNames": [
+        "ee.schimke.composeai:livery-bom",
+        "/^ee\\.schimke\\.composeai\\.livery\\./"
+      ],
+      "groupName": "livery",
+      "schedule": [
+        "at any time"
+      ]
+    },
+    {
+      "description": "The Remote Compose players (rc-player-*, the vendored AndroidX creation fork) are versioned only through rc-players-bom; the catalog declares the modules without versions, so the BOM is the one update.",
+      "matchPackageNames": [
+        "ee.schimke.composeai:rc-players-bom"
+      ],
+      "groupName": "rc-players",
       "schedule": [
         "at any time"
       ]

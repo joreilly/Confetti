@@ -1,42 +1,14 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794216254227,
-    "generatedAtEpochMs": 1794216254227,
-    "expiresAtEpochMs": 1796808254227,
+    "serial": 1794265082459,
+    "generatedAtEpochMs": 1794265082459,
+    "expiresAtEpochMs": 1796857082459,
     "contracts": [
         {
             "id": "confetti/conference",
             "major": 1,
             "title": "Conference header",
             "inputs": {
-                "theme.primary": {
-                    "type": "color",
-                    "role": "primary"
-                },
-                "theme.onPrimary": {
-                    "type": "color",
-                    "role": "onPrimary"
-                },
-                "theme.secondary": {
-                    "type": "color",
-                    "role": "secondary"
-                },
-                "theme.tertiary": {
-                    "type": "color",
-                    "role": "tertiary"
-                },
-                "theme.surface": {
-                    "type": "color",
-                    "role": "surface"
-                },
-                "theme.onSurface": {
-                    "type": "color",
-                    "role": "onSurface"
-                },
-                "theme.onSurfaceVariant": {
-                    "type": "color",
-                    "role": "onSurfaceVariant"
-                },
                 "name": {
                     "type": "string",
                     "required": true,
@@ -108,34 +80,6 @@
             "major": 1,
             "title": "Conference promotion",
             "inputs": {
-                "theme.primary": {
-                    "type": "color",
-                    "role": "primary"
-                },
-                "theme.onPrimary": {
-                    "type": "color",
-                    "role": "onPrimary"
-                },
-                "theme.secondary": {
-                    "type": "color",
-                    "role": "secondary"
-                },
-                "theme.tertiary": {
-                    "type": "color",
-                    "role": "tertiary"
-                },
-                "theme.surface": {
-                    "type": "color",
-                    "role": "surface"
-                },
-                "theme.onSurface": {
-                    "type": "color",
-                    "role": "onSurface"
-                },
-                "theme.onSurfaceVariant": {
-                    "type": "color",
-                    "role": "onSurfaceVariant"
-                },
                 "eyebrow": {
                     "type": "string",
                     "maxLength": 20
@@ -204,34 +148,6 @@
             "major": 1,
             "title": "Session card",
             "inputs": {
-                "theme.primary": {
-                    "type": "color",
-                    "role": "primary"
-                },
-                "theme.onPrimary": {
-                    "type": "color",
-                    "role": "onPrimary"
-                },
-                "theme.secondary": {
-                    "type": "color",
-                    "role": "secondary"
-                },
-                "theme.tertiary": {
-                    "type": "color",
-                    "role": "tertiary"
-                },
-                "theme.surface": {
-                    "type": "color",
-                    "role": "surface"
-                },
-                "theme.onSurface": {
-                    "type": "color",
-                    "role": "onSurface"
-                },
-                "theme.onSurfaceVariant": {
-                    "type": "color",
-                    "role": "onSurfaceVariant"
-                },
                 "title": {
                     "type": "string",
                     "required": true,
@@ -305,34 +221,6 @@
             "major": 1,
             "title": "Speaker card",
             "inputs": {
-                "theme.primary": {
-                    "type": "color",
-                    "role": "primary"
-                },
-                "theme.onPrimary": {
-                    "type": "color",
-                    "role": "onPrimary"
-                },
-                "theme.secondary": {
-                    "type": "color",
-                    "role": "secondary"
-                },
-                "theme.tertiary": {
-                    "type": "color",
-                    "role": "tertiary"
-                },
-                "theme.surface": {
-                    "type": "color",
-                    "role": "surface"
-                },
-                "theme.onSurface": {
-                    "type": "color",
-                    "role": "onSurface"
-                },
-                "theme.onSurfaceVariant": {
-                    "type": "color",
-                    "role": "onSurfaceVariant"
-                },
                 "name": {
                     "type": "string",
                     "required": true,

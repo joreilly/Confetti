@@ -1,43 +1,15 @@
 {
     "catalog": "confetti-kotlinconf",
-    "serial": 1794216254154,
-    "generatedAtEpochMs": 1794216254154,
-    "expiresAtEpochMs": 1796808254154,
-    "minClient": 2,
+    "serial": 1794265011126,
+    "generatedAtEpochMs": 1794265011126,
+    "expiresAtEpochMs": 1796857011126,
+    "minClient": 8,
     "contracts": [
         {
             "id": "confetti/conference",
             "major": 1,
             "title": "Conference header",
             "inputs": {
-                "theme.primary": {
-                    "type": "color",
-                    "role": "primary"
-                },
-                "theme.onPrimary": {
-                    "type": "color",
-                    "role": "onPrimary"
-                },
-                "theme.secondary": {
-                    "type": "color",
-                    "role": "secondary"
-                },
-                "theme.tertiary": {
-                    "type": "color",
-                    "role": "tertiary"
-                },
-                "theme.surface": {
-                    "type": "color",
-                    "role": "surface"
-                },
-                "theme.onSurface": {
-                    "type": "color",
-                    "role": "onSurface"
-                },
-                "theme.onSurfaceVariant": {
-                    "type": "color",
-                    "role": "onSurfaceVariant"
-                },
                 "name": {
                     "type": "string",
                     "required": true,
@@ -109,34 +81,6 @@
             "major": 1,
             "title": "Conference promotion",
             "inputs": {
-                "theme.primary": {
-                    "type": "color",
-                    "role": "primary"
-                },
-                "theme.onPrimary": {
-                    "type": "color",
-                    "role": "onPrimary"
-                },
-                "theme.secondary": {
-                    "type": "color",
-                    "role": "secondary"
-                },
-                "theme.tertiary": {
-                    "type": "color",
-                    "role": "tertiary"
-                },
-                "theme.surface": {
-                    "type": "color",
-                    "role": "surface"
-                },
-                "theme.onSurface": {
-                    "type": "color",
-                    "role": "onSurface"
-                },
-                "theme.onSurfaceVariant": {
-                    "type": "color",
-                    "role": "onSurfaceVariant"
-                },
                 "eyebrow": {
                     "type": "string",
                     "maxLength": 20
@@ -205,34 +149,6 @@
             "major": 1,
             "title": "Session card",
             "inputs": {
-                "theme.primary": {
-                    "type": "color",
-                    "role": "primary"
-                },
-                "theme.onPrimary": {
-                    "type": "color",
-                    "role": "onPrimary"
-                },
-                "theme.secondary": {
-                    "type": "color",
-                    "role": "secondary"
-                },
-                "theme.tertiary": {
-                    "type": "color",
-                    "role": "tertiary"
-                },
-                "theme.surface": {
-                    "type": "color",
-                    "role": "surface"
-                },
-                "theme.onSurface": {
-                    "type": "color",
-                    "role": "onSurface"
-                },
-                "theme.onSurfaceVariant": {
-                    "type": "color",
-                    "role": "onSurfaceVariant"
-                },
                 "title": {
                     "type": "string",
                     "required": true,
@@ -306,34 +222,6 @@
             "major": 1,
             "title": "Speaker card",
             "inputs": {
-                "theme.primary": {
-                    "type": "color",
-                    "role": "primary"
-                },
-                "theme.onPrimary": {
-                    "type": "color",
-                    "role": "onPrimary"
-                },
-                "theme.secondary": {
-                    "type": "color",
-                    "role": "secondary"
-                },
-                "theme.tertiary": {
-                    "type": "color",
-                    "role": "tertiary"
-                },
-                "theme.surface": {
-                    "type": "color",
-                    "role": "surface"
-                },
-                "theme.onSurface": {
-                    "type": "color",
-                    "role": "onSurface"
-                },
-                "theme.onSurfaceVariant": {
-                    "type": "color",
-                    "role": "onSurfaceVariant"
-                },
                 "name": {
                     "type": "string",
                     "required": true,
@@ -389,6 +277,17 @@
             "install": "Always"
         },
         {
+            "id": "kotlinconf-header-shader",
+            "contract": "confetti/conference@1",
+            "title": "KotlinConf header (AGSL shader)",
+            "author": "confetti",
+            "variant": "shader",
+            "tags": {
+                "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
             "id": "kotlinconf-promo",
             "contract": "confetti/promo@1",
             "title": "KotlinConf promotion",
@@ -408,6 +307,30 @@
             "install": "Always"
         },
         {
+            "id": "kotlinconf-session-keynote",
+            "contract": "confetti/session@1",
+            "title": "KotlinConf opening keynote",
+            "author": "confetti",
+            "variant": "keynote",
+            "tags": {
+                "series": "kotlinconf",
+                "session": "1148503"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "kotlinconf-session-lightning",
+            "contract": "confetti/session@1",
+            "title": "KotlinConf lightning talk",
+            "author": "confetti",
+            "variant": "lightning",
+            "tags": {
+                "series": "kotlinconf",
+                "tag": "Lightning talk"
+            },
+            "install": "Always"
+        },
+        {
             "id": "kotlinconf-speaker",
             "contract": "confetti/speaker@1",
             "title": "KotlinConf speaker",
@@ -423,6 +346,96 @@
             "sha256": "233483b4b0dbf556939d535a04db789f58645e999ffc80fe8c2054e86deef0c1",
             "bytes": 3714,
             "designId": "kotlinconf-header",
+            "contract": "confetti/conference@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "dates",
+                "live",
+                "name",
+                "tagline",
+                "location",
+                "ticketsUrl"
+            ],
+            "emits": [
+                "tickets"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "be50487d59dfeea9421203b53fcb78c825d16aadd68c8fc45cd4cd8fb14c1426",
+            "bytes": 4211,
+            "designId": "kotlinconf-header-shader",
+            "contract": "confetti/conference@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280,
+                    "maxWidthDp": 4000
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "dates",
+                "live",
+                "name",
+                "tagline",
+                "location",
+                "ticketsUrl"
+            ],
+            "emits": [
+                "tickets"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ],
+            "features": [
+                "shaders"
+            ]
+        },
+        {
+            "sha256": "233483b4b0dbf556939d535a04db789f58645e999ffc80fe8c2054e86deef0c1",
+            "bytes": 3714,
+            "designId": "kotlinconf-header-shader",
             "contract": "confetti/conference@1",
             "target": {
                 "surface": "in-app",
@@ -633,6 +646,95 @@
             ]
         },
         {
+            "sha256": "d5e77507303edc20e793e32217bf53557e5856a3b3e53b55570119971f8b84ab",
+            "bytes": 3018,
+            "designId": "kotlinconf-session-keynote",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "bookmarked",
+                "live",
+                "time",
+                "title",
+                "speakers",
+                "room"
+            ],
+            "emits": [
+                "open",
+                "bookmark"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "991fc48368f3874e2684de7b5cbf350c9df290843d6ff0672c617de10a3b3c03",
+            "bytes": 2858,
+            "designId": "kotlinconf-session-lightning",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "bookmarked",
+                "time",
+                "live",
+                "room",
+                "title",
+                "speakers",
+                "tag"
+            ],
+            "emits": [
+                "open",
+                "bookmark"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
             "sha256": "0d06ac61ba1ed7b9110582f7c49fa0b4b17eaf51c6524bccb2f04cab3d13467a",
             "bytes": 1964,
             "designId": "kotlinconf-speaker",
@@ -791,6 +893,30 @@
                 ],
                 "excludeSegments": [
                     "workshop-booked"
+                ]
+            }
+        }
+    ],
+    "experiments": [
+        {
+            "id": "header_shader",
+            "arms": [
+                {
+                    "id": "mesh",
+                    "designs": {
+                        "confetti/conference@1": "kotlinconf-header"
+                    }
+                },
+                {
+                    "id": "shader",
+                    "designs": {
+                        "confetti/conference@1": "kotlinconf-header-shader"
+                    }
+                }
+            ],
+            "conditions": {
+                "platforms": [
+                    "android"
                 ]
             }
         }

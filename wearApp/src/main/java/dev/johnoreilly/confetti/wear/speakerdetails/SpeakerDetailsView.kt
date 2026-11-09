@@ -28,6 +28,7 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import coil.compose.SubcomposeAsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ee.schimke.composeai.preview.ScrollMode
@@ -37,6 +38,9 @@ import dev.johnoreilly.confetti.decompose.SpeakerDetailsUiState
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Person
 import dev.johnoreilly.confetti.wear.components.InspectionSpeakerImage
+import dev.johnoreilly.confetti.wear.components.bodyTextContentPadding
+import dev.johnoreilly.confetti.wear.components.bodyTextHorizontalPadding
+import dev.johnoreilly.confetti.wear.components.bodyTextItems
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
@@ -70,7 +74,7 @@ fun SpeakerDetailsView(
         TransformingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = columnState,
-            contentPadding = contentPadding,
+            contentPadding = bodyTextContentPadding(contentPadding),
         ) {
             if (uiState is SpeakerDetailsUiState.Loading) {
                 item {
@@ -204,26 +208,19 @@ fun SpeakerDetailsView(
                                         applyContainerTransformation(scrollProgress)
                                     }
                                 }
-                                .transformedHeight(this, transformationSpec),
+                                .transformedHeight(this, transformationSpec)
+                                .padding(horizontal = bodyTextHorizontalPadding()),
                             text = speaker?.tagline ?: "",
                         )
                     }
                 }
 
-                if (speaker == null || speaker.bio != null) {
-                    item {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .graphicsLayer {
-                                    with(transformationSpec) {
-                                        applyContainerTransformation(scrollProgress)
-                                    }
-                                }
-                                .transformedHeight(this, transformationSpec),
-                            text = speaker?.bio ?: "",
-                        )
-                    }
+                speaker?.bio?.let { bio ->
+                    bodyTextItems(
+                        text = bio,
+                        transformationSpec = transformationSpec,
+                        keyPrefix = "bio",
+                    )
                 }
             }
         }
@@ -231,6 +228,7 @@ fun SpeakerDetailsView(
 }
 
 @WearPreviewLargeRound
+@WearPreviewSmallRound
 @ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun SpeakerDetailsViewPreview() {

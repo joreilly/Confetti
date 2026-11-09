@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.wear.sessiondetails
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -20,8 +21,12 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import dev.johnoreilly.confetti.decompose.SessionDetailsUiState
-import dev.johnoreilly.confetti.fragment.SessionDetails
+import ee.schimke.composeai.preview.ScrollMode
+import ee.schimke.composeai.preview.ScrollingPreview
+import dev.johnoreilly.confetti.wear.components.bodyTextHorizontalPadding
+import dev.johnoreilly.confetti.wear.components.bodyTextItems
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.SessionSpeakerChip
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
@@ -55,7 +60,6 @@ fun SessionDetailView(
             when (uiState) {
                 is SessionDetailsUiState.Success -> {
                     val session = uiState.sessionDetails
-                    val description = session.descriptionParagraphs()
 
                     item {
                         ScreenHeader(
@@ -82,22 +86,17 @@ fun SessionDetailView(
                                         applyContainerTransformation(scrollProgress)
                                     }
                                 }
-                                .transformedHeight(this, transformationSpec),
+                                .transformedHeight(this, transformationSpec)
+                                .padding(horizontal = bodyTextHorizontalPadding()),
                             text = time,
                         )
                     }
 
-                    items(description) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .graphicsLayer {
-                                    with(transformationSpec) {
-                                        applyContainerTransformation(scrollProgress)
-                                    }
-                                }
-                                .transformedHeight(this, transformationSpec),
-                            text = it,
+                    session.sessionDescription?.let { description ->
+                        bodyTextItems(
+                            text = description,
+                            transformationSpec = transformationSpec,
+                            keyPrefix = "description",
                         )
                     }
 
@@ -122,10 +121,9 @@ fun SessionDetailView(
     }
 }
 
-private fun SessionDetails?.descriptionParagraphs(): List<String> =
-    this?.sessionDescription?.split("\n+".toRegex()).orEmpty()
-
 @WearPreviewLargeRound
+@WearPreviewSmallRound
+@ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
 fun SessionDetailViewPreview() {
     ConfettiPreviewScaffold {

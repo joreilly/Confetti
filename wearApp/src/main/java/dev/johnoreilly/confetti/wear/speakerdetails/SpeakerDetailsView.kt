@@ -23,6 +23,7 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.TextDefaults
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.placeholder
@@ -117,6 +118,10 @@ fun SpeakerDetailsView(
                                 }
                             }
                             .transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                TextDefaults.minimumTopListContentPadding,
+                                TextDefaults.minimumBottomListContentPadding,
+                            )
                             .padding(horizontal = 30.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .height(24.dp)
@@ -126,14 +131,7 @@ fun SpeakerDetailsView(
 
                 item {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .graphicsLayer {
-                                with(transformationSpec) {
-                                    applyContainerTransformation(scrollProgress)
-                                }
-                            }
-                            .transformedHeight(this, transformationSpec),
+                        modifier = bodyTextModifier(transformationSpec),
                         text = ""
                     )
                 }

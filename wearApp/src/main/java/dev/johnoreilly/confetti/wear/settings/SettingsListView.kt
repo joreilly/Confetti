@@ -44,12 +44,14 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
+import androidx.wear.compose.ui.tooling.preview.WearPreviewSmallRound
 import coil.compose.AsyncImage
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
+import dev.johnoreilly.confetti.wear.components.bodyTextModifier
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.proto.NetworkDetail
 import dev.johnoreilly.confetti.wear.proto.NetworkPreferences
@@ -249,14 +251,7 @@ fun SettingsListView(
                 item {
                     var developerModeCount by remember { mutableIntStateOf(0) }
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .graphicsLayer {
-                                with(transformationSpec) {
-                                    applyContainerTransformation(scrollProgress)
-                                }
-                            }
-                            .transformedHeight(this, transformationSpec)
+                        modifier = bodyTextModifier(transformationSpec)
                             .padding(top = 10.dp)
                             .run {
                                 if (!uiState.developerMode) {
@@ -306,14 +301,7 @@ private fun TransformingLazyColumnScope.developerModeOptions(
     if (authUser != null) {
         item {
             Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .graphicsLayer {
-                        with(transformationSpec) {
-                            applyContainerTransformation(scrollProgress)
-                        }
-                    }
-                    .transformedHeight(this, transformationSpec),
+                modifier = bodyTextModifier(transformationSpec),
                 style = MaterialTheme.typography.labelSmall,
                 text = "Email: ${authUser.email}"
             )
@@ -339,7 +327,8 @@ fun SettingsListViewPreview() {
 }
 
 @WearPreviewLargeRound
-@ScrollingPreview(modes = [ScrollMode.LONG])
+@WearPreviewSmallRound
+@ScrollingPreview(modes = [ScrollMode.END, ScrollMode.LONG], reduceMotion = false)
 @Composable
 fun SettingsListViewLongPreview() {
     ConfettiPreviewScaffold {

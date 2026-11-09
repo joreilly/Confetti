@@ -52,6 +52,7 @@ import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.PlaceholderButton
+import dev.johnoreilly.confetti.wear.components.bodyTextModifier
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.ConferenceFixtures
@@ -240,14 +241,7 @@ private fun TransformingLazyColumnScope.bookmarksSection(
             if (upcoming.isEmpty()) {
                 item {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .graphicsLayer {
-                                with(transformationSpec) {
-                                    applyContainerTransformation(scrollProgress)
-                                }
-                            }
-                            .transformedHeight(this, transformationSpec),
+                        modifier = bodyTextModifier(transformationSpec),
                         text = stringResource(id = R.string.no_upcoming),
                     )
                 }

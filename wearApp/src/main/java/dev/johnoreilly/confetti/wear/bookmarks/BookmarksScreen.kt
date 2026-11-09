@@ -28,6 +28,7 @@ import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
+import dev.johnoreilly.confetti.wear.components.bodyTextModifier
 import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
@@ -105,14 +106,7 @@ fun BookmarksScreen(
                     if ((uiState as? QueryResult.Success)?.result?.hasUpcomingBookmarks == false) {
                         item {
                             Text(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .graphicsLayer {
-                                        with(transformationSpec) {
-                                            applyContainerTransformation(scrollProgress)
-                                        }
-                                    }
-                                    .transformedHeight(this, transformationSpec),
+                                modifier = bodyTextModifier(transformationSpec),
                                 text = stringResource(id = R.string.no_upcoming),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -154,17 +148,7 @@ fun BookmarksScreen(
                         if (uiState.result.past.isEmpty()) {
                             item {
                                 Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .graphicsLayer {
-                                            with(transformationSpec) {
-                                                applyContainerTransformation(scrollProgress)
-                                            }
-                                        }
-                                        .transformedHeight(this, transformationSpec)
-                                        .minimumVerticalContentPadding(
-                                            CardDefaults.minimumVerticalListContentPadding
-                                        ),
+                                    modifier = bodyTextModifier(transformationSpec),
                                     text = stringResource(id = R.string.no_past),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -189,14 +173,7 @@ fun BookmarksScreen(
                     }
                     item {
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .graphicsLayer {
-                                    with(transformationSpec) {
-                                        applyContainerTransformation(scrollProgress)
-                                    }
-                                }
-                                .transformedHeight(this, transformationSpec),
+                            modifier = bodyTextModifier(transformationSpec),
                             text = uiState.exception.message ?: "Unknown Error Occurred",
                             color = MaterialTheme.colorScheme.errorDim
                         )

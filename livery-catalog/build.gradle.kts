@@ -38,6 +38,7 @@ dependencies {
     implementation(projects.liveryContracts)
     implementation(libs.livery.compose)
     implementation(libs.livery.render)
+    implementation(libs.livery.compose.material3)
     implementation(compose.desktop.currentOs)
     // Material 3 dynamic schemes, for the renders of a user's dynamic colours.
     implementation(compose.material3)

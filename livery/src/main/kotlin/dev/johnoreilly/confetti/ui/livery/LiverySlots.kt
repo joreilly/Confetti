@@ -1,7 +1,6 @@
 package dev.johnoreilly.confetti.ui.livery
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,9 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalUriHandler
 import dev.johnoreilly.confetti.livery.Action
 import dev.johnoreilly.confetti.livery.ConferenceSeries
@@ -26,8 +23,8 @@ import dev.johnoreilly.confetti.livery.ContractData
 import dev.johnoreilly.confetti.livery.PromoContract
 import dev.johnoreilly.confetti.livery.SduiExperiment
 import dev.johnoreilly.confetti.livery.SlotTracker
-import dev.johnoreilly.confetti.livery.materialThemeValues
 import dev.johnoreilly.confetti.ui.LocalDynamicColorInUse
+import ee.schimke.livery.compose.material3.toLiveryTheme
 import ee.schimke.livery.client.ActionRouter
 import ee.schimke.livery.client.Bindings
 import ee.schimke.livery.client.Clock
@@ -44,7 +41,6 @@ import ee.schimke.livery.client.TemplateQuery
 import ee.schimke.livery.client.TemplateRepository
 import ee.schimke.livery.compose.LiveryHost
 import ee.schimke.livery.compose.LiverySlot
-import ee.schimke.livery.protocol.NamedValue
 import ee.schimke.livery.protocol.PlayerCapabilities
 import ee.schimke.livery.protocol.Surfaces
 import ee.schimke.livery.protocol.TemplateEvent
@@ -324,16 +320,6 @@ private fun rememberSlotColors(): SlotColors {
     return remember(scheme, dynamic) {
         SlotColors(dark = scheme.surface.luminance() < 0.5f, app = if (dynamic) scheme.toLiveryTheme() else null)
     }
-}
-
-/** A Material 3 scheme as the designs' theme roles (the catalog's renders use the same mapping). */
-fun ColorScheme.toLiveryTheme(): Bindings {
-    fun Color.argb() = toArgb().toLong() and 0xFFFFFFFFL
-    return Bindings(materialThemeValues(
-        primary = primary.argb(), onPrimary = onPrimary.argb(), secondary = secondary.argb(),
-        tertiary = tertiary.argb(), surface = surfaceContainerHigh.argb(), onSurface = onSurface.argb(),
-        onSurfaceVariant = onSurfaceVariant.argb(),
-    ).mapValues { NamedValue.Color(it.value) })
 }
 
 /** Every action kind a Confetti contract declares; the router dispatches by kind (PROTOCOL §7). */

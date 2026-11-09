@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.livery
 
+import ee.schimke.livery.protocol.ThemeRoles
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.shaders.RemoteBrush
@@ -43,18 +44,15 @@ class BrandColors(
 )
 
 @Composable
-fun brandColors(brand: ConferenceBrand): BrandColors {
-    val theme = LocalTemplateScope.current.contract.theme
-    return BrandColors(
-        primary = inputColor(theme.primary, brand.primary),
-        onPrimary = inputColor(theme.onPrimary, brand.onPrimary),
-        secondary = inputColor(theme.secondary, brand.secondary),
-        tertiary = inputColor(theme.tertiary, brand.tertiary),
-        surface = inputColor(theme.surface, brand.surface),
-        onSurface = inputColor(theme.onSurface, brand.onSurface),
-        muted = inputColor(theme.onSurfaceVariant, brand.muted),
-    )
-}
+fun brandColors(brand: ConferenceBrand): BrandColors = BrandColors(
+    primary = themeColor(ThemeRoles.PRIMARY, brand.primary),
+    onPrimary = themeColor(ThemeRoles.ON_PRIMARY, brand.onPrimary),
+    secondary = themeColor(ThemeRoles.SECONDARY, brand.secondary),
+    tertiary = themeColor(ThemeRoles.TERTIARY, brand.tertiary),
+    surface = themeColor(ThemeRoles.SURFACE, brand.surface),
+    onSurface = themeColor(ThemeRoles.ON_SURFACE, brand.onSurface),
+    muted = themeColor(ThemeRoles.ON_SURFACE_VARIANT, brand.muted),
+)
 
 // Remote Compose's Component.Visibility values.
 private const val GONE = 0

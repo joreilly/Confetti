@@ -35,7 +35,8 @@ slot's data, never a new document:
   setting wins over the system's.
 - **Material 3 dynamic colour.** When the user has dynamic colour on (`ConferenceMaterialTheme`
   sets `LocalDynamicColorInUse`), a slot pushes their `MaterialTheme.colorScheme` instead
-  (`materialThemeValues` in `Contracts.kt`, one mapping for the app and these renders). Each
+  (Livery's `ColorScheme.toLiveryTheme()` from `livery-compose-material3`, one mapping for the
+  app and these renders). Each
   conference keeps its layout and takes the user's wallpaper colours.
 
 Changing the mode or the wallpaper recolours a slot live, without restarting its document.
@@ -111,7 +112,7 @@ enforced at every step. `Contracts.kt` is the source of truth:
    they can't drift from the document.
 3. **Generation checks** (`CatalogTest`): every example binds through Livery's `ContractBinder`
    (the gate devices use), every design emits each of its contract's actions and shows every
-   required input, theme packs only set theme roles, and placements carry data their design's
+   required input, theme packs only set Material 3 theme roles, and placements carry data their design's
    contract accepts. Each series' generated catalog holds only its own designs, and carries its
    hand-edited data unchanged.
 4. **Livery's publisher**: `livery build --inspect` decodes every `.rc` and checks it against its
@@ -129,7 +130,9 @@ Contracts evolve per Livery's rules: within a major, only add optional inputs an
 | `confetti/speaker@1` | app | name, tagline, photo, sessions | open |
 | `confetti/promo@1` | decision | eyebrow, headline, body, cta, url | cta (open-url), dismiss |
 
-Every contract also takes the conference palette as theme roles (`theme.primary`, …).
+No contract lists colours. Theme roles (`theme.primary`, …, Livery's `ThemeRoles.MATERIAL3`) are
+built into Livery: a design reads them with `themeColor(ThemeRoles.PRIMARY, brand.primary)`, the
+app fills them from its `MaterialTheme.colorScheme`, and a theme pack replaces them.
 
 ## What each of the four goals looks like
 
@@ -405,7 +408,7 @@ them as JSON, and `repository.theme(id)` reads them. What's missing:
   could map `theme.font.display`/`theme.font.body` roles to families would let a conference change
   its face without a re-capture, the way colours already work.
 - **One theme for the whole app.** Confetti's native UI has its own per-conference Material
-  schemes. Exporting a pack as a Material 3 `ColorScheme` (the inverse of `materialThemeValues`)
+  schemes. Exporting a pack as a Material 3 `ColorScheme` (the inverse of `toLiveryTheme()`)
   would give native and Livery slots one source of truth.
 
 ## Friction found in 0.1.1, fixed in Livery 0.2.0

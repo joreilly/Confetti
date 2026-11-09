@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.livery
 
+import ee.schimke.livery.compose.material3.toLiveryTheme
+import ee.schimke.livery.protocol.ThemeRoles
 import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
 import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
@@ -20,8 +22,6 @@ import androidx.compose.ui.text.platform.Font
 import ee.schimke.livery.client.BindResult
 import ee.schimke.livery.client.Bindings
 import ee.schimke.livery.client.ContractBinder
-import androidx.compose.material3.ColorScheme
-import androidx.compose.ui.graphics.toArgb
 import com.materialkolor.dynamicColorScheme
 import ee.schimke.livery.protocol.Contract
 import ee.schimke.livery.protocol.NamedValue
@@ -159,8 +159,8 @@ fun checkContracts(captured: List<CapturedTemplate>, catalog: File, brand: Confe
         (t.fonts - shipped).filterNot { it.startsWith("system:") || it.startsWith("google:") }
             .forEach { problems += "${t.design.id}/${t.template.name}: font '$it' isn't in ${brand.series}/fonts/fonts.json" }
     }
-    // Theme packs only set theme roles every contract declares.
-    val roles = AllContracts.map { c -> c.inputs.values.filter { it.role != null }.map { it.name }.toSet() }.reduce { a, b -> a intersect b }
+    // Theme packs only set Material 3 theme roles.
+    val roles = ThemeRoles.MATERIAL3.toSet()
     catalog.resolve("themes").listFiles { f -> f.extension == "json" }.orEmpty().forEach { f ->
         val pack = json.decodeFromString<ThemePack>(f.readText())
         pack.values.keys.filterNot { it in roles }.forEach { problems += "themes/${f.name}: '$it' is not a theme role" }
@@ -289,14 +289,4 @@ private fun renderSeries(brand: ConferenceBrand, captured: List<CapturedTemplate
             out.resolve("${t.design.id}-${t.template.name}-$name.png").writeBytes(render(t, data, scheme.toLiveryTheme(), dark))
         }
     }
-}
-
-/** The app's mapping (shared's LiverySlots does the same): a Material 3 scheme as the theme roles. */
-fun ColorScheme.toLiveryTheme(): Bindings {
-    fun Color.argb() = toArgb().toLong() and 0xFFFFFFFFL
-    return Bindings(materialThemeValues(
-        primary = primary.argb(), onPrimary = onPrimary.argb(), secondary = secondary.argb(),
-        tertiary = tertiary.argb(), surface = surfaceContainerHigh.argb(), onSurface = onSurface.argb(),
-        onSurfaceVariant = onSurfaceVariant.argb(),
-    ).mapValues { NamedValue.Color(it.value) })
 }

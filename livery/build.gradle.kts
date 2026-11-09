@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.material3.core)
+    implementation(libs.livery.compose.material3)
     implementation(libs.kotlinx.datetime)
     // Livery's catalog and image fetches on the app's own OkHttpClient (ConfettiLivery.kt).
     implementation(libs.okhttp)

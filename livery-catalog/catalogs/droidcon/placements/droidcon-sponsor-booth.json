@@ -1,0 +1,29 @@
+{
+  "id": "droidcon-sponsor-booth",
+  "placement": "speaker.footer",
+  "priority": 10,
+  "template": {
+    "designId": "droidcon-promo"
+  },
+  "data": {
+    "eyebrow": "SPONSOR",
+    "headline": "Meet the team at booth 12",
+    "body": "Live demos every hour, and the best stickers in the hall.",
+    "cta": "FIND BOOTH",
+    "url": "https://london.droidcon.com/partners"
+  },
+  "conditions": {
+    "segments": [
+      "conference:droidconlondon2026"
+    ]
+  },
+  "rollout": {
+    "experiment": "droidcon-sponsor-2026",
+    "arm": "speaker-footer",
+    "toBasisPoints": 5000
+  },
+  "frequency": {
+    "maxImpressions": 5,
+    "perSeconds": 86400
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "droidcon-light",
+  "title": "droidcon (light)",
+  "mode": "light",
+  "values": {
+    "theme.primary": {
+      "type": "color",
+      "argb": 4278942275
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "argb": 4294967295
+    },
+    "theme.secondary": {
+      "type": "color",
+      "argb": 4283202048
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "argb": 4279918544
+    },
+    "theme.surface": {
+      "type": "color",
+      "argb": 4294244341
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "argb": 4279111958
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "argb": 4283061603
+    }
+  }
+}

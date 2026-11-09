@@ -129,8 +129,8 @@ class LiveryComponentsTest {
     }
 
     /** With no catalog yet, the livery arm builds Livery and draws Confetti's own rows. */
-    /** A conference without a catalog of its own draws the base one: Confetti's look, by Livery. */
-    @Test fun liveryArmDrawsTheBaseTemplates() {
+    /** droidcon draws its own catalog; a conference without one (here KotlinConf) the base. */
+    @Test fun liveryArmDrawsEachConferencesCatalog() {
         val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
         compose.setContent {
             MaterialTheme(colorScheme = lightColorScheme()) {
@@ -144,10 +144,11 @@ class LiveryComponentsTest {
         assertTrue(components.liveryStarted)
         assertEquals(0, nativeRows())
         val tags = compose.onAllNodes(liverySlot).fetchSemanticsNodes().map { it.config[SemanticsProperties.TestTag] }
-        assertTrue(tags.toString(), tags.all { it.endsWith(":confetti-session") })
+        assertEquals(listOf("confetti-session", "droidcon-session"), tags.map { it.substringAfterLast(':') })
         // The templates' impressions, tagged with the arm, as the native arm's rows are.
         compose.waitUntil(10_000) {
-            synchronized(logged) { logged.count { it.id == "livery_impression" && it.properties["design_id"] == "confetti-session" } } == 2
+            synchronized(logged) { logged.filter { it.id == "livery_impression" }.map { it.properties["design_id"] }.toSet() } ==
+                setOf("confetti-session", "droidcon-session")
         }
         val impression = synchronized(logged) { logged.first { it.id == "livery_impression" } }
         assertEquals(SduiExperiment.LIVERY, impression.properties["exp_${SduiExperiment.ID}"])

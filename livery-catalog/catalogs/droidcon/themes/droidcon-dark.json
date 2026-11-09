@@ -1,0 +1,35 @@
+{
+  "id": "droidcon-dark",
+  "title": "droidcon (dark)",
+  "mode": "dark",
+  "values": {
+    "theme.primary": {
+      "type": "color",
+      "argb": 4282244228
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "argb": 4279111958
+    },
+    "theme.secondary": {
+      "type": "color",
+      "argb": 4290049354
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "argb": 4282549748
+    },
+    "theme.surface": {
+      "type": "color",
+      "argb": 4279111958
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "argb": 4294309882
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "argb": 4288324786
+    }
+  }
+}

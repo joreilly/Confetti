@@ -42,4 +42,17 @@ val Confetti = ConferenceBrand(
 )
 
 /** Every brand with a catalog; conference brands join in their own PRs. */
-val AllBrands: List<ConferenceBrand> = listOf(Confetti)
+val Droidcon = ConferenceBrand(
+    series = "droidcon",
+    primary = Color(0xFF3DDC84), // Android green
+    onPrimary = Color(0xFF0E1116),
+    secondary = Color(0xFFB4F54A),
+    tertiary = Color(0xFF4285F4),
+    surface = Color(0xFF0E1116),
+    onSurface = Color(0xFFF5F7FA),
+    muted = Color(0xFF9AA4B2),
+    // Terminal-flavoured, to go with the green-on-black.
+    fontFamily = "Space Mono",
+)
+
+val AllBrands: List<ConferenceBrand> = listOf(Confetti, Droidcon)

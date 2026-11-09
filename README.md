@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/pr`. 123 preview(s) across 4 module(s) · 12 error(s) · 3 warning(s) · 8 info._
+_Auto-generated from `compose-preview/a11y/pr`. 120 preview(s) across 4 module(s) · 12 error(s) · 3 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -692,12 +692,6 @@ _No findings._
 
 _No findings._
 
-### `SessionDetailViewPreview` · `wearos_large_round`
-
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/wearApp/SessionDetailViewPreview_Devices_Large_Round-2d541005.a11y.png" width="400" />
-
-_No findings._
-
 ### `SessionDetailsScreen` · `wearos_large_round`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/wearApp/SessionDetailsScreen_Devices_Large_Round-7542603b.a11y.png" width="400" />
@@ -722,12 +716,6 @@ _No findings._
 
 _No findings._
 
-### `SettingsListViewLongPreview` · `wearos_large_round`
-
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewLongPreview_Devices - Large Round.a11y.png" width="400" />
-
-_No findings._
-
 ### `SettingsListViewPreview` · `wearos_large_round`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/wearApp/SettingsListViewPreview_Devices_Large_Round-a69b53b2.a11y.png" width="400" />
@@ -745,12 +733,6 @@ _No findings._
 ### `SpeakerDetailsScreen` · `wearos_large_round`
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/wearApp/SpeakerDetailsScreen_Devices_Large_Round-4115a437.a11y.png" width="400" />
-
-_No findings._
-
-### `SpeakerDetailsViewPreview` · `wearos_large_round`
-
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/wearApp/dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewKt.SpeakerDetailsViewPreview_Devices - Large Round.a11y.png" width="400" />
 
 _No findings._
 

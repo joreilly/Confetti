@@ -19,6 +19,7 @@ val sduiModule = module {
             context = androidContext(),
             okHttp = get(),
             analytics = get(),
+            templatesUrl = BuildConfig.TEMPLATES_URL,
             arms = FirebaseSduiArms(forced = BuildConfig.FORCED_ARM.ifEmpty { null }),
         )
     }

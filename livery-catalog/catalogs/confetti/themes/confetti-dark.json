@@ -1,0 +1,35 @@
+{
+  "id": "confetti-dark",
+  "title": "Confetti (dark)",
+  "mode": "dark",
+  "values": {
+    "theme.primary": {
+      "type": "color",
+      "argb": 4294945023
+    },
+    "theme.onPrimary": {
+      "type": "color",
+      "argb": 4283828829
+    },
+    "theme.secondary": {
+      "type": "color",
+      "argb": 4294948249
+    },
+    "theme.tertiary": {
+      "type": "color",
+      "argb": 4284339452
+    },
+    "theme.surface": {
+      "type": "color",
+      "argb": 4281148720
+    },
+    "theme.onSurface": {
+      "type": "color",
+      "argb": 4293713893
+    },
+    "theme.onSurfaceVariant": {
+      "type": "color",
+      "argb": 4291871692
+    }
+  }
+}

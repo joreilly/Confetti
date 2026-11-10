@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794268727218,
-    "generatedAtEpochMs": 1794268727218,
-    "expiresAtEpochMs": 1796860727218,
+    "serial": 1794296762419,
+    "generatedAtEpochMs": 1794296762419,
+    "expiresAtEpochMs": 1796888762419,
     "minClient": 2,
     "contracts": [
         {
@@ -147,6 +147,7 @@
         {
             "id": "confetti/session",
             "major": 1,
+            "minor": 1,
             "title": "Session card",
             "inputs": {
                 "title": {
@@ -157,7 +158,7 @@
                 "speakers": {
                     "type": "string",
                     "maxLength": 80,
-                    "description": "names, comma separated"
+                    "description": "names, comma separated; for templates before minor 1, which read speakerList"
                 },
                 "room": {
                     "type": "string",
@@ -181,12 +182,42 @@
                     "default": false
                 }
             },
+            "lists": {
+                "speakerList": {
+                    "item": {
+                        "name": {
+                            "type": "string",
+                            "required": true,
+                            "maxLength": 40
+                        },
+                        "id": {
+                            "type": "string",
+                            "required": true,
+                            "maxLength": 64,
+                            "description": "what openSpeaker sends back"
+                        }
+                    },
+                    "max": 4,
+                    "description": "the speakers, in billing order",
+                    "since": 1
+                }
+            },
             "actions": {
                 "open": {
                     "kind": "app:open-session"
                 },
                 "bookmark": {
                     "kind": "app:toggle-bookmark"
+                },
+                "openSpeaker": {
+                    "kind": "app:open-speaker",
+                    "args": {
+                        "id": {
+                            "type": "string",
+                            "required": true
+                        }
+                    },
+                    "since": 1
                 }
             },
             "examples": {
@@ -197,7 +228,17 @@
                     "time": "10:30 – 11:10",
                     "tag": "compose",
                     "live": true,
-                    "bookmarked": true
+                    "bookmarked": true,
+                    "speakerList": [
+                        {
+                            "name": "Jane Doe",
+                            "id": "speaker-1"
+                        },
+                        {
+                            "name": "John Smith",
+                            "id": "speaker-2"
+                        }
+                    ]
                 },
                 "kotlinconf": {
                     "title": "What's new in Kotlin 2.4",
@@ -206,14 +247,38 @@
                     "time": "09:00 – 09:45",
                     "tag": "language",
                     "live": true,
-                    "bookmarked": false
+                    "bookmarked": false,
+                    "speakerList": [
+                        {
+                            "name": "Alex Kotlin",
+                            "id": "speaker-1"
+                        }
+                    ]
                 },
                 "long": {
                     "title": "A very long session title that keeps going to check how the card wraps at two lines and then ellipsizes the rest",
                     "speakers": "Speaker One, Speaker Two, Speaker Three, Speaker Four",
                     "room": "Room with a long name",
                     "time": "10:30 – 11:10",
-                    "tag": "multiplatform"
+                    "tag": "multiplatform",
+                    "speakerList": [
+                        {
+                            "name": "A speaker name at forty characters long",
+                            "id": "speaker-1"
+                        },
+                        {
+                            "name": "Speaker Two",
+                            "id": "speaker-2"
+                        },
+                        {
+                            "name": "Speaker Three",
+                            "id": "speaker-3"
+                        },
+                        {
+                            "name": "Speaker Four",
+                            "id": "speaker-4"
+                        }
+                    ]
                 }
             }
         },
@@ -390,8 +455,8 @@
             ]
         },
         {
-            "sha256": "179915189abaabbc2fc2f654ee0dcac19bd6ad8a0c55f5340c3d5b9574fce7d1",
-            "bytes": 2724,
+            "sha256": "a350d8a5d03c45f0190f4af1c5c3b45c3fe7047f2816fbfa368ef93f6d7dca30",
+            "bytes": 3813,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {
@@ -417,11 +482,21 @@
                 "live",
                 "room",
                 "title",
-                "speakers",
+                "speakerList.count",
+                "speakerList.0.id",
+                "speakerList.0.name",
+                "speakerList.1.id",
+                "speakerList.1.name",
+                "speakerList.2.id",
+                "speakerList.2.name",
+                "speakerList.3.id",
+                "speakerList.3.name",
                 "tag"
             ],
+            "requiresMinor": 1,
             "emits": [
                 "open",
+                "openSpeaker",
                 "bookmark"
             ],
             "assets": [

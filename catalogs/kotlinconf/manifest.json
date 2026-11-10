@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-kotlinconf",
-    "serial": 1794268665161,
-    "generatedAtEpochMs": 1794268665161,
-    "expiresAtEpochMs": 1796860665161,
+    "serial": 1794296704726,
+    "generatedAtEpochMs": 1794296704726,
+    "expiresAtEpochMs": 1796888704726,
     "minClient": 8,
     "contracts": [
         {
@@ -147,6 +147,7 @@
         {
             "id": "confetti/session",
             "major": 1,
+            "minor": 1,
             "title": "Session card",
             "inputs": {
                 "title": {
@@ -157,7 +158,7 @@
                 "speakers": {
                     "type": "string",
                     "maxLength": 80,
-                    "description": "names, comma separated"
+                    "description": "names, comma separated; for templates before minor 1, which read speakerList"
                 },
                 "room": {
                     "type": "string",
@@ -181,12 +182,42 @@
                     "default": false
                 }
             },
+            "lists": {
+                "speakerList": {
+                    "item": {
+                        "name": {
+                            "type": "string",
+                            "required": true,
+                            "maxLength": 40
+                        },
+                        "id": {
+                            "type": "string",
+                            "required": true,
+                            "maxLength": 64,
+                            "description": "what openSpeaker sends back"
+                        }
+                    },
+                    "max": 4,
+                    "description": "the speakers, in billing order",
+                    "since": 1
+                }
+            },
             "actions": {
                 "open": {
                     "kind": "app:open-session"
                 },
                 "bookmark": {
                     "kind": "app:toggle-bookmark"
+                },
+                "openSpeaker": {
+                    "kind": "app:open-speaker",
+                    "args": {
+                        "id": {
+                            "type": "string",
+                            "required": true
+                        }
+                    },
+                    "since": 1
                 }
             },
             "examples": {
@@ -197,7 +228,17 @@
                     "time": "10:30 – 11:10",
                     "tag": "compose",
                     "live": true,
-                    "bookmarked": true
+                    "bookmarked": true,
+                    "speakerList": [
+                        {
+                            "name": "Jane Doe",
+                            "id": "speaker-1"
+                        },
+                        {
+                            "name": "John Smith",
+                            "id": "speaker-2"
+                        }
+                    ]
                 },
                 "kotlinconf": {
                     "title": "What's new in Kotlin 2.4",
@@ -206,14 +247,38 @@
                     "time": "09:00 – 09:45",
                     "tag": "language",
                     "live": true,
-                    "bookmarked": false
+                    "bookmarked": false,
+                    "speakerList": [
+                        {
+                            "name": "Alex Kotlin",
+                            "id": "speaker-1"
+                        }
+                    ]
                 },
                 "long": {
                     "title": "A very long session title that keeps going to check how the card wraps at two lines and then ellipsizes the rest",
                     "speakers": "Speaker One, Speaker Two, Speaker Three, Speaker Four",
                     "room": "Room with a long name",
                     "time": "10:30 – 11:10",
-                    "tag": "multiplatform"
+                    "tag": "multiplatform",
+                    "speakerList": [
+                        {
+                            "name": "A speaker name at forty characters long",
+                            "id": "speaker-1"
+                        },
+                        {
+                            "name": "Speaker Two",
+                            "id": "speaker-2"
+                        },
+                        {
+                            "name": "Speaker Three",
+                            "id": "speaker-3"
+                        },
+                        {
+                            "name": "Speaker Four",
+                            "id": "speaker-4"
+                        }
+                    ]
                 }
             }
         },
@@ -519,8 +584,8 @@
             ]
         },
         {
-            "sha256": "0780560a3725bb5be529069af03b27b48011bdf8035030d5ba27f6d849c09afb",
-            "bytes": 2777,
+            "sha256": "dc792b905282443562c374ec1bc72932136fab5e9caf786f2ba2fdbf223361e3",
+            "bytes": 3866,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {
@@ -546,11 +611,21 @@
                 "live",
                 "room",
                 "title",
-                "speakers",
+                "speakerList.count",
+                "speakerList.0.id",
+                "speakerList.0.name",
+                "speakerList.1.id",
+                "speakerList.1.name",
+                "speakerList.2.id",
+                "speakerList.2.name",
+                "speakerList.3.id",
+                "speakerList.3.name",
                 "tag"
             ],
+            "requiresMinor": 1,
             "emits": [
                 "open",
+                "openSpeaker",
                 "bookmark"
             ],
             "assets": [
@@ -646,8 +721,8 @@
             ]
         },
         {
-            "sha256": "d5e77507303edc20e793e32217bf53557e5856a3b3e53b55570119971f8b84ab",
-            "bytes": 3018,
+            "sha256": "1836cca581eaf5c9d580bb52115f54af92355ca87606bec9fcdd1e5041b47de7",
+            "bytes": 4137,
             "designId": "kotlinconf-session-keynote",
             "contract": "confetti/session@1",
             "target": {
@@ -672,11 +747,21 @@
                 "live",
                 "time",
                 "title",
-                "speakers",
+                "speakerList.count",
+                "speakerList.0.id",
+                "speakerList.0.name",
+                "speakerList.1.id",
+                "speakerList.1.name",
+                "speakerList.2.id",
+                "speakerList.2.name",
+                "speakerList.3.id",
+                "speakerList.3.name",
                 "room"
             ],
+            "requiresMinor": 1,
             "emits": [
                 "open",
+                "openSpeaker",
                 "bookmark"
             ],
             "assets": [
@@ -690,8 +775,8 @@
             ]
         },
         {
-            "sha256": "991fc48368f3874e2684de7b5cbf350c9df290843d6ff0672c617de10a3b3c03",
-            "bytes": 2858,
+            "sha256": "4d546a6e277294685dd381b4dbec9213a7347a7eaa372252f7dd218cd11e26ca",
+            "bytes": 3947,
             "designId": "kotlinconf-session-lightning",
             "contract": "confetti/session@1",
             "target": {
@@ -717,11 +802,21 @@
                 "live",
                 "room",
                 "title",
-                "speakers",
+                "speakerList.count",
+                "speakerList.0.id",
+                "speakerList.0.name",
+                "speakerList.1.id",
+                "speakerList.1.name",
+                "speakerList.2.id",
+                "speakerList.2.name",
+                "speakerList.3.id",
+                "speakerList.3.name",
                 "tag"
             ],
+            "requiresMinor": 1,
             "emits": [
                 "open",
+                "openSpeaker",
                 "bookmark"
             ],
             "assets": [

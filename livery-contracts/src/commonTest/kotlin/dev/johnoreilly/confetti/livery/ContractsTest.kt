@@ -31,6 +31,26 @@ class ContractsTest {
         assertTrue("\"url\"" in tickets, tickets)
     }
 
+    @Test fun contractJsonDeclaresListsAndWhenTheyCame() {
+        val json = SessionContract.toJson()
+        assertEquals(1, json["minor"].toString().toInt())
+        val list = json["lists"].toString()
+        assertTrue("\"speakerList\"" in list && "\"max\":4" in list && "\"since\":1" in list, list)
+        val action = json["actions"].toString()
+        assertTrue("\"openSpeaker\":{\"kind\":\"app:open-speaker\",\"args\":{\"id\"" in action, action)
+        assertEquals("speakerList.2.name", SessionContract.speakerList.valueName(2, SessionContract.speakerName))
+        assertFailsWith<IllegalArgumentException> { SessionContract.speakerList.valueName(4, SessionContract.speakerName) }
+    }
+
+    @Test fun listItemsTakeOnlyTheirOwnFields() {
+        assertFailsWith<IllegalArgumentException> {
+            SessionContract.data(mapOf(SessionContract.speakerList to listOf(mapOf(SessionContract.title to "x"))))
+        }
+        assertFailsWith<IllegalArgumentException> {
+            SessionContract.data(mapOf(SessionContract.speakerList to List(5) { mapOf(SessionContract.speakerName to "n", SessionContract.speakerId to "i") }))
+        }
+    }
+
     @Test fun themePackNamesTheMode() {
         assertEquals("droidcon-dark", ConferenceSeries.themePack("droidcon", dark = true))
     }

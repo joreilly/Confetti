@@ -22,14 +22,14 @@ import kotlinx.serialization.json.JsonObject
 sealed interface ContractData {
     val contract: ConfettiContract
 
-    /** The values keyed by the contract's own inputs, already fitted. */
-    fun values(): Map<Input, Any>
+    /** The values keyed by the contract's own inputs and lists, already fitted. */
+    fun values(): Map<Field, Any>
 
     /** The JSON a slot binds: exactly what a template sees. */
     fun toJson(): JsonObject = contract.data(values())
 }
 
-private fun MutableMap<Input, Any>.putText(input: Input, value: String?) {
+private fun MutableMap<Field, Any>.putText(input: Input, value: String?) {
     value?.takeIf { it.isNotBlank() }?.let { put(input, input.fit(it)) }
 }
 
@@ -44,7 +44,7 @@ data class ConferenceCard(
 ) : ContractData {
     override val contract get() = ConferenceContract
 
-    override fun values(): Map<Input, Any> = buildMap {
+    override fun values(): Map<Field, Any> = buildMap {
         val c = ConferenceContract
         put(c.name, c.name.fit(name))
         put(c.dates, c.dates.fit(dates))
@@ -56,6 +56,9 @@ data class ConferenceCard(
     }
 }
 
+/** A speaker of a [SessionCard]: what the card shows, and what tapping them sends back. */
+data class SessionSpeaker(val id: String, val name: String)
+
 /** `confetti/session@1`. */
 data class SessionCard(
     val title: String,
@@ -65,13 +68,21 @@ data class SessionCard(
     val tag: String? = null,
     val live: Boolean = false,
     val bookmarked: Boolean = false,
+    /** Each its own tap target in a design (`openSpeaker`); [speakers] stays for older templates. */
+    val speakerList: List<SessionSpeaker> = emptyList(),
 ) : ContractData {
     override val contract get() = SessionContract
 
-    override fun values(): Map<Input, Any> = buildMap {
+    override fun values(): Map<Field, Any> = buildMap {
         val c = SessionContract
         put(c.title, c.title.fit(title))
         putText(c.speakers, speakers)
+        // Ids are never trimmed (a cut id opens nobody); a speaker whose id doesn't fit is left out.
+        speakerList.filter { it.name.isNotBlank() && it.id.length <= (c.speakerId.maxLength ?: Int.MAX_VALUE) }
+            .take(c.speakerList.max)
+            .map { mapOf(c.speakerName to c.speakerName.fit(it.name), c.speakerId to it.id) }
+            .takeIf { it.isNotEmpty() }
+            ?.let { put(c.speakerList, it) }
         putText(c.room, room)
         putText(c.time, time)
         putText(c.tag, tag)
@@ -90,7 +101,7 @@ data class SpeakerCard(
 ) : ContractData {
     override val contract get() = SpeakerContract
 
-    override fun values(): Map<Input, Any> = buildMap {
+    override fun values(): Map<Field, Any> = buildMap {
         val c = SpeakerContract
         put(c.name, c.name.fit(name))
         putText(c.tagline, tagline)

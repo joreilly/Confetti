@@ -67,6 +67,7 @@ fun SessionsUI(
                     onNavigateToSignIn = component::onSignInClicked,
                     onTrackSelectionChanged = component::onTrackSelectionChanged,
                     isLoggedIn = component.isLoggedIn,
+                    speakerSelected = component::onSpeakerClicked,
                 )
             }
         }

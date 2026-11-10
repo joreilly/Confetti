@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.livery
 
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -21,15 +22,52 @@ import kotlinx.serialization.json.putJsonObject
 
 enum class InputType(val wire: String) { String("string"), Bool("bool"), Color("color"), Image("image"), Int("int") }
 
+/** A key of a contract's dataset: an [Input] or a [ListSpec]. */
+sealed interface Field {
+    val name: kotlin.String
+}
+
 class Input(
-    val name: kotlin.String,
+    override val name: kotlin.String,
     val type: InputType,
     val required: Boolean = false,
     val maxLength: kotlin.Int? = null,
     val default: JsonElement? = null,
     val description: kotlin.String? = null,
     val since: kotlin.Int = 0,
-)
+) : Field
+
+/**
+ * A list of items, each with the same [item] fields (PROTOCOL §4.1): bound as `<name>.count` and
+ * `<name>.<i>.<field>` for `i` from 0, at most [max] long. A template unrolls it, one row per index
+ * it draws, each shown while its index is below the count. Its value in a dataset is a
+ * `List<Map<Input, Any>>` keyed by [item]'s inputs.
+ */
+class ListSpec(
+    override val name: kotlin.String,
+    val max: kotlin.Int,
+    val description: kotlin.String? = null,
+    val since: kotlin.Int = 0,
+) : Field {
+    private val _item = linkedMapOf<kotlin.String, Input>()
+    val item: Map<kotlin.String, Input> get() = _item
+
+    fun string(name: kotlin.String, required: Boolean = false, maxLength: kotlin.Int, description: kotlin.String? = null) =
+        Input(name, InputType.String, required, maxLength, description = description).also {
+            check(name !in _item) { "${this.name} declares $name twice" }
+            _item[name] = it
+        }
+
+    /** The value name a template reads for [field] of item [index]. */
+    fun valueName(index: kotlin.Int, field: Input): kotlin.String {
+        require(_item[field.name] === field) { "${field.name} is not a field of ${this.name}" }
+        require(index in 0 until max) { "${this.name} has at most $max items" }
+        return "${this.name}.$index.${field.name}"
+    }
+
+    /** The value name of the number of items bound. */
+    val countName: kotlin.String get() = "$name.count"
+}
 
 /**
  * [value] cut to fit this input's `maxLength`, for app data that isn't under our control (a long
@@ -62,8 +100,10 @@ abstract class ConfettiContract(
     val fileName: String,
 ) {
     private val _inputs = linkedMapOf<String, Input>()
+    private val _lists = linkedMapOf<String, ListSpec>()
     private val _actions = linkedMapOf<String, Action>()
     val inputs: Map<String, Input> get() = _inputs
+    val lists: Map<String, ListSpec> get() = _lists
     val actions: Map<String, Action> get() = _actions
     val ref: String get() = "$id@$major"
 
@@ -76,8 +116,19 @@ abstract class ConfettiContract(
     protected fun image(name: String, description: String? = null) =
         add(Input(name, InputType.Image, description = description))
 
-    protected fun action(name: String, kind: String, arg: String? = null, description: String? = null) =
-        Action(name, kind, arg, description).also { _actions[name] = it }
+    protected fun action(name: String, kind: String, arg: String? = null, description: String? = null, since: Int = 0) =
+        Action(name, kind, arg, description, since).also {
+            check(since in 0..minor) { "$id action $name: since $since is not in 0..$minor" }
+            _actions[name] = it
+        }
+
+    protected fun list(name: String, max: Int, description: String? = null, since: Int = 0, item: ListSpec.() -> Unit) =
+        ListSpec(name, max, description, since).apply(item).also {
+            check(it.name !in _inputs && it.name !in _lists) { "$id declares ${it.name} twice" }
+            check(since in 0..minor) { "$id list $name: since $since is not in 0..$minor" }
+            check(it.item.isNotEmpty()) { "$id list $name has no fields" }
+            _lists[it.name] = it
+        }
 
     private fun add(input: Input) = input.also {
         check(it.name !in _inputs) { "$id declares ${it.name} twice" }
@@ -85,7 +136,7 @@ abstract class ConfettiContract(
     }
 
     /** Example datasets: the picker's previews, the renders, and what an agent starts from. */
-    abstract val examples: Map<String, Map<Input, Any>>
+    abstract val examples: Map<String, Map<out Field, Any>>
 
     fun toJson(): JsonObject = buildJsonObject {
         put("id", id); put("major", major); put("minor", minor); put("title", displayName)
@@ -102,6 +153,25 @@ abstract class ConfettiContract(
                 }
             }
         }
+        if (lists.isNotEmpty()) putJsonObject("lists") {
+            lists.values.forEach { l ->
+                putJsonObject(l.name) {
+                    putJsonObject("item") {
+                        l.item.values.forEach { i ->
+                            putJsonObject(i.name) {
+                                put("type", i.type.wire)
+                                if (i.required) put("required", true)
+                                i.maxLength?.let { put("maxLength", it) }
+                                i.description?.let { put("description", it) }
+                            }
+                        }
+                    }
+                    put("max", l.max)
+                    l.description?.let { put("description", it) }
+                    if (l.since > 0) put("since", l.since)
+                }
+            }
+        }
         putJsonObject("actions") {
             actions.values.forEach { a ->
                 putJsonObject(a.name) {
@@ -115,17 +185,41 @@ abstract class ConfettiContract(
         putJsonObject("examples") { examples.forEach { (name, data) -> put(name, data(data)) } }
     }
 
-    /** A dataset for this contract, keyed by its own inputs: what the app sends and binds. */
-    fun data(values: Map<Input, Any>): JsonObject = buildJsonObject {
-        values.forEach { (input, value) ->
-            require(inputs[input.name] === input) { "${input.name} is not an input of $ref" }
-            put(input.name, when (value) {
-                is String -> JsonPrimitive(value)
-                is Boolean -> JsonPrimitive(value)
-                is Number -> JsonPrimitive(value)
-                else -> error("${input.name}: unsupported ${value::class}")
-            })
+    /**
+     * A dataset for this contract, keyed by its own inputs and lists: what the app sends and binds.
+     * A list's value is a `List<Map<Input, Any>>` keyed by its item's fields.
+     */
+    fun data(values: Map<out Field, Any>): JsonObject = buildJsonObject {
+        values.forEach { (field, value) ->
+            when (field) {
+                is Input -> {
+                    require(inputs[field.name] === field) { "${field.name} is not an input of $ref" }
+                    put(field.name, primitive(field, value))
+                }
+                is ListSpec -> {
+                    require(lists[field.name] === field) { "${field.name} is not a list of $ref" }
+                    val items = value as? List<*> ?: error("${field.name}: a list's value is a List, not ${value::class}")
+                    require(items.size <= field.max) { "${field.name}: ${items.size} items, at most ${field.max}" }
+                    put(field.name, JsonArray(items.map { item ->
+                        val fields = item as? Map<*, *> ?: error("${field.name}: an item is a Map, not $item")
+                        buildJsonObject {
+                            fields.forEach { (key, v) ->
+                                val input = key as? Input ?: error("${field.name}: an item is keyed by its fields")
+                                require(field.item[input.name] === input) { "${input.name} is not a field of ${field.name}" }
+                                put(input.name, primitive(input, requireNotNull(v)))
+                            }
+                        }
+                    }))
+                }
+            }
         }
+    }
+
+    private fun primitive(input: Input, value: Any): JsonPrimitive = when (value) {
+        is String -> JsonPrimitive(value)
+        is Boolean -> JsonPrimitive(value)
+        is Number -> JsonPrimitive(value)
+        else -> error("${input.name}: unsupported ${value::class}")
     }
 }
 
@@ -153,9 +247,9 @@ object ConferenceContract : ConfettiContract("confetti/conference", 1, 0, "Confe
 }
 
 /** One session: agenda rows, bookmarks, the "next up" widget and tile. */
-object SessionContract : ConfettiContract("confetti/session", 1, 0, "Session card", DataSource.App, "session") {
+object SessionContract : ConfettiContract("confetti/session", 1, 1, "Session card", DataSource.App, "session") {
     val title = string("title", required = true, maxLength = 120)
-    val speakers = string("speakers", maxLength = 80, description = "names, comma separated")
+    val speakers = string("speakers", maxLength = 80, description = "names, comma separated; for templates before minor 1, which read speakerList")
     val room = string("room", maxLength = 30)
     val time = string("time", maxLength = 20, description = "already formatted, e.g. 10:30 – 11:10")
     val tag = string("tag", maxLength = 24)
@@ -164,14 +258,32 @@ object SessionContract : ConfettiContract("confetti/session", 1, 0, "Session car
     val open = action("open", "app:open-session")
     val bookmark = action("bookmark", "app:toggle-bookmark")
 
+    /** The speakers, each its own tap target: a design unrolls up to [MAX_SPEAKERS] of them. */
+    val speakerList = list("speakerList", max = MAX_SPEAKERS, since = 1, description = "the speakers, in billing order") {
+        string("name", required = true, maxLength = 40)
+        string("id", required = true, maxLength = 64, description = "what openSpeaker sends back")
+    }
+    val speakerName = speakerList.item.getValue("name")
+    val speakerId = speakerList.item.getValue("id")
+
+    /** One speaker tapped: the item's `id`. */
+    val openSpeaker = action("openSpeaker", "app:open-speaker", arg = "id", since = 1)
+
+    const val MAX_SPEAKERS = 4
+
+    private fun people(vararg names: String) = names.mapIndexed { i, n -> mapOf(speakerName to n, speakerId to "speaker-${i + 1}") }
+
     override val examples get() = mapOf(
         "default" to mapOf(title to "Building adaptive apps with Compose", speakers to "Jane Doe, John Smith", room to "Hall 1",
-            time to "10:30 – 11:10", tag to "compose", live to true, bookmarked to true),
+            time to "10:30 – 11:10", tag to "compose", live to true, bookmarked to true,
+            speakerList to people("Jane Doe", "John Smith")),
         "kotlinconf" to mapOf(title to "What's new in Kotlin 2.4", speakers to "Alex Kotlin", room to "Auditorium",
-            time to "09:00 – 09:45", tag to "language", live to true, bookmarked to false),
+            time to "09:00 – 09:45", tag to "language", live to true, bookmarked to false,
+            speakerList to people("Alex Kotlin")),
         "long" to mapOf(title to "A very long session title that keeps going to check how the card wraps at two lines and then ellipsizes the rest",
             speakers to "Speaker One, Speaker Two, Speaker Three, Speaker Four", room to "Room with a long name",
-            time to "10:30 – 11:10", tag to "multiplatform"),
+            time to "10:30 – 11:10", tag to "multiplatform",
+            speakerList to people("A speaker name at forty characters long", "Speaker Two", "Speaker Three", "Speaker Four")),
     )
 }
 

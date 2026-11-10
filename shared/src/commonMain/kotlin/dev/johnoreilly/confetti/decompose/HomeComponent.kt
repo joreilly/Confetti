@@ -126,6 +126,7 @@ class DefaultHomeComponent(
                         onSessionSelected = onSessionSelected,
                         onSignIn = onSignIn,
                         persistTrackSelection = true,
+                        onSpeakerSelected = onSpeakerSelected,
                     )
                 )
 

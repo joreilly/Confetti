@@ -121,14 +121,23 @@ enforced at every step. `Contracts.kt` is the source of truth:
    (`Input.fit`). An action the contract doesn't declare, or a URL outside the allowlist, is
    dropped.
 
-Contracts evolve per Livery's rules: within a major, only add optional inputs and actions.
+Contracts evolve per Livery's rules: within a major, only add optional inputs, lists and actions,
+with `since` set to the new minor.
 
 | Contract | Data from | Inputs | Actions |
 | --- | --- | --- | --- |
 | `confetti/conference@1` | app | name, dates, location, tagline, live, ticketsUrl | tickets (open-url) |
-| `confetti/session@1` | app | title, speakers, room, time, tag, live, bookmarked | open, bookmark |
+| `confetti/session@1` (minor 1) | app | title, speakers, room, time, tag, live, bookmarked; list `speakerList` (name, id; up to 4, since 1) | open, bookmark, openSpeaker (`id`, since 1) |
 | `confetti/speaker@1` | app | name, tagline, photo, sessions | open |
 | `confetti/promo@1` | decision | eyebrow, headline, body, cta, url | cta (open-url), dismiss |
+
+**Lists.** A list binds as `<list>.count` and `<list>.<i>.<field>` (Livery PROTOCOL §4.1). A design
+unrolls it: one row per index it draws, each shown while its index is below the count. The session
+designs do this for `speakerList` (`SpeakerLinks` in `Common.kt`): each name is its own tap target
+and sends `openSpeaker` with that speaker's `id`, so with two speakers, tapping the second opens
+the second. The app opens that speaker's page where the screen can (the agenda and search), and
+the session otherwise. `speakers` (the names as one string) stays for templates from before minor 1;
+a template that reads `speakerList` needs minor 1, so an app still on minor 0 is never given one.
 
 No contract lists colours. Theme roles (`theme.primary`, …, Livery's `ThemeRoles.MATERIAL3`) are
 built into Livery: a design reads them with `themeColor(ThemeRoles.PRIMARY, brand.primary)`, the

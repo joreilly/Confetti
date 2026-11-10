@@ -61,6 +61,7 @@ fun SessionListView(
     onNavigateToSignIn: () -> Unit,
     onTrackSelectionChanged: (Set<String>) -> Unit,
     isLoggedIn: Boolean,
+    speakerSelected: ((speakerId: String) -> Unit)? = null,
 ) {
     when (uiState) {
         SessionsUiState.Error -> ErrorView(onRefresh = onRefresh)
@@ -185,6 +186,7 @@ fun SessionListView(
                                         addBookmark = addBookmark,
                                         removeBookmark = removeBookmark,
                                         onNavigateToSignIn = onNavigateToSignIn,
+                                        speakerSelected = speakerSelected,
                                     )
                                     components.SessionCard(card)
                                     val isCurrentBreak = session.isBreak() || session.isService()

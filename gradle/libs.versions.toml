@@ -63,7 +63,7 @@ composeai-preview = "2.89.0"
 composeai-preview-annotations = "3.27.4"
 koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
-livery = "0.8.0"
+livery = "0.9.0"
 rc-players = "2.31.1"
 
 

@@ -193,7 +193,7 @@ private fun JsonElement.pretty() = json.encodeToString(JsonElement.serializer(),
  */
 fun main(args: Array<String>) {
     val source = File(args.getOrElse(0) { "livery/catalog/catalogs" })
-    val out = File(args.getOrElse(1) { "livery/catalog/build/livery/catalogs" })
+    val out = File(args.getOrElse(1) { "livery/catalog/build/livery/captured" })
     val renders = args.getOrNull(2)?.let(::File)
     for (brand in AllBrands) {
         val catalog = out.resolve(brand.series)

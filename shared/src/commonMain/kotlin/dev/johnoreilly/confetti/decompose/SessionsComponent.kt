@@ -66,6 +66,8 @@ interface SessionsComponent {
     fun onSearch(searchString: String)
     fun onTrackSelectionChanged(tracks: Set<String>)
     fun onSessionClicked(id: String)
+    /** A speaker tapped in a session card; nothing where the screen can't open one. */
+    fun onSpeakerClicked(id: String) {}
     fun onSessionSelectionChanged(id: String?)
     fun onSignInClicked()
 }
@@ -77,6 +79,7 @@ class DefaultSessionsComponent(
     private val onSessionSelected: (id: String) -> Unit,
     private val onSignIn: () -> Unit,
     persistTrackSelection: Boolean = false,
+    private val onSpeakerSelected: (id: String) -> Unit = {},
 ) : SessionsComponent, KoinComponent, ComponentContext by componentContext {
     private val simpleComponent =
         SessionsSimpleComponent(
@@ -128,6 +131,10 @@ class DefaultSessionsComponent(
 
     override fun onSessionClicked(id: String) {
         onSessionSelected(id)
+    }
+
+    override fun onSpeakerClicked(id: String) {
+        onSpeakerSelected(id)
     }
 
     override fun onSessionSelectionChanged(id: String?) {

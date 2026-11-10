@@ -144,6 +144,7 @@ fun SearchView(
                             removeBookmark = removeBookmark,
                             onSignIn = onSignIn,
                             isLoggedIn = isLoggedIn,
+                            navigateToSpeaker = navigateToSpeaker,
                         )
                         speakerItems(
                             conference = conference,
@@ -194,6 +195,7 @@ private fun LazyListScope.sessionItems(
     removeBookmark: (sessionId: String) -> Unit,
     onSignIn: () -> Unit,
     isLoggedIn: Boolean,
+    navigateToSpeaker: (id: String) -> Unit,
 ) {
     // Shows header if and only if there are session results.
     if (sessions.isNotEmpty()) {
@@ -215,6 +217,7 @@ private fun LazyListScope.sessionItems(
                 addBookmark = addBookmark,
                 removeBookmark = removeBookmark,
                 onNavigateToSignIn = onSignIn,
+                speakerSelected = navigateToSpeaker,
             )
         )
         val isCurrentBreak = session.isBreak() || session.isService()

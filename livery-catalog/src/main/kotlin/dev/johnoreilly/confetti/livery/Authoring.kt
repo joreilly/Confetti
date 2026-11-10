@@ -6,9 +6,11 @@ import androidx.compose.remote.creation.compose.action.hostAction
 import androidx.compose.remote.creation.compose.state.RemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteImageBitmap
+import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.compose.state.rememberNamedRemoteBoolean
 import androidx.compose.remote.creation.compose.state.rememberNamedRemoteColor
+import androidx.compose.remote.creation.compose.state.rememberNamedRemoteInt
 import androidx.compose.remote.creation.compose.state.rememberNamedRemoteString
 import androidx.compose.remote.creation.compose.state.rememberRemoteImageBitmap
 import androidx.compose.remote.creation.compose.state.rs
@@ -37,6 +39,12 @@ class TemplateScope(val contract: ConfettiContract, val brand: ConferenceBrand? 
     fun read(input: Input) {
         check(contract.inputs[input.name] === input) { "${input.name} is not an input of ${contract.ref}" }
         reads += input.name
+    }
+
+    /** A list's value ([ListSpec.countName], [ListSpec.valueName]), named under one of the contract's lists. */
+    fun readList(list: ListSpec, value: String) {
+        check(contract.lists[list.name] === list) { "${list.name} is not a list of ${contract.ref}" }
+        reads += value
     }
 
     /** A theme role ([ThemeRoles]): Livery's, so no contract declares it, but it is still a read. */
@@ -84,6 +92,25 @@ fun inputBool(input: Input): RemoteBoolean {
 fun themeColor(role: String, initial: Color): RemoteColor {
     LocalTemplateScope.current.readTheme(role)
     return rememberNamedRemoteColor(role, initial)
+}
+
+/** How many items of [list] are bound (`<list>.count`, PROTOCOL §4.1); 0 until the host sets it. */
+@Composable
+fun listCount(list: ListSpec): RemoteInt {
+    LocalTemplateScope.current.readList(list, list.countName)
+    return rememberNamedRemoteInt(list.countName, 0)
+}
+
+/**
+ * A string [field] of item [index] of [list] (`<list>.<index>.<field>`). A design unrolls a list:
+ * one row per index it draws, each shown while `index < listCount(list)`.
+ */
+@Composable
+fun listText(list: ListSpec, index: Int, field: Input): RemoteString {
+    require(field.type == InputType.String) { "${field.name} is ${field.type}" }
+    val name = list.valueName(index, field)
+    LocalTemplateScope.current.readList(list, name)
+    return rememberNamedRemoteString(name, "")
 }
 
 /** An image input, drawn from `livery:value/<input>` (PROTOCOL §6.1); the client resolves it. */

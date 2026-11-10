@@ -159,6 +159,32 @@ class LiveryComponentsTest {
     }
 
     /**
+     * A design's speaker names are each their own tap target: tapping the second of two speakers
+     * opens that speaker (`openSpeaker` with its `id`), not the session and not the first speaker.
+     */
+    @Test fun tappingASpeakerInADesignOpensThatSpeaker() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        val speakers = mutableListOf<String>()
+        val sessions = mutableListOf<String>()
+        val card = card("droidconlondon2025").let {
+            SessionCardModel(
+                it.conference, it.session, it.now, false, true, null, emptyList(),
+                sessionSelected = { id -> sessions += id }, addBookmark = {}, removeBookmark = {}, onNavigateToSignIn = {},
+                speakerSelected = { id -> speakers += id },
+            )
+        }
+        compose.setContent { MaterialTheme(colorScheme = lightColorScheme()) { components.SessionCard(card) } }
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 1 }
+        val second = sessionDetails.speakers[1].sessionSpeakerDetails
+        val name = hasText(second.name) and hasAnyAncestor(liverySlot)
+        compose.waitUntil(10_000) { compose.onAllNodes(name).fetchSemanticsNodes().isNotEmpty() }
+        compose.onNode(name).performClick()
+        compose.waitUntil(10_000) { speakers.isNotEmpty() }
+        assertEquals(listOf(second.id), speakers)
+        assertEquals(emptyList<String>(), sessions)
+    }
+
+    /**
      * A slot Confetti draws nothing for (the header) never counts a native impression: native
      * impressions match the native rows on screen, whether or not the catalog has templates.
      */

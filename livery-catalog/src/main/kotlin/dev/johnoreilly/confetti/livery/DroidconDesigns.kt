@@ -113,7 +113,7 @@ fun DroidconSession() {
                 Label("@ ".rs + input(C.room), c.muted, size = 12, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
             }
             Label(input(C.title), c.onSurface, size = 17, weight = FontWeight.Bold, maxLines = 2)
-            Label(input(C.speakers), c.muted, size = 13, weight = FontWeight.Normal)
+            SpeakerLinks(c.muted, size = 13)
             Chip("#".rs + input(C.tag), c.tertiary.copy(alpha = 0.18f.rf), c.tertiary, corner = 4)
         }
         RemoteBox(

@@ -16,6 +16,7 @@ import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.livery.ConferenceCard
 import dev.johnoreilly.confetti.livery.ConferenceContract
 import dev.johnoreilly.confetti.livery.SessionCard
+import dev.johnoreilly.confetti.livery.SessionSpeaker
 import dev.johnoreilly.confetti.livery.SessionContract
 import dev.johnoreilly.confetti.livery.SpeakerCard
 import dev.johnoreilly.confetti.livery.SpeakerContract
@@ -53,6 +54,7 @@ fun SessionDetails.toSessionCard(now: LocalDateTime?, isBookmarked: Boolean) = S
     tag = tags.firstOrNull(),
     live = now != null && now >= startsAt && now < endsAt,
     bookmarked = isBookmarked,
+    speakerList = speakers.map { SessionSpeaker(id = it.sessionSpeakerDetails.id, name = it.sessionSpeakerDetails.name) },
 )
 
 /**
@@ -126,6 +128,12 @@ class LiveryComponents(
             actions = mapOf(
                 SessionContract.open to { _ -> card.sessionSelected(card.session.id) },
                 SessionContract.bookmark to { _ -> if (card.isLoggedIn) card.toggleBookmark() else askToSignIn = true },
+                // A speaker's name: their page where the screen can open one, else the session's.
+                SessionContract.openSpeaker to { args ->
+                    val id = args["id"]
+                    val open = card.speakerSelected
+                    if (id != null && open != null) open(id) else card.sessionSelected(card.session.id)
+                },
             ),
         ) { tracker -> native.SessionCard(card, tracker) }
         if (askToSignIn) {

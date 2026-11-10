@@ -105,7 +105,7 @@ fun KotlinConfKeynoteSession() {
                 Label(input(C.time), onBrand, size = 13, weight = FontWeight.SemiBold, modifier = RemoteModifier.weight(1f.rf))
             }
             Label(input(C.title), onBrand, size = 22, weight = FontWeight.Black, maxLines = 2)
-            Label(input(C.speakers), onBrand, size = 15, weight = FontWeight.SemiBold)
+            SpeakerLinks(onBrand, size = 15, weight = FontWeight.SemiBold)
             Label(input(C.room), onBrand, size = 13, weight = FontWeight.Medium)
         }
         RemoteBox(
@@ -224,7 +224,7 @@ fun KotlinConfSession(
                 Label(input(C.room), c.muted, size = 13, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
             }
             Label(input(C.title), c.onSurface, size = 18, weight = FontWeight.Bold, maxLines = 2)
-            Label(input(C.speakers), c.muted, size = 14, weight = FontWeight.Normal)
+            SpeakerLinks(c.muted, size = 14)
             Label(input(C.tag), c.secondary, size = 12, weight = FontWeight.SemiBold)
         }
         RemoteBox(

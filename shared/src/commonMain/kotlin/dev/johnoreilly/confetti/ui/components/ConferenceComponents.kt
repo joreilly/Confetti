@@ -73,6 +73,8 @@ class SessionCardModel(
     val addBookmark: (String) -> Unit,
     val removeBookmark: (String) -> Unit,
     val onNavigateToSignIn: () -> Unit,
+    /** Opens a speaker's page by id, where the screen can (a design's speaker names); null where it can't. */
+    val speakerSelected: ((String) -> Unit)? = null,
 ) {
     /** The bookmark star: sign in first, then add or remove. */
     fun toggleBookmark() = when {

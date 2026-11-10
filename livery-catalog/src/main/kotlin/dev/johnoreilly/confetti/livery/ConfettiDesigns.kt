@@ -108,7 +108,7 @@ fun ConfettiSession() {
                 Label(text { room }, c.muted, size = 12, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
             }
             Label(text { title }, c.onSurface, size = 16, weight = FontWeight.SemiBold, maxLines = 2)
-            Label(text { speakers }, c.muted, size = 13, weight = FontWeight.Normal)
+            SpeakerLinks(c.muted, size = 13)
             Chip(text { tag }, c.tertiary.copy(alpha = 0.15f.rf), c.tertiary, corner = 8)
         }
         RemoteBox(

@@ -1,7 +1,9 @@
 package dev.johnoreilly.confetti.livery
 
 import ee.schimke.livery.protocol.ThemeRoles
+import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.shaders.RemoteBrush
 import androidx.compose.remote.creation.compose.shaders.radialGradient
@@ -12,6 +14,7 @@ import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.alpha
 import androidx.compose.remote.creation.compose.modifier.background
+import androidx.compose.remote.creation.compose.modifier.clickable
 import androidx.compose.remote.creation.compose.modifier.clip
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.visibility
@@ -118,6 +121,31 @@ fun Label(
         overflow = TextOverflow.Ellipsis,
         maxLines = maxLines,
     )
+}
+
+/**
+ * A session's speakers, each its own tap target: `openSpeaker` with that speaker's `id`, so tapping
+ * one of two speakers opens that one (the card's own tap still opens the session). Unrolled up to
+ * the contract's `speakerList.max`, each name shown while its index is below the bound count, with
+ * ", " between them. A row too narrow for every name ellipsizes the last one it reaches.
+ */
+@Composable
+fun SpeakerLinks(color: RemoteColor, size: Int = 13, weight: FontWeight = FontWeight.Normal, modifier: RemoteModifier = RemoteModifier) {
+    val list = SessionContract.speakerList
+    val count = listCount(list)
+    RemoteRow(modifier = modifier, verticalAlignment = RemoteAlignment.CenterVertically) {
+        for (i in 0 until list.max) {
+            val shown = RemoteModifier.visibility(count.isGreaterThan(i.ri).visibleIf())
+            // A trailing space is trimmed from a text, a no-break space isn't: the gap after "," is
+            // then the font's own space, as wide in a monospaced brand font as in any other.
+            if (i > 0) Label(",\u00A0".rs, color, size = size, weight = weight, modifier = shown)
+            val id = listText(list, i, SessionContract.speakerId)
+            Label(
+                listText(list, i, SessionContract.speakerName), color, size = size, weight = weight,
+                modifier = shown.clickable(emit(SessionContract.openSpeaker, id)),
+            )
+        }
+    }
 }
 
 /** A pill that only shows while [live] is true, breathing on the player's clock. */

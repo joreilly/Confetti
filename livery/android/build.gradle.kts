@@ -83,18 +83,18 @@ dependencies {
 }
 
 // Each series catalog (confetti, the base, and any conference's), generated from the Kotlin designs
-// at build time by :livery:catalog:generateLiveryCatalog and built and checked like
+// at build time by :livery:catalog:captureLiveryCatalog and built and checked like
 // `livery build --inspect` into this module's assets at livery/<series>/, where
 // AndroidBundled.fromAssets(context, "livery/<series>") reads it back. The bundled copy has serial 0,
 // so a catalog the app downloads (the livery-templates branch) always replaces it.
 val liveryCatalogs = rootProject.layout.projectDirectory.dir("livery/catalog/catalogs").asFile
     .listFiles { f -> f.isDirectory }.orEmpty().map { it.name }.sorted()
-val generatedLiveryCatalogs = rootProject.layout.projectDirectory.dir("livery/catalog/build/livery/catalogs")
+val generatedLiveryCatalogs = rootProject.layout.projectDirectory.dir("livery/catalog/build/livery/captured")
 val liveryCatalogTasks = liveryCatalogs.map { series ->
     tasks.register<ee.schimke.livery.gradle.BuildLiveryCatalog>("buildLiveryCatalog${series.replaceFirstChar { it.uppercase() }}") {
         group = "build"
         description = "Builds the $series Livery catalog into generated assets"
-        dependsOn(":livery:catalog:generateLiveryCatalog")
+        dependsOn(":livery:catalog:captureLiveryCatalog")
         source.set(generatedLiveryCatalogs.dir(series))
         assetsPath.set("livery/$series")
         inspect.set(true)

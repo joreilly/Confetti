@@ -10,7 +10,7 @@ tonal Material cards), which every conference without designs of its own draws; 
 a gradient that drifts on the player's clock).
 
 **The source is always Kotlin.** Every design is a `@RemoteComposable` function in
-`livery/catalog/src/main`; a `.rc` document is build output (`build/livery/catalogs/`, and the
+`livery/catalog/src/main`; a `.rc` document is build output (`build/livery/captured/`, and the
 APK's bundled catalogs) or lives on the `livery-templates` branch the workflow publishes. Neither
 `.rc` files nor renders are committed: a design change in a pull request is a Kotlin diff, and its
 pictures are the preview renders (below, from the `livery-templates` branch).
@@ -74,7 +74,7 @@ livery/contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, 
         │                     remote-creation-compose), captured to .rc on the JVM at build time
         │       └── catalogs/<series>/  each series' hand-edited data only: themes, placements,
         │                     experiments, fonts. The build adds the captured designs and
-        │                     contracts in build/livery/catalogs/<series>/, what `livery build`
+        │                     contracts in build/livery/captured/<series>/, what `livery build`
         │                     publishes to the livery-templates branch
         │
         ├── shared/ui/components  ConferenceComponents: what the screens draw a conference's
@@ -91,7 +91,7 @@ livery/contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, 
 ```
 
 ```bash
-./gradlew :livery:catalog:generateLiveryCatalog   # capture designs -> build/livery/catalogs/<series>/ (cached)
+./gradlew :livery:catalog:captureLiveryCatalog    # capture designs -> build/livery/captured/<series>/ (cached)
 ./gradlew :livery:catalog:renderLiveryCatalog     # preview renders -> build/livery/renders/
 ./gradlew :livery:catalog:test                    # contract checks on the generated catalogs
 ./gradlew :livery:catalog:buildLiveryChannels     # livery build --inspect per series -> build/livery-channels/
@@ -178,8 +178,8 @@ conference admin would be:
    header say Berlin and use the blue from the venue"). The app sends it with the slot's
    design id, contract and current data to an agent session.
 2. The agent works on the generated catalog through `livery-mcp` (`livery-mcp
-   livery/catalog/build/livery/catalogs/droidcon --preview-out …`, after
-   `:livery:catalog:generateLiveryCatalog`): `get_contract` for what it may use; data-only changes
+   livery/catalog/build/livery/captured/droidcon --preview-out …`, after
+   `:livery:catalog:captureLiveryCatalog`): `get_contract` for what it may use; data-only changes
    (copy, a theme pack's colours, a placement's schedule) are edits to the hand-edited JSON in
    `catalogs/droidcon/`, checked by `validate_data`; a layout change edits the design's Kotlin and
    is re-captured. `render_preview` shows the result. Either way the change it proposes is source:

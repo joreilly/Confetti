@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 // (themes/, placements/, experiments/, fonts/).
 //
 //   ./gradlew :livery:catalog:test                     captures every template and checks it plays
-//   ./gradlew :livery:catalog:generateLiveryCatalog    each series' catalog into build/livery/catalogs/<series>/
+//   ./gradlew :livery:catalog:captureLiveryCatalog     each series' catalog into build/livery/captured/<series>/
 //   ./gradlew :livery:catalog:renderLiveryCatalog      the previews into build/livery/renders/
 //   ./gradlew :livery:catalog:buildLiveryChannels      `livery build --inspect` of each series into
 //                                                     build/livery-channels/<series>/, what the
@@ -18,6 +18,7 @@ plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.livery.catalog)
 }
 
 kotlin {
@@ -53,23 +54,19 @@ dependencies {
 }
 
 // One catalog per conference series: catalogs/confetti (the base), and one per conference. Only the
-// hand-edited data is here; the generated catalogs are in build/livery/catalogs.
+// hand-edited data is here. Livery's plugin captures the designs (captureLiveryCatalog: GenerateCatalog's
+// main, cached on this module's code and the hand-edited data) into build/livery/captured/<series>.
 val catalogsDir = layout.projectDirectory.dir("catalogs")
-val generatedCatalogsDir = layout.buildDirectory.dir("livery/catalogs")
 
-val generateLiveryCatalog = tasks.register<JavaExec>("generateLiveryCatalog") {
-    group = "livery"
-    description = "Captures every Confetti design to .rc, with each series' data, into build/livery/catalogs/<series>/."
-    classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("dev.johnoreilly.confetti.livery.GenerateCatalogKt")
-    // Locals, not the script's vals: the configuration cache can't serialize script references.
-    val source = catalogsDir.asFile.absolutePath
-    val out = generatedCatalogsDir
-    inputs.dir(catalogsDir)
-    outputs.dir(out)
-    outputs.cacheIf { true }
-    argumentProviders.add(CommandLineArgumentProvider { listOf(source, out.get().asFile.absolutePath) })
+livery {
+    source.set(catalogsDir)
+    capture { mainClass.set("dev.johnoreilly.confetti.livery.GenerateCatalogKt") }
 }
+val capturedCatalogsDir = livery.capture.outputDir
+
+// The plugin's own buildLiveryCatalog builds one catalog; this module captures one per series, which
+// buildLiveryChannels here and :livery:android's buildLiveryCatalog<Series> build.
+tasks.named("buildLiveryCatalog") { enabled = false }
 
 tasks.register<JavaExec>("renderLiveryCatalog") {
     group = "livery"
@@ -110,9 +107,9 @@ catalogsDir.asFile.listFiles { f -> f.isDirectory }.orEmpty().map { it.name }.so
         group = "livery"
         classpath = liveryCli
         mainClass.set("ee.schimke.livery.publisher.MainKt")
-        val src = generatedCatalogsDir.map { it.dir(series) }
+        val src = capturedCatalogsDir.map { it.dir(series) }
         val out = channelsDir.map { it.dir(series) }
-        dependsOn(generateLiveryCatalog)
+        dependsOn("captureLiveryCatalog")
         inputs.dir(src)
         outputs.dir(out)
         // --serial: the commit time when CI passes it, so a rebuild of the same commit is the same

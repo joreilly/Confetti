@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
  * The contract is enforced at three points: Kotlin types (designs and the app use Contracts.kt),
  * capture (a template can only read and emit what its contract declares), and here: each series'
  * generated catalog holds its own designs and passes the checks the Livery publisher can't make.
- * The catalogs are build output (`:livery:catalog:generateLiveryCatalog`), never committed.
+ * The catalogs are build output (`:livery:catalog:captureLiveryCatalog`), never committed.
  */
 class CatalogTest {
     private val root = File("catalogs")

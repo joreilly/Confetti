@@ -153,3 +153,10 @@ data class BreakCard(
         put(c.live, live)
     }
 }
+
+/** `confetti/title@1`. */
+data class TitleCard(val title: String) : ContractData {
+    override val contract get() = TitleContract
+
+    override fun values(): Map<Field, Any> = mapOf(TitleContract.title to TitleContract.title.fit(title))
+}

@@ -21,6 +21,7 @@ import dev.johnoreilly.confetti.livery.SessionSpeaker
 import dev.johnoreilly.confetti.livery.SessionContract
 import dev.johnoreilly.confetti.livery.SpeakerCard
 import dev.johnoreilly.confetti.livery.SpeakerContract
+import dev.johnoreilly.confetti.livery.TitleCard
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import dev.johnoreilly.confetti.livery.TrackedNativeComponents
 import dev.johnoreilly.confetti.ui.components.SessionCardModel
@@ -162,6 +163,15 @@ class LiveryComponents(
             SignInDialog(onDismissRequest = { askToSignIn = false }, onSignInClicked = card.onNavigateToSignIn)
         }
     }
+
+    /** The top bar's title, as the conference's title design draws it; Material's where it has none. */
+    @Composable
+    override fun TopBarTitle(conference: String, title: String) = ConferenceSlot(
+        styling = styling,
+        conference = conference,
+        data = TitleCard(title),
+        identity = title,
+    ) { _ -> native.TopBarTitle(conference, title) }
 
     @Composable
     override fun SpeakerCard(card: SpeakerCardModel) = SpeakerCardSlot(

@@ -1,5 +1,9 @@
 package dev.johnoreilly.confetti.ui.components
 
+import androidx.compose.material3.Text
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,6 +61,13 @@ interface ConferenceComponents {
     /** A promotion at [placement], when [hasPromo]. */
     @Composable
     fun Promo(placement: String, conference: String, modifier: Modifier)
+
+    /**
+     * The top bar's title on [conference]'s screens: its name on the agenda, a tab's name
+     * elsewhere. Drawn in the bar's title slot, in its text style.
+     */
+    @Composable
+    fun TopBarTitle(conference: String, title: String)
 }
 
 /** What a session card needs, whoever draws it: the talk, its state and the list's callbacks. */
@@ -128,6 +139,10 @@ open class NativeComponents : ConferenceComponents {
 
     @Composable
     override fun Promo(placement: String, conference: String, modifier: Modifier) {}
+
+    @Composable
+    override fun TopBarTitle(conference: String, title: String) =
+        Text(modifier = Modifier.padding(horizontal = 8.dp), maxLines = 2, textAlign = TextAlign.Center, text = title)
 }
 
 /**

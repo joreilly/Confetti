@@ -201,6 +201,15 @@ class LiveryComponentsTest {
         assertEquals(listOf("kotlinconf-break", "confetti-break"), tags)
     }
 
+    /** The top bar's title draws its conference's title design, with the text it was given. */
+    @Test fun theTopBarTitleDrawsTheConferencesTitleDesign() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        compose.setContent { MaterialTheme(colorScheme = lightColorScheme()) { components.TopBarTitle("droidconlondon2025", "droidcon London 2025") } }
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 1 }
+        assertEquals("droidcon-title", compose.onAllNodes(liverySlot).fetchSemanticsNodes().single().config[SemanticsProperties.TestTag].substringAfterLast(':'))
+        compose.waitUntil(10_000) { compose.onAllNodes(hasText("droidcon London 2025") and hasAnyAncestor(liverySlot)).fetchSemanticsNodes().isNotEmpty() }
+    }
+
     /**
      * A slot Confetti draws nothing for (the header) never counts a native impression: native
      * impressions match the native rows on screen, whether or not the catalog has templates.

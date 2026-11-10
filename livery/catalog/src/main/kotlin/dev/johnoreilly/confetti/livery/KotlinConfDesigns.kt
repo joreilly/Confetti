@@ -48,6 +48,7 @@ val KotlinConfDesigns: List<DesignDef> = designs(
     speaker = { KotlinConfSpeaker() },
     promo = { KotlinConfPromo() },
     breakRow = { KotlinConfBreak() },
+    topBarTitle = { KotlinConfTitle() },
     // Poppins' tall line height: at the contracts' limits (their `long` examples) a two-line name,
     // title, tagline or body needs the room for the row below it (location, tag, sessions, CTA).
     headerHeightDp = 290,
@@ -369,6 +370,18 @@ fun KotlinConfBreak() {
                 LivePill(inputBool(C.live), c.secondary, c.onPrimary, text = "Now")
                 Label(input(C.time) + "  ·  ".rs + input(C.room), c.muted, size = 13, weight = FontWeight.Normal, modifier = RemoteModifier.weight(1f.rf))
             }
+        }
+    }
+}
+
+/** The top bar's title, KotlinConf-style: bold Poppins over a short bar of the Kotlin gradient. */
+@Composable
+fun KotlinConfTitle() {
+    val c = brandColors(KotlinConf)
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
+        RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally, verticalArrangement = RemoteArrangement.spacedBy(3.rdp)) {
+            Label(input(TitleContract.title), c.onSurface, size = 20)
+            RemoteBox(modifier = RemoteModifier.size(44.rdp, 3.rdp).clip(RemoteRoundedCornerShape(2.rdp)).background(kotlinGradient(c, drift = false))) {}
         }
     }
 }

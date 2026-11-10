@@ -37,6 +37,9 @@ internal const val IN_APP = """{ "surface": "in-app", "rcApiLevel": 7, "profiles
 private const val LAUNCHER = """{ "surface": "launcher-widget", "rcApiLevel": 7, "profiles": ["widgets"], "size": { "minWidthDp": 110, "maxWidthDp": 400, "minHeightDp": 80, "maxHeightDp": 400 } }"""
 private const val WEAR_LARGE = """{ "surface": "wear-widget", "rcApiLevel": 7, "profiles": ["glance-wear"], "container": "wear:large", "theme": "baked:dark" }"""
 
+/** The top bar's title: in the app, narrower than a card (between the bar's buttons). */
+internal const val IN_APP_BAR = """{ "surface": "in-app", "rcApiLevel": 7, "profiles": ["androidx"], "size": { "minWidthDp": 120 } }"""
+
 private fun inApp(heightDp: Int, content: @Composable () -> Unit) = TemplateDef("in-app", IN_APP, 360, heightDp, content = content)
 private fun launcher(content: @Composable () -> Unit) = TemplateDef("launcher", LAUNCHER, 250, 120, content = content)
 private fun wear(content: @Composable () -> Unit) = TemplateDef("wear-large", WEAR_LARGE, 200, 112, content = content)
@@ -59,6 +62,8 @@ fun designs(
     /** An agenda break (`confetti/break@1`); without one, the app draws Confetti's own row. */
     breakRow: (@Composable () -> Unit)? = null,
     breakHeightDp: Int = 76,
+    /** The top bar's title (`confetti/title@1`); without one, the app draws Material's. */
+    topBarTitle: (@Composable () -> Unit)? = null,
 ) = listOfNotNull(
     DesignDef("${brand.series}-header", ConferenceContract, brand, "$title header", example, listOf(inApp(headerHeightDp, header))),
     DesignDef("${brand.series}-session", SessionContract, brand, "$title session", example,
@@ -66,6 +71,7 @@ fun designs(
     DesignDef("${brand.series}-speaker", SpeakerContract, brand, "$title speaker", example, listOf(inApp(speakerHeightDp, speaker))),
     DesignDef("${brand.series}-promo", PromoContract, brand, "$title promotion", example, listOf(inApp(promoHeightDp, promo)), install = "OnDemand"),
     breakRow?.let { DesignDef("${brand.series}-break", BreakContract, brand, "$title break", example, listOf(inApp(breakHeightDp, it))) },
+    topBarTitle?.let { DesignDef("${brand.series}-title", TitleContract, brand, "$title title", example, listOf(TemplateDef("in-app", IN_APP_BAR, 280, 48, content = it))) },
 )
 
 /** Every design in every catalog. Each conference's designs join in their own PR. */

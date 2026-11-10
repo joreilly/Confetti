@@ -346,7 +346,18 @@ object BreakContract : ConfettiContract("confetti/break", 1, 0, "Agenda break", 
     )
 }
 
-val AllContracts: List<ConfettiContract> = listOf(ConferenceContract, SessionContract, SpeakerContract, PromoContract, BreakContract)
+/** The top bar's title on a conference's screens: the conference's name on its agenda, a tab's name elsewhere. */
+object TitleContract : ConfettiContract("confetti/title", 1, 0, "Top bar title", DataSource.App, "title") {
+    val title = string("title", required = true, maxLength = 40)
+
+    override val examples get() = mapOf(
+        "default" to mapOf(title to "droidcon London 2026"),
+        "kotlinconf" to mapOf(title to "KotlinConf 2026"),
+        "long" to mapOf(title to "A conference name that is forty chars xx"),
+    )
+}
+
+val AllContracts: List<ConfettiContract> = listOf(ConferenceContract, SessionContract, SpeakerContract, PromoContract, BreakContract, TitleContract)
 
 /**
  * Which design family a conference is drawn in: the `series` tag every design carries, and what

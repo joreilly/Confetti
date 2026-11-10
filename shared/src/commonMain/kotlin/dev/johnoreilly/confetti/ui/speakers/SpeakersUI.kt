@@ -36,8 +36,11 @@ fun SpeakersUI(
 ) {
     val uiState by component.uiState.subscribeAsState()
 
+    val title = stringResource(Res.string.speakers)
+    val conference = (uiState as? SpeakersUiState.Success)?.conference
     HomeScaffold(
-        title = stringResource(Res.string.speakers),
+        title = title,
+        titleContent = conference?.let { { components.TopBarTitle(it, title) } },
         windowSizeClass = windowSizeClass,
         topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,

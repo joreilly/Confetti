@@ -13,6 +13,7 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.isBreak
 import dev.johnoreilly.confetti.isService
+import dev.johnoreilly.confetti.livery.BreakCard
 import dev.johnoreilly.confetti.livery.ConferenceCard
 import dev.johnoreilly.confetti.livery.ConferenceContract
 import dev.johnoreilly.confetti.livery.SessionCard
@@ -55,6 +56,19 @@ fun SessionDetails.toSessionCard(now: LocalDateTime?, isBookmarked: Boolean) = S
     live = now != null && now >= startsAt && now < endsAt,
     bookmarked = isBookmarked,
     speakerList = speakers.map { SessionSpeaker(id = it.sessionSpeakerDetails.id, name = it.sessionSpeakerDetails.name) },
+)
+
+/**
+ * A break in the agenda (coffee, registration, the party) as `confetti/break@1`: ☕ for a break,
+ * 🎉 for a party or reception (by its title, as Confetti's own row decides), ⓘ for the rest.
+ */
+fun SessionDetails.toBreakCard(now: LocalDateTime?) = BreakCard(
+    title = title,
+    room = room?.name,
+    time = "${startsAt.sessionTimeFormat()} – ${endsAt.sessionTimeFormat()}",
+    coffee = isBreak(),
+    social = !isBreak() && (title.contains("party", ignoreCase = true) || title.contains("reception", ignoreCase = true)),
+    live = now != null && now >= startsAt && now < endsAt,
 )
 
 /**
@@ -115,8 +129,16 @@ class LiveryComponents(
 
     @Composable
     override fun SessionCard(card: SessionCardModel) {
-        // Breaks are the agenda's own: Confetti's row, never a design, and never counted.
-        if (card.session.isBreak() || card.session.isService()) return native.SessionCard(card, SlotTracker.None)
+        // A break has a design of its own (confetti/break@1), with Confetti's row where the
+        // conference's catalog has none.
+        if (card.session.isBreak() || card.session.isService()) {
+            return ConferenceSlot(
+                styling = styling,
+                conference = card.conference,
+                data = card.session.toBreakCard(card.now),
+                identity = card.session.id,
+            ) { tracker -> native.SessionCard(card, tracker) }
+        }
         // Signed out, the star asks first, as Confetti's own row does.
         var askToSignIn by remember { mutableStateOf(false) }
         ConferenceSlot(

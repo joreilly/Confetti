@@ -184,6 +184,23 @@ class LiveryComponentsTest {
         assertEquals(emptyList<String>(), sessions)
     }
 
+    /** A break draws its conference's break design, and the base catalog's where the conference has none. */
+    @Test fun breaksDrawTheirConferencesBreakDesign() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        val coffee = sessionDetails.copy(id = "break-1", type = "break", title = "Coffee break", speakers = emptyList())
+        compose.setContent {
+            MaterialTheme(colorScheme = lightColorScheme()) {
+                Column {
+                    components.SessionCard(card("kotlinconf2026", coffee))
+                    components.SessionCard(card("fosdem2025", coffee))
+                }
+            }
+        }
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 2 }
+        val tags = compose.onAllNodes(liverySlot).fetchSemanticsNodes().map { it.config[SemanticsProperties.TestTag].substringAfterLast(':') }
+        assertEquals(listOf("kotlinconf-break", "confetti-break"), tags)
+    }
+
     /**
      * A slot Confetti draws nothing for (the header) never counts a native impression: native
      * impressions match the native rows on screen, whether or not the catalog has templates.

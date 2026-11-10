@@ -325,7 +325,28 @@ object PromoContract : ConfettiContract("confetti/promo", 1, 0, "Conference prom
     )
 }
 
-val AllContracts: List<ConfettiContract> = listOf(ConferenceContract, SessionContract, SpeakerContract, PromoContract)
+/**
+ * A break in the agenda: coffee, lunch, registration, the party. Not a talk, so nothing to open or
+ * bookmark: no actions, as Confetti's own row has none.
+ */
+object BreakContract : ConfettiContract("confetti/break", 1, 0, "Agenda break", DataSource.App, "break") {
+    val title = string("title", required = true, maxLength = 60)
+    val room = string("room", maxLength = 30)
+    val time = string("time", maxLength = 20, description = "already formatted, e.g. 10:30 – 11:10")
+    val coffee = bool("coffee", description = "a break between talks (coffee, lunch)")
+    val social = bool("social", description = "a party or reception; neither flag is an information item, e.g. registration")
+    val live = bool("live")
+
+    override val examples get() = mapOf(
+        "default" to mapOf(title to "Coffee break", room to "Foyer", time to "10:30 – 11:00", coffee to true, live to true),
+        "kotlinconf" to mapOf(title to "Break", room to "Keynote, Room 14", time to "10:00 – 10:15", coffee to true),
+        "social" to mapOf(title to "Conference party", room to "Main hall", time to "19:00 – 23:00", social to true),
+        "long" to mapOf(title to "Registration and badge pickup, with breakfast at the door xx",
+            room to "Room with a long name x", time to "07:30 – 09:00"),
+    )
+}
+
+val AllContracts: List<ConfettiContract> = listOf(ConferenceContract, SessionContract, SpeakerContract, PromoContract, BreakContract)
 
 /**
  * Which design family a conference is drawn in: the `series` tag every design carries, and what

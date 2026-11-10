@@ -130,6 +130,7 @@ with `since` set to the new minor.
 | `confetti/session@1` (minor 1) | app | title, speakers, room, time, tag, live, bookmarked; list `speakerList` (name, id; up to 4, since 1) | open, bookmark, openSpeaker (`id`, since 1) |
 | `confetti/speaker@1` | app | name, tagline, photo, sessions | open |
 | `confetti/promo@1` | decision | eyebrow, headline, body, cta, url | cta (open-url), dismiss |
+| `confetti/break@1` | app | title, room, time, coffee, social, live | none |
 
 **Lists.** A list binds as `<list>.count` and `<list>.<i>.<field>` (Livery PROTOCOL §4.1). A design
 unrolls it: one row per index it draws, each shown while its index is below the count. The session

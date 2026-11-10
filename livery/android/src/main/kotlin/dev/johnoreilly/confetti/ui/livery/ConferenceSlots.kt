@@ -30,7 +30,7 @@ import kotlinx.datetime.LocalDateTime
 import sessionTimeFormat
 
 /*
- * Confetti's data, copied onto the contracts' data classes (livery-contracts/ContractData.kt).
+ * Confetti's data, copied onto the contracts' data classes (livery/contracts/ContractData.kt).
  * These mappings are the only place the app's model (Apollo's fragments) meets a design, and the
  * native composables are handed a SlotTracker so both arms of the sdui experiment report taps
  * under the same contract action names.

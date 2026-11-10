@@ -236,7 +236,7 @@ dependencies {
     debugImplementation(libs.compose.ui.manifest)
     "sduiDebugImplementation"(libs.compose.ui.manifest)
     // Livery, only in the sduiDebug build type: no other variant ships it.
-    "sduiDebugImplementation"(projects.livery)
+    "sduiDebugImplementation"(project(":livery:android"))
 
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 }

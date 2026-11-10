@@ -89,7 +89,7 @@ fun render(captured: CapturedTemplate, data: JsonObject, theme: Bindings = Bindi
     )
 
 /** Where the catalogs live when run from the repository root or from this module (tests). */
-fun catalogsRoot(): File = listOf(File("catalogs"), File("livery-catalog/catalogs")).first { it.isDirectory }.absoluteFile
+fun catalogsRoot(): File = listOf(File("catalogs"), File("livery/catalog/catalogs")).first { it.isDirectory }.absoluteFile
 
 /**
  * The series catalogs' own font files (`catalogs/<series>/fonts/`), so renders draw the face a
@@ -192,8 +192,8 @@ private fun JsonElement.pretty() = json.encodeToString(JsonElement.serializer(),
  * Arguments: `<source> <out> [renders]`.
  */
 fun main(args: Array<String>) {
-    val source = File(args.getOrElse(0) { "livery-catalog/catalogs" })
-    val out = File(args.getOrElse(1) { "livery-catalog/build/livery/catalogs" })
+    val source = File(args.getOrElse(0) { "livery/catalog/catalogs" })
+    val out = File(args.getOrElse(1) { "livery/catalog/build/livery/catalogs" })
     val renders = args.getOrNull(2)?.let(::File)
     for (brand in AllBrands) {
         val catalog = out.resolve(brand.series)

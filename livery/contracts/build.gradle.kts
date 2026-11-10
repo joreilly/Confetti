@@ -1,5 +1,5 @@
 // The contracts between Confetti and its Livery designs (see Contracts.kt), shared by the
-// authoring side (:livery-catalog, which generates catalog/contracts/*.json from them) and every
+// authoring side (:livery:catalog, which generates catalog/contracts/*.json from them) and every
 // app that fills a slot (:shared, so Android, iOS, desktop and web build their data against the
 // same declarations).
 plugins {

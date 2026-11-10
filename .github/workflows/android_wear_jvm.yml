@@ -44,7 +44,7 @@ jobs:
         cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
     - name: Wear Unit Tests
-      run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest :livery:testDebugUnitTest
+      run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest :livery:android:testDebugUnitTest
 
     # Diagnostics for the intermittent "Gradle Test Executor 1 finished with non-zero exit value 1"
     # crash, which happens before any test reports a result and so leaves nothing in the log.
@@ -76,7 +76,7 @@ jobs:
     # :livery builds on its own like any library; sduiDebug is the one app variant that includes it.
     # A separate invocation: three apps' dex merges in one build ran the runner's 4 GB heap out.
     - name: Build sduiDebug
-      run: ./gradlew :livery:assembleDebug :androidApp:assembleSduiDebug
+      run: ./gradlew :livery:android:assembleDebug :androidApp:assembleSduiDebug
 
   # Launch the app on an emulator and run the Maestro flow shared with the iOS app
   maestro:

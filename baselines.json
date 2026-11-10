@@ -1572,7 +1572,7 @@
     "functionName": "ConferencesViewCuratedPreview",
     "module": "wearApp",
     "renderBasename": "ConferencesViewCuratedPreview_Devices_Large_Round-ae86db23.png",
-    "sha256": "ae7f5f24d155509d2168189f5bf2b2b73433ad5bf96df101e83053541c71f60c",
+    "sha256": "38c1345d0bfcfe80311115bcae53766c9939dc9fcfb11694ed8f027cec4dff2f",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewErrorPreview_Devices - Large Round": {
@@ -1644,7 +1644,7 @@
     "functionName": "ConferencesViewLongPreview",
     "module": "wearApp",
     "renderBasename": "ConferencesViewLongPreview_Devices_Large_Round-d9372525.png",
-    "sha256": "e2ec18498e4c9785a9bd1cd2cbda924d48f8a36f4bbef0cd2be67e8bc51fc1b8",
+    "sha256": "0e1c4df13d121f3ce0a78a5d24dd97ed4b23622e26bf5872d6c8f7e00daa8bbd",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/conferences/ConferencesView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.conferences.ConferencesViewKt.ConferencesViewPreview_Devices - Large Round": {
@@ -1844,7 +1844,7 @@
     "functionName": "SessionDetailViewPreview",
     "module": "wearApp",
     "renderBasename": "SessionDetailViewPreview_Devices_Large_Round-2d541005.png",
-    "sha256": "c79094b746d95174286abf83a83a24a9317f9b71db65cc2de09397ffba19e109",
+    "sha256": "61b876d7208d1f27eef588747313df220f53e8bcf6380f402ece76aedcf16b73",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessiondetails/SessionDetailsView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewKt.SessionDetailViewPreview_Devices - Large Round#1": {
@@ -1860,7 +1860,7 @@
     "functionName": "SessionDetailViewPreview",
     "module": "wearApp",
     "renderBasename": "SessionDetailViewPreview_Devices_Small_Round-2788b704.png",
-    "sha256": "ffd02c5300d903038280bf9a483e088b62d932d8097cfa930ac76d20c53f6ce6",
+    "sha256": "bd10b7f152240cc45a9aa22dab58ed4fb353eb9e093ee9e470a8d766e1210e3a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/sessiondetails/SessionDetailsView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsViewKt.SessionDetailViewPreview_Devices - Small Round#1": {
@@ -1948,7 +1948,7 @@
     "functionName": "SettingsListViewLongPreview",
     "module": "wearApp",
     "renderBasename": "SettingsListViewLongPreview_Devices_Large_Round-10efc2a2.png",
-    "sha256": "d34bed0c247047039f778c383fd77501334628cdcea753f8f4d1ad6e0bb43809",
+    "sha256": "7ce7c9be85aae3208597b37dc283005f1c7985875eb2476625ce15724549344a",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewLongPreview_Devices - Large Round#1": {
@@ -1956,7 +1956,7 @@
     "functionName": "SettingsListViewLongPreview",
     "module": "wearApp",
     "renderBasename": "SettingsListViewLongPreview_Devices_Large_Round-10efc2a2_SCROLL_long.png",
-    "sha256": "cefb51b465c6a7a170bd507d8ec96c674e1ecc9ab73758dcd014f371dffd171e",
+    "sha256": "093ba60eb8f40ac630bb86f70673eaa448204fde35db63ee800e5c5f11bc677e",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewLongPreview_Devices - Small Round": {
@@ -1964,7 +1964,7 @@
     "functionName": "SettingsListViewLongPreview",
     "module": "wearApp",
     "renderBasename": "SettingsListViewLongPreview_Devices_Small_Round-3819f245.png",
-    "sha256": "73b4307ecc818cedcac570d36f61973f9579044bf8d8f81f117893037bad6452",
+    "sha256": "b60293779983d64e0473aabc036d78972540959e3ea7e962bcbc18f98d9a229e",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewLongPreview_Devices - Small Round#1": {
@@ -1972,7 +1972,7 @@
     "functionName": "SettingsListViewLongPreview",
     "module": "wearApp",
     "renderBasename": "SettingsListViewLongPreview_Devices_Small_Round-3819f245_SCROLL_long.png",
-    "sha256": "b424a3555b705611253221fb939ceaf88f71148d17107ade464f4320190744af",
+    "sha256": "16cc28fdeba2679c21ecdb2a05ee40412164379579bfef1aa849ed58e7fb4db1",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/settings/SettingsListView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewPreview_Devices - Large Round": {
@@ -2044,7 +2044,7 @@
     "functionName": "SpeakerDetailsViewPreview",
     "module": "wearApp",
     "renderBasename": "SpeakerDetailsViewPreview_Devices_Large_Round-137728c3.png",
-    "sha256": "e774e455690cf9823af37dbe1511ed2b8661c2f4a7d084db3919a0c2310997dd",
+    "sha256": "1d7a2dc5484bffa7c98943366051181e6c3c008370f0088abf17bacb605adbbf",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/speakerdetails/SpeakerDetailsView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewKt.SpeakerDetailsViewPreview_Devices - Large Round#1": {
@@ -2060,7 +2060,7 @@
     "functionName": "SpeakerDetailsViewPreview",
     "module": "wearApp",
     "renderBasename": "SpeakerDetailsViewPreview_Devices_Small_Round-7bd1adb4.png",
-    "sha256": "6a15ebbb1e9a7093044f7036bef9c559aa6e8373a0f0ed95ddac05699b493b56",
+    "sha256": "fd8eebee6c098592b92dc241625dd3fa7182a731a0403d5be1d77616bb7d9283",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/wear/speakerdetails/SpeakerDetailsView.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.speakerdetails.SpeakerDetailsViewKt.SpeakerDetailsViewPreview_Devices - Small Round#1": {

@@ -623,18 +623,18 @@
     "sha256": "a8dfc12000a9d3e366b6fa4a98ca93cc42e362769c37d9938dd20bb7c420a28d",
     "sourceFile": null
   },
-  "livery/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryDroidconPreview_droidcon": {
+  "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryDroidconPreview_droidcon": {
     "captureLabel": "",
     "functionName": "LiveryDroidconPreview",
-    "module": "livery",
+    "module": "livery:android",
     "renderBasename": "LiveryDroidconPreview_droidcon-dea0f94d.png",
     "sha256": "c54f3388366fcd360e5e16d8d5611b135222ea3982161684ca7cb868b53fbfad",
     "sourceFile": "src/main/kotlin/dev/johnoreilly/confetti/ui/livery/LiveryPreviews.kt"
   },
-  "livery/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
+  "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
     "captureLabel": "",
     "functionName": "LiveryKotlinConfPreview",
-    "module": "livery",
+    "module": "livery:android",
     "renderBasename": "LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",
     "sha256": "c555b2d93ee1762bbe13fa085815f281e58097111c4bbd75625920aac7233024",
     "sourceFile": "src/main/kotlin/dev/johnoreilly/confetti/ui/livery/LiveryPreviews.kt"

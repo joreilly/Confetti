@@ -38,6 +38,7 @@ val DroidconDesigns: List<DesignDef> = designs(
     session = { DroidconSession() },
     speaker = { with(ContractScope(SpeakerContract, Droidcon)) { DroidconSpeaker() } },
     promo = { DroidconPromo() },
+    breakRow = { DroidconBreak() },
     // Space Mono is wide: the tagline wraps, and the tickets button needs the extra rows.
     headerHeightDp = 250,
     // At the contracts' limits: a two-line tagline pushes the speaker's sessions out at 110dp,
@@ -228,3 +229,31 @@ fun DroidconSessionWear() {
     }
 }
 
+
+/** An agenda break, droidcon-style: a muted rule down the left, the time in caps over the title. */
+@Composable
+fun DroidconBreak() {
+    val C = BreakContract
+    val c = brandColors(Droidcon)
+    RemoteRow(
+        modifier = RemoteModifier
+            .fillMaxWidth()
+            .clip(RemoteRoundedCornerShape(6.rdp))
+            .background(c.muted.copy(alpha = 0.5f.rf))
+            .padding(start = 4.rdp)
+            .background(c.surface)
+            .padding(horizontal = 14.rdp, vertical = 12.rdp),
+        verticalAlignment = RemoteAlignment.CenterVertically,
+        horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
+    ) {
+        BreakIcon(c.primary, size = 20)
+        RemoteColumn(modifier = RemoteModifier.weight(1f.rf), verticalArrangement = RemoteArrangement.spacedBy(2.rdp)) {
+            RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
+                Label(input(C.time), c.primary, size = 12)
+                LivePill(inputBool(C.live), c.primary, c.onPrimary)
+                Label("@ ".rs + input(C.room), c.muted, size = 12, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
+            }
+            Label(input(C.title), c.onSurface, size = 15, weight = FontWeight.Bold)
+        }
+    }
+}

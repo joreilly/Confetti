@@ -47,6 +47,7 @@ val KotlinConfDesigns: List<DesignDef> = designs(
     session = { KotlinConfSession() },
     speaker = { KotlinConfSpeaker() },
     promo = { KotlinConfPromo() },
+    breakRow = { KotlinConfBreak() },
     // Poppins' tall line height: at the contracts' limits (their `long` examples) a two-line name,
     // title, tagline or body needs the room for the row below it (location, tag, sessions, CTA).
     headerHeightDp = 290,
@@ -344,3 +345,30 @@ fun KotlinConfSessionWear() {
 }
 
 
+
+/** An agenda break, KotlinConf-style: a soft wash of the brand purple, the time as a pill. */
+@Composable
+fun KotlinConfBreak() {
+    val C = BreakContract
+    val c = brandColors(KotlinConf)
+    RemoteRow(
+        modifier = RemoteModifier
+            .fillMaxWidth()
+            .clip(RemoteRoundedCornerShape(24.rdp))
+            // The card's own surface first: the wash alone would leave the text on whatever is behind.
+            .background(c.surface)
+            .background(c.primary.copy(alpha = 0.14f.rf))
+            .padding(horizontal = 18.rdp, vertical = 12.rdp),
+        verticalAlignment = RemoteAlignment.CenterVertically,
+        horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
+    ) {
+        BreakIcon(c.primary, size = 20)
+        RemoteColumn(modifier = RemoteModifier.weight(1f.rf), verticalArrangement = RemoteArrangement.spacedBy(2.rdp)) {
+            Label(input(C.title), c.onSurface, size = 16, weight = FontWeight.SemiBold)
+            RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
+                LivePill(inputBool(C.live), c.secondary, c.onPrimary, text = "Now")
+                Label(input(C.time) + "  ·  ".rs + input(C.room), c.muted, size = 13, weight = FontWeight.Normal, modifier = RemoteModifier.weight(1f.rf))
+            }
+        }
+    }
+}

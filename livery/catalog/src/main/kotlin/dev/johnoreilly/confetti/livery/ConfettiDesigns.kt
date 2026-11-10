@@ -40,6 +40,7 @@ val ConfettiDesigns: List<DesignDef> = designs(
     session = { with(ContractScope(SessionContract, Confetti)) { ConfettiSession() } },
     speaker = { with(ContractScope(SpeakerContract, Confetti)) { ConfettiSpeaker() } },
     promo = { with(ContractScope(PromoContract, Confetti)) { ConfettiPromo() } },
+    breakRow = { ConfettiBreak() },
     // At the contracts' limits: a two-line name and tagline leave the tickets button no room at
     // 210dp, and a two-line headline and three-line body the promo's CTA none at 200dp.
     headerHeightDp = 250,
@@ -179,5 +180,34 @@ fun ConfettiPromo() {
                 .clickable(action({ ctaAction }, url))
                 .padding(horizontal = 16.rdp, vertical = 8.rdp),
         ) { Label(text { cta }, c.onPrimary, size = 13, weight = FontWeight.SemiBold) }
+    }
+}
+
+/** An agenda break, as Confetti draws it: a tonal row, the glyph in a circle, the time and room under the title. */
+@Composable
+fun ConfettiBreak() {
+    val C = BreakContract
+    val c = brandColors(Confetti)
+    RemoteRow(
+        modifier = RemoteModifier
+            .fillMaxWidth()
+            .clip(RemoteRoundedCornerShape(12.rdp))
+            .background(c.surface)
+            .padding(horizontal = 16.rdp, vertical = 12.rdp),
+        verticalAlignment = RemoteAlignment.CenterVertically,
+        horizontalArrangement = RemoteArrangement.spacedBy(14.rdp),
+    ) {
+        RemoteBox(
+            modifier = RemoteModifier.size(40.rdp, 40.rdp).clip(RemoteCircleShape).background(c.primary.copy(alpha = 0.12f.rf)),
+            contentAlignment = RemoteAlignment.Center,
+        ) { BreakIcon(c.primary) }
+        RemoteColumn(modifier = RemoteModifier.weight(1f.rf), verticalArrangement = RemoteArrangement.spacedBy(2.rdp)) {
+            Label(input(C.title), c.onSurface, size = 15, weight = FontWeight.SemiBold)
+            // The pill first, as in the session card: a pill after a weighted column overflows the row.
+            RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
+                LivePill(inputBool(C.live), c.secondary, c.onPrimary, text = "Now")
+                Label(input(C.time) + "  ·  ".rs + input(C.room), c.muted, size = 12, weight = FontWeight.Normal, modifier = RemoteModifier.weight(1f.rf))
+            }
+        }
     }
 }

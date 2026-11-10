@@ -56,12 +56,16 @@ fun designs(
     speakerHeightDp: Int = 110,
     promoHeightDp: Int = 200,
     sessionWidget: (@Composable () -> Unit)? = null, sessionWear: (@Composable () -> Unit)? = null,
-) = listOf(
+    /** An agenda break (`confetti/break@1`); without one, the app draws Confetti's own row. */
+    breakRow: (@Composable () -> Unit)? = null,
+    breakHeightDp: Int = 76,
+) = listOfNotNull(
     DesignDef("${brand.series}-header", ConferenceContract, brand, "$title header", example, listOf(inApp(headerHeightDp, header))),
     DesignDef("${brand.series}-session", SessionContract, brand, "$title session", example,
         listOfNotNull(inApp(sessionHeightDp, session), sessionWidget?.let(::launcher), sessionWear?.let(::wear))),
     DesignDef("${brand.series}-speaker", SpeakerContract, brand, "$title speaker", example, listOf(inApp(speakerHeightDp, speaker))),
     DesignDef("${brand.series}-promo", PromoContract, brand, "$title promotion", example, listOf(inApp(promoHeightDp, promo)), install = "OnDemand"),
+    breakRow?.let { DesignDef("${brand.series}-break", BreakContract, brand, "$title break", example, listOf(inApp(breakHeightDp, it))) },
 )
 
 /** Every design in every catalog. Each conference's designs join in their own PR. */

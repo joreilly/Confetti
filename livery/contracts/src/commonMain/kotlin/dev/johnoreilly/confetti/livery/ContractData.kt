@@ -131,3 +131,25 @@ object SduiExperiment {
     /** The design id native-arm events carry, so analytics can split taps by who drew them. */
     const val NATIVE_DESIGN = "native"
 }
+
+/** `confetti/break@1`. */
+data class BreakCard(
+    val title: String,
+    val room: String? = null,
+    val time: String? = null,
+    val coffee: Boolean = false,
+    val social: Boolean = false,
+    val live: Boolean = false,
+) : ContractData {
+    override val contract get() = BreakContract
+
+    override fun values(): Map<Field, Any> = buildMap {
+        val c = BreakContract
+        put(c.title, c.title.fit(title))
+        putText(c.room, room)
+        putText(c.time, time)
+        put(c.coffee, coffee)
+        put(c.social, social)
+        put(c.live, live)
+    }
+}

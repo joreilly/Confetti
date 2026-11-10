@@ -148,6 +148,13 @@ fun SpeakerLinks(color: RemoteColor, size: Int = 13, weight: FontWeight = FontWe
     }
 }
 
+/** A break's glyph: ☕ for a break between talks, 🎉 for a party, ⓘ for anything else (registration). */
+@Composable
+fun BreakIcon(color: RemoteColor, size: Int = 18) {
+    val c = BreakContract
+    Label(inputBool(c.coffee).select("☕".rs, inputBool(c.social).select("🎉".rs, "ⓘ".rs)), color, size = size, weight = FontWeight.Normal)
+}
+
 /** A pill that only shows while [live] is true, breathing on the player's clock. */
 @Composable
 fun LivePill(live: RemoteBoolean, background: RemoteColor, content: RemoteColor, text: String = "LIVE") {

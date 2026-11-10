@@ -136,13 +136,13 @@ fun SpeakerLinks(color: RemoteColor, size: Int = 13, weight: FontWeight = FontWe
     RemoteRow(modifier = modifier, verticalAlignment = RemoteAlignment.CenterVertically) {
         for (i in 0 until list.max) {
             val shown = RemoteModifier.visibility(count.isGreaterThan(i.ri).visibleIf())
-            // A text's trailing space is trimmed, so the gap after "," is the next name's padding.
-            if (i > 0) Label(",".rs, color, size = size, weight = weight, modifier = shown)
+            // A trailing space is trimmed from a text, a no-break space isn't: the gap after "," is
+            // then the font's own space, as wide in a monospaced brand font as in any other.
+            if (i > 0) Label(",\u00A0".rs, color, size = size, weight = weight, modifier = shown)
             val id = listText(list, i, SessionContract.speakerId)
             Label(
                 listText(list, i, SessionContract.speakerName), color, size = size, weight = weight,
-                modifier = shown.then(if (i > 0) RemoteModifier.padding(start = 4.rdp) else RemoteModifier)
-                    .clickable(emit(SessionContract.openSpeaker, id)),
+                modifier = shown.clickable(emit(SessionContract.openSpeaker, id)),
             )
         }
     }

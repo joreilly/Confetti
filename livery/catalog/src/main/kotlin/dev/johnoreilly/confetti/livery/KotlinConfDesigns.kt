@@ -379,7 +379,7 @@ fun KotlinConfBreak() {
 fun KotlinConfTitle() {
     val c = brandColors(KotlinConf)
     RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
-        RemoteColumn(horizontalAlignment = RemoteAlignment.CenterHorizontally, verticalArrangement = RemoteArrangement.spacedBy(3.rdp)) {
+        RemoteColumn(modifier = RemoteModifier.fillMaxWidth(), horizontalAlignment = RemoteAlignment.CenterHorizontally, verticalArrangement = RemoteArrangement.spacedBy(3.rdp)) {
             Label(input(TitleContract.title), c.onSurface, size = 20)
             RemoteBox(modifier = RemoteModifier.size(44.rdp, 3.rdp).clip(RemoteRoundedCornerShape(2.rdp)).background(kotlinGradient(c, drift = false))) {}
         }

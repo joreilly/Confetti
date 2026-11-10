@@ -119,9 +119,10 @@ include(":wearBenchmark")
 include(":compose-desktop")
 include(":compose-web")
 include(":proto")
-include(":livery")
-include(":livery-catalog")
-include(":livery-contracts")
+// Livery: the contracts, the designs that generate the catalogs, and the Android module the app uses.
+include(":livery:android")
+include(":livery:catalog")
+include(":livery:contracts")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     "This project needs to be run with Java 17 or higher (found: ${JavaVersion.current()})."

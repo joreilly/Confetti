@@ -10,7 +10,7 @@ tonal Material cards), which every conference without designs of its own draws; 
 a gradient that drifts on the player's clock).
 
 **The source is always Kotlin.** Every design is a `@RemoteComposable` function in
-`livery-catalog/src/main`; a `.rc` document is build output (`build/livery/catalogs/`, and the
+`livery/catalog/src/main`; a `.rc` document is build output (`build/livery/catalogs/`, and the
 APK's bundled catalogs) or lives on the `livery-templates` branch the workflow publishes. Neither
 `.rc` files nor renders are committed: a design change in a pull request is a Kotlin diff, and its
 pictures are the preview renders (below, from the `livery-templates` branch).
@@ -68,9 +68,9 @@ new capture, no app release, just values.
 ## How it fits together
 
 ```
-livery-contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, JVM, wasm)
+livery/contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, JVM, wasm)
         │  used by both sides
-        ├── livery-catalog/   designs as @RemoteComposable functions (rc-players' CMP fork of
+        ├── livery/catalog/   designs as @RemoteComposable functions (rc-players' CMP fork of
         │                     remote-creation-compose), captured to .rc on the JVM at build time
         │       └── catalogs/<series>/  each series' hand-edited data only: themes, placements,
         │                     experiments, fonts. The build adds the captured designs and
@@ -81,7 +81,7 @@ livery-contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, 
         │                     theme, header, session and speaker cards, section headers and promotions with
         │                     (a context parameter). Koin binds NativeComponents; no Livery
         │                     types: shared doesn't depend on Livery
-        └── livery/           (Android library, in the app only as sduiDebugImplementation)
+        └── livery/android/   (Android library, in the app only as sduiDebugImplementation)
                               LiveryComponents: contract-typed slots with the native row as the
                               fallback; Firebase Remote Config arms; the repositories (every
                               series catalog the build generates, bundled into its assets); Livery on the app's
@@ -91,12 +91,12 @@ livery-contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, 
 ```
 
 ```bash
-./gradlew :livery-catalog:generateLiveryCatalog   # capture designs -> build/livery/catalogs/<series>/ (cached)
-./gradlew :livery-catalog:renderLiveryCatalog     # preview renders -> build/livery/renders/
-./gradlew :livery-catalog:test                    # contract checks on the generated catalogs
-./gradlew :livery-catalog:buildLiveryChannels     # livery build --inspect per series -> build/livery-channels/
-./gradlew :livery-contracts:jvmTest
-./gradlew :livery:testDebugUnitTest                # slots, arms and fallbacks on Robolectric
+./gradlew :livery:catalog:generateLiveryCatalog   # capture designs -> build/livery/catalogs/<series>/ (cached)
+./gradlew :livery:catalog:renderLiveryCatalog     # preview renders -> build/livery/renders/
+./gradlew :livery:catalog:test                    # contract checks on the generated catalogs
+./gradlew :livery:catalog:buildLiveryChannels     # livery build --inspect per series -> build/livery-channels/
+./gradlew :livery:contracts:jvmTest
+./gradlew :livery:android:testDebugUnitTest       # slots, arms and fallbacks on Robolectric
 ```
 
 ## The contract
@@ -178,8 +178,8 @@ conference admin would be:
    header say Berlin and use the blue from the venue"). The app sends it with the slot's
    design id, contract and current data to an agent session.
 2. The agent works on the generated catalog through `livery-mcp` (`livery-mcp
-   livery-catalog/build/livery/catalogs/droidcon --preview-out …`, after
-   `:livery-catalog:generateLiveryCatalog`): `get_contract` for what it may use; data-only changes
+   livery/catalog/build/livery/catalogs/droidcon --preview-out …`, after
+   `:livery:catalog:generateLiveryCatalog`): `get_contract` for what it may use; data-only changes
    (copy, a theme pack's colours, a placement's schedule) are edits to the hand-edited JSON in
    `catalogs/droidcon/`, checked by `validate_data`; a layout change edits the design's Kotlin and
    is re-captured. `render_preview` shows the result. Either way the change it proposes is source:
@@ -393,7 +393,7 @@ Options weighed for getting Apollo's `SessionDetails` into a slot:
 - **`Map<Input, Any>` built at each call site** (0.2.0 branch). Type-safe keys, but not values or
   completeness. It's easy to forget an input or to skip `fit`.
 - **Copy into a data class per contract (chosen).** `SessionCard`, `SpeakerCard` and
-  `ConferenceCard` in `:livery-contracts` (`ContractData.kt`):
+  `ConferenceCard` in `:livery:contracts` (`ContractData.kt`):
   - one mapping function per model (`SessionDetails.toSessionCard`);
   - `values()` fits every string, drops blanks and refuses non-https images;
   - `ContractDataTest` fails when a contract gains an input its class doesn't fill.

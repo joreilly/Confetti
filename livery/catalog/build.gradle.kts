@@ -8,10 +8,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 // workflow publishes; it is never committed. catalogs/<series>/ holds only the hand-edited data
 // (themes/, placements/, experiments/, fonts/).
 //
-//   ./gradlew :livery-catalog:test                     captures every template and checks it plays
-//   ./gradlew :livery-catalog:generateLiveryCatalog    each series' catalog into build/livery/catalogs/<series>/
-//   ./gradlew :livery-catalog:renderLiveryCatalog      the previews into build/livery/renders/
-//   ./gradlew :livery-catalog:buildLiveryChannels      `livery build --inspect` of each series into
+//   ./gradlew :livery:catalog:test                     captures every template and checks it plays
+//   ./gradlew :livery:catalog:generateLiveryCatalog    each series' catalog into build/livery/catalogs/<series>/
+//   ./gradlew :livery:catalog:renderLiveryCatalog      the previews into build/livery/renders/
+//   ./gradlew :livery:catalog:buildLiveryChannels      `livery build --inspect` of each series into
 //                                                     build/livery-channels/<series>/, what the
 //                                                     livery-templates branch serves
 plugins {
@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.rc.remote.creation.compose)
     // Playing back (previews, tests): the Compose player and Livery's contract binding.
     implementation(libs.rc.player.compose)
-    implementation(projects.liveryContracts)
+    implementation(projects.livery.contracts)
     implementation(platform(libs.livery.bom))
     implementation(libs.livery.compose)
     implementation(libs.livery.render)

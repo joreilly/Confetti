@@ -1,6 +1,6 @@
 name: Livery templates
 
-# Each conference series' Livery catalog, generated from the Kotlin designs (livery-catalog/), checked on pull
+# Each conference series' Livery catalog, generated from the Kotlin designs (livery/catalog/), checked on pull
 # requests and published on main to the `livery-templates` branch as static channels:
 #
 #   https://raw.githubusercontent.com/<owner>/<repo>/livery-templates/catalogs/<series>/manifest.json
@@ -12,19 +12,19 @@ name: Livery templates
 on:
   pull_request:
     paths:
-      - 'livery-catalog/**'
+      - 'livery/catalog/**'
       - 'shared/src/commonMain/kotlin/dev/johnoreilly/confetti/ui/components/**'
       - 'livery/**'
-      - 'livery-contracts/**'
+      - 'livery/contracts/**'
       - 'gradle/libs.versions.toml'
       - '.github/workflows/livery-templates.yml'
   push:
     branches: [main]
     paths:
-      - 'livery-catalog/**'
+      - 'livery/catalog/**'
       - 'shared/src/commonMain/kotlin/dev/johnoreilly/confetti/ui/components/**'
       - 'livery/**'
-      - 'livery-contracts/**'
+      - 'livery/contracts/**'
       - 'gradle/libs.versions.toml'
       - '.github/workflows/livery-templates.yml'
   schedule:
@@ -58,31 +58,31 @@ jobs:
       # The contract checks, on the catalogs the Kotlin designs capture (never committed: build
       # output here, and the livery-templates branch once published).
       - name: Test
-        run: ./gradlew :livery-contracts:jvmTest :livery-catalog:test
+        run: ./gradlew :livery:contracts:jvmTest :livery:catalog:test
 
       # The :livery module with the bundled catalogs: each conference's designs (the base where
       # it has none), per-conference arms, and the native arm never building Livery.
       - name: Livery slots
-        run: ./gradlew :livery:testDebugUnitTest
+        run: ./gradlew :livery:android:testDebugUnitTest
 
       # `livery build --inspect` per series. The serial is the build time (Livery's default), so it
       # only grows, and the weekly republish's fresh expiry is a newer catalog to installed apps.
       - name: Build channels
-        run: ./gradlew :livery-catalog:buildLiveryChannels
+        run: ./gradlew :livery:catalog:buildLiveryChannels
 
       # Every design's previews, published beside the channels for the README and reviewers.
       - name: Render previews
-        run: ./gradlew :livery-catalog:renderLiveryCatalog
+        run: ./gradlew :livery:catalog:renderLiveryCatalog
 
       - uses: actions/upload-artifact@v7
         with:
           name: livery-channels
-          path: livery-catalog/build/livery-channels
+          path: livery/catalog/build/livery-channels
 
       - uses: actions/upload-artifact@v7
         with:
           name: livery-renders
-          path: livery-catalog/build/livery/renders
+          path: livery/catalog/build/livery/renders
 
   publish:
     needs: catalogs
@@ -129,7 +129,7 @@ jobs:
           Published by the Livery templates workflow from ${SOURCE_SHA}. One static catalog
           channel per conference series: \`catalogs/<series>/manifest.json\`, and every design's
           previews in \`renders/\`. Generated from the Kotlin designs; don't edit by hand: change
-          \`livery-catalog/\` on main.
+          \`livery/catalog/\` on main.
           EOF
           git -C site add -A
           if git -C site diff --cached --quiet; then

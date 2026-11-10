@@ -40,7 +40,8 @@ final class ConfettiTests: XCTestCase {
             user: nil,
             onSessionSelected: { _ in },
             onSignIn: {},
-            persistTrackSelection: false
+            persistTrackSelection: false,
+            onSpeakerSelected: { _ in }
         )
         
         let uiState = await awaitForState(viewModel.uiState) { $0 as? SessionsUiStateSuccess }

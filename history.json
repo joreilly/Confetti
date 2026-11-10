@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "23646d9bd5f7d6dae2115066c26e2a822eeabed9",
+    "generatedFrom": "cf5080268ca7d3fe07deb5aa856aa30e6b03cd0a",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -2943,54 +2943,33 @@
             "unstable": false,
             "flapCount": 1
         },
-        "livery/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryDroidconPreview_droidcon": {
-            "path": "renders/livery/LiveryDroidconPreview_droidcon-dea0f94d.png",
+        "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryDroidconPreview_droidcon": {
+            "path": "renders/livery:android/LiveryDroidconPreview_droidcon-dea0f94d.png",
             "versions": [
                 {
                     "blob": "8fd1d6de0887441f846a80a771e3b9607b726654",
-                    "commit": "87c4e80a0bec178eccc1adfcbe98b81329b5322e",
-                    "date": "2026-11-09T09:27:07Z",
-                    "sourceSha": "13ebb7b2",
-                    "commits": 1
-                },
-                {
-                    "blob": "39be68e906374342f90bd82c76f000eaf7c2a73d",
-                    "commit": "d400ebf6cc9eb103011ec3e2c95ff41d60eb2dc1",
-                    "date": "2026-11-08T17:45:51Z",
-                    "sourceSha": "8932c8de",
+                    "commit": "cf5080268ca7d3fe07deb5aa856aa30e6b03cd0a",
+                    "date": "2026-11-10T08:04:19Z",
+                    "sourceSha": "32c819e8",
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 1,
             "unstable": false,
             "flapCount": 0
         },
-        "livery/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
-            "path": "renders/livery/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",
+        "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
+            "path": "renders/livery:android/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",
             "versions": [
                 {
                     "blob": "e0e248d7180d7aa1737767cd8f93922337c1c554",
-                    "commit": "23646d9bd5f7d6dae2115066c26e2a822eeabed9",
-                    "date": "2026-11-09T23:02:28Z",
-                    "sourceSha": "5250cb10",
-                    "commits": 1
-                },
-                {
-                    "blob": "fddfb7400d8eec9b38d3686c42c499d2f05aaa01",
-                    "commit": "87c4e80a0bec178eccc1adfcbe98b81329b5322e",
-                    "date": "2026-11-09T09:27:07Z",
-                    "sourceSha": "13ebb7b2",
-                    "commits": 1
-                },
-                {
-                    "blob": "39be68e906374342f90bd82c76f000eaf7c2a73d",
-                    "commit": "d400ebf6cc9eb103011ec3e2c95ff41d60eb2dc1",
-                    "date": "2026-11-08T17:45:51Z",
-                    "sourceSha": "8932c8de",
+                    "commit": "cf5080268ca7d3fe07deb5aa856aa30e6b03cd0a",
+                    "date": "2026-11-10T08:04:19Z",
+                    "sourceSha": "32c819e8",
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 1,
             "unstable": false,
             "flapCount": 0
         },

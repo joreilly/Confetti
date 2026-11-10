@@ -60,7 +60,7 @@ screenshot = "0.0.1-alpha16"
 # annotations 3.x), so they need separate keys: a shared key made Renovate point the plugin
 # at an annotations-only version (3.17.1) that the plugin was never published as.
 composeai-preview = "2.89.0"
-composeai-preview-annotations = "3.27.3"
+composeai-preview-annotations = "3.27.4"
 koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
 livery = "0.8.0"

@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794298840796,
-    "generatedAtEpochMs": 1794298840796,
-    "expiresAtEpochMs": 1796890840796,
+    "serial": 1794301285585,
+    "generatedAtEpochMs": 1794301285585,
+    "expiresAtEpochMs": 1796893285585,
     "contracts": [
         {
             "id": "confetti/conference",

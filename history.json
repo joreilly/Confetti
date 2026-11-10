@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "cf5080268ca7d3fe07deb5aa856aa30e6b03cd0a",
+    "generatedFrom": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -6831,6 +6831,13 @@
             "path": "renders/wearApp/ConferencesViewCuratedPreview_Devices_Large_Round-ae86db23.png",
             "versions": [
                 {
+                    "blob": "355bbb1b0fdb4d540cd9004f5ba262eed59dad62",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
+                {
                     "blob": "01e653b0f29a145ff4a7a1e6cac21df385ce6c8b",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
                     "date": "2026-11-09T22:15:01Z",
@@ -6852,7 +6859,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 4,
             "unstable": false,
             "flapCount": 1
         },
@@ -7184,6 +7191,13 @@
             "path": "renders/wearApp/ConferencesViewLongPreview_Devices_Large_Round-d9372525.png",
             "versions": [
                 {
+                    "blob": "8b8a1044af9b0b48e0a256da47d9c0142b8cd460",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
+                {
                     "blob": "91c580593433ec55a1cf58dc4830d8c0550a53ca",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
                     "date": "2026-11-09T22:15:01Z",
@@ -7212,7 +7226,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 1
         },
@@ -8121,6 +8135,13 @@
             "path": "renders/wearApp/SessionDetailViewPreview_Devices_Large_Round-2d541005.png",
             "versions": [
                 {
+                    "blob": "156ae2b90a034f35c7f69ac26da0e2400aab58ec",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
+                {
                     "blob": "8367b7a69be744ceddbddae4fda7a45bc80fe23f",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
                     "date": "2026-11-09T22:15:01Z",
@@ -8156,7 +8177,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 5,
+            "observations": 6,
             "unstable": false,
             "flapCount": 1
         },
@@ -8179,6 +8200,13 @@
             "path": "renders/wearApp/SessionDetailViewPreview_Devices_Small_Round-2788b704.png",
             "versions": [
                 {
+                    "blob": "1028c606851c380d8671a3e25bd8a5b48659e4f9",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
+                {
                     "blob": "f2cb41d9adf5e71f1e51712ca3072994eae47126",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
                     "date": "2026-11-09T22:15:01Z",
@@ -8186,7 +8214,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
@@ -8563,6 +8591,13 @@
             "path": "renders/wearApp/SettingsListViewLongPreview_Devices_Large_Round-10efc2a2.png",
             "versions": [
                 {
+                    "blob": "08ea2dbfb14ba195ca5eff867cee42e028bdc86f",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
+                {
                     "blob": "643d09b6643daedba720a7c589bb3395d7afc482",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
                     "date": "2026-11-09T22:15:01Z",
@@ -8591,13 +8626,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 1
         },
         "wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewLongPreview_Devices - Large Round#1": {
             "path": "renders/wearApp/SettingsListViewLongPreview_Devices_Large_Round-10efc2a2_SCROLL_long.png",
             "versions": [
+                {
+                    "blob": "81331d050aa21f04bc9737af1386bb5c19827e8c",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
                 {
                     "blob": "62f0d6d00f74779eb9fdaf9626b8be183444bd7d",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
@@ -8606,13 +8648,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewLongPreview_Devices - Small Round": {
             "path": "renders/wearApp/SettingsListViewLongPreview_Devices_Small_Round-3819f245.png",
             "versions": [
+                {
+                    "blob": "df6dad8bbd123833a3354256785c74ae642db825",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
                 {
                     "blob": "3f59e64c8e0b9139714fe80717fb5b0fe11eb894",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
@@ -8621,13 +8670,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
         "wearApp/dev.johnoreilly.confetti.wear.settings.SettingsListViewKt.SettingsListViewLongPreview_Devices - Small Round#1": {
             "path": "renders/wearApp/SettingsListViewLongPreview_Devices_Small_Round-3819f245_SCROLL_long.png",
             "versions": [
+                {
+                    "blob": "18fb9e7a50dc46acbf776cbd9a23dbb3428396c3",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
                 {
                     "blob": "751270a21e50404051b32385a8df6934b53f57c4",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
@@ -8636,7 +8692,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },
@@ -8965,6 +9021,13 @@
             "path": "renders/wearApp/SpeakerDetailsViewPreview_Devices_Large_Round-137728c3.png",
             "versions": [
                 {
+                    "blob": "f8235252c8cbe3b79c930b1ec018d4481c9257c9",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
+                {
                     "blob": "8e1b866e6a770d17baded7cea227254de8a938d9",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
                     "date": "2026-11-09T22:15:01Z",
@@ -8993,7 +9056,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 4,
+            "observations": 5,
             "unstable": false,
             "flapCount": 1
         },
@@ -9016,6 +9079,13 @@
             "path": "renders/wearApp/SpeakerDetailsViewPreview_Devices_Small_Round-7bd1adb4.png",
             "versions": [
                 {
+                    "blob": "1ec4430789fa1040af9fabfe83f19fc5f708bc04",
+                    "commit": "91abcf0cd573ab78f7ad020c4555d98eeaa5418f",
+                    "date": "2026-11-10T08:26:51Z",
+                    "sourceSha": "44d53b3d",
+                    "commits": 1
+                },
+                {
                     "blob": "30c9e3db6074714058a50e6c70875c3aba7da2bb",
                     "commit": "2f96ac1e395b0eb613a0265b51039998eb08abf5",
                     "date": "2026-11-09T22:15:01Z",
@@ -9023,7 +9093,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },

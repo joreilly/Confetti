@@ -1,9 +1,70 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794349218038,
-    "generatedAtEpochMs": 1794349218038,
-    "expiresAtEpochMs": 1796941218038,
+    "serial": 1794354837479,
+    "generatedAtEpochMs": 1794354837479,
+    "expiresAtEpochMs": 1796946837479,
     "contracts": [
+        {
+            "id": "confetti/break",
+            "major": 1,
+            "title": "Agenda break",
+            "inputs": {
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 60
+                },
+                "room": {
+                    "type": "string",
+                    "maxLength": 30
+                },
+                "time": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "already formatted, e.g. 10:30 – 11:10"
+                },
+                "coffee": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "a break between talks (coffee, lunch)"
+                },
+                "social": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "a party or reception; neither flag is an information item, e.g. registration"
+                },
+                "live": {
+                    "type": "bool",
+                    "default": false
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "Coffee break",
+                    "room": "Foyer",
+                    "time": "10:30 – 11:00",
+                    "coffee": true,
+                    "live": true
+                },
+                "kotlinconf": {
+                    "title": "Break",
+                    "room": "Keynote, Room 14",
+                    "time": "10:00 – 10:15",
+                    "coffee": true
+                },
+                "social": {
+                    "title": "Conference party",
+                    "room": "Main hall",
+                    "time": "19:00 – 23:00",
+                    "social": true
+                },
+                "long": {
+                    "title": "Registration and badge pickup, with breakfast at the door xx",
+                    "room": "Room with a long name x",
+                    "time": "07:30 – 09:00"
+                }
+            }
+        },
         {
             "id": "confetti/conference",
             "major": 1,
@@ -331,6 +392,16 @@
     ],
     "designs": [
         {
+            "id": "confetti-break",
+            "contract": "confetti/break@1",
+            "title": "Confetti break",
+            "author": "confetti",
+            "tags": {
+                "series": "confetti"
+            },
+            "install": "Always"
+        },
+        {
             "id": "confetti-header",
             "contract": "confetti/conference@1",
             "title": "Confetti header",
@@ -371,6 +442,37 @@
         }
     ],
     "templates": [
+        {
+            "sha256": "35ef72413b66a70a0670f7d059db0171dd9d00ae45b52cf14faded42f598239c",
+            "bytes": 2212,
+            "designId": "confetti-break",
+            "contract": "confetti/break@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "coffee",
+                "social",
+                "title",
+                "live",
+                "time",
+                "room"
+            ]
+        },
         {
             "sha256": "4d10db4b2a5a8cad5e51ca96a18bd3efcb4aa04fd602555cbc19149227fc076b",
             "bytes": 3082,

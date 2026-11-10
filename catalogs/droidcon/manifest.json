@@ -1,10 +1,71 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794349218090,
-    "generatedAtEpochMs": 1794349218090,
-    "expiresAtEpochMs": 1796941218090,
+    "serial": 1794354837462,
+    "generatedAtEpochMs": 1794354837462,
+    "expiresAtEpochMs": 1796946837462,
     "minClient": 2,
     "contracts": [
+        {
+            "id": "confetti/break",
+            "major": 1,
+            "title": "Agenda break",
+            "inputs": {
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 60
+                },
+                "room": {
+                    "type": "string",
+                    "maxLength": 30
+                },
+                "time": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "already formatted, e.g. 10:30 – 11:10"
+                },
+                "coffee": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "a break between talks (coffee, lunch)"
+                },
+                "social": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "a party or reception; neither flag is an information item, e.g. registration"
+                },
+                "live": {
+                    "type": "bool",
+                    "default": false
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "Coffee break",
+                    "room": "Foyer",
+                    "time": "10:30 – 11:00",
+                    "coffee": true,
+                    "live": true
+                },
+                "kotlinconf": {
+                    "title": "Break",
+                    "room": "Keynote, Room 14",
+                    "time": "10:00 – 10:15",
+                    "coffee": true
+                },
+                "social": {
+                    "title": "Conference party",
+                    "room": "Main hall",
+                    "time": "19:00 – 23:00",
+                    "social": true
+                },
+                "long": {
+                    "title": "Registration and badge pickup, with breakfast at the door xx",
+                    "room": "Room with a long name x",
+                    "time": "07:30 – 09:00"
+                }
+            }
+        },
         {
             "id": "confetti/conference",
             "major": 1,
@@ -332,6 +393,16 @@
     ],
     "designs": [
         {
+            "id": "droidcon-break",
+            "contract": "confetti/break@1",
+            "title": "droidcon break",
+            "author": "confetti",
+            "tags": {
+                "series": "droidcon"
+            },
+            "install": "Always"
+        },
+        {
             "id": "droidcon-header",
             "contract": "confetti/conference@1",
             "title": "droidcon header",
@@ -372,6 +443,44 @@
         }
     ],
     "templates": [
+        {
+            "sha256": "8c6a086902775a548810cc0ef7cfc85e99038ae97125520dcd45aed149a2aed4",
+            "bytes": 2111,
+            "designId": "droidcon-break",
+            "contract": "confetti/break@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "coffee",
+                "social",
+                "time",
+                "live",
+                "room",
+                "title"
+            ],
+            "assets": [
+                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
+            ],
+            "fonts": [
+                "Space Mono"
+            ]
+        },
         {
             "sha256": "84ed4efe70e16ab97f4434000ddd7de891e3d9ce114aa3d7c57b7cf45da371de",
             "bytes": 2856,

@@ -47,7 +47,6 @@ import ee.schimke.livery.protocol.TemplateEvent
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.json.JsonObject
 
 /**
  * What a platform hands the shared UI to draw conference-styled slots. Absent (the default), every
@@ -249,18 +248,8 @@ fun ConferenceSlot(
         }
         draw(native)
     }) {
-        catalog.planFirst(catalog.queries(contract, specific), json, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
+        catalog.planner.forAppData(catalog.queries(contract, specific), json, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
     }
-}
-
-/**
- * Plans the first of [queries] that has a template: Livery's `SlotPlanner.forAppData(queries, …)`
- * (yschimke/livery#45), which does this in one pass over the catalog. Replace this with it once
- * Confetti is on a Livery release that has it.
- */
-private suspend fun LiveryStyling.SeriesCatalog.planFirst(queries: List<TemplateQuery>, data: JsonObject, extra: Bindings): PlanResult {
-    val query = queries.dropLast(1).firstOrNull { repository.resolve(it) != null } ?: queries.last()
-    return planner.forAppData(query, data, extra)
 }
 
 private fun nativeTracker(

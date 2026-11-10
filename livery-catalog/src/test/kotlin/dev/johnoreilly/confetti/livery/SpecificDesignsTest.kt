@@ -25,10 +25,13 @@ class SpecificDesignsTest {
     private fun query(tags: Map<String, String> = emptyMap()) =
         TemplateQuery(SessionContract.ref, inApp, widthDp = 360, tags = mapOf(ConferenceSeries.TAG to "kotlinconf") + tags)
 
-    /** The design a session card draws: the app's chain, through Livery's selector. */
+    /**
+     * The design a session card draws: the app's chain, through Livery's selector. `selectFirst` is
+     * the selection `SlotPlanner.forAppData(queries, …)` makes on the device.
+     */
     private fun design(id: String, tags: List<String>, type: String): String? {
         val specific = listOf(mapOf("session" to id)) + tags.map { mapOf("tag" to it) } + listOf(mapOf("type" to type))
-        return (specific.map(::query) + query()).firstNotNullOfOrNull { TemplateSelector.select(manifest, it) }?.designId
+        return TemplateSelector.selectFirst(manifest, specific.map(::query) + query())?.value?.designId
     }
 
     @Test fun theKeynoteDrawsTheDesignMadeForIt() {

@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794354837462,
-    "generatedAtEpochMs": 1794354837462,
-    "expiresAtEpochMs": 1796946837462,
+    "serial": 1794380998246,
+    "generatedAtEpochMs": 1794380998246,
+    "expiresAtEpochMs": 1796972998246,
     "minClient": 2,
     "contracts": [
         {
@@ -389,6 +389,29 @@
                     "sessions": "Twenty-char sessions"
                 }
             }
+        },
+        {
+            "id": "confetti/title",
+            "major": 1,
+            "title": "Top bar title",
+            "inputs": {
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 40
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "droidcon London 2026"
+                },
+                "kotlinconf": {
+                    "title": "KotlinConf 2026"
+                },
+                "long": {
+                    "title": "A conference name that is forty chars xx"
+                }
+            }
         }
     ],
     "designs": [
@@ -435,6 +458,16 @@
             "id": "droidcon-speaker",
             "contract": "confetti/speaker@1",
             "title": "droidcon speaker",
+            "author": "confetti",
+            "tags": {
+                "series": "droidcon"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "droidcon-title",
+            "contract": "confetti/title@1",
+            "title": "droidcon title",
             "author": "confetti",
             "tags": {
                 "series": "droidcon"
@@ -724,6 +757,39 @@
             ],
             "emits": [
                 "open"
+            ],
+            "assets": [
+                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
+            ],
+            "fonts": [
+                "Space Mono"
+            ]
+        },
+        {
+            "sha256": "d9566d2e55816aa66df1f96e4162df0b92b1cc693526767250710831e9315fae",
+            "bytes": 678,
+            "designId": "droidcon-title",
+            "contract": "confetti/title@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 120
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "title"
             ],
             "assets": [
                 "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",

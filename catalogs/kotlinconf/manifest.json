@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-kotlinconf",
-    "serial": 1794354800616,
-    "generatedAtEpochMs": 1794354800616,
-    "expiresAtEpochMs": 1796946800616,
+    "serial": 1794380928229,
+    "generatedAtEpochMs": 1794380928229,
+    "expiresAtEpochMs": 1796972928229,
     "minClient": 8,
     "contracts": [
         {
@@ -389,6 +389,29 @@
                     "sessions": "Twenty-char sessions"
                 }
             }
+        },
+        {
+            "id": "confetti/title",
+            "major": 1,
+            "title": "Top bar title",
+            "inputs": {
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 40
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "droidcon London 2026"
+                },
+                "kotlinconf": {
+                    "title": "KotlinConf 2026"
+                },
+                "long": {
+                    "title": "A conference name that is forty chars xx"
+                }
+            }
         }
     ],
     "designs": [
@@ -470,6 +493,16 @@
             "id": "kotlinconf-speaker",
             "contract": "confetti/speaker@1",
             "title": "KotlinConf speaker",
+            "author": "confetti",
+            "tags": {
+                "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "kotlinconf-title",
+            "contract": "confetti/title@1",
+            "title": "KotlinConf title",
             "author": "confetti",
             "tags": {
                 "series": "kotlinconf"
@@ -970,6 +1003,41 @@
             ],
             "emits": [
                 "open"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "52159a46e3ca6d73de95dbfd6a777110410de87d4a0de7a0fcc96659da52bb1d",
+            "bytes": 840,
+            "designId": "kotlinconf-title",
+            "contract": "confetti/title@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 120
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "title"
             ],
             "assets": [
                 "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",

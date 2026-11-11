@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794354837479,
-    "generatedAtEpochMs": 1794354837479,
-    "expiresAtEpochMs": 1796946837479,
+    "serial": 1794380998207,
+    "generatedAtEpochMs": 1794380998207,
+    "expiresAtEpochMs": 1796972998207,
     "contracts": [
         {
             "id": "confetti/break",
@@ -388,6 +388,29 @@
                     "sessions": "Twenty-char sessions"
                 }
             }
+        },
+        {
+            "id": "confetti/title",
+            "major": 1,
+            "title": "Top bar title",
+            "inputs": {
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 40
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "droidcon London 2026"
+                },
+                "kotlinconf": {
+                    "title": "KotlinConf 2026"
+                },
+                "long": {
+                    "title": "A conference name that is forty chars xx"
+                }
+            }
         }
     ],
     "designs": [
@@ -434,6 +457,16 @@
             "id": "confetti-speaker",
             "contract": "confetti/speaker@1",
             "title": "Confetti speaker",
+            "author": "confetti",
+            "tags": {
+                "series": "confetti"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "confetti-title",
+            "contract": "confetti/title@1",
+            "title": "Confetti title",
             "author": "confetti",
             "tags": {
                 "series": "confetti"
@@ -617,6 +650,32 @@
             ],
             "emits": [
                 "open"
+            ]
+        },
+        {
+            "sha256": "61674334329e6f0ee24c2a00cbf497685f909cdf1957d9f5b0791d5654e8fec3",
+            "bytes": 465,
+            "designId": "confetti-title",
+            "contract": "confetti/title@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 120
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "title"
             ]
         }
     ],

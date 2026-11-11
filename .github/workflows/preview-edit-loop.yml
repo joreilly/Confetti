@@ -1,0 +1,113 @@
+name: Preview edit loop
+
+# Edit -> render latency for Compose @Previews, the loop an agent or developer waits on after each
+# save. `.github/scripts/preview_edit_loop_bench.py` edits one Android preview (Robolectric) and
+# one Compose Multiplatform preview (desktop), renders through the compose-preview MCP server and
+# the CLI, and records wall time plus the server's compile/render split for every cycle.
+#
+# The job summary carries the table; `edit-loop-report` keeps report.json and the server log for
+# 90 days so runs can be compared. The job fails when a median warm MCP edit exceeds its budget
+# (EDIT_LOOP_BUDGET_*_MS below) or an edit does not change the rendered image.
+#
+# Budgets are regression backstops, set well above today's numbers so runner noise does not trip
+# them: tighten them as the loop gets faster. The goal is ~2 s per edit for both.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'androidApp/**'
+      - 'shared/**'
+      - 'build-logic/**'
+      - '**.gradle.kts'
+      - 'gradle.properties'
+      - 'gradle/libs.versions.toml'
+      - 'gradle/wrapper/**'
+      - '.github/scripts/preview_edit_loop_bench.py'
+      - '.github/workflows/preview-edit-loop.yml'
+  pull_request:
+    paths:
+      - 'androidApp/**'
+      - 'shared/**'
+      - 'build-logic/**'
+      - '**.gradle.kts'
+      - 'gradle.properties'
+      - 'gradle/libs.versions.toml'
+      - 'gradle/wrapper/**'
+      - '.github/scripts/preview_edit_loop_bench.py'
+      - '.github/workflows/preview-edit-loop.yml'
+  schedule:
+    - cron: '41 4 * * *'
+  workflow_dispatch:
+    inputs:
+      mcp-cycles:
+        description: Edit cycles per preview through MCP
+        default: '5'
+      cli-cycles:
+        description: Edit cycles per preview through the CLI (each is a full Gradle run)
+        default: '2'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-edit-loop-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # The MCP server release `compose-preview mcp serve` runs. Pinned so a timing change is
+  # attributable to a commit here or a deliberate bump, not to a server release landing mid-week.
+  COMPOSE_PREVIEW_MCP_VERSION: '4.18.0'
+  # Median warm-edit budgets (ms) for the MCP path. Today: android ~3 s, cmp ~14 s.
+  EDIT_LOOP_BUDGET_ANDROID_MS: '10000'
+  EDIT_LOOP_BUDGET_CMP_MS: '45000'
+
+jobs:
+  edit-loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          lfs: 'true'
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'zulu'
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+      - name: Warm Gradle wrapper
+        run: ./gradlew help
+
+      - name: Install the compose-preview CLI (version from the catalog)
+        run: |
+          version=$(sed -n 's/^composeai-preview = "\(.*\)"/\1/p' gradle/libs.versions.toml)
+          test -n "${version}"
+          dir="${RUNNER_TEMP}/compose-preview"
+          mkdir -p "${dir}"
+          curl -fsSL \
+            "https://github.com/yschimke/compose-ai-tools/releases/download/v${version}/compose-preview-${version}.tar.gz" \
+            | tar -xz -C "${dir}"
+          echo "${dir}/compose-preview-${version}/bin" >> "${GITHUB_PATH}"
+
+      - name: Bootstrap MCP daemon descriptors
+        run: |
+          compose-preview --version
+          compose-preview mcp install --module :androidApp --module :shared
+
+      - name: Benchmark edit -> render
+        run: |
+          python3 -B .github/scripts/preview_edit_loop_bench.py \
+            --mcp-cycles "${{ inputs.mcp-cycles || '5' }}" \
+            --cli-cycles "${{ inputs.cli-cycles || '2' }}" \
+            --out build/edit-loop
+
+      - uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: edit-loop-report
+          path: build/edit-loop/
+          if-no-files-found: warn
+          retention-days: 90

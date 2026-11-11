@@ -54,9 +54,11 @@ CASES = [
 ]
 
 
-# Unique per run: a repeated edit string would let Gradle's build cache (local or remote) serve the
+# Unique per edit: a repeated edit string would let Gradle's build cache (local or remote) serve the
 # compiled classes, and the benchmark would time a cache hit instead of a compile.
+# The counter keeps edits unique across modes too: the CLI pass and the MCP pass edit the same files.
 RUN_NONCE = f"{int(time.time()):x}"
+_EDIT_COUNTER = iter(range(1, 1_000_000))
 
 
 class SourceEditor:
@@ -71,7 +73,7 @@ class SourceEditor:
 
     def edit(self, n):
         self.path.write_text(
-            self.original_text.replace(self.case["original"], self.case["edited"].format(n=f"{RUN_NONCE}-{n}"))
+            self.original_text.replace(self.case["original"], self.case["edited"].format(n=f"{RUN_NONCE}-{next(_EDIT_COUNTER)}"))
         )
 
     def restore(self):

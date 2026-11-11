@@ -13,6 +13,7 @@ class ContractDataTest {
             speakerList = listOf(SessionSpeaker("s1", "Jane Doe"))),
         SpeakerCard("Jane Doe", "GDE · Acme", "https://example.com/jane.png", "2 sessions"),
         BreakCard("Coffee break", "Foyer", "10:30 – 11:00", coffee = true, live = true),
+        TitleCard("KotlinConf 2026"),
     )
 
     @Test fun everyInputIsMapped() {

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -33,6 +35,8 @@ fun HomeScaffold(
     windowSizeClass: WindowSizeClass,
     topBarNavigationIcon: @Composable () -> Unit = {},
     topBarActions: @Composable RowScope.() -> Unit = {},
+    /** The title, drawn by the screen's components (a conference's design); [title] as text without it. */
+    titleContent: (@Composable () -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val titleFontSize = if (windowSizeClass.isExpanded) {
@@ -58,14 +62,18 @@ fun HomeScaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp),
-                        maxLines = 2,
-                        textAlign = TextAlign.Center,
-                        text = title ?: "",
-                        fontSize = titleFontSize,
-                    )
+                    if (titleContent != null) {
+                        ProvideTextStyle(LocalTextStyle.current.copy(fontSize = titleFontSize), titleContent)
+                    } else {
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp),
+                            maxLines = 2,
+                            textAlign = TextAlign.Center,
+                            text = title ?: "",
+                            fontSize = titleFontSize,
+                        )
+                    }
                 },
                 navigationIcon = topBarNavigationIcon,
                 actions = topBarActions,

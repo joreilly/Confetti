@@ -41,6 +41,7 @@ val ConfettiDesigns: List<DesignDef> = designs(
     speaker = { with(ContractScope(SpeakerContract, Confetti)) { ConfettiSpeaker() } },
     promo = { with(ContractScope(PromoContract, Confetti)) { ConfettiPromo() } },
     breakRow = { ConfettiBreak() },
+    topBarTitle = { ConfettiTitle() },
     // At the contracts' limits: a two-line name and tagline leave the tickets button no room at
     // 210dp, and a two-line headline and three-line body the promo's CTA none at 200dp.
     headerHeightDp = 250,
@@ -209,5 +210,14 @@ fun ConfettiBreak() {
                 Label(input(C.time) + "  ·  ".rs + input(C.room), c.muted, size = 12, weight = FontWeight.Normal, modifier = RemoteModifier.weight(1f.rf))
             }
         }
+    }
+}
+
+/** The top bar's title, as Material's centred title in the brand's colours. */
+@Composable
+fun ConfettiTitle() {
+    val c = brandColors(Confetti)
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
+        Label(input(TitleContract.title), c.onSurface, size = 20, weight = FontWeight.SemiBold)
     }
 }

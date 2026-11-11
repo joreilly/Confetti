@@ -25,8 +25,10 @@ fun BookmarksUI(
     val upcomingSessions by component.upcomingSessions.collectAsStateWithLifecycle(initialValue = emptyMap())
     val bookmarks by component.bookmarks.collectAsStateWithLifecycle(initialValue = emptySet())
 
+    val title = stringResource(Res.string.bookmarks)
     HomeScaffold(
-        title = stringResource(Res.string.bookmarks),
+        title = title,
+        titleContent = { components.TopBarTitle(component.conference, title) },
         windowSizeClass = windowSizeClass,
         topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,

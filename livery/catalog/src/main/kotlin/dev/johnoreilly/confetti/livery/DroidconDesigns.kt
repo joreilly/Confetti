@@ -7,6 +7,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteContentScale
 import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.compose.remote.creation.compose.layout.RemoteRow
+import androidx.compose.remote.creation.compose.modifier.alpha
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.border
@@ -39,6 +40,7 @@ val DroidconDesigns: List<DesignDef> = designs(
     speaker = { with(ContractScope(SpeakerContract, Droidcon)) { DroidconSpeaker() } },
     promo = { DroidconPromo() },
     breakRow = { DroidconBreak() },
+    topBarTitle = { DroidconTitle() },
     // Space Mono is wide: the tagline wraps, and the tickets button needs the extra rows.
     headerHeightDp = 250,
     // At the contracts' limits: a two-line tagline pushes the speaker's sessions out at 110dp,
@@ -254,6 +256,18 @@ fun DroidconBreak() {
                 Label("@ ".rs + input(C.room), c.muted, size = 12, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
             }
             Label(input(C.title), c.onSurface, size = 15, weight = FontWeight.Bold)
+        }
+    }
+}
+
+/** The top bar's title, droidcon-style: Space Mono with a blinking green cursor. */
+@Composable
+fun DroidconTitle() {
+    val c = brandColors(Droidcon)
+    RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
+        RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically) {
+            Label(input(TitleContract.title), c.onSurface, size = 18)
+            Label("_".rs, c.primary, size = 18, modifier = RemoteModifier.alpha(pulse()))
         }
     }
 }

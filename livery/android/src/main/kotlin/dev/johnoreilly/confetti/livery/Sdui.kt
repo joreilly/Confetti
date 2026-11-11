@@ -130,6 +130,9 @@ class SduiComponents(
     override fun hasPromo(placement: String, conference: String) = pick(conference).hasPromo(placement, conference)
 
     @Composable
+    override fun TopBarTitle(conference: String, title: String) = pick(conference).TopBarTitle(conference, title)
+
+    @Composable
     override fun Promo(placement: String, conference: String, modifier: Modifier) =
         pick(conference).Promo(placement, conference, modifier)
 }

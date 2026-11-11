@@ -35,8 +35,10 @@ fun SessionsUI(
         rememberNotificationPermissionState((uiState as? SessionsUiState.Success)?.notificationsActive)
 
     val title = (uiState as? SessionsUiState.Success)?.conferenceName ?: ""
+    val conference = (uiState as? SessionsUiState.Success)?.conference
     HomeScaffold(
         title = title,
+        titleContent = conference?.let { { components.TopBarTitle(it, title) } },
         windowSizeClass = windowSizeClass,
         topBarNavigationIcon = topBarNavigationIcon,
         topBarActions = topBarActions,

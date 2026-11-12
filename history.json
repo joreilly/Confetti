@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "a3103f0f239c6050ec42c21090c8c3cae0de24b2",
+    "generatedFrom": "ce3a31e4878914f8ab3a49fb486ba3127f826493",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -2947,6 +2947,13 @@
             "path": "renders/livery:android/LiveryDroidconPreview_droidcon-dea0f94d.png",
             "versions": [
                 {
+                    "blob": "8fd1d6de0887441f846a80a771e3b9607b726654",
+                    "commit": "ce3a31e4878914f8ab3a49fb486ba3127f826493",
+                    "date": "2026-11-12T20:20:02Z",
+                    "sourceSha": "167c9e06",
+                    "commits": 1
+                },
+                {
                     "blob": "e9a2aef6d191274b0180e443a8033e551bebe8a1",
                     "commit": "a3103f0f239c6050ec42c21090c8c3cae0de24b2",
                     "date": "2026-11-12T20:10:20Z",
@@ -2961,9 +2968,9 @@
                     "commits": 1
                 }
             ],
-            "observations": 2,
+            "observations": 3,
             "unstable": false,
-            "flapCount": 0
+            "flapCount": 1
         },
         "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
             "path": "renders/livery:android/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",

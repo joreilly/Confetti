@@ -7,6 +7,22 @@ appId: ${APP_ID}
 - assertVisible: "Welcome to Confetti"
 - tapOn: "Skip"
 
+# A slow CI simulator can swallow the Skip tap, while Maestro, seeing the animated onboarding
+# background change, still reports it as done. Give onboarding time to go, tap Skip again if
+# it's still showing, then fail here (not in the conference-list wait) if it never goes.
+- extendedWaitUntil:
+    notVisible: "Welcome to Confetti"
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible: "Welcome to Confetti"
+    commands:
+      - tapOn: "Skip"
+- extendedWaitUntil:
+    notVisible: "Welcome to Confetti"
+    timeout: 15000
+
 # Conferences and sessions come from the live Confetti backend, so allow for a slow network
 # before scrolling: the list is newest-first, so KotlinConf drifts down as conferences are added.
 # 60s because a fresh install retries the conference fetch up to 3 times, and a dropped TLS

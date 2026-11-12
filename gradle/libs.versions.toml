@@ -67,7 +67,7 @@ livery = "0.9.0"
 rc-players = "2.32.0"
 
 
-androidx-appfunctions = "1.0.0-beta01"
+androidx-appfunctions = "1.0.0-rc01"
 
 [libraries]
 livery-bom = { module = "ee.schimke.composeai:livery-bom", version.ref = "livery" }

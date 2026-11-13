@@ -111,7 +111,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      *
      * @param conferenceId ID of the conference, as returned in [ConferenceResponse.id].
      *   Defaults to the conference selected in the app.
-     * @return All speakers with their ID, name, company, bio, links and the sessions they present.
+     * @return All speakers with their ID, name, company, bio, photo, links and the sessions they present.
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun listSpeakers(conferenceId: String? = null): List<SpeakerProfileResponse> =
@@ -126,6 +126,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
                     tagline = speaker.tagline,
                     city = speaker.city,
                     bio = speaker.bio,
+                    photoUrl = speaker.photoUrl,
                     sessionIds = speaker.sessions.map { session -> session.id },
                     links = speaker.socials.map { social -> LinkResponse(name = social.name, url = social.url) },
                 )
@@ -327,6 +328,8 @@ data class SpeakerProfileResponse(
     val city: String?,
     /** Biography of the speaker, if provided. */
     val bio: String?,
+    /** URL of the speaker's photo, if provided. */
+    val photoUrl: String?,
     /** IDs of the sessions the speaker presents, matching [SessionResponse.id]. */
     val sessionIds: List<String>,
     /** The speaker's social and web links. */

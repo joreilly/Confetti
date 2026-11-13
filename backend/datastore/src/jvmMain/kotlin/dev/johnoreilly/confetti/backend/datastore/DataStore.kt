@@ -50,10 +50,13 @@ class DataStore {
         }
 
 
-    private fun readBookmarksEntity(uid: String, conference: String): Entity? {
-        val key = keyFactory.addAncestor(PathElement.of(KIND_USER, uid))
+    private fun bookmarksKey(uid: String, conference: String): Key =
+        keyFactory.addAncestor(PathElement.of(KIND_USER, uid))
             .setKind(KIND_BOOKMARKS)
             .newKey(conference)
+
+    private fun readBookmarksEntity(uid: String, conference: String): Entity? {
+        val key = bookmarksKey(uid, conference)
 
         return try {
             datastore.get(key)
@@ -67,23 +70,17 @@ class DataStore {
         return readBookmarksEntity(uid, conference)?.names.orEmpty()
     }
 
+    // addBookmark/removeBookmark read the user's bookmarks entity inside the transaction, not
+    // before it: concurrent changes (e.g. an assistant bookmarking several sessions at once via
+    // AppFunctions) then conflict and are retried by runInTransaction, instead of each writing
+    // back its own stale copy and the last write dropping the others.
     fun addBookmark(uid: String, conference: String, sessionId: String): Set<String> {
         println("[BOOKMARK_DEBUG] addBookmark start uid=$uid conference=$conference sessionId=$sessionId")
-        var entityBuilder: Entity.Builder? = readBookmarksEntity(uid, conference)?.let {
-            Entity.newBuilder(it)
-        }
-        if (entityBuilder == null) {
-            val key = keyFactory.addAncestor(PathElement.of(KIND_USER, uid))
-                .setKind(KIND_BOOKMARKS)
-                .newKey(conference)
-
-            entityBuilder = Entity.newBuilder(key)!!
-        }
-        entityBuilder.set(sessionId, BooleanValue.of(true))
-        val newEntity = entityBuilder.build()
-        try {
-            datastore.runInTransaction {
-                it.put(newEntity)
+        val key = bookmarksKey(uid, conference)
+        val newEntity = try {
+            datastore.runInTransaction { txn ->
+                val builder = txn.get(key)?.let { Entity.newBuilder(it) } ?: Entity.newBuilder(key)
+                builder.set(sessionId, BooleanValue.of(true)).build().also { txn.put(it) }
             }
         } catch (e: Exception) {
             println("[BOOKMARK_DEBUG] addBookmark transaction FAILED uid=$uid conference=$conference sessionId=$sessionId: ${e.stackTraceToString()}")
@@ -96,29 +93,26 @@ class DataStore {
 
     fun removeBookmark(uid: String, conference: String, sessionId: String): Set<String> {
         println("[BOOKMARK_DEBUG] removeBookmark start uid=$uid conference=$conference sessionId=$sessionId")
-        val entity = readBookmarksEntity(uid, conference)
-
-        if (entity == null) {
-            println("[BOOKMARK_DEBUG] removeBookmark no existing entity for uid=$uid conference=$conference")
-            return emptySet()
-        }
-
-        if (!entity.contains(sessionId)) {
-            println("[BOOKMARK_DEBUG] removeBookmark entity does not contain sessionId=$sessionId (existing names=${entity.names})")
-            return emptySet()
-        }
-
-        val newEntity = Entity.newBuilder(entity)
-            .remove(sessionId)
-            .build()
-        try {
-            datastore.runInTransaction {
-                it.put(newEntity)
+        val key = bookmarksKey(uid, conference)
+        val newEntity = try {
+            datastore.runInTransaction { txn ->
+                val entity = txn.get(key)
+                when {
+                    entity == null -> {
+                        println("[BOOKMARK_DEBUG] removeBookmark no existing entity for uid=$uid conference=$conference")
+                        null
+                    }
+                    !entity.contains(sessionId) -> {
+                        println("[BOOKMARK_DEBUG] removeBookmark entity does not contain sessionId=$sessionId (existing names=${entity.names})")
+                        null
+                    }
+                    else -> Entity.newBuilder(entity).remove(sessionId).build().also { txn.put(it) }
+                }
             }
         } catch (e: Exception) {
             println("[BOOKMARK_DEBUG] removeBookmark transaction FAILED uid=$uid conference=$conference sessionId=$sessionId: ${e.stackTraceToString()}")
             throw e
-        }
+        } ?: return emptySet()
 
         println("[BOOKMARK_DEBUG] removeBookmark SUCCESS uid=$uid conference=$conference sessionId=$sessionId names=${newEntity.names}")
         return newEntity.names

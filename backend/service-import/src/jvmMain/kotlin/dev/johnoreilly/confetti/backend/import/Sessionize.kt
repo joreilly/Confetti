@@ -918,7 +918,8 @@ object Sessionize {
                 id = ConferenceId.DroidConLondon2026.id,
                 name = "droidcon London 2026",
                 timeZone = "Europe/London",
-                themeColor = "0xFF75E1C6"
+                // droidcon London's brand blue (london.droidcon.com)
+                themeColor = "0xFF0055FF"
             ),
             venue = businessDesignCenter,
         )

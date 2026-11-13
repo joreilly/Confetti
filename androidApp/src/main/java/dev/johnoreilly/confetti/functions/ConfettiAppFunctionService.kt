@@ -1,12 +1,15 @@
 package dev.johnoreilly.confetti.functions
 
 import androidx.annotation.RequiresApi
+import androidx.appfunctions.AppFunctionAppUnknownException
 import androidx.appfunctions.AppFunctionDeclaration
 import androidx.appfunctions.AppFunctionElementNotFoundException
 import androidx.appfunctions.AppFunctionPermissionRequiredException
 import androidx.appfunctions.AppFunctionSerializable
 import androidx.appfunctions.AppFunctionService
 import androidx.appfunctions.AppFunctionServiceEntryPoint
+import com.apollographql.apollo.api.ApolloResponse
+import com.apollographql.apollo.api.Operation
 import com.apollographql.cache.normalized.FetchPolicy
 import dev.johnoreilly.confetti.AppSettings
 import dev.johnoreilly.confetti.ConfettiRepository
@@ -79,9 +82,10 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
         withContext(Dispatchers.IO) {
             val conference = resolveConference(conferenceId)
             val user = authentication.currentUser.value
-            val data = repository.sessions(conference.id, user?.uid, user, conference.fetchPolicy).data
-            val timeZone = data?.config?.timezone
-            data?.sessions?.nodes?.map { it.sessionDetails.toResponse(timeZone) } ?: emptyList()
+            val data = repository.sessions(conference.id, user?.uid, user, conference.fetchPolicy)
+                .requireData("sessions")
+            val timeZone = data.config.timezone
+            data.sessions.nodes.map { it.sessionDetails.toResponse(timeZone) }
         }
 
     /**
@@ -101,9 +105,9 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
             // or on another device, so a cached list could be stale.
             val data = repository.bookmarkedSessionsQuery(conference.id, user.uid, user, FetchPolicy.NetworkFirst)
                 .execute()
-                .data
-            val timeZone = data?.config?.timezone
-            data?.bookmarkConnection?.nodes?.map { it.sessionDetails.toResponse(timeZone) } ?: emptyList()
+                .requireData("bookmarks")
+            val timeZone = data.config.timezone
+            data.bookmarkConnection?.nodes?.map { it.sessionDetails.toResponse(timeZone) } ?: emptyList()
         }
 
     /**
@@ -117,7 +121,9 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
     suspend fun listSpeakers(conferenceId: String? = null): List<SpeakerProfileResponse> =
         withContext(Dispatchers.IO) {
             val conference = resolveConference(conferenceId)
-            repository.conferenceData(conference.id, conference.fetchPolicy).data?.speakers?.nodes?.map {
+            repository.conferenceData(conference.id, conference.fetchPolicy)
+                .requireData("speakers")
+                .speakers.nodes.map {
                 val speaker = it.speakerDetails
                 SpeakerProfileResponse(
                     id = speaker.id,
@@ -130,7 +136,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
                     sessionIds = speaker.sessions.map { session -> session.id },
                     links = speaker.socials.map { social -> LinkResponse(name = social.name, url = social.url) },
                 )
-            } ?: emptyList()
+            }
         }
 
     /**
@@ -144,7 +150,9 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
     suspend fun getVenue(conferenceId: String? = null): List<VenueResponse> =
         withContext(Dispatchers.IO) {
             val conference = resolveConference(conferenceId)
-            repository.conferenceVenue(conference.id, conference.fetchPolicy).data?.venues?.map {
+            repository.conferenceVenue(conference.id, conference.fetchPolicy)
+                .requireData("the venue")
+                .venues.map {
                 VenueResponse(
                     name = it.name,
                     address = it.address,
@@ -152,7 +160,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
                     latitude = it.latitude,
                     longitude = it.longitude,
                 )
-            } ?: emptyList()
+            }
         }
 
     /**
@@ -197,7 +205,20 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
     }
 
     private suspend fun conferences(): List<GetConferencesQuery.Conference> =
-        repository.conferences(FetchPolicy.CacheFirst).data?.conferences.orEmpty()
+        repository.conferences(FetchPolicy.CacheFirst).requireData("the conference list").conferences
+
+    /**
+     * The response's data, or an error the agent can relay when it couldn't be loaded (no
+     * network, or the Confetti server failing). Returning an empty list instead would tell the
+     * agent the conference has no sessions or speakers.
+     */
+    private fun <D : Operation.Data> ApolloResponse<D>.requireData(what: String): D =
+        data ?: run {
+            exception?.let { println("AppFunctions: loading $what failed: $it") }
+            throw AppFunctionAppUnknownException(
+                "Couldn't load $what from the Confetti server. Check the connection and try again."
+            )
+        }
 
     private suspend fun requireSelectedConference(): String =
         appSettings.getConference().ifEmpty {

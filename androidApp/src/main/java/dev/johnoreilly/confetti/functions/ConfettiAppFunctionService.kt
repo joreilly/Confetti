@@ -36,65 +36,123 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
     private val authentication: Authentication by inject()
 
     /**
-     * Bookmarks a session in the currently selected conference. Requires the user to be
-     * signed in to Confetti.
+     * Bookmarks a session for the user. Requires the user to be signed in to Confetti.
      *
      * @param sessionId ID of the session to bookmark, as returned in [SessionResponse.id].
+     * @param conferenceId ID of the conference the session is in, as returned in
+     *   [ConferenceResponse.id]. Defaults to the conference selected in the app.
      * @return true if the bookmark was saved.
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun addBookmark(sessionId: String): Boolean = withContext(Dispatchers.IO) {
-        val conference = requireConference()
-        val user = requireSignedInUser()
-        repository.addBookmark(conference, user.uid, user, sessionId)
-    }
+    suspend fun addBookmark(sessionId: String, conferenceId: String? = null): Boolean =
+        withContext(Dispatchers.IO) {
+            val conference = resolveConference(conferenceId)
+            val user = requireSignedInUser()
+            repository.addBookmark(conference.id, user.uid, user, sessionId)
+        }
 
     /**
-     * Removes the bookmark from a session in the currently selected conference. Requires the
-     * user to be signed in to Confetti.
+     * Removes the user's bookmark from a session. Requires the user to be signed in to Confetti.
      *
      * @param sessionId ID of the session to un-bookmark, as returned in [SessionResponse.id].
+     * @param conferenceId ID of the conference the session is in, as returned in
+     *   [ConferenceResponse.id]. Defaults to the conference selected in the app.
      * @return true if the bookmark was removed.
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun removeBookmark(sessionId: String): Boolean = withContext(Dispatchers.IO) {
-        val conference = requireConference()
-        val user = requireSignedInUser()
-        repository.removeBookmark(conference, user.uid, user, sessionId)
-    }
+    suspend fun removeBookmark(sessionId: String, conferenceId: String? = null): Boolean =
+        withContext(Dispatchers.IO) {
+            val conference = resolveConference(conferenceId)
+            val user = requireSignedInUser()
+            repository.removeBookmark(conference.id, user.uid, user, sessionId)
+        }
 
     /**
-     * Lists every session in the currently selected conference.
+     * Lists every session in a conference.
      *
+     * @param conferenceId ID of the conference, as returned in [ConferenceResponse.id].
+     *   Defaults to the conference selected in the app.
      * @return All sessions with their ID, title, description, times, room, speakers and tags.
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun listSessions(): List<SessionResponse> = withContext(Dispatchers.IO) {
-        val conference = requireConference()
-        val user = authentication.currentUser.value
-        val data = repository.sessions(conference, user?.uid, user, FetchPolicy.CacheFirst).data
-        val timeZone = data?.config?.timezone
-        data?.sessions?.nodes?.map { it.sessionDetails.toResponse(timeZone) } ?: emptyList()
-    }
+    suspend fun listSessions(conferenceId: String? = null): List<SessionResponse> =
+        withContext(Dispatchers.IO) {
+            val conference = resolveConference(conferenceId)
+            val user = authentication.currentUser.value
+            val data = repository.sessions(conference.id, user?.uid, user, conference.fetchPolicy).data
+            val timeZone = data?.config?.timezone
+            data?.sessions?.nodes?.map { it.sessionDetails.toResponse(timeZone) } ?: emptyList()
+        }
 
     /**
-     * Lists the sessions the user has bookmarked in the currently selected conference.
-     * Requires the user to be signed in to Confetti.
+     * Lists the sessions the user has bookmarked in a conference. Requires the user to be
+     * signed in to Confetti.
      *
+     * @param conferenceId ID of the conference, as returned in [ConferenceResponse.id].
+     *   Defaults to the conference selected in the app.
      * @return The bookmarked sessions, in the same form as [listSessions].
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun listBookmarks(): List<SessionResponse> = withContext(Dispatchers.IO) {
-        val conference = requireConference()
-        val user = requireSignedInUser()
-        // Network first: bookmarks may have just been changed by addBookmark/removeBookmark
-        // or on another device, so a cached list could be stale.
-        val data = repository.bookmarkedSessionsQuery(conference, user.uid, user, FetchPolicy.NetworkFirst)
-            .execute()
-            .data
-        val timeZone = data?.config?.timezone
-        data?.bookmarkConnection?.nodes?.map { it.sessionDetails.toResponse(timeZone) } ?: emptyList()
-    }
+    suspend fun listBookmarks(conferenceId: String? = null): List<SessionResponse> =
+        withContext(Dispatchers.IO) {
+            val conference = resolveConference(conferenceId)
+            val user = requireSignedInUser()
+            // Network first: bookmarks may have just been changed by addBookmark/removeBookmark
+            // or on another device, so a cached list could be stale.
+            val data = repository.bookmarkedSessionsQuery(conference.id, user.uid, user, FetchPolicy.NetworkFirst)
+                .execute()
+                .data
+            val timeZone = data?.config?.timezone
+            data?.bookmarkConnection?.nodes?.map { it.sessionDetails.toResponse(timeZone) } ?: emptyList()
+        }
+
+    /**
+     * Lists the speakers of a conference.
+     *
+     * @param conferenceId ID of the conference, as returned in [ConferenceResponse.id].
+     *   Defaults to the conference selected in the app.
+     * @return All speakers with their ID, name, company, bio, links and the sessions they present.
+     */
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
+    suspend fun listSpeakers(conferenceId: String? = null): List<SpeakerProfileResponse> =
+        withContext(Dispatchers.IO) {
+            val conference = resolveConference(conferenceId)
+            repository.conferenceData(conference.id, conference.fetchPolicy).data?.speakers?.nodes?.map {
+                val speaker = it.speakerDetails
+                SpeakerProfileResponse(
+                    id = speaker.id,
+                    name = speaker.name,
+                    company = speaker.company,
+                    tagline = speaker.tagline,
+                    city = speaker.city,
+                    bio = speaker.bio,
+                    sessionIds = speaker.sessions.map { session -> session.id },
+                    links = speaker.socials.map { social -> LinkResponse(name = social.name, url = social.url) },
+                )
+            } ?: emptyList()
+        }
+
+    /**
+     * Gets the venue of a conference.
+     *
+     * @param conferenceId ID of the conference, as returned in [ConferenceResponse.id].
+     *   Defaults to the conference selected in the app.
+     * @return The conference's venues (usually one), with address and coordinates where known.
+     */
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
+    suspend fun getVenue(conferenceId: String? = null): List<VenueResponse> =
+        withContext(Dispatchers.IO) {
+            val conference = resolveConference(conferenceId)
+            repository.conferenceVenue(conference.id, conference.fetchPolicy).data?.venues?.map {
+                VenueResponse(
+                    name = it.name,
+                    address = it.address,
+                    description = it.description.ifBlank { null },
+                    latitude = it.latitude,
+                    longitude = it.longitude,
+                )
+            } ?: emptyList()
+        }
 
     /**
      * Gets the ID of the conference currently selected in the app.
@@ -103,49 +161,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun getConference(): String = withContext(Dispatchers.IO) {
-        requireConference()
-    }
-
-    /**
-     * Lists the speakers of the currently selected conference.
-     *
-     * @return All speakers with their ID, name, company, bio, links and the sessions they present.
-     */
-    @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun listSpeakers(): List<SpeakerProfileResponse> = withContext(Dispatchers.IO) {
-        val conference = requireConference()
-        repository.conferenceData(conference, FetchPolicy.CacheFirst).data?.speakers?.nodes?.map {
-            val speaker = it.speakerDetails
-            SpeakerProfileResponse(
-                id = speaker.id,
-                name = speaker.name,
-                company = speaker.company,
-                tagline = speaker.tagline,
-                city = speaker.city,
-                bio = speaker.bio,
-                sessionIds = speaker.sessions.map { session -> session.id },
-                links = speaker.socials.map { social -> LinkResponse(name = social.name, url = social.url) },
-            )
-        } ?: emptyList()
-    }
-
-    /**
-     * Gets the venue of the currently selected conference.
-     *
-     * @return The conference's venues (usually one), with address and coordinates where known.
-     */
-    @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun getVenue(): List<VenueResponse> = withContext(Dispatchers.IO) {
-        val conference = requireConference()
-        repository.conferenceVenue(conference, FetchPolicy.CacheFirst).data?.venues?.map {
-            VenueResponse(
-                name = it.name,
-                address = it.address,
-                description = it.description.ifBlank { null },
-                latitude = it.latitude,
-                longitude = it.longitude,
-            )
-        } ?: emptyList()
+        requireSelectedConference()
     }
 
     /**
@@ -159,29 +175,33 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
     }
 
     /**
-     * Selects the conference that the other functions act on, replacing the user's current
-     * selection in the app. The app shows the new conference the next time it is opened.
-     *
-     * @param conferenceId ID of the conference to select, as returned in [ConferenceResponse.id].
-     * @return The selected conference.
+     * A conference to read from, without changing the one selected in the app. The app only
+     * refreshes the selected conference in the background, so other conferences are fetched
+     * from the network first (falling back to their cache) rather than served from what may
+     * be an old cached snapshot.
      */
-    @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun selectConference(conferenceId: String): ConferenceResponse = withContext(Dispatchers.IO) {
-        val conference = conferences().firstOrNull { it.id == conferenceId }
-            ?: throw AppFunctionElementNotFoundException(
+    private class TargetConference(val id: String, val fetchPolicy: FetchPolicy)
+
+    private suspend fun resolveConference(conferenceId: String?): TargetConference {
+        val selected = appSettings.getConference()
+        if (conferenceId.isNullOrBlank() || conferenceId == selected) {
+            return TargetConference(requireSelectedConference(), FetchPolicy.CacheFirst)
+        }
+        if (conferences().none { it.id == conferenceId }) {
+            throw AppFunctionElementNotFoundException(
                 "No conference with ID '$conferenceId'. Use listConferences to find valid IDs."
             )
-        repository.setConference(conference.id, conference.themeColor)
-        conference.toResponse()
+        }
+        return TargetConference(conferenceId, FetchPolicy.NetworkFirst)
     }
 
     private suspend fun conferences(): List<GetConferencesQuery.Conference> =
         repository.conferences(FetchPolicy.CacheFirst).data?.conferences.orEmpty()
 
-    private suspend fun requireConference(): String =
+    private suspend fun requireSelectedConference(): String =
         appSettings.getConference().ifEmpty {
             throw AppFunctionElementNotFoundException(
-                "No conference is selected. Use selectConference, or open Confetti and choose a conference."
+                "No conference is selected in Confetti. Pass a conferenceId from listConferences."
             )
         }
 
@@ -282,7 +302,7 @@ data class VenueResponse(
 /** A conference available in Confetti. */
 @AppFunctionSerializable(isDescribedByKDoc = true)
 data class ConferenceResponse(
-    /** Unique ID of the conference, used to select it. */
+    /** Unique ID of the conference, passed as conferenceId to the other functions. */
     val id: String,
     /** Name of the conference. */
     val name: String,

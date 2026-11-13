@@ -314,6 +314,12 @@ resource "google_cloud_run_v2_service" "graphql" {
       resources {
         cpu_idle = true
         startup_cpu_boost = true
+        # The 512Mi default was being exceeded ("Memory limit of 512 MiB exceeded"), and each
+        # restart fails the requests in flight.
+        limits = {
+          cpu    = "1"
+          memory = "1Gi"
+        }
       }
       env {
         name = "APOLLO_KEY"

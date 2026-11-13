@@ -12,7 +12,7 @@
     "functionName": "MainActivity",
     "module": "androidApp",
     "renderBasename": "activity__MainActivity.png",
-    "sha256": "2ff31f24386aa2c4c5ba979f90d55d0cef709badcb476fe474631e7f2ee9095e",
+    "sha256": "1f614f1036ee0b4d54ac1edb8ed629a01a14449ebdf447d0fd44461b5ea76d17",
     "sourceFile": null
   },
   "androidApp/dev.johnoreilly.confetti.ui.AndroidScreenPreviewsKt.AndroidSessionDetailPreview_Phone \u2014 dark": {
@@ -292,7 +292,7 @@
     "functionName": "ConferenceSelectionPreview",
     "module": "androidApp",
     "renderBasename": "ConferenceSelectionPreview_Dark-902fcef6.png",
-    "sha256": "4e80919bbeccc31871774cd9ce59703af258743012400c4a1f700dc9a480ef2e",
+    "sha256": "35b4ce961b07d03384e17a934b3d627feaf360464913410d3a6fb64bd389abf9",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.ConferenceSelectionPreview_Light": {
@@ -300,7 +300,7 @@
     "functionName": "ConferenceSelectionPreview",
     "module": "androidApp",
     "renderBasename": "ConferenceSelectionPreview_Light-db39c3f8.png",
-    "sha256": "c0fa9ab1d60b1e70747bf5fef4ca28cec58427464681b15016198b30137d6fc3",
+    "sha256": "18dce3dc6f76cedc8a42be2cec783e9a9ceb4f01b2d5882e22fba26d8a88c285",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.HazeBottomNavigationDetailPreview_Dark - high contrast blur target": {
@@ -372,7 +372,7 @@
     "functionName": "SettingsScreenPreview",
     "module": "androidApp",
     "renderBasename": "SettingsScreenPreview_Dark-ba1bef09.png",
-    "sha256": "3fffd0727ca470e6e5e451003c90be6a018755e17d72eacc02fe801f82c89615",
+    "sha256": "cf88a519763751049b9f4ed0354d1a65d5e8826eb2d179eaedcdddf6e331cc28",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.RecentMobileUiPreviewsKt.SettingsScreenPreview_Light": {
@@ -380,7 +380,7 @@
     "functionName": "SettingsScreenPreview",
     "module": "androidApp",
     "renderBasename": "SettingsScreenPreview_Light-dbd36222.png",
-    "sha256": "d3036111115459732fc7241104db754030b4f21b6fbb9ce1be108ceac4bc4928",
+    "sha256": "4386364d5d598154c262c2a37074ba519d3c3c32b3baa01acfd2434024b13688",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/RecentMobileUiPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationAndroidPreview_Dark": {
@@ -404,7 +404,7 @@
     "functionName": "ThemeFoundationConferenceSeedPreview",
     "module": "androidApp",
     "renderBasename": "ThemeFoundationConferenceSeedPreview_Dark-f74e7f38.png",
-    "sha256": "72529e5944f664c1e043fa2e991da585a52df7cb20910e456df259174ebf9ca7",
+    "sha256": "60582d506bc72539a4d7f74b1c60f6ff350af6e15d092d3658cd60e29f7682a1",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationConferenceSeedPreview_Light": {
@@ -412,7 +412,7 @@
     "functionName": "ThemeFoundationConferenceSeedPreview",
     "module": "androidApp",
     "renderBasename": "ThemeFoundationConferenceSeedPreview_Light-03f13201.png",
-    "sha256": "1b1b1096564e0cfd301b9c9fa04da807b55095a2fdce10fe33a29ddb00b8c4d2",
+    "sha256": "e482275a03588368086018f8a47d1578654d1b314253d66234f18972e6b4d057",
     "sourceFile": "src/main/java/dev/johnoreilly/confetti/ui/ThemeFoundationPreviews.kt"
   },
   "androidApp/dev.johnoreilly.confetti.ui.ThemeFoundationPreviewsKt.ThemeFoundationCurrentPreview_Dark": {
@@ -516,7 +516,7 @@
     "functionName": "AndroidMakers Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__AndroidMakers_Dark.png",
-    "sha256": "2435505fa5c85d4dbf9a711b7d35b05bf7d94922ba00e5ce0f2a7216fda0c575",
+    "sha256": "56e98b18e57546cf677e5ff64f354a86ce735febdd1a0f2bc0d625c7a3944ac1",
     "sourceFile": null
   },
   "androidApp/themecatalog__AndroidMakers_Light": {
@@ -524,7 +524,7 @@
     "functionName": "AndroidMakers Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__AndroidMakers_Light.png",
-    "sha256": "5a26036356e60cfd49c69bbc88f307abe95b89bb669f97cc18f9c6cb846c52bc",
+    "sha256": "a871a5f6d78ba2273d6c188ae714a5bcf41645519d3d9c2147fb7672f8955a2c",
     "sourceFile": null
   },
   "androidApp/themecatalog__Android_Dark": {
@@ -564,7 +564,7 @@
     "functionName": "DevFest Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__DevFest_Dark.png",
-    "sha256": "533bc9554a50d111eff15324175306ba7fc5439bf7f5152af486534f20ec6e0c",
+    "sha256": "09c95ba165628ea5fa9dfd114c81ac936b4f80eba98c45db54323bcd248438cc",
     "sourceFile": null
   },
   "androidApp/themecatalog__DevFest_Light": {
@@ -572,7 +572,7 @@
     "functionName": "DevFest Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__DevFest_Light.png",
-    "sha256": "a4fa31dbc98c7cab3ab6983a9af44b1e4c9bbb4394732b6bd436b1d0fb8ba121",
+    "sha256": "5da570aec5418deb82fa4d015c01904a49c52eb62429cce8bd38343b3c3d1cb4",
     "sourceFile": null
   },
   "androidApp/themecatalog__Droidcon_Dark": {
@@ -580,7 +580,7 @@
     "functionName": "Droidcon Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Droidcon_Dark.png",
-    "sha256": "6fb4d15d60a379aa9e7e15a0ec8205a1bc60679524cbd6e3228a1a15602c5bbe",
+    "sha256": "9b2a4782cb362e9cdaa49abb11b4e37baf39e43a42f2518f84c516251baf1f69",
     "sourceFile": null
   },
   "androidApp/themecatalog__Droidcon_Light": {
@@ -588,7 +588,7 @@
     "functionName": "Droidcon Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__Droidcon_Light.png",
-    "sha256": "ed6c1cbb9d862aac607cc698bdce5ff8c629d2c98e4a167e68f9073c3368079c",
+    "sha256": "60fd6e22307caa1637f3e631b4da4e4a275d6a3541b96ff748138865573e6275",
     "sourceFile": null
   },
   "androidApp/themecatalog__Dynamic_Dark": {
@@ -612,7 +612,7 @@
     "functionName": "KotlinConf Dark theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__KotlinConf_Dark.png",
-    "sha256": "31e5ea001c72e861f9c410c9ca186058eee3914cbe1803d7d929a8288c7a8aa7",
+    "sha256": "729dd918ffdec591dae218deca6658a8e6371b5463e2f70bad6cc3757b810012",
     "sourceFile": null
   },
   "androidApp/themecatalog__KotlinConf_Light": {
@@ -620,7 +620,7 @@
     "functionName": "KotlinConf Light theme",
     "module": "androidApp",
     "renderBasename": "themecatalog__KotlinConf_Light.png",
-    "sha256": "a8dfc12000a9d3e366b6fa4a98ca93cc42e362769c37d9938dd20bb7c420a28d",
+    "sha256": "15d2cf2c890f8faf18d234d763059dd89d3949579e96ad7d1f7155dbdcb3e322",
     "sourceFile": null
   },
   "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryDroidconPreview_droidcon": {
@@ -660,7 +660,7 @@
     "functionName": "ConferenceCardPreview",
     "module": "shared",
     "renderBasename": "ConferenceCardPreview_Conference_card-d8b49bf2.png",
-    "sha256": "9c86b7c157c7072fd31f5fe40387ed075c4da40ac547dd8fde88b9fe2638b6d4",
+    "sha256": "1129b766ad0cc7449c6cbd6c2460fa66c146184d52e43392f26bffdefa6191e2",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/ConferenceListView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.ConferenceListViewKt.ConferenceListViewErrorPreview_Error": {
@@ -668,7 +668,7 @@
     "functionName": "ConferenceListViewErrorPreview",
     "module": "shared",
     "renderBasename": "ConferenceListViewErrorPreview_Error-8b9bd3b7.png",
-    "sha256": "a8faded582f8026f0a47c9adfe46413bec0ba1d6f59cc741fa58a0e378acfe98",
+    "sha256": "5e58deecefd6e79a83d79d41dce3a5253c61992e0381e434b54b6f9e740ed6c2",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/ConferenceListView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.ConferenceListViewKt.ConferenceListViewLoadedPreview_Phone (large)": {
@@ -676,7 +676,7 @@
     "functionName": "ConferenceListViewLoadedPreview",
     "module": "shared",
     "renderBasename": "ConferenceListViewLoadedPreview_Phone_large-3aa334dd.png",
-    "sha256": "b8491e98ff8bf1b26917f89f32d09b357c5dd7a709088ead97df517025cf0775",
+    "sha256": "1d10daedec293e3b536dad4fc50015557fd946b882433b68e6de290ffb5ae597",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/ConferenceListView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.ConferenceListViewKt.ConferenceListViewLoadedPreview_Phone (small)": {
@@ -684,7 +684,7 @@
     "functionName": "ConferenceListViewLoadedPreview",
     "module": "shared",
     "renderBasename": "ConferenceListViewLoadedPreview_Phone_small-576295ec.png",
-    "sha256": "251d5ec761c1b1a66533f4471e8e0b4728a71d02c2f19873193285011f1fb535",
+    "sha256": "41f993f07283e34507fa2814a4edcc59571fef9139cdbfd183519dcf16af0ff2",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/ConferenceListView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.ConferenceListViewKt.ConferenceListViewLoadedPreview_Tablet landscape": {
@@ -692,7 +692,7 @@
     "functionName": "ConferenceListViewLoadedPreview",
     "module": "shared",
     "renderBasename": "ConferenceListViewLoadedPreview_Tablet_landscape-a09396dd.png",
-    "sha256": "fb9b0546942b0c97b2cfb2434b0c5ff7001824596648773f42a6459b772aab26",
+    "sha256": "c154b5ef5f5420c7bfb8968a9c26eba8c50a2071646a3b155e43e59d7e60cdfa",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/ConferenceListView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.ConferenceListViewKt.ConferenceListViewLoadingPreview_Loading": {
@@ -700,7 +700,7 @@
     "functionName": "ConferenceListViewLoadingPreview",
     "module": "shared",
     "renderBasename": "ConferenceListViewLoadingPreview_Loading-40ee75b6.png",
-    "sha256": "6d9f03d8348c9b6fc06e13ba6b4761457bdf6b98a4084d094daae763c7ec54b0",
+    "sha256": "f65aec54278de210625d68e93f683083eb2b6a5194180298525b0530d3afc163",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/ConferenceListView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.account.AccountUIKt.AccountViewSignedInPreview": {
@@ -988,7 +988,7 @@
     "functionName": "SettingsScreenPreview",
     "module": "shared",
     "renderBasename": "SettingsScreenPreview_Phone_large-fd155dd2.png",
-    "sha256": "342574494a350044980b9c0a350c3705cbc2ca82a0b7f8655abe96686d0fbe36",
+    "sha256": "19582418640df8e9744756ab5c6aaf6261e17be9b7f5dc19044392b9d6428373",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/settings/SettingsUI.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.settings.SettingsUIKt.SettingsScreenPreview_Phone (small)": {
@@ -996,7 +996,7 @@
     "functionName": "SettingsScreenPreview",
     "module": "shared",
     "renderBasename": "SettingsScreenPreview_Phone_small-975176c7.png",
-    "sha256": "68ad7567426f8d70d231bf9538a43fa2c8c09ecf980b64e2b788af23a9a6695a",
+    "sha256": "7bcd134133d5e45461e09a32a97d11ffa86428f613dd9eb8d639d927d5b0960c",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/settings/SettingsUI.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.settings.SettingsUIKt.SettingsScreenPreview_Tablet landscape": {
@@ -1004,7 +1004,7 @@
     "functionName": "SettingsScreenPreview",
     "module": "shared",
     "renderBasename": "SettingsScreenPreview_Tablet_landscape-9aa5ddd0.png",
-    "sha256": "3ecc97c23fbf003ccbdabd11ae28dc2266be7cd6263ebac30691f0beb5c11822",
+    "sha256": "5d94ed2b1f3db808420e3d77c602953ec4f888d44eccf593d410033cde8bc8c1",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/settings/SettingsUI.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakerItemViewKt.SpeakerItemViewLoadedPreview_Phone (large)": {
@@ -2228,7 +2228,7 @@
     "functionName": "Color_0x000080",
     "module": "wearApp",
     "renderBasename": "Color_0x000080-db54a72c.png",
-    "sha256": "0fa0dde58bec08878c6727273eeac64478286ce6f1bfd2ab203394cc66a23659",
+    "sha256": "4e433c6471677255f1067f277d535bedcd19ead6c334de80fcd0bb06a27c48ba",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x008000": {
@@ -2236,7 +2236,7 @@
     "functionName": "Color_0x008000",
     "module": "wearApp",
     "renderBasename": "Color_0x008000-c396c847.png",
-    "sha256": "eb6e4f13e56a1c60b4a15de402b3df64f0a538bd8e95a5df60e484b1f8ba80c7",
+    "sha256": "fce7d3379b67582a5805305d1af9949139d8344d38b243b1864797643cf9f279",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Color_0x800000": {
@@ -2244,7 +2244,7 @@
     "functionName": "Color_0x800000",
     "module": "wearApp",
     "renderBasename": "Color_0x800000-5f8e75cc.png",
-    "sha256": "579b4b2585342b972e70fe8e3491047a2c559412a2b41243c374bc5d0493a2f5",
+    "sha256": "b4dcbb10dd7b5c858e0d5278356b1c2a8a84b23be16e9bb053918663106161d0",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.Defaults": {
@@ -2252,7 +2252,7 @@
     "functionName": "Defaults",
     "module": "wearApp",
     "renderBasename": "Defaults-dbbe8909.png",
-    "sha256": "ef18aaf374ee4dc9b2546715b5912a598a66e270326f72739b5e933f84afd212",
+    "sha256": "92c2ee2d291c7dd0ffedfe96578441e9fcab3cb8176fe564eb6f054198033462",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemePreviewKt.NotSet": {
@@ -2260,7 +2260,7 @@
     "functionName": "NotSet",
     "module": "wearApp",
     "renderBasename": "NotSet-5c6e4f51.png",
-    "sha256": "c7a0b947c109a756bc242055ac37c507feec365b910e4e2c9c028e0dfc89bc5e",
+    "sha256": "b74ce9cae243e0f7d859c2e57ddd2781288f5ad0b376241aaf7f4f62e6a01f6b",
     "sourceFile": "src/screenshotTest/java/dev/johnoreilly/confetti/wear/ui/ThemePreview.kt"
   },
   "wearApp/dev.johnoreilly.confetti.wear.ui.ThemeSwatchesKt.Color_0x000080Swatches": {

@@ -4,7 +4,7 @@ default_platform :android
 
 platform :android do
 
-    androidVersionNum = 283
+    androidVersionNum = 287
     wearVersionNum = 337
 
     before_all do

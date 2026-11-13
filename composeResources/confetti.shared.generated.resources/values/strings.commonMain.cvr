@@ -11,6 +11,10 @@ string|brand_android|QW5kcm9pZA==
 string|brand_default|RGVmYXVsdA==
 string|cancel|Q0FOQ0VM
 string|choose_conference|Q2hvb3NlIENvbmZlcmVuY2U=
+string|color_style_exact|RXhhY3QgY29uZmVyZW5jZSBjb2xvdXI=
+string|color_style_preference|Q29sb3VyIHN0eWxl
+string|color_style_subtle|U3VidGxl
+string|color_style_vibrant|VmlicmFudA==
 string|dark_mode_config_dark|RGFyaw==
 string|dark_mode_config_light|TGlnaHQ=
 string|dark_mode_config_system_default|U3lzdGVtIGRlZmF1bHQ=

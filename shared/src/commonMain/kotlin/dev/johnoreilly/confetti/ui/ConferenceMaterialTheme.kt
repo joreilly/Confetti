@@ -9,9 +9,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
+import com.materialkolor.PaletteStyle
 import com.materialkolor.rememberDynamicColorScheme
 import com.russhwolf.settings.ExperimentalSettingsApi
 import dev.johnoreilly.confetti.AppSettings
+import dev.johnoreilly.confetti.decompose.ColorStyle
+import dev.johnoreilly.confetti.decompose.DefaultSettingsComponent
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import org.koin.compose.koinInject
 
@@ -27,6 +30,7 @@ fun ConferenceMaterialTheme(
     seedColorString: String?,
     useDynamicColor: Boolean = false,
     darkThemeConfig: DarkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+    colorStyle: ColorStyle = ColorStyle.Default,
     content: @Composable () -> Unit,
 ) {
     if (useDynamicColor) {
@@ -59,6 +63,7 @@ fun ConferenceMaterialTheme(
         primary = seedColor,
         isDark = shouldUseDarkTheme,
         isAmoled = false,
+        style = colorStyle.toPaletteStyle(),
     )
 
     MaterialTheme(colorScheme = colorScheme) {
@@ -92,11 +97,16 @@ fun ConferenceMaterialThemeFromSettings(
         "darkThemeConfigKey",
         DarkThemeConfig.FOLLOW_SYSTEM.toString()
     ).collectAsState(DarkThemeConfig.FOLLOW_SYSTEM.toString())
+    val colorStyleString by appSettings.settings.getStringFlow(
+        DefaultSettingsComponent.colorStyleKey,
+        ColorStyle.Default.name
+    ).collectAsState(ColorStyle.Default.name)
 
     ConferenceMaterialTheme(
         seedColorString = seedColorString,
         useDynamicColor = useDynamicColor,
         darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfigString),
+        colorStyle = ColorStyle.fromString(colorStyleString),
         content = content,
     )
 }
@@ -108,4 +118,12 @@ private fun shouldUseDarkTheme(
     DarkThemeConfig.FOLLOW_SYSTEM, null -> isSystemInDarkTheme()
     DarkThemeConfig.LIGHT -> false
     DarkThemeConfig.DARK -> true
+}
+
+// Vibrant keeps more of a conference's seed colour than TonalSpot, which mutes pale seeds to
+// near-grey; Fidelity uses the seed itself for containers.
+private fun ColorStyle.toPaletteStyle(): PaletteStyle = when (this) {
+    ColorStyle.SUBTLE -> PaletteStyle.TonalSpot
+    ColorStyle.VIBRANT -> PaletteStyle.Vibrant
+    ColorStyle.EXACT -> PaletteStyle.Fidelity
 }

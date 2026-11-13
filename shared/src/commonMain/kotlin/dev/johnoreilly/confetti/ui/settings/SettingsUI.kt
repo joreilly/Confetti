@@ -72,6 +72,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import confetti.shared.generated.resources.Res
 import confetti.shared.generated.resources.cancel
 import confetti.shared.generated.resources.dark_mode_config_dark
+import confetti.shared.generated.resources.color_style_exact
+import confetti.shared.generated.resources.color_style_preference
+import confetti.shared.generated.resources.color_style_subtle
+import confetti.shared.generated.resources.color_style_vibrant
 import confetti.shared.generated.resources.dark_mode_config_light
 import confetti.shared.generated.resources.dark_mode_config_system_default
 import confetti.shared.generated.resources.dark_mode_preference
@@ -88,6 +92,7 @@ import confetti.shared.generated.resources.slack_desc
 import confetti.shared.generated.resources.use_experimental_features
 import confetti.shared.generated.resources.use_experimental_features_desc
 import dev.johnoreilly.confetti.appconfig.ApplicationInfo
+import dev.johnoreilly.confetti.decompose.ColorStyle
 import dev.johnoreilly.confetti.decompose.DarkThemeConfig
 import dev.johnoreilly.confetti.decompose.DeveloperSettings
 import dev.johnoreilly.confetti.decompose.SettingsComponent
@@ -107,6 +112,7 @@ fun SettingsUI(
     SettingsUI(
         userEditableSettings = userEditableSettings,
         onChangeDarkThemeConfig = component::updateDarkThemeConfig,
+        onChangeColorStyle = component::updateColorStyle,
         onChangeUseExperimentalFeatures = component::updateUseExperimentalFeatures,
         developerSettings = developerSettings,
         applicationInfo = component.applicationInfo,
@@ -133,7 +139,8 @@ fun SettingsUI(
     supportsNotifications: Boolean,
     onNotificationsEnabled: (value: Boolean) -> Unit,
     onChangeForceEnableAssistant: (value: Boolean) -> Unit,
-    popBack: () -> Unit
+    popBack: () -> Unit,
+    onChangeColorStyle: (colorStyle: ColorStyle) -> Unit = {},
 ) {
     var showPermissionDeniedDialog by remember { mutableStateOf(false) }
     var showNotificationInfoDialog by remember { mutableStateOf(false) }
@@ -271,6 +278,26 @@ fun SettingsUI(
                                         currentConfig = userEditableSettings.darkThemeConfig,
                                         onConfigSelected = onChangeDarkThemeConfig,
                                         onDismissRequest = { showThemeDialog = false }
+                                    )
+                                }
+
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                                )
+
+                                var showColorStyleDialog by remember { mutableStateOf(false) }
+                                SelectionSettingsRow(
+                                    title = stringResource(Res.string.color_style_preference),
+                                    selectedValue = colorStyleLabel(userEditableSettings.colorStyle),
+                                    onClick = { showColorStyleDialog = true }
+                                )
+
+                                if (showColorStyleDialog) {
+                                    ColorStyleDialog(
+                                        currentStyle = userEditableSettings.colorStyle,
+                                        onStyleSelected = onChangeColorStyle,
+                                        onDismissRequest = { showColorStyleDialog = false }
                                     )
                                 }
                             }
@@ -542,6 +569,49 @@ private fun DarkThemeConfigDialog(
 }
 
 @Composable
+private fun colorStyleLabel(colorStyle: ColorStyle): String = when (colorStyle) {
+    ColorStyle.SUBTLE -> stringResource(Res.string.color_style_subtle)
+    ColorStyle.VIBRANT -> stringResource(Res.string.color_style_vibrant)
+    ColorStyle.EXACT -> stringResource(Res.string.color_style_exact)
+}
+
+@Composable
+private fun ColorStyleDialog(
+    currentStyle: ColorStyle,
+    onStyleSelected: (ColorStyle) -> Unit,
+    onDismissRequest: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text(
+                text = stringResource(Res.string.color_style_preference),
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        text = {
+            Column(Modifier.selectableGroup()) {
+                ColorStyle.entries.forEach { style ->
+                    SettingsDialogThemeChooserRow(
+                        text = colorStyleLabel(style),
+                        selected = currentStyle == style,
+                        onClick = {
+                            onStyleSelected(style)
+                            onDismissRequest()
+                        }
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(stringResource(Res.string.cancel))
+            }
+        }
+    )
+}
+
+@Composable
 fun SettingsDialogThemeChooserRow(
     text: String,
     selected: Boolean,
@@ -669,6 +739,7 @@ fun SettingsPreviewContent() {
     SettingsUI(
         userEditableSettings = UserEditableSettings(
             darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+            colorStyle = ColorStyle.VIBRANT,
             useExperimentalFeatures = true,
             notificationsEnabled = true
         ),

@@ -30,6 +30,7 @@ data class DeveloperSettings(
  */
 data class UserEditableSettings(
     val darkThemeConfig: DarkThemeConfig,
+    val colorStyle: ColorStyle,
     val useExperimentalFeatures: Boolean,
     val notificationsEnabled: Boolean,
 )
@@ -42,6 +43,25 @@ enum class DarkThemeConfig {
     FOLLOW_SYSTEM, LIGHT, DARK
 }
 
+/** How strongly a conference's colours are applied to its theme. */
+enum class ColorStyle {
+    /** Muted, close to Material's default system colours. */
+    SUBTLE,
+
+    /** More of the conference colour in accents such as chips, tabs and buttons. */
+    VIBRANT,
+
+    /** The conference colour used as-is in containers. */
+    EXACT;
+
+    companion object {
+        val Default = VIBRANT
+
+        fun fromString(value: String?): ColorStyle =
+            entries.firstOrNull { it.name == value } ?: Default
+    }
+}
+
 interface SettingsComponent {
 
     val developerSettings: StateFlow<DeveloperSettings?>
@@ -49,6 +69,7 @@ interface SettingsComponent {
     val applicationInfo: ApplicationInfo
 
     fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
+    fun updateColorStyle(colorStyle: ColorStyle)
     fun updateUseExperimentalFeatures(value: Boolean)
     fun updateNotificationsEnabled(value: Boolean)
     fun updateForceEnableAssistant(value: Boolean)
@@ -90,12 +111,14 @@ class DefaultSettingsComponent(
     override val userEditableSettings: StateFlow<UserEditableSettings?> =
         combine(
             settings.getStringFlow(darkThemeConfigKey, DarkThemeConfig.FOLLOW_SYSTEM.toString()),
+            settings.getStringFlow(colorStyleKey, ColorStyle.Default.name),
             appSettings.experimentalFeaturesEnabledFlow,
             appSettings.notificationsEnabledFlow,
-        ) { darkThemeConfig, useExperimentalFeatures, useNotifications ->
+        ) { darkThemeConfig, colorStyle, useExperimentalFeatures, useNotifications ->
             UserEditableSettings(
                 useExperimentalFeatures = useExperimentalFeatures,
                 darkThemeConfig = DarkThemeConfig.valueOf(darkThemeConfig),
+                colorStyle = ColorStyle.fromString(colorStyle),
                 notificationsEnabled = useNotifications
             )
         }.stateIn(
@@ -107,6 +130,12 @@ class DefaultSettingsComponent(
     override fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
         coroutineScope.launch {
             settings.putString(darkThemeConfigKey, darkThemeConfig.toString())
+        }
+    }
+
+    override fun updateColorStyle(colorStyle: ColorStyle) {
+        coroutineScope.launch {
+            settings.putString(colorStyleKey, colorStyle.name)
         }
     }
 
@@ -156,5 +185,6 @@ class DefaultSettingsComponent(
 
     companion object {
         const val darkThemeConfigKey = "darkThemeConfigKey"
+        const val colorStyleKey = "colorStyleKey"
     }
 }

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Confetti</string>
-    <string name="app_functions_display_description">Lets assistants look up sessions from your selected conference and add or remove your bookmarks.</string>
+    <string name="app_functions_display_description">Lets assistants look up Confetti conferences, sessions, speakers and venues, and see, add or remove your bookmarks.</string>
 </resources>

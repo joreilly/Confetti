@@ -17,11 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalUriHandler
 import dev.johnoreilly.confetti.livery.Action
+import dev.johnoreilly.confetti.livery.BreakContract
+import dev.johnoreilly.confetti.livery.ConferenceContract
 import dev.johnoreilly.confetti.livery.ConferenceSeries
 import dev.johnoreilly.confetti.livery.ConfettiContract
 import dev.johnoreilly.confetti.livery.ContractData
 import dev.johnoreilly.confetti.livery.PromoContract
 import dev.johnoreilly.confetti.livery.SduiExperiment
+import dev.johnoreilly.confetti.livery.SessionContract
 import dev.johnoreilly.confetti.livery.SlotTracker
 import dev.johnoreilly.confetti.ui.LocalDynamicColorInUse
 import ee.schimke.livery.compose.material3.toLiveryTheme
@@ -40,13 +43,18 @@ import ee.schimke.livery.client.SlotPlanner
 import ee.schimke.livery.client.TemplateQuery
 import ee.schimke.livery.client.TemplateRepository
 import ee.schimke.livery.compose.LiveryHost
+import ee.schimke.livery.compose.LiveryResources
 import ee.schimke.livery.compose.LiverySlot
 import ee.schimke.livery.protocol.PlayerCapabilities
 import ee.schimke.livery.protocol.Surfaces
 import ee.schimke.livery.protocol.TemplateEvent
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 /**
  * What a platform hands the shared UI to draw conference-styled slots. Absent (the default), every
@@ -107,6 +115,35 @@ class LiveryStyling(
         val decider = LocalRulesDecider({ repository.current() }, MemoryFrequencyStore(), LocalBucketing)
         val imageResolver: ImageResolver? = images(repository)
 
+        /**
+         * The series' prepared documents, fonts, images and slot answers, shared by every slot of
+         * it: a session list is many cards of a few templates, so only a template's first card (or
+         * none, after [warm]) does any work before it draws. Each slot has a host of its own (its
+         * actions are its own), all over these resources.
+         */
+        val resources = LiveryResources(repository, imageResolver)
+
+        /**
+         * Prepares, off the main thread, the templates the agenda draws for this series (sessions,
+         * breaks and the header) and loads their fonts, so the first card of each draws on its
+         * first frame and no scroll decodes a template. Run on every catalog revision.
+         */
+        suspend fun warm() = coroutineScope {
+            for (contract in listOf(SessionContract, BreakContract, ConferenceContract)) {
+                launch {
+                    try {
+                        val template = repository.resolve(query(contract)) ?: return@launch
+                        withContext(Dispatchers.Default) { resources.prepared(template) }
+                        resources.typefaces(template)
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (_: Exception) {
+                        // A template that can't be read now is prepared by its first card instead.
+                    }
+                }
+            }
+        }
+
         private val refreshLock = Mutex()
         private var lastRefreshEpochMs = Long.MIN_VALUE / 2
 
@@ -152,6 +189,7 @@ class LiveryStyling(
                 val manifest = repository.current()
                 designed = manifest?.designs.orEmpty().filterNot { it.revoked }.mapTo(mutableSetOf()) { it.contract }
                 placed = manifest?.placements.orEmpty().mapTo(mutableSetOf()) { it.placement }
+                warm()
             }
         }
 
@@ -233,7 +271,8 @@ fun ConferenceSlot(
     val native = remember(catalog, contract) { nativeTracker(styling, catalog, contract) }
     // Re-planned when the data or the colours change, and on a refreshed catalog (LiverySlot
     // watches the repository's revision): a mode switch or a new wallpaper recolours live.
-    LiverySlot(key = Triple(json, colors, specific), host = host, modifier = modifier, fallback = { reason ->
+    // slotId: a card scrolled away and back draws its last answer at once, not Confetti's row first.
+    LiverySlot(key = Triple(json, colors, specific), host = host, modifier = modifier, slotId = contract.ref, fallback = { reason ->
         // Nothing to draw (the header): nothing to see, so no impression either.
         val draw = fallback ?: return@LiverySlot
         // A reason means there's no template here, so Confetti's row is what the user sees: its
@@ -333,6 +372,7 @@ private fun rememberHost(styling: LiveryStyling, catalog: LiveryStyling.SeriesCa
             events = events,
             clock = styling.clock,
             images = catalog.imageResolver,
+            resources = catalog.resources,
         )
     }
 }

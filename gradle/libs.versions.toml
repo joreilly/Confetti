@@ -3,7 +3,7 @@ kotlin = "2.4.21"
 ksp = "2.3.13"
 kotlinx-coroutines = "1.11.0"
 kotlinx-datetime = "0.8.0-0.6.x-compat"
-kotlinx-serialization = "1.12.0"
+kotlinx-serialization = "1.13.0"
 ktor = "3.6.1"
 galak = "0.0.0"
 tapmoc = "0.5.0"
@@ -174,7 +174,7 @@ desugar = "com.android.tools:desugar_jdk_libs:2.1.5"
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.11.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-bom = "com.google.firebase:firebase-bom:35.1.0"
+firebase-bom = "com.google.firebase:firebase-bom:35.2.0"
 firebase-config = { module = "com.google.firebase:firebase-config" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-performance = { module = "com.google.firebase:firebase-perf" }
@@ -233,7 +233,7 @@ plugin-android-application = { module = "com.android.tools.build:gradle", versio
 plugin-androidx-baselineprofile = "androidx.benchmark:benchmark-baseline-profile-gradle-plugin:1.5.0"
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.8" }
-plugin-google-services = "com.google.gms:google-services:4.5.0"
+plugin-google-services = "com.google.gms:google-services:4.6.0"
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }

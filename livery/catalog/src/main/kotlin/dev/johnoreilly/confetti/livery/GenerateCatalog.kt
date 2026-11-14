@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.livery
 
+import okio.ByteString.Companion.toByteString
 import ee.schimke.livery.compose.material3.toLiveryTheme
 import ee.schimke.livery.protocol.ThemeRoles
 import ee.schimke.composeai.rccreation.compose.capture.RemoteCreationDisplayInfo
@@ -81,12 +82,12 @@ fun bind(contract: ConfettiContract, data: JsonObject): Bindings =
 /** Renders a captured template with its design's example data (and a theme pack's values) to PNG. */
 fun render(captured: CapturedTemplate, data: JsonObject, theme: Bindings = Bindings.EMPTY, dark: Boolean = true): ByteArray =
     TemplateRenderer.png(
-        template = captured.bytes,
+        template = captured.bytes.toByteString(),
         bindings = bind(captured.design.contract, data) + theme,
         spec = RenderSpec(captured.template.widthDp, captured.template.heightDp, density = 2f, dark = dark),
         images = PreviewImages,
         typefaces = CatalogFonts.forSeries(captured.design.brand.series),
-    )
+    ).toByteArray()
 
 /** Where the catalogs live when run from the repository root or from this module (tests). */
 fun catalogsRoot(): File = listOf(File("catalogs"), File("livery/catalog/catalogs")).first { it.isDirectory }.absoluteFile

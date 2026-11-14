@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.livery.benchmark
 
+import okio.ByteString.Companion.toByteString
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -90,7 +91,7 @@ class SeriesCatalog(val series: String, dir: File) {
     val template = LoadedTemplate(
         entry = entry,
         design = manifest.design(entry.designId),
-        bytes = File(dir, "blobs/${entry.sha256}.rc").readBytes(),
+        bytes = File(dir, "blobs/${entry.sha256}.rc").readBytes().toByteString(),
         origin = LoadedTemplate.Origin.Bundled,
         contract = contract,
         assets = entry.assets.mapNotNull(manifest::asset),
@@ -102,7 +103,7 @@ class SeriesCatalog(val series: String, dir: File) {
 
     init {
         runBlocking {
-            for (asset in template.assets) blobs.put(asset.sha256, File(dir, "assets/${asset.sha256}.ttf").readBytes())
+            for (asset in template.assets) blobs.put(asset.sha256, File(dir, "assets/${asset.sha256}.ttf").readBytes().toByteString())
         }
     }
 

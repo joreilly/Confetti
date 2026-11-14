@@ -1,6 +1,6 @@
 # Accessibility Report
 
-_Auto-generated from `compose-preview/a11y/pr`. 120 preview(s) across 4 module(s) · 12 error(s) · 3 warning(s) · 8 info._
+_Auto-generated from `compose-preview/a11y/pr`. 120 preview(s) across 4 module(s) · 12 error(s) · 5 warning(s) · 8 info._
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
@@ -10,7 +10,10 @@ Browse inline; image URLs are pinned to the commit SHA on the baseline branch so
 
 <img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/android/LiveryDroidconPreview_droidcon-dea0f94d.a11y.png" width="400" />
 
-_No findings._
+| # | Level | Rule | Element | Message |
+|--:|---|---|---|---|
+| 1 | WARNING | TouchTargetSizeCheck | android.widget.TextView | This item's height is 14dp. Consider making the height of this touch target 48dp or larger. A parent container may be handling touch events for this item. If selecting the larger container performs the same action as selecting this item, consider defining this item as not clickable. If a different action is performed, consider increasing the size of this item. |
+| 2 | WARNING | TouchTargetSizeCheck | android.widget.TextView | This item's height is 14dp. Consider making the height of this touch target 48dp or larger. A parent container may be handling touch events for this item. If selecting the larger container performs the same action as selecting this item, consider defining this item as not clickable. If a different action is performed, consider increasing the size of this item. |
 
 ### `LiveryKotlinConfPreview`
 

@@ -269,7 +269,7 @@
       "module": "androidApp",
       "previewId": "ScreenshotTest.SessionDetailsPreview",
       "rendersDir": "androidApp",
-      "sourceFile": "src/test/kotlin/dev/johnoreilly/confetti/BaseScreenshotTest.kt",
+      "sourceFile": "src/screenshotTest/kotlin/ScreenshotTest.kt",
       "variant": ""
     },
     {

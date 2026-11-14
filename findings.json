@@ -426,22 +426,7 @@
     {
       "annotatedBasename": "LiveryDroidconPreview_droidcon-dea0f94d.a11y.png",
       "cleanBasename": "LiveryDroidconPreview_droidcon-dea0f94d.png",
-      "findings": [
-        {
-          "boundsInScreen": "48,289,321,327",
-          "level": "WARNING",
-          "message": "This item's height is 14dp. Consider making the height of this touch target 48dp or larger. A parent container may be handling touch events for this item. If selecting the larger container performs the same action as selecting this item, consider defining this item as not clickable. If a different action is performed, consider increasing the size of this item.",
-          "type": "TouchTargetSizeCheck",
-          "viewDescription": "android.widget.TextView"
-        },
-        {
-          "boundsInScreen": "363,289,636,327",
-          "level": "WARNING",
-          "message": "This item's height is 14dp. Consider making the height of this touch target 48dp or larger. A parent container may be handling touch events for this item. If selecting the larger container performs the same action as selecting this item, consider defining this item as not clickable. If a different action is performed, consider increasing the size of this item.",
-          "type": "TouchTargetSizeCheck",
-          "viewDescription": "android.widget.TextView"
-        }
-      ],
+      "findings": [],
       "functionName": "LiveryDroidconPreview",
       "module": "android",
       "previewId": "dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryDroidconPreview_droidcon",

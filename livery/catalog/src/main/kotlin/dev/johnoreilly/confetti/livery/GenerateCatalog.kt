@@ -2,10 +2,10 @@ package dev.johnoreilly.confetti.livery
 
 import ee.schimke.livery.compose.material3.toLiveryTheme
 import ee.schimke.livery.protocol.ThemeRoles
-import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
-import androidx.compose.remote.creation.compose.capture.RemoteDensity
-import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
-import androidx.compose.remote.creation.compose.capture.captureCommonRemoteDocument
+import ee.schimke.composeai.rccreation.compose.capture.RemoteCreationDisplayInfo
+import ee.schimke.composeai.rccreation.compose.capture.RemoteDensity
+import ee.schimke.composeai.rccreation.compose.capture.RemoteDensityBehavior
+import ee.schimke.composeai.rccreation.compose.capture.captureCommonRemoteDocument
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas

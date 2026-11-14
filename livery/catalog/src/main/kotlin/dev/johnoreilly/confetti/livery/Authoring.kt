@@ -1,19 +1,20 @@
 package dev.johnoreilly.confetti.livery
 
+import androidx.compose.ui.graphics.toArgb
 import ee.schimke.livery.protocol.ThemeRoles
-import androidx.compose.remote.creation.compose.action.RemoteAction
-import androidx.compose.remote.creation.compose.action.hostAction
-import androidx.compose.remote.creation.compose.state.RemoteBoolean
-import androidx.compose.remote.creation.compose.state.RemoteColor
-import androidx.compose.remote.creation.compose.state.RemoteImageBitmap
-import androidx.compose.remote.creation.compose.state.RemoteInt
-import androidx.compose.remote.creation.compose.state.RemoteString
-import androidx.compose.remote.creation.compose.state.rememberNamedRemoteBoolean
-import androidx.compose.remote.creation.compose.state.rememberNamedRemoteColor
-import androidx.compose.remote.creation.compose.state.rememberNamedRemoteInt
-import androidx.compose.remote.creation.compose.state.rememberNamedRemoteString
-import androidx.compose.remote.creation.compose.state.rememberRemoteImageBitmap
-import androidx.compose.remote.creation.compose.state.rs
+import ee.schimke.composeai.rccreation.compose.action.RemoteAction
+import ee.schimke.composeai.rccreation.compose.action.hostAction
+import ee.schimke.composeai.rccreation.compose.state.RemoteBoolean
+import ee.schimke.composeai.rccreation.compose.state.RemoteColor
+import ee.schimke.composeai.rccreation.compose.state.RemoteImageBitmap
+import ee.schimke.composeai.rccreation.compose.state.RemoteInt
+import ee.schimke.composeai.rccreation.compose.state.RemoteString
+import ee.schimke.composeai.rccreation.compose.state.rememberNamedRemoteBoolean
+import ee.schimke.composeai.rccreation.compose.state.rememberNamedRemoteColor
+import ee.schimke.composeai.rccreation.compose.state.rememberNamedRemoteInt
+import ee.schimke.composeai.rccreation.compose.state.rememberNamedRemoteString
+import ee.schimke.composeai.rccreation.compose.state.rememberRemoteImageBitmap
+import ee.schimke.composeai.rccreation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -91,7 +92,7 @@ fun inputBool(input: Input): RemoteBoolean {
 @Composable
 fun themeColor(role: String, initial: Color): RemoteColor {
     LocalTemplateScope.current.readTheme(role)
-    return rememberNamedRemoteColor(role, initial)
+    return rememberNamedRemoteColor(role, RemoteColor(initial.toArgb()))
 }
 
 /** How many items of [list] are bound (`<list>.count`, PROTOCOL §4.1); 0 until the host sets it. */

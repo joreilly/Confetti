@@ -123,6 +123,7 @@ include(":proto")
 include(":livery:android")
 include(":livery:catalog")
 include(":livery:contracts")
+include(":livery:benchmark")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     "This project needs to be run with Java 17 or higher (found: ${JavaVersion.current()})."

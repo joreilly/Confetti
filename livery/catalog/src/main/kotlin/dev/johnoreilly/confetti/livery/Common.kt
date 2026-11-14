@@ -1,36 +1,38 @@
 package dev.johnoreilly.confetti.livery
 
+import ee.schimke.composeai.rccreation.compose.text.RemoteTextOverflow
+import ee.schimke.composeai.rccreation.compose.text.RemoteFontWeight
 import ee.schimke.livery.protocol.ThemeRoles
-import androidx.compose.remote.creation.compose.layout.RemoteAlignment
-import androidx.compose.remote.creation.compose.layout.RemoteBox
-import androidx.compose.remote.creation.compose.layout.RemoteRow
-import androidx.compose.remote.creation.compose.layout.RemoteOffset
-import androidx.compose.remote.creation.compose.shaders.RemoteBrush
-import androidx.compose.remote.creation.compose.shaders.radialGradient
-import androidx.compose.remote.creation.compose.state.cos
-import androidx.compose.remote.creation.compose.layout.RemoteText
-import androidx.compose.remote.creation.compose.state.RemoteTimeVariables
-import androidx.compose.remote.creation.compose.state.rs
-import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.alpha
-import androidx.compose.remote.creation.compose.modifier.background
-import androidx.compose.remote.creation.compose.modifier.clickable
-import androidx.compose.remote.creation.compose.modifier.clip
-import androidx.compose.remote.creation.compose.modifier.padding
-import androidx.compose.remote.creation.compose.modifier.visibility
-import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
-import androidx.compose.remote.creation.compose.state.RemoteBoolean
-import androidx.compose.remote.creation.compose.state.RemoteColor
-import androidx.compose.remote.creation.compose.state.RemoteDp
-import androidx.compose.remote.creation.compose.state.RemoteFloat
-import androidx.compose.remote.creation.compose.state.RemoteInt
-import androidx.compose.remote.creation.compose.state.RemoteString
-import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rf
-import androidx.compose.remote.creation.compose.state.ri
-import androidx.compose.remote.creation.compose.state.rsp
-import androidx.compose.remote.creation.compose.state.sin
-import androidx.compose.remote.creation.compose.text.RemoteFontFamily
+import ee.schimke.composeai.rccreation.compose.layout.RemoteAlignment
+import ee.schimke.composeai.rccreation.compose.layout.RemoteBox
+import ee.schimke.composeai.rccreation.compose.layout.RemoteRow
+import ee.schimke.composeai.rccreation.compose.layout.RemoteOffset
+import ee.schimke.composeai.rccreation.compose.shaders.RemoteBrush
+import ee.schimke.composeai.rccreation.compose.shaders.radialGradient
+import ee.schimke.composeai.rccreation.compose.state.cos
+import ee.schimke.composeai.rccreation.compose.layout.RemoteText
+import ee.schimke.composeai.rccreation.compose.state.RemoteTimeVariables
+import ee.schimke.composeai.rccreation.compose.state.rs
+import ee.schimke.composeai.rccreation.compose.modifier.RemoteModifier
+import ee.schimke.composeai.rccreation.compose.modifier.alpha
+import ee.schimke.composeai.rccreation.compose.modifier.background
+import ee.schimke.composeai.rccreation.compose.modifier.clickable
+import ee.schimke.composeai.rccreation.compose.modifier.clip
+import ee.schimke.composeai.rccreation.compose.modifier.padding
+import ee.schimke.composeai.rccreation.compose.modifier.visibility
+import ee.schimke.composeai.rccreation.compose.shapes.RemoteRoundedCornerShape
+import ee.schimke.composeai.rccreation.compose.state.RemoteBoolean
+import ee.schimke.composeai.rccreation.compose.state.RemoteColor
+import ee.schimke.composeai.rccreation.compose.state.RemoteDp
+import ee.schimke.composeai.rccreation.compose.state.RemoteFloat
+import ee.schimke.composeai.rccreation.compose.state.RemoteInt
+import ee.schimke.composeai.rccreation.compose.state.RemoteString
+import ee.schimke.composeai.rccreation.compose.state.rdp
+import ee.schimke.composeai.rccreation.compose.state.rf
+import ee.schimke.composeai.rccreation.compose.state.ri
+import ee.schimke.composeai.rccreation.compose.state.rsp
+import ee.schimke.composeai.rccreation.compose.state.sin
+import ee.schimke.composeai.rccreation.compose.text.RemoteFontFamily
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -116,9 +118,9 @@ fun Label(
         modifier = modifier,
         color = color,
         fontSize = size.rsp,
-        fontWeight = weight,
+        fontWeight = RemoteFontWeight(weight.weight),
         fontFamily = family?.let { RemoteFontFamily.Named(it.removePrefix("system:")) } ?: RemoteFontFamily.Default,
-        overflow = TextOverflow.Ellipsis,
+        overflow = RemoteTextOverflow.Ellipsis,
         maxLines = maxLines,
     )
 }

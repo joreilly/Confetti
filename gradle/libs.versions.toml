@@ -63,8 +63,8 @@ composeai-preview = "2.89.0"
 composeai-preview-annotations = "3.27.4"
 koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
-livery = "0.9.0"
-rc-players = "2.33.0"
+livery = "0.12.0"
+rc-players = "3.4.0"
 
 
 androidx-appfunctions = "1.0.0-rc01"
@@ -78,7 +78,7 @@ livery-render = { module = "ee.schimke.composeai:livery-render" }
 livery-publish = { module = "ee.schimke.composeai:livery-publish" }
 rc-players-bom = { module = "ee.schimke.composeai:rc-players-bom", version.ref = "rc-players" }
 rc-player-compose = { module = "ee.schimke.composeai:rc-player-compose" }
-rc-remote-creation-compose = { module = "ee.schimke.composeai:third-party-remote-creation-compose" }
+rc-remote-creation-compose = { module = "ee.schimke.composeai:rc-creation-compose" }
 androidx-appfunctions = { module = "androidx.appfunctions:appfunctions", version.ref = "androidx-appfunctions" }
 androidx-appfunctions-compiler = { module = "androidx.appfunctions:appfunctions-compiler", version.ref = "androidx-appfunctions" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }

@@ -233,7 +233,7 @@ plugin-android-application = { module = "com.android.tools.build:gradle", versio
 plugin-androidx-baselineprofile = "androidx.benchmark:benchmark-baseline-profile-gradle-plugin:1.5.0"
 plugin-apollo = { module = "com.apollographql.apollo:apollo-gradle-plugin", version.ref = "apollo" }
 plugin-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.8" }
-plugin-google-services = "com.google.gms:google-services:4.5.0"
+plugin-google-services = "com.google.gms:google-services:4.6.0"
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 plugin-kotlin-spring = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 plugin-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }

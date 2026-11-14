@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794661760995,
-    "generatedAtEpochMs": 1794661760995,
-    "expiresAtEpochMs": 1797253760995,
+    "serial": 1794679966813,
+    "generatedAtEpochMs": 1794679966813,
+    "expiresAtEpochMs": 1797271966813,
     "contracts": [
         {
             "id": "confetti/break",
@@ -476,8 +476,8 @@
     ],
     "templates": [
         {
-            "sha256": "35ef72413b66a70a0670f7d059db0171dd9d00ae45b52cf14faded42f598239c",
-            "bytes": 2212,
+            "sha256": "3d679146ae59990279ba798f1a92a4d1fb5b3455f9dfc51b8ecab37b6006a539",
+            "bytes": 2264,
             "designId": "confetti-break",
             "contract": "confetti/break@1",
             "target": {
@@ -507,8 +507,8 @@
             ]
         },
         {
-            "sha256": "4d10db4b2a5a8cad5e51ca96a18bd3efcb4aa04fd602555cbc19149227fc076b",
-            "bytes": 3082,
+            "sha256": "a983c86c4084d9d70db3baaeef86cc92ed1ba93c8dcb8f54a311da2709eb8167",
+            "bytes": 3141,
             "designId": "confetti-header",
             "contract": "confetti/conference@1",
             "target": {
@@ -541,8 +541,8 @@
             ]
         },
         {
-            "sha256": "b717734e214623b12ae45dbc406a1aeb6c20b14ce43581ffc6f2a85fefb4b70c",
-            "bytes": 1974,
+            "sha256": "8cb5aac93b41ea8c68f109489563b9e938cc6266a24a08130b4885cfcc7e3af0",
+            "bytes": 2000,
             "designId": "confetti-promo",
             "contract": "confetti/promo@1",
             "target": {
@@ -575,8 +575,8 @@
             ]
         },
         {
-            "sha256": "2de79f8e4923572888aadbc1a24588f58b66128ad489161a83ddc7a04017f849",
-            "bytes": 3709,
+            "sha256": "5ae110d426f03c743bddd4c4620eac0ee0b511ae04b5bbafcfe552696d8b3342",
+            "bytes": 3787,
             "designId": "confetti-session",
             "contract": "confetti/session@1",
             "target": {
@@ -621,8 +621,8 @@
             ]
         },
         {
-            "sha256": "142e18b664d16e84018805069d5ea3df4fa4b8bb5f889365f43c5f46d8fc1ed8",
-            "bytes": 1393,
+            "sha256": "ac27bd0df9910aae74b02dfe5cee316e38325f747c7de25b6d06e22935bf2a2a",
+            "bytes": 1419,
             "designId": "confetti-speaker",
             "contract": "confetti/speaker@1",
             "target": {
@@ -653,7 +653,7 @@
             ]
         },
         {
-            "sha256": "61674334329e6f0ee24c2a00cbf497685f909cdf1957d9f5b0791d5654e8fec3",
+            "sha256": "8a309969f7b5148a7398f93704f0ed8e3065dfcfa98f5b54d8bf8a145713250c",
             "bytes": 465,
             "designId": "confetti-title",
             "contract": "confetti/title@1",

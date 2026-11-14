@@ -1,9 +1,9 @@
 package dev.johnoreilly.confetti.livery
 
-import androidx.compose.remote.creation.compose.shaders.RemoteBrush
-import androidx.compose.remote.creation.compose.shaders.runtimeShader
-import androidx.compose.remote.creation.compose.state.RemoteColor
-import androidx.compose.remote.creation.compose.state.RemoteTimeVariables
+import ee.schimke.composeai.rccreation.compose.shaders.RemoteBrush
+import ee.schimke.composeai.rccreation.compose.shaders.runtimeShader
+import ee.schimke.composeai.rccreation.compose.state.RemoteColor
+import ee.schimke.composeai.rccreation.compose.state.RemoteTimeVariables
 
 /*
  * The shader experiment: KotlinConf's header over an AGSL mesh gradient instead of meshGlows.

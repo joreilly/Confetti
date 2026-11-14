@@ -4,20 +4,17 @@ _Auto-generated from `compose-preview/a11y/pr`. 120 preview(s) across 4 module(s
 
 Browse inline; image URLs are pinned to the commit SHA on the baseline branch so links keep resolving after merge.
 
-> [!WARNING]
-> ATF data unavailable for this run — the daemon did not return accessibility findings. The renders below are **not** accessibility-checked.
-
 ## android
 
 ### `LiveryDroidconPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/android/LiveryDroidconPreview_droidcon-dea0f94d.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/android/LiveryDroidconPreview_droidcon-dea0f94d.a11y.png" width="400" />
 
 _No findings._
 
 ### `LiveryKotlinConfPreview`
 
-<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/android/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png" width="400" />
+<img src="https://raw.githubusercontent.com/joreilly/Confetti/compose-preview/a11y/pr/renders/android/LiveryKotlinConfPreview_KotlinConf-fa3081e5.a11y.png" width="400" />
 
 _No findings._
 

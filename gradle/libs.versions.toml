@@ -63,8 +63,8 @@ composeai-preview = "2.89.0"
 composeai-preview-annotations = "3.27.4"
 koogAgents = "1.3.0"
 koogPromptExecutorAll = "1.2.0-beta"
-livery = "0.11.0"
-rc-players = "3.3.1"
+livery = "0.12.0"
+rc-players = "3.4.0"
 
 
 androidx-appfunctions = "1.0.0-rc01"

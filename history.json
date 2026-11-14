@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "bc51e2db6ea3feb1175dbb8540ad2e9cbc73c975",
+    "generatedFrom": "5873c0599b17bf3b9de3ac58ea3ed72b4cde3bbf",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -3052,6 +3052,13 @@
             "path": "renders/livery:android/LiveryDroidconPreview_droidcon-dea0f94d.png",
             "versions": [
                 {
+                    "blob": "04a61d9eb958dfcf2f246e0740a2786fe563ab0f",
+                    "commit": "5873c0599b17bf3b9de3ac58ea3ed72b4cde3bbf",
+                    "date": "2026-11-14T18:16:34Z",
+                    "sourceSha": "8ed80310",
+                    "commits": 1
+                },
+                {
                     "blob": "8fd1d6de0887441f846a80a771e3b9607b726654",
                     "commit": "ce3a31e4878914f8ab3a49fb486ba3127f826493",
                     "date": "2026-11-12T20:20:02Z",
@@ -3073,13 +3080,20 @@
                     "commits": 1
                 }
             ],
-            "observations": 3,
+            "observations": 4,
             "unstable": false,
             "flapCount": 1
         },
         "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
             "path": "renders/livery:android/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",
             "versions": [
+                {
+                    "blob": "f40252da99af423211e641d67204f1ed1d305274",
+                    "commit": "5873c0599b17bf3b9de3ac58ea3ed72b4cde3bbf",
+                    "date": "2026-11-14T18:16:34Z",
+                    "sourceSha": "8ed80310",
+                    "commits": 1
+                },
                 {
                     "blob": "e0e248d7180d7aa1737767cd8f93922337c1c554",
                     "commit": "cf5080268ca7d3fe07deb5aa856aa30e6b03cd0a",
@@ -3088,7 +3102,7 @@
                     "commits": 1
                 }
             ],
-            "observations": 1,
+            "observations": 2,
             "unstable": false,
             "flapCount": 0
         },

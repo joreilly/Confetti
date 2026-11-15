@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794765773086,
-    "generatedAtEpochMs": 1794765773086,
-    "expiresAtEpochMs": 1797357773086,
+    "serial": 1794783970986,
+    "generatedAtEpochMs": 1794783970986,
+    "expiresAtEpochMs": 1797375970986,
     "minClient": 2,
     "contracts": [
         {
@@ -973,8 +973,8 @@
             ]
         },
         {
-            "sha256": "e369d4ff4f35a810222140cda4af49e6755a4c184c7521a5719fd92613e50b9c",
-            "bytes": 1102,
+            "sha256": "1c4da33efc20a64a26e18f7a96254709273f67336eb5a4ce506b6087183ca384",
+            "bytes": 1159,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1014,8 +1014,8 @@
             ]
         },
         {
-            "sha256": "b79674137b1991b8a3f08d367a4a317de3dd9d3aa9691694128030e6b1150988",
-            "bytes": 1195,
+            "sha256": "41f1c9f85404c67b9f9af6e028163ff1629f360e0113d5fddb7533a7eb5088e8",
+            "bytes": 2867,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1036,18 +1036,42 @@
                 "theme.onSurface",
                 "theme.onSurfaceVariant",
                 "time",
+                "live",
                 "title",
-                "room"
+                "room",
+                "speakers"
             ],
             "emits": [
                 "open"
+            ]
+        },
+        {
+            "sha256": "5185fd67f43e273c6afdd12460ee408ea9053a254329ec49516e1a4fc4879111",
+            "bytes": 2135,
+            "designId": "droidcon-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "wear-widget",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "glance-wear"
+                ],
+                "theme": "baked:dark",
+                "container": "wear:small"
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "time",
+                "title"
             ],
-            "assets": [
-                "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
-                "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59"
-            ],
-            "fonts": [
-                "Space Mono"
+            "emits": [
+                "open"
             ]
         },
         {

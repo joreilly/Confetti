@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794765773103,
-    "generatedAtEpochMs": 1794765773103,
-    "expiresAtEpochMs": 1797357773103,
+    "serial": 1794783971024,
+    "generatedAtEpochMs": 1794783971024,
+    "expiresAtEpochMs": 1797375971024,
     "contracts": [
         {
             "id": "confetti/break",
@@ -936,6 +936,67 @@
                 "open",
                 "openSpeaker",
                 "bookmark"
+            ]
+        },
+        {
+            "sha256": "81d38f6be57214fbe487d5c276295c3718c1264f0c32320886586b889a22e3bd",
+            "bytes": 2492,
+            "designId": "confetti-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "wear-widget",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "glance-wear"
+                ],
+                "theme": "baked:dark",
+                "container": "wear:large"
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "time",
+                "live",
+                "title",
+                "room",
+                "speakers"
+            ],
+            "emits": [
+                "open"
+            ]
+        },
+        {
+            "sha256": "4634939b921f5e42a48189c0e1e838f1a13c4f4e92a61e6378e1d802363265f2",
+            "bytes": 1760,
+            "designId": "confetti-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "wear-widget",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "glance-wear"
+                ],
+                "theme": "baked:dark",
+                "container": "wear:small"
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "time",
+                "title"
+            ],
+            "emits": [
+                "open"
             ]
         },
         {

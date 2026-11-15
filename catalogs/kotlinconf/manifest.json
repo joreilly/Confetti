@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-kotlinconf",
-    "serial": 1794765705829,
-    "generatedAtEpochMs": 1794765705829,
-    "expiresAtEpochMs": 1797357705829,
+    "serial": 1794783899113,
+    "generatedAtEpochMs": 1794783899113,
+    "expiresAtEpochMs": 1797375899113,
     "minClient": 8,
     "contracts": [
         {
@@ -1110,8 +1110,8 @@
             ]
         },
         {
-            "sha256": "1a5097dd107f61e965960ed28346f8ddf05347fc6f4f49966bed9ac8c12122eb",
-            "bytes": 1181,
+            "sha256": "5eed6c9fb775f7bc93dea349937b0ffa00090cc3a10dbfb1ca7fcab50c0129c4",
+            "bytes": 1280,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1153,8 +1153,8 @@
             ]
         },
         {
-            "sha256": "5178206d5bd553592f095a2522c9fb5ced0fae54dae1cbba447bc2a3cf280847",
-            "bytes": 1305,
+            "sha256": "246b3a3112eceb3f6e1b55c3aea3e5e241c3f2691645dcaa4169beda70cd260e",
+            "bytes": 2710,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1175,20 +1175,42 @@
                 "theme.onSurface",
                 "theme.onSurfaceVariant",
                 "time",
+                "live",
                 "title",
-                "room"
+                "room",
+                "speakers"
             ],
             "emits": [
                 "open"
+            ]
+        },
+        {
+            "sha256": "3540616c774977a5f224a18c3bf84911a1309f1c429da26c9476a77165c64be8",
+            "bytes": 1987,
+            "designId": "kotlinconf-session",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "wear-widget",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "glance-wear"
+                ],
+                "theme": "baked:dark",
+                "container": "wear:small"
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "time",
+                "title"
             ],
-            "assets": [
-                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
-                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
-                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
-                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
-            ],
-            "fonts": [
-                "Poppins"
+            "emits": [
+                "open"
             ]
         },
         {

@@ -29,6 +29,7 @@ import ee.schimke.composeai.rccreation.compose.state.RemoteTimeVariables
 import ee.schimke.composeai.rccreation.compose.state.cos
 import ee.schimke.composeai.rccreation.compose.state.rdp
 import ee.schimke.composeai.rccreation.compose.state.rf
+import ee.schimke.composeai.rccreation.compose.state.ri
 import ee.schimke.composeai.rccreation.compose.state.rs
 import ee.schimke.composeai.rccreation.compose.state.sin
 import androidx.compose.runtime.Composable
@@ -57,6 +58,13 @@ val KotlinConfDesigns: List<DesignDef> = designs(
     promoHeightDp = 275,
     sessionWidget = { KotlinConfSessionWidget() },
     sessionWear = { KotlinConfSessionWear() },
+    speakerHeader = { with(ContractScope(SpeakerHeaderContract, KotlinConf)) { KotlinConfSpeakerHeader() } },
+    sessionHeader = { with(ContractScope(SessionHeaderContract, KotlinConf)) { KotlinConfSessionHeader() } },
+    section = { with(ContractScope(SectionContract, KotlinConf)) { KotlinConfSection() } },
+    // Poppins' tall lines: a two-line name and tagline and two rows of links; three title lines.
+    speakerHeaderHeightDp = 400,
+    sessionHeaderHeightDp = 250,
+    sectionHeightDp = 44,
 )
 
 private val White = Color.White
@@ -383,5 +391,124 @@ fun KotlinConfTitle() {
             Label(input(TitleContract.title), c.onSurface, size = 20)
             RemoteBox(modifier = RemoteModifier.size(44.rdp, 3.rdp).clip(RemoteRoundedCornerShape(2.rdp)).background(kotlinGradient(c, drift = false))) {}
         }
+    }
+}
+
+/**
+ * A speaker's page, KotlinConf-style: the speaker card's gradient ring, larger, on a card with the
+ * kotlinconf.com site's soft gradient light at its corners; the name in heavy Poppins, and the links
+ * as the site's solid dark pills ("Get tickets", "Submit").
+ */
+@Composable
+context(_: ContractScope<SpeakerHeaderContract>)
+fun KotlinConfSpeakerHeader() {
+    val c = colors()
+    RemoteColumn(
+        modifier = RemoteModifier
+            .fillMaxSize()
+            .clip(RemoteRoundedCornerShape(24.rdp))
+            .background(c.surface)
+            .meshGlows(listOf(
+                Glow(c.secondary.copy(alpha = 0.18f.rf), x = 340f, y = 20f, radius = 170f, periodSeconds = 30f),
+                Glow(c.tertiary.copy(alpha = 0.16f.rf), x = 20f, y = 380f, radius = 170f, periodSeconds = 26f, phase = 2f),
+            ))
+            .padding(18.rdp),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.spacedBy(6.rdp, RemoteAlignment.CenterVertically),
+    ) {
+        RemoteBox(
+            modifier = RemoteModifier
+                .size(136.rdp, 136.rdp)
+                .clip(RemoteCircleShape)
+                .background(kotlinGradient(c))
+                .padding(5.rdp)
+                .clickable(action { openPhoto }),
+        ) {
+            RemoteImage(
+                bitmap = image { photo },
+                contentDescription = null,
+                modifier = RemoteModifier.fillMaxSize().clip(RemoteCircleShape).background(c.surface),
+                contentScale = RemoteContentScale.Crop,
+                alpha = 1f.rf,
+            )
+        }
+        Label(text { name }, c.onSurface, size = 24, weight = FontWeight.Black, maxLines = 2, modifier = RemoteModifier.padding(top = 6.rdp))
+        Label(text { tagline }, c.muted, size = 14, weight = FontWeight.Normal, maxLines = 2)
+        val socials = SpeakerHeaderContract.socials
+        val count = listCount(socials)
+        for (row in 0 until socials.max / KOTLINCONF_LINKS_PER_ROW) {
+            val first = row * KOTLINCONF_LINKS_PER_ROW
+            RemoteRow(
+                modifier = RemoteModifier.visibility(count.isGreaterThan(first.ri).visibleIf()).padding(top = 4.rdp),
+                horizontalArrangement = RemoteArrangement.spacedBy(6.rdp),
+            ) {
+                for (i in first until first + KOTLINCONF_LINKS_PER_ROW) {
+                    val url = listText(socials, i, SpeakerHeaderContract.socialUrl)
+                    RemoteBox(
+                        modifier = RemoteModifier
+                            .visibility(count.isGreaterThan(i.ri).visibleIf())
+                            .clip(RemoteCircleShape)
+                            .background(c.onSurface)
+                            .clickable(action({ openSocial }, url))
+                            .padding(horizontal = 10.rdp, vertical = 6.rdp),
+                    ) { Label(listText(socials, i, SpeakerHeaderContract.socialLabel), c.surface, size = 12, weight = FontWeight.Medium) }
+                }
+            }
+        }
+    }
+}
+
+private const val KOTLINCONF_LINKS_PER_ROW = 3
+
+/**
+ * A session's page, KotlinConf-style: the session card grown up (its surface, its purple outline
+ * and its time pill), with the kotlinconf.com site's soft gradient light at the corners, the title
+ * in heavy Poppins, and the room as the site's solid dark pill (with `→` where it opens the map).
+ */
+@Composable
+context(_: ContractScope<SessionHeaderContract>)
+fun KotlinConfSessionHeader() {
+    val c = colors()
+    val roomLink = flag { roomLink }
+    val room = text { room }
+    RemoteColumn(
+        modifier = RemoteModifier
+            .fillMaxWidth()
+            .clip(RemoteRoundedCornerShape(24.rdp))
+            .background(c.surface)
+            .meshGlows(listOf(
+                Glow(c.secondary.copy(alpha = 0.2f.rf), x = 340f, y = 10f, radius = 160f, periodSeconds = 30f),
+                Glow(c.tertiary.copy(alpha = 0.18f.rf), x = 300f, y = 230f, radius = 140f, periodSeconds = 24f, phase = 3f),
+            ))
+            .border(1.5f.rdp, c.primary, RemoteRoundedCornerShape(24.rdp))
+            .padding(20.rdp),
+        verticalArrangement = RemoteArrangement.spacedBy(12.rdp),
+    ) {
+        Label(text { title }, c.onSurface, size = 24, weight = FontWeight.Black, maxLines = 3)
+        RemoteColumn(verticalArrangement = RemoteArrangement.spacedBy(8.rdp)) {
+            Chip(text { time }, c.primary, c.onPrimary)
+            RemoteBox(
+                modifier = RemoteModifier
+                    .visibility(room.isNotEmpty.visibleIf())
+                    .clip(RemoteCircleShape)
+                    .background(roomLink.select(c.onSurface, c.primary.copy(alpha = 0.12f.rf)))
+                    .clickable(action { openRoom })
+                    .padding(horizontal = 12.rdp, vertical = 5.rdp),
+            ) { Label(room + roomLink.select("  →".rs, "".rs), roomLink.select(c.surface, c.onSurface), size = 12, weight = FontWeight.SemiBold) }
+        }
+    }
+}
+
+/** A section header, KotlinConf-style: the title in bold Poppins over a short bar of the gradient. */
+@Composable
+context(_: ContractScope<SectionContract>)
+fun KotlinConfSection() {
+    val c = colors()
+    RemoteColumn(
+        modifier = RemoteModifier.fillMaxSize().background(c.surface).padding(horizontal = 18.rdp),
+        verticalArrangement = RemoteArrangement.spacedBy(3.rdp, RemoteAlignment.CenterVertically),
+    ) {
+        Label(text { title }, c.onSurface, size = 16, weight = FontWeight.Bold)
+        RemoteBox(modifier = RemoteModifier.size(32.rdp, 3.rdp).clip(RemoteRoundedCornerShape(2.rdp)).background(kotlinGradient(c, drift = false))) {}
     }
 }

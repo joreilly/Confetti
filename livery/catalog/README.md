@@ -151,9 +151,12 @@ The two page headers are only the top of the session and speaker pages: the bio,
 tags, speakers and talks under them stay Confetti's own (long text belongs to the platform, not to
 a fixed-height document). `confetti/section@1` is every section header: the agenda's and bookmarks' times, search's and
 the detail pages' "Speakers" and "Sessions". It is sticky in a list, so a design paints its own
-background, and it has no icon (Confetti's are vectors a document can't draw). Only the base
-catalog has designs for these so far; a conference without
-one draws Confetti's header. `openSocial` is an app action rather than `open-url`, since a
+background, and it has no icon (Confetti's are vectors a document can't draw). All three
+catalogs have designs for them, each grown from its own session card and its conference's site:
+droidcon's keeps the green rule down the left and takes the droidcon London site's bracketed
+labels (`( WHO? )`, `( WHEN? )`, `( WHERE? )`) and green-framed square photos; KotlinConf's keeps
+the purple outline, the gradient ring and the time pill, with kotlinconf.com's soft gradient light
+at the corners and its solid dark pills for links. A catalog without one draws Confetti's own. `openSocial` is an app action rather than `open-url`, since a
 speaker's links go to any host, and the app opens only a URL that is one of that speaker's own.
 
 **Lists.** A list binds as `<list>.count` and `<list>.<i>.<field>` (Livery PROTOCOL §4.1). A design

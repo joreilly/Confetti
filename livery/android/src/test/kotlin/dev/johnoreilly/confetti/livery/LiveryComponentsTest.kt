@@ -277,10 +277,10 @@ class LiveryComponentsTest {
     }
 
     /**
-     * A speaker page's header draws the base catalog's design, and a link tapped in it opens that
-     * link; a conference whose catalog has no header design (KotlinConf, for now) draws Confetti's.
+     * A speaker page's header draws its conference's design (the base catalog's where it has no
+     * catalog), and a link tapped in it opens that link.
      */
-    @Test fun speakerHeadersDrawTheBaseDesign() {
+    @Test fun speakerHeadersDrawEachConferencesDesign() {
         val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
         val opened = mutableListOf<String>()
         fun header(conference: String) = SpeakerHeaderModel(conference, johnOreillySpeaker, onPhotoClick = {}, onSocialLinkClicked = { opened += it })
@@ -288,37 +288,41 @@ class LiveryComponentsTest {
             MaterialTheme(colorScheme = lightColorScheme()) {
                 Column {
                     components.SpeakerHeader(header("fosdem2025"))
+                    components.SpeakerHeader(header("droidconlondon2025"))
                     components.SpeakerHeader(header("kotlinconf2026"))
                 }
             }
         }
-        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 1 }
-        assertEquals("confetti-speaker-header", compose.onAllNodes(liverySlot).fetchSemanticsNodes().single().config[SemanticsProperties.TestTag].substringAfterLast(':'))
-        // KotlinConf's is Confetti's own header, its name outside any template.
-        compose.waitUntil(10_000) {
-            compose.onAllNodes(hasText(johnOreillySpeaker.name) and !hasAnyAncestor(liverySlot)).fetchSemanticsNodes().size == 1
-        }
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 3 }
+        val tags = compose.onAllNodes(liverySlot).fetchSemanticsNodes().map { it.config[SemanticsProperties.TestTag].substringAfterLast(':') }
+        assertEquals(listOf("confetti-speaker-header", "droidcon-speaker-header", "kotlinconf-speaker-header"), tags)
         val github = hasText("GitHub") and hasAnyAncestor(liverySlot)
         compose.waitUntil(10_000) { compose.onAllNodes(github).fetchSemanticsNodes().isNotEmpty() }
-        compose.onNode(github).performClick()
+        compose.onAllNodes(github)[0].performClick()
         compose.waitUntil(10_000) { opened.isNotEmpty() }
         assertEquals(listOf("https://github.com/joreilly"), opened)
     }
 
-    /** A session page's header draws the base catalog's design, its room opening the venue. */
-    @Test fun sessionHeadersDrawTheBaseDesign() {
+    /** A session page's header draws its conference's design, its room opening the venue. */
+    @Test fun sessionHeadersDrawEachConferencesDesign() {
         val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
         var venue = 0
         compose.setContent {
             MaterialTheme(colorScheme = lightColorScheme()) {
-                components.SessionHeader(SessionHeaderModel("fosdem2025", sessionDetails, onRoomClick = { venue++ }))
+                Column {
+                    components.SessionHeader(SessionHeaderModel("fosdem2025", sessionDetails, onRoomClick = { venue++ }))
+                    components.SessionHeader(SessionHeaderModel("droidconlondon2025", sessionDetails, onRoomClick = {}))
+                    components.SessionHeader(SessionHeaderModel("kotlinconf2026", sessionDetails, onRoomClick = {}))
+                }
             }
         }
-        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 1 }
-        assertEquals("confetti-session-header", compose.onAllNodes(liverySlot).fetchSemanticsNodes().single().config[SemanticsProperties.TestTag].substringAfterLast(':'))
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 3 }
+        val tags = compose.onAllNodes(liverySlot).fetchSemanticsNodes().map { it.config[SemanticsProperties.TestTag].substringAfterLast(':') }
+        assertEquals(listOf("confetti-session-header", "droidcon-session-header", "kotlinconf-session-header"), tags)
+        // The base design's room: the first, it draws its room alone.
         val room = hasText(sessionDetails.room!!.name) and hasAnyAncestor(liverySlot)
         compose.waitUntil(10_000) { compose.onAllNodes(room).fetchSemanticsNodes().isNotEmpty() }
-        compose.onNode(room).performClick()
+        compose.onAllNodes(room)[0].performClick()
         compose.waitUntil(10_000) { venue == 1 }
     }
 
@@ -361,21 +365,23 @@ class LiveryComponentsTest {
         assertEquals("0xFF6B3CF0", Color(0xFF6B3CF0).toSeed())
     }
 
-    /** A section header draws the base catalog's design; a conference with none draws Confetti's. */
-    @Test fun sectionHeadersDrawTheBaseDesign() {
+    /** A section header draws its conference's design, the base catalog's where it has no catalog. */
+    @Test fun sectionHeadersDrawEachConferencesDesign() {
         val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
         compose.setContent {
             MaterialTheme(colorScheme = lightColorScheme()) {
                 Column {
                     components.SectionHeader("fosdem2025", "10:30", ConfettiIcons.AccessTime)
-                    components.SectionHeader("kotlinconf2026", "11:00", ConfettiIcons.AccessTime)
+                    components.SectionHeader("droidconlondon2025", "11:00", ConfettiIcons.AccessTime)
+                    components.SectionHeader("kotlinconf2026", "11:30", ConfettiIcons.AccessTime)
                 }
             }
         }
-        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 1 }
-        assertEquals("confetti-section", compose.onAllNodes(liverySlot).fetchSemanticsNodes().single().config[SemanticsProperties.TestTag].substringAfterLast(':'))
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 3 }
+        val tags = compose.onAllNodes(liverySlot).fetchSemanticsNodes().map { it.config[SemanticsProperties.TestTag].substringAfterLast(':') }
+        assertEquals(listOf("confetti-section", "droidcon-section", "kotlinconf-section"), tags)
         compose.waitUntil(10_000) { compose.onAllNodes(hasText("10:30") and hasAnyAncestor(liverySlot)).fetchSemanticsNodes().isNotEmpty() }
-        compose.waitUntil(10_000) { compose.onAllNodes(hasText("11:00") and !hasAnyAncestor(liverySlot)).fetchSemanticsNodes().size == 1 }
+        compose.waitUntil(10_000) { compose.onAllNodes(hasText("( 11:00 )") and hasAnyAncestor(liverySlot)).fetchSemanticsNodes().isNotEmpty() }
     }
 
     /** A conference whose catalog ships a face sets its headings in it; the base catalog ships none. */

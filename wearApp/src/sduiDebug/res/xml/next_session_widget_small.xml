@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The next-session widget's small container (NextSessionWidget): one container type per service. -->
+<wearwidget-provider
+    label="@string/next_session_widget_label"
+    description="@string/next_session_widget_description"
+    icon="@drawable/ic_launcher_round"
+    preferredType="@integer/glance_wear_container_type_small">
+
+    <container type="@integer/glance_wear_container_type_small" />
+
+</wearwidget-provider>

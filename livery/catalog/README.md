@@ -22,7 +22,8 @@ pictures are the preview renders (below, from the `livery-templates` branch).
 | Speaker | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-speaker-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-speaker-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-speaker-in-app.png) |
 | Promotion | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-promo-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-promo-in-app.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-promo-in-app.png) |
 | Launcher widget | | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-launcher.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-launcher.png) |
-| Wear widget | | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-wear-large.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-wear-large.png) |
+| Wear widget (large) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-session-wear-large.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-wear-large.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-wear-large.png) |
+| Wear widget (small) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/confetti-session-wear-small.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/droidcon-session-wear-small.png) | ![](https://raw.githubusercontent.com/joreilly/Confetti/livery-templates/renders/kotlinconf-session-wear-small.png) |
 
 ### Light, dark and Material 3 dynamic colour
 
@@ -174,6 +175,20 @@ a tagged design needs a variant of its own. `assembleLiveryCatalogs` puts both c
 series' catalog (`build/livery/catalogs/<series>`), which the channels, the bundled copies and the
 pull request review build from.
 
+**The next-session widget.** The same build adds a Glance Wear widget, in a small and a large
+container: the session the user bookmarked that is on now, or next, drawn from the series' session
+design (`<series>-session`), whose `wear-small` and `wear-large` templates are captured here
+(`WearWidgetDesigns.kt`). Each is drawn inside the watch's own container: rc-players'
+`RcWearTemplateContainer` reads its padding, corners and fill from the `wear.container.*` named
+values the watch writes in, so one capture fits a Pixel's squircle and a Galaxy's stadium. What
+sets the conferences apart is the container's background (`RcWearBackground`): Confetti's three
+accents as glows, droidcon's green rule and outline, KotlinConf's gradient glows and edge. A widget's
+theme is baked in (`baked:dark`, the series' dark pack), and its labels are the platform's font, as
+Glance Wear loads none. Each template is captured in its player's profile (Glance Wear's, a
+launcher's, the app's), and a widget's at API level 7. A tap opens the session; with nothing to show
+(no conference, signed out, nothing bookmarked ahead) the widget says so. It draws only what is on
+the watch already: the bookmarks from Apollo's cache, the templates bundled in the APK or refreshed.
+
 **Lists.** A list binds as `<list>.count` and `<list>.<i>.<field>` (Livery PROTOCOL §4.1). A design
 unrolls it: one row per index it draws, each shown while its index is below the count. The session
 designs do this for `speakerList` (`SpeakerLinks` in `Common.kt`): each name is its own tap target
@@ -210,7 +225,7 @@ app fills them from its `MaterialTheme.colorScheme`, and a theme pack replaces t
 | Phone and tablet (Android) | Wired: the agenda header, session and speaker cards, and promotions in the agenda, under sessions and on speaker pages. Only in the `sduiDebug` build type (see below); every other variant draws Confetti's own UI |
 | iOS, desktop, web | The same shared components compile for every target; each platform root draws `App()` through `WithConferenceComponents`, which takes the implementation Koin binds (today `NativeComponents`; Livery's needs a repository and a bundled or hosted catalog) |
 | Launcher widget | Templates authored (`launcher` target); next: a `LiveryLauncherWidgetProvider` for "next session" |
-| Wear | Templates authored (`wear-widget`, `wear:large`); next: a `LiveryWearWidget` beside the existing tiles |
+| Wear | The app's screens (Wear variants, `:livery:wear-designs`) and the next-session widget (`wear-widget`, `wear:small` and `wear:large`, a `LiveryWearWidget`), in the Wear app's `sduiDebug` build only; the tile stays Confetti's own |
 
 ## An admin changing a design from the app
 

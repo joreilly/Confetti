@@ -49,7 +49,7 @@ val DroidconDesigns: List<DesignDef> = designs(
     speakerHeightDp = 130,
     promoHeightDp = 250,
     sessionWidget = { DroidconSessionWidget() },
-    sessionWear = { DroidconSessionWear() },
+    sessionWear = { SessionWearWidget(DroidconWearWidget, it) },
     speakerHeader = { with(ContractScope(SpeakerHeaderContract, Droidcon)) { DroidconSpeakerHeader() } },
     sessionHeader = { with(ContractScope(SessionHeaderContract, Droidcon)) { DroidconSessionHeader() } },
     section = { with(ContractScope(SectionContract, Droidcon)) { DroidconSection() } },
@@ -222,21 +222,6 @@ fun DroidconSessionWidget() {
     }
 }
 
-/** The next session on a watch: a round-safe, centred stack. */
-@Composable
-fun DroidconSessionWear() {
-    val C = SessionContract
-    val c = brandColors(Droidcon)
-    RemoteColumn(
-        modifier = RemoteModifier.fillMaxSize().background(c.surface).clickable(emit(C.open)).padding(12.rdp),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        Label(input(C.time), c.primary, size = 13)
-        Label(input(C.title), c.onSurface, size = 15, weight = FontWeight.Bold, maxLines = 2)
-        Label(input(C.room), c.muted, size = 12, weight = FontWeight.Medium)
-    }
-}
 
 
 /** An agenda break, droidcon-style: a muted rule down the left, the time in caps over the title. */

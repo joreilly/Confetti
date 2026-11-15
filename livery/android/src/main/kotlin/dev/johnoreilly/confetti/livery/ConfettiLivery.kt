@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.livery
 
+import ee.schimke.livery.protocol.PlayerCapabilities
 import android.content.Context
 import android.os.Build
 import com.google.firebase.Firebase
@@ -170,6 +171,11 @@ fun confettiLiveryStyling(
     clock: Clock = Clock { System.currentTimeMillis() },
     refresh: Boolean = templatesUrl.isNotEmpty(),
     shaders: Boolean = shadersSupported(),
+    /**
+     * Other players the app draws these catalogs in beside its own screens (a watch's widgets), so
+     * a refreshed catalog downloads their templates too.
+     */
+    extraTargets: List<PlayerCapabilities> = emptyList(),
 ): LiveryStyling {
     val capabilities = LiveryStyling.inApp(shaders)
     val app = context.applicationContext
@@ -188,7 +194,7 @@ fun confettiLiveryStyling(
             blobs = FileBlobStore(File(app.cacheDir, "livery/$series/blobs")),
             kv = FileKeyValueStore(File(app.filesDir, "livery/$series")),
             clock = clock,
-            targets = listOf(capabilities),
+            targets = listOf(capabilities) + extraTargets,
             bundled = AndroidBundled.fromAssets(app, "livery/$series"),
         )
     }

@@ -1,6 +1,9 @@
 package dev.johnoreilly.confetti.livery
 
 import androidx.compose.runtime.Composable
+import ee.schimke.composeai.rccreation.common.Profile
+import ee.schimke.composeai.rccreation.common.RcPlatformProfiles
+import ee.schimke.composeai.rcwidget.creation.RcCaptureProfiles
 
 /** One playable document of a design, for one Livery target. */
 class TemplateDef(
@@ -12,7 +15,20 @@ class TemplateDef(
     val widthDp: Int,
     val heightDp: Int,
     val content: @Composable () -> Unit,
-)
+) {
+    /** A launcher's or a watch's widget: an API level 7 player, drawing a document with its theme baked in. */
+    val isWidget: Boolean get() = "\"launcher-widget\"" in target || isWearWidget
+
+    /** A Glance Wear widget: its host loads no fonts, so its labels are the platform's. */
+    val isWearWidget: Boolean get() = "\"wear-widget\"" in target
+
+    /** What the capture writes: the target's player's allow-list (Glance Wear's, a launcher's) or the app's. */
+    val captureProfile: Profile get() = when {
+        "\"glance-wear\"" in target -> RcCaptureProfiles.wearWidgets
+        "\"widgets\"" in target -> RcCaptureProfiles.launcherWidgets
+        else -> RcPlatformProfiles.ANDROIDX
+    }
+}
 
 class DesignDef(
     val id: String,
@@ -35,6 +51,7 @@ class DesignDef(
 
 internal const val IN_APP = """{ "surface": "in-app", "rcApiLevel": 7, "profiles": ["androidx"], "size": { "minWidthDp": 280 } }"""
 private const val LAUNCHER = """{ "surface": "launcher-widget", "rcApiLevel": 7, "profiles": ["widgets"], "size": { "minWidthDp": 110, "maxWidthDp": 400, "minHeightDp": 80, "maxHeightDp": 400 } }"""
+private const val WEAR_SMALL = """{ "surface": "wear-widget", "rcApiLevel": 7, "profiles": ["glance-wear"], "container": "wear:small", "theme": "baked:dark" }"""
 private const val WEAR_LARGE = """{ "surface": "wear-widget", "rcApiLevel": 7, "profiles": ["glance-wear"], "container": "wear:large", "theme": "baked:dark" }"""
 
 /** The top bar's title: in the app, narrower than a card (between the bar's buttons). */
@@ -42,11 +59,21 @@ internal const val IN_APP_BAR = """{ "surface": "in-app", "rcApiLevel": 7, "prof
 
 private fun inApp(heightDp: Int, content: @Composable () -> Unit) = TemplateDef("in-app", IN_APP, 360, heightDp, content = content)
 private fun launcher(content: @Composable () -> Unit) = TemplateDef("launcher", LAUNCHER, 250, 120, content = content)
-private fun wear(content: @Composable () -> Unit) = TemplateDef("wear-large", WEAR_LARGE, 200, 112, content = content)
+/**
+ * A Wear widget's two containers, captured at Glance Wear's default round-watch frames: the watch
+ * writes its own container's padding, corners and fill in when it draws one (RcWearTemplateContainer).
+ */
+private fun wear(content: @Composable (WearWidgetSize) -> Unit) = listOf(
+    TemplateDef("wear-small", WEAR_SMALL, 200, 60) { content(WearWidgetSize.Small) },
+    TemplateDef("wear-large", WEAR_LARGE, 200, 112) { content(WearWidgetSize.Large) },
+)
+
+/** Which of a Wear widget's containers a template is for. */
+enum class WearWidgetSize { Small, Large }
 
 /**
  * A brand's four designs: [sessionWidget] and [sessionWear] add the session's launcher and Wear
- * widget templates where the brand has them.
+ * widget templates (a Wear widget's small and large containers) where the brand has them.
  */
 fun designs(
     brand: ConferenceBrand, example: String, title: String,
@@ -58,7 +85,7 @@ fun designs(
     sessionHeightDp: Int = 150,
     speakerHeightDp: Int = 110,
     promoHeightDp: Int = 200,
-    sessionWidget: (@Composable () -> Unit)? = null, sessionWear: (@Composable () -> Unit)? = null,
+    sessionWidget: (@Composable () -> Unit)? = null, sessionWear: (@Composable (WearWidgetSize) -> Unit)? = null,
     /** An agenda break (`confetti/break@1`); without one, the app draws Confetti's own row. */
     breakRow: (@Composable () -> Unit)? = null,
     breakHeightDp: Int = 76,
@@ -76,7 +103,7 @@ fun designs(
 ) = listOfNotNull(
     DesignDef("${brand.series}-header", ConferenceContract, brand, "$title header", example, listOf(inApp(headerHeightDp, header))),
     DesignDef("${brand.series}-session", SessionContract, brand, "$title session", example,
-        listOfNotNull(inApp(sessionHeightDp, session), sessionWidget?.let(::launcher), sessionWear?.let(::wear))),
+        listOfNotNull(inApp(sessionHeightDp, session), sessionWidget?.let(::launcher)) + sessionWear?.let(::wear).orEmpty()),
     DesignDef("${brand.series}-speaker", SpeakerContract, brand, "$title speaker", example, listOf(inApp(speakerHeightDp, speaker))),
     DesignDef("${brand.series}-promo", PromoContract, brand, "$title promotion", example, listOf(inApp(promoHeightDp, promo)), install = "OnDemand"),
     breakRow?.let { DesignDef("${brand.series}-break", BreakContract, brand, "$title break", example, listOf(inApp(breakHeightDp, it))) },

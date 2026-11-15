@@ -55,15 +55,24 @@ class CapturedTemplate(
 
 /** Captures one template to Remote Compose bytes on the JVM, recording what it read and emitted. */
 fun capture(design: DesignDef, template: TemplateDef): CapturedTemplate = runBlocking {
-    val scope = TemplateScope(design.contract, design.brand)
+    // A Wear widget's host loads no fonts: its labels are the platform's, whatever the brand's.
+    val scope = TemplateScope(design.contract, if (template.isWearWidget) design.brand.copy(fontFamily = null) else design.brand)
     val bytes = captureCommonRemoteDocument(
-        creationDisplayInfo = RemoteCreationDisplayInfo(
-            width = template.widthDp, height = template.heightDp, densityDpi = 160,
-            densityBehavior = RemoteDensityBehavior.Dp,
-        ),
+        // A widget's player is API level 7, which has no density behaviour: its document is laid
+        // out at 160 dpi (a dp is a pixel), as Livery's own widget captures are.
+        creationDisplayInfo = if (template.isWidget) {
+            RemoteCreationDisplayInfo(width = template.widthDp, height = template.heightDp, densityDpi = 160)
+        } else {
+            RemoteCreationDisplayInfo(
+                width = template.widthDp, height = template.heightDp, densityDpi = 160,
+                densityBehavior = RemoteDensityBehavior.Dp,
+            )
+        },
         // The host's density as an expression, not the capture's constant: any dp a design turns
         // into pixels (RemoteDp.toPx) is converted on the device that plays it.
         remoteDensity = RemoteDensity.Host,
+        // Written in what the target's player reads: Glance Wear's or a launcher's allow-list.
+        profile = template.captureProfile,
     ) {
         CompositionLocalProvider(LocalTemplateScope provides scope) { template.content() }
     }
@@ -247,12 +256,16 @@ fun generate(brand: ConferenceBrand, catalog: File): List<CapturedTemplate> {
 
 private fun renderSeries(brand: ConferenceBrand, captured: List<CapturedTemplate>, catalog: File, out: File) {
     out.mkdirs()
+    fun pack(id: String) = catalog.resolve("themes/$id.json").takeIf { it.isFile }
+        ?.let { Bindings(json.decodeFromString<ThemePack>(it.readText()).values) } ?: error("no theme pack $id")
     captured.forEach { t ->
         val c = t.design.contract
-        out.resolve("${t.design.id}-${t.template.name}.png").writeBytes(render(t, c.data(c.examples.getValue(t.design.example))))
+        // A Wear widget is drawn with the series' dark pack baked in (`baked:dark`), as the watch draws it.
+        val theme = if (t.template.isWearWidget) pack(ConferenceSeries.themePack(brand.series, dark = true)) else Bindings.EMPTY
+        out.resolve("${t.design.id}-${t.template.name}.png").writeBytes(render(t, c.data(c.examples.getValue(t.design.example)), theme))
         // Every template, widgets and Wear included, at the contract's input limits.
         c.examples["long"]?.let { long ->
-            out.resolve("${t.design.id}-${t.template.name}-long.png").writeBytes(render(t, c.data(long)))
+            out.resolve("${t.design.id}-${t.template.name}-long.png").writeBytes(render(t, c.data(long), theme))
         }
     }
     if (brand == Droidcon) {
@@ -268,8 +281,6 @@ private fun renderSeries(brand: ConferenceBrand, captured: List<CapturedTemplate
         }
     }
     // Light and dark: the same documents with each mode's theme pack, as the app pushes them.
-    fun pack(id: String) = catalog.resolve("themes/$id.json").takeIf { it.isFile }
-        ?.let { Bindings(json.decodeFromString<ThemePack>(it.readText()).values) } ?: error("no theme pack $id")
     // Material 3 dynamic colour: a user's wallpaper scheme pushed as the theme roles instead of
     // the conference's, the layout unchanged. Two stand-in wallpapers, one per mode.
     val dynamic = mapOf(

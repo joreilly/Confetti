@@ -159,6 +159,21 @@ the purple outline, the gradient ring and the time pill, with kotlinconf.com's s
 at the corners and its solid dark pills for links. A catalog without one draws Confetti's own. `openSocial` is an app action rather than `open-url`, since a
 speaker's links go to any host, and the app opens only a URL that is one of that speaker's own.
 
+**On a watch.** The Wear app's `sduiDebug` build draws each conference's session cards, section
+headers and page headers from its catalog too, with Wear designs of its own: a Wear *variant* of
+each design (`<series>-<slot>-wear`, `variant` wear, tagged `device=wear` beside the series), in
+`:livery:wear-designs`. They are written with Wear's own Material 3 components as Remote Compose
+(`RemoteMaterialTheme`, `RemoteTitleCard`, `RemoteText` in the Wear type scale), from
+[remote-m3-catalog](https://github.com/yschimke/remote-m3-catalog/tree/main/vendor)'s
+multiplatform port of AndroidX's `remote-material3`, so they capture on the plain JVM like the
+phone designs. Their colours are the series' `theme.*` roles over Wear's dark scheme, so a theme
+pack recolours them too. A watch asks only for its device's designs, with no fallback to the
+series' default, so a phone card never reaches a watch; a series without a Wear design for a slot
+draws Confetti's own Wear composable. The phone's plain query still gets the series' default:
+a tagged design needs a variant of its own. `assembleLiveryCatalogs` puts both captures into each
+series' catalog (`build/livery/catalogs/<series>`), which the channels, the bundled copies and the
+pull request review build from.
+
 **Lists.** A list binds as `<list>.count` and `<list>.<i>.<field>` (Livery PROTOCOL §4.1). A design
 unrolls it: one row per index it draws, each shown while its index is below the count. The session
 designs do this for `speakerList` (`SpeakerLinks` in `Common.kt`): each name is its own tap target

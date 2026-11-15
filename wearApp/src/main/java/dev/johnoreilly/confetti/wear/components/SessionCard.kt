@@ -43,6 +43,11 @@ import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+/**
+ * A session in a list: the conference's design where [LocalWearComponents] has one (the sduiDebug
+ * build's Livery designs), Confetti's own card otherwise. A placeholder (no session yet) is always
+ * Confetti's, with its shimmer.
+ */
 @Composable
 fun SessionCard(
     session: SessionDetails?,
@@ -59,6 +64,44 @@ fun SessionCard(
     },
     placeholderState: PlaceholderState = rememberPlaceholderState(false),
     transformation: SurfaceTransformation? = null,
+) {
+    val native = @Composable {
+        NativeSessionCard(
+            session, sessionSelected, currentTime, isBookmarked, addBookmark, removeBookmark,
+            modifier, timeDisplay, placeholderState, transformation,
+        )
+    }
+    val conference = LocalWearConference.current
+    if (session == null || conference == null || session.isBreak()) return native()
+    LocalWearComponents.current.SessionCard(
+        conference = conference,
+        session = session,
+        currentTime = currentTime,
+        isBookmarked = isBookmarked,
+        onOpen = { sessionSelected(session.id) },
+        onToggleBookmark = if (addBookmark != null && removeBookmark != null) {
+            { if (isBookmarked) removeBookmark(session.id) else addBookmark(session.id) }
+        } else {
+            null
+        },
+        modifier = modifier,
+        native = native,
+    )
+}
+
+/** Confetti's own session card: a title card, swiped to reveal the bookmark. */
+@Composable
+private fun NativeSessionCard(
+    session: SessionDetails?,
+    sessionSelected: (sessionId: String) -> Unit,
+    currentTime: LocalDateTime?,
+    isBookmarked: Boolean,
+    addBookmark: ((sessionId: String) -> Unit)?,
+    removeBookmark: ((sessionId: String) -> Unit)?,
+    modifier: Modifier,
+    timeDisplay: @Composable () -> Unit,
+    placeholderState: PlaceholderState,
+    transformation: SurfaceTransformation?,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val revealState = rememberRevealState()

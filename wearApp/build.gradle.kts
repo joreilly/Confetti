@@ -119,6 +119,15 @@ android {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("confetti")
         }
+        // Server-driven UI, as androidApp's sduiDebug: debug plus :livery:android, whose slots draw
+        // each conference's Wear designs (Livery templates, variant wear) in place of Confetti's
+        // session cards, section headers and page headers, with Confetti's as the fallback. The
+        // only Wear variant that includes Livery; same applicationId as debug.
+        create("sduiDebug") {
+            initWith(getByName("debug"))
+            versionNameSuffix = "-sdui"
+            matchingFallbacks += listOf("debug")
+        }
     }
 
     packaging {
@@ -245,6 +254,15 @@ dependencies {
     implementation(kotlin("test"))
 
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+
+    // Livery, only in the sduiDebug build type: no other Wear variant ships it.
+    "sduiDebugImplementation"(project(":livery:android"))
+    // The contracts' data classes and actions, which the Wear slots fill (sduiDebug only).
+    "sduiDebugImplementation"(project(":livery:contracts"))
+    // Livery's catalog client (liveryHttpClient: Ktor over the app's OkHttpClient).
+    "sduiDebugImplementation"(platform(libs.ktor.bom))
+    "sduiDebugImplementation"(libs.ktor.client.okhttp)
+    "sduiDebugImplementation"(libs.compose.ui.manifest)
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {
@@ -273,6 +291,10 @@ baselineProfile {
 // The plugin's profiling builds copy release's signing config, whose keystore isn't checked in.
 // They're only installed on the generator's emulator, so sign them with the committed key.
 androidComponents {
+    // AGP creates unit tests only for the test build type (debug); sduiDebug's run too.
+    beforeVariants(selector().withBuildType("sduiDebug")) { variant ->
+        variant.hostTests[com.android.build.api.variant.HostTestBuilder.UNIT_TEST_TYPE]?.enable = true
+    }
     onVariants(selector().withBuildType("nonMinifiedRelease")) {
         it.signingConfig.setConfig(android.signingConfigs.getByName("confetti"))
     }

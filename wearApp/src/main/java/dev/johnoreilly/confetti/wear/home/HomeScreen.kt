@@ -53,7 +53,7 @@ import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.PlaceholderButton
 import dev.johnoreilly.confetti.wear.components.bodyTextModifier
-import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.ListSectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
 import dev.johnoreilly.confetti.wear.preview.ConferenceFixtures
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
@@ -204,7 +204,7 @@ private fun TransformingLazyColumnScope.bookmarksSection(
     transformationSpec: TransformationSpec,
 ) {
     item {
-        SectionHeader(
+        ListSectionHeader(
             modifier = Modifier
                 .fillMaxWidth()
                 .transformedHeight(this, transformationSpec),
@@ -278,7 +278,7 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
     transformationSpec: TransformationSpec,
 ) {
     item {
-        SectionHeader(
+        ListSectionHeader(
             modifier = Modifier
                 .fillMaxWidth()
                 .transformedHeight(this, transformationSpec),

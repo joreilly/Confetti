@@ -49,6 +49,10 @@ tiles-tooling-preview = "1.6.2"
 wear = "1.4.0"
 wear-watchface = "1.3.0"
 wear-compose = "1.7.1"
+# Wear's Remote Material 3, multiplatform: yschimke/remote-m3-catalog's port (vendor/), which runs on
+# the plain JVM, so :livery:wear-designs captures without Android. Its version names the AndroidX
+# change and patch set it was copied from (remote-compose-upstream.json there).
+remote-compose-cmp = "4307936-ps17-cmp10"
 wearPhoneInteractions = "1.1.1"
 work-runtime-ktx = "2.12.0"
 spring = "4.1.2"
@@ -76,6 +80,9 @@ livery-compose-material3 = { module = "ee.schimke.composeai:livery-compose-mater
 livery-client = { module = "ee.schimke.composeai:livery-client" }
 livery-render = { module = "ee.schimke.composeai:livery-render" }
 livery-publish = { module = "ee.schimke.composeai:livery-publish" }
+livery-capture-core = { module = "ee.schimke.composeai:livery-capture-core" }
+remote-compose-cmp-material3 = { module = "ee.schimke.remotecompose:remote-material3", version.ref = "remote-compose-cmp" }
+remote-compose-cmp-creation-compose = { module = "ee.schimke.remotecompose:remote-creation-compose", version.ref = "remote-compose-cmp" }
 rc-players-bom = { module = "ee.schimke.composeai:rc-players-bom", version.ref = "rc-players" }
 rc-player-compose = { module = "ee.schimke.composeai:rc-player-compose" }
 rc-remote-creation-compose = { module = "ee.schimke.composeai:rc-creation-compose" }

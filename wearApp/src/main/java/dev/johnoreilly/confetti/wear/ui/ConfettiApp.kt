@@ -13,6 +13,10 @@ import dev.johnoreilly.confetti.wear.decompose.SwipeToDismissBox
 import dev.johnoreilly.confetti.wear.home.HomeRoute
 import dev.johnoreilly.confetti.wear.navigation.Child
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
+import androidx.compose.runtime.CompositionLocalProvider
+import dev.johnoreilly.confetti.wear.components.LocalWearComponents
+import dev.johnoreilly.confetti.wear.components.LocalWearConference
+import org.koin.compose.koinInject
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
 import dev.johnoreilly.confetti.wear.settings.SettingsRoute
@@ -33,6 +37,11 @@ fun ConfettiApp(
         seedColor = conferenceTheme?.seedColor ?: appState?.seedColor,
         typography = conferenceTheme?.typography ?: ExpressiveTypography,
     ) {
+        // The conference's restyled cards and headers, where the build has any (sduiDebug).
+        CompositionLocalProvider(
+            LocalWearComponents provides koinInject(),
+            LocalWearConference provides appState?.defaultConference,
+        ) {
         AppScaffold(timeText = { TimeText() }) {
             SwipeToDismissBox(
                 component.stack,
@@ -49,6 +58,7 @@ fun ConfettiApp(
                     is Child.Bookmarks -> BookmarksRoute(child.component)
                 }
             }
+        }
         }
     }
 }

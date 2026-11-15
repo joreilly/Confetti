@@ -44,7 +44,7 @@ jobs:
         cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
     - name: Wear Unit Tests
-      run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest :livery:android:testDebugUnitTest
+      run: ./gradlew :androidApp:testDebugUnitTest :wearApp:testDebugUnitTest :wearApp:testSduiDebugUnitTest :livery:android:testDebugUnitTest
 
     # Diagnostics for the intermittent "Gradle Test Executor 1 finished with non-zero exit value 1"
     # crash, which happens before any test reports a result and so leaves nothing in the log.
@@ -77,6 +77,11 @@ jobs:
     # A separate invocation: three apps' dex merges in one build ran the runner's 4 GB heap out.
     - name: Build sduiDebug
       run: ./gradlew :livery:android:assembleDebug :androidApp:assembleSduiDebug
+
+    # The Wear app's sduiDebug: its Livery slots draw each conference's Wear variants. On its own,
+    # for the same reason.
+    - name: Build Wear sduiDebug
+      run: ./gradlew :wearApp:assembleSduiDebug
 
   # Launch the app on an emulator and run the Maestro flow shared with the iOS app
   maestro:

@@ -44,12 +44,14 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 /**
- * A session in a list: the conference's design where [LocalWearComponents] has one (the sduiDebug
- * build's Livery designs), Confetti's own card otherwise. A placeholder (no session yet) is always
+ * A session in a list: [conference]'s design where [components] has one (the sduiDebug build's
+ * Livery designs), Confetti's own card otherwise. A placeholder (no session yet) is always
  * Confetti's, with its shimmer.
  */
+context(components: WearComponents)
 @Composable
 fun SessionCard(
+    conference: String?,
     session: SessionDetails?,
     sessionSelected: (sessionId: String) -> Unit,
     currentTime: LocalDateTime?,
@@ -71,9 +73,8 @@ fun SessionCard(
             modifier, timeDisplay, placeholderState, transformation,
         )
     }
-    val conference = LocalWearConference.current
     if (session == null || conference == null || session.isBreak()) return native()
-    LocalWearComponents.current.SessionCard(
+    components.SessionCard(
         conference = conference,
         session = session,
         currentTime = currentTime,

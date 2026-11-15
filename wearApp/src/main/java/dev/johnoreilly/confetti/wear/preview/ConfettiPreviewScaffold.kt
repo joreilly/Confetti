@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.wear.preview
 
+import dev.johnoreilly.confetti.wear.components.NativeWearComponents
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -36,7 +38,9 @@ fun ConfettiPreviewScaffold(
         ColorScheme()
     },
     typography: Typography = ExpressiveTypography,
-    content: @Composable () -> Unit,
+    /** The slots' components: Confetti's own, unless a preview or test shows another's. */
+    components: WearComponents = NativeWearComponents,
+    content: @Composable context(WearComponents) () -> Unit,
 ) {
     ConfettiThemeFixed(colors = colors, typography = typography) {
         AppScaffold(
@@ -45,7 +49,7 @@ fun ConfettiPreviewScaffold(
                 .background(MaterialTheme.colorScheme.background),
             timeText = { TimeText(timeSource = FixedTimeSource) },
         ) {
-            content()
+            content(components)
         }
     }
 }

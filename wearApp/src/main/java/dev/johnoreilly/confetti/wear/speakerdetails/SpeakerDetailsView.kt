@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.wear.speakerdetails
 
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -9,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
-import dev.johnoreilly.confetti.wear.components.LocalWearComponents
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -49,6 +49,7 @@ import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 
+context(components: WearComponents)
 @Composable
 fun SpeakerDetailsRoute(
     component: SpeakerDetailsComponent,
@@ -57,6 +58,7 @@ fun SpeakerDetailsRoute(
     SpeakerDetailsView(uiState)
 }
 
+context(components: WearComponents)
 @Composable
 fun SpeakerDetailsView(
     uiState: SpeakerDetailsUiState,
@@ -205,7 +207,7 @@ fun SpeakerDetailsView(
                     if (success == null || speaker == null) {
                         native()
                     } else {
-                        LocalWearComponents.current.SpeakerHeader(success.conference, speaker, headerModifier, native)
+                        components.SpeakerHeader(success.conference, speaker, headerModifier, native)
                     }
                 }
 

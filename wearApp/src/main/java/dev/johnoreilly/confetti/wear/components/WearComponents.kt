@@ -1,12 +1,11 @@
 package dev.johnoreilly.confetti.wear.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import kotlinx.datetime.LocalDateTime
+import org.koin.compose.koinInject
 
 /**
  * What a conference can restyle on the watch: the session cards and section headers of its lists,
@@ -16,6 +15,10 @@ import kotlinx.datetime.LocalDateTime
  * Each slot is handed Confetti's own composable as [native]: an implementation that has nothing
  * for a conference (the default, [NativeWearComponents]) just draws it. The screens don't change
  * with the implementation; the sduiDebug build binds Livery's (see its WearSduiModule).
+ *
+ * The app's composables take it as a context parameter (`context(components: WearComponents)`)
+ * from [WithWearComponents] at the app's root down, as the phone's take `ConferenceComponents`, so
+ * no screen looks it up and one that draws a slot says so in its signature.
  */
 interface WearComponents {
     /** One session in a list (sessions, bookmarks, home). */
@@ -69,8 +72,14 @@ object NativeWearComponents : WearComponents {
     override fun SpeakerHeader(conference: String, speaker: SpeakerDetails, modifier: Modifier, native: @Composable () -> Unit) = native()
 }
 
-/** The watch's [WearComponents], provided at the app's root from Koin. */
-val LocalWearComponents = staticCompositionLocalOf<WearComponents> { NativeWearComponents }
-
-/** The conference the watch shows, provided at the app's root; null before one is chosen. */
-val LocalWearConference = compositionLocalOf<String?> { null }
+/**
+ * [content] with the watch's [WearComponents]: Koin's at the app's root, [NativeWearComponents] in
+ * previews and tests.
+ */
+@Composable
+fun WithWearComponents(
+    components: WearComponents = koinInject(),
+    content: @Composable context(WearComponents) () -> Unit,
+) {
+    content(components)
+}

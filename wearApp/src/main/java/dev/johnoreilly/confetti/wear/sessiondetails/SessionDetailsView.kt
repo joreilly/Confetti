@@ -1,11 +1,11 @@
 package dev.johnoreilly.confetti.wear.sessiondetails
 
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.unit.dp
-import dev.johnoreilly.confetti.wear.components.LocalWearComponents
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -37,6 +37,7 @@ import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
 
+context(components: WearComponents)
 @Composable
 fun SessionDetailView(
     uiState: SessionDetailsUiState,
@@ -72,7 +73,7 @@ fun SessionDetailView(
                             .minimumVerticalContentPadding(
                                 ListHeaderDefaults.minimumTopListContentPadding
                             )
-                        LocalWearComponents.current.SessionHeader(
+                        components.SessionHeader(
                             conference = uiState.conference,
                             session = session,
                             modifier = headerModifier,

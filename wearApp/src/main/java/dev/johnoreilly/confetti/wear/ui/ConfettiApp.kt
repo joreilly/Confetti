@@ -13,10 +13,7 @@ import dev.johnoreilly.confetti.wear.decompose.SwipeToDismissBox
 import dev.johnoreilly.confetti.wear.home.HomeRoute
 import dev.johnoreilly.confetti.wear.navigation.Child
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
-import androidx.compose.runtime.CompositionLocalProvider
-import dev.johnoreilly.confetti.wear.components.LocalWearComponents
-import dev.johnoreilly.confetti.wear.components.LocalWearConference
-import org.koin.compose.koinInject
+import dev.johnoreilly.confetti.wear.components.WithWearComponents
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
 import dev.johnoreilly.confetti.wear.settings.SettingsRoute
@@ -38,27 +35,24 @@ fun ConfettiApp(
         typography = conferenceTheme?.typography ?: ExpressiveTypography,
     ) {
         // The conference's restyled cards and headers, where the build has any (sduiDebug).
-        CompositionLocalProvider(
-            LocalWearComponents provides koinInject(),
-            LocalWearConference provides appState?.defaultConference,
-        ) {
-        AppScaffold(timeText = { TimeText() }) {
-            SwipeToDismissBox(
-                component.stack,
-                onDismissed = { component.navigateUp() },
-            ) { configuration ->
-                when (val child = configuration.instance) {
-                    is Child.Conferences -> ConferencesRoute(child.component)
-                    is Child.ConferenceSessions -> SessionsRoute(child.component)
-                    is Child.SessionDetails -> SessionDetailsRoute(child.component)
-                    is Child.SpeakerDetails -> SpeakerDetailsRoute(child.component)
-                    is Child.Settings -> SettingsRoute(child.component)
-                    is Child.Loading -> LoadingScreen(component)
-                    is Child.Home -> HomeRoute(child.component)
-                    is Child.Bookmarks -> BookmarksRoute(child.component)
+        WithWearComponents {
+            AppScaffold(timeText = { TimeText() }) {
+                SwipeToDismissBox(
+                    component.stack,
+                    onDismissed = { component.navigateUp() },
+                ) { configuration ->
+                    when (val child = configuration.instance) {
+                        is Child.Conferences -> ConferencesRoute(child.component)
+                        is Child.ConferenceSessions -> SessionsRoute(child.component)
+                        is Child.SessionDetails -> SessionDetailsRoute(child.component)
+                        is Child.SpeakerDetails -> SpeakerDetailsRoute(child.component)
+                        is Child.Settings -> SettingsRoute(child.component)
+                        is Child.Loading -> LoadingScreen(component)
+                        is Child.Home -> HomeRoute(child.component)
+                        is Child.Bookmarks -> BookmarksRoute(child.component)
+                    }
                 }
             }
-        }
         }
     }
 }

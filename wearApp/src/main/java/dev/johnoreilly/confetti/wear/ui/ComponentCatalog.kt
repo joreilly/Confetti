@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.wear.ui
 
+import dev.johnoreilly.confetti.wear.components.NativeWearComponents
+import dev.johnoreilly.confetti.wear.components.WithWearComponents
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,14 +56,17 @@ private val catalogNow =
 @Composable
 fun SessionCardPopulatedPreview() {
     ConfettiThemeFixed {
-        SessionCard(
-            session = TestFixtures.sessionDetails,
-            sessionSelected = {},
-            currentTime = catalogNow,
-            isBookmarked = false,
-            addBookmark = {},
-            removeBookmark = {},
-        )
+        WithWearComponents(NativeWearComponents) {
+            SessionCard(
+                conference = null,
+                session = TestFixtures.sessionDetails,
+                sessionSelected = {},
+                currentTime = catalogNow,
+                isBookmarked = false,
+                addBookmark = {},
+                removeBookmark = {},
+            )
+        }
     }
 }
 
@@ -69,15 +74,18 @@ fun SessionCardPopulatedPreview() {
 @Composable
 fun SessionCardLoadingPreview() {
     ConfettiThemeFixed {
-        SessionCard(
-            session = null,
-            sessionSelected = {},
-            currentTime = null,
-            isBookmarked = false,
-            addBookmark = {},
-            removeBookmark = {},
-            placeholderState = rememberPlaceholderState(true),
-        )
+        WithWearComponents(NativeWearComponents) {
+            SessionCard(
+                conference = null,
+                session = null,
+                sessionSelected = {},
+                currentTime = null,
+                isBookmarked = false,
+                addBookmark = {},
+                removeBookmark = {},
+                placeholderState = rememberPlaceholderState(true),
+            )
+        }
     }
 }
 
@@ -85,14 +93,17 @@ fun SessionCardLoadingPreview() {
 @Composable
 fun SessionCardBookmarkedPreview() {
     ConfettiThemeFixed {
-        SessionCard(
-            session = TestFixtures.sessionDetails,
-            sessionSelected = {},
-            currentTime = catalogNow,
-            isBookmarked = true,
-            addBookmark = {},
-            removeBookmark = {},
-        )
+        WithWearComponents(NativeWearComponents) {
+            SessionCard(
+                conference = null,
+                session = TestFixtures.sessionDetails,
+                sessionSelected = {},
+                currentTime = catalogNow,
+                isBookmarked = true,
+                addBookmark = {},
+                removeBookmark = {},
+            )
+        }
     }
 }
 

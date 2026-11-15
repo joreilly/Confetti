@@ -1,5 +1,7 @@
 package dev.johnoreilly.confetti.wear.ui
 
+import dev.johnoreilly.confetti.wear.components.NativeWearComponents
+import dev.johnoreilly.confetti.wear.components.WithWearComponents
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -44,14 +46,17 @@ fun ThemePreview(seedColor: Theme) {
             Text("Confetti: building a Kotlin Multiplatform conference app in 40min")
             ConferenceCard(conference = TestFixtures.conferences.first(), navigateToConference = {})
             SessionSpeakerChip(speaker = TestFixtures.JohnOreilly.sessionSpeakerDetails, navigateToSpeaker = {})
-            SessionCard(
-                session = TestFixtures.sessionDetails,
-                sessionSelected = {},
-                currentTime = now,
-                addBookmark = {},
-                removeBookmark = {},
-                isBookmarked = false
-            )
+            WithWearComponents(NativeWearComponents) {
+                SessionCard(
+                    conference = null,
+                    session = TestFixtures.sessionDetails,
+                    sessionSelected = {},
+                    currentTime = now,
+                    addBookmark = {},
+                    removeBookmark = {},
+                    isBookmarked = false
+                )
+            }
         }
     }
 }

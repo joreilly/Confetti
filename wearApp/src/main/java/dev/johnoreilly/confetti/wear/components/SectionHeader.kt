@@ -59,3 +59,21 @@ fun ScreenHeader(
         )
     }
 }
+
+/**
+ * A list's section header (a session time, "Bookmarked sessions"): [conference]'s design where
+ * [components] has one, [SectionHeader] otherwise. Not for a page's title (a speaker's name),
+ * which stays [SectionHeader].
+ */
+context(components: WearComponents)
+@Composable
+fun ListSectionHeader(
+    conference: String?,
+    text: String,
+    modifier: Modifier = Modifier,
+    transformation: SurfaceTransformation? = null,
+) {
+    val native = @Composable { SectionHeader(text, modifier, transformation) }
+    if (conference == null) return native()
+    components.SectionHeader(conference, text, modifier, native)
+}

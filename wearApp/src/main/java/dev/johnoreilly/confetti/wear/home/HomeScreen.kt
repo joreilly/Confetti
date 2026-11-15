@@ -53,8 +53,9 @@ import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.bookmarks.BookmarksUiState
 import dev.johnoreilly.confetti.wear.components.PlaceholderButton
 import dev.johnoreilly.confetti.wear.components.bodyTextModifier
-import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.ListSectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import dev.johnoreilly.confetti.wear.preview.ConferenceFixtures
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.ui.conferenceThemeFor
@@ -65,6 +66,7 @@ import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+context(components: WearComponents)
 @Composable
 fun HomeScreen(
     uiState: QueryResult<HomeUiState>,
@@ -194,6 +196,7 @@ private fun TransformingLazyColumnScope.titleSection(
     }
 }
 
+context(components: WearComponents)
 private fun TransformingLazyColumnScope.bookmarksSection(
     uiState: QueryResult<HomeUiState>,
     bookmarksUiState: QueryResult<BookmarksUiState>,
@@ -204,7 +207,8 @@ private fun TransformingLazyColumnScope.bookmarksSection(
     transformationSpec: TransformationSpec,
 ) {
     item {
-        SectionHeader(
+        ListSectionHeader(
+            conference = (uiState as? QueryResult.Success)?.result?.conference,
             modifier = Modifier
                 .fillMaxWidth()
                 .transformedHeight(this, transformationSpec),
@@ -219,6 +223,7 @@ private fun TransformingLazyColumnScope.bookmarksSection(
             items(upcoming.take(3)) { session ->
                 key(session.id) {
                     SessionCard(
+                        conference = bookmarksUiState.result.conference,
                         modifier = Modifier
                             .fillMaxWidth()
                             .transformedHeight(this, transformationSpec)
@@ -271,6 +276,7 @@ private fun TransformingLazyColumnScope.bookmarksSection(
     }
 }
 
+context(components: WearComponents)
 private fun TransformingLazyColumnScope.conferenceDaysSection(
     uiState: QueryResult<HomeUiState>,
     daySelected: (LocalDate) -> Unit,
@@ -278,7 +284,8 @@ private fun TransformingLazyColumnScope.conferenceDaysSection(
     transformationSpec: TransformationSpec,
 ) {
     item {
-        SectionHeader(
+        ListSectionHeader(
+            conference = (uiState as? QueryResult.Success)?.result?.conference,
             modifier = Modifier
                 .fillMaxWidth()
                 .transformedHeight(this, transformationSpec),

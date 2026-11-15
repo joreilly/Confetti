@@ -123,6 +123,7 @@ include(":proto")
 include(":livery:android")
 include(":livery:catalog")
 include(":livery:contracts")
+include(":livery:wear-designs")
 include(":livery:benchmark")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {

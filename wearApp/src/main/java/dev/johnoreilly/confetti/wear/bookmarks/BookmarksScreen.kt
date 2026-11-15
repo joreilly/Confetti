@@ -29,14 +29,16 @@ import dev.johnoreilly.confetti.R
 import dev.johnoreilly.confetti.utils.QueryResult
 import dev.johnoreilly.confetti.wear.components.ScreenHeader
 import dev.johnoreilly.confetti.wear.components.bodyTextModifier
-import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.ListSectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import kotlinx.datetime.toKotlinLocalDateTime
 import java.time.LocalDateTime
 
 
+context(components: WearComponents)
 @Composable
 fun BookmarksScreen(
     uiState: QueryResult<BookmarksUiState>,
@@ -48,6 +50,7 @@ fun BookmarksScreen(
     val columnState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
     val placeholderState = rememberPlaceholderState(uiState is QueryResult.Loading)
+    val conference = (uiState as? QueryResult.Success)?.result?.conference
     ScreenScaffold(
         modifier = modifier,
         scrollState = columnState,
@@ -84,6 +87,7 @@ fun BookmarksScreen(
                     items(itemCount) {
                         val session = upcoming?.get(it)
                         SessionCard(
+                            conference = conference,
                             session = session,
                             sessionSelected = {
                                 sessionSelected(it)
@@ -115,7 +119,8 @@ fun BookmarksScreen(
                     }
 
                     item {
-                        SectionHeader(
+                        ListSectionHeader(
+                            conference = conference,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .transformedHeight(this, transformationSpec),
@@ -127,6 +132,7 @@ fun BookmarksScreen(
                     if (uiState is QueryResult.Success) {
                         items(uiState.result.past) { session ->
                             SessionCard(
+                                conference = conference,
                                 session = session,
                                 sessionSelected = {
                                     sessionSelected(it)

@@ -13,6 +13,7 @@ import dev.johnoreilly.confetti.wear.decompose.SwipeToDismissBox
 import dev.johnoreilly.confetti.wear.home.HomeRoute
 import dev.johnoreilly.confetti.wear.navigation.Child
 import dev.johnoreilly.confetti.wear.navigation.WearAppComponent
+import dev.johnoreilly.confetti.wear.components.WithWearComponents
 import dev.johnoreilly.confetti.wear.sessiondetails.SessionDetailsRoute
 import dev.johnoreilly.confetti.wear.sessions.SessionsRoute
 import dev.johnoreilly.confetti.wear.settings.SettingsRoute
@@ -33,20 +34,23 @@ fun ConfettiApp(
         seedColor = conferenceTheme?.seedColor ?: appState?.seedColor,
         typography = conferenceTheme?.typography ?: ExpressiveTypography,
     ) {
-        AppScaffold(timeText = { TimeText() }) {
-            SwipeToDismissBox(
-                component.stack,
-                onDismissed = { component.navigateUp() },
-            ) { configuration ->
-                when (val child = configuration.instance) {
-                    is Child.Conferences -> ConferencesRoute(child.component)
-                    is Child.ConferenceSessions -> SessionsRoute(child.component)
-                    is Child.SessionDetails -> SessionDetailsRoute(child.component)
-                    is Child.SpeakerDetails -> SpeakerDetailsRoute(child.component)
-                    is Child.Settings -> SettingsRoute(child.component)
-                    is Child.Loading -> LoadingScreen(component)
-                    is Child.Home -> HomeRoute(child.component)
-                    is Child.Bookmarks -> BookmarksRoute(child.component)
+        // The conference's restyled cards and headers, where the build has any (sduiDebug).
+        WithWearComponents {
+            AppScaffold(timeText = { TimeText() }) {
+                SwipeToDismissBox(
+                    component.stack,
+                    onDismissed = { component.navigateUp() },
+                ) { configuration ->
+                    when (val child = configuration.instance) {
+                        is Child.Conferences -> ConferencesRoute(child.component)
+                        is Child.ConferenceSessions -> SessionsRoute(child.component)
+                        is Child.SessionDetails -> SessionDetailsRoute(child.component)
+                        is Child.SpeakerDetails -> SpeakerDetailsRoute(child.component)
+                        is Child.Settings -> SettingsRoute(child.component)
+                        is Child.Loading -> LoadingScreen(component)
+                        is Child.Home -> HomeRoute(child.component)
+                        is Child.Bookmarks -> BookmarksRoute(child.component)
+                    }
                 }
             }
         }

@@ -252,9 +252,12 @@ class LiveryStyling(
         fun query(contract: ConfettiContract, tags: Map<String, String> = emptyMap()) =
             TemplateQuery(contract.ref, capabilities, tags = mapOf(ConferenceSeries.TAG to series) + tags, minor = contract.minor)
 
-        /** A query per tag set in [specific], most specific first, then the series' own. */
-        fun queries(contract: ConfettiContract, specific: List<Map<String, String>>) =
-            specific.map { query(contract, it) } + query(contract)
+        /**
+         * A query per tag set in [specific], most specific first, then the series' own unless
+         * [seriesDefault] is false (a watch: the phone's design is no fallback there).
+         */
+        fun queries(contract: ConfettiContract, specific: List<Map<String, String>>, seriesDefault: Boolean = true) =
+            specific.map { query(contract, it) } + if (seriesDefault) listOf(query(contract)) else emptyList()
 
         /**
          * Events through [Experiments.sink] (an `Impression` reports a catalog experiment's
@@ -307,6 +310,11 @@ fun ConferenceSlot(
      * format): the first with a design draws, else the series' own.
      */
     specific: List<Map<String, String>> = emptyList(),
+    /**
+     * Whether the series' own design draws when none in [specific] does. False for a watch: its
+     * designs are tagged `device=wear`, and a phone's card is no fallback there, Confetti's is.
+     */
+    seriesDefault: Boolean = true,
     actions: ActionHandlers = emptyMap(),
     /**
      * Confetti's own composable, drawn where there's no template. Null when Confetti draws nothing
@@ -340,7 +348,7 @@ fun ConferenceSlot(
         }
         draw(native)
     }) {
-        catalog.planner.forAppData(catalog.queries(contract, specific), json, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
+        catalog.planner.forAppData(catalog.queries(contract, specific, seriesDefault), json, extra = colors.app ?: catalog.theme(colors.dark)() ?: Bindings.EMPTY)
     }
 }
 
@@ -401,8 +409,20 @@ private data class SlotColors(val dark: Boolean, val app: Bindings?)
  */
 val LocalSlotsFollowMaterial = staticCompositionLocalOf { false }
 
+/**
+ * Set where the app around the slots isn't a phone `MaterialTheme` (a watch): whether it is dark,
+ * so the slots take the series' pack for that mode. Null: judged from the `MaterialTheme`.
+ */
+val LocalSlotsDark = staticCompositionLocalOf<Boolean?> { null }
+
 @Composable
 private fun rememberSlotColors(): SlotColors {
+    LocalSlotsDark.current?.let { dark -> return remember(dark) { SlotColors(dark = dark, app = null) } }
+    return rememberMaterialSlotColors()
+}
+
+@Composable
+private fun rememberMaterialSlotColors(): SlotColors {
     val scheme = MaterialTheme.colorScheme
     val followMaterial = LocalDynamicColorInUse.current || LocalSlotsFollowMaterial.current
     return remember(scheme, followMaterial) {

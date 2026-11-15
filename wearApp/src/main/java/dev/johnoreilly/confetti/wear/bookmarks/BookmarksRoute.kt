@@ -1,9 +1,11 @@
 package dev.johnoreilly.confetti.wear.bookmarks
 
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+context(components: WearComponents)
 @Composable
 fun BookmarksRoute(
     component: BookmarksComponent,

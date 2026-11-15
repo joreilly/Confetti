@@ -1,7 +1,11 @@
 package dev.johnoreilly.confetti.wear.sessiondetails
 
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -33,6 +37,7 @@ import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
 
+context(components: WearComponents)
 @Composable
 fun SessionDetailView(
     uiState: SessionDetailsUiState,
@@ -60,27 +65,34 @@ fun SessionDetailView(
                 is SessionDetailsUiState.Success -> {
                     val session = uiState.sessionDetails
 
+                    // The title and the time: one slot, the conference's design where it has one.
                     item {
-                        ScreenHeader(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .transformedHeight(this, transformationSpec)
-                                .minimumVerticalContentPadding(
-                                    ListHeaderDefaults.minimumTopListContentPadding
-                                ),
-                            text = session.title,
-                            transformation = SurfaceTransformation(transformationSpec),
-                        )
-                    }
-
-                    item {
-                        val time = remember(session.startsAt) {
-                            timeFormatter.format(session.startsAt.toJavaLocalDateTime())
+                        val headerModifier = Modifier
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                ListHeaderDefaults.minimumTopListContentPadding
+                            )
+                        components.SessionHeader(
+                            conference = uiState.conference,
+                            session = session,
+                            modifier = headerModifier,
+                        ) {
+                            Column(headerModifier) {
+                                ScreenHeader(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = session.title,
+                                    transformation = SurfaceTransformation(transformationSpec),
+                                )
+                                val time = remember(session.startsAt) {
+                                    timeFormatter.format(session.startsAt.toJavaLocalDateTime())
+                                }
+                                Text(
+                                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                                    text = time,
+                                )
+                            }
                         }
-                        Text(
-                            modifier = bodyTextModifier(transformationSpec),
-                            text = time,
-                        )
                     }
 
                     session.sessionDescription?.let { description ->

@@ -54,11 +54,15 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
+import dev.johnoreilly.confetti.wear.components.NativeWearComponents
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import kotlin.time.Duration.Companion.seconds
 
 val appModule = module {
+    // Confetti's own composables; the sduiDebug build overrides it with Livery's.
+    single<WearComponents> { NativeWearComponents }
     singleOf(::PhoneSettingsSync)
     single { TileService.getUpdater(androidContext()) }
     singleOf(::ComplicationUpdater)

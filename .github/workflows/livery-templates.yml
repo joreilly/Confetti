@@ -84,23 +84,24 @@ jobs:
           name: livery-renders
           path: livery/catalog/build/livery/renders
 
-      # Each series' generated source tree, for the review below: never committed, so the review
-      # gets it (and the base's, from base-catalogs) as artifacts.
+      # Each series' generated source tree (its phone designs and their Wear variants), for the
+      # review below: never committed, so the review gets it (and the base's, from base-catalogs)
+      # as artifacts. buildLiveryChannels above assembled it.
       - if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v7
         with:
           name: catalog-confetti
-          path: livery/catalog/build/livery/captured/confetti
+          path: livery/catalog/build/livery/catalogs/confetti
       - if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v7
         with:
           name: catalog-droidcon
-          path: livery/catalog/build/livery/captured/droidcon
+          path: livery/catalog/build/livery/catalogs/droidcon
       - if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v7
         with:
           name: catalog-kotlinconf
-          path: livery/catalog/build/livery/captured/kotlinconf
+          path: livery/catalog/build/livery/catalogs/kotlinconf
 
   # The same catalogs captured at the pull request's base, so the review compares before and after:
   # a generated catalog has no base in git.
@@ -123,21 +124,31 @@ jobs:
         with:
           cache-read-only: true
 
+      # The whole catalogs (phone and Wear designs), or on a base from before the Wear designs, the
+      # one capture it has: the review compares like with like either way.
       - name: Capture the base's catalogs
-        run: ./gradlew :livery:catalog:captureLiveryCatalog
+        id: base
+        run: |
+          if ./gradlew -q :livery:catalog:tasks --all | grep -q '^assembleLiveryCatalogs'; then
+            ./gradlew :livery:catalog:assembleLiveryCatalogs
+            echo "dir=livery/catalog/build/livery/catalogs" >> "$GITHUB_OUTPUT"
+          else
+            ./gradlew :livery:catalog:captureLiveryCatalog
+            echo "dir=livery/catalog/build/livery/captured" >> "$GITHUB_OUTPUT"
+          fi
 
       - uses: actions/upload-artifact@v7
         with:
           name: catalog-confetti-base
-          path: livery/catalog/build/livery/captured/confetti
+          path: ${{ steps.base.outputs.dir }}/confetti
       - uses: actions/upload-artifact@v7
         with:
           name: catalog-droidcon-base
-          path: livery/catalog/build/livery/captured/droidcon
+          path: ${{ steps.base.outputs.dir }}/droidcon
       - uses: actions/upload-artifact@v7
         with:
           name: catalog-kotlinconf-base
-          path: livery/catalog/build/livery/captured/kotlinconf
+          path: ${{ steps.base.outputs.dir }}/kotlinconf
 
   # Livery's catalog review, one per series: what changed against the base (designs, contracts,
   # placements, experiments), whether it breaks installed apps, and each changed design drawn with

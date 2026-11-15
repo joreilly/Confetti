@@ -2,6 +2,8 @@
 
 package dev.johnoreilly.confetti.wear
 
+import dev.johnoreilly.confetti.wear.components.NativeWearComponents
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -20,7 +22,11 @@ import dev.johnoreilly.confetti.wear.ui.ConfettiTheme
 import dev.johnoreilly.confetti.wear.ui.toColor
 
 @Composable
-fun TestScaffold(fakeImageLoader: FakeImageLoaderEngine? = null, content: @Composable () -> Unit) {
+fun TestScaffold(
+    fakeImageLoader: FakeImageLoaderEngine? = null,
+    components: WearComponents = NativeWearComponents,
+    content: @Composable context(WearComponents) () -> Unit,
+) {
     val imageLoader = ImageLoader.Builder(LocalContext.current)
         .components {
             if (fakeImageLoader != null) {
@@ -38,7 +44,7 @@ fun TestScaffold(fakeImageLoader: FakeImageLoaderEngine? = null, content: @Compo
             timeText = { TimeText(timeSource = FixedTimeSource) }
         ) {
             ConfettiTheme(seedColor = null.toColor()) {
-                content()
+                content(components)
             }
         }
     }

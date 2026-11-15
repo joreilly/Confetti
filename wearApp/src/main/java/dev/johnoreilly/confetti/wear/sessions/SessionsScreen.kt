@@ -23,12 +23,14 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewLargeRound
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
 import dev.johnoreilly.confetti.decompose.SessionsUiState
-import dev.johnoreilly.confetti.wear.components.SectionHeader
+import dev.johnoreilly.confetti.wear.components.ListSectionHeader
 import dev.johnoreilly.confetti.wear.components.SessionCard
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 import kotlinx.datetime.toKotlinLocalDateTime
 
+context(components: WearComponents)
 @Composable
 fun SessionsScreen(
     uiState: SessionsUiState,
@@ -59,7 +61,8 @@ fun SessionsScreen(
 
                     sessions.forEach { (time, sessionsAtTime) ->
                         item {
-                            SectionHeader(
+                            ListSectionHeader(
+                                conference = uiState.conference,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .transformedHeight(this, transformationSpec)
@@ -73,6 +76,7 @@ fun SessionsScreen(
 
                         items(sessionsAtTime) { session ->
                             SessionCard(
+                                conference = uiState.conference,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .transformedHeight(this, transformationSpec)

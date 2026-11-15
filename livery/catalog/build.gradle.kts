@@ -64,6 +64,19 @@ livery {
 }
 val capturedCatalogsDir = livery.capture.outputDir
 
+// Each series' whole catalog: this module's capture and :livery:wear-designs' Wear variants of the
+// same designs (captured with Wear's Remote Material 3), in build/livery/catalogs/<series>. What
+// the channels, the app's bundled copies and the pull request review build from.
+val assembledCatalogsDir = layout.buildDirectory.dir("livery/catalogs")
+val assembleLiveryCatalogs = tasks.register<Sync>("assembleLiveryCatalogs") {
+    group = "livery"
+    description = "Each series' catalog, phone and Wear designs, into build/livery/catalogs/<series>/."
+    dependsOn("captureLiveryCatalog", ":livery:wear-designs:captureWearDesigns")
+    from(capturedCatalogsDir)
+    from(rootProject.layout.projectDirectory.dir("livery/wear-designs/build/livery/wear"))
+    into(assembledCatalogsDir)
+}
+
 // The plugin's own buildLiveryCatalog builds one catalog; this module captures one per series, which
 // buildLiveryChannels here and :livery:android's buildLiveryCatalog<Series> build.
 tasks.named("buildLiveryCatalog") { enabled = false }
@@ -107,9 +120,9 @@ catalogsDir.asFile.listFiles { f -> f.isDirectory }.orEmpty().map { it.name }.so
         group = "livery"
         classpath = liveryCli
         mainClass.set("ee.schimke.livery.publisher.MainKt")
-        val src = capturedCatalogsDir.map { it.dir(series) }
+        val src = assembledCatalogsDir.map { it.dir(series) }
         val out = channelsDir.map { it.dir(series) }
-        dependsOn("captureLiveryCatalog")
+        dependsOn(assembleLiveryCatalogs)
         inputs.dir(src)
         outputs.dir(out)
         // --serial: the commit time when CI passes it, so a rebuild of the same commit is the same

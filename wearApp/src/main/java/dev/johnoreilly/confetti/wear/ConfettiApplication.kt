@@ -31,7 +31,10 @@ import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import java.net.URL
 
-class ConfettiApplication : Application(), ImageLoaderFactory {
+open class ConfettiApplication : Application(), ImageLoaderFactory {
+
+    /** Koin modules a build variant adds after the app's own (sduiDebug: Livery's components). */
+    protected open val variantModules: List<Module> get() = emptyList()
 
     override fun newImageLoader(): ImageLoader = get()
 
@@ -59,7 +62,7 @@ class ConfettiApplication : Application(), ImageLoaderFactory {
 
         val androidContext = this@ConfettiApplication
         if (GlobalContext.getOrNull() == null) {
-            initWearApp(androidContext) {
+            initWearApp(androidContext, extraModules = variantModules) {
                 workManagerFactory()
             }
         }

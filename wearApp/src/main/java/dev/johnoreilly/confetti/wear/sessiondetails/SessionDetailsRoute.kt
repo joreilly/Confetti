@@ -1,10 +1,12 @@
 package dev.johnoreilly.confetti.wear.sessiondetails
 
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import dev.johnoreilly.confetti.decompose.SessionDetailsComponent
 
+context(components: WearComponents)
 @Composable
 fun SessionDetailsRoute(
     component: SessionDetailsComponent,

@@ -2,6 +2,8 @@
 
 package dev.johnoreilly.confetti.wear.screenshots
 
+import dev.johnoreilly.confetti.wear.components.NativeWearComponents
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
@@ -166,7 +168,10 @@ abstract class BaseScreenshotTest {
     }
 
     @Composable
-    fun TestScaffold(content: @Composable () -> Unit) {
+    fun TestScaffold(
+        components: WearComponents = NativeWearComponents,
+        content: @Composable context(WearComponents) () -> Unit,
+    ) {
         val imageLoader = ImageLoader.Builder(LocalContext.current)
             .components { add(fakeImageLoader) }
             .build()
@@ -180,7 +185,7 @@ abstract class BaseScreenshotTest {
                 timeText = { TimeText(timeSource = FixedTimeSource) }
             ) {
                 ConfettiTheme(seedColor = null.toColor()) {
-                    content()
+                    content(components)
                 }
             }
         }

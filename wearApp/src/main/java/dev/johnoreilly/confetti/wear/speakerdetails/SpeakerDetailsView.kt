@@ -1,11 +1,15 @@
 package dev.johnoreilly.confetti.wear.speakerdetails
 
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -45,6 +49,7 @@ import dev.johnoreilly.confetti.wear.components.SectionHeader
 import dev.johnoreilly.confetti.wear.preview.ConfettiPreviewScaffold
 import dev.johnoreilly.confetti.wear.preview.TestFixtures
 
+context(components: WearComponents)
 @Composable
 fun SpeakerDetailsRoute(
     component: SpeakerDetailsComponent,
@@ -53,6 +58,7 @@ fun SpeakerDetailsRoute(
     SpeakerDetailsView(uiState)
 }
 
+context(components: WearComponents)
 @Composable
 fun SpeakerDetailsView(
     uiState: SpeakerDetailsUiState,
@@ -136,71 +142,72 @@ fun SpeakerDetailsView(
                     )
                 }
             } else {
-                val speaker = (uiState as? SpeakerDetailsUiState.Success)?.details
+                val success = uiState as? SpeakerDetailsUiState.Success
+                val speaker = success?.details
 
+                // The photo, the name and the tagline: one slot, the conference's design where it
+                // has one.
                 item {
-                    // The photo is decorative: the SectionHeader immediately below already
-                    // announces the speaker's name, so labelling the image with it too made a
-                    // screen reader read the name twice — DuplicateSpeakableTextCheck flagged it.
-                    // Null on every slot also keeps the a11y tree stable: which of
-                    // loading/error/success has settled when the tree is scanned is a race, so a
-                    // name on only some of them made the finding appear and disappear between runs.
-                    SubcomposeAsyncImage(
-                        model = speaker?.photoUrl,
-                        contentDescription = null,
-                        loading = {
-                            // Catalog/@Preview render (LocalInspectionMode): Coil can't fetch the
-                            // photo, so show the bundled speaker photo (or a placeholder) rather
-                            // than a stuck spinner.
-                            if (LocalInspectionMode.current) {
-                                InspectionSpeakerImage(
-                                    photoUrl = speaker?.photoUrl,
-                                    contentDescription = null,
-                                    modifier = Modifier.fillMaxSize(),
-                                    shape = RoundedCornerShape(16.dp),
-                                )
-                            } else {
-                                CircularProgressIndicator()
-                            }
-                        },
-                        error = {
-                            Icon(
-                                imageVector = ConfettiIcons.Person,
+                    val headerModifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                    val native = @Composable {
+                        Column(headerModifier, horizontalAlignment = Alignment.CenterHorizontally) {
+                            // The photo is decorative: the SectionHeader immediately below already
+                            // announces the speaker's name, so labelling the image with it too made a
+                            // screen reader read the name twice — DuplicateSpeakableTextCheck flagged it.
+                            // Null on every slot also keeps the a11y tree stable: which of
+                            // loading/error/success has settled when the tree is scanned is a race, so a
+                            // name on only some of them made the finding appear and disappear between runs.
+                            SubcomposeAsyncImage(
+                                model = speaker?.photoUrl,
                                 contentDescription = null,
+                                loading = {
+                                    // Catalog/@Preview render (LocalInspectionMode): Coil can't fetch the
+                                    // photo, so show the bundled speaker photo (or a placeholder) rather
+                                    // than a stuck spinner.
+                                    if (LocalInspectionMode.current) {
+                                        InspectionSpeakerImage(
+                                            photoUrl = speaker?.photoUrl,
+                                            contentDescription = null,
+                                            modifier = Modifier.fillMaxSize(),
+                                            shape = RoundedCornerShape(16.dp),
+                                        )
+                                    } else {
+                                        CircularProgressIndicator()
+                                    }
+                                },
+                                error = {
+                                    Icon(
+                                        imageVector = ConfettiIcons.Person,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(80.dp)
+                                            .clip(RoundedCornerShape(16.dp)),
+                                    )
+                                },
                                 modifier = Modifier
                                     .size(80.dp)
-                                    .clip(RoundedCornerShape(16.dp)),
+                                    .clip(RoundedCornerShape(16.dp))
                             )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .graphicsLayer {
-                                with(transformationSpec) {
-                                    applyContainerTransformation(scrollProgress)
-                                }
+                            SectionHeader(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = speaker?.name ?: "",
+                                transformation = SurfaceTransformation(transformationSpec),
+                            )
+                            if (speaker == null || speaker.tagline != null) {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                                    text = speaker?.tagline ?: "",
+                                    textAlign = TextAlign.Center,
+                                )
                             }
-                            .transformedHeight(this, transformationSpec)
-                            .size(80.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                    )
-                }
-
-                item {
-                    SectionHeader(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .transformedHeight(this, transformationSpec),
-                        text = speaker?.name ?: "",
-                        transformation = SurfaceTransformation(transformationSpec),
-                    )
-                }
-
-                if (speaker == null || speaker.tagline != null) {
-                    item {
-                        Text(
-                            modifier = bodyTextModifier(transformationSpec),
-                            text = speaker?.tagline ?: "",
-                        )
+                        }
+                    }
+                    if (success == null || speaker == null) {
+                        native()
+                    } else {
+                        components.SpeakerHeader(success.conference, speaker, headerModifier, native)
                     }
                 }
 

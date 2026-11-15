@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.wear.home
 
+import dev.johnoreilly.confetti.wear.components.WearComponents
 import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -7,6 +8,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.johnoreilly.confetti.BuildConfig
 import dev.johnoreilly.confetti.utils.QueryResult
 
+context(components: WearComponents)
 @Composable
 fun HomeRoute(
     component: HomeComponent,

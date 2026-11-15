@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "a4da035c9c4e84a77108a52113b42fcfca4c420b",
+    "generatedFrom": "aeb1a0f274bdf9edc11cda4e99a37fbd7f4b0ecb",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -3052,6 +3052,15 @@
             "path": "renders/livery:android/LiveryDroidconPreview_droidcon-dea0f94d.png",
             "versions": [
                 {
+                    "blob": "8fd1d6de0887441f846a80a771e3b9607b726654",
+                    "commit": "aeb1a0f274bdf9edc11cda4e99a37fbd7f4b0ecb",
+                    "date": "2026-11-15T14:17:41Z",
+                    "sourceSha": "328a4cdc",
+                    "sinceCommit": "cf5080268ca7d3fe07deb5aa856aa30e6b03cd0a",
+                    "commits": 4,
+                    "occurrences": 4
+                },
+                {
                     "blob": "04a61d9eb958dfcf2f246e0740a2786fe563ab0f",
                     "commit": "a4da035c9c4e84a77108a52113b42fcfca4c420b",
                     "date": "2026-11-15T11:53:31Z",
@@ -3061,15 +3070,6 @@
                     "occurrences": 2
                 },
                 {
-                    "blob": "8fd1d6de0887441f846a80a771e3b9607b726654",
-                    "commit": "55fa401ea15f1f7a74f357cefb86735c93b15c61",
-                    "date": "2026-11-15T11:46:41Z",
-                    "sourceSha": "775e01bb",
-                    "sinceCommit": "cf5080268ca7d3fe07deb5aa856aa30e6b03cd0a",
-                    "commits": 3,
-                    "occurrences": 3
-                },
-                {
                     "blob": "e9a2aef6d191274b0180e443a8033e551bebe8a1",
                     "commit": "a3103f0f239c6050ec42c21090c8c3cae0de24b2",
                     "date": "2026-11-12T20:10:20Z",
@@ -3077,9 +3077,9 @@
                     "commits": 1
                 }
             ],
-            "observations": 6,
+            "observations": 7,
             "unstable": true,
-            "flapCount": 3
+            "flapCount": 4
         },
         "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
             "path": "renders/livery:android/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",

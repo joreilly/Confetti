@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794751755480,
-    "generatedAtEpochMs": 1794751755480,
-    "expiresAtEpochMs": 1797343755480,
+    "serial": 1794751936485,
+    "generatedAtEpochMs": 1794751936485,
+    "expiresAtEpochMs": 1797343936485,
     "minClient": 2,
     "contracts": [
         {

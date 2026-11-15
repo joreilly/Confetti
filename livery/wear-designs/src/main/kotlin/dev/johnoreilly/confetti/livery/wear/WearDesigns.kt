@@ -10,11 +10,13 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.clickable
 import androidx.compose.remote.creation.compose.modifier.clip
+import androidx.compose.remote.creation.compose.modifier.drawWithContent
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.shapes.RemoteCircleShape
+import androidx.compose.remote.creation.compose.shapes.RemoteShape
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberRemoteImageBitmap
 import androidx.compose.remote.creation.compose.state.rs
@@ -23,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.wear.compose.remote.material3.RemoteBorderStroke
+import androidx.wear.compose.remote.material3.RemoteCardDefaults
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText
 import androidx.wear.compose.remote.material3.RemoteTitleCard
@@ -48,7 +50,10 @@ class WearBrand(
     val style: WearStyle,
 )
 
-/** The few things that set a series apart on the watch; the rest is Wear Material 3. */
+/**
+ * The few things that set a series apart on the watch, beside its backdrop (WearBackdrops.kt); the
+ * rest is Wear Material 3.
+ */
 enum class WearStyle(
     /** The series' name as its designs' titles give it. */
     val title: String,
@@ -57,17 +62,15 @@ enum class WearStyle(
     val sectionSuffix: String,
     /** Before the time on a session card. */
     val timePrefix: String,
-    /** The cards' outline in the primary colour (droidcon's rule, KotlinConf's outline), or none. */
-    val outlined: Boolean,
 ) {
-    /** Confetti's base catalog: plain Wear Material 3 in the conference's colours. */
-    Confetti(title = "Confetti", sectionPrefix = "", sectionSuffix = "", timePrefix = "", outlined = false),
+    /** Confetti's base catalog: Wear Material 3 in the conference's colours, with confetti. */
+    Confetti(title = "Confetti", sectionPrefix = "", sectionSuffix = "", timePrefix = ""),
 
-    /** droidcon: the site's bracketed labels and the green rule, here an outline. */
-    Droidcon(title = "droidcon", sectionPrefix = "( ", sectionSuffix = " )", timePrefix = "> ", outlined = true),
+    /** droidcon: the site's bracketed labels, green rule and dot matrix. */
+    Droidcon(title = "droidcon", sectionPrefix = "( ", sectionSuffix = " )", timePrefix = "> "),
 
-    /** KotlinConf: its session card's purple outline. */
-    KotlinConf(title = "KotlinConf", sectionPrefix = "", sectionSuffix = "", timePrefix = "", outlined = true),
+    /** KotlinConf: the brand gradient, as glows and the cards' outline. */
+    KotlinConf(title = "KotlinConf", sectionPrefix = "", sectionSuffix = "", timePrefix = ""),
     ;
 
     companion object {
@@ -100,10 +103,18 @@ fun WearBrandTheme(v: WearValues, brand: WearBrand, content: @Composable () -> U
 }
 
 
-/** The cards' outline: [WearStyle.outlined] in the primary colour, else none. */
+/**
+ * A panel in [brand]'s backdrop (WearBackdrops.kt): clipped to [shape], the series' backdrop drawn
+ * under whatever the panel holds.
+ */
 @Composable
-private fun outline(brand: WearBrand): RemoteBorderStroke? =
-    if (brand.style.outlined) RemoteBorderStroke(1.5f.rdp, RemoteMaterialTheme.colorScheme.primary) else null
+private fun RemoteModifier.brandPanel(brand: WearBrand, shape: RemoteShape): RemoteModifier {
+    val colors = backdropColors()
+    return clip(shape).drawWithContent {
+        backdrop(brand.style, colors)
+        drawContent()
+    }
+}
 
 /**
  * A session in a list (`confetti/session@1`): Wear's title card, the title over the time, the
@@ -113,17 +124,21 @@ private fun outline(brand: WearBrand): RemoteBorderStroke? =
 fun WearSessionCard(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) {
     val bookmarked = v.bool("bookmarked")
     val colors = RemoteMaterialTheme.colorScheme
+    val shape = RemoteCardDefaults.shape
     RemoteTitleCard(
         onClick = v.action("open"),
-        modifier = RemoteModifier.fillMaxWidth(),
-        border = outline(brand),
+        // The series' backdrop under the card, which draws no container of its own over it.
+        modifier = RemoteModifier.fillMaxWidth().brandPanel(brand, shape),
+        shape = shape,
+        colors = RemoteCardDefaults.cardColors(containerColor = Transparent),
+        border = outlineFor(brand.style, backdropColors()),
         // The time on a line of its own (not the card's time slot, which on a watch leaves the
         // title half the width): the title gets the card's full width.
         title = { RemoteText(v.string("title"), maxLines = 2, overflow = TextOverflow.Ellipsis) },
     ) {
         RemoteRow(RemoteModifier.fillMaxWidth(), verticalAlignment = RemoteAlignment.CenterVertically) {
             RemoteColumn(RemoteModifier.weight(1f)) {
-                RemoteText(brand.style.timePrefix.rs + v.string("time"), color = colors.primary, maxLines = 1)
+                RemoteText(brand.style.timePrefix.rs + v.string("time"), color = colors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 RemoteText(v.string("speakers"), color = colors.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 RemoteText(v.string("room"), color = colors.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
@@ -140,7 +155,16 @@ fun WearSessionCard(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) 
 /** A list's section header (`confetti/section@1`): Wear's list sub-header, in the primary colour. */
 @Composable
 fun WearSection(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) {
-    RemoteBox(RemoteModifier.fillMaxSize().padding(horizontal = 12.rdp), contentAlignment = RemoteAlignment.Center) {
+    val colors = backdropColors()
+    RemoteBox(
+        RemoteModifier.fillMaxSize()
+            .drawWithContent {
+                sectionMarks(brand.style, colors)
+                drawContent()
+            }
+            .padding(horizontal = 28.rdp),
+        contentAlignment = RemoteAlignment.Center,
+    ) {
         RemoteText(
             brand.style.sectionPrefix.rs + v.string("title") + brand.style.sectionSuffix.rs,
             color = RemoteMaterialTheme.colorScheme.primary,
@@ -160,9 +184,11 @@ fun WearSection(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) {
 fun WearSessionHeader(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) {
     val colors = RemoteMaterialTheme.colorScheme
     RemoteColumn(
-        modifier = RemoteModifier.fillMaxWidth().padding(horizontal = 8.rdp),
+        modifier = RemoteModifier.fillMaxSize()
+            .brandPanel(brand, RemoteCardDefaults.shape)
+            .padding(horizontal = 14.rdp, vertical = 12.rdp),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.spacedBy(4.rdp),
+        verticalArrangement = RemoteArrangement.spacedBy(4.rdp, RemoteAlignment.CenterVertically),
     ) {
         RemoteText(
             v.string("title"),
@@ -178,25 +204,30 @@ fun WearSessionHeader(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand
 }
 
 /**
- * The top of a speaker's page (`confetti/speaker-header@1`): the photo in a circle (in the
- * primary colour's ring where outlined), the name and tagline centred, as the Wear app's own
+ * The top of a speaker's page (`confetti/speaker-header@1`): the photo in a circle (in a ring of
+ * the series' accent), the name and tagline centred, as the Wear app's own
  * speaker page has them. No links and no full-screen photo: a watch opens neither, so the design
  * sends neither action.
  */
 @Composable
 fun WearSpeakerHeader(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) {
     val colors = RemoteMaterialTheme.colorScheme
+    val backdrop = backdropColors()
     RemoteColumn(
-        modifier = RemoteModifier.fillMaxWidth().padding(horizontal = 8.rdp),
+        modifier = RemoteModifier.fillMaxSize()
+            .brandPanel(brand, RemoteCardDefaults.shape)
+            .padding(horizontal = 14.rdp, vertical = 10.rdp),
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.spacedBy(4.rdp),
+        verticalArrangement = RemoteArrangement.spacedBy(4.rdp, RemoteAlignment.CenterVertically),
     ) {
+        // The photo in a ring of the series' accent: Confetti's three colours, droidcon's green,
+        // KotlinConf's gradient.
         RemoteBox(
             modifier = RemoteModifier
                 .size(80.rdp, 80.rdp)
                 .clip(RemoteCircleShape)
-                .background(if (brand.style.outlined) colors.primary else colors.surfaceContainer)
-                .padding(if (brand.style.outlined) 3.rdp else 0.rdp),
+                .background(ringBrush(brand.style, backdrop))
+                .padding(3.rdp),
         ) {
             RemoteImage(
                 remoteBitmap = rememberRemoteImageBitmap(url = "livery:value/photo"),

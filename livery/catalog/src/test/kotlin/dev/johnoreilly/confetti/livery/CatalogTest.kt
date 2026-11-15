@@ -49,10 +49,17 @@ class CatalogTest {
     }
 
     @Test fun everyTemplateUsesItsBrandsTypeface() {
-        // Every label in a design is set in its brand's face (none: the platform's default).
-        captured.filter { t -> t.reads.isNotEmpty() }.forEach { t ->
+        // Every label in a design is set in its brand's face (none: the platform's default), except
+        // a Wear widget's: Glance Wear loads no fonts, so it is the platform's.
+        captured.filter { t -> t.reads.isNotEmpty() && !t.template.isWearWidget }.forEach { t ->
             assertEquals(setOfNotNull(t.design.brand.fontFamily), t.fonts, "${t.design.id}/${t.template.name}")
         }
+    }
+
+    @Test fun aWearWidgetNamesNoFont() {
+        val wear = captured.filter { it.template.isWearWidget }
+        assertEquals(6, wear.size, "each series' session design has a small and a large Wear widget")
+        wear.forEach { assertEquals(emptySet(), it.fonts, "${it.design.id}/${it.template.name}") }
     }
 
     @Test fun aTemplateCannotReadAnotherContractsInput() {

@@ -34,6 +34,8 @@ dependencies {
     implementation(platform(libs.rc.players.bom))
     // Authoring: the CMP fork of androidx remote-creation-compose (JVM + Android + iOS).
     implementation(libs.rc.remote.creation.compose)
+    // Wear widget templates: the watch's container as named values, and each target's capture profile.
+    implementation(libs.rc.widget.creation)
     // Playing back (previews, tests): the Compose player and Livery's contract binding.
     implementation(libs.rc.player.compose)
     implementation(projects.livery.contracts)

@@ -57,7 +57,7 @@ val KotlinConfDesigns: List<DesignDef> = designs(
     speakerHeightDp = 260,
     promoHeightDp = 275,
     sessionWidget = { KotlinConfSessionWidget() },
-    sessionWear = { KotlinConfSessionWear() },
+    sessionWear = { SessionWearWidget(KotlinConfWearWidget, it) },
     speakerHeader = { with(ContractScope(SpeakerHeaderContract, KotlinConf)) { KotlinConfSpeakerHeader() } },
     sessionHeader = { with(ContractScope(SessionHeaderContract, KotlinConf)) { KotlinConfSessionHeader() } },
     section = { with(ContractScope(SectionContract, KotlinConf)) { KotlinConfSection() } },
@@ -337,21 +337,6 @@ fun KotlinConfSessionWidget() {
     }
 }
 
-@Composable
-fun KotlinConfSessionWear() {
-    val C = SessionContract
-    val c = brandColors(KotlinConf)
-    val onBrand = c.onPrimary
-    RemoteColumn(
-        modifier = RemoteModifier.fillMaxSize().background(kotlinGradient(c, drift = false)).clickable(emit(C.open)).padding(14.rdp),
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        verticalArrangement = RemoteArrangement.Center,
-    ) {
-        Label(input(C.time), onBrand, size = 13, weight = FontWeight.SemiBold)
-        Label(input(C.title), onBrand, size = 15, weight = FontWeight.Black, maxLines = 2)
-        Label(input(C.room), onBrand, size = 12, weight = FontWeight.Medium)
-    }
-}
 
 
 

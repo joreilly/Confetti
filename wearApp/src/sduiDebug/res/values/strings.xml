@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="next_session_widget_label">Next session</string>
+    <string name="next_session_widget_description">Your next bookmarked session, in its conference\'s look</string>
+</resources>

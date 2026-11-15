@@ -4,7 +4,8 @@ import androidx.wear.tiles.TileUpdateRequester
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class TileUpdater : KoinComponent {
+/** Asks the watch to redraw what shows the user's bookmarks: the tile, and in the sduiDebug build its widgets too. */
+open class TileUpdater : KoinComponent {
     private val tileUpdateRequester: TileUpdateRequester by inject()
 
     fun updateBookmarksTile() {
@@ -12,7 +13,7 @@ class TileUpdater : KoinComponent {
             .requestUpdate(CurrentSessionsTileService::class.java)
     }
 
-    fun updateAll() {
+    open fun updateAll() {
         updateBookmarksTile()
     }
 }

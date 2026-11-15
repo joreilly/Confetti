@@ -263,6 +263,9 @@ dependencies {
     "sduiDebugImplementation"(platform(libs.ktor.bom))
     "sduiDebugImplementation"(libs.ktor.client.okhttp)
     "sduiDebugImplementation"(libs.compose.ui.manifest)
+    // The next-session Wear widget: Glance Wear, drawn from the series' Livery templates.
+    "sduiDebugImplementation"(platform(libs.livery.bom))
+    "sduiDebugImplementation"(libs.livery.wear.widgets)
 }
 
 tasks.register<PlayStoreScreenshotTask>("generateImages") {

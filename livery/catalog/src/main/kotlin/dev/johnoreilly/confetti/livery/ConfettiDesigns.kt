@@ -46,6 +46,7 @@ val ConfettiDesigns: List<DesignDef> = designs(
     speakerHeader = { with(ContractScope(SpeakerHeaderContract, Confetti)) { ConfettiSpeakerHeader() } },
     sessionHeader = { with(ContractScope(SessionHeaderContract, Confetti)) { ConfettiSessionHeader() } },
     section = { with(ContractScope(SectionContract, Confetti)) { ConfettiSection() } },
+    sessionWear = { SessionWearWidget(ConfettiWearWidget, it) },
     // At the contracts' limits: a two-line name and tagline leave the tickets button no room at
     // 210dp, and a two-line headline and three-line body the promo's CTA none at 200dp.
     headerHeightDp = 250,

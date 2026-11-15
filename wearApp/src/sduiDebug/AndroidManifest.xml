@@ -2,8 +2,45 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--
+      Glance Wear and Livery's Wear widgets need API 29 and 30; the app's minSdk is lower. A watch
+      only binds a widget provider where it hosts widgets (Wear OS 6 and later), so the services
+      below never start on an older one.
+    -->
+    <uses-sdk tools:overrideLibrary="androidx.glance.wear, androidx.glance.wear.core, ee.schimke.livery.widgets.wear, androidx.compose.remote.creation.compose" />
+
     <!-- The sduiDebug build's application adds the Wear sdui Koin module (see SduiConfettiApplication). -->
     <application
         android:name=".wear.sdui.SduiConfettiApplication"
-        tools:replace="android:name" />
+        tools:replace="android:name">
+
+        <!-- The next-session widget (NextSessionWidget), one service per container type. -->
+        <service
+            android:name=".wear.sdui.widget.NextSessionSmallWidgetService"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_round"
+            android:label="@string/next_session_widget_label"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.glance.wear.widget.provider"
+                android:resource="@xml/next_session_widget_small" />
+        </service>
+
+        <service
+            android:name=".wear.sdui.widget.NextSessionLargeWidgetService"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_round"
+            android:label="@string/next_session_widget_label"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.glance.wear.widget.provider"
+                android:resource="@xml/next_session_widget_large" />
+        </service>
+    </application>
 </manifest>

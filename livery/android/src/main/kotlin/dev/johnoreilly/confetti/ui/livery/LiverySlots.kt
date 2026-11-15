@@ -195,6 +195,29 @@ class LiveryStyling(
 
         fun theme(dark: Boolean): suspend () -> Bindings? = { repository.theme(ConferenceSeries.themePack(series, dark)) ?: repository.theme(series) }
 
+        /** The last theme pack read per mode, so a screen opened later starts in the conference's colours. */
+        private val packs = mutableMapOf<Boolean, Bindings?>()
+
+        /**
+         * The series' theme pack for [dark], kept current with the catalog: a refreshed catalog's
+         * new colours recolour the screen while it is open. Null until read, and where the catalog
+         * has none.
+         */
+        @Composable
+        fun rememberThemePack(dark: Boolean): Bindings? = produceState(packs[dark], this, dark) {
+            repository.revision.collect {
+                value = try {
+                    theme(dark)()
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (_: Exception) {
+                    // A pack that can't be read now keeps the colours already drawn.
+                    value
+                }
+                packs[dark] = value
+            }
+        }.value
+
         /** The series' design for [contract]; with [tags], only one tagged for them too (a keynote's). */
         fun query(contract: ConfettiContract, tags: Map<String, String> = emptyMap()) =
             TemplateQuery(contract.ref, capabilities, tags = mapOf(ConferenceSeries.TAG to series) + tags, minor = contract.minor)
@@ -341,17 +364,27 @@ fun PromoSlot(
  */
 private data class SlotColors(val dark: Boolean, val app: Bindings?)
 
+/**
+ * True where the app's [MaterialTheme] is the conference's colours and a slot should take them
+ * rather than its catalog's theme pack: the base catalog, whose designs follow each conference's
+ * own colour (see [LiveryComponents.ConferenceTheme]).
+ */
+val LocalSlotsFollowMaterial = staticCompositionLocalOf { false }
+
 @Composable
 private fun rememberSlotColors(): SlotColors {
     val scheme = MaterialTheme.colorScheme
-    val dynamic = LocalDynamicColorInUse.current
-    return remember(scheme, dynamic) {
-        SlotColors(dark = scheme.surface.luminance() < 0.5f, app = if (dynamic) scheme.toLiveryTheme() else null)
+    val followMaterial = LocalDynamicColorInUse.current || LocalSlotsFollowMaterial.current
+    return remember(scheme, followMaterial) {
+        SlotColors(dark = scheme.surface.luminance() < 0.5f, app = if (followMaterial) scheme.toLiveryTheme() else null)
     }
 }
 
 /** Every action kind a Confetti contract declares; the router dispatches by kind (PROTOCOL §7). */
-private val ActionKinds = listOf("app:open-session", "app:toggle-bookmark", "app:open-speaker", "open-url", "dismiss")
+private val ActionKinds = listOf(
+    "app:open-session", "app:toggle-bookmark", "app:open-speaker", "app:open-photo", "app:open-social", "app:open-room",
+    "open-url", "dismiss",
+)
 
 @Composable
 private fun rememberHost(styling: LiveryStyling, catalog: LiveryStyling.SeriesCatalog, actions: ActionHandlers): LiveryHost {

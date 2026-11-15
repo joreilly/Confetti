@@ -17,15 +17,24 @@ import dev.johnoreilly.confetti.livery.BreakCard
 import dev.johnoreilly.confetti.livery.ConferenceCard
 import dev.johnoreilly.confetti.livery.ConferenceContract
 import dev.johnoreilly.confetti.livery.SessionCard
+import dev.johnoreilly.confetti.livery.SessionHeaderCard
+import dev.johnoreilly.confetti.livery.SessionHeaderContract
 import dev.johnoreilly.confetti.livery.SessionSpeaker
+import dev.johnoreilly.confetti.livery.SpeakerHeaderCard
+import dev.johnoreilly.confetti.livery.SpeakerHeaderContract
+import dev.johnoreilly.confetti.livery.SpeakerLink
 import dev.johnoreilly.confetti.livery.SessionContract
 import dev.johnoreilly.confetti.livery.SpeakerCard
 import dev.johnoreilly.confetti.livery.SpeakerContract
 import dev.johnoreilly.confetti.livery.TitleCard
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import dev.johnoreilly.confetti.livery.TrackedNativeComponents
+import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.ui.components.SessionCardModel
+import dev.johnoreilly.confetti.ui.components.SessionHeaderModel
 import dev.johnoreilly.confetti.ui.components.SpeakerCardModel
+import dev.johnoreilly.confetti.ui.components.SpeakerHeaderModel
+import dev.johnoreilly.confetti.ui.sessions.detailsTimeString
 import dev.johnoreilly.confetti.ui.SignInDialog
 import dev.johnoreilly.confetti.livery.SlotTracker
 import kotlinx.datetime.LocalDateTime
@@ -72,6 +81,30 @@ fun SessionDetails.toBreakCard(now: LocalDateTime?) = BreakCard(
     live = now != null && now >= startsAt && now < endsAt,
 )
 
+/** A speaker's page header: their full photo, and their links under the names Confetti gives them. */
+fun SpeakerDetails.toSpeakerHeaderCard() = SpeakerHeaderCard(
+    name = name,
+    tagline = tagline,
+    photoUrl = avatarUrl(),
+    socials = socials.map { SpeakerLink(label = it.label(), url = it.url) },
+)
+
+/** A link's name as the speaker page shows it: Confetti's spelling of the ones it knows, else theirs. */
+private fun SpeakerDetails.Social.label(): String = when (name.lowercase()) {
+    "github" -> "GitHub"
+    "linkedin" -> "LinkedIn"
+    "twitter" -> "Twitter"
+    "facebook" -> "Facebook"
+    else -> name.ifBlank { "Web" }
+}
+
+fun SessionDetails.toSessionHeaderCard(roomLink: Boolean) = SessionHeaderCard(
+    title = title,
+    time = detailsTimeString(),
+    room = room?.name,
+    roomLink = roomLink,
+)
+
 /**
  * What a session design can be made for, most specific first: this talk (`session=<id>`), each of
  * its tags in order (`tag=<name>`: its track, which Confetti keeps as a tag, and its categories),
@@ -94,19 +127,23 @@ fun SpeakerDetails.toSpeakerCard() = SpeakerCard(
 
 /**
  * The conference's Livery designs as [ConferenceComponents]: what `SduiComponents` draws for a
- * conference in the livery arm. Livery maps the agenda's header, the session and speaker cards
- * and the promotions; everything else is [native]'s. A mapped slot with no template for this conference (or a conference with no
+ * conference in the livery arm. Livery maps the agenda's header, the session and speaker cards,
+ * the session and speaker pages' headers, the top bar's title and the promotions; everything else is [native]'s. A mapped slot with no template for this conference (or a conference with no
  * catalog) draws [native] too, reporting its taps as `design_id=native`.
  */
 class LiveryComponents(
     private val styling: LiveryStyling,
     private val native: TrackedNativeComponents,
 ) : ConferenceComponents by native {
-    /** Native's theme, while this conference's catalog is watched for the designs it has. */
+    /**
+     * Native's theme in the conference's colours (its catalog's theme pack, see
+     * [LiveryConferenceTheme]), while its catalog is watched for the designs it has.
+     */
     @Composable
     override fun ConferenceTheme(conference: String, themeColor: String?, content: @Composable () -> Unit) {
-        styling.catalog(conference)?.let { catalog -> LaunchedEffect(catalog) { catalog.watchDesigns() } }
-        native.ConferenceTheme(conference, themeColor, content)
+        val catalog = styling.catalog(conference)
+        catalog?.let { LaunchedEffect(it) { it.watchDesigns() } }
+        LiveryConferenceTheme(catalog, native, conference, themeColor, content)
     }
 
     /** Only once the conference's catalog has a header design: the agenda adds no empty item. */
@@ -181,6 +218,57 @@ class LiveryComponents(
         onOpen = { card.speakerSelected(card.speaker.id) },
         fallback = { native.SpeakerCard(card) },
     )
+
+    /** A speaker page's header; Confetti's own where the conference's catalog has no design for one. */
+    @Composable
+    override fun SpeakerHeader(header: SpeakerHeaderModel) {
+        val speaker = header.speaker
+        ConferenceSlot(
+            styling = styling,
+            conference = header.conference,
+            data = speaker.toSpeakerHeaderCard(),
+            identity = speaker.id,
+            actions = mapOf(
+                SpeakerHeaderContract.openPhoto to { _ -> header.onPhotoClick() },
+                // Only one of this speaker's own links: a document can't send the app elsewhere.
+                SpeakerHeaderContract.openSocial to { args ->
+                    args["url"]?.takeIf { url -> speaker.socials.any { it.url == url } }?.let(header.onSocialLinkClicked)
+                },
+            ),
+        ) { tracker ->
+            native.SpeakerHeader(SpeakerHeaderModel(
+                conference = header.conference,
+                speaker = speaker,
+                onPhotoClick = { tracker.action(SpeakerHeaderContract.openPhoto); header.onPhotoClick() },
+                onSocialLinkClicked = { url ->
+                    tracker.action(SpeakerHeaderContract.openSocial, mapOf("url" to url))
+                    header.onSocialLinkClicked(url)
+                },
+            ))
+        }
+    }
+
+    /** A session page's header; Confetti's own where the conference's catalog has no design for one. */
+    @Composable
+    override fun SessionHeader(header: SessionHeaderModel) {
+        val session = header.session
+        ConferenceSlot(
+            styling = styling,
+            conference = header.conference,
+            data = session.toSessionHeaderCard(roomLink = header.onRoomClick != null),
+            identity = session.id,
+            // A keynote's or a track's header, where the catalog has one, as for its card.
+            specific = session.designTags(),
+            actions = mapOf(SessionHeaderContract.openRoom to { _ -> header.onRoomClick?.invoke() }),
+        ) { tracker ->
+            val onRoomClick = header.onRoomClick
+            native.SessionHeader(SessionHeaderModel(
+                conference = header.conference,
+                session = session,
+                onRoomClick = onRoomClick?.let { { tracker.action(SessionHeaderContract.openRoom); it() } },
+            ))
+        }
+    }
 
     /** Only where the conference's catalog has a rule for [placement]: a screen adds no empty item. */
     override fun hasPromo(placement: String, conference: String) =

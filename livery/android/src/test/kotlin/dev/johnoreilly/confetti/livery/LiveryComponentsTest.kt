@@ -5,6 +5,9 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,7 +25,15 @@ import androidx.test.core.app.ApplicationProvider
 import dev.johnoreilly.confetti.analytics.AnalyticsEvent
 import dev.johnoreilly.confetti.analytics.AnalyticsLogger
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import dev.johnoreilly.confetti.preview.johnOreillySpeaker
 import dev.johnoreilly.confetti.preview.sessionDetails
+import dev.johnoreilly.confetti.ui.components.SessionHeaderModel
+import dev.johnoreilly.confetti.ui.components.SpeakerHeaderModel
+import dev.johnoreilly.confetti.ui.livery.toSeed
+import dev.johnoreilly.confetti.ui.livery.withThemePack
+import ee.schimke.livery.client.Bindings
+import ee.schimke.livery.protocol.NamedValue
+import ee.schimke.livery.protocol.ThemeRoles
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.koinApplication
@@ -258,6 +269,91 @@ class LiveryComponentsTest {
         compose.waitForIdle()
         val tap = synchronized(logged) { logged.single { it.id == "livery_action" } }
         assertEquals("bookmark", tap.properties["action"])
+    }
+
+    /**
+     * A speaker page's header draws the base catalog's design, and a link tapped in it opens that
+     * link; a conference whose catalog has no header design (KotlinConf, for now) draws Confetti's.
+     */
+    @Test fun speakerHeadersDrawTheBaseDesign() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        val opened = mutableListOf<String>()
+        fun header(conference: String) = SpeakerHeaderModel(conference, johnOreillySpeaker, onPhotoClick = {}, onSocialLinkClicked = { opened += it })
+        compose.setContent {
+            MaterialTheme(colorScheme = lightColorScheme()) {
+                Column {
+                    components.SpeakerHeader(header("fosdem2025"))
+                    components.SpeakerHeader(header("kotlinconf2026"))
+                }
+            }
+        }
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 1 }
+        assertEquals("confetti-speaker-header", compose.onAllNodes(liverySlot).fetchSemanticsNodes().single().config[SemanticsProperties.TestTag].substringAfterLast(':'))
+        // KotlinConf's is Confetti's own header, its name outside any template.
+        compose.waitUntil(10_000) {
+            compose.onAllNodes(hasText(johnOreillySpeaker.name) and !hasAnyAncestor(liverySlot)).fetchSemanticsNodes().size == 1
+        }
+        val github = hasText("GitHub") and hasAnyAncestor(liverySlot)
+        compose.waitUntil(10_000) { compose.onAllNodes(github).fetchSemanticsNodes().isNotEmpty() }
+        compose.onNode(github).performClick()
+        compose.waitUntil(10_000) { opened.isNotEmpty() }
+        assertEquals(listOf("https://github.com/joreilly"), opened)
+    }
+
+    /** A session page's header draws the base catalog's design, its room opening the venue. */
+    @Test fun sessionHeadersDrawTheBaseDesign() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        var venue = 0
+        compose.setContent {
+            MaterialTheme(colorScheme = lightColorScheme()) {
+                components.SessionHeader(SessionHeaderModel("fosdem2025", sessionDetails, onRoomClick = { venue++ }))
+            }
+        }
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 1 }
+        assertEquals("confetti-session-header", compose.onAllNodes(liverySlot).fetchSemanticsNodes().single().config[SemanticsProperties.TestTag].substringAfterLast(':'))
+        val room = hasText(sessionDetails.room!!.name) and hasAnyAncestor(liverySlot)
+        compose.waitUntil(10_000) { compose.onAllNodes(room).fetchSemanticsNodes().isNotEmpty() }
+        compose.onNode(room).performClick()
+        compose.waitUntil(10_000) { venue == 1 }
+    }
+
+    /**
+     * A conference with a catalog of its own colours Confetti's own UI from its theme pack; any
+     * other keeps the colour the server gives it.
+     */
+    @Test fun theConferenceThemeComesFromItsThemePack() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        var kotlinconf: Color? = null
+        var fosdem: Color? = null
+        compose.setContent {
+            // Inspection mode: the theme's defaults (light), without the Koin settings.
+            CompositionLocalProvider(LocalInspectionMode provides true) {
+                components.ConferenceTheme("kotlinconf2026", "0xFF008000") { kotlinconf = MaterialTheme.colorScheme.primary }
+                components.ConferenceTheme("fosdem2025", "0xFF008000") { fosdem = MaterialTheme.colorScheme.primary }
+            }
+        }
+        compose.waitUntil(10_000) { kotlinconf == Color(0xFF6B3CF0) }
+        // Seeded from green, not Confetti's purple or KotlinConf's.
+        val seeded = requireNotNull(fosdem)
+        assertTrue("$seeded", seeded.green > seeded.red && seeded.green > seeded.blue)
+    }
+
+    @Test fun aThemePackLaysOnlyPairedRolesOverTheScheme() {
+        val base = lightColorScheme()
+        val pack = Bindings(mapOf(
+            ThemeRoles.PRIMARY to NamedValue.Color(0xFF6B3CF0), ThemeRoles.ON_PRIMARY to NamedValue.Color(0xFFFFFFFF),
+            ThemeRoles.SURFACE to NamedValue.Color(0xFFEDDEE8), ThemeRoles.SECONDARY to NamedValue.Color(0xFFB10FC9),
+            ThemeRoles.ON_SURFACE to NamedValue.Color(0xFF19191C),
+        ))
+        val branded = base.withThemePack(pack)
+        assertEquals(Color(0xFF6B3CF0), branded.primary)
+        assertEquals(Color(0xFF19191C), branded.onBackground)
+        // A pack's surface is a card's (what toLiveryTheme sends it from), not the page's; and its
+        // secondary has no onSecondary, so the scheme's stays.
+        assertEquals(Color(0xFFEDDEE8), branded.surfaceContainerHigh)
+        assertEquals(base.surface, branded.surface)
+        assertEquals(base.secondary, branded.secondary)
+        assertEquals("0xFF6B3CF0", Color(0xFF6B3CF0).toSeed())
     }
 
     private fun card(conference: String, session: SessionDetails = sessionDetails) = SessionCardModel(

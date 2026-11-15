@@ -160,3 +160,50 @@ data class TitleCard(val title: String) : ContractData {
 
     override fun values(): Map<Field, Any> = mapOf(TitleContract.title to TitleContract.title.fit(title))
 }
+
+/** A link of a [SpeakerHeaderCard]: what the header shows, and what tapping it sends back. */
+data class SpeakerLink(val label: String, val url: String)
+
+/** `confetti/speaker-header@1`. */
+data class SpeakerHeaderCard(
+    val name: String,
+    val tagline: String? = null,
+    /** Only https binds (Livery PROTOCOL §6.1); anything else draws the design's placeholder. */
+    val photoUrl: String? = null,
+    val socials: List<SpeakerLink> = emptyList(),
+) : ContractData {
+    override val contract get() = SpeakerHeaderContract
+
+    override fun values(): Map<Field, Any> = buildMap {
+        val c = SpeakerHeaderContract
+        put(c.name, c.name.fit(name))
+        putText(c.tagline, tagline)
+        photoUrl?.takeIf { it.startsWith("https://") }?.let { put(c.photo, it) }
+        // A URL is never cut (it would go somewhere else): a link whose URL doesn't fit is left out.
+        socials.filter { it.label.isNotBlank() && it.url.isNotBlank() && it.url.length <= (c.socialUrl.maxLength ?: Int.MAX_VALUE) }
+            .take(c.socials.max)
+            .map { mapOf(c.socialLabel to c.socialLabel.fit(it.label), c.socialUrl to it.url) }
+            .takeIf { it.isNotEmpty() }
+            ?.let { put(c.socials, it) }
+    }
+}
+
+/** `confetti/session-header@1`. */
+data class SessionHeaderCard(
+    val title: String,
+    val time: String,
+    val room: String? = null,
+    /** Whether tapping the room opens the venue map (`openRoom`). */
+    val roomLink: Boolean = false,
+) : ContractData {
+    override val contract get() = SessionHeaderContract
+
+    override fun values(): Map<Field, Any> = buildMap {
+        val c = SessionHeaderContract
+        put(c.title, c.title.fit(title))
+        put(c.time, c.time.fit(time))
+        putText(c.room, room)
+        // No room, nothing to tap.
+        put(c.roomLink, roomLink && !room.isNullOrBlank())
+    }
+}

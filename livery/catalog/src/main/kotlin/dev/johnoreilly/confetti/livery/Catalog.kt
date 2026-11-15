@@ -64,6 +64,12 @@ fun designs(
     breakHeightDp: Int = 76,
     /** The top bar's title (`confetti/title@1`); without one, the app draws Material's. */
     topBarTitle: (@Composable () -> Unit)? = null,
+    /** A speaker page's header (`confetti/speaker-header@1`); without one, the app draws Confetti's own. */
+    speakerHeader: (@Composable () -> Unit)? = null,
+    speakerHeaderHeightDp: Int = 340,
+    /** A session page's header (`confetti/session-header@1`); without one, the app draws Confetti's own. */
+    sessionHeader: (@Composable () -> Unit)? = null,
+    sessionHeaderHeightDp: Int = 190,
 ) = listOfNotNull(
     DesignDef("${brand.series}-header", ConferenceContract, brand, "$title header", example, listOf(inApp(headerHeightDp, header))),
     DesignDef("${brand.series}-session", SessionContract, brand, "$title session", example,
@@ -72,6 +78,8 @@ fun designs(
     DesignDef("${brand.series}-promo", PromoContract, brand, "$title promotion", example, listOf(inApp(promoHeightDp, promo)), install = "OnDemand"),
     breakRow?.let { DesignDef("${brand.series}-break", BreakContract, brand, "$title break", example, listOf(inApp(breakHeightDp, it))) },
     topBarTitle?.let { DesignDef("${brand.series}-title", TitleContract, brand, "$title title", example, listOf(TemplateDef("in-app", IN_APP_BAR, 280, 48, content = it))) },
+    speakerHeader?.let { DesignDef("${brand.series}-speaker-header", SpeakerHeaderContract, brand, "$title speaker page", example, listOf(inApp(speakerHeaderHeightDp, it))) },
+    sessionHeader?.let { DesignDef("${brand.series}-session-header", SessionHeaderContract, brand, "$title session page", example, listOf(inApp(sessionHeaderHeightDp, it))) },
 )
 
 /** Every design in every catalog. Each conference's designs join in their own PR. */

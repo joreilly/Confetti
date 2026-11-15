@@ -13,15 +13,17 @@ import dev.johnoreilly.confetti.fragment.SessionDetails
 import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.ui.ConferenceMaterialThemeFromSettings
 import dev.johnoreilly.confetti.ui.component.ConfettiHeader
+import dev.johnoreilly.confetti.ui.sessions.SessionDetailsHeader
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
+import dev.johnoreilly.confetti.ui.speakers.SpeakerDetailsHeader
 import dev.johnoreilly.confetti.ui.speakers.SpeakerGridItem
 import kotlinx.datetime.LocalDateTime
 import org.koin.compose.koinInject
 
 /**
  * What a conference can restyle: its theme, the header above its agenda, the items and section
- * headers of its lists (agenda, bookmarks, search, speakers), and the promotions placed around the
- * app. The app's composables take it as a context parameter
+ * headers of its lists (agenda, bookmarks, search, speakers), the headers of its session and
+ * speaker pages, and the promotions placed around the app. The app's composables take it as a context parameter
  * (`context(components: ConferenceComponents)`) from `App()` down, so no screen looks it up.
  *
  * Koin binds the implementation (Confetti's own [NativeComponents] by default), and each platform's
@@ -68,7 +70,38 @@ interface ConferenceComponents {
      */
     @Composable
     fun TopBarTitle(conference: String, title: String)
+
+    /**
+     * The top of a speaker's page: photo, name, tagline and links. Their bio and talks are the
+     * screen's own, under it.
+     */
+    @Composable
+    fun SpeakerHeader(header: SpeakerHeaderModel)
+
+    /**
+     * The top of a session's page: title, time, room and track. The description, speakers and
+     * recording are the screen's own, under it.
+     */
+    @Composable
+    fun SessionHeader(header: SessionHeaderModel)
 }
+
+/** What a speaker page's header needs, whoever draws it. */
+class SpeakerHeaderModel(
+    val conference: String,
+    val speaker: SpeakerDetails,
+    /** Shows the photo full screen. */
+    val onPhotoClick: () -> Unit,
+    val onSocialLinkClicked: (url: String) -> Unit,
+)
+
+/** What a session page's header needs, whoever draws it. */
+class SessionHeaderModel(
+    val conference: String,
+    val session: SessionDetails,
+    /** Opens the venue map at the session's room; null where the screen can't. */
+    val onRoomClick: (() -> Unit)?,
+)
 
 /** What a session card needs, whoever draws it: the talk, its state and the list's callbacks. */
 class SessionCardModel(
@@ -143,6 +176,14 @@ open class NativeComponents : ConferenceComponents {
     @Composable
     override fun TopBarTitle(conference: String, title: String) =
         Text(modifier = Modifier.padding(horizontal = 8.dp), maxLines = 2, textAlign = TextAlign.Center, text = title)
+
+    @Composable
+    override fun SpeakerHeader(header: SpeakerHeaderModel) =
+        SpeakerDetailsHeader(header.speaker, header.onPhotoClick, header.onSocialLinkClicked)
+
+    @Composable
+    override fun SessionHeader(header: SessionHeaderModel) =
+        SessionDetailsHeader(header.session, header.onRoomClick)
 }
 
 /**

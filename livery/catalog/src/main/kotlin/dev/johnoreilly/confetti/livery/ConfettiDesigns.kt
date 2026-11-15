@@ -20,6 +20,7 @@ import ee.schimke.composeai.rccreation.compose.shapes.RemoteCircleShape
 import ee.schimke.composeai.rccreation.compose.shapes.RemoteRoundedCornerShape
 import ee.schimke.composeai.rccreation.compose.state.rdp
 import ee.schimke.composeai.rccreation.compose.state.rf
+import ee.schimke.composeai.rccreation.compose.state.ri
 import ee.schimke.composeai.rccreation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
@@ -42,6 +43,8 @@ val ConfettiDesigns: List<DesignDef> = designs(
     promo = { with(ContractScope(PromoContract, Confetti)) { ConfettiPromo() } },
     breakRow = { ConfettiBreak() },
     topBarTitle = { ConfettiTitle() },
+    speakerHeader = { with(ContractScope(SpeakerHeaderContract, Confetti)) { ConfettiSpeakerHeader() } },
+    sessionHeader = { with(ContractScope(SessionHeaderContract, Confetti)) { ConfettiSessionHeader() } },
     // At the contracts' limits: a two-line name and tagline leave the tickets button no room at
     // 210dp, and a two-line headline and three-line body the promo's CTA none at 200dp.
     headerHeightDp = 250,
@@ -219,5 +222,97 @@ fun ConfettiTitle() {
     val c = brandColors(Confetti)
     RemoteBox(modifier = RemoteModifier.fillMaxSize(), contentAlignment = RemoteAlignment.Center) {
         Label(input(TitleContract.title), c.onSurface, size = 20, weight = FontWeight.SemiBold)
+    }
+}
+
+/**
+ * The top of a speaker's page, as Confetti draws it: the photo in a circle, the name and tagline
+ * centred under it, then their links, three to a row. The document is as tall as its longest
+ * name, tagline and six links, so shorter ones sit centred in it.
+ */
+@Composable
+context(_: ContractScope<SpeakerHeaderContract>)
+fun ConfettiSpeakerHeader() {
+    val c = colors()
+    RemoteColumn(
+        modifier = RemoteModifier.fillMaxSize().padding(vertical = 8.rdp),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.spacedBy(6.rdp, RemoteAlignment.CenterVertically),
+    ) {
+        RemoteImage(
+            bitmap = image { photo },
+            contentDescription = null,
+            modifier = RemoteModifier
+                .size(140.rdp, 140.rdp)
+                .clip(RemoteCircleShape)
+                .background(c.surface)
+                .clickable(action { openPhoto }),
+            contentScale = RemoteContentScale.Crop,
+            alpha = 1f.rf,
+        )
+        Label(text { name }, c.onSurface, size = 26, weight = FontWeight.Bold, maxLines = 2, modifier = RemoteModifier.padding(top = 10.rdp))
+        Label(text { tagline }, c.muted, size = 15, weight = FontWeight.Medium, maxLines = 2)
+        val socials = SpeakerHeaderContract.socials
+        val count = listCount(socials)
+        for (row in 0 until socials.max / LINKS_PER_ROW) {
+            val first = row * LINKS_PER_ROW
+            RemoteRow(
+                modifier = RemoteModifier.visibility(count.isGreaterThan(first.ri).visibleIf()).padding(top = 4.rdp),
+                horizontalArrangement = RemoteArrangement.spacedBy(8.rdp),
+            ) {
+                for (i in first until first + LINKS_PER_ROW) {
+                    val url = listText(socials, i, SpeakerHeaderContract.socialUrl)
+                    Chip(
+                        listText(socials, i, SpeakerHeaderContract.socialLabel),
+                        c.primary.copy(alpha = 0.12f.rf), c.primary, corner = 8,
+                        modifier = RemoteModifier
+                            .visibility(count.isGreaterThan(i.ri).visibleIf())
+                            .clickable(action({ openSocial }, url)),
+                    )
+                }
+            }
+        }
+    }
+}
+
+private const val LINKS_PER_ROW = 3
+
+/**
+ * The top of a session's page, as Confetti draws it: the title in the primary colour, then when and
+ * where. The room is a link to the venue map where the app has one.
+ */
+@Composable
+context(_: ContractScope<SessionHeaderContract>)
+fun ConfettiSessionHeader() {
+    val c = colors()
+    val roomLink = flag { roomLink }
+    val room = text { room }
+    RemoteColumn(
+        modifier = RemoteModifier.fillMaxWidth(),
+        verticalArrangement = RemoteArrangement.spacedBy(4.rdp),
+    ) {
+        Label(text { title }, c.primary, size = 26, weight = FontWeight.Bold, maxLines = 3, modifier = RemoteModifier.padding(bottom = 12.rdp))
+        RemoteRow(
+            modifier = RemoteModifier.fillMaxWidth().padding(vertical = 8.rdp),
+            verticalAlignment = RemoteAlignment.CenterVertically,
+            horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
+        ) {
+            Label("🕒".rs, c.muted, size = 16, weight = FontWeight.Normal)
+            Label(text { time }, c.onSurface, size = 14, weight = FontWeight.Medium)
+        }
+        RemoteRow(
+            modifier = RemoteModifier
+                .visibility(room.isNotEmpty.visibleIf())
+                .fillMaxWidth()
+                .clip(RemoteRoundedCornerShape(8.rdp))
+                .clickable(action { openRoom })
+                .padding(vertical = 8.rdp),
+            verticalAlignment = RemoteAlignment.CenterVertically,
+            horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
+        ) {
+            Label("📍".rs, c.muted, size = 16, weight = FontWeight.Normal)
+            Label(room, roomLink.select(c.primary, c.onSurface), size = 14, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
+            Label("›".rs, c.primary, size = 18, weight = FontWeight.Medium, modifier = RemoteModifier.visibility(roomLink.visibleIf()))
+        }
     }
 }

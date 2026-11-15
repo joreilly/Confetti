@@ -38,6 +38,12 @@ slot's data, never a new document:
   (Livery's `ColorScheme.toLiveryTheme()` from `livery-compose-material3`, one mapping for the
   app and these renders). Each
   conference keeps its layout and takes the user's wallpaper colours.
+- **The rest of the app.** A conference's theme pack colours Confetti's own UI too
+  (`LiveryTheme.kt` in `:livery:android`): it seeds the Material scheme in place of the server's
+  `themeColor`, then lays the roles that come with their pairing over it (primary and onPrimary,
+  onSurface, onSurfaceVariant, and `surface` as `surfaceContainerHigh`, the inverse of
+  `toLiveryTheme()`). A conference on the base catalog keeps its own `themeColor`, and the base
+  designs take that scheme instead of Confetti's purple, so they match the screen around them.
 
 Changing the mode or the wallpaper recolours a slot live, without restarting its document.
 
@@ -68,7 +74,7 @@ new capture, no app release, just values.
 ## How it fits together
 
 ```
-livery/contracts/   Contracts.kt: the four contracts, typed (KMP: Android, iOS, JVM, wasm)
+livery/contracts/   Contracts.kt: the contracts, typed (KMP: Android, iOS, JVM, wasm)
         │  used by both sides
         ├── livery/catalog/   designs as @RemoteComposable functions (rc-players' CMP fork of
         │                     remote-creation-compose), captured to .rc on the JVM at build time
@@ -132,6 +138,14 @@ with `since` set to the new minor.
 | `confetti/promo@1` | decision | eyebrow, headline, body, cta, url | cta (open-url), dismiss |
 | `confetti/break@1` | app | title, room, time, coffee, social, live | none |
 | `confetti/title@1` | app | title | none |
+| `confetti/speaker-header@1` | app | name, tagline, photo; list `socials` (label, url; up to 6) | openPhoto, openSocial (`url`) |
+| `confetti/session-header@1` | app | title, time, room, roomLink | openRoom |
+
+The two page headers are only the top of the session and speaker pages: the bio, description,
+tags, speakers and talks under them stay Confetti's own (long text belongs to the platform, not to
+a fixed-height document). Only the base catalog has designs for them so far; a conference without
+one draws Confetti's header. `openSocial` is an app action rather than `open-url`, since a
+speaker's links go to any host, and the app opens only a URL that is one of that speaker's own.
 
 **Lists.** A list binds as `<list>.count` and `<list>.<i>.<field>` (Livery PROTOCOL §4.1). A design
 unrolls it: one row per index it draws, each shown while its index is below the count. The session
@@ -418,9 +432,10 @@ them as JSON, and `repository.theme(id)` reads them. What's missing:
 - **Typography in themes.** Fonts sit in `fonts/` and are named per template. A theme pack that
   could map `theme.font.display`/`theme.font.body` roles to families would let a conference change
   its face without a re-capture, the way colours already work.
-- **One theme for the whole app.** Confetti's native UI has its own per-conference Material
-  schemes. Exporting a pack as a Material 3 `ColorScheme` (the inverse of `toLiveryTheme()`)
-  would give native and Livery slots one source of truth.
+- **One theme for the whole app.** Confetti now does this itself (`withThemePack` in
+  `:livery:android`'s `LiveryTheme.kt`): a pack seeds and overlays the Material 3 `ColorScheme`,
+  the inverse of `toLiveryTheme()`. It belongs in `livery-compose-material3` beside
+  `toLiveryTheme()`, so the two mappings can't drift.
 
 ## Friction found in 0.1.1, fixed in Livery 0.2.0
 

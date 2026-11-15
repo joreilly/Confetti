@@ -628,7 +628,7 @@
     "functionName": "LiveryDroidconPreview",
     "module": "livery:android",
     "renderBasename": "LiveryDroidconPreview_droidcon-dea0f94d.png",
-    "sha256": "ea88dc2780294b9697db1d1ec0e5e5f757a5615b05d93c8575b583ec4d88ed2e",
+    "sha256": "c54f3388366fcd360e5e16d8d5611b135222ea3982161684ca7cb868b53fbfad",
     "sourceFile": "src/main/kotlin/dev/johnoreilly/confetti/ui/livery/LiveryPreviews.kt"
   },
   "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
@@ -1044,7 +1044,7 @@
     "functionName": "SpeakerDetailsViewAlternateSpeakerPreview",
     "module": "shared",
     "renderBasename": "SpeakerDetailsViewAlternateSpeakerPreview_Different_speaker-5d06ad1a.png",
-    "sha256": "b0b9967a5e4e92143343ddef0715259b7124c6fcac162a3ca239ea4574b3f09d",
+    "sha256": "30e9b7a983b5d6cb14a53183ae90e0f4a2eee5c4408372328709a44fc9e54cc8",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakersDetailsView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewLoadedPreview_Phone (large)": {
@@ -1052,7 +1052,7 @@
     "functionName": "SpeakerDetailsViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerDetailsViewLoadedPreview_Phone_large-89e6bac8.png",
-    "sha256": "fa0cd4d9e015655954ae6c3ec099ed77c476b6ac1674c24da7fc01e1d0511d9d",
+    "sha256": "c7ffd8eb74aa99cf73da7d22c30f9ac45455d7d7751443849d9e066eb165ccb8",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakersDetailsView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewLoadedPreview_Phone (small)": {
@@ -1060,7 +1060,7 @@
     "functionName": "SpeakerDetailsViewLoadedPreview",
     "module": "shared",
     "renderBasename": "SpeakerDetailsViewLoadedPreview_Phone_small-df73d484.png",
-    "sha256": "2b92c9d2962bfa85acc21be6d834ef77156fe20a841db152a73460b4d834ad46",
+    "sha256": "75d3044792042acdd186a9e6ad93296e2112c094e30025d3a869ee560f3c8d88",
     "sourceFile": "src/commonMain/kotlin/dev/johnoreilly/confetti/ui/speakers/SpeakersDetailsView.kt"
   },
   "shared/dev.johnoreilly.confetti.ui.speakers.SpeakersDetailsViewKt.SpeakerDetailsViewLoadedPreview_Tablet landscape": {

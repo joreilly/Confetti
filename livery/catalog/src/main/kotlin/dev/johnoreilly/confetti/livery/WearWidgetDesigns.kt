@@ -1,8 +1,19 @@
 package dev.johnoreilly.confetti.livery
 
+import ee.schimke.composeai.rcwidget.creation.RcBreakpointAxis
+import ee.schimke.composeai.rcwidget.RcWearContainer
+import ee.schimke.composeai.rccreation.compose.state.RemoteState
+import ee.schimke.composeai.rccreation.compose.state.RemotePaint
+import ee.schimke.composeai.rccreation.compose.state.RemoteFloat
+import ee.schimke.composeai.rccreation.compose.state.RemoteDp
+import ee.schimke.composeai.rccreation.compose.modifier.drawWithContent
+import ee.schimke.composeai.rccreation.compose.layout.RemoteSize
+import ee.schimke.composeai.rccreation.compose.layout.RemoteOffset
+import ee.schimke.composeai.rccreation.compose.layout.RemoteDrawScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import ee.schimke.composeai.rccreation.compose.text.RemoteTextAlign
 import ee.schimke.composeai.rccreation.compose.layout.RemoteAlignment
 import ee.schimke.composeai.rccreation.compose.layout.RemoteArrangement
 import ee.schimke.composeai.rccreation.compose.layout.RemoteBox
@@ -27,6 +38,7 @@ import ee.schimke.composeai.rcwidget.creation.RcWearBackground
 import ee.schimke.composeai.rcwidget.creation.RcWearBand
 import ee.schimke.composeai.rcwidget.creation.RcWearEdge
 import ee.schimke.composeai.rcwidget.creation.RcWearGlow
+import ee.schimke.composeai.rcwidget.creation.RcSizeBreakpoint
 import ee.schimke.composeai.rcwidget.creation.RcWearTemplateContainer
 
 /*
@@ -52,13 +64,31 @@ class WearWidgetStyle(
     val timePrefix: String = "",
     /** The time's colour: the primary, unless that is the background's own (KotlinConf's purple). */
     val timeColor: (BrandColors) -> RemoteColor = { it.primary },
+    /** What the series draws in the container beside its background's layers. */
+    val art: WearWidgetArt = WearWidgetArt.None,
 )
+
+/**
+ * A series' illustration in its widget's container, as its Wear designs draw it (WearBackdrops.kt
+ * in :livery:wear-designs): along the container's top and bottom edges, in its vertical padding, so
+ * it stays clear of the text and inside a stadium's flat edges as well as a squircle's.
+ */
+enum class WearWidgetArt {
+    None,
+
+    /** Confetti in the theme's three accents, scattered along the top and bottom edges. */
+    Confetti,
+
+    /** droidcon's dot matrix, as a row along the bottom edge fading out to either side. */
+    DotRow,
+}
 
 private fun Color.alpha(a: Float) = copy(alpha = a)
 
 /** Confetti's own: its three accents (the dark pack's pink, orange and blue) as glows from the corners. */
 val ConfettiWearWidget = WearWidgetStyle(
     brand = Confetti,
+    art = WearWidgetArt.Confetti,
     background = RcWearBackground(
         base = Color(0xFF2D2530),
         layers = listOf(
@@ -72,6 +102,7 @@ val ConfettiWearWidget = WearWidgetStyle(
 /** droidcon: the site's near-black, a green rule down the start edge and a thin green outline. */
 val DroidconWearWidget = WearWidgetStyle(
     brand = Droidcon,
+    art = WearWidgetArt.DotRow,
     background = RcWearBackground(
         base = Color(0xFF0E1116),
         layers = listOf(
@@ -108,35 +139,100 @@ val KotlinConfWearWidget = WearWidgetStyle(
 fun SessionWearWidget(style: WearWidgetStyle, size: WearWidgetSize) {
     val C = SessionContract
     val c = brandColors(style.brand)
-    val time = style.timePrefix.rs + input(C.time)
+    val defaults = if (size == WearWidgetSize.Large) RcWearHost.Default.large else RcWearHost.Default.small
+    // The watch's own corner radius (the same named value the container reads), so the illustration
+    // is cut to the host's shape: a squircle's 26 dp, a stadium's 999.
+    val corner = RemoteDp.createNamedRemoteDp(RcWearContainer.CORNER_RADIUS, defaults.cornerRadiusDp, RemoteState.Domain.User)
+    val base = RemoteColor(style.background.base)
     RcWearTemplateContainer(
-        modifier = RemoteModifier.fillMaxSize().clickable(emit(C.open)),
-        background = style.background,
-        defaults = if (size == WearWidgetSize.Large) RcWearHost.Default.large else RcWearHost.Default.small,
+        modifier = RemoteModifier
+            .fillMaxSize()
+            .clip(RemoteRoundedCornerShape(corner))
+            // The background's base, then the illustration, then the container's own layers, edge
+            // and content over them (its fill left clear, below).
+            .drawWithContent {
+                drawRect(RemotePaint { color = base })
+                art(style.art, c)
+                drawContent()
+            }
+            .clickable(emit(C.open)),
+        background = style.background.copy(base = Color.Transparent),
+        defaults = defaults,
     ) {
         when (size) {
             // 60 dp tall: the time over the title, one line each.
             WearWidgetSize.Small -> RemoteColumn(
-                modifier = RemoteModifier.fillMaxSize().padding(horizontal = 6.rdp),
+                modifier = RemoteModifier.fillMaxSize().padding(horizontal = 2.rdp),
                 verticalArrangement = RemoteArrangement.Center,
             ) {
-                Label(time, style.timeColor(c), size = 12, weight = FontWeight.SemiBold)
+                Label(style.timePrefix.rs + input(C.time), style.timeColor(c), size = 12, weight = FontWeight.SemiBold)
                 Label(input(C.title), c.onSurface, size = 14, weight = FontWeight.Bold)
             }
-            // The time (and whether it's on now), the title on up to two lines, the room, the speakers.
-            WearWidgetSize.Large -> RemoteColumn(
-                modifier = RemoteModifier.fillMaxSize().padding(horizontal = 6.rdp),
-                verticalArrangement = RemoteArrangement.spacedBy(1.rdp, RemoteAlignment.CenterVertically),
-            ) {
-                RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(6.rdp)) {
-                    Label(time, style.timeColor(c), size = 12, weight = FontWeight.SemiBold)
-                    NowPill(inputBool(C.live), c.primary, c.onPrimary)
+            // The content's size inside the container's padding is the watch's, and Glance Wear's own
+            // frames (wear-tooling-preview) run from a squircle's 184×92 dp (240 dp screen) and
+            // 150×80 (204 dp) to a Samsung stadium's 90×104 (240 dp) and 92×88 (216 dp). Narrower
+            // than 150 dp, "Now" and the time can't share a line and the title wants a third; shorter
+            // than the four lines need, the speakers (wide) or the title's third line (narrow) go.
+            WearWidgetSize.Large -> RcSizeBreakpoint(intArrayOf(NARROW_DP), RemoteModifier.fillMaxSize()) { wide ->
+                if (wide == 0) {
+                    RcSizeBreakpoint(intArrayOf(NARROW_TALL_DP), RemoteModifier.fillMaxSize(), RcBreakpointAxis.Height) { tall ->
+                        NarrowLarge(style, c, titleLines = if (tall == 0) 2 else 3)
+                    }
+                } else {
+                    RcSizeBreakpoint(intArrayOf(WIDE_TALL_DP), RemoteModifier.fillMaxSize(), RcBreakpointAxis.Height) { tall ->
+                        WideLarge(style, c, speakers = tall == 1)
+                    }
                 }
-                Label(input(C.title), c.onSurface, size = 15, weight = FontWeight.Bold, maxLines = 2)
-                Label(input(C.room), c.muted, size = 12, weight = FontWeight.Medium)
-                Label(input(C.speakers), c.muted, size = 12, weight = FontWeight.Normal)
             }
         }
+    }
+}
+
+/** Below this content width a large container gets the narrow layout. */
+private const val NARROW_DP = 150
+
+/** The content height a wide layout needs for the speakers' line too (a squircle's 92 dp, not 80). */
+private const val WIDE_TALL_DP = 90
+
+/** The content height a narrow layout needs for a three-line title (a stadium's 104 dp, not 88). */
+private const val NARROW_TALL_DP = 100
+
+/** The time (and whether it's on now), the title on up to two lines, the room, and the [speakers]. */
+@Composable
+private fun WideLarge(style: WearWidgetStyle, c: BrandColors, speakers: Boolean) {
+    val C = SessionContract
+    RemoteColumn(
+        modifier = RemoteModifier.fillMaxSize().padding(horizontal = 2.rdp),
+        verticalArrangement = RemoteArrangement.spacedBy(1.rdp, RemoteAlignment.CenterVertically),
+    ) {
+        RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(6.rdp)) {
+            val live = inputBool(C.live)
+            NowPill(live, c.primary, c.onPrimary)
+            // "Now" stands in for the series' prefix, so the time keeps its line at 150 dp.
+            Label(live.select("".rs, style.timePrefix.rs) + input(C.time), style.timeColor(c), size = 12, weight = FontWeight.SemiBold)
+        }
+        Label(input(C.title), c.onSurface, size = 15, weight = FontWeight.Bold, maxLines = 2)
+        Label(input(C.room), c.muted, size = 12, weight = FontWeight.Medium)
+        if (speakers) Label(input(C.speakers), c.muted, size = 12, weight = FontWeight.Normal)
+    }
+}
+
+/**
+ * A narrow large container (a Samsung's): centred, "Now" over the time, the title on up to
+ * [titleLines] lines, then the room. The time drops the series' prefix to fit on its line.
+ */
+@Composable
+private fun NarrowLarge(style: WearWidgetStyle, c: BrandColors, titleLines: Int) {
+    val C = SessionContract
+    RemoteColumn(
+        modifier = RemoteModifier.fillMaxSize(),
+        horizontalAlignment = RemoteAlignment.CenterHorizontally,
+        verticalArrangement = RemoteArrangement.Center,
+    ) {
+        NowPill(inputBool(C.live), c.primary, c.onPrimary)
+        Label(input(C.time), style.timeColor(c), size = 11, weight = FontWeight.SemiBold)
+        Label(input(C.title), c.onSurface, size = 14, weight = FontWeight.Bold, maxLines = titleLines, align = RemoteTextAlign.Center)
+        Label(input(C.room), c.muted, size = 11, weight = FontWeight.Medium)
     }
 }
 
@@ -151,5 +247,50 @@ private fun NowPill(live: RemoteBoolean, background: RemoteColor, content: Remot
             .padding(horizontal = 6.rdp, vertical = 1.rdp),
     ) {
         Label("Now".rs, content, size = 10)
+    }
+}
+
+/** [art] across the whole container, in the theme's accents. */
+private fun RemoteDrawScope.art(art: WearWidgetArt, c: BrandColors) {
+    when (art) {
+        WearWidgetArt.None -> {}
+        WearWidgetArt.Confetti -> {
+            // A garland along each edge, centred: inside a stadium's flat edges too.
+            val top = 4.5f.rdp.toPx()
+            val bottom = height - 4.5f.rdp.toPx()
+            piece(c.primary, 0.30f, top, strip = true, angle = 35f)
+            piece(c.tertiary, 0.40f, top, strip = false)
+            piece(c.secondary, 0.50f, top, strip = true, angle = -20f)
+            piece(c.primary, 0.60f, top, strip = false)
+            piece(c.tertiary, 0.70f, top, strip = true, angle = 60f)
+            piece(c.secondary, 0.35f, bottom, strip = false)
+            piece(c.primary, 0.45f, bottom, strip = true, angle = -40f)
+            piece(c.tertiary, 0.55f, bottom, strip = false)
+            piece(c.secondary, 0.65f, bottom, strip = true, angle = 25f)
+        }
+        WearWidgetArt.DotRow -> {
+            val y = height - 4.5f.rdp.toPx()
+            val step = 7.rdp.toPx()
+            for (i in -5..5) {
+                val alpha = 0.55f - 0.1f * kotlin.math.abs(i)
+                if (alpha <= 0f) continue
+                drawCircle(RemotePaint { color = c.primary.copy(alpha = alpha.rf) }, 1.2f.rdp.toPx(), RemoteOffset(width / 2f + step * i.toFloat(), y))
+            }
+        }
+    }
+}
+
+/** A piece of confetti at [x] (a fraction of the width) and [y]: a dot, or a strip turned by [angle]. */
+private fun RemoteDrawScope.piece(color: RemoteColor, x: Float, y: RemoteFloat, strip: Boolean, angle: Float = 0f) {
+    val cx = width * x
+    val paint = RemotePaint { this.color = color.copy(alpha = 0.85f.rf) }
+    if (!strip) {
+        drawCircle(paint, 2.2f.rdp.toPx(), RemoteOffset(cx, y))
+    } else {
+        val w = 7.rdp.toPx()
+        val h = 2.6f.rdp.toPx()
+        rotate(angle.rf, RemoteOffset(cx, y)) {
+            drawRect(paint, RemoteOffset(cx - w / 2f, y - h / 2f), RemoteSize(w, h))
+        }
     }
 }

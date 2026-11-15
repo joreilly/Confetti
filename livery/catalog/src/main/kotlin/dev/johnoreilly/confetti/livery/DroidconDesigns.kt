@@ -23,6 +23,7 @@ import ee.schimke.composeai.rccreation.compose.modifier.width
 import ee.schimke.composeai.rccreation.compose.shapes.RemoteRoundedCornerShape
 import ee.schimke.composeai.rccreation.compose.state.rdp
 import ee.schimke.composeai.rccreation.compose.state.rf
+import ee.schimke.composeai.rccreation.compose.state.ri
 import ee.schimke.composeai.rccreation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +50,12 @@ val DroidconDesigns: List<DesignDef> = designs(
     promoHeightDp = 250,
     sessionWidget = { DroidconSessionWidget() },
     sessionWear = { DroidconSessionWear() },
+    speakerHeader = { with(ContractScope(SpeakerHeaderContract, Droidcon)) { DroidconSpeakerHeader() } },
+    sessionHeader = { with(ContractScope(SessionHeaderContract, Droidcon)) { DroidconSessionHeader() } },
+    section = { with(ContractScope(SectionContract, Droidcon)) { DroidconSection() } },
+    // Space Mono is wide: a sixty-character name takes three lines, and six links three rows.
+    speakerHeaderHeightDp = 450,
+    sessionHeaderHeightDp = 230,
 )
 
 @Composable
@@ -269,5 +276,133 @@ fun DroidconTitle() {
             Label(input(TitleContract.title), c.onSurface, size = 18)
             Label("_".rs, c.primary, size = 18, modifier = RemoteModifier.alpha(pulse()))
         }
+    }
+}
+
+/**
+ * A speaker's page, droidcon-style: the session card's green rule down the left, and from the
+ * droidcon London site its speaker tiles (a rounded-square photo in a green frame, the name in
+ * green) and its bracketed labels (`( WHO? )`). The links are `→` tags in the site's blue.
+ */
+@Composable
+context(_: ContractScope<SpeakerHeaderContract>)
+fun DroidconSpeakerHeader() {
+    val c = colors()
+    RemoteRow(
+        modifier = RemoteModifier
+            .fillMaxSize()
+            .clip(RemoteRoundedCornerShape(6.rdp))
+            .background(c.primary)
+            .padding(start = 4.rdp)
+            .background(c.surface),
+    ) {
+        RemoteColumn(
+            modifier = RemoteModifier.fillMaxSize().padding(16.rdp),
+            verticalArrangement = RemoteArrangement.spacedBy(6.rdp, RemoteAlignment.CenterVertically),
+        ) {
+            RemoteBox(
+                modifier = RemoteModifier
+                    .size(112.rdp, 112.rdp)
+                    .clip(RemoteRoundedCornerShape(6.rdp))
+                    .background(c.primary)
+                    .padding(3.rdp)
+                    .clickable(action { openPhoto }),
+            ) {
+                RemoteImage(
+                    bitmap = image { photo },
+                    contentDescription = null,
+                    modifier = RemoteModifier.fillMaxSize().clip(RemoteRoundedCornerShape(4.rdp)).background(c.surface),
+                    contentScale = RemoteContentScale.Crop,
+                    alpha = 1f.rf,
+                )
+            }
+            Label("( WHO? )".rs, c.tertiary, size = 12, modifier = RemoteModifier.padding(top = 6.rdp))
+            Label(text { name }, c.primary, size = 22, weight = FontWeight.Bold, maxLines = 3)
+            Label(text { tagline }, c.onSurface, size = 14, weight = FontWeight.Normal, maxLines = 2)
+            val socials = SpeakerHeaderContract.socials
+            val count = listCount(socials)
+            for (row in 0 until socials.max / DROIDCON_LINKS_PER_ROW) {
+                val first = row * DROIDCON_LINKS_PER_ROW
+                RemoteRow(
+                    modifier = RemoteModifier.visibility(count.isGreaterThan(first.ri).visibleIf()).padding(top = 4.rdp),
+                    horizontalArrangement = RemoteArrangement.spacedBy(8.rdp),
+                ) {
+                    for (i in first until first + DROIDCON_LINKS_PER_ROW) {
+                        val url = listText(socials, i, SpeakerHeaderContract.socialUrl)
+                        RemoteBox(
+                            modifier = RemoteModifier
+                                .visibility(count.isGreaterThan(i.ri).visibleIf())
+                                .clip(RemoteRoundedCornerShape(4.rdp))
+                                .border(1.rdp, c.tertiary, RemoteRoundedCornerShape(4.rdp))
+                                .clickable(action({ openSocial }, url))
+                                .padding(horizontal = 8.rdp, vertical = 4.rdp),
+                        ) { Label("→ ".rs + listText(socials, i, SpeakerHeaderContract.socialLabel), c.tertiary, size = 12) }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** Space Mono is wide: two twelve-character `→` tags to a row fit a phone, a third doesn't. */
+private const val DROIDCON_LINKS_PER_ROW = 2
+
+/**
+ * A session's page, droidcon-style: the agenda card grown up, the green rule down the left, with
+ * the droidcon London site's `( WHEN? )` and `( WHERE? )` labels over the time and the room (the
+ * room in blue with `→` where it opens the map).
+ */
+@Composable
+context(_: ContractScope<SessionHeaderContract>)
+fun DroidconSessionHeader() {
+    val c = colors()
+    val roomLink = flag { roomLink }
+    val room = text { room }
+    RemoteRow(
+        modifier = RemoteModifier
+            .fillMaxWidth()
+            .clip(RemoteRoundedCornerShape(6.rdp))
+            .background(c.primary)
+            .padding(start = 4.rdp)
+            .background(c.surface),
+    ) {
+        RemoteColumn(
+            modifier = RemoteModifier.fillMaxWidth().padding(16.rdp),
+            verticalArrangement = RemoteArrangement.spacedBy(8.rdp),
+        ) {
+            Label(text { title }, c.onSurface, size = 22, weight = FontWeight.Bold, maxLines = 3)
+            RemoteRow(verticalAlignment = RemoteAlignment.CenterVertically, horizontalArrangement = RemoteArrangement.spacedBy(10.rdp)) {
+                Label("( WHEN? )".rs, c.tertiary, size = 12)
+                Label(text { time }, c.primary, size = 13)
+            }
+            RemoteRow(
+                modifier = RemoteModifier
+                    .visibility(room.isNotEmpty.visibleIf())
+                    .clip(RemoteRoundedCornerShape(4.rdp))
+                    .clickable(action { openRoom })
+                    .padding(vertical = 4.rdp),
+                verticalAlignment = RemoteAlignment.CenterVertically,
+                horizontalArrangement = RemoteArrangement.spacedBy(6.rdp),
+            ) {
+                Label("( WHERE? )".rs, c.tertiary, size = 12)
+                Label(room, roomLink.select(c.tertiary, c.onSurface), size = 13, weight = FontWeight.Medium)
+                Label("→".rs, c.tertiary, size = 13, modifier = RemoteModifier.visibility(roomLink.visibleIf()))
+            }
+        }
+    }
+}
+
+/** A section header, droidcon-style: the title in the site's brackets, in green, then a rule to the edge. */
+@Composable
+context(_: ContractScope<SectionContract>)
+fun DroidconSection() {
+    val c = colors()
+    RemoteRow(
+        modifier = RemoteModifier.fillMaxSize().background(c.surface).padding(horizontal = 16.rdp),
+        verticalAlignment = RemoteAlignment.CenterVertically,
+        horizontalArrangement = RemoteArrangement.spacedBy(10.rdp),
+    ) {
+        Label("( ".rs + text { title } + " )".rs, c.primary, size = 13)
+        RemoteBox(modifier = RemoteModifier.weight(1f.rf).height(1.rdp).background(c.muted.copy(alpha = 0.5f.rf))) {}
     }
 }

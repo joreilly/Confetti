@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import dev.johnoreilly.confetti.decompose.SessionsUiState
 import dev.johnoreilly.confetti.fragment.SessionDetails
@@ -16,6 +17,7 @@ import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.livery.BreakCard
 import dev.johnoreilly.confetti.livery.ConferenceCard
 import dev.johnoreilly.confetti.livery.ConferenceContract
+import dev.johnoreilly.confetti.livery.SectionCard
 import dev.johnoreilly.confetti.livery.SessionCard
 import dev.johnoreilly.confetti.livery.SessionHeaderCard
 import dev.johnoreilly.confetti.livery.SessionHeaderContract
@@ -128,7 +130,7 @@ fun SpeakerDetails.toSpeakerCard() = SpeakerCard(
 /**
  * The conference's Livery designs as [ConferenceComponents]: what `SduiComponents` draws for a
  * conference in the livery arm. Livery maps the agenda's header, the session and speaker cards,
- * the session and speaker pages' headers, the top bar's title and the promotions; everything else is [native]'s. A mapped slot with no template for this conference (or a conference with no
+ * the session and speaker pages' headers, section headers, the top bar's title and the promotions; everything else is [native]'s. A mapped slot with no template for this conference (or a conference with no
  * catalog) draws [native] too, reporting its taps as `design_id=native`.
  */
 class LiveryComponents(
@@ -269,6 +271,15 @@ class LiveryComponents(
             ))
         }
     }
+
+    /** A section header, in the conference's section design; Confetti's own where it has none. */
+    @Composable
+    override fun SectionHeader(conference: String, text: String, icon: ImageVector) = ConferenceSlot(
+        styling = styling,
+        conference = conference,
+        data = SectionCard(text),
+        identity = text,
+    ) { _ -> native.SectionHeader(conference, text, icon) }
 
     /** Only where the conference's catalog has a rule for [placement]: a screen adds no empty item. */
     override fun hasPromo(placement: String, conference: String) =

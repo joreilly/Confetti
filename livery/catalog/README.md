@@ -44,6 +44,11 @@ slot's data, never a new document:
   onSurface, onSurfaceVariant, and `surface` as `surfaceContainerHigh`, the inverse of
   `toLiveryTheme()`). A conference on the base catalog keeps its own `themeColor`, and the base
   designs take that scheme instead of Confetti's purple, so they match the screen around them.
+- **Type.** A series' headings (Material's display, headline and title styles) take the face its
+  designs ship (Poppins, Space Mono), read from the catalog's own font files through Livery's
+  `LiveryResources.typefaces`. Body and label text keep the platform's, and only the family
+  changes, so no layout moves. The base catalog ships no face, so its conferences keep the
+  platform's.
 
 Changing the mode or the wallpaper recolours a slot live, without restarting its document.
 
@@ -140,10 +145,14 @@ with `since` set to the new minor.
 | `confetti/title@1` | app | title | none |
 | `confetti/speaker-header@1` | app | name, tagline, photo; list `socials` (label, url; up to 6) | openPhoto, openSocial (`url`) |
 | `confetti/session-header@1` | app | title, time, room, roomLink | openRoom |
+| `confetti/section@1` | app | title | none |
 
 The two page headers are only the top of the session and speaker pages: the bio, description,
 tags, speakers and talks under them stay Confetti's own (long text belongs to the platform, not to
-a fixed-height document). Only the base catalog has designs for them so far; a conference without
+a fixed-height document). `confetti/section@1` is every section header: the agenda's and bookmarks' times, search's and
+the detail pages' "Speakers" and "Sessions". It is sticky in a list, so a design paints its own
+background, and it has no icon (Confetti's are vectors a document can't draw). Only the base
+catalog has designs for these so far; a conference without
 one draws Confetti's header. `openSocial` is an app action rather than `open-url`, since a
 speaker's links go to any host, and the app opens only a URL that is one of that speaker's own.
 

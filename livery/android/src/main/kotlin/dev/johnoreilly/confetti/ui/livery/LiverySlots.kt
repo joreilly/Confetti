@@ -14,6 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalUriHandler
 import dev.johnoreilly.confetti.livery.Action
@@ -24,6 +25,7 @@ import dev.johnoreilly.confetti.livery.ConfettiContract
 import dev.johnoreilly.confetti.livery.ContractData
 import dev.johnoreilly.confetti.livery.PromoContract
 import dev.johnoreilly.confetti.livery.SduiExperiment
+import dev.johnoreilly.confetti.livery.SectionContract
 import dev.johnoreilly.confetti.livery.SessionContract
 import dev.johnoreilly.confetti.livery.SlotTracker
 import dev.johnoreilly.confetti.ui.LocalDynamicColorInUse
@@ -129,7 +131,7 @@ class LiveryStyling(
          * first frame and no scroll decodes a template. Run on every catalog revision.
          */
         suspend fun warm() = coroutineScope {
-            for (contract in listOf(SessionContract, BreakContract, ConferenceContract)) {
+            for (contract in listOf(SessionContract, BreakContract, ConferenceContract, SectionContract)) {
                 launch {
                     try {
                         val template = repository.resolve(query(contract)) ?: return@launch
@@ -194,6 +196,34 @@ class LiveryStyling(
         }
 
         fun theme(dark: Boolean): suspend () -> Bindings? = { repository.theme(ConferenceSeries.themePack(series, dark)) ?: repository.theme(series) }
+
+        /** The last brand font read, so a screen opened later starts in it. */
+        private var brandFont: FontFamily? = null
+
+        /**
+         * The series' own typeface, as its designs draw it: the font its session design ships, from
+         * the catalog's verified font files. Null for a catalog that ships none (the base one: the
+         * platform's), and until read.
+         */
+        @Composable
+        fun rememberBrandFont(): FontFamily? = produceState(brandFont, this) {
+            repository.revision.collect {
+                value = try {
+                    readBrandFont()
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (_: Exception) {
+                    value
+                }
+                brandFont = value
+            }
+        }.value
+
+        private suspend fun readBrandFont(): FontFamily? {
+            val template = repository.resolve(query(SessionContract)) ?: return null
+            val family = template.assets.firstNotNullOfOrNull { it.font?.family } ?: return null
+            return resources.typefaces(template).typeface(family, null)
+        }
 
         /** The last theme pack read per mode, so a screen opened later starts in the conference's colours. */
         private val packs = mutableMapOf<Boolean, Bindings?>()

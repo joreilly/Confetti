@@ -45,6 +45,7 @@ val ConfettiDesigns: List<DesignDef> = designs(
     topBarTitle = { ConfettiTitle() },
     speakerHeader = { with(ContractScope(SpeakerHeaderContract, Confetti)) { ConfettiSpeakerHeader() } },
     sessionHeader = { with(ContractScope(SessionHeaderContract, Confetti)) { ConfettiSessionHeader() } },
+    section = { with(ContractScope(SectionContract, Confetti)) { ConfettiSection() } },
     // At the contracts' limits: a two-line name and tagline leave the tickets button no room at
     // 210dp, and a two-line headline and three-line body the promo's CTA none at 200dp.
     headerHeightDp = 250,
@@ -315,5 +316,23 @@ fun ConfettiSessionHeader() {
             Label(room, roomLink.select(c.primary, c.onSurface), size = 14, weight = FontWeight.Medium)
             Label("›".rs, c.primary, size = 18, weight = FontWeight.Medium, modifier = RemoteModifier.visibility(roomLink.visibleIf()))
         }
+    }
+}
+
+/**
+ * A section header, as Confetti draws it: a tonal band with the title in bold. Sticky in a list,
+ * so the band is opaque; a short bar in the primary colour stands in for Confetti's icon.
+ */
+@Composable
+context(_: ContractScope<SectionContract>)
+fun ConfettiSection() {
+    val c = colors()
+    RemoteRow(
+        modifier = RemoteModifier.fillMaxSize().background(c.surface).padding(horizontal = 16.rdp),
+        verticalAlignment = RemoteAlignment.CenterVertically,
+        horizontalArrangement = RemoteArrangement.spacedBy(10.rdp),
+    ) {
+        RemoteBox(modifier = RemoteModifier.size(4.rdp, 16.rdp).clip(RemoteRoundedCornerShape(2.rdp)).background(c.primary)) {}
+        Label(text { title }, c.onSurface, size = 14, weight = FontWeight.Bold)
     }
 }

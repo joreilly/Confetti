@@ -70,6 +70,9 @@ fun designs(
     /** A session page's header (`confetti/session-header@1`); without one, the app draws Confetti's own. */
     sessionHeader: (@Composable () -> Unit)? = null,
     sessionHeaderHeightDp: Int = 190,
+    /** A list's or page's section header (`confetti/section@1`); without one, the app draws Confetti's own. */
+    section: (@Composable () -> Unit)? = null,
+    sectionHeightDp: Int = 40,
 ) = listOfNotNull(
     DesignDef("${brand.series}-header", ConferenceContract, brand, "$title header", example, listOf(inApp(headerHeightDp, header))),
     DesignDef("${brand.series}-session", SessionContract, brand, "$title session", example,
@@ -80,6 +83,7 @@ fun designs(
     topBarTitle?.let { DesignDef("${brand.series}-title", TitleContract, brand, "$title title", example, listOf(TemplateDef("in-app", IN_APP_BAR, 280, 48, content = it))) },
     speakerHeader?.let { DesignDef("${brand.series}-speaker-header", SpeakerHeaderContract, brand, "$title speaker page", example, listOf(inApp(speakerHeaderHeightDp, it))) },
     sessionHeader?.let { DesignDef("${brand.series}-session-header", SessionHeaderContract, brand, "$title session page", example, listOf(inApp(sessionHeaderHeightDp, it))) },
+    section?.let { DesignDef("${brand.series}-section", SectionContract, brand, "$title section header", example, listOf(inApp(sectionHeightDp, it))) },
 )
 
 /** Every design in every catalog. Each conference's designs join in their own PR. */

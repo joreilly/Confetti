@@ -207,3 +207,10 @@ data class SessionHeaderCard(
         put(c.roomLink, roomLink && !room.isNullOrBlank())
     }
 }
+
+/** `confetti/section@1`. */
+data class SectionCard(val title: String) : ContractData {
+    override val contract get() = SectionContract
+
+    override fun values(): Map<Field, Any> = mapOf(SectionContract.title to SectionContract.title.fit(title))
+}

@@ -2,12 +2,14 @@ package dev.johnoreilly.confetti.ui.livery
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.font.FontFamily
 import dev.johnoreilly.confetti.livery.ConferenceSeries
 import dev.johnoreilly.confetti.ui.LocalDynamicColorInUse
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
@@ -25,6 +27,7 @@ import ee.schimke.livery.protocol.ThemeRoles
  * - A conference with a catalog of its own (droidcon, KotlinConf): its theme pack. The pack seeds
  *   the Material scheme in place of the server's `themeColor`, so every container and surface is
  *   derived in the brand's hue, then the roles the pack sets with their pairing are laid over it.
+ *   Its headings take the face its designs ship (Poppins, Space Mono), dynamic colour or not.
  * - Any other conference (the base catalog): its own `themeColor`, as Confetti draws it, and the
  *   base designs take that scheme instead of Confetti's purple, so they match the screen around
  *   them.
@@ -49,15 +52,39 @@ internal fun LiveryConferenceTheme(
     }
     val light = catalog.rememberThemePack(dark = false)
     val dark = catalog.rememberThemePack(dark = true)
+    val font = catalog.rememberBrandFont()
     // The light pack's primary is the brand's hue in both modes: the scheme picks its tones.
     native.ConferenceTheme(conference, light?.color(ThemeRoles.PRIMARY)?.toSeed() ?: themeColor) {
-        if (LocalDynamicColorInUse.current) return@ConferenceTheme content()
         val scheme = MaterialTheme.colorScheme
-        val pack = if (scheme.surface.luminance() < 0.5f) dark else light
+        val typography = MaterialTheme.typography
+        // The user's wallpaper colours win; the brand's face still applies.
+        val pack = when {
+            LocalDynamicColorInUse.current -> null
+            scheme.surface.luminance() < 0.5f -> dark
+            else -> light
+        }
         val branded = remember(scheme, pack) { pack?.let(scheme::withThemePack) ?: scheme }
-        MaterialTheme(colorScheme = branded, typography = MaterialTheme.typography, shapes = MaterialTheme.shapes, content = content)
+        val type = remember(typography, font) { font?.let(typography::withHeadingFamily) ?: typography }
+        MaterialTheme(colorScheme = branded, typography = type, shapes = MaterialTheme.shapes, content = content)
     }
 }
+
+/**
+ * [this] with [family] for its headings (display, headline and title): the brand's face where it
+ * speaks loudest. Body and label text keep the platform's, for reading (droidcon's face is
+ * monospaced). Only the family: sizes, weights and line heights stay Confetti's, so no layout moves.
+ */
+internal fun Typography.withHeadingFamily(family: FontFamily): Typography = copy(
+    displayLarge = displayLarge.copy(fontFamily = family),
+    displayMedium = displayMedium.copy(fontFamily = family),
+    displaySmall = displaySmall.copy(fontFamily = family),
+    headlineLarge = headlineLarge.copy(fontFamily = family),
+    headlineMedium = headlineMedium.copy(fontFamily = family),
+    headlineSmall = headlineSmall.copy(fontFamily = family),
+    titleLarge = titleLarge.copy(fontFamily = family),
+    titleMedium = titleMedium.copy(fontFamily = family),
+    titleSmall = titleSmall.copy(fontFamily = family),
+)
 
 /**
  * [this] with the [pack]'s roles that come with their pairing: primary on onPrimary, and the text

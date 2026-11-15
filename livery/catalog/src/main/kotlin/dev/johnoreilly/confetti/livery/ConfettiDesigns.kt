@@ -311,7 +311,8 @@ fun ConfettiSessionHeader() {
             horizontalArrangement = RemoteArrangement.spacedBy(12.rdp),
         ) {
             Label("📍".rs, c.muted, size = 16, weight = FontWeight.Normal)
-            Label(room, roomLink.select(c.primary, c.onSurface), size = 14, weight = FontWeight.Medium, modifier = RemoteModifier.weight(1f.rf))
+            // Unweighted: a weighted label takes the row and leaves the chevron no room.
+            Label(room, roomLink.select(c.primary, c.onSurface), size = 14, weight = FontWeight.Medium)
             Label("›".rs, c.primary, size = 18, weight = FontWeight.Medium, modifier = RemoteModifier.visibility(roomLink.visibleIf()))
         }
     }

@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794743448061,
-    "generatedAtEpochMs": 1794743448061,
-    "expiresAtEpochMs": 1797335448061,
+    "serial": 1794744716924,
+    "generatedAtEpochMs": 1794744716924,
+    "expiresAtEpochMs": 1797336716924,
     "minClient": 2,
     "contracts": [
         {
@@ -204,6 +204,30 @@
                 }
             },
             "dataSource": "Decision"
+        },
+        {
+            "id": "confetti/section",
+            "major": 1,
+            "title": "Section header",
+            "inputs": {
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 40,
+                    "description": "already formatted, e.g. 10:30 or Speakers"
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "10:30"
+                },
+                "kotlinconf": {
+                    "title": "Speakers"
+                },
+                "long": {
+                    "title": "A section title at its forty-char limit!"
+                }
+            }
         },
         {
             "id": "confetti/session-header",

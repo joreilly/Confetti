@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-kotlinconf",
-    "serial": 1794751900805,
-    "generatedAtEpochMs": 1794751900805,
-    "expiresAtEpochMs": 1797343900805,
+    "serial": 1794755655518,
+    "generatedAtEpochMs": 1794755655518,
+    "expiresAtEpochMs": 1797347655518,
     "minClient": 8,
     "contracts": [
         {
@@ -643,9 +643,29 @@
             }
         },
         {
+            "id": "kotlinconf-section",
+            "contract": "confetti/section@1",
+            "title": "KotlinConf section header",
+            "author": "confetti",
+            "tags": {
+                "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
             "id": "kotlinconf-session",
             "contract": "confetti/session@1",
             "title": "KotlinConf session",
+            "author": "confetti",
+            "tags": {
+                "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "kotlinconf-session-header",
+            "contract": "confetti/session-header@1",
+            "title": "KotlinConf session page",
             "author": "confetti",
             "tags": {
                 "series": "kotlinconf"
@@ -680,6 +700,16 @@
             "id": "kotlinconf-speaker",
             "contract": "confetti/speaker@1",
             "title": "KotlinConf speaker",
+            "author": "confetti",
+            "tags": {
+                "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "kotlinconf-speaker-header",
+            "contract": "confetti/speaker-header@1",
+            "title": "KotlinConf speaker page",
             "author": "confetti",
             "tags": {
                 "series": "kotlinconf"
@@ -915,6 +945,41 @@
             ]
         },
         {
+            "sha256": "930a570e679f4074d2dd23667510fe767b760807b05a6549c1df12a01b4c5ed7",
+            "bytes": 901,
+            "designId": "kotlinconf-section",
+            "contract": "confetti/section@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "title"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
             "sha256": "4504889cb881e71af93cb5257cbae707cb9503dae604f8b7f67c9c2070f145f4",
             "bytes": 3944,
             "designId": "kotlinconf-session",
@@ -1040,6 +1105,47 @@
             ],
             "emits": [
                 "open"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "c47449707a9a77d7ed5e8531213b945bd91526aea0da93be96f2253dfced595d",
+            "bytes": 2323,
+            "designId": "kotlinconf-session-header",
+            "contract": "confetti/session-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "roomLink",
+                "room",
+                "title",
+                "time"
+            ],
+            "emits": [
+                "openRoom"
             ],
             "assets": [
                 "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
@@ -1190,6 +1296,60 @@
             ],
             "emits": [
                 "open"
+            ],
+            "assets": [
+                "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",
+                "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+                "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+                "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+            ],
+            "fonts": [
+                "Poppins"
+            ]
+        },
+        {
+            "sha256": "f3cd706cd3089629163a3a47c953512ac407f4aadc262fdb64e8a3642b1e3036",
+            "bytes": 4807,
+            "designId": "kotlinconf-speaker-header",
+            "contract": "confetti/speaker-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "photo",
+                "name",
+                "tagline",
+                "socials.count",
+                "socials.0.url",
+                "socials.0.label",
+                "socials.1.url",
+                "socials.1.label",
+                "socials.2.url",
+                "socials.2.label",
+                "socials.3.url",
+                "socials.3.label",
+                "socials.4.url",
+                "socials.4.label",
+                "socials.5.url",
+                "socials.5.label"
+            ],
+            "emits": [
+                "openPhoto",
+                "openSocial"
             ],
             "assets": [
                 "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba",

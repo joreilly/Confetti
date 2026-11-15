@@ -150,8 +150,10 @@ jobs:
       fail-fast: false
       matrix:
         series: [confetti, droidcon, kotlinconf]
-    # TODO: pin to the Livery release with base-artifact and name (yschimke/livery#103) once it is out.
-    uses: yschimke/livery/.github/workflows/catalog-review.yml@agent/catalog-review-generated-base
+    # yschimke/livery#103's merge on main (base-artifact, name, preview-branch): its branch is gone.
+    # TODO: pin to the first Livery release with it, and set livery-version to match, which also
+    # brings the review's authored-size previews (until then the 0.15.0 CLI draws them 200dp high).
+    uses: yschimke/livery/.github/workflows/catalog-review.yml@9db083184527401f4640214df8fc3d0ecacd74bb
     with:
       source: build/livery-review/${{ matrix.series }}
       source-artifact: catalog-${{ matrix.series }}

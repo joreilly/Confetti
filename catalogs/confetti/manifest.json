@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794755990916,
-    "generatedAtEpochMs": 1794755990916,
-    "expiresAtEpochMs": 1797347990916,
+    "serial": 1794765773103,
+    "generatedAtEpochMs": 1794765773103,
+    "expiresAtEpochMs": 1797357773103,
     "contracts": [
         {
             "id": "confetti/break",
@@ -641,6 +641,18 @@
             "install": "Always"
         },
         {
+            "id": "confetti-section-wear",
+            "contract": "confetti/section@1",
+            "title": "Confetti section header (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "confetti",
+                "device": "wear"
+            },
+            "install": "Always"
+        },
+        {
             "id": "confetti-session",
             "contract": "confetti/session@1",
             "title": "Confetti session",
@@ -661,6 +673,30 @@
             "install": "Always"
         },
         {
+            "id": "confetti-session-header-wear",
+            "contract": "confetti/session-header@1",
+            "title": "Confetti session page (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "confetti",
+                "device": "wear"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "confetti-session-wear",
+            "contract": "confetti/session@1",
+            "title": "Confetti session (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "confetti",
+                "device": "wear"
+            },
+            "install": "Always"
+        },
+        {
             "id": "confetti-speaker",
             "contract": "confetti/speaker@1",
             "title": "Confetti speaker",
@@ -677,6 +713,18 @@
             "author": "confetti",
             "tags": {
                 "series": "confetti"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "confetti-speaker-header-wear",
+            "contract": "confetti/speaker-header@1",
+            "title": "Confetti speaker page (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "confetti",
+                "device": "wear"
             },
             "install": "Always"
         },
@@ -818,6 +866,33 @@
             ]
         },
         {
+            "sha256": "21953da29d718876f1f81a9e10cfa199043ccb9a6c3b917191b39024c54d2f07",
+            "bytes": 1604,
+            "designId": "confetti-section-wear",
+            "contract": "confetti/section@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.secondary",
+                "theme.tertiary",
+                "title"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "confetti-section-wear"
+            }
+        },
+        {
             "sha256": "5ae110d426f03c743bddd4c4620eac0ee0b511ae04b5bbafcfe552696d8b3342",
             "bytes": 3787,
             "designId": "confetti-session",
@@ -896,6 +971,76 @@
             ]
         },
         {
+            "sha256": "9d22b0cadcccc0bf4e22c2a696bdb81dbd7618b0ae1228793de11bbac55d326c",
+            "bytes": 2587,
+            "designId": "confetti-session-header-wear",
+            "contract": "confetti/session-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "room",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.secondary",
+                "theme.surface",
+                "theme.tertiary",
+                "time",
+                "title"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "confetti-session-header-wear"
+            }
+        },
+        {
+            "sha256": "c5a0d4411c5deac95e07ce71d9cf76e59c8dd9fe9b4e1d3460f20a0b812bfc80",
+            "bytes": 3882,
+            "designId": "confetti-session-wear",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "bookmarked",
+                "room",
+                "speakers",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.secondary",
+                "theme.surface",
+                "theme.tertiary",
+                "time",
+                "title"
+            ],
+            "emits": [
+                "bookmark",
+                "open"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "confetti-session-wear"
+            }
+        },
+        {
             "sha256": "ac27bd0df9910aae74b02dfe5cee316e38325f747c7de25b6d06e22935bf2a2a",
             "bytes": 1419,
             "designId": "confetti-speaker",
@@ -971,6 +1116,38 @@
                 "openPhoto",
                 "openSocial"
             ]
+        },
+        {
+            "sha256": "3f03900c3f225612a71498119a5034a938fa7a308da6a7ecfbeb3c0539b0947d",
+            "bytes": 2937,
+            "designId": "confetti-speaker-header-wear",
+            "contract": "confetti/speaker-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "name",
+                "photo",
+                "tagline",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.secondary",
+                "theme.surface",
+                "theme.tertiary"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "confetti-speaker-header-wear"
+            }
         },
         {
             "sha256": "8a309969f7b5148a7398f93704f0ed8e3065dfcfa98f5b54d8bf8a145713250c",

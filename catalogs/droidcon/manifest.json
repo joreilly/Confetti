@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794755990929,
-    "generatedAtEpochMs": 1794755990929,
-    "expiresAtEpochMs": 1797347990929,
+    "serial": 1794765773086,
+    "generatedAtEpochMs": 1794765773086,
+    "expiresAtEpochMs": 1797357773086,
     "minClient": 2,
     "contracts": [
         {
@@ -642,6 +642,18 @@
             "install": "Always"
         },
         {
+            "id": "droidcon-section-wear",
+            "contract": "confetti/section@1",
+            "title": "droidcon section header (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "droidcon",
+                "device": "wear"
+            },
+            "install": "Always"
+        },
+        {
             "id": "droidcon-session",
             "contract": "confetti/session@1",
             "title": "droidcon session",
@@ -662,6 +674,30 @@
             "install": "Always"
         },
         {
+            "id": "droidcon-session-header-wear",
+            "contract": "confetti/session-header@1",
+            "title": "droidcon session page (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "droidcon",
+                "device": "wear"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "droidcon-session-wear",
+            "contract": "confetti/session@1",
+            "title": "droidcon session (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "droidcon",
+                "device": "wear"
+            },
+            "install": "Always"
+        },
+        {
             "id": "droidcon-speaker",
             "contract": "confetti/speaker@1",
             "title": "droidcon speaker",
@@ -678,6 +714,18 @@
             "author": "confetti",
             "tags": {
                 "series": "droidcon"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "droidcon-speaker-header-wear",
+            "contract": "confetti/speaker-header@1",
+            "title": "droidcon speaker page (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "droidcon",
+                "device": "wear"
             },
             "install": "Always"
         },
@@ -845,6 +893,31 @@
             "fonts": [
                 "Space Mono"
             ]
+        },
+        {
+            "sha256": "6949e26db7f8995fcfbacee4fffe61d2403120fca945cc340c2baab726cf574b",
+            "bytes": 778,
+            "designId": "droidcon-section-wear",
+            "contract": "confetti/section@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "title"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "droidcon-section-wear"
+            }
         },
         {
             "sha256": "bb77b7ff717eafd50f45d72d89c14e3b0461eab281381d06ad837a69488c21e8",
@@ -1017,6 +1090,72 @@
             ]
         },
         {
+            "sha256": "c1f1b41812cf059dc929bed824349d71d85400d892e4b2fc329087c758185454",
+            "bytes": 1965,
+            "designId": "droidcon-session-header-wear",
+            "contract": "confetti/session-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "room",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.surface",
+                "time",
+                "title"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "droidcon-session-header-wear"
+            }
+        },
+        {
+            "sha256": "f4e2df90cec0fd3a9d484563540b3b21b40878945430218ce8e627b29ca190e9",
+            "bytes": 4093,
+            "designId": "droidcon-session-wear",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "bookmarked",
+                "room",
+                "speakers",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.surface",
+                "time",
+                "title"
+            ],
+            "emits": [
+                "bookmark",
+                "open"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "droidcon-session-wear"
+            }
+        },
+        {
             "sha256": "8bb12b9164936ba66235afbefeedff7e2acf6e43fc56b9a23e386930651ea9a1",
             "bytes": 1852,
             "designId": "droidcon-speaker",
@@ -1106,6 +1245,36 @@
             "fonts": [
                 "Space Mono"
             ]
+        },
+        {
+            "sha256": "20b5ef395ef1c6069a5435d419aa26dc92715cb643e920c7070fb9c29101d688",
+            "bytes": 2243,
+            "designId": "droidcon-speaker-header-wear",
+            "contract": "confetti/speaker-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "name",
+                "photo",
+                "tagline",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.surface"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "droidcon-speaker-header-wear"
+            }
         },
         {
             "sha256": "ef345b0cad95873099e7b6d27ed81461d2f12d40e3d50ed1b46957e9c7692f76",

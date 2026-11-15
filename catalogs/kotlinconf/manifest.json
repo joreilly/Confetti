@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-kotlinconf",
-    "serial": 1794755973707,
-    "generatedAtEpochMs": 1794755973707,
-    "expiresAtEpochMs": 1797347973707,
+    "serial": 1794765705829,
+    "generatedAtEpochMs": 1794765705829,
+    "expiresAtEpochMs": 1797357705829,
     "minClient": 8,
     "contracts": [
         {
@@ -653,6 +653,18 @@
             "install": "Always"
         },
         {
+            "id": "kotlinconf-section-wear",
+            "contract": "confetti/section@1",
+            "title": "KotlinConf section header (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "kotlinconf",
+                "device": "wear"
+            },
+            "install": "Always"
+        },
+        {
             "id": "kotlinconf-session",
             "contract": "confetti/session@1",
             "title": "KotlinConf session",
@@ -669,6 +681,18 @@
             "author": "confetti",
             "tags": {
                 "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "kotlinconf-session-header-wear",
+            "contract": "confetti/session-header@1",
+            "title": "KotlinConf session page (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "kotlinconf",
+                "device": "wear"
             },
             "install": "Always"
         },
@@ -697,6 +721,18 @@
             "install": "Always"
         },
         {
+            "id": "kotlinconf-session-wear",
+            "contract": "confetti/session@1",
+            "title": "KotlinConf session (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "kotlinconf",
+                "device": "wear"
+            },
+            "install": "Always"
+        },
+        {
             "id": "kotlinconf-speaker",
             "contract": "confetti/speaker@1",
             "title": "KotlinConf speaker",
@@ -713,6 +749,18 @@
             "author": "confetti",
             "tags": {
                 "series": "kotlinconf"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "kotlinconf-speaker-header-wear",
+            "contract": "confetti/speaker-header@1",
+            "title": "KotlinConf speaker page (Wear)",
+            "author": "confetti",
+            "variant": "wear",
+            "tags": {
+                "series": "kotlinconf",
+                "device": "wear"
             },
             "install": "Always"
         },
@@ -980,6 +1028,33 @@
             ]
         },
         {
+            "sha256": "98cf4d726a3130d0ddd1d4e96d983f9caca0ec837e2b663782e814e756117142",
+            "bytes": 905,
+            "designId": "kotlinconf-section-wear",
+            "contract": "confetti/section@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.secondary",
+                "theme.tertiary",
+                "title"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "kotlinconf-section-wear"
+            }
+        },
+        {
             "sha256": "4504889cb881e71af93cb5257cbae707cb9503dae604f8b7f67c9c2070f145f4",
             "bytes": 3944,
             "designId": "kotlinconf-session",
@@ -1158,6 +1233,38 @@
             ]
         },
         {
+            "sha256": "7b6b4c4f27783a4971d0e054faf702f4b940ae0aec7b84ac714523ac61de99d2",
+            "bytes": 1512,
+            "designId": "kotlinconf-session-header-wear",
+            "contract": "confetti/session-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "room",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.secondary",
+                "theme.surface",
+                "theme.tertiary",
+                "time",
+                "title"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "kotlinconf-session-header-wear"
+            }
+        },
+        {
             "sha256": "29eb4b4f6cab445c473d6d25f39b3b54dd6e2ed83d27373e426007cb04448e0a",
             "bytes": 4189,
             "designId": "kotlinconf-session-keynote",
@@ -1267,6 +1374,44 @@
             ]
         },
         {
+            "sha256": "8ce3bbd6628fa1364d7cba2ebca3df55fc9f4936dc3d9ecc5d8a30cb6c2366bc",
+            "bytes": 3724,
+            "designId": "kotlinconf-session-wear",
+            "contract": "confetti/session@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "bookmarked",
+                "room",
+                "speakers",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.secondary",
+                "theme.surface",
+                "theme.tertiary",
+                "time",
+                "title"
+            ],
+            "emits": [
+                "bookmark",
+                "open"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "kotlinconf-session-wear"
+            }
+        },
+        {
             "sha256": "0bf5740de9b2c68f4e48b32a6d64724ae309306ad687dfadda4deeb2d1eb2a61",
             "bytes": 2016,
             "designId": "kotlinconf-speaker",
@@ -1360,6 +1505,38 @@
             "fonts": [
                 "Poppins"
             ]
+        },
+        {
+            "sha256": "5d97e01bd166e791d8f14da5c499c7eb636cfe6729603eef6473a634076243f3",
+            "bytes": 1828,
+            "designId": "kotlinconf-speaker-header-wear",
+            "contract": "confetti/speaker-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 160,
+                    "maxWidthDp": 279
+                }
+            },
+            "reads": [
+                "name",
+                "photo",
+                "tagline",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "theme.primary",
+                "theme.secondary",
+                "theme.surface",
+                "theme.tertiary"
+            ],
+            "source": {
+                "tool": "capture",
+                "design": "kotlinconf-speaker-header-wear"
+            }
         },
         {
             "sha256": "c8f7af8561e5e8daa8c7a1310df147f459ecbfd14df875225d5c3cfc280fd2b6",

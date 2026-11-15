@@ -142,7 +142,7 @@ jobs:
   # Livery's catalog review, one per series: what changed against the base (designs, contracts,
   # placements, experiments), whether it breaks installed apps, and each changed design drawn with
   # its contract's examples, before and after, in one comment per series. The images go to a
-  # `livery-previews/pr-<n>-<series>` branch so the comment can show them.
+  # `livery-review/pr-<n>-<series>` branch so the comment can show them.
   review:
     needs: [catalogs, base-catalogs]
     if: github.event_name == 'pull_request'
@@ -159,6 +159,8 @@ jobs:
       name: ${{ matrix.series }}
       livery-version: 0.15.0
       previews: true
+      # The repository's older `livery-previews` branch (hand-made PR images) blocks livery-previews/*.
+      preview-branch: livery-review
     permissions:
       contents: write
       pull-requests: write

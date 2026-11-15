@@ -84,6 +84,85 @@ jobs:
           name: livery-renders
           path: livery/catalog/build/livery/renders
 
+      # Each series' generated source tree, for the review below: never committed, so the review
+      # gets it (and the base's, from base-catalogs) as artifacts.
+      - if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: catalog-confetti
+          path: livery/catalog/build/livery/captured/confetti
+      - if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: catalog-droidcon
+          path: livery/catalog/build/livery/captured/droidcon
+      - if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: catalog-kotlinconf
+          path: livery/catalog/build/livery/captured/kotlinconf
+
+  # The same catalogs captured at the pull request's base, so the review compares before and after:
+  # a generated catalog has no base in git.
+  base-catalogs:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'zulu'
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: true
+
+      - name: Capture the base's catalogs
+        run: ./gradlew :livery:catalog:captureLiveryCatalog
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: catalog-confetti-base
+          path: livery/catalog/build/livery/captured/confetti
+      - uses: actions/upload-artifact@v7
+        with:
+          name: catalog-droidcon-base
+          path: livery/catalog/build/livery/captured/droidcon
+      - uses: actions/upload-artifact@v7
+        with:
+          name: catalog-kotlinconf-base
+          path: livery/catalog/build/livery/captured/kotlinconf
+
+  # Livery's catalog review, one per series: what changed against the base (designs, contracts,
+  # placements, experiments), whether it breaks installed apps, and each changed design drawn with
+  # its contract's examples, before and after, in one comment per series. The images go to a
+  # `livery-previews/pr-<n>-<series>` branch so the comment can show them.
+  review:
+    needs: [catalogs, base-catalogs]
+    if: github.event_name == 'pull_request'
+    strategy:
+      fail-fast: false
+      matrix:
+        series: [confetti, droidcon, kotlinconf]
+    # TODO: pin to the Livery release with base-artifact and name (yschimke/livery#103) once it is out.
+    uses: yschimke/livery/.github/workflows/catalog-review.yml@agent/catalog-review-generated-base
+    with:
+      source: build/livery-review/${{ matrix.series }}
+      source-artifact: catalog-${{ matrix.series }}
+      base-artifact: catalog-${{ matrix.series }}-base
+      name: ${{ matrix.series }}
+      livery-version: 0.15.0
+      previews: true
+    permissions:
+      contents: write
+      pull-requests: write
+
   publish:
     needs: catalogs
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

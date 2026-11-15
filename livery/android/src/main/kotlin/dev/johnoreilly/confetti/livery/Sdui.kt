@@ -12,7 +12,9 @@ import dev.johnoreilly.confetti.isService
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
 import dev.johnoreilly.confetti.ui.components.NativeComponents
 import dev.johnoreilly.confetti.ui.components.SessionCardModel
+import dev.johnoreilly.confetti.ui.components.SessionHeaderModel
 import dev.johnoreilly.confetti.ui.components.SpeakerCardModel
+import dev.johnoreilly.confetti.ui.components.SpeakerHeaderModel
 import dev.johnoreilly.confetti.ui.sessions.SessionItemView
 
 /*
@@ -135,6 +137,12 @@ class SduiComponents(
     @Composable
     override fun Promo(placement: String, conference: String, modifier: Modifier) =
         pick(conference).Promo(placement, conference, modifier)
+
+    @Composable
+    override fun SpeakerHeader(header: SpeakerHeaderModel) = pick(header.conference).SpeakerHeader(header)
+
+    @Composable
+    override fun SessionHeader(header: SessionHeaderModel) = pick(header.conference).SessionHeader(header)
 }
 
 /**

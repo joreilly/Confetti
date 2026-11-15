@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.ui.sessions
 
 import dev.johnoreilly.confetti.preview.ComponentsPreview
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.SessionHeaderModel
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -66,7 +67,6 @@ import dev.johnoreilly.confetti.fragment.SpeakerDetails
 import dev.johnoreilly.confetti.fullNameAndCompany
 import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.preview.sessionDetails
-import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
 import dev.johnoreilly.confetti.ui.icons.Facebook
 import dev.johnoreilly.confetti.ui.icons.Github
@@ -100,30 +100,7 @@ fun SessionDetailViewShared(
                     .padding(bottom = 16.dp + navigationBarsPadding)
             ) {
                 Column(modifier = Modifier.padding(contentPadding)) {
-                    SelectionContainer {
-                        Text(
-                            text = session.title,
-                            color = MaterialTheme.colorScheme.primary,
-                            style = MaterialTheme.typography.headlineMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.size(16.dp))
-
-                    SessionMetadataRow(
-                        icon = Icons.Outlined.Schedule,
-                        text = sessionTimeString(session.startsAt, session.endsAt),
-                    )
-
-                    session.room?.name?.takeIf { it.isNotBlank() }?.let { roomName ->
-                        SessionMetadataRow(
-                            icon = Icons.Outlined.Place,
-                            text = roomName,
-                            onClick = onRoomClick,
-                            onClickLabel = stringResource(Res.string.show_venue),
-                        )
-                    }
+                    components.SessionHeader(SessionHeaderModel(conference, session, onRoomClick))
 
                     Spacer(modifier = Modifier.size(16.dp))
 
@@ -154,10 +131,7 @@ fun SessionDetailViewShared(
                 }
 
                 if (session.speakers.isNotEmpty()) {
-                    ConfettiHeader(
-                        text = stringResource(Res.string.speakers),
-                        icon = Icons.Filled.Person,
-                    )
+                    components.SectionHeader(conference, stringResource(Res.string.speakers), Icons.Filled.Person)
 
                     Spacer(modifier = Modifier.size(16.dp))
 
@@ -173,10 +147,7 @@ fun SessionDetailViewShared(
                 session.recordingUrl?.let { recordingUrl ->
                     val uriHandler = LocalUriHandler.current
 
-                    ConfettiHeader(
-                        text = "Recording",
-                        icon = Icons.Filled.PlayCircle,
-                    )
+                    components.SectionHeader(conference, "Recording", Icons.Filled.PlayCircle)
 
                     Spacer(modifier = Modifier.size(16.dp))
 
@@ -192,6 +163,47 @@ fun SessionDetailViewShared(
         }
     }
 }
+
+/**
+ * The top of a session's page as Confetti draws it: the title, then its time and room. What
+ * [ConferenceComponents.SessionHeader] draws where a conference has no design of its own.
+ */
+@Composable
+fun SessionDetailsHeader(
+    session: SessionDetails,
+    onRoomClick: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        SelectionContainer {
+            Text(
+                text = session.title,
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        Spacer(modifier = Modifier.size(16.dp))
+
+        SessionMetadataRow(
+            icon = Icons.Outlined.Schedule,
+            text = sessionTimeString(session.startsAt, session.endsAt),
+        )
+
+        session.room?.name?.takeIf { it.isNotBlank() }?.let { roomName ->
+            SessionMetadataRow(
+                icon = Icons.Outlined.Place,
+                text = roomName,
+                onClick = onRoomClick,
+                onClickLabel = stringResource(Res.string.show_venue),
+            )
+        }
+    }
+}
+
+/** The session's time as its page shows it: `Apr 13 14:00 - 14:40`. */
+fun SessionDetails.detailsTimeString(): String = sessionTimeString(startsAt, endsAt)
 
 /**
  * Icon + text line for the session's time and room. When [onClick] is set the whole row is

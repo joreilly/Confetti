@@ -14,6 +14,8 @@ class ContractDataTest {
         SpeakerCard("Jane Doe", "GDE · Acme", "https://example.com/jane.png", "2 sessions"),
         BreakCard("Coffee break", "Foyer", "10:30 – 11:00", coffee = true, live = true),
         TitleCard("KotlinConf 2026"),
+        SpeakerHeaderCard("Jane Doe", "GDE · Acme", "https://example.com/jane.png", listOf(SpeakerLink("GitHub", "https://github.com/jane"))),
+        SessionHeaderCard("Keynote", "Apr 13 09:00 - 09:45", "Hall 1", roomLink = true),
     )
 
     @Test fun everyInputIsMapped() {
@@ -46,6 +48,20 @@ class ContractDataTest {
         assertFalse("photo" in speaker)
         // A URL is never cut: too long and it's left out.
         assertFalse("ticketsUrl" in ConferenceCard("x", "y", ticketsUrl = "https://" + "a".repeat(300)).toJson())
+    }
+
+    @Test fun speakerLinksKeepWholeUrlsAndAtMostMax() {
+        val links = (1..8).map { SpeakerLink("Link $it", "https://example.com/$it") } +
+            SpeakerLink("Too long", "https://" + "a".repeat(300))
+        val items = SpeakerHeaderCard("Jane", socials = links).toJson()["socials"] as kotlinx.serialization.json.JsonArray
+        assertEquals(SpeakerHeaderContract.MAX_SOCIALS, items.size)
+        assertEquals("{\"label\":\"Link 1\",\"url\":\"https://example.com/1\"}", items[0].toString())
+        assertFalse("socials" in SpeakerHeaderCard("Jane").toJson())
+    }
+
+    @Test fun aSessionWithNoRoomHasNoRoomLink() {
+        val json = SessionHeaderCard("Talk", "Apr 13 09:00 - 09:45", room = null, roomLink = true).toJson()
+        assertEquals("false", json["roomLink"].toString())
     }
 
     @Test fun theExperimentHasBothArms() {

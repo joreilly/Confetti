@@ -357,7 +357,70 @@ object TitleContract : ConfettiContract("confetti/title", 1, 0, "Top bar title",
     )
 }
 
-val AllContracts: List<ConfettiContract> = listOf(ConferenceContract, SessionContract, SpeakerContract, PromoContract, BreakContract, TitleContract)
+/**
+ * The top of a speaker's page: photo, name, tagline and social links. Their bio and talks stay
+ * Confetti's own, under it: long text is for the platform, not a fixed-height document.
+ */
+object SpeakerHeaderContract : ConfettiContract("confetti/speaker-header", 1, 0, "Speaker page header", DataSource.App, "speaker-header") {
+    val name = string("name", required = true, maxLength = 60)
+    val tagline = string("tagline", maxLength = 80, description = "job title and company")
+    val photo = image("photo")
+    val openPhoto = action("openPhoto", "app:open-photo", description = "the photo, full screen")
+
+    /** Their links, each its own tap target: a design unrolls up to [MAX_SOCIALS] of them. */
+    val socials = list("socials", max = MAX_SOCIALS, description = "the speaker's links, in the order they gave them") {
+        string("label", required = true, maxLength = 12, description = "already a display name, e.g. GitHub")
+        string("url", required = true, maxLength = 200, description = "what openSocial sends back")
+    }
+    val socialLabel = socials.item.getValue("label")
+    val socialUrl = socials.item.getValue("url")
+
+    /**
+     * One link tapped: its `url`. An app action, not `open-url`: a speaker's links go to any host,
+     * and the app opens them as it does from its own page.
+     */
+    val openSocial = action("openSocial", "app:open-social", arg = "url")
+
+    const val MAX_SOCIALS = 6
+
+    override val examples get() = mapOf(
+        "default" to mapOf(name to "Jane Doe", tagline to "Android GDE · Acme", socials to listOf(
+            mapOf(socialLabel to "GitHub", socialUrl to "https://github.com/janedoe"),
+            mapOf(socialLabel to "LinkedIn", socialUrl to "https://www.linkedin.com/in/janedoe"),
+        )),
+        "kotlinconf" to mapOf(name to "Alex Kotlin", tagline to "Kotlin team · JetBrains", socials to listOf(
+            mapOf(socialLabel to "Web", socialUrl to "https://kotlinlang.org"),
+        )),
+        "long" to mapOf(name to "A speaker name that runs to sixty characters, just to check!", tagline to
+            "A job title and a company name that wraps over two lines and keeps on going on.",
+            socials to List(MAX_SOCIALS) { mapOf(socialLabel to "Twelve ch #${it + 1}", socialUrl to "https://example.com/$it") }),
+    )
+}
+
+/**
+ * The top of a session's page: title, when and where. The description, tags, speakers and
+ * recording stay Confetti's own, under it. A design for one track or format is picked by the
+ * session's tags, as the session card's is.
+ */
+object SessionHeaderContract : ConfettiContract("confetti/session-header", 1, 0, "Session page header", DataSource.App, "session-header") {
+    val title = string("title", required = true, maxLength = 120)
+    val time = string("time", required = true, maxLength = 32, description = "already formatted, e.g. Apr 13 14:00 - 14:40")
+    val room = string("room", maxLength = 30)
+    val roomLink = bool("roomLink", description = "the room opens the venue map: draw it as a link")
+    val openRoom = action("openRoom", "app:open-room", description = "the venue map, at the room")
+
+    override val examples get() = mapOf(
+        "default" to mapOf(title to "Building adaptive apps with Compose", time to "Oct 29 10:30 - 11:10", room to "Hall 1", roomLink to true),
+        "kotlinconf" to mapOf(title to "What's new in Kotlin 2.4", time to "May 21 09:00 - 09:45", room to "Auditorium"),
+        "long" to mapOf(title to "A very long session title that keeps going to check how the header wraps at three lines and then ellipsizes it, at 120",
+            time to "Thirty-two characters of time xx", room to "A room with a thirty-char name", roomLink to true),
+    )
+}
+
+val AllContracts: List<ConfettiContract> = listOf(
+    ConferenceContract, SessionContract, SpeakerContract, PromoContract, BreakContract, TitleContract,
+    SpeakerHeaderContract, SessionHeaderContract,
+)
 
 /**
  * Which design family a conference is drawn in: the `series` tag every design carries, and what

@@ -2,6 +2,7 @@ package dev.johnoreilly.confetti.ui.speakers
 
 import dev.johnoreilly.confetti.preview.ComponentsPreview
 import dev.johnoreilly.confetti.ui.components.ConferenceComponents
+import dev.johnoreilly.confetti.ui.components.SpeakerHeaderModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -65,7 +66,6 @@ import dev.johnoreilly.confetti.preview.MobilePreviews
 import dev.johnoreilly.confetti.avatarUrl
 import dev.johnoreilly.confetti.preview.johnOreillySpeaker
 import dev.johnoreilly.confetti.preview.martinBonninSpeaker
-import dev.johnoreilly.confetti.ui.component.ConfettiHeader
 import dev.johnoreilly.confetti.ui.sessions.SocialIcon
 import org.jetbrains.compose.resources.stringResource
 
@@ -118,76 +118,22 @@ fun SpeakerDetailsView(
                 .padding(bottom = 16.dp + navigationBarsPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SelectionContainer {
-                Column(
-                    modifier = Modifier
-                        .padding(contentPaddings),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    val url = speaker.avatarUrl()
-                    SubcomposeAsyncImage(
-                        model = url,
-                        contentDescription = speaker.name,
-                        loading = {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                strokeWidth = 2.dp
-                            )
-                        },
-                        error = {
-                            Icon(
-                                imageVector = ConfettiIcons.Person,
-                                contentDescription = speaker.name,
-                                modifier = Modifier
-                                    .size(200.dp)
-                                    .clip(CircleShape),
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        },
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(200.dp)
-                            .clip(CircleShape)
-                            .clickable { showFullScreenPhoto = true }
+            Column(
+                modifier = Modifier.padding(contentPaddings),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                components.SpeakerHeader(
+                    SpeakerHeaderModel(
+                        conference = conference,
+                        speaker = speaker,
+                        onPhotoClick = { showFullScreenPhoto = true },
+                        onSocialLinkClicked = onSocialLinkClicked,
                     )
+                )
 
-                    Spacer(modifier = Modifier.size(16.dp))
-
-                    Text(
-                        text = speaker.name,
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-
-                    speaker.tagline?.let { tagline ->
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(
-                            text = tagline,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-
-                    if (speaker.socials.isNotEmpty()) {
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            speaker.socials.forEach { socialsItem ->
-                                SocialIcon(
-                                    modifier = Modifier.size(24.dp),
-                                    socialItem = socialsItem,
-                                    onClick = { onSocialLinkClicked(socialsItem.url) }
-                                )
-                            }
-                        }
-                    }
-
-                    speaker.bio?.let { bio ->
-                        Spacer(modifier = Modifier.size(24.dp))
+                speaker.bio?.let { bio ->
+                    Spacer(modifier = Modifier.size(24.dp))
+                    SelectionContainer {
                         Text(
                             text = bio,
                             style = MaterialTheme.typography.bodyLarge
@@ -199,6 +145,7 @@ fun SpeakerDetailsView(
             Spacer(modifier = Modifier.size(16.dp))
 
             SpeakerTalks(
+                conference = conference,
                 modifier = Modifier.padding(vertical = 8.dp),
                 sessions = speaker.sessions,
                 isBookmarked = isBookmarked,
@@ -225,8 +172,92 @@ fun SpeakerDetailsView(
     }
 }
 
+/**
+ * The top of a speaker's page as Confetti draws it: photo, name, tagline and links. What
+ * [ConferenceComponents.SpeakerHeader] draws where a conference has no design of its own.
+ */
 @Composable
+fun SpeakerDetailsHeader(
+    speaker: SpeakerDetails,
+    onPhotoClick: () -> Unit,
+    onSocialLinkClicked: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        SubcomposeAsyncImage(
+            model = speaker.avatarUrl(),
+            contentDescription = speaker.name,
+            loading = {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 2.dp
+                )
+            },
+            error = {
+                Icon(
+                    imageVector = ConfettiIcons.Person,
+                    contentDescription = speaker.name,
+                    modifier = Modifier
+                        .size(200.dp)
+                        .clip(CircleShape),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(200.dp)
+                .clip(CircleShape)
+                .clickable { onPhotoClick() }
+        )
+
+        Spacer(modifier = Modifier.size(16.dp))
+
+        SelectionContainer {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = speaker.name,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+
+                speaker.tagline?.let { tagline ->
+                    Spacer(modifier = Modifier.size(4.dp))
+                    Text(
+                        text = tagline,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+
+        if (speaker.socials.isNotEmpty()) {
+            Spacer(modifier = Modifier.size(8.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                speaker.socials.forEach { socialsItem ->
+                    SocialIcon(
+                        modifier = Modifier.size(24.dp),
+                        socialItem = socialsItem,
+                        onClick = { onSocialLinkClicked(socialsItem.url) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+context(components: ConferenceComponents)
 fun SpeakerTalks(
+    conference: String,
     sessions: List<SpeakerDetails.Session>,
     isBookmarked: (sessionId: String) -> Boolean,
     addBookmark: (sessionId: String) -> Unit,
@@ -240,7 +271,7 @@ fun SpeakerTalks(
 
     Column(Modifier.fillMaxWidth()) {
 
-        ConfettiHeader(icon = Icons.Filled.Event, text = stringResource(Res.string.sessions))
+        components.SectionHeader(conference, stringResource(Res.string.sessions), Icons.Filled.Event)
 
         Spacer(modifier = Modifier.size(8.dp))
 

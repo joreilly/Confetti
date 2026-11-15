@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794684199618,
-    "generatedAtEpochMs": 1794684199618,
-    "expiresAtEpochMs": 1797276199618,
+    "serial": 1794743005454,
+    "generatedAtEpochMs": 1794743005454,
+    "expiresAtEpochMs": 1797335005454,
     "minClient": 2,
     "contracts": [
         {
@@ -206,6 +206,58 @@
             "dataSource": "Decision"
         },
         {
+            "id": "confetti/session-header",
+            "major": 1,
+            "title": "Session page header",
+            "inputs": {
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 120
+                },
+                "time": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 32,
+                    "description": "already formatted, e.g. Apr 13 14:00 - 14:40"
+                },
+                "room": {
+                    "type": "string",
+                    "maxLength": 30
+                },
+                "roomLink": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "the room opens the venue map: draw it as a link"
+                }
+            },
+            "actions": {
+                "openRoom": {
+                    "kind": "app:open-room",
+                    "description": "the venue map, at the room"
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "Building adaptive apps with Compose",
+                    "time": "Oct 29 10:30 - 11:10",
+                    "room": "Hall 1",
+                    "roomLink": true
+                },
+                "kotlinconf": {
+                    "title": "What's new in Kotlin 2.4",
+                    "time": "May 21 09:00 - 09:45",
+                    "room": "Auditorium"
+                },
+                "long": {
+                    "title": "A very long session title that keeps going to check how the header wraps at three lines and then ellipsizes it, at 120",
+                    "time": "Thirty-two characters of time xx",
+                    "room": "A room with a thirty-char name",
+                    "roomLink": true
+                }
+            }
+        },
+        {
             "id": "confetti/session",
             "major": 1,
             "minor": 1,
@@ -338,6 +390,117 @@
                         {
                             "name": "Speaker Four",
                             "id": "speaker-4"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "confetti/speaker-header",
+            "major": 1,
+            "title": "Speaker page header",
+            "inputs": {
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 60
+                },
+                "tagline": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "job title and company"
+                },
+                "photo": {
+                    "type": "image"
+                }
+            },
+            "lists": {
+                "socials": {
+                    "item": {
+                        "label": {
+                            "type": "string",
+                            "required": true,
+                            "maxLength": 12,
+                            "description": "already a display name, e.g. GitHub"
+                        },
+                        "url": {
+                            "type": "string",
+                            "required": true,
+                            "maxLength": 200,
+                            "description": "what openSocial sends back"
+                        }
+                    },
+                    "max": 6,
+                    "description": "the speaker's links, in the order they gave them"
+                }
+            },
+            "actions": {
+                "openPhoto": {
+                    "kind": "app:open-photo",
+                    "description": "the photo, full screen"
+                },
+                "openSocial": {
+                    "kind": "app:open-social",
+                    "args": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "examples": {
+                "default": {
+                    "name": "Jane Doe",
+                    "tagline": "Android GDE · Acme",
+                    "socials": [
+                        {
+                            "label": "GitHub",
+                            "url": "https://github.com/janedoe"
+                        },
+                        {
+                            "label": "LinkedIn",
+                            "url": "https://www.linkedin.com/in/janedoe"
+                        }
+                    ]
+                },
+                "kotlinconf": {
+                    "name": "Alex Kotlin",
+                    "tagline": "Kotlin team · JetBrains",
+                    "socials": [
+                        {
+                            "label": "Web",
+                            "url": "https://kotlinlang.org"
+                        }
+                    ]
+                },
+                "long": {
+                    "name": "A speaker name that runs to sixty characters, just to check!",
+                    "tagline": "A job title and a company name that wraps over two lines and keeps on going on.",
+                    "socials": [
+                        {
+                            "label": "Twelve ch #1",
+                            "url": "https://example.com/0"
+                        },
+                        {
+                            "label": "Twelve ch #2",
+                            "url": "https://example.com/1"
+                        },
+                        {
+                            "label": "Twelve ch #3",
+                            "url": "https://example.com/2"
+                        },
+                        {
+                            "label": "Twelve ch #4",
+                            "url": "https://example.com/3"
+                        },
+                        {
+                            "label": "Twelve ch #5",
+                            "url": "https://example.com/4"
+                        },
+                        {
+                            "label": "Twelve ch #6",
+                            "url": "https://example.com/5"
                         }
                     ]
                 }

@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794684199750,
-    "generatedAtEpochMs": 1794684199750,
-    "expiresAtEpochMs": 1797276199750,
+    "serial": 1794743005506,
+    "generatedAtEpochMs": 1794743005506,
+    "expiresAtEpochMs": 1797335005506,
     "contracts": [
         {
             "id": "confetti/break",
@@ -205,6 +205,58 @@
             "dataSource": "Decision"
         },
         {
+            "id": "confetti/session-header",
+            "major": 1,
+            "title": "Session page header",
+            "inputs": {
+                "title": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 120
+                },
+                "time": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 32,
+                    "description": "already formatted, e.g. Apr 13 14:00 - 14:40"
+                },
+                "room": {
+                    "type": "string",
+                    "maxLength": 30
+                },
+                "roomLink": {
+                    "type": "bool",
+                    "default": false,
+                    "description": "the room opens the venue map: draw it as a link"
+                }
+            },
+            "actions": {
+                "openRoom": {
+                    "kind": "app:open-room",
+                    "description": "the venue map, at the room"
+                }
+            },
+            "examples": {
+                "default": {
+                    "title": "Building adaptive apps with Compose",
+                    "time": "Oct 29 10:30 - 11:10",
+                    "room": "Hall 1",
+                    "roomLink": true
+                },
+                "kotlinconf": {
+                    "title": "What's new in Kotlin 2.4",
+                    "time": "May 21 09:00 - 09:45",
+                    "room": "Auditorium"
+                },
+                "long": {
+                    "title": "A very long session title that keeps going to check how the header wraps at three lines and then ellipsizes it, at 120",
+                    "time": "Thirty-two characters of time xx",
+                    "room": "A room with a thirty-char name",
+                    "roomLink": true
+                }
+            }
+        },
+        {
             "id": "confetti/session",
             "major": 1,
             "minor": 1,
@@ -343,6 +395,117 @@
             }
         },
         {
+            "id": "confetti/speaker-header",
+            "major": 1,
+            "title": "Speaker page header",
+            "inputs": {
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "maxLength": 60
+                },
+                "tagline": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "description": "job title and company"
+                },
+                "photo": {
+                    "type": "image"
+                }
+            },
+            "lists": {
+                "socials": {
+                    "item": {
+                        "label": {
+                            "type": "string",
+                            "required": true,
+                            "maxLength": 12,
+                            "description": "already a display name, e.g. GitHub"
+                        },
+                        "url": {
+                            "type": "string",
+                            "required": true,
+                            "maxLength": 200,
+                            "description": "what openSocial sends back"
+                        }
+                    },
+                    "max": 6,
+                    "description": "the speaker's links, in the order they gave them"
+                }
+            },
+            "actions": {
+                "openPhoto": {
+                    "kind": "app:open-photo",
+                    "description": "the photo, full screen"
+                },
+                "openSocial": {
+                    "kind": "app:open-social",
+                    "args": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "examples": {
+                "default": {
+                    "name": "Jane Doe",
+                    "tagline": "Android GDE · Acme",
+                    "socials": [
+                        {
+                            "label": "GitHub",
+                            "url": "https://github.com/janedoe"
+                        },
+                        {
+                            "label": "LinkedIn",
+                            "url": "https://www.linkedin.com/in/janedoe"
+                        }
+                    ]
+                },
+                "kotlinconf": {
+                    "name": "Alex Kotlin",
+                    "tagline": "Kotlin team · JetBrains",
+                    "socials": [
+                        {
+                            "label": "Web",
+                            "url": "https://kotlinlang.org"
+                        }
+                    ]
+                },
+                "long": {
+                    "name": "A speaker name that runs to sixty characters, just to check!",
+                    "tagline": "A job title and a company name that wraps over two lines and keeps on going on.",
+                    "socials": [
+                        {
+                            "label": "Twelve ch #1",
+                            "url": "https://example.com/0"
+                        },
+                        {
+                            "label": "Twelve ch #2",
+                            "url": "https://example.com/1"
+                        },
+                        {
+                            "label": "Twelve ch #3",
+                            "url": "https://example.com/2"
+                        },
+                        {
+                            "label": "Twelve ch #4",
+                            "url": "https://example.com/3"
+                        },
+                        {
+                            "label": "Twelve ch #5",
+                            "url": "https://example.com/4"
+                        },
+                        {
+                            "label": "Twelve ch #6",
+                            "url": "https://example.com/5"
+                        }
+                    ]
+                }
+            }
+        },
+        {
             "id": "confetti/speaker",
             "major": 1,
             "title": "Speaker card",
@@ -454,9 +617,29 @@
             "install": "Always"
         },
         {
+            "id": "confetti-session-header",
+            "contract": "confetti/session-header@1",
+            "title": "Confetti session page",
+            "author": "confetti",
+            "tags": {
+                "series": "confetti"
+            },
+            "install": "Always"
+        },
+        {
             "id": "confetti-speaker",
             "contract": "confetti/speaker@1",
             "title": "Confetti speaker",
+            "author": "confetti",
+            "tags": {
+                "series": "confetti"
+            },
+            "install": "Always"
+        },
+        {
+            "id": "confetti-speaker-header",
+            "contract": "confetti/speaker-header@1",
+            "title": "Confetti speaker page",
             "author": "confetti",
             "tags": {
                 "series": "confetti"
@@ -621,6 +804,38 @@
             ]
         },
         {
+            "sha256": "cbec65f3a00f1c4519dacb39c526010b1b89b69ab94188d85aaed64cdcd63103",
+            "bytes": 1767,
+            "designId": "confetti-session-header",
+            "contract": "confetti/session-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "roomLink",
+                "room",
+                "title",
+                "time"
+            ],
+            "emits": [
+                "openRoom"
+            ]
+        },
+        {
             "sha256": "ac27bd0df9910aae74b02dfe5cee316e38325f747c7de25b6d06e22935bf2a2a",
             "bytes": 1419,
             "designId": "confetti-speaker",
@@ -650,6 +865,51 @@
             ],
             "emits": [
                 "open"
+            ]
+        },
+        {
+            "sha256": "2dda8609bc68a625b77832244d7f55b33e3d64fb5a0c7bb5566615c70ede2e62",
+            "bytes": 3567,
+            "designId": "confetti-speaker-header",
+            "contract": "confetti/speaker-header@1",
+            "target": {
+                "surface": "in-app",
+                "rcApiLevel": 7,
+                "profiles": [
+                    "androidx"
+                ],
+                "size": {
+                    "minWidthDp": 280
+                }
+            },
+            "reads": [
+                "theme.primary",
+                "theme.onPrimary",
+                "theme.secondary",
+                "theme.tertiary",
+                "theme.surface",
+                "theme.onSurface",
+                "theme.onSurfaceVariant",
+                "photo",
+                "name",
+                "tagline",
+                "socials.count",
+                "socials.0.url",
+                "socials.0.label",
+                "socials.1.url",
+                "socials.1.label",
+                "socials.2.url",
+                "socials.2.label",
+                "socials.3.url",
+                "socials.3.label",
+                "socials.4.url",
+                "socials.4.label",
+                "socials.5.url",
+                "socials.5.label"
+            ],
+            "emits": [
+                "openPhoto",
+                "openSocial"
             ]
         },
         {

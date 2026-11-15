@@ -16,6 +16,7 @@ class ContractDataTest {
         TitleCard("KotlinConf 2026"),
         SpeakerHeaderCard("Jane Doe", "GDE · Acme", "https://example.com/jane.png", listOf(SpeakerLink("GitHub", "https://github.com/jane"))),
         SessionHeaderCard("Keynote", "Apr 13 09:00 - 09:45", "Hall 1", roomLink = true),
+        SectionCard("10:30"),
     )
 
     @Test fun everyInputIsMapped() {

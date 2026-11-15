@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -30,6 +32,9 @@ import dev.johnoreilly.confetti.preview.sessionDetails
 import dev.johnoreilly.confetti.ui.components.SessionHeaderModel
 import dev.johnoreilly.confetti.ui.components.SpeakerHeaderModel
 import dev.johnoreilly.confetti.ui.livery.toSeed
+import dev.johnoreilly.confetti.ui.icons.AccessTime
+import dev.johnoreilly.confetti.ui.icons.ConfettiIcons
+import dev.johnoreilly.confetti.ui.livery.withHeadingFamily
 import dev.johnoreilly.confetti.ui.livery.withThemePack
 import ee.schimke.livery.client.Bindings
 import ee.schimke.livery.protocol.NamedValue
@@ -354,6 +359,52 @@ class LiveryComponentsTest {
         assertEquals(base.surface, branded.surface)
         assertEquals(base.secondary, branded.secondary)
         assertEquals("0xFF6B3CF0", Color(0xFF6B3CF0).toSeed())
+    }
+
+    /** A section header draws the base catalog's design; a conference with none draws Confetti's. */
+    @Test fun sectionHeadersDrawTheBaseDesign() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        compose.setContent {
+            MaterialTheme(colorScheme = lightColorScheme()) {
+                Column {
+                    components.SectionHeader("fosdem2025", "10:30", ConfettiIcons.AccessTime)
+                    components.SectionHeader("kotlinconf2026", "11:00", ConfettiIcons.AccessTime)
+                }
+            }
+        }
+        compose.waitUntil(10_000) { compose.onAllNodes(liverySlot).fetchSemanticsNodes().size == 1 }
+        assertEquals("confetti-section", compose.onAllNodes(liverySlot).fetchSemanticsNodes().single().config[SemanticsProperties.TestTag].substringAfterLast(':'))
+        compose.waitUntil(10_000) { compose.onAllNodes(hasText("10:30") and hasAnyAncestor(liverySlot)).fetchSemanticsNodes().isNotEmpty() }
+        compose.waitUntil(10_000) { compose.onAllNodes(hasText("11:00") and !hasAnyAncestor(liverySlot)).fetchSemanticsNodes().size == 1 }
+    }
+
+    /** A conference whose catalog ships a face sets its headings in it; the base catalog ships none. */
+    @Test fun headingsTakeTheSeriesFace() {
+        val components = SduiComponents(arms = { SduiExperiment.LIVERY }, native = NativeComponents(), livery = ::livery)
+        var kotlinconf: Typography? = null
+        var fosdem: Typography? = null
+        compose.setContent {
+            CompositionLocalProvider(LocalInspectionMode provides true) {
+                components.ConferenceTheme("kotlinconf2026", null) { kotlinconf = MaterialTheme.typography }
+                components.ConferenceTheme("fosdem2025", null) { fosdem = MaterialTheme.typography }
+            }
+        }
+        compose.waitUntil(10_000) { kotlinconf?.headlineMedium?.fontFamily != null }
+        val type = requireNotNull(kotlinconf)
+        // Headings only: body text stays the platform's.
+        assertEquals(type.headlineMedium.fontFamily, type.titleSmall.fontFamily)
+        assertEquals(Typography().bodyLarge.fontFamily, type.bodyLarge.fontFamily)
+        assertEquals(Typography().headlineMedium.fontFamily, requireNotNull(fosdem).headlineMedium.fontFamily)
+    }
+
+    @Test fun aHeadingFamilyLeavesSizesAndBodyTextAlone() {
+        val base = Typography()
+        val type = base.withHeadingFamily(FontFamily.Monospace)
+        assertEquals(FontFamily.Monospace, type.displayLarge.fontFamily)
+        assertEquals(FontFamily.Monospace, type.titleSmall.fontFamily)
+        assertEquals(base.titleSmall.fontSize, type.titleSmall.fontSize)
+        assertEquals(base.bodyMedium, type.bodyMedium)
+        assertEquals(base.labelSmall, type.labelSmall)
     }
 
     private fun card(conference: String, session: SessionDetails = sessionDetails) = SessionCardModel(

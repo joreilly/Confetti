@@ -417,9 +417,24 @@ object SessionHeaderContract : ConfettiContract("confetti/session-header", 1, 0,
     )
 }
 
+/**
+ * A list's or a page's section header: a time in the agenda and bookmarks, "Speakers" or
+ * "Sessions" in search and on the detail pages. Sticky in a list, so a design paints its own
+ * background. No icon: Confetti's are vectors a document can't draw, so a design picks its own mark.
+ */
+object SectionContract : ConfettiContract("confetti/section", 1, 0, "Section header", DataSource.App, "section") {
+    val title = string("title", required = true, maxLength = 40, description = "already formatted, e.g. 10:30 or Speakers")
+
+    override val examples get() = mapOf(
+        "default" to mapOf(title to "10:30"),
+        "kotlinconf" to mapOf(title to "Speakers"),
+        "long" to mapOf(title to "A section title at its forty-char limit!"),
+    )
+}
+
 val AllContracts: List<ConfettiContract> = listOf(
     ConferenceContract, SessionContract, SpeakerContract, PromoContract, BreakContract, TitleContract,
-    SpeakerHeaderContract, SessionHeaderContract,
+    SpeakerHeaderContract, SessionHeaderContract, SectionContract,
 )
 
 /**

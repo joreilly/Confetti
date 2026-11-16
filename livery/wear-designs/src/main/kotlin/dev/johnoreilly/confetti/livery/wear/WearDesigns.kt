@@ -1,34 +1,35 @@
 package dev.johnoreilly.confetti.livery.wear
 
-import androidx.compose.remote.creation.compose.layout.RemoteAlignment
-import androidx.compose.remote.creation.compose.layout.RemoteArrangement
-import androidx.compose.remote.creation.compose.layout.RemoteBox
-import androidx.compose.remote.creation.compose.layout.RemoteColumn
-import androidx.compose.remote.creation.compose.layout.RemoteImage
-import androidx.compose.remote.creation.compose.layout.RemoteRow
-import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.background
-import androidx.compose.remote.creation.compose.modifier.clickable
-import androidx.compose.remote.creation.compose.modifier.clip
-import androidx.compose.remote.creation.compose.modifier.drawWithContent
-import androidx.compose.remote.creation.compose.modifier.fillMaxSize
-import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
-import androidx.compose.remote.creation.compose.modifier.padding
-import androidx.compose.remote.creation.compose.modifier.size
-import androidx.compose.remote.creation.compose.shapes.RemoteCircleShape
-import androidx.compose.remote.creation.compose.shapes.RemoteShape
-import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rememberRemoteImageBitmap
-import androidx.compose.remote.creation.compose.state.rs
+import ee.schimke.composeai.rccreation.compose.layout.RemoteAlignment
+import ee.schimke.composeai.rccreation.compose.layout.RemoteArrangement
+import ee.schimke.composeai.rccreation.compose.layout.RemoteBox
+import ee.schimke.composeai.rccreation.compose.layout.RemoteColumn
+import ee.schimke.composeai.rccreation.compose.layout.RemoteContentScale
+import ee.schimke.composeai.rccreation.compose.layout.RemoteImage
+import ee.schimke.composeai.rccreation.compose.layout.RemoteRow
+import ee.schimke.composeai.rccreation.compose.modifier.RemoteModifier
+import ee.schimke.composeai.rccreation.compose.modifier.background
+import ee.schimke.composeai.rccreation.compose.modifier.clickable
+import ee.schimke.composeai.rccreation.compose.modifier.clip
+import ee.schimke.composeai.rccreation.compose.modifier.drawWithContent
+import ee.schimke.composeai.rccreation.compose.modifier.fillMaxSize
+import ee.schimke.composeai.rccreation.compose.modifier.fillMaxWidth
+import ee.schimke.composeai.rccreation.compose.modifier.padding
+import ee.schimke.composeai.rccreation.compose.modifier.size
+import ee.schimke.composeai.rccreation.compose.shapes.RemoteCircleShape
+import ee.schimke.composeai.rccreation.compose.shapes.RemoteShape
+import ee.schimke.composeai.rccreation.compose.state.rdp
+import ee.schimke.composeai.rccreation.compose.state.rememberRemoteImageBitmap
+import ee.schimke.composeai.rccreation.compose.state.rf
+import ee.schimke.composeai.rccreation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.wear.compose.remote.material3.RemoteCardDefaults
-import androidx.wear.compose.remote.material3.RemoteMaterialTheme
-import androidx.wear.compose.remote.material3.RemoteText
-import androidx.wear.compose.remote.material3.RemoteTitleCard
+import ee.schimke.composeai.rccreation.wear.material3.RemoteCardDefaults
+import ee.schimke.composeai.rccreation.wear.material3.RemoteMaterialTheme
+import ee.schimke.composeai.rccreation.wear.material3.RemoteText
+import ee.schimke.composeai.rccreation.wear.material3.RemoteTitleCard
 
 /*
  * Each series' designs for a watch: the same contracts as the phone's (session card, section
@@ -137,7 +138,7 @@ fun WearSessionCard(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) 
         title = { RemoteText(v.string("title"), maxLines = 2, overflow = TextOverflow.Ellipsis) },
     ) {
         RemoteRow(RemoteModifier.fillMaxWidth(), verticalAlignment = RemoteAlignment.CenterVertically) {
-            RemoteColumn(RemoteModifier.weight(1f)) {
+            RemoteColumn(RemoteModifier.weight(1f.rf)) {
                 RemoteText(brand.style.timePrefix.rs + v.string("time"), color = colors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 RemoteText(v.string("speakers"), color = colors.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 RemoteText(v.string("room"), color = colors.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -230,10 +231,10 @@ fun WearSpeakerHeader(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand
                 .padding(3.rdp),
         ) {
             RemoteImage(
-                remoteBitmap = rememberRemoteImageBitmap(url = "livery:value/photo"),
+                bitmap = rememberRemoteImageBitmap(url = "livery:value/photo"),
                 contentDescription = v.string("name"),
                 modifier = RemoteModifier.fillMaxSize().clip(RemoteCircleShape).background(colors.surfaceContainer),
-                contentScale = ContentScale.Crop,
+                contentScale = RemoteContentScale.Crop,
             )
         }
         RemoteText(v.string("name"), color = colors.onSurface, style = RemoteMaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)

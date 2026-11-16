@@ -1,13 +1,14 @@
 package dev.johnoreilly.confetti.livery.wear
 
-import androidx.compose.remote.creation.compose.action.Action
-import androidx.compose.remote.creation.compose.action.hostAction
-import androidx.compose.remote.creation.compose.state.RemoteBoolean
-import androidx.compose.remote.creation.compose.state.RemoteColor
-import androidx.compose.remote.creation.compose.state.RemoteInt
-import androidx.compose.remote.creation.compose.state.RemoteString
-import androidx.compose.remote.creation.compose.state.rs
+import ee.schimke.composeai.rccreation.compose.action.RemoteAction
+import ee.schimke.composeai.rccreation.compose.action.hostAction
+import ee.schimke.composeai.rccreation.compose.state.RemoteBoolean
+import ee.schimke.composeai.rccreation.compose.state.RemoteColor
+import ee.schimke.composeai.rccreation.compose.state.RemoteInt
+import ee.schimke.composeai.rccreation.compose.state.RemoteString
+import ee.schimke.composeai.rccreation.compose.state.rs
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import ee.schimke.livery.capture.ContractChecks
 import ee.schimke.livery.protocol.Contract
 
@@ -29,10 +30,10 @@ class WearValues(val contract: Contract) {
 
     /** A colour input or a `theme.*` role; [fallback] draws until the host binds one. */
     fun color(name: String, fallback: Color): RemoteColor =
-        RemoteColor.createNamedRemoteColor(name, checks.color(name)?.let(::Color) ?: fallback)
+        RemoteColor.createNamedRemoteColor(name, checks.color(name) ?: fallback.toArgb())
 
     /** An action the contract declares, with no argument. */
-    fun action(name: String): Action {
+    fun action(name: String): RemoteAction {
         checks.actionPayload(name)
         return hostAction(name.rs)
     }
@@ -41,7 +42,7 @@ class WearValues(val contract: Contract) {
      * An action whose one argument [arg] is a value of the document: its payload is
      * `{"<arg>":"<value>"}`, built as the document plays (Livery maps a bare value only to `value`).
      */
-    fun action(name: String, arg: String, value: RemoteString): Action {
+    fun action(name: String, arg: String, value: RemoteString): RemoteAction {
         checks.actionPayload(name, mapOf(arg to "x"))
         return hostAction(name.rs, "{\"$arg\":\"".rs + value + "\"}".rs)
     }

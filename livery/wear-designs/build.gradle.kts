@@ -2,10 +2,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 // Confetti's Wear designs: each conference series' Livery designs as Wear variants (`variant` wear,
 // tagged `device=wear`), written with Wear's own Material 3 components as Remote Compose. They use
-// yschimke/remote-m3-catalog's multiplatform port of AndroidX's remote-material3 (vendor/ there),
-// which captures on the plain JVM like :livery:catalog, with no Android or Robolectric. That port
-// is in AndroidX's package rather than rc-players', so it is a module of its own, with its own
-// contract-checked values (WearValues) over livery-capture-core.
+// rc-players' Compose Multiplatform port of AndroidX's remote-material3 (rc-creation-wear-material3,
+// package ee.schimke.composeai.rccreation.wear.material3), which captures on the plain JVM like
+// :livery:catalog, with no Android or Robolectric, and the same creation API (rc-creation-compose).
 //
 // captureWearDesigns writes each series' Wear designs into build/livery/wear/<series>/designs/, and
 // :livery:catalog's assembleLiveryCatalogs adds them to that series' catalog.
@@ -24,25 +23,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-repositories {
-    // A module's own repositories replace the settings' ones, so those first.
-    google()
-    mavenCentral()
-    // The port, and the Wear Compose multiplatform port it uses for Wear's token types on the JVM:
-    // credential-free Maven trees on branches of their output repositories. Only for their groups.
-    exclusiveContent {
-        forRepository { maven("https://raw.githubusercontent.com/yschimke/remote-m3-catalog-out/remote-compose-cmp-maven/") }
-        filter { includeGroup("ee.schimke.remotecompose") }
-    }
-    exclusiveContent {
-        forRepository { maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/wear-compose-cmp-maven/") }
-        filter { includeGroup("ee.schimke.wearcmp") }
-    }
-}
-
 dependencies {
-    implementation(libs.remote.compose.cmp.material3)
-    implementation(libs.remote.compose.cmp.creation.compose)
+    implementation(platform(libs.rc.players.bom))
+    implementation(libs.rc.creation.wear.material3)
+    implementation(libs.rc.remote.creation.compose)
     implementation(compose.desktop.currentOs)
     implementation(platform(libs.livery.bom))
     implementation(libs.livery.capture.core)

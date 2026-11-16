@@ -1,22 +1,22 @@
 package dev.johnoreilly.confetti.livery.wear
 
-import androidx.compose.remote.creation.compose.layout.RemoteDrawScope
-import androidx.compose.remote.creation.compose.layout.RemoteOffset
-import androidx.compose.remote.creation.compose.layout.RemoteSize
-import androidx.compose.remote.creation.compose.shaders.RemoteBrush
-import androidx.compose.remote.creation.compose.shaders.linearGradient
-import androidx.compose.remote.creation.compose.shaders.radialGradient
-import androidx.compose.remote.creation.compose.shaders.solidColor
-import androidx.compose.remote.creation.compose.shaders.sweepGradient
-import androidx.compose.remote.creation.compose.state.RemoteColor
-import androidx.compose.remote.creation.compose.state.RemoteFloat
-import androidx.compose.remote.creation.compose.state.RemotePaint
-import androidx.compose.remote.creation.compose.state.rdp
-import androidx.compose.remote.creation.compose.state.rf
+import ee.schimke.composeai.rccreation.compose.layout.RemoteDrawScope
+import ee.schimke.composeai.rccreation.compose.layout.RemoteOffset
+import ee.schimke.composeai.rccreation.compose.layout.RemoteSize
+import ee.schimke.composeai.rccreation.compose.shaders.RemoteBrush
+import ee.schimke.composeai.rccreation.compose.shaders.linearGradient
+import ee.schimke.composeai.rccreation.compose.shaders.radialGradient
+import ee.schimke.composeai.rccreation.compose.shaders.solidColor
+import ee.schimke.composeai.rccreation.compose.shaders.sweepGradient
+import ee.schimke.composeai.rccreation.compose.state.RemoteColor
+import ee.schimke.composeai.rccreation.compose.state.RemoteFloat
+import ee.schimke.composeai.rccreation.compose.state.RemotePaint
+import ee.schimke.composeai.rccreation.compose.state.rdp
+import ee.schimke.composeai.rccreation.compose.state.rf
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.wear.compose.remote.material3.RemoteBorderStroke
-import androidx.wear.compose.remote.material3.RemoteMaterialTheme
+import ee.schimke.composeai.rccreation.wear.material3.RemoteBorderStroke
+import ee.schimke.composeai.rccreation.wear.material3.RemoteMaterialTheme
 
 /*
  * What sets each series apart on a watch beyond its colours: a backdrop drawn under a card's or a
@@ -149,7 +149,7 @@ private fun RemoteDrawScope.piece(
 
 private fun RemoteDrawScope.droidconPanel(colors: BackdropColors) {
     // The rule down the start edge.
-    drawRect(paint(colors.primary), RemoteOffset(0f, 0f), RemoteSize(4.rdp.toPx(), height))
+    drawRect(paint(colors.primary), RemoteOffset(0f.rf, 0f.rf), RemoteSize(4.rdp.toPx(), height))
     // A dot matrix in the top-right corner, fading towards the text.
     val step = 7.rdp.toPx()
     val r = 1.2f.rdp.toPx()

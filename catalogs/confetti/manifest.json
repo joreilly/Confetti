@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794832928702,
-    "generatedAtEpochMs": 1794832928702,
-    "expiresAtEpochMs": 1797424928702,
+    "serial": 1794850693761,
+    "generatedAtEpochMs": 1794850693761,
+    "expiresAtEpochMs": 1797442693761,
     "contracts": [
         {
             "id": "confetti/break",
@@ -866,8 +866,8 @@
             ]
         },
         {
-            "sha256": "21953da29d718876f1f81a9e10cfa199043ccb9a6c3b917191b39024c54d2f07",
-            "bytes": 1604,
+            "sha256": "30293db478228eae5b9bd3af2bb44c9d155493b8359b9118fc2ca479f8fba9f3",
+            "bytes": 1528,
             "designId": "confetti-section-wear",
             "contract": "confetti/section@1",
             "target": {
@@ -1032,8 +1032,8 @@
             ]
         },
         {
-            "sha256": "9d22b0cadcccc0bf4e22c2a696bdb81dbd7618b0ae1228793de11bbac55d326c",
-            "bytes": 2587,
+            "sha256": "07c69e9b8858a2b315702caeda967d0e65bd8f794c20198edfcd8af28fe1ab0f",
+            "bytes": 2418,
             "designId": "confetti-session-header-wear",
             "contract": "confetti/session-header@1",
             "target": {
@@ -1064,8 +1064,8 @@
             }
         },
         {
-            "sha256": "c5a0d4411c5deac95e07ce71d9cf76e59c8dd9fe9b4e1d3460f20a0b812bfc80",
-            "bytes": 3882,
+            "sha256": "7df2abbefac75e952f6dc4034b4fe2fe3e95e09ed61e46a94b0b58e1b6b75a00",
+            "bytes": 3308,
             "designId": "confetti-session-wear",
             "contract": "confetti/session@1",
             "target": {
@@ -1179,8 +1179,8 @@
             ]
         },
         {
-            "sha256": "3f03900c3f225612a71498119a5034a938fa7a308da6a7ecfbeb3c0539b0947d",
-            "bytes": 2937,
+            "sha256": "a5b57ee0ff31c9132e24d1855844a147903ace7651c2a567dd0356670c2dc7d2",
+            "bytes": 2778,
             "designId": "confetti-speaker-header-wear",
             "contract": "confetti/speaker-header@1",
             "target": {

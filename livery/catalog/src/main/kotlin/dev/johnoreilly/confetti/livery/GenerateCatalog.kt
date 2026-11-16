@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.livery
 
+import ee.schimke.composeai.rcwidget.RcWearContainer
 import okio.ByteString.Companion.toByteString
 import ee.schimke.livery.compose.material3.toLiveryTheme
 import ee.schimke.livery.protocol.ThemeRoles
@@ -89,11 +90,15 @@ fun bind(contract: ConfettiContract, data: JsonObject): Bindings =
     }
 
 /** Renders a captured template with its design's example data (and a theme pack's values) to PNG. */
-fun render(captured: CapturedTemplate, data: JsonObject, theme: Bindings = Bindings.EMPTY, dark: Boolean = true): ByteArray =
+fun render(
+    captured: CapturedTemplate, data: JsonObject, theme: Bindings = Bindings.EMPTY, dark: Boolean = true,
+    /** Another size than the capture's (a watch's container), with the values its host writes in. */
+    widthDp: Int = captured.template.widthDp, heightDp: Int = captured.template.heightDp, host: Bindings = Bindings.EMPTY,
+): ByteArray =
     TemplateRenderer.png(
         template = captured.bytes.toByteString(),
-        bindings = bind(captured.design.contract, data) + theme,
-        spec = RenderSpec(captured.template.widthDp, captured.template.heightDp, density = 2f, dark = dark),
+        bindings = bind(captured.design.contract, data) + theme + host,
+        spec = RenderSpec(widthDp, heightDp, density = 2f, dark = dark),
         images = PreviewImages,
         typefaces = CatalogFonts.forSeries(captured.design.brand.series),
     ).toByteArray()
@@ -267,6 +272,24 @@ private fun renderSeries(brand: ConferenceBrand, captured: List<CapturedTemplate
         c.examples["long"]?.let { long ->
             out.resolve("${t.design.id}-${t.template.name}-long.png").writeBytes(render(t, c.data(long), theme))
         }
+        // A Wear widget in each of the containers Glance Wear's own previews give (its size, padding
+        // and corners), as the watch writes them in.
+        if (t.template.isWearWidget) {
+            val small = t.template.name == "wear-small"
+            for (frame in GlanceWearFrames.filter { it.small == small }) {
+                val values = Bindings(mapOf(
+                    RcWearContainer.HORIZONTAL_PADDING to NamedValue.F(frame.horizontalPaddingDp),
+                    RcWearContainer.VERTICAL_PADDING to NamedValue.F(frame.verticalPaddingDp),
+                    RcWearContainer.CORNER_RADIUS to NamedValue.F(frame.cornerRadiusDp),
+                ))
+                for ((suffix, example) in listOf("" to t.design.example, "-long" to "long")) {
+                    val data = c.examples[example] ?: continue
+                    out.resolve("${t.design.id}-${t.template.name}-${frame.name}$suffix.png").writeBytes(
+                        render(t, c.data(data), theme, widthDp = frame.widthDp, heightDp = frame.heightDp, host = values),
+                    )
+                }
+            }
+        }
     }
     if (brand == Droidcon) {
         // What an admin's data-only change looks like: the same droidcon documents, recoloured by
@@ -302,3 +325,31 @@ private fun renderSeries(brand: ConferenceBrand, captured: List<CapturedTemplate
         }
     }
 }
+
+/** A Wear widget container, as a watch's widget host reports it: the size, padding inside it, and corners. */
+data class GlanceWearFrame(
+    val name: String,
+    val small: Boolean,
+    val widthDp: Int,
+    val heightDp: Int,
+    val horizontalPaddingDp: Float,
+    val verticalPaddingDp: Float,
+    val cornerRadiusDp: Float,
+)
+
+/**
+ * Glance Wear's own preview frames (`androidx.glance.wear:wear-tooling-preview` 1.0.0-alpha22,
+ * `WidgetPreviewParams`): the default squircle host (a Pixel Watch) on 204 and 240 dp screens, and
+ * the fully round one (a Samsung) on 216 and 240 dp. The padding is inside the size, so a round
+ * 240 dp Large leaves 90×104 dp for content.
+ */
+val GlanceWearFrames = listOf(
+    GlanceWearFrame("squircle-204", small = true, 166, 60, 8f, 8f, 26f),
+    GlanceWearFrame("squircle-240", small = true, 200, 60, 8f, 8f, 26f),
+    GlanceWearFrame("round-216", small = true, 182, 54, 13f, 8f, 999f),
+    GlanceWearFrame("round-240", small = true, 200, 60, 15f, 8f, 999f),
+    GlanceWearFrame("squircle-204", small = false, 166, 96, 8f, 8f, 26f),
+    GlanceWearFrame("squircle-240", small = false, 200, 108, 8f, 8f, 26f),
+    GlanceWearFrame("round-216", small = false, 150, 120, 29f, 16f, 999f),
+    GlanceWearFrame("round-240", small = false, 160, 136, 35f, 16f, 999f),
+)

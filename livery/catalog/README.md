@@ -180,9 +180,17 @@ container: the session the user bookmarked that is on now, or next, drawn from t
 design (`<series>-session`), whose `wear-small` and `wear-large` templates are captured here
 (`WearWidgetDesigns.kt`). Each is drawn inside the watch's own container: rc-players'
 `RcWearTemplateContainer` reads its padding, corners and fill from the `wear.container.*` named
-values the watch writes in, so one capture fits a Pixel's squircle and a Galaxy's stadium. What
-sets the conferences apart is the container's background (`RcWearBackground`): Confetti's three
-accents as glows, droidcon's green rule and outline, KotlinConf's gradient glows and edge. A widget's
+values the watch writes in, so one capture fits a Pixel's squircle and a Samsung's stadium. What
+sets the conferences apart is the container's background (`RcWearBackground`) and the illustration
+its Wear designs draw: Confetti's accents as glows with a garland of confetti along the top and
+bottom edges, droidcon's green rule, outline and dot row, KotlinConf's gradient glows and edge. The
+illustration is cut to the watch's own corner radius and kept to the container's vertical padding,
+inside a stadium's flat edges. Containers differ a lot between watches: Glance Wear's own preview
+frames run from a squircle's 184×92 dp of content (240 dp screen) to a stadium's 90×104 (Samsung,
+240 dp) and 92×88 (216 dp), so the large widget switches layout on the watch with rc-players'
+`RcSizeBreakpoint`: narrower than 150 dp it centres "Now" over the time and gives the title a third
+line where there is height for it; shorter than 90 dp it drops the speakers. The renders draw each
+widget in all eight of those frames (`GlanceWearFrames`). A widget's
 theme is baked in (`baked:dark`, the series' dark pack), and its labels are the platform's font, as
 Glance Wear loads none. Each template is captured in its player's profile (Glance Wear's, a
 launcher's, the app's), and a widget's at API level 7. A tap opens the session; with nothing to show

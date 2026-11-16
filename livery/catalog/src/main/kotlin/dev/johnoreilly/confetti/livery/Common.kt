@@ -1,5 +1,6 @@
 package dev.johnoreilly.confetti.livery
 
+import ee.schimke.composeai.rccreation.compose.text.RemoteTextAlign
 import ee.schimke.composeai.rccreation.compose.text.RemoteTextOverflow
 import ee.schimke.composeai.rccreation.compose.text.RemoteFontWeight
 import ee.schimke.livery.protocol.ThemeRoles
@@ -111,6 +112,8 @@ fun Label(
     weight: FontWeight = FontWeight.Bold,
     modifier: RemoteModifier = RemoteModifier,
     maxLines: Int = 1,
+    /** Null: the start, as every label but a centred one wants. */
+    align: RemoteTextAlign? = null,
 ) {
     val family = LocalTemplateScope.current.font()
     RemoteText(
@@ -122,6 +125,7 @@ fun Label(
         fontFamily = family?.let { RemoteFontFamily.Named(it.removePrefix("system:")) } ?: RemoteFontFamily.Default,
         overflow = RemoteTextOverflow.Ellipsis,
         maxLines = maxLines,
+        textAlign = align,
     )
 }
 

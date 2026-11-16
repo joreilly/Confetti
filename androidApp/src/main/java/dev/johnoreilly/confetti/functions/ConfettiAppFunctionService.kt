@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.appfunctions.AppFunctionAppUnknownException
 import androidx.appfunctions.AppFunctionDeclaration
 import androidx.appfunctions.AppFunctionElementNotFoundException
+import androidx.appfunctions.AppFunctionException
 import androidx.appfunctions.AppFunctionPermissionRequiredException
 import androidx.appfunctions.AppFunctionSerializable
 import androidx.appfunctions.AppFunctionService
@@ -212,8 +213,13 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
         } catch (e: CancellationException) {
             Log.i(TAG, "$call cancelled after ${elapsed()}ms")
             throw e
+        } catch (e: AppFunctionException) {
+            // An error this service raised for the agent (not found, not signed in, couldn't
+            // load): the message says it all, and a minified stack trace adds only noise.
+            Log.w(TAG, "$call failed after ${elapsed()}ms: ${e.errorMessage}")
+            throw e
         } catch (e: Exception) {
-            Log.w(TAG, "$call failed after ${elapsed()}ms: ${e.message}", e)
+            Log.w(TAG, "$call failed unexpectedly after ${elapsed()}ms", e)
             throw e
         }
     }

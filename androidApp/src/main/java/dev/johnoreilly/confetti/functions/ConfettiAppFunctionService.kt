@@ -1,9 +1,12 @@
 package dev.johnoreilly.confetti.functions
 
+import android.os.SystemClock
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appfunctions.AppFunctionAppUnknownException
 import androidx.appfunctions.AppFunctionDeclaration
 import androidx.appfunctions.AppFunctionElementNotFoundException
+import androidx.appfunctions.AppFunctionException
 import androidx.appfunctions.AppFunctionPermissionRequiredException
 import androidx.appfunctions.AppFunctionSerializable
 import androidx.appfunctions.AppFunctionService
@@ -17,6 +20,7 @@ import dev.johnoreilly.confetti.GetConferencesQuery
 import dev.johnoreilly.confetti.auth.Authentication
 import dev.johnoreilly.confetti.auth.User
 import dev.johnoreilly.confetti.fragment.SessionDetails
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.toJavaLocalDateTime
@@ -34,6 +38,10 @@ import java.time.LocalDateTime
     appFunctionXmlFileName = "confetti_app_function_service",
 )
 abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinComponent {
+    private companion object {
+        const val TAG = "ConfettiAppFunctions"
+    }
+
     private val repository: ConfettiRepository by inject()
     private val appSettings: AppSettings by inject()
     private val authentication: Authentication by inject()
@@ -48,7 +56,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun addBookmark(sessionId: String, conferenceId: String? = null): Boolean =
-        withContext(Dispatchers.IO) {
+        logged("addBookmark", "sessionId" to sessionId, "conferenceId" to conferenceId) {
             val conference = resolveConference(conferenceId)
             val user = requireSignedInUser()
             repository.addBookmark(conference.id, user.uid, user, sessionId)
@@ -64,7 +72,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun removeBookmark(sessionId: String, conferenceId: String? = null): Boolean =
-        withContext(Dispatchers.IO) {
+        logged("removeBookmark", "sessionId" to sessionId, "conferenceId" to conferenceId) {
             val conference = resolveConference(conferenceId)
             val user = requireSignedInUser()
             repository.removeBookmark(conference.id, user.uid, user, sessionId)
@@ -79,7 +87,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun listSessions(conferenceId: String? = null): List<SessionResponse> =
-        withContext(Dispatchers.IO) {
+        logged("listSessions", "conferenceId" to conferenceId) {
             val conference = resolveConference(conferenceId)
             val user = authentication.currentUser.value
             val data = repository.sessions(conference.id, user?.uid, user, conference.fetchPolicy)
@@ -98,7 +106,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun listBookmarks(conferenceId: String? = null): List<SessionResponse> =
-        withContext(Dispatchers.IO) {
+        logged("listBookmarks", "conferenceId" to conferenceId) {
             val conference = resolveConference(conferenceId)
             val user = requireSignedInUser()
             // Network first: bookmarks may have just been changed by addBookmark/removeBookmark
@@ -119,7 +127,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun listSpeakers(conferenceId: String? = null): List<SpeakerProfileResponse> =
-        withContext(Dispatchers.IO) {
+        logged("listSpeakers", "conferenceId" to conferenceId) {
             val conference = resolveConference(conferenceId)
             repository.conferenceData(conference.id, conference.fetchPolicy)
                 .requireData("speakers")
@@ -148,7 +156,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun getVenue(conferenceId: String? = null): List<VenueResponse> =
-        withContext(Dispatchers.IO) {
+        logged("getVenue", "conferenceId" to conferenceId) {
             val conference = resolveConference(conferenceId)
             repository.conferenceVenue(conference.id, conference.fetchPolicy)
                 .requireData("the venue")
@@ -169,7 +177,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      * @return The conference ID.
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun getConference(): String = withContext(Dispatchers.IO) {
+    suspend fun getConference(): String = logged("getConference") {
         requireSelectedConference()
     }
 
@@ -179,8 +187,41 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      * @return All conferences with their ID, name, days and time zone.
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
-    suspend fun listConferences(): List<ConferenceResponse> = withContext(Dispatchers.IO) {
+    suspend fun listConferences(): List<ConferenceResponse> = logged("listConferences") {
         conferences().map { it.toResponse() }
+    }
+
+    /**
+     * Runs an AppFunction's [block] on the IO dispatcher, logging the call, its outcome and how
+     * long it took under the [TAG] tag, so invocations by an agent can be confirmed in a release
+     * build with `adb logcat -s ConfettiAppFunctions`. Only IDs are logged, never user content.
+     */
+    private suspend fun <T> logged(
+        function: String,
+        vararg args: Pair<String, String?>,
+        block: suspend () -> T,
+    ): T {
+        val call = "$function(${args.joinToString { (name, value) -> "$name=$value" }})"
+        Log.i(TAG, "$call called")
+        val start = SystemClock.elapsedRealtime()
+        fun elapsed() = SystemClock.elapsedRealtime() - start
+        return try {
+            withContext(Dispatchers.IO) { block() }.also { result ->
+                val summary = if (result is Collection<*>) "${result.size} items" else result.toString()
+                Log.i(TAG, "$call returned $summary in ${elapsed()}ms")
+            }
+        } catch (e: CancellationException) {
+            Log.i(TAG, "$call cancelled after ${elapsed()}ms")
+            throw e
+        } catch (e: AppFunctionException) {
+            // An error this service raised for the agent (not found, not signed in, couldn't
+            // load): the message says it all, and a minified stack trace adds only noise.
+            Log.w(TAG, "$call failed after ${elapsed()}ms: ${e.errorMessage}")
+            throw e
+        } catch (e: Exception) {
+            Log.w(TAG, "$call failed unexpectedly after ${elapsed()}ms", e)
+            throw e
+        }
     }
 
     /**
@@ -214,7 +255,7 @@ abstract class BaseConfettiAppFunctionService : AppFunctionService(), KoinCompon
      */
     private fun <D : Operation.Data> ApolloResponse<D>.requireData(what: String): D =
         data ?: run {
-            exception?.let { println("AppFunctions: loading $what failed: $it") }
+            exception?.let { Log.w(TAG, "Loading $what failed", it) }
             throw AppFunctionAppUnknownException(
                 "Couldn't load $what from the Confetti server. Check the connection and try again."
             )

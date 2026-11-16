@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-kotlinconf",
-    "serial": 1794783899113,
-    "generatedAtEpochMs": 1794783899113,
-    "expiresAtEpochMs": 1797375899113,
+    "serial": 1794818122612,
+    "generatedAtEpochMs": 1794818122612,
+    "expiresAtEpochMs": 1797410122612,
     "minClient": 8,
     "contracts": [
         {
@@ -1153,8 +1153,8 @@
             ]
         },
         {
-            "sha256": "246b3a3112eceb3f6e1b55c3aea3e5e241c3f2691645dcaa4169beda70cd260e",
-            "bytes": 2710,
+            "sha256": "30a01478baeede805a835b6d5dba3dc88bbca40ffefa719b820a7e042e41177a",
+            "bytes": 5079,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1174,8 +1174,8 @@
                 "theme.surface",
                 "theme.onSurface",
                 "theme.onSurfaceVariant",
-                "time",
                 "live",
+                "time",
                 "title",
                 "room",
                 "speakers"
@@ -1185,8 +1185,8 @@
             ]
         },
         {
-            "sha256": "3540616c774977a5f224a18c3bf84911a1309f1c429da26c9476a77165c64be8",
-            "bytes": 1987,
+            "sha256": "8239212c517e5226c88094d8e5f3f73135ad614e024c4eec7850415ad2762a28",
+            "bytes": 2055,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {

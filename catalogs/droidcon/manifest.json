@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1794783970986,
-    "generatedAtEpochMs": 1794783970986,
-    "expiresAtEpochMs": 1797375970986,
+    "serial": 1794818159995,
+    "generatedAtEpochMs": 1794818159995,
+    "expiresAtEpochMs": 1797410159995,
     "minClient": 2,
     "contracts": [
         {
@@ -1014,8 +1014,8 @@
             ]
         },
         {
-            "sha256": "41f1c9f85404c67b9f9af6e028163ff1629f360e0113d5fddb7533a7eb5088e8",
-            "bytes": 2867,
+            "sha256": "d02d505d281b8059a38486a711325a0a7fe8a08edef61d9f68012f4672f91f64",
+            "bytes": 6094,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1035,8 +1035,8 @@
                 "theme.surface",
                 "theme.onSurface",
                 "theme.onSurfaceVariant",
-                "time",
                 "live",
+                "time",
                 "title",
                 "room",
                 "speakers"
@@ -1046,8 +1046,8 @@
             ]
         },
         {
-            "sha256": "5185fd67f43e273c6afdd12460ee408ea9053a254329ec49516e1a4fc4879111",
-            "bytes": 2135,
+            "sha256": "7fca231bb54590427eaf29d5bc3afc21106ca77c24428dd63d05fd96422fdb7b",
+            "bytes": 3022,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {

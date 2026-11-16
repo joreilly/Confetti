@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-confetti",
-    "serial": 1794783971024,
-    "generatedAtEpochMs": 1794783971024,
-    "expiresAtEpochMs": 1797375971024,
+    "serial": 1794818160010,
+    "generatedAtEpochMs": 1794818160010,
+    "expiresAtEpochMs": 1797410160010,
     "contracts": [
         {
             "id": "confetti/break",
@@ -939,8 +939,8 @@
             ]
         },
         {
-            "sha256": "81d38f6be57214fbe487d5c276295c3718c1264f0c32320886586b889a22e3bd",
-            "bytes": 2492,
+            "sha256": "8d7baf4259893e8ebdb30bf416199b9a7d8a7cec3cc51e72d62c3e44ec812ceb",
+            "bytes": 6002,
             "designId": "confetti-session",
             "contract": "confetti/session@1",
             "target": {
@@ -960,8 +960,8 @@
                 "theme.surface",
                 "theme.onSurface",
                 "theme.onSurfaceVariant",
-                "time",
                 "live",
+                "time",
                 "title",
                 "room",
                 "speakers"
@@ -971,8 +971,8 @@
             ]
         },
         {
-            "sha256": "4634939b921f5e42a48189c0e1e838f1a13c4f4e92a61e6378e1d802363265f2",
-            "bytes": 1760,
+            "sha256": "837e8b3ad89fdaac182df436c766e8bed4157068e5a6abb5252ecc737e9443d2",
+            "bytes": 2969,
             "designId": "confetti-session",
             "contract": "confetti/session@1",
             "target": {

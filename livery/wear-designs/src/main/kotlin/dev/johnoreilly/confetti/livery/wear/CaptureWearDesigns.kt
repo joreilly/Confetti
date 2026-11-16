@@ -1,9 +1,9 @@
 package dev.johnoreilly.confetti.livery.wear
 
-import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
-import androidx.compose.remote.creation.compose.capture.RemoteDensity
-import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
-import androidx.compose.remote.creation.compose.capture.captureCommonRemoteDocument
+import ee.schimke.composeai.rccreation.compose.capture.RemoteCreationDisplayInfo
+import ee.schimke.composeai.rccreation.compose.capture.RemoteDensity
+import ee.schimke.composeai.rccreation.compose.capture.RemoteDensityBehavior
+import ee.schimke.composeai.rccreation.compose.capture.captureCommonRemoteDocument
 import androidx.compose.runtime.Composable
 import ee.schimke.livery.capture.CapturedTemplate
 import ee.schimke.livery.capture.CatalogContracts

@@ -1,6 +1,6 @@
 {
     "formatVersion": "compose-preview-history/v1",
-    "generatedFrom": "49c24334895da674143a3482b36c726c00474558",
+    "generatedFrom": "b4722ca41da77e7d67ecd2cdbe8ecbc20dafc2de",
     "previews": {
         "androidApp/ScreenshotTest.SessionDetailsPreview": {
             "path": "renders/androidApp/SessionDetailsPreview-80cd2284.png",
@@ -3052,20 +3052,20 @@
             "path": "renders/livery:android/LiveryDroidconPreview_droidcon-dea0f94d.png",
             "versions": [
                 {
+                    "blob": "04a61d9eb958dfcf2f246e0740a2786fe563ab0f",
+                    "commit": "b4722ca41da77e7d67ecd2cdbe8ecbc20dafc2de",
+                    "date": "2026-11-16T17:43:37Z",
+                    "sourceSha": "af122f93",
+                    "sinceCommit": "5873c0599b17bf3b9de3ac58ea3ed72b4cde3bbf",
+                    "commits": 5,
+                    "occurrences": 5
+                },
+                {
                     "blob": "2510b7bd56dda1316b1ace658b63ddb477dc5c37",
                     "commit": "49c24334895da674143a3482b36c726c00474558",
                     "date": "2026-11-16T16:55:25Z",
                     "sourceSha": "274766ff",
                     "commits": 1
-                },
-                {
-                    "blob": "04a61d9eb958dfcf2f246e0740a2786fe563ab0f",
-                    "commit": "8a94883d073f5bfcb211102af75bbd3e83ddd887",
-                    "date": "2026-11-16T13:28:12Z",
-                    "sourceSha": "072a1149",
-                    "sinceCommit": "5873c0599b17bf3b9de3ac58ea3ed72b4cde3bbf",
-                    "commits": 4,
-                    "occurrences": 4
                 },
                 {
                     "blob": "8fd1d6de0887441f846a80a771e3b9607b726654",
@@ -3084,9 +3084,9 @@
                     "commits": 1
                 }
             ],
-            "observations": 11,
+            "observations": 12,
             "unstable": true,
-            "flapCount": 7
+            "flapCount": 8
         },
         "livery:android/dev.johnoreilly.confetti.ui.livery.LiveryPreviewsKt.LiveryKotlinConfPreview_KotlinConf": {
             "path": "renders/livery:android/LiveryKotlinConfPreview_KotlinConf-fa3081e5.png",

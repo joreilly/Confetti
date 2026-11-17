@@ -954,6 +954,32 @@ object Sessionize {
         )
     }
 
+    suspend fun importDroidconIndia2026(): Int {
+        return writeData(
+            getData(url = "https://sessionize.com/api/v2/qfgx6adj/view/All", zoneId = "Asia/Kolkata"),
+            config = DConfig(
+                id = ConferenceId.DroidconIndia2026.id,
+                name = "Droidcon India 2026",
+                timeZone = "Asia/Kolkata",
+                days = listOf(LocalDate(2026, 11, 20)),
+                themeColor = "0xFF0055FF"
+            ),
+            venue = DVenue(
+                id = "main",
+                name = "Conrad Bengaluru",
+                address = "25/3, Kensington Road, Halasuru, Bengaluru, Karnataka 560008, India",
+                description = mapOf(
+                    "en" to "The Conrad Bengaluru rises 24 stories above the Central Business District with sweeping views of Ulsoor Lake.",
+                ),
+                latitude = 12.9753396,
+                longitude = 77.6207075,
+                imageUrl = "https://static.wixstatic.com/media/6e1ab2_54f9e2b310f3438d8274c45cd5d832be~mv2.jpeg",
+                floorPlanUrl = null
+            ),
+            partnerGroups = emptyList()
+        )
+    }
+
     suspend fun importDevFestVenice2024(): Int {
         return writeData(
             getData("https://sessionize.com/api/v2/r14kt8fj/view/All"),

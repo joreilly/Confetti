@@ -22,10 +22,10 @@ import ee.schimke.composeai.rccreation.compose.state.rdp
 import ee.schimke.composeai.rccreation.compose.state.rememberRemoteImageBitmap
 import ee.schimke.composeai.rccreation.compose.state.rf
 import ee.schimke.composeai.rccreation.compose.state.rs
+import ee.schimke.composeai.rccreation.compose.text.RemoteTextAlign
+import ee.schimke.composeai.rccreation.compose.text.RemoteTextOverflow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import ee.schimke.composeai.rccreation.wear.material3.RemoteCardDefaults
 import ee.schimke.composeai.rccreation.wear.material3.RemoteMaterialTheme
 import ee.schimke.composeai.rccreation.wear.material3.RemoteText
@@ -135,13 +135,13 @@ fun WearSessionCard(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) 
         border = outlineFor(brand.style, backdropColors()),
         // The time on a line of its own (not the card's time slot, which on a watch leaves the
         // title half the width): the title gets the card's full width.
-        title = { RemoteText(v.string("title"), maxLines = 2, overflow = TextOverflow.Ellipsis) },
+        title = { RemoteText(v.string("title"), maxLines = 2, overflow = RemoteTextOverflow.Ellipsis) },
     ) {
         RemoteRow(RemoteModifier.fillMaxWidth(), verticalAlignment = RemoteAlignment.CenterVertically) {
             RemoteColumn(RemoteModifier.weight(1f.rf)) {
-                RemoteText(brand.style.timePrefix.rs + v.string("time"), color = colors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                RemoteText(v.string("speakers"), color = colors.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                RemoteText(v.string("room"), color = colors.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                RemoteText(brand.style.timePrefix.rs + v.string("time"), color = colors.primary, maxLines = 1, overflow = RemoteTextOverflow.Ellipsis)
+                RemoteText(v.string("speakers"), color = colors.onSurfaceVariant, maxLines = 1, overflow = RemoteTextOverflow.Ellipsis)
+                RemoteText(v.string("room"), color = colors.onSurfaceVariant, maxLines = 1, overflow = RemoteTextOverflow.Ellipsis)
             }
             RemoteBox(
                 modifier = RemoteModifier.size(32.rdp, 32.rdp).clip(RemoteCircleShape).clickable(v.action("bookmark")),
@@ -171,7 +171,7 @@ fun WearSection(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand) {
             color = RemoteMaterialTheme.colorScheme.primary,
             style = RemoteMaterialTheme.typography.labelMedium,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
+            overflow = RemoteTextOverflow.Ellipsis,
         )
     }
 }
@@ -195,12 +195,12 @@ fun WearSessionHeader(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand
             v.string("title"),
             color = colors.onSurface,
             style = RemoteMaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Center,
+            textAlign = RemoteTextAlign.Center,
             maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
+            overflow = RemoteTextOverflow.Ellipsis,
         )
-        RemoteText(brand.style.timePrefix.rs + v.string("time"), color = colors.primary, textAlign = TextAlign.Center)
-        RemoteText(v.string("room"), color = colors.onSurfaceVariant, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        RemoteText(brand.style.timePrefix.rs + v.string("time"), color = colors.primary, textAlign = RemoteTextAlign.Center)
+        RemoteText(v.string("room"), color = colors.onSurfaceVariant, textAlign = RemoteTextAlign.Center, maxLines = 1, overflow = RemoteTextOverflow.Ellipsis)
     }
 }
 
@@ -237,8 +237,8 @@ fun WearSpeakerHeader(v: WearValues, brand: WearBrand) = WearBrandTheme(v, brand
                 contentScale = RemoteContentScale.Crop,
             )
         }
-        RemoteText(v.string("name"), color = colors.onSurface, style = RemoteMaterialTheme.typography.titleMedium, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)
-        RemoteText(v.string("tagline"), color = colors.onSurfaceVariant, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        RemoteText(v.string("name"), color = colors.onSurface, style = RemoteMaterialTheme.typography.titleMedium, textAlign = RemoteTextAlign.Center, maxLines = 2, overflow = RemoteTextOverflow.Ellipsis)
+        RemoteText(v.string("tagline"), color = colors.onSurfaceVariant, textAlign = RemoteTextAlign.Center, maxLines = 2, overflow = RemoteTextOverflow.Ellipsis)
     }
 }
 

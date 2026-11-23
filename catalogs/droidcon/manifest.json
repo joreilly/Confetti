@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-droidcon",
-    "serial": 1795338803082,
-    "generatedAtEpochMs": 1795338803082,
-    "expiresAtEpochMs": 1797930803082,
+    "serial": 1795430775743,
+    "generatedAtEpochMs": 1795430775743,
+    "expiresAtEpochMs": 1798022775743,
     "minClient": 2,
     "contracts": [
         {
@@ -742,8 +742,8 @@
     ],
     "templates": [
         {
-            "sha256": "71f28964b32c6e2626b34ec07febd0099d7046e2537ef9f980e90e4859e34675",
-            "bytes": 2163,
+            "sha256": "f9fa43334db5138f3dfe5cdcaecbff1e8b3da36cd3c5caa1b0d44e8526b6f0a9",
+            "bytes": 2453,
             "designId": "droidcon-break",
             "contract": "confetti/break@1",
             "target": {
@@ -780,8 +780,8 @@
             ]
         },
         {
-            "sha256": "98ec10eeba2aa0f525b6b672ff4baa7cd3f92ec6f06b544f8738baad596de15e",
-            "bytes": 2908,
+            "sha256": "f828a1ab65f718ce630ec3db78f02a69bb7a964ce378b58e60b4d27c615634e1",
+            "bytes": 3227,
             "designId": "droidcon-header",
             "contract": "confetti/conference@1",
             "target": {
@@ -821,8 +821,8 @@
             ]
         },
         {
-            "sha256": "c6c8f12d65fa59349242db076266102c6fad860471ea63c792e2562f87e1431d",
-            "bytes": 1827,
+            "sha256": "388f795271dc06e1d3b885b966a2c1455b66a8439a9210b3464ccdf960f917f7",
+            "bytes": 2117,
             "designId": "droidcon-promo",
             "contract": "confetti/promo@1",
             "target": {
@@ -862,8 +862,8 @@
             ]
         },
         {
-            "sha256": "f0c069e186f1c7cc46b5a2cef77a2ddab5282796df6cb11a834f2dc61c8a7f2a",
-            "bytes": 794,
+            "sha256": "4ecb3422032ad3c5acbccfb1de51b2695ca278ef8d04c6c937533614bb1d3c34",
+            "bytes": 910,
             "designId": "droidcon-section",
             "contract": "confetti/section@1",
             "target": {
@@ -895,8 +895,8 @@
             ]
         },
         {
-            "sha256": "ff6b12bc6f4f0d7970bdca35fcb5353ad0bac7ab44130ecd0add222463144ada",
-            "bytes": 822,
+            "sha256": "af0699c850b1c1adb59d562022685bcef2fc2a134f4d3b6aa3eb6d70bcd6e193",
+            "bytes": 909,
             "designId": "droidcon-section-wear",
             "contract": "confetti/section@1",
             "target": {
@@ -920,8 +920,8 @@
             }
         },
         {
-            "sha256": "bb77b7ff717eafd50f45d72d89c14e3b0461eab281381d06ad837a69488c21e8",
-            "bytes": 3891,
+            "sha256": "bae04ac7d7e681cb3483c467b8ffa89dc4f0252fbc66d19d0b42e70162748d15",
+            "bytes": 4500,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {
@@ -973,8 +973,8 @@
             ]
         },
         {
-            "sha256": "1c4da33efc20a64a26e18f7a96254709273f67336eb5a4ce506b6087183ca384",
-            "bytes": 1159,
+            "sha256": "17d6b43ccf57ad9deb59e7634ee704263cc3585975a6e5657e28e461916e1749",
+            "bytes": 1304,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1014,8 +1014,8 @@
             ]
         },
         {
-            "sha256": "d02d505d281b8059a38486a711325a0a7fe8a08edef61d9f68012f4672f91f64",
-            "bytes": 6094,
+            "sha256": "fd21d63aac5467a5be1f31023fcef42ddd1d34f0f975932c3ae37cf41fc90cda",
+            "bytes": 7138,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1046,8 +1046,8 @@
             ]
         },
         {
-            "sha256": "7fca231bb54590427eaf29d5bc3afc21106ca77c24428dd63d05fd96422fdb7b",
-            "bytes": 3022,
+            "sha256": "8fb01561c46f5123529ce5eafd67f977102a0781fcd1ceb1033aeb8661aa604f",
+            "bytes": 3196,
             "designId": "droidcon-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1075,8 +1075,8 @@
             ]
         },
         {
-            "sha256": "4cc94ee13eb55429b8998caf6000fdd700ea9ab056cc7e14b7b699fa68c1661e",
-            "bytes": 1788,
+            "sha256": "0bb1e0232b51a97ef299247794ad7e84f29cfe2ff539d35b18580c05ec3defed",
+            "bytes": 2107,
             "designId": "droidcon-session-header",
             "contract": "confetti/session-header@1",
             "target": {
@@ -1114,8 +1114,8 @@
             ]
         },
         {
-            "sha256": "fa707fb8948dc6f3b3cdf9a6aafd6239cb238a4ebe2d8327df0603acecc82c0f",
-            "bytes": 2036,
+            "sha256": "189067843450475813e4c9d840e1cb777453f70fc3dd416fe7799a12b0bcff44",
+            "bytes": 2181,
             "designId": "droidcon-session-header-wear",
             "contract": "confetti/session-header@1",
             "target": {
@@ -1144,8 +1144,8 @@
             }
         },
         {
-            "sha256": "6aee5da9ba88e1dd7950328ccea18e15bf11bb8e6d77d414e5521a817ad60c35",
-            "bytes": 3118,
+            "sha256": "23392b83dfdb7bc67c1f01a234d0333a1d56102789d41c3eac3f7c8613f3c420",
+            "bytes": 3495,
             "designId": "droidcon-session-wear",
             "contract": "confetti/session@1",
             "target": {
@@ -1180,8 +1180,8 @@
             }
         },
         {
-            "sha256": "8bb12b9164936ba66235afbefeedff7e2acf6e43fc56b9a23e386930651ea9a1",
-            "bytes": 1852,
+            "sha256": "0eb4ff4328759406f2d4ad589d36084a985d7252f45a26f574cd5e6ba76960e2",
+            "bytes": 2113,
             "designId": "droidcon-speaker",
             "contract": "confetti/speaker@1",
             "target": {
@@ -1219,8 +1219,8 @@
             ]
         },
         {
-            "sha256": "3aa613047a78dd53ef0ae0081dc6d6c965896aef93366eb76e9c7111132be77a",
-            "bytes": 4045,
+            "sha256": "1c4b3478d671c22a6dc4a0aee49d1d951b2a6e72d75d642378883c4c4ba453cb",
+            "bytes": 4712,
             "designId": "droidcon-speaker-header",
             "contract": "confetti/speaker-header@1",
             "target": {
@@ -1271,8 +1271,8 @@
             ]
         },
         {
-            "sha256": "614950a35a090f4d90cacdd12afdfa6ca24375122c54a328701a3b4dabaa6b07",
-            "bytes": 2324,
+            "sha256": "1e71708508346b29add579af5aa6136ff19aca10c521b5fdf19f265a84c30b8a",
+            "bytes": 2498,
             "designId": "droidcon-speaker-header-wear",
             "contract": "confetti/speaker-header@1",
             "target": {
@@ -1301,8 +1301,8 @@
             }
         },
         {
-            "sha256": "ef345b0cad95873099e7b6d27ed81461d2f12d40e3d50ed1b46957e9c7692f76",
-            "bytes": 678,
+            "sha256": "9310e43d598caa649eebef9ea5c76bfaf3034f9bc58ed7b5bb7c9ed503dd03ac",
+            "bytes": 823,
             "designId": "droidcon-title",
             "contract": "confetti/title@1",
             "target": {

@@ -1,8 +1,8 @@
 {
     "catalog": "confetti-kotlinconf",
-    "serial": 1795338697673,
-    "generatedAtEpochMs": 1795338697673,
-    "expiresAtEpochMs": 1797930697673,
+    "serial": 1795430707391,
+    "generatedAtEpochMs": 1795430707391,
+    "expiresAtEpochMs": 1798022707391,
     "minClient": 8,
     "contracts": [
         {
@@ -777,8 +777,8 @@
     ],
     "templates": [
         {
-            "sha256": "5f3e079a375f1ea68142507a059310c3555ae642f156c4aa9d3035492634cabc",
-            "bytes": 2142,
+            "sha256": "913fb02100ad6e7c7575dfe4254fa53b0f1524f8d8622790946135592007f3c7",
+            "bytes": 2403,
             "designId": "kotlinconf-break",
             "contract": "confetti/break@1",
             "target": {
@@ -817,8 +817,8 @@
             ]
         },
         {
-            "sha256": "4ec77bf1ec20688bccc3e0f5352c14ae0153b7ca6697a9010dc2326471ec5a3c",
-            "bytes": 3792,
+            "sha256": "0d415b11458aad0a943e4dae3ca9e49cf7c3ef51e946e05bf7fec6278f67a3d7",
+            "bytes": 4256,
             "designId": "kotlinconf-header",
             "contract": "confetti/conference@1",
             "target": {
@@ -860,8 +860,8 @@
             ]
         },
         {
-            "sha256": "a26d45dc2bf5817e264443e27482cb107c2becd1512a18299019d45db58dcf4c",
-            "bytes": 4289,
+            "sha256": "c74b75cb65a062dcd6ed90fe521446ed6538f2dfa1cd53e29cb61f4c4ee7e0a7",
+            "bytes": 4753,
             "designId": "kotlinconf-header-shader",
             "contract": "confetti/conference@1",
             "target": {
@@ -907,8 +907,8 @@
             ]
         },
         {
-            "sha256": "4ec77bf1ec20688bccc3e0f5352c14ae0153b7ca6697a9010dc2326471ec5a3c",
-            "bytes": 3792,
+            "sha256": "0d415b11458aad0a943e4dae3ca9e49cf7c3ef51e946e05bf7fec6278f67a3d7",
+            "bytes": 4256,
             "designId": "kotlinconf-header-shader",
             "contract": "confetti/conference@1",
             "target": {
@@ -950,8 +950,8 @@
             ]
         },
         {
-            "sha256": "0025c3d681cccab49baae1c609ff10f49b4e5b1b74a7d7ad2dae30d01839e2f2",
-            "bytes": 2094,
+            "sha256": "a8d04a63bfb76a475735b521781d84b8afc11ac6b06f04db18b8b72ab065ddfb",
+            "bytes": 2384,
             "designId": "kotlinconf-promo",
             "contract": "confetti/promo@1",
             "target": {
@@ -993,8 +993,8 @@
             ]
         },
         {
-            "sha256": "930a570e679f4074d2dd23667510fe767b760807b05a6549c1df12a01b4c5ed7",
-            "bytes": 901,
+            "sha256": "439285aa0e99c70b00b4bfc872b78a08c3ebb2bf57a99d5ec186d6612b415d0e",
+            "bytes": 1017,
             "designId": "kotlinconf-section",
             "contract": "confetti/section@1",
             "target": {
@@ -1028,8 +1028,8 @@
             ]
         },
         {
-            "sha256": "45ec5b3887d8e0e02e9bb89ca938d98a2c38c710f041ff3ac2542e17ac91b04d",
-            "bytes": 949,
+            "sha256": "1898c09912c3d698603366b2511eb9e1de26e1426592d809310c15fd80fcb7c7",
+            "bytes": 1036,
             "designId": "kotlinconf-section-wear",
             "contract": "confetti/section@1",
             "target": {
@@ -1055,8 +1055,8 @@
             }
         },
         {
-            "sha256": "4504889cb881e71af93cb5257cbae707cb9503dae604f8b7f67c9c2070f145f4",
-            "bytes": 3944,
+            "sha256": "d5886f164342ae75b410151869ae50fbbb61de1cf586fc64824888707c95ac82",
+            "bytes": 4553,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1110,8 +1110,8 @@
             ]
         },
         {
-            "sha256": "5eed6c9fb775f7bc93dea349937b0ffa00090cc3a10dbfb1ca7fcab50c0129c4",
-            "bytes": 1280,
+            "sha256": "85a12df6b7be55f47f740a125560734b5a2f039f4cc6543cb56f1767775097e9",
+            "bytes": 1425,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1153,8 +1153,8 @@
             ]
         },
         {
-            "sha256": "30a01478baeede805a835b6d5dba3dc88bbca40ffefa719b820a7e042e41177a",
-            "bytes": 5079,
+            "sha256": "bb04f8abb321a62ad7ea64ffe722f48dbe264a4d55a5ecc8bd945de7408b714d",
+            "bytes": 6123,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1185,8 +1185,8 @@
             ]
         },
         {
-            "sha256": "8239212c517e5226c88094d8e5f3f73135ad614e024c4eec7850415ad2762a28",
-            "bytes": 2055,
+            "sha256": "10f0aee7f78d1ff5c2b3f57aa9148e96dcba64ac528f001f5ac0502cd0b26b3e",
+            "bytes": 2229,
             "designId": "kotlinconf-session",
             "contract": "confetti/session@1",
             "target": {
@@ -1214,8 +1214,8 @@
             ]
         },
         {
-            "sha256": "c47449707a9a77d7ed5e8531213b945bd91526aea0da93be96f2253dfced595d",
-            "bytes": 2323,
+            "sha256": "f4b361535a4ab13af9461dfbb043cdbb7bf387e5f91b9c9e8f5f1e5d9888d88a",
+            "bytes": 2555,
             "designId": "kotlinconf-session-header",
             "contract": "confetti/session-header@1",
             "target": {
@@ -1255,8 +1255,8 @@
             ]
         },
         {
-            "sha256": "ce346e30e34c1a11cc35de5ec95fce75ee57569c295df7cabf467456b618a1b5",
-            "bytes": 1583,
+            "sha256": "4043025137afc8d9e80d12c9e57645280c07755dac4fe763f6c50b9d4bd10baf",
+            "bytes": 1728,
             "designId": "kotlinconf-session-header-wear",
             "contract": "confetti/session-header@1",
             "target": {
@@ -1287,8 +1287,8 @@
             }
         },
         {
-            "sha256": "29eb4b4f6cab445c473d6d25f39b3b54dd6e2ed83d27373e426007cb04448e0a",
-            "bytes": 4189,
+            "sha256": "160b0079c48da5210bd1769acbd7ceecb8564d80bad6b8cfb07032256add3c27",
+            "bytes": 4798,
             "designId": "kotlinconf-session-keynote",
             "contract": "confetti/session@1",
             "target": {
@@ -1341,8 +1341,8 @@
             ]
         },
         {
-            "sha256": "42e4d951de99436e22d423aa3347e227f2f3e91a9ace7a7f5a8d07ec071dda85",
-            "bytes": 4025,
+            "sha256": "176daf88f93e13868a4456896a2044174a39652c7b5ad5387bb1ebb3741555a8",
+            "bytes": 4663,
             "designId": "kotlinconf-session-lightning",
             "contract": "confetti/session@1",
             "target": {
@@ -1396,8 +1396,8 @@
             ]
         },
         {
-            "sha256": "afe4f7599fa51c6416975436ed71365c42fb11eabf3f7595e67a9d0103170ad3",
-            "bytes": 2717,
+            "sha256": "02b2041843b131960aa57bf12762754761cdab057685d152f8bc31f3c3a084c2",
+            "bytes": 3094,
             "designId": "kotlinconf-session-wear",
             "contract": "confetti/session@1",
             "target": {
@@ -1434,8 +1434,8 @@
             }
         },
         {
-            "sha256": "0bf5740de9b2c68f4e48b32a6d64724ae309306ad687dfadda4deeb2d1eb2a61",
-            "bytes": 2016,
+            "sha256": "4e973acf7ac511d556cb5a01270d12db508fc39198b58d21cf1659361f7d69ab",
+            "bytes": 2248,
             "designId": "kotlinconf-speaker",
             "contract": "confetti/speaker@1",
             "target": {
@@ -1475,8 +1475,8 @@
             ]
         },
         {
-            "sha256": "f3cd706cd3089629163a3a47c953512ac407f4aadc262fdb64e8a3642b1e3036",
-            "bytes": 4807,
+            "sha256": "49848bebc5f2043ddaf5b5745b5e2205b6ee17a48a912791161e028ec6530996",
+            "bytes": 5387,
             "designId": "kotlinconf-speaker-header",
             "contract": "confetti/speaker-header@1",
             "target": {
@@ -1529,8 +1529,8 @@
             ]
         },
         {
-            "sha256": "3d0a9fe62d7ed5b2062c551b05272f7c0dbacc3f2a68cefdbba4a2713241281c",
-            "bytes": 1909,
+            "sha256": "efffc39834933f878c543b1960b385a9cfcdd25ba07c21b2a46302ecc0ed0d74",
+            "bytes": 2083,
             "designId": "kotlinconf-speaker-header-wear",
             "contract": "confetti/speaker-header@1",
             "target": {
@@ -1561,8 +1561,8 @@
             }
         },
         {
-            "sha256": "c8f7af8561e5e8daa8c7a1310df147f459ecbfd14df875225d5c3cfc280fd2b6",
-            "bytes": 840,
+            "sha256": "c72c096609d95eb35b59e77bc18e99132611ff09a1c6c1554a789db1c8b73a38",
+            "bytes": 985,
             "designId": "kotlinconf-title",
             "contract": "confetti/title@1",
             "target": {

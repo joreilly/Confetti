@@ -99,6 +99,7 @@ val liveryCatalogTasks = liveryCatalogs.map { series ->
         source.set(generatedLiveryCatalogs.dir(series))
         assetsPath.set("livery/$series")
         inspect.set(true)
+        defaultAnimations.set(false)
         outputDir.set(layout.buildDirectory.dir("generated/livery/$series"))
     }
 }
